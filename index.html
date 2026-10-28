@@ -149,6 +149,46 @@ footer{font-size:14px;color:var(--muted);max-width:70ch}
 .zone.on{outline-color:var(--ink)}
 .zone:focus-visible{outline-color:var(--ink);outline-style:dashed}
 @media (max-width:560px){.zone span{display:none}.zone{padding:7px 4px}.zone b{font-size:11px;hyphens:auto;overflow-wrap:anywhere}}
+/* day section */
+.day{display:grid;gap:18px}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.rules b{font-family:var(--display);font-size:16px;color:var(--navy)}
+.rules p{margin:4px 0 0;font-size:16px;color:var(--muted)}
+.match{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.m{border-radius:6px;padding:16px;display:grid;gap:6px;align-content:start}
+.m.s{--c:var(--sns);background:var(--sns-soft)} .m.p{--c:var(--pns);background:var(--pns-soft)} .m.x{--c:var(--ink);background:var(--grid)}
+.m h3{font-size:20px;color:var(--c)} .m p{margin:0;font-size:16px}
+.fine{margin:0;font-size:14px;color:var(--muted)}
+.fine a{color:var(--navy)}
+.daychart{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px 10px 6px;display:grid;gap:8px}
+.daylegend{justify-content:flex-start;padding:0 6px}
+.wband{display:inline-block;width:18px;height:10px;background:var(--teal-soft);border:1px solid var(--teal)}
+.chartscroll{overflow-x:auto}
+#dayChart{display:block;width:100%;min-width:620px;height:auto}
+#dayChart text{font-family:var(--mono);font-size:11px;fill:var(--muted)}
+#dayChart .ph{cursor:pointer}
+#dayChart .ph text{font-family:var(--display);font-size:12.5px;font-weight:700;fill:var(--ink)}
+#dayChart .ph.off text{fill:var(--muted);font-weight:500}
+.phases{display:flex;flex-wrap:wrap;gap:6px}
+.phases button{all:unset;cursor:pointer;font-family:var(--display);font-weight:500;font-size:15px;padding:8px 14px;border-radius:99px;border:1px solid var(--line);background:var(--surface)}
+.phases button[aria-selected=true]{background:var(--navy);border-color:var(--navy);color:var(--surface)}
+.phases button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.phase{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:20px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px}
+@media (max-width:760px){.phase{grid-template-columns:1fr}}
+.phase h3{font-size:22px}
+.phase .when{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:2px}
+.phase p{margin:8px 0 0;font-size:16px}
+.phase h4{margin:16px 0 6px;font-family:var(--mono);font-weight:400;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:14px;padding:3px 10px;border-radius:99px}
+.chip.s{background:var(--sns-soft)} .chip.p{background:var(--pns-soft)}
+.chip i{font-style:normal;font-family:var(--mono);font-size:11px;margin-right:5px}
+.chip.s i{color:var(--sns)} .chip.p i{color:var(--pns)}
+.phase ul{margin:0;padding-left:18px;display:grid;gap:5px;font-size:16px}
+.say{margin-top:14px;padding:12px 14px;border-radius:6px;background:var(--teal-soft);font-size:16px}
+.say b{font-family:var(--mono);font-weight:400;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:2px}
+.jump{all:unset;cursor:pointer;margin-top:14px;font-family:var(--mono);font-size:13px;padding:7px 12px;border:1px solid var(--ink);border-radius:5px;display:inline-block}
+.jump:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 /* body diagram */
 .bodyfig{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px 10px 12px;display:grid;gap:10px;min-width:0}
 .bodyfig svg{width:100%;height:auto;display:block;max-width:440px;margin:0 auto}
@@ -307,6 +347,36 @@ footer{font-size:14px;color:var(--muted);max-width:70ch}
         </div>
       </figure>
     </div>
+  </section>
+
+  <section class="day" id="day" aria-label="Using this at home">
+    <div class="intro-head">
+      <div class="eyebrow">Putting it to work · for parents</div>
+      <h2>A day on the dial</h2>
+      <p>Load stacks up across the day like a battery draining. The same request lands differently at 7am, 3:30pm and 8pm. Here's what a typical day can look like, what changes with supports, and what to try at each point.</p>
+    </div>
+
+    <div class="rules">
+      <div><b>1. Read the state first</b><p>Is your child revved up, flat and foggy, or in the window? The fix is different for each.</p></div>
+      <div><b>2. Regulate, relate, then reason</b><p>Calm the body first, connect second. Talking, teaching and consequences only land once they're back in the window.</p></div>
+      <div><b>3. Your body is a tool</b><p>Kids borrow calm from the adults around them (co-regulation). A slower voice and a long exhale from you comes first.</p></div>
+    </div>
+
+    <div class="match">
+      <div class="m s"><div class="side-tag">Revved up?</div><h3>Bring it down</h3><p>Deep pressure (hugs, heavy blanket, beanbag). Heavy work (carrying, pushing, climbing). Slow rocking or swinging. Dim light, less noise. Fewer words. Long exhales. Warm drink or bath.</p></div>
+      <div class="m p"><div class="side-tag">Flat or foggy?</div><h3>Lift it up</h3><p>Movement first (jumping, trampoline, animal walks). Cold water or icy drink. Crunchy or sour snack. Fresh air and daylight. Upbeat music. A favourite interest to spark them up.</p></div>
+      <div class="m x"><div class="side-tag">Meltdown or shutdown?</div><h3>Keep it safe, wait</h3><p>Space and safety first. Almost no words. Stay close and calm without demands. Don't problem-solve now. Talk about it later, if at all, once they're back in the window.</p></div>
+    </div>
+    <p class="fine">Everyone's sensory profile is different. What calms one child alerts another, so test and watch.</p>
+
+    <div class="daychart">
+      <div class="legend daylegend"><span><i style="border-color:var(--sns)"></i>Typical day, no supports</span><span><i style="border-color:var(--pns);border-top-style:solid"></i>Same day, with supports</span><span><b class="wband"></b>Window of tolerance</span></div>
+      <div class="chartscroll"><svg id="dayChart" viewBox="0 0 800 312" role="img" aria-label="Chart of arousal across a school day, with and without supports. Tap a part of the day to see strategies."></svg></div>
+    </div>
+
+    <div class="phases" id="phaseTabs" role="tablist" aria-label="Part of the day"></div>
+    <article class="phase" id="phasePanel" role="tabpanel"></article>
+    <p class="fine">Want a plan built around your child? Estus Health occupational therapists work Australia-wide by telehealth. <a href="https://www.estushealth.com" target="_blank" rel="noopener">estushealth.com</a></p>
   </section>
 
   <section class="ref">
@@ -585,6 +655,77 @@ S.slice().sort((a,b)=>GO.indexOf(a.g)-GO.indexOf(b.g)).forEach(s=>{if(s.g!==last
   const lab={s:"↑ SNS",p:"↑ PNS",m:"mixed"}[s.tag];
   b.innerHTML=`<span>${s.name}</span><span class="tag ${s.tag}">${lab}</span>`;
   b.onclick=()=>pick(s.id,true);nav.appendChild(b)});
+
+// ---- a day on the dial ----
+const DAY=[
+ {id:"morning",tab:"Morning",when:"Wake up to breakfast",from:6.5,to:7.5,link:"plans",
+  what:"Bodies wake slowly. A natural cortisol rise lifts you up over the first half hour. Many neurodivergent kids wake foggy with the brake still on, or wake already worried about the day with the accelerator pressed early.",
+  acc:["Lots of questions about the day","Tummy aches","Early meltdown over small things"],
+  brk:["Very hard to wake","Slow, flat, silent","Won't eat"],
+  ahead:["Same wake time every day, including weekends where possible","Visual schedule of the day by the bed or fridge","Clothes laid out and breakfast decided the night before"],
+  now:["Open curtains, daylight in","Movement before demands: jumping, bouncing, animal walks","Crunchy or cold breakfast to alert, with some protein","Preview the day simply: school, then swimming, then home"],
+  say:"Morning. Light's on. Breakfast is toast or cereal."},
+ {id:"door",tab:"Out the door",when:"Getting dressed to leaving",from:7.5,to:8.75,link:"demand",
+  what:"Time pressure stacks demand on demand. For many families this is the hardest part of the morning. Your stress is contagious too: kids read your nervous system and match it.",
+  acc:["Refusing shoes or clothes","Running off or hiding","Loud, silly, can't listen"],
+  brk:["Freezing or staring","\"I can't\"","Moving in slow motion"],
+  ahead:["Build in a 15 minute buffer","One visual checklist by the door","Bag packed and shoes in the same spot the night before","Lower-friction clothes (comfy, no tags)"],
+  now:["Point to the checklist instead of giving instructions","Use a visual timer for the leaving warning","Offer real choices: shoes here or in the car?","Fewer words, slower voice. Exhale before you speak"],
+  say:"The car leaves when the timer goes. Shoes are by the door."},
+ {id:"after",tab:"After school",when:"Pick up to about 5pm",from:15,to:17.5,link:"masking",
+  what:"A whole day of masking and sensory load. Home is safe, so the stored load comes out. After-school restraint collapse means they held it together all day. It is not bad behaviour.",
+  acc:["Snapping, crying, meltdown","Lashing out at siblings","Demanding screens immediately"],
+  brk:["Silent, can't answer questions","Flopped on the couch","Glazed, shut down"],
+  ahead:["Snack and water in the car","Quiet pick up: no questions about the day for 30 to 60 minutes","A known decompression spot at home","Homework later, not first"],
+  now:["Food and water first","Deep pressure: beanbag, heavy blanket, firm hugs if wanted","Rhythmic movement: swing, trampoline, bike","Free time in a favourite interest with no demands"],
+  say:"Snack's in the car. No questions till later."},
+ {id:"evening",tab:"Evening",when:"Dinner and screens",from:17.5,to:19.5,link:"transition",
+  what:"Energy is low and load is high, so the window is at its narrowest. Hunger, cooking noise, siblings and screens ending all land at once. Small things tip over.",
+  acc:["Fights over small things","Hyper and silly, can't sit to eat","Big reaction when screens end"],
+  brk:["Zoned out, exhausted","Falling asleep early on the couch"],
+  ahead:["Predictable dinner time, menu on the fridge","Cut background noise: TV off, fan off at meals","A planned end point for screens (end of episode, not a random time)","One small job each, shown visually"],
+  now:["Heavy work before dinner: carry shopping, stir, knead, set the table","10 and 2 minute warnings before screens finish","A safe food on every plate","Allow movement at the table: wobble cushion, standing, fidget"],
+  say:"Screens finish when this episode ends. Then bath."},
+ {id:"bed",tab:"Bedtime",when:"Wind down to sleep",from:19.5,to:21,link:"breath",
+  what:"Sleep needs the brake on. Many autistic and ADHD kids have later body clocks and take longer to fall asleep, so the accelerator from the day needs to come down first. Worries often come out now.",
+  acc:["Second wind, bouncing off walls","Endless questions","Worries come out in bed"],
+  brk:["Yawning, heavy, slower (this is the goal)"],
+  ahead:["Same routine in the same order, shown visually","Screens off about an hour before bed","Dim, warm lights after dinner. Cool, dark room","Worry time earlier in the evening: write worries down and park them"],
+  now:["Warm bath or shower","Slow rhythmic input: rocking, back rubs, weighted blanket if they like it","Long exhale breathing: blow out the candle, blow bubbles","Same audiobook, music or white noise each night"],
+  say:"Lights are low now. Bath, teeth, two books."}];
+const UNSUP=[[6.5,-55],[7,-25],[7.5,40],[8,72],[8.6,62],[9.2,42],[12,50],[14.8,52],[15.5,88],[16.4,70],[17.5,55],[18.2,70],[19,58],[19.6,66],[20.2,78],[20.7,55],[21,35]];
+const SUPP=[[6.5,-55],[7,-20],[7.5,5],[8,22],[8.6,28],[9.2,34],[12,40],[14.8,44],[15.5,55],[16.4,12],[17.5,2],[18.2,10],[19,-5],[19.6,-25],[20.2,-45],[20.7,-60],[21,-70]];
+(function(){
+  const svg=$("#dayChart"),X0=118,X1=785,T0=6.5,T1=21,Y0=46,Y1=286;
+  const xs=h=>X0+(h-T0)/(T1-T0)*(X1-X0), ys=t=>(Y0+Y1)/2-t/100*(Y1-Y0)/2;
+  const path=pts=>{const P=pts.map(([h,t])=>[xs(h),ys(t)]);let d=`M${P[0][0]} ${P[0][1]}`;
+    for(let i=0;i<P.length-1;i++){const p0=P[i-1]||P[i],p1=P[i],p2=P[i+1],p3=P[i+2]||p2;
+      d+=` C${p1[0]+(p2[0]-p0[0])/6} ${p1[1]+(p2[1]-p0[1])/6} ${p2[0]-(p3[0]-p1[0])/6} ${p2[1]-(p3[1]-p1[1])/6} ${p2[0]} ${p2[1]}`}return d};
+  let h=`<g id="phBg"></g><rect x="${X0}" y="${ys(65)}" width="${X1-X0}" height="${ys(-65)-ys(65)}" fill="var(--teal-soft)"/>`;
+  [-65,-25,25,65].forEach(t=>h+=`<line x1="${X0}" x2="${X1}" y1="${ys(t)}" y2="${ys(t)}" stroke="var(--line)" stroke-dasharray="3 4"/>`);
+  [["Fight or flight",82.5],["Revved up",45],["Calm and alert",0],["Rest and digest",-45],["Shutdown",-82.5]].forEach(([n,t])=>h+=`<text x="${X0-8}" y="${ys(t)+4}" text-anchor="end">${n}</text>`);
+  [7,9,12,15,18,21].forEach(t=>h+=`<text x="${xs(t)}" y="${Y1+18}" text-anchor="middle">${t>12?t-12:t}${t>=12?"pm":"am"}</text>`);
+  h+=`<rect x="${xs(8.75)}" y="${Y0-34}" width="${xs(15)-xs(8.75)}" height="22" fill="none"/><text x="${(xs(8.75)+xs(15))/2}" y="${Y0-19}" text-anchor="middle">School</text>`;
+  DAY.forEach(d=>h+=`<g class="ph" data-id="${d.id}" tabindex="-1"><rect x="${xs(d.from)}" y="${Y0-36}" width="${xs(d.to)-xs(d.from)}" height="${Y1-Y0+36}" fill="transparent"/><text x="${(xs(d.from)+xs(d.to))/2}" y="${Y0-19}" text-anchor="middle">${d.tab==="Out the door"?"Door":d.tab}</text></g>`);
+  h+=`<path d="${path(UNSUP)}" fill="none" stroke="var(--sns)" stroke-width="2.5" stroke-dasharray="6 5"/><path d="${path(SUPP)}" fill="none" stroke="var(--pns)" stroke-width="3"/>`;
+  svg.innerHTML=h;
+  const bg=$("#phBg"),tabs=$("#phaseTabs"),panel=$("#phasePanel");
+  tabs.innerHTML=DAY.map(d=>`<button type="button" role="tab" data-id="${d.id}">${d.tab}</button>`).join("");
+  function show(id){const d=DAY.find(x=>x.id===id),L=S.find(s=>s.id===d.link);
+    tabs.querySelectorAll("button").forEach(b=>b.setAttribute("aria-selected",b.dataset.id===id));
+    svg.querySelectorAll(".ph").forEach(g=>g.classList.toggle("off",g.dataset.id!==id));
+    bg.innerHTML=`<rect x="${xs(d.from)}" y="${Y0-36}" width="${xs(d.to)-xs(d.from)}" height="${Y1-Y0+36}" fill="var(--ink)" opacity=".06"/>`;
+    const li=a=>a.map(x=>`<li>${x}</li>`).join("");
+    panel.innerHTML=`<div><h3>${d.tab}</h3><div class="when">${d.when}</div><p>${d.what}</p>
+      <h4>Watch for</h4><div class="chips">${d.acc.map(x=>`<span class="chip s"><i>accelerator</i>${x}</span>`).join("")}${d.brk.map(x=>`<span class="chip p"><i>brake</i>${x}</span>`).join("")}</div>
+      <div class="say"><b>Try saying</b>"${d.say}"</div>
+      ${L?`<button class="jump" type="button" data-s="${L.id}">See it on the body: ${L.name}</button>`:""}</div>
+      <div><h4 style="margin-top:0">Set up ahead</h4><ul>${li(d.ahead)}</ul><h4>In the moment</h4><ul>${li(d.now)}</ul></div>`;
+    const j=panel.querySelector(".jump");if(j)j.onclick=()=>{pick(j.dataset.s,true);$(".main").scrollIntoView({behavior:reduce?"auto":"smooth"})}}
+  tabs.querySelectorAll("button").forEach(b=>b.onclick=()=>show(b.dataset.id));
+  svg.querySelectorAll(".ph").forEach(g=>g.onclick=()=>show(g.dataset.id));
+  show("after");
+})();
 
 function pick(id,auto){
   cur=S.find(s=>s.id===id);step=0;
