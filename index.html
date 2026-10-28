@@ -436,13 +436,69 @@ const S = [
    {t:-15,h:"Rebound",x:"The parasympathetic side catches up. People often feel drained, shaky or teary afterward."}],
   note:"<strong>What helps:</strong> slowing the exhale lets CO2 recover, and knowing the curve peaks and falls reduces the fear that drives it."},
 
- {id:"overload",g:"Stress",name:"Sensory overload",tag:"s",sum:"Input builds faster than it can be processed. Common for many autistic and ADHD people.",
+ {id:"transition",g:"Autistic experience",name:"Transitions",tag:"s",sum:"Stopping one thing and starting another costs more energy for many autistic people. The body can treat a sudden switch like a threat.",
+  steps:[
+   {t:-15,h:"Deep in an activity",x:"Attention is fully locked in. Many autistic people focus deeply on fewer things at once (monotropism). This feels settled and good."},
+   {t:35,h:"\"Time to stop\"",x:"A sudden switch pulls attention out before it's ready. The plan in your head breaks and the brain flags it as a problem.",ov:{hr:84}},
+   {t:60,h:"Body revs up",x:"Heart rate climbs, muscles tense, voice gets louder or sharper. From outside it can look like refusal. Inside it's a stress response."},
+   {t:85,h:"If pushed harder",x:"More pressure adds more load. This can tip into meltdown (outward) or shutdown (going still and quiet, though the body is often still revved inside).",ov:{rr:24}},
+   {t:5,h:"Same switch, with support",x:"Warnings, a visual timer, a clear 'first, then', a bridge activity or object, and extra time let the brain finish one thing and load the next."}],
+  note:"<strong>It's not about willpower.</strong> Switching takes real energy. Plan transitions in, especially late in the day when load is already high."},
+
+ {id:"plans",g:"Autistic experience",name:"Plans change",tag:"s",sum:"A cancelled outing, a relief teacher, a different route. Uncertainty itself is a stressor.",
+  steps:[
+   {t:-5,h:"The plan is set",x:"Knowing what comes next lets the brain predict and prepare. That prediction is calming."},
+   {t:45,h:"Plan breaks",x:"The prediction fails. Even a good change, like a surprise treat, can land as stress because the brain has to rebuild the picture.",ov:{hr:88}},
+   {t:55,h:"Uncertainty",x:"Not knowing what happens next keeps the accelerator pressed. Lots of questions, checking or trying to take control are ways of reducing uncertainty."},
+   {t:10,h:"New plan locked in",x:"Once the new plan is clear, written down or shown visually, the body can settle."}],
+  note:"<strong>Give the new plan fast.</strong> \"This changed. Here's what happens now\" lowers load quicker than reassurance."},
+
+ {id:"overload",g:"Autistic experience",name:"Sensory overload",tag:"s",sum:"Input builds faster than it can be processed. Common for many autistic and ADHD people.",
   steps:[
    {t:15,h:"Input stacks up",x:"Noise, light, smells, people. When filtering is harder, each extra input adds load instead of fading into background."},
    {t:65,h:"Threat response",x:"Sympathetic drive climbs. Muscle tension, faster heart, irritability, urge to escape."},
    {t:45,h:"Fight, flight or shut down",x:"Some people meltdown outward. Others go quiet, flat and find it hard to speak.",ov:{rr:18}},
    {t:0,h:"Recovery",x:"Leaving or reducing input, dim light, predictable space, movement or deep pressure. Full recovery can take hours, not minutes."}],
   note:"<strong>Load builds across a day.</strong> A small trigger late in the day can tip over a system already running high."},
+
+ {id:"masking",g:"Autistic experience",name:"Masking all day",tag:"s",sum:"Hiding autistic traits to fit in looks calm from outside, but keeps the accelerator pressed underneath.",
+  steps:[
+   {t:30,h:"Performing 'normal'",x:"Forcing eye contact, scripting small talk, holding back stims, copying others. Each takes constant effort and self-monitoring.",ov:{hr:82}},
+   {t:40,h:"Hidden load",x:"Outside looks fine. Inside, heart rate and tension stay up for hours. Sensory input still lands but can't be responded to.",ov:{hr:84,sweat:.3}},
+   {t:80,h:"Safe place, release",x:"At home the mask drops and the stored load comes out: meltdown, tears, snapping or total withdrawal. Often called after-school restraint collapse.",ov:{rr:22}},
+   {t:-35,h:"Recovery",x:"Rest, alone time, stims and interests. Without enough recovery, load stacks day after day and can lead to autistic burnout."}],
+  note:"<strong>Research links masking</strong> with exhaustion, anxiety and burnout. Spaces where people can unmask lower the daily load."},
+
+ {id:"demand",g:"Autistic experience",name:"Demand pressure",tag:"s",sum:"For some autistic people, especially with a PDA profile, a demand itself sets off a threat response. Even for something they want to do.",
+  steps:[
+   {t:0,h:"A demand arrives",x:"\"Put your shoes on.\" Direct instructions, expectations, deadlines or even internal 'shoulds'."},
+   {t:55,h:"Autonomy threatened",x:"The demand is felt as a loss of control. The body responds as if under threat.",ov:{hr:92}},
+   {t:75,h:"Avoid to stay safe",x:"Distracting, negotiating, joking, refusing or leaving. These lower the threat. They are not manipulation."},
+   {t:10,h:"Lower the pressure",x:"Declarative language (\"the shoes are by the door\"), real choices, humour, collaboration and lower-stakes requests keep the accelerator off."}],
+  note:"<strong>Pressure in, pressure out.</strong> Pushing harder usually raises the threat response. Reduce demands first."},
+
+ {id:"intero",g:"Autistic experience",name:"Missed body signals",tag:"s",sum:"Interoception is sensing what's going on inside: hunger, thirst, needing the toilet, a racing heart. Many autistic people notice these late or differently.",
+  steps:[
+   {t:10,h:"Signals start quietly",x:"Hunger, thirst or rising stress begins. The signal is there, but not noticed yet.",ov:{glucose:.55}},
+   {t:35,h:"Load builds unnoticed",x:"Low blood sugar and dehydration push the accelerator. Heart rate creeps up. Still not clearly felt.",ov:{glucose:.7,hr:84}},
+   {t:75,h:"\"Out of nowhere\"",x:"The signal finally breaks through as a big feeling: sudden anger, panic or collapse. It seems sudden, but it's been building for hours."},
+   {t:0,h:"Build in check-ins",x:"Scheduled snacks, water and toilet breaks, plus simple body check-ins, catch it early."}],
+  note:"<strong>Hangry is real.</strong> A snack and water is often the fastest regulation tool there is."},
+
+ {id:"stim",g:"Autistic experience",name:"Stimming",tag:"p",sum:"Repetitive movement, sound or touch. A built-in regulation tool, not a behaviour to stop.",
+  steps:[
+   {t:45,h:"Arousal rising",x:"Too much input, excitement, worry or boredom."},
+   {t:20,h:"Stim starts",x:"Rocking, flapping, bouncing, humming, fidgeting. Steady rhythmic input gives the nervous system something predictable to anchor to."},
+   {t:-10,h:"Back in the window",x:"Rhythm settles arousal and helps focus. Stims also help when foggy and under-aroused, lifting someone back up into the window."}],
+  note:"<strong>Stopping stims removes the tool,</strong> so load keeps building. \"Sit still\" can cost more energy than the task. Only step in if a stim causes injury."},
+
+ {id:"interest",g:"Autistic experience",name:"Deep interest time",tag:"p",sum:"Time in a favourite interest is one of the strongest recovery tools for many autistic people.",
+  steps:[
+   {t:40,h:"Carrying load",x:"After school, work or a social day."},
+   {t:5,h:"Into the interest",x:"Chosen, predictable, enjoyable focus. No demands, no masking. Attention narrows and background noise fades."},
+   {t:-25,h:"Recharging",x:"Heart rate settles and the body shifts toward rest. Many people describe it as their battery filling."},
+   {t:-10,h:"Ready again",x:"Back in the window with more capacity. Taking interests away as a punishment removes the recovery tool."}],
+  note:"<strong>Gaming, building, collecting, reading</strong> about a favourite topic all count. Give a warning before it ends (see Transitions)."},
 
  {id:"pain",g:"Stress",name:"Sudden pain",tag:"s",sum:"Pain is one of the fastest sympathetic triggers.",
   steps:[
@@ -523,7 +579,7 @@ let lastZ=-1;
 
 // scenario nav
 const nav=$("#scen");let lastG="";
-const GO=["Baseline","Substances","Medication","Posture","Stress","Regulation","Activity"];
+const GO=["Baseline","Autistic experience","Substances","Medication","Posture","Stress","Regulation","Activity"];
 S.slice().sort((a,b)=>GO.indexOf(a.g)-GO.indexOf(b.g)).forEach(s=>{if(s.g!==lastG){const d=document.createElement("div");d.className="scen-group";d.textContent=s.g;nav.appendChild(d);lastG=s.g}
   const b=document.createElement("button");b.type="button";b.dataset.id=s.id;b.setAttribute("aria-pressed","false");
   const lab={s:"↑ SNS",p:"↑ PNS",m:"mixed"}[s.tag];
@@ -648,5 +704,6 @@ function frame(now){
 pick("panic",false);go(2);target=95;
 requestAnimationFrame(frame);
 </script>
+
 
 </body></html>
