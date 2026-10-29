@@ -70,17 +70,70 @@ input[type=range]:focus-visible{box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--i
 .readout{font-family:var(--mono);font-size:13px;color:var(--muted);text-align:center}
 
 /* main grid */
-.main{display:grid;grid-template-columns:250px minmax(0,1fr);gap:28px;align-items:start}
-@media (max-width:820px){.main{grid-template-columns:1fr}}
-.scen{display:grid;gap:6px}
-.scen-group{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:10px 0 2px}
-.scen button{all:unset;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 12px;border-radius:5px;border:1px solid transparent;font-family:var(--display);font-weight:500;font-size:16px}
-.scen button:hover{background:var(--surface);border-color:var(--line)}
-.scen button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
-.scen button[aria-pressed=true]{background:var(--surface);border-color:var(--ink)}
+.main{display:grid;grid-template-columns:minmax(0,1fr);gap:22px;align-items:start}
+.scen{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+.card .ct{flex-wrap:wrap}
+.scen-top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.reset,.morebtn{all:unset;cursor:pointer;font-family:var(--mono);font-size:13px;padding:7px 12px;border:1px solid var(--line);border-radius:5px;background:var(--surface)}
+.morebtn{justify-self:start}
+.reset:focus-visible,.morebtn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.feat{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (max-width:900px){.feat{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:480px){.feat{grid-template-columns:1fr}}
+.card{all:unset;color:var(--ink);cursor:pointer;display:grid;gap:4px;align-content:start;padding:14px 16px;border-radius:6px;background:var(--surface);border:1px solid var(--line);min-width:0}
+.card .ct{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.card b{font-family:var(--display);font-size:17px}
+.card span.hook{font-size:15px;color:var(--muted);line-height:1.35}
+.card:hover{border-color:var(--muted)}
+.card[aria-pressed=true]{border-color:var(--navy);box-shadow:inset 0 0 0 1px var(--navy)}
+.card:focus-visible,.pill:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.more{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+.mgroup{display:grid;grid-template-columns:150px minmax(0,1fr);gap:10px;align-items:baseline}
+@media (max-width:600px){.mgroup{grid-template-columns:minmax(0,1fr);gap:6px}}
+.mgroup>div:first-child{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.pill{all:unset;color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:8px;padding:6px 8px 6px 12px;border-radius:99px;border:1px solid var(--line);background:var(--surface);font-family:var(--display);font-size:15px}
+@media (max-width:480px){.pill .tag{display:none}.pill{padding:6px 12px}.pill::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--muted)}.pill.s::before{background:var(--sns)}.pill.p::before{background:var(--pns)}}
+.pill{max-width:100%;white-space:normal}
+.pill[aria-pressed=true]{border-color:var(--navy);box-shadow:inset 0 0 0 1px var(--navy)}
+/* mirror */
+.mirror{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:18px;display:grid;gap:12px}
+.mirror-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.press{display:flex;gap:6px;flex-wrap:wrap}
+.press button{all:unset;cursor:pointer;font-family:var(--mono);font-size:12px;padding:6px 10px;border-radius:5px;border:1px solid var(--line)}
+.press button[data-side=p][aria-pressed=true]{background:var(--pns);border-color:var(--pns);color:var(--surface)}
+.press button[data-side=s][aria-pressed=true]{background:var(--sns);border-color:var(--sns);color:var(--surface)}
+.press button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.mgrid{display:grid;grid-template-columns:minmax(0,1fr) 92px minmax(0,1fr);position:relative}
+.mgrid>div{padding:7px 12px;font-size:16px;line-height:1.3;transition:opacity .25s}
+.mh{font-family:var(--display);font-weight:700;font-size:20px!important;padding-bottom:10px!important}
+.mh.p,.mp{color:var(--pns);text-align:right}
+.mh.s,.ms{color:var(--sns)}
+.mp{background:linear-gradient(90deg,transparent,var(--pns-soft))}
+.ms{background:linear-gradient(270deg,transparent,var(--sns-soft))}
+.mc{display:grid;justify-items:center;gap:0;text-align:center;font-family:var(--mono);font-size:10.5px!important;color:var(--muted);padding:4px 0!important;border-left:3px dashed var(--pns);border-right:3px dashed var(--sns)}
+.mc svg{width:36px;height:36px;display:block}
+.mp,.ms,.mc{display:flex;align-items:center}
+.mp{justify-content:flex-end}
+.mc{flex-direction:column;justify-content:center}
+.mnerve{font-family:var(--mono);font-size:12px!important}
+.mgrid.only-p .ms,.mgrid.only-s .mp{opacity:.18}
+.mgrid.only-p .mp,.mgrid.only-s .ms{font-weight:500}
+@media (max-width:520px){.mgrid{grid-template-columns:minmax(0,1fr) 64px minmax(0,1fr)}.mgrid>div{padding:7px 8px;font-size:14px}.mc svg{width:28px;height:28px}}
+/* clinician details */
+details.ref{border:1px solid var(--line);border-radius:6px;background:var(--surface);padding:0}
+details.ref>summary{cursor:pointer;list-style:none;padding:16px 18px;display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
+details.ref>summary::-webkit-details-marker{display:none}
+details.ref>summary b{font-family:var(--display);font-size:18px}
+details.ref>summary::after{content:"+";margin-left:auto;font-family:var(--mono);font-size:18px;color:var(--muted)}
+details.ref[open]>summary::after{content:"−"}
+details.ref>summary:focus-visible{outline:2px solid var(--ink);outline-offset:-2px}
+details.ref[open]{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;padding-bottom:18px}
+details.ref>.tbl,details.ref>.facts{margin:0 18px}
+details.ref .tbl{border:1px solid var(--line)}
 .tag{font-family:var(--mono);font-size:11px;padding:2px 7px;border-radius:99px;white-space:nowrap}
 .tag.s{background:var(--sns-soft);color:var(--sns)} .tag.p{background:var(--pns-soft);color:var(--pns)} .tag.m{background:var(--grid);color:var(--muted)}
-@media (max-width:820px){.scen{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}.scen-group{grid-column:1/-1}}
+
 
 .panel{display:grid;gap:22px;min-width:0;grid-template-columns:minmax(0,1fr) minmax(0,440px);align-items:start}
 @media (max-width:1100px){.panel{grid-template-columns:minmax(0,1fr)}.bodyfig{order:-1}}
@@ -155,8 +208,8 @@ footer{font-size:14px;color:var(--muted);max-width:70ch}
 .rules b{font-family:var(--display);font-size:16px;color:var(--navy)}
 .rules p{margin:4px 0 0;font-size:16px;color:var(--muted)}
 .match{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
-.m{border-radius:6px;padding:16px;display:grid;gap:6px;align-content:start}
-.m.s{--c:var(--sns);background:var(--sns-soft)} .m.p{--c:var(--pns);background:var(--pns-soft)} .m.x{--c:var(--ink);background:var(--grid)}
+.match>.m{border-radius:6px;padding:16px;display:grid;gap:6px;align-content:start}
+.match>.m.s{--c:var(--sns);background:var(--sns-soft)} .match>.m.p{--c:var(--pns);background:var(--pns-soft)} .match>.m.x{--c:var(--ink);background:var(--grid)}
 .m h3{font-size:20px;color:var(--c)} .m p{margin:0;font-size:16px}
 .fine{margin:0;font-size:14px;color:var(--muted)}
 .fine a{color:var(--navy)}
@@ -242,12 +295,30 @@ footer{font-size:14px;color:var(--muted);max-width:70ch}
         </dl>
       </article>
     </div>
+    <figure class="mirror" aria-label="Head to toe: what the brake and accelerator each do">
+      <div class="mirror-top">
+        <div class="eyebrow">Head to toe</div>
+        <div class="press" role="group" aria-label="Highlight one side">
+          <button type="button" data-side="p" aria-pressed="false">Press the brake</button>
+          <button type="button" data-side="s" aria-pressed="false">Press the accelerator</button>
+        </div>
+      </div>
+      <div class="mgrid" id="mgrid">
+        <div class="mh p">Brake</div><div class="mh c"></div><div class="mh s">Accelerator</div>
+      </div>
+    </figure>
     <div class="key">
       <p><strong>Not an on/off switch.</strong> Both run all day. What you feel comes from the mix.</p>
       <p><strong>Neither is good or bad.</strong> You need the accelerator to get out of bed and the brake to fall asleep.</p>
       <p><strong>The ends are extremes.</strong> Too much brake means fainting or shutdown. Too much accelerator means panic. Health is moving through the middle and coming back.</p>
     </div>
   </section>
+
+  <div class="intro-head">
+    <div class="eyebrow">Live lab</div>
+    <h2>Watch it change</h2>
+    <p>Drag the dial or tap a zone. Then pick a situation below and watch the heart, breathing and body respond step by step.</p>
+  </div>
 
   <section class="recorder" aria-label="Live vital signs">
     <div class="rec-head">
@@ -274,7 +345,12 @@ footer{font-size:14px;color:var(--muted);max-width:70ch}
   </section>
 
   <section class="main">
-    <nav class="scen" id="scen" aria-label="Scenarios"></nav>
+    <nav class="scen" id="scen" aria-label="Situations">
+      <div class="scen-top"><div><div class="eyebrow">Cause and effect</div><h2>Pick a situation</h2></div><button type="button" class="reset" id="resetBtn">Reset to rest</button></div>
+      <div class="feat" id="feat"></div>
+      <button type="button" class="morebtn" id="moreBtn" aria-expanded="false">More situations</button>
+      <div class="more" id="more" hidden></div>
+    </nav>
     <div class="panel">
       <article class="chain" id="chain" aria-live="polite"></article>
       <figure class="bodyfig" style="margin:0" aria-label="Body diagram showing organs and nerve activity">
@@ -379,11 +455,8 @@ footer{font-size:14px;color:var(--muted);max-width:70ch}
     <p class="fine">Want a plan built around your child? Estus Health occupational therapists work Australia-wide by telehealth. <a href="https://www.estushealth.com" target="_blank" rel="noopener">estushealth.com</a></p>
   </section>
 
-  <section class="ref">
-    <div>
-      <div class="eyebrow">Reference</div>
-      <h2>Side by side</h2>
-    </div>
+  <details class="ref">
+    <summary><span class="eyebrow">For clinicians</span><b>Pathways, messengers and receptors</b></summary>
     <div class="tbl"><table>
       <thead><tr><th>Feature</th><th class="cs">Sympathetic</th><th class="cp">Parasympathetic</th></tr></thead>
       <tbody>
@@ -394,11 +467,7 @@ footer{font-size:14px;color:var(--muted);max-width:70ch}
         <tr><td>Chemical messenger at organ</td><td>Noradrenaline (sweat glands use acetylcholine). Adrenal glands add adrenaline to blood.</td><td>Acetylcholine on muscarinic receptors</td></tr>
         <tr><td>Reach</td><td>Broad, body-wide, lasts minutes via hormones</td><td>Targeted, organ by organ, switches fast</td></tr>
         <tr><td>Heart</td><td>Faster and stronger (β1 receptors)</td><td>Slower (vagal brake on the SA node)</td></tr>
-        <tr><td>Pupils</td><td>Dilate</td><td>Constrict</td></tr>
-        <tr><td>Airways</td><td>Widen (β2)</td><td>Narrow, more mucus</td></tr>
-        <tr><td>Gut</td><td>Slows, sphincters close</td><td>Speeds up, secretions increase</td></tr>
-        <tr><td>Bladder</td><td>Relax wall, hold</td><td>Contract wall, empty</td></tr>
-        <tr><td>Liver</td><td>Release glucose</td><td>Store glucose</td></tr>
+        <tr><td>Airways</td><td>Widen (β2)</td><td>Narrow, more mucus (M3)</td></tr>
       </tbody>
     </table></div>
     <div class="facts">
@@ -406,7 +475,7 @@ footer{font-size:14px;color:var(--muted);max-width:70ch}
       <div><h3>Not a switch</h3><p>Both branches fire together most of the time. Health looks like flexible shifting between them, which shows up as heart rate variability.</p></div>
       <div><h3>Body leads, mind follows</h3><p>Signals travel both ways. Around 80% of vagus fibres carry information from body to brain, which is why breathing and posture can change how you feel.</p></div>
     </div>
-  </section>
+  </details>
 
   <footer>Teaching model only. Numbers are typical adult values, simplified to show direction of change. Real responses vary with age, fitness, medication and health conditions.</footer>
 </div>
@@ -424,14 +493,6 @@ const S = [
    {t:30,h:"Mild sympathetic lift",x:"Adrenaline and noradrenaline rise a little. Blood pressure goes up a few points, alertness and sometimes jitteriness follow.",ov:{hr:76}},
    {t:15,h:"Long tail",x:"Half-life is around 5 hours, so an afternoon coffee can still blunt the night-time parasympathetic dip."}],
   note:"<strong>Heart rate</strong> often barely changes in regular drinkers. Tolerance builds to most of the cardiovascular effect within days."},
-
- {id:"nicotine",g:"Substances",name:"Nicotine",tag:"s",sum:"Feels calming to many smokers, yet the body goes the other way.",
-  steps:[
-   {t:5,h:"Nicotinic receptors",x:"Nicotine stimulates receptors in autonomic ganglia and the adrenal glands."},
-   {t:40,h:"Adrenaline release",x:"Heart rate climbs about 10 to 20 bpm. Skin vessels constrict, so hands cool. Blood pressure rises.",ov:{hr:86}},
-   {t:30,h:"Why it feels calm",x:"The calm is mainly relief of withdrawal plus a dopamine reward. The cardiovascular system is still pushed sympathetic."}],
-  note:"<strong>Mismatch</strong> between how it feels and what the body does is a good example of why felt state and autonomic state are not the same thing."},
-
  {id:"adhdmed",g:"Medication",name:"ADHD stimulants",tag:"s",sum:"Methylphenidate and dexamfetamine boost dopamine and noradrenaline. The brain gets better braking; the body gets a small sympathetic lift.",
   steps:[
    {t:-10,h:"Dose taken",x:"Absorbed over 30 to 90 minutes depending on the release type."},
@@ -449,14 +510,6 @@ const S = [
    {t:12,h:"Heart rate creeps up",x:"Resting heart rate rises about 2 to 4 bpm on average, more in some people. This is partly a direct effect on the heart's pacemaker and partly a shift toward sympathetic. Heart rate variability can dip. Blood pressure falls a few points.",ov:{hr:74,bp:[113,73],gut:.15,glucose:.1}},
    {t:-10,h:"Months later",x:"Weight loss tends to improve autonomic balance over time. Watch for eating and drinking less, which can cause dehydration and dizziness on standing.",ov:{gut:.25,bp:[110,72]}}],
   note:"<strong>Muscle loss</strong> is a risk with rapid weight loss, so protein and resistance training matter. Early research also suggests reduced alcohol and other cravings via reward circuits."},
-
- {id:"betablock",g:"Medication",name:"Beta-blocker",tag:"m",sum:"Shows that you can block a receptor without changing the signal.",
-  steps:[
-   {t:60,h:"Stress arrives",x:"Say a big presentation. Sympathetic drive and adrenaline rise as usual."},
-   {t:60,h:"Receptors blocked",x:"A drug like propranolol sits on β receptors. The heart cannot respond fully, so pounding and racing ease. Tremor settles too.",ov:{hr:68,bp:[122,78]}},
-   {t:55,h:"Worry may stay",x:"Pupils, sweat and the thinking side of anxiety are less affected. The body signals that feed fear are quieter, which can break the loop."}],
-  note:"<strong>Prescription only.</strong> Not suitable for everyone, for example people with asthma."},
-
  {id:"alcohol",g:"Substances",name:"Alcohol",tag:"m",sum:"Feels relaxing on the way in, then pushes the system sympathetic overnight and the next day.",
   steps:[
    {t:5,h:"First drinks",x:"Alcohol dampens the brain's braking circuits (GABA up, glutamate down). People feel looser and less inhibited.",ov:{hr:76}},
@@ -489,14 +542,6 @@ const S = [
    {t:55,h:"Symptoms",x:"Dizziness, racing heart, shakiness, brain fog, fatigue, heat intolerance, blotchy purple feet. Often mistaken for anxiety.",ov:{hr:115,bp:[110,76]}},
    {t:25,h:"What helps",x:"Fluids, salt if a doctor advises, compression garments, calf and glute pumps, slow position changes, lying down early.",ov:{hr:90}}],
   note:"<strong>Neurodivergent link:</strong> studies find hypermobility, POTS and related autonomic symptoms more common in autistic and ADHD people. Worth screening for when anxiety-like symptoms are postural."},
-
- {id:"lie",g:"Posture",name:"Lying down",tag:"p",sum:"Flat posture takes the gravity load off the reflex.",
-  steps:[
-   {t:-10,h:"More blood returns",x:"Blood flows back from the legs, filling the heart more."},
-   {t:-25,h:"Stretch sensors respond",x:"Baroreceptors see higher pressure and ask the vagus to slow the heart. Sympathetic tone to vessels eases."},
-   {t:-30,h:"Settled",x:"Heart rate a few beats lower than sitting. Legs-up positions amplify this."}],
-  note:"<strong>Practical:</strong> lying down with legs raised is the first aid for someone about to faint."},
-
  {id:"panic",g:"Stress",name:"Panic attack",tag:"s",sum:"A full sympathetic surge that feeds on its own symptoms.",
   steps:[
    {t:20,h:"Threat flagged",x:"The amygdala flags danger. Sometimes there is an obvious trigger, sometimes none."},
@@ -569,13 +614,6 @@ const S = [
    {t:-25,h:"Recharging",x:"Heart rate settles and the body shifts toward rest. Many people describe it as their battery filling."},
    {t:-10,h:"Ready again",x:"Back in the window with more capacity. Taking interests away as a punishment removes the recovery tool."}],
   note:"<strong>Gaming, building, collecting, reading</strong> about a favourite topic all count. Give a warning before it ends (see Transitions)."},
-
- {id:"pain",g:"Stress",name:"Sudden pain",tag:"s",sum:"Pain is one of the fastest sympathetic triggers.",
-  steps:[
-   {t:10,h:"Signal arrives",x:"Nociceptors fire to the spinal cord and brainstem."},
-   {t:60,h:"Sympathetic response",x:"Heart rate and blood pressure rise, pupils dilate, sweating starts. Anaesthetists use pupil dilation to gauge pain."},
-   {t:25,h:"Settling",x:"If the pain eases, the system returns over minutes. Ongoing pain keeps it elevated."}]},
-
  {id:"faint",g:"Stress",name:"Fainting (vasovagal)",tag:"p",sum:"A reflex that overshoots: the parasympathetic side slams on.",
   steps:[
    {t:35,h:"Trigger",x:"Blood, needles, long standing, heat or pain. Often a sympathetic rise comes first."},
@@ -599,13 +637,6 @@ const S = [
    {t:-45,h:"Sympathetic squeezes limbs",x:"At the same time limb vessels clamp to keep blood for heart and brain. Blood pressure goes up, not down. Watch both nerves fire on the body map.",ov:{hr:54,bp:[132,86],rr:0,skin:.95,sa:.9,pa:1}},
    {t:-15,h:"Release",x:"Breathing again ends it. Many people feel a quick reset in arousal."}],
   note:"<strong>Caution</strong> for anyone with heart rhythm problems or eating disorders, where heart rate is already low."},
-
- {id:"meal",g:"Regulation",name:"Big meal",tag:"p",sum:"Rest and digest in its literal sense.",
-  steps:[
-   {t:-10,h:"Sight and smell",x:"Saliva and stomach acid start before the first bite, via the vagus."},
-   {t:-35,h:"Gut takes over",x:"Stretch in the stomach signals through the vagus. Motility and secretions rise, blood flow shifts to the gut.",ov:{hr:74}},
-   {t:-25,h:"Sluggish",x:"Post-meal sleepiness is part parasympathetic, part hormones like insulin and gut signals."}]},
-
  {id:"exercise",g:"Activity",name:"Exercise",tag:"s",sum:"Heart rate climbs in two stages, then recovery shows fitness.",
   steps:[
    {t:15,h:"First seconds",x:"The first jump in heart rate is the vagal brake lifting, not the sympathetic system yet."},
@@ -613,12 +644,6 @@ const S = [
    {t:10,h:"Recovery",x:"On stopping, the vagal brake returns fast. The drop in the first minute, heart rate recovery, is a marker of fitness."}],
   note:"<strong>Trained athletes</strong> often have resting heart rates in the 40s to 50s because of stronger vagal tone."},
 
- {id:"sleep",g:"Activity",name:"Sleep cycle",tag:"p",sum:"The night swings between deep calm and bursts of activity.",
-  steps:[
-   {t:-45,h:"Deep sleep",x:"Parasympathetic peak. Heart rate and blood pressure dip 10 to 20%, called nocturnal dipping.",ov:{rr:11}},
-   {t:15,h:"REM sleep",x:"Dreaming brings irregular sympathetic surges. Heart rate and breathing become variable."},
-   {t:20,h:"Waking",x:"A morning cortisol rise and sympathetic lift get you up. This is why heart attacks cluster in the morning."}],
-  note:"<strong>Poor sleep</strong> blunts the overnight dip and leaves the next day starting higher."}
 ];
 
 const $=s=>document.querySelector(s);
@@ -643,18 +668,49 @@ const zoneIdx=t=>{const i=ZONES.findIndex(z=>t<=z[1]);return i<0?4:i};
 function toneLabel(t){const z=ZONES[zoneIdx(t)];return[z[2],z[3]]}
 $("#zones").innerHTML=ZONES.map((z,i)=>`<button type="button" class="zone z${i}" data-i="${i}"><b>${z[2]}</b><span>${z[3]}</span></button>`).join("");
 $("#zones").querySelectorAll(".zone").forEach(b=>b.onclick=()=>{const z=ZONES[+b.dataset.i];stop();target=(z[0]+z[1])/2;ov={};cur=null;
-  nav.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed","false"));$("#vScen").textContent="Manual";
+  nav.querySelectorAll("button[data-id]").forEach(x=>x.setAttribute("aria-pressed","false"));$("#vScen").textContent="Manual";
   document.querySelectorAll(".steps li").forEach(li=>li.classList.remove("on"))});
 let lastZ=-1;
 
 // scenario nav
-const nav=$("#scen");let lastG="";
-const GO=["Baseline","Autistic experience","Substances","Medication","Posture","Stress","Regulation","Activity"];
-S.slice().sort((a,b)=>GO.indexOf(a.g)-GO.indexOf(b.g)).forEach(s=>{if(s.g!==lastG){const d=document.createElement("div");d.className="scen-group";d.textContent=s.g;nav.appendChild(d);lastG=s.g}
-  const b=document.createElement("button");b.type="button";b.dataset.id=s.id;b.setAttribute("aria-pressed","false");
-  const lab={s:"↑ SNS",p:"↑ PNS",m:"mixed"}[s.tag];
-  b.innerHTML=`<span>${s.name}</span><span class="tag ${s.tag}">${lab}</span>`;
-  b.onclick=()=>pick(s.id,true);nav.appendChild(b)});
+const nav=$("#scen");
+const TAGL={s:"↑ accelerator",p:"↑ brake",m:"both"};
+const FEAT=[["transition","Why stopping one thing and starting another is so hard"],["overload","When noise, light and people stack up too fast"],["masking","Holding it together all day, then home"],["demand","When a simple request feels like a threat"],["intero","Why big feelings seem to come out of nowhere"],["stim","Rocking, flapping, humming as built-in calm"]];
+const MORE=[["Autistic experience",["plans","interest"]],["Calming tools",["breath","dive"]],["Body and posture",["stand","hyper","exercise"]],["Stress",["panic","faint"]],["Substances and meds",["caffeine","alcohol","cannabis","adhdmed","glp1"]]];
+const sById=id=>S.find(s=>s.id===id);
+$("#feat").innerHTML=FEAT.map(([id,hook])=>{const s=sById(id);return `<button type="button" class="card" data-id="${id}" aria-pressed="false"><span class="ct"><b>${s.name}</b><span class="tag ${s.tag}">${TAGL[s.tag]}</span></span><span class="hook">${hook}</span></button>`}).join("");
+$("#more").innerHTML=MORE.map(([g,ids])=>`<div class="mgroup"><div>${g}</div><div class="pills">${ids.map(id=>{const s=sById(id);return `<button type="button" class="pill ${s.tag}" data-id="${id}" aria-pressed="false">${s.name}<span class="tag ${s.tag}">${TAGL[s.tag]}</span></button>`}).join("")}</div></div>`).join("");
+const moreN=MORE.reduce((n,g)=>n+g[1].length,0);
+function setMore(open){$("#more").hidden=!open;$("#moreBtn").setAttribute("aria-expanded",open);$("#moreBtn").textContent=open?"Fewer situations":`More situations (${moreN})`}
+setMore(false);
+$("#moreBtn").onclick=()=>setMore($("#more").hidden);
+nav.querySelectorAll("button[data-id]").forEach(b=>b.onclick=()=>pick(b.dataset.id,true));
+$("#resetBtn").onclick=()=>pick("rest",false);
+
+// head to toe mirror
+const ICON={
+ eyes:`<ellipse cx="11" cy="18" rx="8" ry="6" fill="var(--eye)" stroke="var(--outline)"/><circle cx="11" cy="18" r="3" fill="#1A1A1A"/><ellipse cx="25" cy="18" rx="8" ry="6" fill="var(--eye)" stroke="var(--outline)"/><circle cx="25" cy="18" r="3" fill="#1A1A1A"/>`,
+ mouth:`<path d="M8 15 Q18 27 28 15" fill="none" stroke="var(--outline)" stroke-width="2"/><path d="M18 20 q-4 7 0 9 q4 -2 0 -9z" fill="var(--o-gland)"/>`,
+ lungs:`<path d="M18 6 V16 M18 16 L13 20 M18 16 L23 20" stroke="var(--o-lung)" stroke-width="3" fill="none"/><path d="M15 12 Q4 10 5 22 Q6 32 15 30 Z" fill="var(--o-lung)" stroke="var(--outline)"/><path d="M21 12 Q32 10 31 22 Q30 32 21 30 Z" fill="var(--o-lung)" stroke="var(--outline)"/>`,
+ heart:`<path d="M18 31 C5 22 5 10 12 9 C15 9 18 12 18 14 C18 12 21 9 24 9 C31 10 31 22 18 31 Z" fill="var(--o-heart)" stroke="var(--outline)"/>`,
+ liver:`<path d="M4 14 Q18 6 32 12 Q30 26 14 27 Q4 24 4 14 Z" fill="var(--o-liver)" stroke="var(--outline)"/>`,
+ gut:`<path d="M7 10 Q14 5 20 10 T31 12 Q34 18 26 19 Q18 20 12 18 T7 25 Q8 31 18 30 Q26 29 30 27" stroke="var(--o-gut)" stroke-width="4" stroke-linecap="round" fill="none"/>`,
+ bladder:`<ellipse cx="18" cy="20" rx="11" ry="9" fill="var(--o-blad)" stroke="var(--outline)"/><path d="M14 9 L16 12 M22 9 L20 12" stroke="var(--outline)"/>`,
+ skin:`<path d="M10 30 V14 a2.5 2.5 0 0 1 5 0 V11 a2.5 2.5 0 0 1 5 0 V13 a2.5 2.5 0 0 1 5 0 V18 a2.5 2.5 0 0 1 4 1 L27 30 Z" fill="var(--skin-warm)" stroke="var(--outline)"/><path d="M31 6 q-3 5 0 6 q3 -1 0 -6z" fill="var(--o-gland)"/>`};
+const MIR=[["eyes","Pupils","Small pupils, focus up close","Big pupils, scanning for danger"],
+ ["mouth","Saliva","Watery mouth, ready to eat","Dry mouth"],
+ ["lungs","Lungs","Slow, deep breaths","Fast breaths, airways open wide"],
+ ["heart","Heart","Slow, steady beat","Fast, pounding beat"],
+ ["liver","Liver","Stores sugar for later","Dumps sugar into the blood for fuel"],
+ ["gut","Gut","Digesting, gurgling","Paused, butterflies"],
+ ["bladder","Bladder","Squeezes to empty","Holds on"],
+ ["skin","Skin","Warm and dry","Pale, cold, sweaty palms"]];
+$("#mgrid").insertAdjacentHTML("beforeend",MIR.map(([k,n,p,s])=>`<div class="mp">${p}</div><div class="mc"><svg viewBox="0 0 36 36" aria-hidden="true">${ICON[k]}</svg>${n}</div><div class="ms">${s}</div>`).join("")+
+ `<div class="mp mnerve">Vagus nerve, brainstem to belly</div><div class="mc">Nerves</div><div class="ms mnerve">Spinal chain + adrenaline</div>`);
+document.querySelectorAll(".press button").forEach(b=>b.onclick=()=>{const on=b.getAttribute("aria-pressed")!=="true",g=$("#mgrid");
+  document.querySelectorAll(".press button").forEach(x=>x.setAttribute("aria-pressed","false"));g.classList.remove("only-p","only-s");
+  if(on){b.setAttribute("aria-pressed","true");g.classList.add("only-"+b.dataset.side);target=b.dataset.side==="p"?-50:55;ov={};cur=null;stop();
+    nav.querySelectorAll("button[data-id]").forEach(x=>x.setAttribute("aria-pressed","false"));$("#vScen").textContent="Manual"}});
 
 // ---- a day on the dial ----
 const DAY=[
@@ -729,13 +785,14 @@ const SUPP=[[6.5,-55],[7,-20],[7.5,5],[8,22],[8.6,28],[9.2,34],[12,40],[14.8,44]
 
 function pick(id,auto){
   cur=S.find(s=>s.id===id);step=0;
-  nav.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.id===id));
+  nav.querySelectorAll("button[data-id]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.id===id));
   $("#vScen").textContent=cur.name;
+  if($("#more").querySelector(`[data-id="${id}"]`))setMore(true);
   renderChain();go(0);if(auto&&cur.steps.length>1)play();else stop();
 }
 function renderChain(){
   const c=$("#chain");
-  c.innerHTML=`<div class="chain-top"><div><div class="eyebrow">Cause and effect</div><h2>${cur.name}</h2><p class="sum">${cur.sum}</p></div>
+  c.innerHTML=`<div class="chain-top"><div><div class="eyebrow">Step by step</div><h2>${cur.name}</h2><p class="sum">${cur.sum}</p></div>
   ${cur.steps.length>1?'<button class="play" id="playBtn" type="button">Replay</button>':''}</div>
   <ol class="steps">${cur.steps.map((s,i)=>`<li tabindex="0" data-i="${i}"><div><b>${s.h}</b><span>${s.x}</span></div></li>`).join("")}</ol>
   ${cur.note?`<p class="note">${cur.note}</p>`:""}`;
@@ -749,7 +806,7 @@ function play(){stop();const pb=$("#playBtn");if(pb)pb.textContent="Pause";
 function stop(){clearInterval(timer);timer=null;const pb=$("#playBtn");if(pb)pb.textContent="Replay"}
 
 $("#tone").addEventListener("input",e=>{stop();target=+e.target.value;tone=target;ov={};cur=null;
-  nav.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed","false"));$("#vScen").textContent="Manual";
+  nav.querySelectorAll("button[data-id]").forEach(b=>b.setAttribute("aria-pressed","false"));$("#vScen").textContent="Manual";
   document.querySelectorAll(".steps li").forEach(li=>li.classList.remove("on"))});
 
 // body labels: [name, side, labelY, targetX, targetY, state()]
@@ -842,7 +899,7 @@ function frame(now){
   cx.stroke();
   if(n){cx.fillStyle=col;cx.beginPath();cx.arc(W-1,base-buf[n-1]*amp,3.5,0,7);cx.fill()}
   requestAnimationFrame(frame)}
-pick("panic",false);go(2);target=95;
+pick("transition",false);go(2);
 requestAnimationFrame(frame);
 </script>
 
