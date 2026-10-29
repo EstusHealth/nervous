@@ -87,6 +87,7 @@ input[type=range]:focus-visible{box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--i
 .card:hover{border-color:var(--muted)}
 .card[aria-pressed=true]{border-color:var(--navy);box-shadow:inset 0 0 0 1px var(--navy)}
 .card:focus-visible,.pill:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.more[hidden]{display:none}
 .more{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
 .mgroup{display:grid;grid-template-columns:150px minmax(0,1fr);gap:10px;align-items:baseline}
 @media (max-width:600px){.mgroup{grid-template-columns:minmax(0,1fr);gap:6px}}
@@ -96,30 +97,6 @@ input[type=range]:focus-visible{box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--i
 @media (max-width:480px){.pill .tag{display:none}.pill{padding:6px 12px}.pill::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--muted)}.pill.s::before{background:var(--sns)}.pill.p::before{background:var(--pns)}}
 .pill{max-width:100%;white-space:normal}
 .pill[aria-pressed=true]{border-color:var(--navy);box-shadow:inset 0 0 0 1px var(--navy)}
-/* mirror */
-.mirror{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:18px;display:grid;gap:12px}
-.mirror-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-.press{display:flex;gap:6px;flex-wrap:wrap}
-.press button{all:unset;cursor:pointer;font-family:var(--mono);font-size:12px;padding:6px 10px;border-radius:5px;border:1px solid var(--line)}
-.press button[data-side=p][aria-pressed=true]{background:var(--pns);border-color:var(--pns);color:var(--surface)}
-.press button[data-side=s][aria-pressed=true]{background:var(--sns);border-color:var(--sns);color:var(--surface)}
-.press button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
-.mgrid{display:grid;grid-template-columns:minmax(0,1fr) 92px minmax(0,1fr);position:relative}
-.mgrid>div{padding:7px 12px;font-size:16px;line-height:1.3;transition:opacity .25s}
-.mh{font-family:var(--display);font-weight:700;font-size:20px!important;padding-bottom:10px!important}
-.mh.p,.mp{color:var(--pns);text-align:right}
-.mh.s,.ms{color:var(--sns)}
-.mp{background:linear-gradient(90deg,transparent,var(--pns-soft))}
-.ms{background:linear-gradient(270deg,transparent,var(--sns-soft))}
-.mc{display:grid;justify-items:center;gap:0;text-align:center;font-family:var(--mono);font-size:10.5px!important;color:var(--muted);padding:4px 0!important;border-left:3px dashed var(--pns);border-right:3px dashed var(--sns)}
-.mc svg{width:36px;height:36px;display:block}
-.mp,.ms,.mc{display:flex;align-items:center}
-.mp{justify-content:flex-end}
-.mc{flex-direction:column;justify-content:center}
-.mnerve{font-family:var(--mono);font-size:12px!important}
-.mgrid.only-p .ms,.mgrid.only-s .mp{opacity:.18}
-.mgrid.only-p .mp,.mgrid.only-s .ms{font-weight:500}
-@media (max-width:520px){.mgrid{grid-template-columns:minmax(0,1fr) 64px minmax(0,1fr)}.mgrid>div{padding:7px 8px;font-size:14px}.mc svg{width:28px;height:28px}}
 /* clinician details */
 details.ref{border:1px solid var(--line);border-radius:6px;background:var(--surface);padding:0}
 details.ref>summary{cursor:pointer;list-style:none;padding:16px 18px;display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
@@ -135,8 +112,8 @@ details.ref .tbl{border:1px solid var(--line)}
 .tag.s{background:var(--sns-soft);color:var(--sns)} .tag.p{background:var(--pns-soft);color:var(--pns)} .tag.m{background:var(--grid);color:var(--muted)}
 
 
-.panel{display:grid;gap:22px;min-width:0;grid-template-columns:minmax(0,1fr) minmax(0,440px);align-items:start}
-@media (max-width:1100px){.panel{grid-template-columns:minmax(0,1fr)}.bodyfig{order:-1}}
+.panel{display:grid;gap:22px;min-width:0;grid-template-columns:minmax(0,1fr) minmax(0,350px);align-items:start}
+@media (max-width:900px){.panel{grid-template-columns:minmax(0,1fr)}.bodyfig svg{max-width:280px}}
 .chain{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:18px;display:grid;gap:14px}
 .chain-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
 .chain p.sum{margin:4px 0 0;color:var(--muted);max-width:62ch}
@@ -244,7 +221,7 @@ footer{font-size:14px;color:var(--muted);max-width:70ch}
 .jump:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 /* body diagram */
 .bodyfig{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px 10px 12px;display:grid;gap:10px;min-width:0}
-.bodyfig svg{width:100%;height:auto;display:block;max-width:440px;margin:0 auto}
+.bodyfig svg{width:100%;height:auto;display:block;max-width:330px;margin:0 auto}
 .bodyfig .lbl-n{font-family:var(--display);font-weight:700;font-size:13px;fill:var(--ink)}
 .bodyfig .lbl-s{font-family:var(--mono);font-size:10.5px;fill:var(--muted)}
 .bodyfig .lead{stroke:var(--muted);stroke-width:.8;fill:none;opacity:.7}
@@ -260,7 +237,7 @@ footer{font-size:14px;color:var(--muted);max-width:70ch}
     <div class="brandbar"><div class="wordmark"><b>ESTUS</b> <span>HEALTH</span></div><div class="bands" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div>
     <div class="eyebrow">Autonomic nervous system · interactive</div>
     <h1>Two branches, one body</h1>
-    <p class="lede">Your body runs an automatic control system you never have to think about. It has two branches that pull in opposite directions. Read the basics below, then drag the slider or pick a real-life trigger to watch it play out.</p>
+    <p class="lede">Your body runs an automatic control system you never have to think about. It has two branches that pull in opposite directions. Read the basics, then use the day guide to plan around it. The live lab further down lets you watch it happen in the body.</p>
   </header>
 
   <section class="intro" aria-label="The two branches explained">
@@ -295,23 +272,41 @@ footer{font-size:14px;color:var(--muted);max-width:70ch}
         </dl>
       </article>
     </div>
-    <figure class="mirror" aria-label="Head to toe: what the brake and accelerator each do">
-      <div class="mirror-top">
-        <div class="eyebrow">Head to toe</div>
-        <div class="press" role="group" aria-label="Highlight one side">
-          <button type="button" data-side="p" aria-pressed="false">Press the brake</button>
-          <button type="button" data-side="s" aria-pressed="false">Press the accelerator</button>
-        </div>
-      </div>
-      <div class="mgrid" id="mgrid">
-        <div class="mh p">Brake</div><div class="mh c"></div><div class="mh s">Accelerator</div>
-      </div>
-    </figure>
     <div class="key">
       <p><strong>Not an on/off switch.</strong> Both run all day. What you feel comes from the mix.</p>
       <p><strong>Neither is good or bad.</strong> You need the accelerator to get out of bed and the brake to fall asleep.</p>
       <p><strong>The ends are extremes.</strong> Too much brake means fainting or shutdown. Too much accelerator means panic. Health is moving through the middle and coming back.</p>
     </div>
+  </section>
+
+  <section class="day" id="day" aria-label="Using this at home">
+    <div class="intro-head">
+      <div class="eyebrow">Putting it to work · for parents</div>
+      <h2>A day on the dial</h2>
+      <p>Load stacks up across the day like a battery draining. The same request lands differently at 7am, 3:30pm and 8pm. Here's what a typical day can look like, what changes with supports, and what to try at each point.</p>
+    </div>
+
+    <div class="rules">
+      <div><b>1. Read the state first</b><p>Is your child revved up, flat and foggy, or in the window? The fix is different for each.</p></div>
+      <div><b>2. Regulate, relate, then reason</b><p>Calm the body first, connect second. Talking, teaching and consequences only land once they're back in the window.</p></div>
+      <div><b>3. Your body is a tool</b><p>Kids borrow calm from the adults around them (co-regulation). A slower voice and a long exhale from you comes first.</p></div>
+    </div>
+
+    <div class="match">
+      <div class="m s"><div class="side-tag">Revved up?</div><h3>Bring it down</h3><p>Deep pressure (hugs, heavy blanket, beanbag). Heavy work (carrying, pushing, climbing). Slow rocking or swinging. Dim light, less noise. Fewer words. Long exhales. Warm drink or bath.</p></div>
+      <div class="m p"><div class="side-tag">Flat or foggy?</div><h3>Lift it up</h3><p>Movement first (jumping, trampoline, animal walks). Cold water or icy drink. Crunchy or sour snack. Fresh air and daylight. Upbeat music. A favourite interest to spark them up.</p></div>
+      <div class="m x"><div class="side-tag">Meltdown or shutdown?</div><h3>Keep it safe, wait</h3><p>Space and safety first. Almost no words. Stay close and calm without demands. Don't problem-solve now. Talk about it later, if at all, once they're back in the window.</p></div>
+    </div>
+    <p class="fine">Everyone's sensory profile is different. What calms one child alerts another, so test and watch.</p>
+
+    <div class="daychart">
+      <div class="legend daylegend"><span><i style="border-color:var(--sns)"></i>Typical day, no supports</span><span><i style="border-color:var(--pns);border-top-style:solid"></i>Same day, with supports</span><span><b class="wband"></b>Window of tolerance</span></div>
+      <div class="chartscroll"><svg id="dayChart" viewBox="0 0 800 312" role="img" aria-label="Chart of arousal across a school day, with and without supports. Tap a part of the day to see strategies."></svg></div>
+    </div>
+
+    <div class="phases" id="phaseTabs" role="tablist" aria-label="Part of the day"></div>
+    <article class="phase" id="phasePanel" role="tabpanel"></article>
+    <p class="fine">Want a plan built around your child? Estus Health occupational therapists work Australia-wide by telehealth. <a href="https://www.estushealth.com" target="_blank" rel="noopener">estushealth.com</a></p>
   </section>
 
   <div class="intro-head">
@@ -355,7 +350,7 @@ footer{font-size:14px;color:var(--muted);max-width:70ch}
       <article class="chain" id="chain" aria-live="polite"></article>
       <figure class="bodyfig" style="margin:0" aria-label="Body diagram showing organs and nerve activity">
         <div class="eyebrow" style="text-align:center">Live body map</div>
-        <svg viewBox="0 0 440 600" id="bodySvg" role="img" aria-label="Cartoon body with organs, vagus nerve and sympathetic chain">
+        <svg viewBox="0 0 440 472" id="bodySvg" role="img" aria-label="Cartoon body with organs, vagus nerve and sympathetic chain">
           <!-- body -->
           <g id="skin" stroke="var(--outline)" stroke-width="1.5">
             <path d="M154 160 Q134 260 136 390" stroke-width="31" stroke-linecap="round" fill="none"/>
@@ -425,35 +420,6 @@ footer{font-size:14px;color:var(--muted);max-width:70ch}
     </div>
   </section>
 
-  <section class="day" id="day" aria-label="Using this at home">
-    <div class="intro-head">
-      <div class="eyebrow">Putting it to work · for parents</div>
-      <h2>A day on the dial</h2>
-      <p>Load stacks up across the day like a battery draining. The same request lands differently at 7am, 3:30pm and 8pm. Here's what a typical day can look like, what changes with supports, and what to try at each point.</p>
-    </div>
-
-    <div class="rules">
-      <div><b>1. Read the state first</b><p>Is your child revved up, flat and foggy, or in the window? The fix is different for each.</p></div>
-      <div><b>2. Regulate, relate, then reason</b><p>Calm the body first, connect second. Talking, teaching and consequences only land once they're back in the window.</p></div>
-      <div><b>3. Your body is a tool</b><p>Kids borrow calm from the adults around them (co-regulation). A slower voice and a long exhale from you comes first.</p></div>
-    </div>
-
-    <div class="match">
-      <div class="m s"><div class="side-tag">Revved up?</div><h3>Bring it down</h3><p>Deep pressure (hugs, heavy blanket, beanbag). Heavy work (carrying, pushing, climbing). Slow rocking or swinging. Dim light, less noise. Fewer words. Long exhales. Warm drink or bath.</p></div>
-      <div class="m p"><div class="side-tag">Flat or foggy?</div><h3>Lift it up</h3><p>Movement first (jumping, trampoline, animal walks). Cold water or icy drink. Crunchy or sour snack. Fresh air and daylight. Upbeat music. A favourite interest to spark them up.</p></div>
-      <div class="m x"><div class="side-tag">Meltdown or shutdown?</div><h3>Keep it safe, wait</h3><p>Space and safety first. Almost no words. Stay close and calm without demands. Don't problem-solve now. Talk about it later, if at all, once they're back in the window.</p></div>
-    </div>
-    <p class="fine">Everyone's sensory profile is different. What calms one child alerts another, so test and watch.</p>
-
-    <div class="daychart">
-      <div class="legend daylegend"><span><i style="border-color:var(--sns)"></i>Typical day, no supports</span><span><i style="border-color:var(--pns);border-top-style:solid"></i>Same day, with supports</span><span><b class="wband"></b>Window of tolerance</span></div>
-      <div class="chartscroll"><svg id="dayChart" viewBox="0 0 800 312" role="img" aria-label="Chart of arousal across a school day, with and without supports. Tap a part of the day to see strategies."></svg></div>
-    </div>
-
-    <div class="phases" id="phaseTabs" role="tablist" aria-label="Part of the day"></div>
-    <article class="phase" id="phasePanel" role="tabpanel"></article>
-    <p class="fine">Want a plan built around your child? Estus Health occupational therapists work Australia-wide by telehealth. <a href="https://www.estushealth.com" target="_blank" rel="noopener">estushealth.com</a></p>
-  </section>
 
   <details class="ref">
     <summary><span class="eyebrow">For clinicians</span><b>Pathways, messengers and receptors</b></summary>
@@ -687,30 +653,6 @@ $("#moreBtn").onclick=()=>setMore($("#more").hidden);
 nav.querySelectorAll("button[data-id]").forEach(b=>b.onclick=()=>pick(b.dataset.id,true));
 $("#resetBtn").onclick=()=>pick("rest",false);
 
-// head to toe mirror
-const ICON={
- eyes:`<ellipse cx="11" cy="18" rx="8" ry="6" fill="var(--eye)" stroke="var(--outline)"/><circle cx="11" cy="18" r="3" fill="#1A1A1A"/><ellipse cx="25" cy="18" rx="8" ry="6" fill="var(--eye)" stroke="var(--outline)"/><circle cx="25" cy="18" r="3" fill="#1A1A1A"/>`,
- mouth:`<path d="M8 15 Q18 27 28 15" fill="none" stroke="var(--outline)" stroke-width="2"/><path d="M18 20 q-4 7 0 9 q4 -2 0 -9z" fill="var(--o-gland)"/>`,
- lungs:`<path d="M18 6 V16 M18 16 L13 20 M18 16 L23 20" stroke="var(--o-lung)" stroke-width="3" fill="none"/><path d="M15 12 Q4 10 5 22 Q6 32 15 30 Z" fill="var(--o-lung)" stroke="var(--outline)"/><path d="M21 12 Q32 10 31 22 Q30 32 21 30 Z" fill="var(--o-lung)" stroke="var(--outline)"/>`,
- heart:`<path d="M18 31 C5 22 5 10 12 9 C15 9 18 12 18 14 C18 12 21 9 24 9 C31 10 31 22 18 31 Z" fill="var(--o-heart)" stroke="var(--outline)"/>`,
- liver:`<path d="M4 14 Q18 6 32 12 Q30 26 14 27 Q4 24 4 14 Z" fill="var(--o-liver)" stroke="var(--outline)"/>`,
- gut:`<path d="M7 10 Q14 5 20 10 T31 12 Q34 18 26 19 Q18 20 12 18 T7 25 Q8 31 18 30 Q26 29 30 27" stroke="var(--o-gut)" stroke-width="4" stroke-linecap="round" fill="none"/>`,
- bladder:`<ellipse cx="18" cy="20" rx="11" ry="9" fill="var(--o-blad)" stroke="var(--outline)"/><path d="M14 9 L16 12 M22 9 L20 12" stroke="var(--outline)"/>`,
- skin:`<path d="M10 30 V14 a2.5 2.5 0 0 1 5 0 V11 a2.5 2.5 0 0 1 5 0 V13 a2.5 2.5 0 0 1 5 0 V18 a2.5 2.5 0 0 1 4 1 L27 30 Z" fill="var(--skin-warm)" stroke="var(--outline)"/><path d="M31 6 q-3 5 0 6 q3 -1 0 -6z" fill="var(--o-gland)"/>`};
-const MIR=[["eyes","Pupils","Small pupils, focus up close","Big pupils, scanning for danger"],
- ["mouth","Saliva","Watery mouth, ready to eat","Dry mouth"],
- ["lungs","Lungs","Slow, deep breaths","Fast breaths, airways open wide"],
- ["heart","Heart","Slow, steady beat","Fast, pounding beat"],
- ["liver","Liver","Stores sugar for later","Dumps sugar into the blood for fuel"],
- ["gut","Gut","Digesting, gurgling","Paused, butterflies"],
- ["bladder","Bladder","Squeezes to empty","Holds on"],
- ["skin","Skin","Warm and dry","Pale, cold, sweaty palms"]];
-$("#mgrid").insertAdjacentHTML("beforeend",MIR.map(([k,n,p,s])=>`<div class="mp">${p}</div><div class="mc"><svg viewBox="0 0 36 36" aria-hidden="true">${ICON[k]}</svg>${n}</div><div class="ms">${s}</div>`).join("")+
- `<div class="mp mnerve">Vagus nerve, brainstem to belly</div><div class="mc">Nerves</div><div class="ms mnerve">Spinal chain + adrenaline</div>`);
-document.querySelectorAll(".press button").forEach(b=>b.onclick=()=>{const on=b.getAttribute("aria-pressed")!=="true",g=$("#mgrid");
-  document.querySelectorAll(".press button").forEach(x=>x.setAttribute("aria-pressed","false"));g.classList.remove("only-p","only-s");
-  if(on){b.setAttribute("aria-pressed","true");g.classList.add("only-"+b.dataset.side);target=b.dataset.side==="p"?-50:55;ov={};cur=null;stop();
-    nav.querySelectorAll("button[data-id]").forEach(x=>x.setAttribute("aria-pressed","false"));$("#vScen").textContent="Manual"}});
 
 // ---- a day on the dial ----
 const DAY=[
