@@ -1,7 +1,7 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>Autonomic Balance Lab</title>
+<!doctype html><html lang="en-AU"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Nervous System Lab | Estus Health</title><meta name="description" content="An interactive guide to the nervous system for parents and clinicians: the accelerator and brake, the window of tolerance, interoception and practical regulation ideas. By Estus Health occupational therapy."><meta property="og:title" content="Nervous System Lab | Estus Health"><meta property="og:description" content="Accelerator and brake, the window of tolerance, and what to try at each point in the day."><meta property="og:type" content="website"><meta name="theme-color" content="#090909"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 fill=%22%23090909%22/%3E%3Crect x=%224%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23344982%22/%3E%3Crect x=%2210%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232F6F9E%22/%3E%3Crect x=%2216%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232CA5B8%22/%3E%3Crect x=%2222%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23AB5C95%22/%3E%3C/svg%3E">
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=JetBrains+Mono:wght@400;600&family=Oswald:wght@500;700&display=swap">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap">
 <style>
 /* Layout: chart-recorder strip as hero, balance control under it, then scenario list beside a live organ panel */
 :root{
@@ -70,20 +70,63 @@ input[type=range]:focus-visible{box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--i
 .readout{font-family:var(--mono);font-size:13px;color:var(--muted);text-align:center}
 
 /* main grid */
-.main{display:grid;grid-template-columns:250px minmax(0,1fr);gap:28px;align-items:start}
-@media (max-width:820px){.main{grid-template-columns:1fr}}
-.scen{display:grid;gap:6px}
-.scen-group{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:10px 0 2px}
-.scen button{all:unset;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 12px;border-radius:5px;border:1px solid transparent;font-family:var(--display);font-weight:500;font-size:16px}
-.scen button:hover{background:var(--surface);border-color:var(--line)}
-.scen button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
-.scen button[aria-pressed=true]{background:var(--surface);border-color:var(--ink)}
+.main{display:grid;grid-template-columns:minmax(0,1fr);gap:22px;align-items:start}
+.scen{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+.card .ct{flex-wrap:wrap}
+.scen-top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.reset,.morebtn{all:unset;cursor:pointer;font-family:var(--mono);font-size:13px;padding:7px 12px;border:1px solid var(--line);border-radius:5px;background:var(--surface)}
+.morebtn{justify-self:start}
+.reset:focus-visible,.morebtn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.feat{display:flex;flex-wrap:wrap;gap:8px}
+.pill.big{font-size:16px;padding:8px 10px 8px 14px}
+.card{all:unset;color:var(--ink);cursor:pointer;display:grid;gap:4px;align-content:start;padding:14px 16px;border-radius:6px;background:var(--surface);border:1px solid var(--line);min-width:0}
+.card .ct{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.card b{font-family:var(--display);font-size:17px}
+.card span.hook{font-size:15px;color:var(--muted);line-height:1.35}
+.card:hover{border-color:var(--muted)}
+.card[aria-pressed=true]{border-color:var(--navy);box-shadow:inset 0 0 0 1px var(--navy)}
+.card:focus-visible,.pill:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.more[hidden]{display:none}
+.more{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+.mgroup{display:grid;grid-template-columns:150px minmax(0,1fr);gap:10px;align-items:baseline}
+@media (max-width:600px){.mgroup{grid-template-columns:minmax(0,1fr);gap:6px}}
+.mgroup>div:first-child{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.pill{all:unset;color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:8px;padding:6px 8px 6px 12px;border-radius:99px;border:1px solid var(--line);background:var(--surface);font-family:var(--display);font-size:15px}
+@media (max-width:480px){.pill .tag{display:none}.pill{padding:6px 12px}.pill::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--muted)}.pill.s::before{background:var(--sns)}.pill.p::before{background:var(--pns)}}
+.pill{max-width:100%;white-space:normal}
+.pill[aria-pressed=true]{border-color:var(--navy);box-shadow:inset 0 0 0 1px var(--navy)}
+/* clinician details */
+details.ref{border:1px solid var(--line);border-radius:6px;background:var(--surface);padding:0}
+details.ref>summary{cursor:pointer;list-style:none;padding:16px 18px;display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
+details.ref>summary::-webkit-details-marker{display:none}
+details.ref>summary b{font-family:var(--display);font-size:18px}
+details.ref>summary::after{content:"+";margin-left:auto;font-family:var(--mono);font-size:18px;color:var(--muted)}
+details.ref[open]>summary::after{content:"−"}
+details.ref>summary:focus-visible{outline:2px solid var(--ink);outline-offset:-2px}
+details.ref[open]{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;padding-bottom:18px}
+details.ref>.tbl,details.ref>.facts{margin:0 18px}
+details.ref .tbl{border:1px solid var(--line)}
 .tag{font-family:var(--mono);font-size:11px;padding:2px 7px;border-radius:99px;white-space:nowrap}
 .tag.s{background:var(--sns-soft);color:var(--sns)} .tag.p{background:var(--pns-soft);color:var(--pns)} .tag.m{background:var(--grid);color:var(--muted)}
-@media (max-width:820px){.scen{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}.scen-group{grid-column:1/-1}}
 
-.panel{display:grid;gap:22px;min-width:0;grid-template-columns:minmax(0,1fr) minmax(0,440px);align-items:start}
-@media (max-width:1100px){.panel{grid-template-columns:minmax(0,1fr)}.bodyfig{order:-1}}
+
+.panel{display:grid;gap:24px;min-width:0;grid-template-columns:minmax(0,1fr) minmax(0,360px);align-items:start}
+@media (max-width:900px){.panel{grid-template-columns:minmax(0,1fr)}.bodyfig svg{max-width:280px}}
+.lab{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding-block:20px;padding-inline:clamp(14px,2.5vw,24px);display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.lab-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.lab .chain,.lab .bodyfig{border:0;padding:0;background:none;border-radius:0}
+.lab .balance{gap:6px}
+.lab .zone span{display:none}
+.lab .readout{font-size:12px}
+.live{display:grid;gap:14px;align-content:start;border-left:1px solid var(--line);padding-left:24px;min-width:0}
+@media (max-width:900px){.live{border-left:0;padding-left:0;border-top:1px solid var(--line);padding-top:18px}}
+.lab .recorder{border-radius:6px}
+.lab canvas{height:84px}
+.lab .rec-head{padding:10px 12px}
+.lab .vitals{gap:14px}
+.lab .vital b{font-size:20px}
+.lab .heart{width:22px;height:22px}
 .chain{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:18px;display:grid;gap:14px}
 .chain-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
 .chain p.sum{margin:4px 0 0;color:var(--muted);max-width:62ch}
@@ -148,10 +191,50 @@ footer{font-size:14px;color:var(--muted);max-width:70ch}
 .zone.z0,.zone.z1{background:var(--pns-soft)} .zone.z2{background:var(--teal-soft)} .zone.z3,.zone.z4{background:var(--sns-soft)}
 .zone.on{outline-color:var(--ink)}
 .zone:focus-visible{outline-color:var(--ink);outline-style:dashed}
-@media (max-width:560px){.zone span{display:none}.zone{padding:7px 4px}.zone b{font-size:11px;hyphens:auto;overflow-wrap:anywhere}}
+@media (max-width:560px){.zone span{display:none}.zone{padding:7px 2px;text-align:center}.zone b{font-size:10px;letter-spacing:-.01em}}
+/* day section */
+.day{display:grid;gap:18px}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.rules b{font-family:var(--display);font-size:16px;color:var(--navy)}
+.rules p{margin:4px 0 0;font-size:16px;color:var(--muted)}
+.match{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.match>.m{border-radius:6px;padding:16px;display:grid;gap:6px;align-content:start}
+.match>.m.s{--c:var(--sns);background:var(--sns-soft)} .match>.m.p{--c:var(--pns);background:var(--pns-soft)} .match>.m.x{--c:var(--ink);background:var(--grid)}
+.m h3{font-size:20px;color:var(--c)} .m p{margin:0;font-size:16px}
+.fine{margin:0;font-size:14px;color:var(--muted)}
+.fine a{color:var(--navy)}
+.daychart{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px 10px 6px;display:grid;gap:8px}
+.daylegend{justify-content:flex-start;padding:0 6px}
+.wband{display:inline-block;width:18px;height:10px;background:var(--teal-soft);border:1px solid var(--teal)}
+.chartscroll{overflow-x:auto}
+#dayChart{display:block;width:100%;min-width:620px;height:auto}
+#dayChart text{font-family:var(--mono);font-size:11px;fill:var(--muted)}
+#dayChart .ph{cursor:pointer}
+#dayChart .ph text{font-family:var(--display);font-size:12.5px;font-weight:700;fill:var(--ink)}
+#dayChart .ph.off text{fill:var(--muted);font-weight:500}
+.phases{display:flex;flex-wrap:wrap;gap:6px}
+.phases button{all:unset;cursor:pointer;font-family:var(--display);font-weight:500;font-size:15px;padding:8px 14px;border-radius:99px;border:1px solid var(--line);background:var(--surface)}
+.phases button[aria-selected=true]{background:var(--navy);border-color:var(--navy);color:var(--surface)}
+.phases button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.phase{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:20px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px}
+@media (max-width:760px){.phase{grid-template-columns:1fr}}
+.phase h3{font-size:22px}
+.phase .when{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:2px}
+.phase p{margin:8px 0 0;font-size:16px}
+.phase h4{margin:16px 0 6px;font-family:var(--mono);font-weight:400;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:14px;padding:3px 10px;border-radius:99px}
+.chip.s{background:var(--sns-soft)} .chip.p{background:var(--pns-soft)}
+.chip i{font-style:normal;font-family:var(--mono);font-size:11px;margin-right:5px}
+.chip.s i{color:var(--sns)} .chip.p i{color:var(--pns)}
+.phase ul{margin:0;padding-left:18px;display:grid;gap:5px;font-size:16px}
+.say{margin-top:14px;padding:12px 14px;border-radius:6px;background:var(--teal-soft);font-size:16px}
+.say b{font-family:var(--mono);font-weight:400;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:2px}
+.jump{all:unset;cursor:pointer;margin-top:14px;font-family:var(--mono);font-size:13px;padding:7px 12px;border:1px solid var(--ink);border-radius:5px;display:inline-block}
+.jump:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 /* body diagram */
 .bodyfig{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px 10px 12px;display:grid;gap:10px;min-width:0}
-.bodyfig svg{width:100%;height:auto;display:block;max-width:440px;margin:0 auto}
+.bodyfig svg{width:100%;height:auto;display:block;max-width:330px;margin:0 auto}
 .bodyfig .lbl-n{font-family:var(--display);font-weight:700;font-size:13px;fill:var(--ink)}
 .bodyfig .lbl-s{font-family:var(--mono);font-size:10.5px;fill:var(--muted)}
 .bodyfig .lead{stroke:var(--muted);stroke-width:.8;fill:none;opacity:.7}
@@ -160,6 +243,200 @@ footer{font-size:14px;color:var(--muted);max-width:70ch}
 .legend span{display:inline-flex;align-items:center;gap:6px}
 .legend i{width:22px;height:0;border-top:3px dashed}
 .nv{fill:none;stroke-linecap:round;stroke-dasharray:5 6}
+</style><style>
+:root{
+  --g-bg:#F3F2EF;--g-surface:#FBFAF8;--g-sunk:#ECEAE6;--g-fg:#0E1014;--g-muted:#65676E;--g-rule:#D3D1CC;--g-ink:#090909;--g-on-ink:#FBFAF8;
+  --g-navy:#344982;--g-blue:#2F6F9E;--g-teal:#2CA5B8;--g-plum:#AB5C95;--g-coal:#22252B;
+  --g-navy-t:#DDE2EF;--g-blue-t:#DCE8F1;--g-teal-t:#DAF0F3;--g-plum-t:#F1E1EC;--g-coal-t:#DADBDE;
+  --g-good:#2E7D4F;--g-good-t:#DDEFE3;--g-warn:#A86A12;--g-warn-t:#F6E8D2;--g-bad:#B23A3A;--g-bad-t:#F5DEDE;
+  --g-display:"Oswald","Arial Narrow",Impact,sans-serif;--g-cond:"Barlow Semi Condensed","Arial Narrow",sans-serif;--g-body:"Barlow","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --g-bg:#0F1216;--g-surface:#161A20;--g-sunk:#1D222A;--g-fg:#ECEEF1;--g-muted:#9BA1AB;--g-rule:#2C323C;--g-ink:#05070A;--g-on-ink:#ECEEF1;
+  --g-navy:#8299DA;--g-blue:#6FA8D2;--g-teal:#4CC3D4;--g-plum:#D58FC1;--g-coal:#C9CCD2;
+  --g-navy-t:#1E2740;--g-blue-t:#18293A;--g-teal-t:#123238;--g-plum-t:#33202E;--g-coal-t:#2A2E35;
+  --g-good:#5FC38A;--g-good-t:#16301F;--g-warn:#E0A64A;--g-warn-t:#33270F;--g-bad:#EC7B7B;--g-bad-t:#3A1A1A;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --g-bg:#0F1216;--g-surface:#161A20;--g-sunk:#1D222A;--g-fg:#ECEEF1;--g-muted:#9BA1AB;--g-rule:#2C323C;--g-ink:#05070A;--g-on-ink:#ECEEF1;
+  --g-navy:#8299DA;--g-blue:#6FA8D2;--g-teal:#4CC3D4;--g-plum:#D58FC1;--g-coal:#C9CCD2;
+  --g-navy-t:#1E2740;--g-blue-t:#18293A;--g-teal-t:#123238;--g-plum-t:#33202E;--g-coal-t:#2A2E35;
+  --g-good:#5FC38A;--g-good-t:#16301F;--g-warn:#E0A64A;--g-warn-t:#33270F;--g-bad:#EC7B7B;--g-bad-t:#3A1A1A;color-scheme:dark}
+
+.g-wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.g-root h1,.g-root h2,.g-root h3,.g-root h4{text-wrap:balance;margin:0}
+.g-root p{margin:0}
+.g-root a{color:var(--g-blue)}
+.g-root button,.g-root input,.g-root textarea,.g-root select{font:inherit;color:inherit}
+.g-root :focus-visible{outline:2px solid var(--g-teal);outline-offset:2px}
+.g-eyebrow{font:700 12px var(--g-cond);letter-spacing:.18em;text-transform:uppercase;color:var(--g-muted)}
+.g-navy{--c:var(--g-navy);--ct:var(--g-navy-t)}.g-blue{--c:var(--g-blue);--ct:var(--g-blue-t)}.g-teal{--c:var(--g-teal);--ct:var(--g-teal-t)}.g-plum{--c:var(--g-plum);--ct:var(--g-plum-t)}.g-coal{--c:var(--g-coal);--ct:var(--g-coal-t)}
+.g-hero{background:var(--g-ink);color:var(--g-on-ink)}
+.g-hero .g-wrap{padding-block:30px 36px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:32px;align-items:end}
+.g-hero .g-eyebrow{color:#AEB5C2}
+.g-hero h1{font:600 clamp(40px,7vw,76px)/.95 var(--g-display);text-transform:uppercase;letter-spacing:.01em;margin:8px 0 14px}
+.g-hero h1 em{font-style:normal;color:var(--hc,#4CC3D4)}
+.g-hero .g-lead{font-size:18px;max-width:56ch;color:#D6DAE2}
+.g-hero .g-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.g-hero .g-meta span{font:600 12px var(--g-cond);letter-spacing:.12em;text-transform:uppercase;border:1px solid #3A3F48;padding:4px 10px;color:#D6DAE2}
+.g-side{list-style:none;margin:0;padding:0;border:1px solid #2C323C;background:#111419}
+.g-side li{display:grid;grid-template-columns:34px minmax(0,1fr);gap:10px;align-items:baseline;padding:10px 14px;border-top:1px solid #2C323C}
+.g-side li:first-child{border-top:0}
+.g-side .n{font:600 20px var(--g-display);color:var(--h,#4CC3D4)}
+.g-side b{font:600 15px var(--g-cond);text-transform:uppercase;letter-spacing:.06em;display:block}
+.g-side span.w{font-size:14px;color:#AEB5C2}
+.g-rail{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--g-bg);border-bottom:1px solid var(--g-rule)}
+.g-rail .g-wrap{display:flex;gap:4px;overflow-x:auto;padding-block:8px;scrollbar-width:none}
+.g-rail a{font:600 13px var(--g-cond);letter-spacing:.08em;text-transform:uppercase;color:var(--g-fg);text-decoration:none;padding:6px 10px;white-space:nowrap;border-radius:3px}
+.g-rail a:hover{background:var(--g-sunk)}
+.g-s{padding-block:44px;border-bottom:1px solid var(--g-rule)}
+.g-head{display:flex;flex-direction:column;gap:6px;margin-bottom:22px;max-width:68ch}
+.g-head h2{font:600 clamp(26px,4vw,34px)/1.05 var(--g-display);text-transform:uppercase;letter-spacing:.02em}
+.g-head p{color:var(--g-muted)}
+.g-blocks{display:flex;flex-direction:column;gap:22px}
+.g-sub{font:700 15px var(--g-cond);text-transform:uppercase;letter-spacing:.1em}
+/* cards */
+.g-cards{display:grid;grid-template-columns:repeat(var(--cols,3),minmax(0,1fr));gap:16px}
+.g-card{background:var(--g-surface);border:1px solid var(--g-rule);border-top:5px solid var(--c,var(--g-rule));padding:18px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.g-card .tag{font:700 11px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;color:var(--c,var(--g-muted))}
+.g-card h3{font:600 21px/1.15 var(--g-display);text-transform:uppercase;letter-spacing:.02em}
+.g-card p{font-size:16px}
+.g-card ul{margin:0;padding-left:18px;font-size:15px;display:flex;flex-direction:column;gap:4px}
+.g-card .foot{font-size:14px;color:var(--g-muted);border-top:1px dashed var(--g-rule);padding-top:8px;margin-top:auto}
+.g-card .foot b{color:var(--g-fg)}
+.g-card a.more{font:600 13px var(--g-cond);text-transform:uppercase;letter-spacing:.1em;text-decoration:none;margin-top:auto}
+/* strip of big terms */
+.g-terms{display:grid;grid-template-columns:repeat(var(--cols,4),minmax(0,1fr));gap:1px;background:var(--g-rule);border:1px solid var(--g-rule)}
+.g-terms div{background:var(--g-surface);padding:16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.g-terms .L{font:600 34px/1 var(--g-display);color:var(--c,var(--g-blue))}
+.g-terms b{font:600 15px var(--g-cond);text-transform:uppercase;letter-spacing:.05em}
+.g-terms span{font-size:15px}
+.g-terms q{font-size:15px;color:var(--g-muted);quotes:"\201C" "\201D"}
+/* table */
+.g-tbl{overflow-x:auto;border:1px solid var(--g-rule);background:var(--g-surface)}
+.g-tbl table{border-collapse:collapse;width:100%;min-width:620px;font-size:15px}
+.g-tbl th,.g-tbl td{text-align:left;vertical-align:top;padding:12px 14px;border-top:1px solid var(--g-rule)}
+.g-tbl th{font:700 12px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;color:var(--g-muted);background:var(--g-sunk);border-top:0}
+.g-tbl td:first-child{font-weight:600}
+/* steps */
+.g-steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border:1px solid var(--g-rule);background:var(--g-surface)}
+.g-step{display:grid;grid-template-columns:170px minmax(0,1fr) minmax(0,1fr);gap:20px;padding:18px;border-top:1px solid var(--g-rule);align-items:start}
+.g-step:first-child{border-top:0}
+.g-step .when{border-left:5px solid var(--c);padding-left:10px;display:flex;flex-direction:column}
+.g-step .when b{font:600 21px/1.1 var(--g-display);text-transform:uppercase}
+.g-step .when small{font:600 13px var(--g-cond);color:var(--g-muted);letter-spacing:.06em;text-transform:uppercase}
+.g-step .lbl{font:700 12px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;color:var(--g-muted);margin-bottom:4px}
+.g-step .say{background:var(--ct);padding:10px 12px;font-weight:600}
+/* flow */
+.g-flow{display:grid;grid-template-columns:repeat(var(--n,5),minmax(0,1fr));gap:12px}
+.g-node{background:var(--g-surface);border:1px solid var(--g-rule);border-top:4px solid var(--c);padding:12px;display:flex;flex-direction:column;gap:4px;position:relative;min-width:0}
+.g-node b{font:600 16px var(--g-cond);text-transform:uppercase;letter-spacing:.05em}
+.g-node span{font-size:14px;color:var(--g-muted)}
+.g-node + .g-node::before{content:"";position:absolute;left:-12px;top:26px;width:12px;border-top:2px solid var(--g-muted)}
+.g-loopnote{font:600 13px var(--g-cond);text-transform:uppercase;letter-spacing:.08em;color:var(--g-muted);display:flex;gap:10px;align-items:center}
+.g-loopnote i{flex:1;border-top:2px dashed var(--g-muted)}
+/* callout */
+.g-call{padding:14px 16px;background:var(--ct,var(--g-teal-t));border-left:4px solid var(--c,var(--g-teal));max-width:78ch}
+.g-call ul{margin:6px 0 0;padding-left:20px}
+.g-call.warn{--c:var(--g-warn);--ct:var(--g-warn-t)}
+.g-call.ink{background:var(--g-ink);color:var(--g-on-ink);border-left-color:#D58FC1}
+/* do dont */
+.g-dd{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.g-dd ul{list-style:none;margin:0;padding:0;background:var(--g-surface);border:1px solid var(--g-rule)}
+.g-dd li{padding:12px 16px;border-top:1px solid var(--g-rule);font-size:16px}
+.g-dd li:first-child{border-top:0}
+.g-dd li b{display:block;font:600 15px var(--g-cond);text-transform:uppercase;letter-spacing:.05em}
+.g-dd h3{font:700 14px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px}
+.g-dd .yes h3{color:var(--g-good)}.g-dd .no h3{color:var(--g-bad)}
+/* pairs */
+.g-pair{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);border:1px solid var(--g-rule);background:var(--g-surface)}
+.g-pair > div{padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.g-pair .weak p{color:var(--g-muted)}
+.g-pair .strong{background:var(--g-good-t)}
+.g-pair .t{font:700 11px var(--g-cond);text-transform:uppercase;letter-spacing:.12em}
+.g-pair .weak .t{color:var(--g-bad)}.g-pair .strong .t{color:var(--g-good)}
+.g-pair .arrow{display:grid;place-items:center;padding:0 10px;font:600 22px var(--g-display);color:var(--g-muted);background:var(--g-sunk)}
+/* checklist */
+.g-check{border:1px solid var(--g-fg);background:var(--g-surface)}
+.g-check h4{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:6px 10px 6px 14px;background:var(--ct,var(--g-sunk));box-shadow:inset 5px 0 0 var(--c,var(--g-fg));border-bottom:1px solid var(--g-fg);font:700 14px var(--g-cond);text-transform:uppercase;letter-spacing:.08em}
+.g-check h4 small{font:500 12px var(--g-cond);color:var(--g-muted);font-variant-numeric:tabular-nums}
+.g-grp{padding:6px 10px 8px;display:flex;flex-direction:column}
+.g-grp + .g-grp{border-top:1px solid var(--g-rule)}
+.g-lbl{font:700 11px var(--g-cond);text-transform:uppercase;letter-spacing:.14em;color:var(--g-muted);margin:2px 0}
+.g-row{display:flex;align-items:baseline;gap:6px;padding:3px 4px;border-radius:2px;cursor:pointer;font:600 14px/1.4 var(--g-cond);text-transform:uppercase;letter-spacing:.02em;position:relative}
+.g-row:hover{background:var(--g-sunk)}
+.g-row input{position:absolute;opacity:0;pointer-events:none}
+.g-row .item{white-space:nowrap}
+.g-row .dots{flex:1;min-width:12px;border-bottom:1.5px dotted var(--g-muted);transform:translateY(-4px)}
+.g-row .resp{text-align:right}
+.g-row .bx{width:14px;height:14px;border:1.5px solid var(--g-muted);flex:none;transform:translateY(2px);display:grid;place-items:center;font-size:11px;line-height:1}
+.g-row:has(input:checked) .item,.g-row:has(input:checked) .resp{color:var(--g-muted)}
+.g-row:has(input:checked) .bx{background:var(--c,var(--g-teal));border-color:var(--c,var(--g-teal));color:var(--g-surface)}
+.g-row:has(input:checked) .bx::after{content:"\2713"}
+.g-row:has(input:focus-visible){outline:2px solid var(--c,var(--g-teal))}
+.g-checkfoot{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 10px 7px 14px;border-top:1px solid var(--g-fg);background:var(--g-sunk);font:700 13px var(--g-cond);text-transform:uppercase;letter-spacing:.04em}
+.g-checks{display:grid;grid-template-columns:repeat(var(--cols,2),minmax(0,1fr));gap:18px;align-items:start}
+/* buttons */
+.g-btn{border:1px solid var(--g-rule);background:var(--g-surface);color:var(--g-fg);padding:9px 14px;cursor:pointer;font:600 13px var(--g-cond);text-transform:uppercase;letter-spacing:.08em;min-height:40px}
+.g-btn:hover{border-color:var(--g-fg)}
+.g-btn.primary{background:var(--g-ink);color:var(--g-on-ink);border-color:var(--g-ink)}
+.g-btn.sm{min-height:30px;padding:4px 10px;font-size:12px}
+.g-chip{border:1px solid var(--g-rule);background:var(--g-surface);padding:7px 12px;border-radius:999px;cursor:pointer;font:600 13px var(--g-cond);text-transform:uppercase;letter-spacing:.06em;min-height:36px}
+.g-chip[aria-pressed="true"]{background:var(--c,var(--g-fg));border-color:var(--c,var(--g-fg));color:var(--g-surface)}
+/* quiz */
+.g-quiz{background:var(--g-surface);border:1px solid var(--g-rule);padding:20px;display:flex;flex-direction:column;gap:14px}
+.g-quiz .qh{display:flex;justify-content:space-between;gap:10px;font:700 12px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;color:var(--g-muted)}
+.g-quiz .said{font:500 20px/1.35 var(--g-body);padding-left:14px;border-left:4px solid var(--c,var(--g-plum))}
+.g-quiz .opts{display:flex;flex-direction:column;gap:8px}
+.g-quiz .opts button{text-align:left;background:var(--g-bg);border:1.5px solid var(--g-rule);padding:12px 14px;cursor:pointer;font-size:16px;line-height:1.4}
+.g-quiz .opts button:hover:not(:disabled){border-color:var(--g-fg)}
+.g-quiz .opts button.right{border-color:var(--g-good);background:var(--g-good-t)}
+.g-quiz .opts button.wrong{border-color:var(--g-bad);background:var(--g-bad-t)}
+.g-quiz .opts button:disabled{cursor:default}
+.g-quiz .fb{font-size:16px;padding:12px 14px;background:var(--g-sunk)}
+.g-quiz .fb b{font:700 13px var(--g-cond);text-transform:uppercase;letter-spacing:.1em;display:block}
+.g-quiz .qn{display:flex;justify-content:flex-end}
+/* tool shell */
+.g-tool{background:var(--g-surface);border:1px solid var(--g-rule);padding:20px;display:flex;flex-direction:column;gap:14px}
+.g-fld{display:flex;flex-direction:column;gap:4px;min-width:0}
+.g-fld label{font:700 12px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;color:var(--g-muted)}
+.g-fld input,.g-fld textarea,.g-fld select{width:100%;border:1px solid var(--g-rule);background:var(--g-bg);padding:9px 10px;border-radius:2px;font-size:16px}
+.g-fld textarea{min-height:70px;resize:vertical}
+.g-out{background:var(--ct,var(--g-teal-t));border-left:4px solid var(--c,var(--g-teal));padding:14px 16px;font-size:17px}
+.g-out b{font:700 12px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;display:block;color:var(--c,var(--g-teal))}
+.g-row2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.g-range label{display:flex;justify-content:space-between;font:600 14px var(--g-cond);text-transform:uppercase;letter-spacing:.04em}
+.g-range input{width:100%;accent-color:var(--c,var(--g-plum))}
+.g-msg{font:600 13px var(--g-cond);text-transform:uppercase;letter-spacing:.08em;color:var(--g-good);min-height:1em}
+/* related */
+.g-rel{display:flex;flex-wrap:wrap;gap:8px}
+.g-rel a{display:inline-flex;flex-direction:column;gap:2px;padding:10px 14px;border:1px solid var(--g-rule);background:var(--g-surface);text-decoration:none;color:var(--g-fg);border-left:4px solid var(--c,var(--g-teal));min-width:180px}
+.g-rel a b{font:600 15px var(--g-cond);text-transform:uppercase;letter-spacing:.05em}
+.g-rel a span{font-size:13px;color:var(--g-muted)}
+.g-rel a:hover{background:var(--g-sunk)}
+.g-foot{padding-block:28px 48px;color:var(--g-muted);font-size:14px}
+.g-foot ul{margin:6px 0 0;padding-left:18px}
+@media (max-width:860px){
+  .g-hero .g-wrap,.g-dd,.g-row2{grid-template-columns:1fr}
+  .g-cards{grid-template-columns:repeat(min(var(--cols,3),2),minmax(0,1fr))}
+  .g-terms{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .g-step{grid-template-columns:1fr;gap:10px}
+  .g-flow{grid-template-columns:1fr}
+  .g-node + .g-node::before{left:24px;top:-12px;width:0;height:12px;border-top:0;border-left:2px solid var(--g-muted)}
+  .g-checks{grid-template-columns:1fr}
+  .g-pair{grid-template-columns:1fr}.g-pair .arrow{transform:rotate(90deg);padding:4px}
+}
+@media (max-width:520px){
+  .g-cards,.g-terms{grid-template-columns:1fr}
+  .g-row .item{white-space:normal}
+}
+</style><style>
+:root{--display:"Oswald","Arial Narrow",Impact,sans-serif;--body:"Barlow","Segoe UI",system-ui,sans-serif;--mono:"Barlow Semi Condensed","Arial Narrow",sans-serif;--bg:#F3F2EF}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F1216}}
+:root[data-theme="dark"]{--bg:#0F1216}
+h1,h2{text-transform:uppercase;letter-spacing:.01em!important;font-weight:600!important}
+.wrap .g-wrap{padding-left:0;padding-right:0;max-width:none}
+.g-xp{display:flex;flex-direction:column;min-width:0}
+.g-xp .g-s:first-child{border-top:1px solid var(--g-rule)}
 </style>
 
 <div class="wrap">
@@ -167,7 +444,7 @@ footer{font-size:14px;color:var(--muted);max-width:70ch}
     <div class="brandbar"><div class="wordmark"><b>ESTUS</b> <span>HEALTH</span></div><div class="bands" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div>
     <div class="eyebrow">Autonomic nervous system · interactive</div>
     <h1>Two branches, one body</h1>
-    <p class="lede">Your body runs an automatic control system you never have to think about. It has two branches that pull in opposite directions. Read the basics below, then drag the slider or pick a real-life trigger to watch it play out.</p>
+    <p class="lede">Your body runs an automatic control system you never have to think about. It has two branches that pull in opposite directions. Read the basics, then use the day guide to plan around it. The live lab further down lets you watch it happen in the body.</p>
   </header>
 
   <section class="intro" aria-label="The two branches explained">
@@ -209,7 +486,60 @@ footer{font-size:14px;color:var(--muted);max-width:70ch}
     </div>
   </section>
 
-  <section class="recorder" aria-label="Live vital signs">
+  <section class="day" id="day" aria-label="Using this at home">
+    <div class="intro-head">
+      <div class="eyebrow">Putting it to work · for parents</div>
+      <h2>A day on the dial</h2>
+      <p>Load stacks up across the day like a battery draining. The same request lands differently at 7am, 3:30pm and 8pm. Here's what a typical day can look like, what changes with supports, and what to try at each point.</p>
+    </div>
+
+    <div class="rules">
+      <div><b>1. Read the state first</b><p>Is your child revved up, flat and foggy, or in the window? The fix is different for each.</p></div>
+      <div><b>2. Regulate, relate, then reason</b><p>Calm the body first, connect second. Talking, teaching and consequences only land once they're back in the window.</p></div>
+      <div><b>3. Your body is a tool</b><p>Kids borrow calm from the adults around them (co-regulation). A slower voice and a long exhale from you comes first.</p></div>
+    </div>
+
+    <div class="match">
+      <div class="m s"><div class="side-tag">Revved up?</div><h3>Bring it down</h3><p>Deep pressure (hugs, heavy blanket, beanbag). Heavy work (carrying, pushing, climbing). Slow rocking or swinging. Dim light, less noise. Fewer words. Long exhales. Warm drink or bath.</p></div>
+      <div class="m p"><div class="side-tag">Flat or foggy?</div><h3>Lift it up</h3><p>Movement first (jumping, trampoline, animal walks). Cold water or icy drink. Crunchy or sour snack. Fresh air and daylight. Upbeat music. A favourite interest to spark them up.</p></div>
+      <div class="m x"><div class="side-tag">Meltdown or shutdown?</div><h3>Keep it safe, wait</h3><p>Space and safety first. Almost no words. Stay close and calm without demands. Don't problem-solve now. Talk about it later, if at all, once they're back in the window.</p></div>
+    </div>
+    <p class="fine">Everyone's sensory profile is different. What calms one child alerts another, so test and watch.</p>
+
+    <div class="daychart">
+      <div class="legend daylegend"><span><i style="border-color:var(--sns)"></i>Typical day, no supports</span><span><i style="border-color:var(--pns);border-top-style:solid"></i>Same day, with supports</span><span><b class="wband"></b>Window of tolerance</span></div>
+      <div class="chartscroll"><svg id="dayChart" viewBox="0 0 800 312" role="img" aria-label="Chart of arousal across a school day, with and without supports. Tap a part of the day to see strategies."></svg></div>
+    </div>
+
+    <div class="phases" id="phaseTabs" role="tablist" aria-label="Part of the day"></div>
+    <article class="phase" id="phasePanel" role="tabpanel"></article>
+    <p class="fine">Want a plan built around your child? Estus Health occupational therapists work Australia-wide by telehealth. <a href="https://www.estushealth.com" target="_blank" rel="noopener">estushealth.com</a></p>
+  </section>
+
+  <section class="lab" id="lab" aria-label="Live lab">
+    <div class="lab-head">
+      <div><div class="eyebrow">Live lab</div><h2>Pick a situation, watch the body</h2></div>
+      <button type="button" class="reset" id="resetBtn">Reset to rest</button>
+    </div>
+    <nav class="scen" id="scen" aria-label="Situations">
+      <div class="feat" id="feat"></div>
+      <button type="button" class="morebtn" id="moreBtn" aria-expanded="false">More situations</button>
+      <div class="more" id="more" hidden></div>
+    </nav>
+  <div class="balance" aria-label="Autonomic balance">
+    <div class="bal-labels">
+      <div class="p">More brake<small>parasympathetic</small></div>
+      <div class="s">More accelerator<small>sympathetic</small></div>
+    </div>
+    <input type="range" id="tone" min="-100" max="100" value="-10" aria-label="Autonomic balance, parasympathetic to sympathetic">
+    <div class="window"><div>Window of tolerance: where you think, connect and learn best</div></div>
+    <div class="zones" id="zones"></div>
+    <div class="readout" id="toneTxt">Calm and alert</div>
+  </div>
+    <div class="panel">
+      <article class="chain" id="chain" aria-live="polite"></article>
+      <div class="live">
+    <div class="recorder" aria-label="Live vital signs">
     <div class="rec-head">
       <div class="vitals">
         <svg class="heart" id="heart" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.4h2c.7-1.2 2.2-2.4 4.3-2.4 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>
@@ -220,26 +550,10 @@ footer{font-size:14px;color:var(--muted);max-width:70ch}
       <div class="vital" style="text-align:right"><b id="vMode" style="font-size:18px">Balanced</b><span id="vScen">Manual</span></div>
     </div>
     <canvas id="trace" aria-hidden="true"></canvas>
-  </section>
-
-  <section class="balance" aria-label="Autonomic balance">
-    <div class="bal-labels">
-      <div class="p">More brake<small>parasympathetic</small></div>
-      <div class="s">More accelerator<small>sympathetic</small></div>
-    </div>
-    <input type="range" id="tone" min="-100" max="100" value="-10" aria-label="Autonomic balance, parasympathetic to sympathetic">
-    <div class="window"><div>Window of tolerance: where you think, connect and learn best</div></div>
-    <div class="zones" id="zones"></div>
-    <div class="readout" id="toneTxt">Calm and alert</div>
-  </section>
-
-  <section class="main">
-    <nav class="scen" id="scen" aria-label="Scenarios"></nav>
-    <div class="panel">
-      <article class="chain" id="chain" aria-live="polite"></article>
+  </div>
       <figure class="bodyfig" style="margin:0" aria-label="Body diagram showing organs and nerve activity">
         <div class="eyebrow" style="text-align:center">Live body map</div>
-        <svg viewBox="0 0 440 600" id="bodySvg" role="img" aria-label="Cartoon body with organs, vagus nerve and sympathetic chain">
+        <svg viewBox="0 0 440 472" id="bodySvg" role="img" aria-label="Cartoon body with organs, vagus nerve and sympathetic chain">
           <!-- body -->
           <g id="skin" stroke="var(--outline)" stroke-width="1.5">
             <path d="M154 160 Q134 260 136 390" stroke-width="31" stroke-linecap="round" fill="none"/>
@@ -306,14 +620,13 @@ footer{font-size:14px;color:var(--muted);max-width:70ch}
           <span>Moving dashes = nerve firing</span>
         </div>
       </figure>
+      </div>
     </div>
   </section>
 
-  <section class="ref">
-    <div>
-      <div class="eyebrow">Reference</div>
-      <h2>Side by side</h2>
-    </div>
+
+  <details class="ref">
+    <summary><span class="eyebrow">For clinicians</span><b>Pathways, messengers and receptors</b></summary>
     <div class="tbl"><table>
       <thead><tr><th>Feature</th><th class="cs">Sympathetic</th><th class="cp">Parasympathetic</th></tr></thead>
       <tbody>
@@ -324,11 +637,7 @@ footer{font-size:14px;color:var(--muted);max-width:70ch}
         <tr><td>Chemical messenger at organ</td><td>Noradrenaline (sweat glands use acetylcholine). Adrenal glands add adrenaline to blood.</td><td>Acetylcholine on muscarinic receptors</td></tr>
         <tr><td>Reach</td><td>Broad, body-wide, lasts minutes via hormones</td><td>Targeted, organ by organ, switches fast</td></tr>
         <tr><td>Heart</td><td>Faster and stronger (β1 receptors)</td><td>Slower (vagal brake on the SA node)</td></tr>
-        <tr><td>Pupils</td><td>Dilate</td><td>Constrict</td></tr>
-        <tr><td>Airways</td><td>Widen (β2)</td><td>Narrow, more mucus</td></tr>
-        <tr><td>Gut</td><td>Slows, sphincters close</td><td>Speeds up, secretions increase</td></tr>
-        <tr><td>Bladder</td><td>Relax wall, hold</td><td>Contract wall, empty</td></tr>
-        <tr><td>Liver</td><td>Release glucose</td><td>Store glucose</td></tr>
+        <tr><td>Airways</td><td>Widen (β2)</td><td>Narrow, more mucus (M3)</td></tr>
       </tbody>
     </table></div>
     <div class="facts">
@@ -336,9 +645,9 @@ footer{font-size:14px;color:var(--muted);max-width:70ch}
       <div><h3>Not a switch</h3><p>Both branches fire together most of the time. Health looks like flexible shifting between them, which shows up as heart rate variability.</p></div>
       <div><h3>Body leads, mind follows</h3><p>Signals travel both ways. Around 80% of vagus fibres carry information from body to brain, which is why breathing and posture can change how you feel.</p></div>
     </div>
-  </section>
+  </details>
 
-  <footer>Teaching model only. Numbers are typical adult values, simplified to show direction of change. Real responses vary with age, fitness, medication and health conditions.</footer>
+  <div class="g-root g-xp"><section class="g-s" id="nx-window"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Going deeper</p><h2>The window, up close</h2><p>Dan Siegel's window of tolerance: the zone where we can think, connect and learn. Outside it, the body is in charge.</p></div><div class="g-blocks"><div class="g-cards" style="--cols:3"><article class="g-card g-plum"><span class="tag">Too much accelerator</span><h3>Above: hyperarousal</h3><ul><li>Kids: running, yelling, hitting, meltdown</li><li>Adults: snappy, panicky, can't sit still</li><li>Helps: calming input, fewer words, safety</li></ul></article><article class="g-card g-teal"><span class="tag">Calm and alert</span><h3>In the window</h3><ul><li>Can listen, plan and problem-solve</li><li>Can handle a surprise or a "no"</li><li>Best time for therapy goals and learning</li></ul></article><article class="g-card g-blue"><span class="tag">Too much brake</span><h3>Below: hypoarousal</h3><ul><li>Kids: flat, silent, frozen, "won't" move</li><li>Adults: foggy, numb, shut down</li><li>Helps: gentle alerting input, movement, warmth</li></ul></article></div><div class="g-call g-teal"><strong>The window can grow.</strong> Good sleep, predictable routines, regulated adults nearby and fewer demands all widen it. Stress, illness, sensory overload and masking narrow it. This is why small, steady routines matter so much.</div></div></div></section><section class="g-s" id="nx-intero"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">The eighth sense</p><h2>Interoception</h2><p>Noticing what's happening inside the body: hunger, thirst, heart rate, needing the toilet, feelings. Many neurodivergent people notice these signals more, less, or later than others.</p></div><div class="g-blocks"><div class="g-cards" style="--cols:3"><article class="g-card g-navy"><h3>Why it matters</h3><p>If you can't feel the early signs of overload, the first sign you notice is the meltdown. If you can't feel hunger, you get "hangry" without warning.</p></article><article class="g-card g-teal"><h3>What OTs do</h3><p>Body check-ins, naming signals, and linking them to feelings and actions. Kelly Mahler's interoception work is a common OT starting point.</p></article><article class="g-card g-plum"><h3>Start with the body</h3><p>If naming emotions is hard, start with body words: "tight", "hot", "heavy". Feelings words can come later.</p></article></div></div></div></section><section class="g-s" id="nx-check"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Try it</p><h2>Body check-in</h2><p>A quick way to read the state before picking a strategy.</p></div><div class="g-blocks"><div class="g-tool g-plum"><p style="font-size:15px">Tap what the body is doing right now. Works for a client, a child, or you.</p><div data-chips="multi" id="bc_chips" style="display:flex;flex-wrap:wrap;gap:6px"><button class="g-chip g-plum" type="button" aria-pressed="false" data-k="up">Heart racing</button><button class="g-chip g-plum" type="button" aria-pressed="false" data-k="up">Fast breathing</button><button class="g-chip g-plum" type="button" aria-pressed="false" data-k="up">Hot or sweaty</button><button class="g-chip g-plum" type="button" aria-pressed="false" data-k="up">Tight muscles</button><button class="g-chip g-plum" type="button" aria-pressed="false" data-k="up">Clenched jaw</button><button class="g-chip g-plum" type="button" aria-pressed="false" data-k="up">Fidgety, can&#x27;t sit</button><button class="g-chip g-plum" type="button" aria-pressed="false" data-k="up">Talking loud or fast</button><button class="g-chip g-blue" type="button" aria-pressed="false" data-k="down">Heavy body</button><button class="g-chip g-blue" type="button" aria-pressed="false" data-k="down">Slow, foggy thinking</button><button class="g-chip g-blue" type="button" aria-pressed="false" data-k="down">Yawning</button><button class="g-chip g-blue" type="button" aria-pressed="false" data-k="down">Numb or far away</button><button class="g-chip g-blue" type="button" aria-pressed="false" data-k="down">Hard to get moving</button><button class="g-chip g-teal" type="button" aria-pressed="false" data-k="mid">Steady breathing</button><button class="g-chip g-teal" type="button" aria-pressed="false" data-k="mid">Loose shoulders</button><button class="g-chip g-teal" type="button" aria-pressed="false" data-k="mid">Can focus</button></div><div class="g-out" id="bc_out"></div></div></div></div></section><section class="g-s" id="nx-sensory"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Regulation menu</p><h2>Alerting, calming and organising input</h2><p>Same input can calm one person and alert another. Treat this as a starting point to test.</p></div><div class="g-blocks"><div class="g-tbl"><table><thead><tr><th>Sense</th><th>Often alerting</th><th>Often calming or organising</th></tr></thead><tbody><tr><td>Movement</td><td>Jumping, spinning, fast swinging</td><td>Slow rocking, steady swinging, walking</td></tr><tr><td>Heavy work (body pressure)</td><td>Not usually alerting</td><td>Carrying, pushing, pulling, climbing, wall push-ups. Organising for most people.</td></tr><tr><td>Touch</td><td>Light touch, cold water</td><td>Deep pressure, firm hugs, weighted blanket</td></tr><tr><td>Mouth</td><td>Crunchy, sour, cold</td><td>Chewy, sucking through a straw, warm drinks</td></tr><tr><td>Sound</td><td>Upbeat, loud, unpredictable</td><td>Quiet, steady, familiar music, headphones</td></tr><tr><td>Sight</td><td>Bright light, busy spaces</td><td>Dim light, low clutter, a calm corner</td></tr></tbody></table></div></div></div></section><section class="g-s" id="nx-co"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Borrowed calm</p><h2>Co-regulation scripts</h2><p>Kids borrow calm from the adults around them. Our bodies go first, words second.</p></div><div class="g-blocks"><div class="g-terms" style="--cols:4"><div class="g-plum"><span class="L">1</span><b>Revved up</b><span>Low, slow voice. Few words. Stay close.</span><q>I&#x27;m here. You&#x27;re safe. Let&#x27;s breathe out slow.</q></div><div class="g-blue"><span class="L">2</span><b>Flat</b><span>Gentle invitation to move. No pressure.</span><q>Want to come and help me carry this?</q></div><div class="g-coal"><span class="L">3</span><b>Meltdown</b><span>Safety first. No questions, no demands.</span><q>(Mostly silence.) I&#x27;m right here.</q></div><div class="g-teal"><span class="L">4</span><b>After</b><span>Repair and connect. Talk later, if at all.</span><q>That was hard. Want a drink?</q></div></div></div></div></section><section class="g-s" id="nx-poly"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">A careful note</p><h2>About polyvagal theory</h2></div><div class="g-blocks"><div class="g-call warn"><strong>Polyvagal theory is popular in therapy, but its body science is disputed</strong> by many physiologists. We use the simpler accelerator-and-brake and window-of-tolerance model on this page. It doesn't depend on polyvagal claims, and it's enough to guide practical OT work. Be careful repeating specific polyvagal claims to clients as fact.</div></div></div></section><section class="g-s" id="nx-hinges"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Putting it to work</p><h2>The nervous system in each hinge</h2></div><div class="g-blocks"><div class="g-tbl"><table><thead><tr><th>Hinge</th><th>Nervous system job</th></tr></thead><tbody><tr><td>Sleep Architecture</td><td>A planned slide from accelerator to brake before lights out.</td></tr><tr><td>Morning Architecture</td><td>Start in the window. Fewer demands while the body wakes up.</td></tr><tr><td>Energy Management</td><td>Spend accelerator time on purpose. Book brake time before the crash.</td></tr><tr><td>Cognitive Load Reduction</td><td>Open loops keep a low alarm running. Capture them to settle it.</td></tr><tr><td>Transition Scaffolding</td><td>Warnings and bridges stop a switch from feeling like a threat.</td></tr><tr><td>Shutdown Ritual</td><td>Tell the body the day's threat is over.</td></tr></tbody></table></div></div></div></section><section class="g-s" id="nx-practice"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Active recall</p><h2>Practice</h2></div><div class="g-blocks"><div class="g-quiz g-plum" data-q="[{&quot;s&quot;: &quot;A child is mid-meltdown. What comes first?&quot;, &quot;o&quot;: [[&quot;Explain why the behaviour isn&#x27;t OK.&quot;, 0, &quot;Reasoning can&#x27;t land outside the window.&quot;], [&quot;Safety, calm presence, very few words.&quot;, 1, &quot;Regulate first, relate second, reason later.&quot;], [&quot;Offer a reward for calming down.&quot;, 0, &quot;A demand dressed as a reward.&quot;]]}, {&quot;s&quot;: &quot;A teen is flat, foggy and won&#x27;t start homework. Try...&quot;, &quot;o&quot;: [[&quot;Deep pressure and dim lights.&quot;, 0, &quot;That&#x27;s calming. They need lifting up.&quot;], [&quot;Movement first, then a cold drink.&quot;, 1, &quot;Alerting input brings them up into the window.&quot;], [&quot;A longer lecture on motivation.&quot;, 0, &quot;Words don&#x27;t lift a low body.&quot;]]}, {&quot;s&quot;: &quot;Which input is organising for most people?&quot;, &quot;o&quot;: [[&quot;Heavy work like carrying or pushing.&quot;, 1, &quot;Body pressure input tends to settle and organise.&quot;], [&quot;Spinning.&quot;, 0, &quot;Usually alerting, sometimes a lot.&quot;], [&quot;Bright lights.&quot;, 0, &quot;Usually alerting.&quot;]]}, {&quot;s&quot;: &quot;A client can&#x27;t tell they&#x27;re overloaded until they melt down. Which area do you work on?&quot;, &quot;o&quot;: [[&quot;Interoception.&quot;, 1, &quot;Noticing earlier body signals gives time to act.&quot;], [&quot;Fine motor skills.&quot;, 0, &quot;Not the issue here.&quot;], [&quot;Willpower.&quot;, 0, &quot;It&#x27;s a noticing gap, not a willpower gap.&quot;]]}]"><div class="qh"><span class="pos"></span><span class="sc"></span></div><p class="said"></p><div class="opts"></div><div class="fb" hidden></div><div class="qn"><button class="g-btn primary nx" type="button" disabled>Next</button></div></div></div></div></section><section class="g-s" id="nx-more"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Work with us</p><h2>Want a plan built around your child?</h2><p>Estus Health occupational therapists work Australia-wide by telehealth. We build regulation, routines and environments that fit the person.</p></div><div class="g-blocks"><div><a class="g-btn primary" style="display:inline-flex;align-items:center;text-decoration:none" href="https://www.estushealth.com" target="_blank" rel="noopener">Visit estushealth.com &rarr;</a></div></div></div></section></div><footer>Teaching model only. Numbers are typical adult values, simplified to show direction of change. Real responses vary with age, fitness, medication and health conditions.</footer>
 </div>
 
 <script>
@@ -354,14 +663,6 @@ const S = [
    {t:30,h:"Mild sympathetic lift",x:"Adrenaline and noradrenaline rise a little. Blood pressure goes up a few points, alertness and sometimes jitteriness follow.",ov:{hr:76}},
    {t:15,h:"Long tail",x:"Half-life is around 5 hours, so an afternoon coffee can still blunt the night-time parasympathetic dip."}],
   note:"<strong>Heart rate</strong> often barely changes in regular drinkers. Tolerance builds to most of the cardiovascular effect within days."},
-
- {id:"nicotine",g:"Substances",name:"Nicotine",tag:"s",sum:"Feels calming to many smokers, yet the body goes the other way.",
-  steps:[
-   {t:5,h:"Nicotinic receptors",x:"Nicotine stimulates receptors in autonomic ganglia and the adrenal glands."},
-   {t:40,h:"Adrenaline release",x:"Heart rate climbs about 10 to 20 bpm. Skin vessels constrict, so hands cool. Blood pressure rises.",ov:{hr:86}},
-   {t:30,h:"Why it feels calm",x:"The calm is mainly relief of withdrawal plus a dopamine reward. The cardiovascular system is still pushed sympathetic."}],
-  note:"<strong>Mismatch</strong> between how it feels and what the body does is a good example of why felt state and autonomic state are not the same thing."},
-
  {id:"adhdmed",g:"Medication",name:"ADHD stimulants",tag:"s",sum:"Methylphenidate and dexamfetamine boost dopamine and noradrenaline. The brain gets better braking; the body gets a small sympathetic lift.",
   steps:[
    {t:-10,h:"Dose taken",x:"Absorbed over 30 to 90 minutes depending on the release type."},
@@ -379,14 +680,6 @@ const S = [
    {t:12,h:"Heart rate creeps up",x:"Resting heart rate rises about 2 to 4 bpm on average, more in some people. This is partly a direct effect on the heart's pacemaker and partly a shift toward sympathetic. Heart rate variability can dip. Blood pressure falls a few points.",ov:{hr:74,bp:[113,73],gut:.15,glucose:.1}},
    {t:-10,h:"Months later",x:"Weight loss tends to improve autonomic balance over time. Watch for eating and drinking less, which can cause dehydration and dizziness on standing.",ov:{gut:.25,bp:[110,72]}}],
   note:"<strong>Muscle loss</strong> is a risk with rapid weight loss, so protein and resistance training matter. Early research also suggests reduced alcohol and other cravings via reward circuits."},
-
- {id:"betablock",g:"Medication",name:"Beta-blocker",tag:"m",sum:"Shows that you can block a receptor without changing the signal.",
-  steps:[
-   {t:60,h:"Stress arrives",x:"Say a big presentation. Sympathetic drive and adrenaline rise as usual."},
-   {t:60,h:"Receptors blocked",x:"A drug like propranolol sits on β receptors. The heart cannot respond fully, so pounding and racing ease. Tremor settles too.",ov:{hr:68,bp:[122,78]}},
-   {t:55,h:"Worry may stay",x:"Pupils, sweat and the thinking side of anxiety are less affected. The body signals that feed fear are quieter, which can break the loop."}],
-  note:"<strong>Prescription only.</strong> Not suitable for everyone, for example people with asthma."},
-
  {id:"alcohol",g:"Substances",name:"Alcohol",tag:"m",sum:"Feels relaxing on the way in, then pushes the system sympathetic overnight and the next day.",
   steps:[
    {t:5,h:"First drinks",x:"Alcohol dampens the brain's braking circuits (GABA up, glutamate down). People feel looser and less inhibited.",ov:{hr:76}},
@@ -419,14 +712,6 @@ const S = [
    {t:55,h:"Symptoms",x:"Dizziness, racing heart, shakiness, brain fog, fatigue, heat intolerance, blotchy purple feet. Often mistaken for anxiety.",ov:{hr:115,bp:[110,76]}},
    {t:25,h:"What helps",x:"Fluids, salt if a doctor advises, compression garments, calf and glute pumps, slow position changes, lying down early.",ov:{hr:90}}],
   note:"<strong>Neurodivergent link:</strong> studies find hypermobility, POTS and related autonomic symptoms more common in autistic and ADHD people. Worth screening for when anxiety-like symptoms are postural."},
-
- {id:"lie",g:"Posture",name:"Lying down",tag:"p",sum:"Flat posture takes the gravity load off the reflex.",
-  steps:[
-   {t:-10,h:"More blood returns",x:"Blood flows back from the legs, filling the heart more."},
-   {t:-25,h:"Stretch sensors respond",x:"Baroreceptors see higher pressure and ask the vagus to slow the heart. Sympathetic tone to vessels eases."},
-   {t:-30,h:"Settled",x:"Heart rate a few beats lower than sitting. Legs-up positions amplify this."}],
-  note:"<strong>Practical:</strong> lying down with legs raised is the first aid for someone about to faint."},
-
  {id:"panic",g:"Stress",name:"Panic attack",tag:"s",sum:"A full sympathetic surge that feeds on its own symptoms.",
   steps:[
    {t:20,h:"Threat flagged",x:"The amygdala flags danger. Sometimes there is an obvious trigger, sometimes none."},
@@ -436,7 +721,24 @@ const S = [
    {t:-15,h:"Rebound",x:"The parasympathetic side catches up. People often feel drained, shaky or teary afterward."}],
   note:"<strong>What helps:</strong> slowing the exhale lets CO2 recover, and knowing the curve peaks and falls reduces the fear that drives it."},
 
- {id:"overload",g:"Stress",name:"Sensory overload",tag:"s",sum:"Input builds faster than it can be processed. Common for many autistic and ADHD people.",
+ {id:"transition",g:"Autistic experience",name:"Transitions",tag:"s",sum:"Stopping one thing and starting another costs more energy for many autistic people. The body can treat a sudden switch like a threat.",
+  steps:[
+   {t:-15,h:"Deep in an activity",x:"Attention is fully locked in. Many autistic people focus deeply on fewer things at once (monotropism). This feels settled and good."},
+   {t:35,h:"\"Time to stop\"",x:"A sudden switch pulls attention out before it's ready. The plan in your head breaks and the brain flags it as a problem.",ov:{hr:84}},
+   {t:60,h:"Body revs up",x:"Heart rate climbs, muscles tense, voice gets louder or sharper. From outside it can look like refusal. Inside it's a stress response."},
+   {t:85,h:"If pushed harder",x:"More pressure adds more load. This can tip into meltdown (outward) or shutdown (going still and quiet, though the body is often still revved inside).",ov:{rr:24}},
+   {t:5,h:"Same switch, with support",x:"Warnings, a visual timer, a clear 'first, then', a bridge activity or object, and extra time let the brain finish one thing and load the next."}],
+  note:"<strong>It's not about willpower.</strong> Switching takes real energy. Plan transitions in, especially late in the day when load is already high."},
+
+ {id:"plans",g:"Autistic experience",name:"Plans change",tag:"s",sum:"A cancelled outing, a relief teacher, a different route. Uncertainty itself is a stressor.",
+  steps:[
+   {t:-5,h:"The plan is set",x:"Knowing what comes next lets the brain predict and prepare. That prediction is calming."},
+   {t:45,h:"Plan breaks",x:"The prediction fails. Even a good change, like a surprise treat, can land as stress because the brain has to rebuild the picture.",ov:{hr:88}},
+   {t:55,h:"Uncertainty",x:"Not knowing what happens next keeps the accelerator pressed. Lots of questions, checking or trying to take control are ways of reducing uncertainty."},
+   {t:10,h:"New plan locked in",x:"Once the new plan is clear, written down or shown visually, the body can settle."}],
+  note:"<strong>Give the new plan fast.</strong> \"This changed. Here's what happens now\" lowers load quicker than reassurance."},
+
+ {id:"overload",g:"Autistic experience",name:"Sensory overload",tag:"s",sum:"Input builds faster than it can be processed. Common for many autistic and ADHD people.",
   steps:[
    {t:15,h:"Input stacks up",x:"Noise, light, smells, people. When filtering is harder, each extra input adds load instead of fading into background."},
    {t:65,h:"Threat response",x:"Sympathetic drive climbs. Muscle tension, faster heart, irritability, urge to escape."},
@@ -444,12 +746,44 @@ const S = [
    {t:0,h:"Recovery",x:"Leaving or reducing input, dim light, predictable space, movement or deep pressure. Full recovery can take hours, not minutes."}],
   note:"<strong>Load builds across a day.</strong> A small trigger late in the day can tip over a system already running high."},
 
- {id:"pain",g:"Stress",name:"Sudden pain",tag:"s",sum:"Pain is one of the fastest sympathetic triggers.",
+ {id:"masking",g:"Autistic experience",name:"Masking all day",tag:"s",sum:"Hiding autistic traits to fit in looks calm from outside, but keeps the accelerator pressed underneath.",
   steps:[
-   {t:10,h:"Signal arrives",x:"Nociceptors fire to the spinal cord and brainstem."},
-   {t:60,h:"Sympathetic response",x:"Heart rate and blood pressure rise, pupils dilate, sweating starts. Anaesthetists use pupil dilation to gauge pain."},
-   {t:25,h:"Settling",x:"If the pain eases, the system returns over minutes. Ongoing pain keeps it elevated."}]},
+   {t:30,h:"Performing 'normal'",x:"Forcing eye contact, scripting small talk, holding back stims, copying others. Each takes constant effort and self-monitoring.",ov:{hr:82}},
+   {t:40,h:"Hidden load",x:"Outside looks fine. Inside, heart rate and tension stay up for hours. Sensory input still lands but can't be responded to.",ov:{hr:84,sweat:.3}},
+   {t:80,h:"Safe place, release",x:"At home the mask drops and the stored load comes out: meltdown, tears, snapping or total withdrawal. Often called after-school restraint collapse.",ov:{rr:22}},
+   {t:-35,h:"Recovery",x:"Rest, alone time, stims and interests. Without enough recovery, load stacks day after day and can lead to autistic burnout."}],
+  note:"<strong>Research links masking</strong> with exhaustion, anxiety and burnout. Spaces where people can unmask lower the daily load."},
 
+ {id:"demand",g:"Autistic experience",name:"Demand pressure",tag:"s",sum:"For some autistic people, especially with a PDA profile, a demand itself sets off a threat response. Even for something they want to do.",
+  steps:[
+   {t:0,h:"A demand arrives",x:"\"Put your shoes on.\" Direct instructions, expectations, deadlines or even internal 'shoulds'."},
+   {t:55,h:"Autonomy threatened",x:"The demand is felt as a loss of control. The body responds as if under threat.",ov:{hr:92}},
+   {t:75,h:"Avoid to stay safe",x:"Distracting, negotiating, joking, refusing or leaving. These lower the threat. They are not manipulation."},
+   {t:10,h:"Lower the pressure",x:"Declarative language (\"the shoes are by the door\"), real choices, humour, collaboration and lower-stakes requests keep the accelerator off."}],
+  note:"<strong>Pressure in, pressure out.</strong> Pushing harder usually raises the threat response. Reduce demands first."},
+
+ {id:"intero",g:"Autistic experience",name:"Missed body signals",tag:"s",sum:"Interoception is sensing what's going on inside: hunger, thirst, needing the toilet, a racing heart. Many autistic people notice these late or differently.",
+  steps:[
+   {t:10,h:"Signals start quietly",x:"Hunger, thirst or rising stress begins. The signal is there, but not noticed yet.",ov:{glucose:.55}},
+   {t:35,h:"Load builds unnoticed",x:"Low blood sugar and dehydration push the accelerator. Heart rate creeps up. Still not clearly felt.",ov:{glucose:.7,hr:84}},
+   {t:75,h:"\"Out of nowhere\"",x:"The signal finally breaks through as a big feeling: sudden anger, panic or collapse. It seems sudden, but it's been building for hours."},
+   {t:0,h:"Build in check-ins",x:"Scheduled snacks, water and toilet breaks, plus simple body check-ins, catch it early."}],
+  note:"<strong>Hangry is real.</strong> A snack and water is often the fastest regulation tool there is."},
+
+ {id:"stim",g:"Autistic experience",name:"Stimming",tag:"p",sum:"Repetitive movement, sound or touch. A built-in regulation tool, not a behaviour to stop.",
+  steps:[
+   {t:45,h:"Arousal rising",x:"Too much input, excitement, worry or boredom."},
+   {t:20,h:"Stim starts",x:"Rocking, flapping, bouncing, humming, fidgeting. Steady rhythmic input gives the nervous system something predictable to anchor to."},
+   {t:-10,h:"Back in the window",x:"Rhythm settles arousal and helps focus. Stims also help when foggy and under-aroused, lifting someone back up into the window."}],
+  note:"<strong>Stopping stims removes the tool,</strong> so load keeps building. \"Sit still\" can cost more energy than the task. Only step in if a stim causes injury."},
+
+ {id:"interest",g:"Autistic experience",name:"Deep interest time",tag:"p",sum:"Time in a favourite interest is one of the strongest recovery tools for many autistic people.",
+  steps:[
+   {t:40,h:"Carrying load",x:"After school, work or a social day."},
+   {t:5,h:"Into the interest",x:"Chosen, predictable, enjoyable focus. No demands, no masking. Attention narrows and background noise fades."},
+   {t:-25,h:"Recharging",x:"Heart rate settles and the body shifts toward rest. Many people describe it as their battery filling."},
+   {t:-10,h:"Ready again",x:"Back in the window with more capacity. Taking interests away as a punishment removes the recovery tool."}],
+  note:"<strong>Gaming, building, collecting, reading</strong> about a favourite topic all count. Give a warning before it ends (see Transitions)."},
  {id:"faint",g:"Stress",name:"Fainting (vasovagal)",tag:"p",sum:"A reflex that overshoots: the parasympathetic side slams on.",
   steps:[
    {t:35,h:"Trigger",x:"Blood, needles, long standing, heat or pain. Often a sympathetic rise comes first."},
@@ -473,13 +807,6 @@ const S = [
    {t:-45,h:"Sympathetic squeezes limbs",x:"At the same time limb vessels clamp to keep blood for heart and brain. Blood pressure goes up, not down. Watch both nerves fire on the body map.",ov:{hr:54,bp:[132,86],rr:0,skin:.95,sa:.9,pa:1}},
    {t:-15,h:"Release",x:"Breathing again ends it. Many people feel a quick reset in arousal."}],
   note:"<strong>Caution</strong> for anyone with heart rhythm problems or eating disorders, where heart rate is already low."},
-
- {id:"meal",g:"Regulation",name:"Big meal",tag:"p",sum:"Rest and digest in its literal sense.",
-  steps:[
-   {t:-10,h:"Sight and smell",x:"Saliva and stomach acid start before the first bite, via the vagus."},
-   {t:-35,h:"Gut takes over",x:"Stretch in the stomach signals through the vagus. Motility and secretions rise, blood flow shifts to the gut.",ov:{hr:74}},
-   {t:-25,h:"Sluggish",x:"Post-meal sleepiness is part parasympathetic, part hormones like insulin and gut signals."}]},
-
  {id:"exercise",g:"Activity",name:"Exercise",tag:"s",sum:"Heart rate climbs in two stages, then recovery shows fitness.",
   steps:[
    {t:15,h:"First seconds",x:"The first jump in heart rate is the vagal brake lifting, not the sympathetic system yet."},
@@ -487,12 +814,6 @@ const S = [
    {t:10,h:"Recovery",x:"On stopping, the vagal brake returns fast. The drop in the first minute, heart rate recovery, is a marker of fitness."}],
   note:"<strong>Trained athletes</strong> often have resting heart rates in the 40s to 50s because of stronger vagal tone."},
 
- {id:"sleep",g:"Activity",name:"Sleep cycle",tag:"p",sum:"The night swings between deep calm and bursts of activity.",
-  steps:[
-   {t:-45,h:"Deep sleep",x:"Parasympathetic peak. Heart rate and blood pressure dip 10 to 20%, called nocturnal dipping.",ov:{rr:11}},
-   {t:15,h:"REM sleep",x:"Dreaming brings irregular sympathetic surges. Heart rate and breathing become variable."},
-   {t:20,h:"Waking",x:"A morning cortisol rise and sympathetic lift get you up. This is why heart attacks cluster in the morning."}],
-  note:"<strong>Poor sleep</strong> blunts the overnight dip and leaves the next day starting higher."}
 ];
 
 const $=s=>document.querySelector(s);
@@ -517,28 +838,107 @@ const zoneIdx=t=>{const i=ZONES.findIndex(z=>t<=z[1]);return i<0?4:i};
 function toneLabel(t){const z=ZONES[zoneIdx(t)];return[z[2],z[3]]}
 $("#zones").innerHTML=ZONES.map((z,i)=>`<button type="button" class="zone z${i}" data-i="${i}"><b>${z[2]}</b><span>${z[3]}</span></button>`).join("");
 $("#zones").querySelectorAll(".zone").forEach(b=>b.onclick=()=>{const z=ZONES[+b.dataset.i];stop();target=(z[0]+z[1])/2;ov={};cur=null;
-  nav.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed","false"));$("#vScen").textContent="Manual";
+  nav.querySelectorAll("button[data-id]").forEach(x=>x.setAttribute("aria-pressed","false"));$("#vScen").textContent="Manual";
   document.querySelectorAll(".steps li").forEach(li=>li.classList.remove("on"))});
 let lastZ=-1;
 
 // scenario nav
-const nav=$("#scen");let lastG="";
-const GO=["Baseline","Substances","Medication","Posture","Stress","Regulation","Activity"];
-S.slice().sort((a,b)=>GO.indexOf(a.g)-GO.indexOf(b.g)).forEach(s=>{if(s.g!==lastG){const d=document.createElement("div");d.className="scen-group";d.textContent=s.g;nav.appendChild(d);lastG=s.g}
-  const b=document.createElement("button");b.type="button";b.dataset.id=s.id;b.setAttribute("aria-pressed","false");
-  const lab={s:"↑ SNS",p:"↑ PNS",m:"mixed"}[s.tag];
-  b.innerHTML=`<span>${s.name}</span><span class="tag ${s.tag}">${lab}</span>`;
-  b.onclick=()=>pick(s.id,true);nav.appendChild(b)});
+const nav=$("#scen");
+const TAGL={s:"↑ accelerator",p:"↑ brake",m:"both"};
+const FEAT=[["transition","Why stopping one thing and starting another is so hard"],["overload","When noise, light and people stack up too fast"],["masking","Holding it together all day, then home"],["demand","When a simple request feels like a threat"],["intero","Why big feelings seem to come out of nowhere"],["stim","Rocking, flapping, humming as built-in calm"]];
+const MORE=[["Autistic experience",["plans","interest"]],["Calming tools",["breath","dive"]],["Body and posture",["stand","hyper","exercise"]],["Stress",["panic","faint"]],["Substances and meds",["caffeine","alcohol","cannabis","adhdmed","glp1"]]];
+const sById=id=>S.find(s=>s.id===id);
+$("#feat").innerHTML=FEAT.map(([id,hook])=>{const s=sById(id);return `<button type="button" class="pill big ${s.tag}" data-id="${id}" aria-pressed="false" title="${hook}">${s.name}<span class="tag ${s.tag}">${TAGL[s.tag]}</span></button>`}).join("");
+$("#more").innerHTML=MORE.map(([g,ids])=>`<div class="mgroup"><div>${g}</div><div class="pills">${ids.map(id=>{const s=sById(id);return `<button type="button" class="pill ${s.tag}" data-id="${id}" aria-pressed="false">${s.name}<span class="tag ${s.tag}">${TAGL[s.tag]}</span></button>`}).join("")}</div></div>`).join("");
+const moreN=MORE.reduce((n,g)=>n+g[1].length,0);
+function setMore(open){$("#more").hidden=!open;$("#moreBtn").setAttribute("aria-expanded",open);$("#moreBtn").textContent=open?"Fewer situations":`More situations (${moreN})`}
+setMore(false);
+$("#moreBtn").onclick=()=>setMore($("#more").hidden);
+nav.querySelectorAll("button[data-id]").forEach(b=>b.onclick=()=>pick(b.dataset.id,true));
+$("#resetBtn").onclick=()=>pick("rest",false);
+
+
+// ---- a day on the dial ----
+const DAY=[
+ {id:"morning",tab:"Morning",when:"Wake up to breakfast",from:6.5,to:7.5,link:"plans",
+  what:"Bodies wake slowly. A natural cortisol rise lifts you up over the first half hour. Many neurodivergent kids wake foggy with the brake still on, or wake already worried about the day with the accelerator pressed early.",
+  acc:["Lots of questions about the day","Tummy aches","Early meltdown over small things"],
+  brk:["Very hard to wake","Slow, flat, silent","Won't eat"],
+  ahead:["Same wake time every day, including weekends where possible","Visual schedule of the day by the bed or fridge","Clothes laid out and breakfast decided the night before"],
+  now:["Open curtains, daylight in","Movement before demands: jumping, bouncing, animal walks","Crunchy or cold breakfast to alert, with some protein","Preview the day simply: school, then swimming, then home"],
+  say:"Morning. Light's on. Breakfast is toast or cereal."},
+ {id:"door",tab:"Out the door",when:"Getting dressed to leaving",from:7.5,to:8.75,link:"demand",
+  what:"Time pressure stacks demand on demand. For many families this is the hardest part of the morning. Your stress is contagious too: kids read your nervous system and match it.",
+  acc:["Refusing shoes or clothes","Running off or hiding","Loud, silly, can't listen"],
+  brk:["Freezing or staring","\"I can't\"","Moving in slow motion"],
+  ahead:["Build in a 15 minute buffer","One visual checklist by the door","Bag packed and shoes in the same spot the night before","Lower-friction clothes (comfy, no tags)"],
+  now:["Point to the checklist instead of giving instructions","Use a visual timer for the leaving warning","Offer real choices: shoes here or in the car?","Fewer words, slower voice. Exhale before you speak"],
+  say:"The car leaves when the timer goes. Shoes are by the door."},
+ {id:"after",tab:"After school",when:"Pick up to about 5pm",from:15,to:17.5,link:"masking",
+  what:"A whole day of masking and sensory load. Home is safe, so the stored load comes out. After-school restraint collapse means they held it together all day. It is not bad behaviour.",
+  acc:["Snapping, crying, meltdown","Lashing out at siblings","Demanding screens immediately"],
+  brk:["Silent, can't answer questions","Flopped on the couch","Glazed, shut down"],
+  ahead:["Snack and water in the car","Quiet pick up: no questions about the day for 30 to 60 minutes","A known decompression spot at home","Homework later, not first"],
+  now:["Food and water first","Deep pressure: beanbag, heavy blanket, firm hugs if wanted","Rhythmic movement: swing, trampoline, bike","Free time in a favourite interest with no demands"],
+  say:"Snack's in the car. No questions till later."},
+ {id:"evening",tab:"Evening",when:"Dinner and screens",from:17.5,to:19.5,link:"transition",
+  what:"Energy is low and load is high, so the window is at its narrowest. Hunger, cooking noise, siblings and screens ending all land at once. Small things tip over.",
+  acc:["Fights over small things","Hyper and silly, can't sit to eat","Big reaction when screens end"],
+  brk:["Zoned out, exhausted","Falling asleep early on the couch"],
+  ahead:["Predictable dinner time, menu on the fridge","Cut background noise: TV off, fan off at meals","A planned end point for screens (end of episode, not a random time)","One small job each, shown visually"],
+  now:["Heavy work before dinner: carry shopping, stir, knead, set the table","10 and 2 minute warnings before screens finish","A safe food on every plate","Allow movement at the table: wobble cushion, standing, fidget"],
+  say:"Screens finish when this episode ends. Then bath."},
+ {id:"bed",tab:"Bedtime",when:"Wind down to sleep",from:19.5,to:21,link:"breath",
+  what:"Sleep needs the brake on. Many autistic and ADHD kids have later body clocks and take longer to fall asleep, so the accelerator from the day needs to come down first. Worries often come out now.",
+  acc:["Second wind, bouncing off walls","Endless questions","Worries come out in bed"],
+  brk:["Yawning, heavy, slower (this is the goal)"],
+  ahead:["Same routine in the same order, shown visually","Screens off about an hour before bed","Dim, warm lights after dinner. Cool, dark room","Worry time earlier in the evening: write worries down and park them"],
+  now:["Warm bath or shower","Slow rhythmic input: rocking, back rubs, weighted blanket if they like it","Long exhale breathing: blow out the candle, blow bubbles","Same audiobook, music or white noise each night"],
+  say:"Lights are low now. Bath, teeth, two books."}];
+const UNSUP=[[6.5,-55],[7,-25],[7.5,40],[8,72],[8.6,62],[9.2,42],[12,50],[14.8,52],[15.5,88],[16.4,70],[17.5,55],[18.2,70],[19,58],[19.6,66],[20.2,78],[20.7,55],[21,35]];
+const SUPP=[[6.5,-55],[7,-20],[7.5,5],[8,22],[8.6,28],[9.2,34],[12,40],[14.8,44],[15.5,55],[16.4,12],[17.5,2],[18.2,10],[19,-5],[19.6,-25],[20.2,-45],[20.7,-60],[21,-70]];
+(function(){
+  const svg=$("#dayChart"),X0=118,X1=785,T0=6.5,T1=21,Y0=46,Y1=286;
+  const xs=h=>X0+(h-T0)/(T1-T0)*(X1-X0), ys=t=>(Y0+Y1)/2-t/100*(Y1-Y0)/2;
+  const path=pts=>{const P=pts.map(([h,t])=>[xs(h),ys(t)]);let d=`M${P[0][0]} ${P[0][1]}`;
+    for(let i=0;i<P.length-1;i++){const p0=P[i-1]||P[i],p1=P[i],p2=P[i+1],p3=P[i+2]||p2;
+      d+=` C${p1[0]+(p2[0]-p0[0])/6} ${p1[1]+(p2[1]-p0[1])/6} ${p2[0]-(p3[0]-p1[0])/6} ${p2[1]-(p3[1]-p1[1])/6} ${p2[0]} ${p2[1]}`}return d};
+  let h=`<g id="phBg"></g><rect x="${X0}" y="${ys(65)}" width="${X1-X0}" height="${ys(-65)-ys(65)}" fill="var(--teal-soft)"/>`;
+  [-65,-25,25,65].forEach(t=>h+=`<line x1="${X0}" x2="${X1}" y1="${ys(t)}" y2="${ys(t)}" stroke="var(--line)" stroke-dasharray="3 4"/>`);
+  [["Fight or flight",82.5],["Revved up",45],["Calm and alert",0],["Rest and digest",-45],["Shutdown",-82.5]].forEach(([n,t])=>h+=`<text x="${X0-8}" y="${ys(t)+4}" text-anchor="end">${n}</text>`);
+  [7,9,12,15,18,21].forEach(t=>h+=`<text x="${xs(t)}" y="${Y1+18}" text-anchor="middle">${t>12?t-12:t}${t>=12?"pm":"am"}</text>`);
+  h+=`<rect x="${xs(8.75)}" y="${Y0-34}" width="${xs(15)-xs(8.75)}" height="22" fill="none"/><text x="${(xs(8.75)+xs(15))/2}" y="${Y0-19}" text-anchor="middle">School</text>`;
+  DAY.forEach(d=>h+=`<g class="ph" data-id="${d.id}" tabindex="-1"><rect x="${xs(d.from)}" y="${Y0-36}" width="${xs(d.to)-xs(d.from)}" height="${Y1-Y0+36}" fill="transparent"/><text x="${(xs(d.from)+xs(d.to))/2}" y="${Y0-19}" text-anchor="middle">${d.tab==="Out the door"?"Door":d.tab}</text></g>`);
+  h+=`<path d="${path(UNSUP)}" fill="none" stroke="var(--sns)" stroke-width="2.5" stroke-dasharray="6 5"/><path d="${path(SUPP)}" fill="none" stroke="var(--pns)" stroke-width="3"/>`;
+  svg.innerHTML=h;
+  const bg=$("#phBg"),tabs=$("#phaseTabs"),panel=$("#phasePanel");
+  tabs.innerHTML=DAY.map(d=>`<button type="button" role="tab" data-id="${d.id}">${d.tab}</button>`).join("");
+  function show(id){const d=DAY.find(x=>x.id===id),L=S.find(s=>s.id===d.link);
+    tabs.querySelectorAll("button").forEach(b=>b.setAttribute("aria-selected",b.dataset.id===id));
+    svg.querySelectorAll(".ph").forEach(g=>g.classList.toggle("off",g.dataset.id!==id));
+    bg.innerHTML=`<rect x="${xs(d.from)}" y="${Y0-36}" width="${xs(d.to)-xs(d.from)}" height="${Y1-Y0+36}" fill="var(--ink)" opacity=".06"/>`;
+    const li=a=>a.map(x=>`<li>${x}</li>`).join("");
+    panel.innerHTML=`<div><h3>${d.tab}</h3><div class="when">${d.when}</div><p>${d.what}</p>
+      <h4>Watch for</h4><div class="chips">${d.acc.map(x=>`<span class="chip s"><i>accelerator</i>${x}</span>`).join("")}${d.brk.map(x=>`<span class="chip p"><i>brake</i>${x}</span>`).join("")}</div>
+      <div class="say"><b>Try saying</b>"${d.say}"</div>
+      ${L?`<button class="jump" type="button" data-s="${L.id}">See it on the body: ${L.name}</button>`:""}</div>
+      <div><h4 style="margin-top:0">Set up ahead</h4><ul>${li(d.ahead)}</ul><h4>In the moment</h4><ul>${li(d.now)}</ul></div>`;
+    const j=panel.querySelector(".jump");if(j)j.onclick=()=>{pick(j.dataset.s,true);$("#lab").scrollIntoView({behavior:reduce?"auto":"smooth"})}}
+  tabs.querySelectorAll("button").forEach(b=>b.onclick=()=>show(b.dataset.id));
+  svg.querySelectorAll(".ph").forEach(g=>g.onclick=()=>show(g.dataset.id));
+  show("after");
+})();
 
 function pick(id,auto){
   cur=S.find(s=>s.id===id);step=0;
-  nav.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.id===id));
+  nav.querySelectorAll("button[data-id]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.id===id));
   $("#vScen").textContent=cur.name;
+  if($("#more").querySelector(`[data-id="${id}"]`))setMore(true);
   renderChain();go(0);if(auto&&cur.steps.length>1)play();else stop();
 }
 function renderChain(){
   const c=$("#chain");
-  c.innerHTML=`<div class="chain-top"><div><div class="eyebrow">Cause and effect</div><h2>${cur.name}</h2><p class="sum">${cur.sum}</p></div>
+  c.innerHTML=`<div class="chain-top"><div><div class="eyebrow">Step by step</div><h2>${cur.name}</h2><p class="sum">${cur.sum}</p></div>
   ${cur.steps.length>1?'<button class="play" id="playBtn" type="button">Replay</button>':''}</div>
   <ol class="steps">${cur.steps.map((s,i)=>`<li tabindex="0" data-i="${i}"><div><b>${s.h}</b><span>${s.x}</span></div></li>`).join("")}</ol>
   ${cur.note?`<p class="note">${cur.note}</p>`:""}`;
@@ -552,7 +952,7 @@ function play(){stop();const pb=$("#playBtn");if(pb)pb.textContent="Pause";
 function stop(){clearInterval(timer);timer=null;const pb=$("#playBtn");if(pb)pb.textContent="Replay"}
 
 $("#tone").addEventListener("input",e=>{stop();target=+e.target.value;tone=target;ov={};cur=null;
-  nav.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed","false"));$("#vScen").textContent="Manual";
+  nav.querySelectorAll("button[data-id]").forEach(b=>b.setAttribute("aria-pressed","false"));$("#vScen").textContent="Manual";
   document.querySelectorAll(".steps li").forEach(li=>li.classList.remove("on"))});
 
 // body labels: [name, side, labelY, targetX, targetY, state()]
@@ -645,8 +1045,61 @@ function frame(now){
   cx.stroke();
   if(n){cx.fillStyle=col;cx.beginPath();cx.arc(W-1,base-buf[n-1]*amp,3.5,0,7);cx.fill()}
   requestAnimationFrame(frame)}
-pick("panic",false);go(2);target=95;
+pick("transition",false);go(2);
 requestAnimationFrame(frame);
 </script>
 
-</body></html>
+<script>
+(function(){
+  // checklists
+  document.querySelectorAll('.g-check').forEach(function(box){
+    var ins=[].slice.call(box.querySelectorAll('input[type=checkbox]')),c=box.querySelector('[data-count]');
+    function up(){if(c)c.textContent=ins.filter(function(x){return x.checked}).length+' of '+ins.length}
+    ins.forEach(function(i){i.addEventListener('change',up)});
+    var clr=box.querySelector('[data-clear]');if(clr)clr.addEventListener('click',function(){ins.forEach(function(i){i.checked=false});up()});
+    up();
+  });
+  // toggle chips
+  document.querySelectorAll('[data-chips]').forEach(function(g){
+    var multi=g.getAttribute('data-chips')==='multi';
+    g.querySelectorAll('.g-chip').forEach(function(b){b.addEventListener('click',function(){
+      var on=b.getAttribute('aria-pressed')!=='true';
+      if(!multi)g.querySelectorAll('.g-chip').forEach(function(x){x.setAttribute('aria-pressed','false')});
+      b.setAttribute('aria-pressed',on);g.dispatchEvent(new Event('chips'));
+    })});
+  });
+  // quizzes
+  document.querySelectorAll('.g-quiz').forEach(function(el){
+    var Q=JSON.parse(el.getAttribute('data-q')),qi=0,score=0;
+    var pos=el.querySelector('.pos'),sc=el.querySelector('.sc'),said=el.querySelector('.said'),opts=el.querySelector('.opts'),fb=el.querySelector('.fb'),nx=el.querySelector('.nx');
+    function show(){
+      var q=Q[qi];pos.textContent=(qi+1)+' of '+Q.length;sc.textContent='Score '+score;said.textContent=q.s;fb.hidden=true;nx.disabled=true;
+      nx.textContent=qi===Q.length-1?'See score':'Next';opts.innerHTML='';
+      q.o.forEach(function(o){var b=document.createElement('button');b.type='button';b.textContent=o[0];
+        b.addEventListener('click',function(){
+          opts.querySelectorAll('button').forEach(function(x,i){x.disabled=true;if(q.o[i][1])x.classList.add('right')});
+          if(o[1])score++;else b.classList.add('wrong');sc.textContent='Score '+score;
+          fb.innerHTML='';var t=document.createElement('b');t.textContent=o[1]?(q.ok||'Nice.'):'Not quite.';fb.appendChild(t);fb.appendChild(document.createTextNode(o[2]));fb.hidden=false;nx.disabled=false;nx.focus();
+        });opts.appendChild(b);});
+    }
+    nx.addEventListener('click',function(){
+      if(nx.dataset.done){delete nx.dataset.done;qi=0;score=0;show();return}
+      if(qi<Q.length-1){qi++;show();return}
+      said.textContent='You scored '+score+' of '+Q.length+'.';opts.innerHTML='';
+      fb.innerHTML='<b>Lock it in.</b>Run the ones you missed out loud with a colleague, three clean reps each.';fb.hidden=false;pos.textContent='Done';nx.textContent='Start again';nx.dataset.done=1;
+    });
+    show();
+  });
+  // copy buttons
+  document.querySelectorAll('[data-copy]').forEach(function(b){b.addEventListener('click',function(){
+    var src=document.getElementById(b.getAttribute('data-copy')),t=src.value!==undefined?src.value:src.innerText,m=b.parentNode.querySelector('.g-msg');
+    function ok(){if(m){m.textContent='Copied';setTimeout(function(){m.textContent=''},2500)}}
+    function fail(){if(src.select){src.focus();src.select()}if(m)m.textContent='Selected. Copy with your keyboard.'}
+    try{navigator.clipboard.writeText(t).then(ok,fail)}catch(e){fail()}
+  })});
+})();
+</script><script>(function(){var box=document.getElementById('bc_chips');var S={up:['Revved up','Bring it down. Deep pressure, heavy work (carry, push, climb), long slow exhales, dim light, fewer words.','plum'],down:['Flat or foggy','Lift it up. Movement first, cold water, a crunchy or sour snack, fresh air, upbeat music, a favourite interest.','blue'],mid:['In the window','Protect it. This is the best time to learn, plan or talk things through.','teal'],mix:['Mixed signals','Common, especially with stress. Start with safety and calm, then add gentle movement. Watch what changes.','coal']};
+ function run(){var c={up:0,down:0,mid:0};box.querySelectorAll('[aria-pressed="true"]').forEach(function(b){c[b.dataset.k]++});var o=document.getElementById('bc_out'),tot=c.up+c.down+c.mid;
+ if(!tot){o.innerHTML='<b>Body check-in</b>Tap a few signals to see a likely state and what to try.';return}var k=(c.up&&c.down)?'mix':(c.up>=c.mid&&c.up)?'up':(c.down>=c.mid&&c.down)?'down':'mid';var r=S[k];
+ o.className='g-out g-'+r[2];o.innerHTML='<b>Looks like: '+r[0]+'</b>'+r[1]+'<p style="margin-top:6px;font-size:14px">A guess, not a test. Everyone\'s sensory profile is different, so try it and watch.</p>'}
+ box.addEventListener('chips',run);run()})();</script></body></html>
