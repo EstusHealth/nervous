@@ -50,7 +50,7 @@ p{margin:0}
 .board-big{padding:16px 14px 6px;display:flex;align-items:baseline;gap:10px}
 .board-big b{font:600 64px/1 var(--display);font-variant-numeric:tabular-nums;color:#FBFAF8}
 .board-big span{font:600 16px var(--cond);text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted)}
-.cells{display:grid;grid-template-columns:repeat(21,1fr);gap:4px;padding:8px 14px 14px}
+.cells{display:grid;grid-template-columns:repeat(22,1fr);gap:4px;padding:8px 14px 14px}
 .cells i{height:10px;background:#2C323C}
 .cells i.on{background:#2CA5B8}
 .board-f{padding:0 14px 14px;font-size:14px;color:var(--ink-muted)}
@@ -139,7 +139,7 @@ footer .wordmark{color:var(--fg)}
       </div>
       <div class="board" aria-live="polite">
         <div class="board-h"><span>Your progress</span><span>This browser</span></div>
-        <div class="board-big"><b id="doneN">0</b><span>of <span id="totalN">21</span> done</span></div>
+        <div class="board-big"><b id="doneN">0</b><span>of <span id="totalN">22</span> done</span></div>
         <div class="cells" id="cells" aria-hidden="true"></div>
         <p class="board-f">Tick a module done here or on its page.</p>
       </div>
@@ -219,6 +219,16 @@ footer .wordmark{color:var(--fg)}
                 <div class="who"><span>Clinicians</span><span>Team leaders</span></div>
               </div>
               <div class="foot"><button class="done" type="button" data-done="accelerator" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="accelerator.html">Open <span aria-hidden="true">&rarr;</span></a></div>
+            </article>
+            <article class="card a-team" data-slug="calendar" data-roles="clinician lead ops marketing driving">
+              <div class="meta"><span class="pill">Interactive tool</span></div>
+              <div class="body">
+                <h4><a href="calendar.html">Calendar Management</a></h4>
+                <p class="d">Lifestyle first. The three Estus calendars, build order, transition prompts, and a weekly planner with a Today view.</p>
+                <ul class="inside"><li>Three calendars</li><li>Transition prompts</li><li>Planner</li></ul>
+                <div class="who"><span>Everyone</span></div>
+              </div>
+              <div class="foot"><button class="done" type="button" data-done="calendar" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="calendar.html">Open <span aria-hidden="true">&rarr;</span></a></div>
             </article>
             <article class="card a-team" data-slug="check" data-roles="lead clinician">
               <div class="meta"><span class="pill">Interactive tool</span><span class="code">EH-C2</span></div>
@@ -442,7 +452,7 @@ footer .wordmark{color:var(--fg)}
 
 <script>
 (function(){
-  var KEY='hub_done', slugs=['playbook','journey','welcome','nurture','check','reels','gp','hinges','sleep','morning','energy','load','transition','shutdown','act','cbt','mi','gaming','nervous','culture','accelerator'];
+  var KEY='hub_done', slugs=['playbook','journey','welcome','nurture','check','reels','gp','hinges','sleep','morning','energy','load','transition','shutdown','act','cbt','mi','gaming','nervous','culture','accelerator','calendar'];
   function load(){try{return JSON.parse(localStorage.getItem(KEY))||{}}catch(e){return {}}}
   function save(v){try{localStorage.setItem(KEY,JSON.stringify(v))}catch(e){}}
   var state=load();

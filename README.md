@@ -4,7 +4,7 @@ Estus Health's internal staff training intranet. A landing page plus one page pe
 
 | Area | Pages |
 | --- | --- |
-| Start here | `culture`, `playbook`, `accelerator` |
+| Start here | `culture`, `playbook`, `accelerator`, `calendar` |
 | Client pathway | `journey`, `welcome`, `nurture` |
 | Team | `check` |
 | Small Hinges | `hinges`, `sleep`, `morning`, `energy`, `load`, `transition`, `shutdown` |
