@@ -1,0 +1,648 @@
+<!doctype html><html lang="en-AU"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body><style>
+.ehub{background:#090909;color:#FBFAF8;border-bottom:1px solid #2C323C;position:relative;z-index:6}
+.ehub-in{max-width:1120px;margin:0 auto;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));display:flex;justify-content:space-between;align-items:center;gap:10px 16px;flex-wrap:wrap}
+.ehub a{color:inherit;text-decoration:none}
+.ehub-home{display:flex;align-items:center;gap:12px;min-height:36px}
+.ehub-bands{display:flex;width:56px;height:5px;flex:none}.ehub-bands i{flex:1}
+.ehub-bands i:nth-child(1){background:#344982}.ehub-bands i:nth-child(2){background:#2F6F9E}.ehub-bands i:nth-child(3){background:#2CA5B8}.ehub-bands i:nth-child(4){background:#AB5C95}
+.ehub-wm{font:500 14px/1 "Oswald","Arial Narrow",Impact,sans-serif;letter-spacing:.16em}.ehub-wm b{font-weight:700}
+.ehub-sep{font:600 12px/1 "Barlow Semi Condensed","Arial Narrow",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#AEB5C2;border-left:1px solid #3A3F48;padding-left:12px}
+.ehub-home:hover .ehub-sep{color:#FBFAF8}
+.ehub-r{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ehub-btn{font:600 12px/1 "Barlow Semi Condensed","Arial Narrow",sans-serif;letter-spacing:.1em;text-transform:uppercase;border:1px solid #3A3F48;background:none;color:#FBFAF8;padding:9px 12px;cursor:pointer;min-height:36px;display:inline-flex;align-items:center;gap:8px}
+.ehub-btn:hover{border-color:#FBFAF8}
+.ehub-btn[aria-pressed="true"]{background:#2E7D4F;border-color:#2E7D4F}
+.ehub-btn:focus-visible,.ehub a:focus-visible{outline:2px solid #2CA5B8;outline-offset:2px}
+.ehub-next{background:#FBFAF8!important;color:#090909!important;border-color:#FBFAF8}
+@media (max-width:520px){.ehub-sep{display:none}.ehub-next .ehub-nl{display:none}}
+@media print{.ehub{display:none}}
+</style>
+<nav class="ehub" aria-label="Estus Training Hub" style="margin:0"><div class="ehub-in">
+<a class="ehub-home" href="index.html"><span class="ehub-bands" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="ehub-wm"><b>ESTUS</b> HEALTH</span><span class="ehub-sep">&larr; Training Hub</span></a>
+<div class="ehub-r"><button class="ehub-btn" type="button" id="ehub-done" aria-pressed="false">Mark done</button><a class="ehub-btn ehub-next" href="gp.html"><span class="ehub-nl">Next:</span> GP Referral Pathways <span aria-hidden="true">&rarr;</span></a></div>
+</div></nav>
+<script>(function(){var K="hub_done",s="reels",b=document.getElementById("ehub-done");function l(){try{return JSON.parse(localStorage.getItem(K))||{}}catch(e){return {}}}function r(){var on=!!l()[s];b.setAttribute("aria-pressed",on);b.textContent=on?"\u2713 Done":"Mark done"}b.addEventListener("click",function(){var v=l();if(v[s])delete v[s];else v[s]=1;try{localStorage.setItem(K,JSON.stringify(v))}catch(e){}r()});r()})();</script>
+
+<title>Estus Reels Playbook</title><meta name="robots" content="noindex, nofollow"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 fill=%22%23090909%22/%3E%3Crect x=%224%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23344982%22/%3E%3Crect x=%2210%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232F6F9E%22/%3E%3Crect x=%2216%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232CA5B8%22/%3E%3Crect x=%2222%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23AB5C95%22/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap">
+<style>
+/* Layout: ink masthead with Estus bands, sticky section rail, one reading column of tools; each beat of the formula owns a colour used everywhere */
+:root{
+  --bg:#F3F2EF;--surface:#FBFAF8;--sunk:#ECEAE6;--fg:#0E1014;--muted:#65676E;--rule:#D3D1CC;--ink:#090909;--on-ink:#FBFAF8;
+  --navy:#344982;--blue:#2F6F9E;--teal:#2CA5B8;--plum:#AB5C95;--slate:#6F6D68;--coal:#22252B;
+  --navy-t:#DDE2EF;--blue-t:#DCE8F1;--teal-t:#DAF0F3;--plum-t:#F1E1EC;--slate-t:#E7E5E1;--coal-t:#DADBDE;
+  --good:#2E7D4F;--good-t:#DDEFE3;--warn:#A86A12;--warn-t:#F6E8D2;--bad:#B23A3A;--bad-t:#F5DEDE;
+  --display:"Oswald","Arial Narrow",Impact,sans-serif;--cond:"Barlow Semi Condensed","Arial Narrow",sans-serif;--body:"Barlow","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0F1216;--surface:#161A20;--sunk:#1D222A;--fg:#ECEEF1;--muted:#9BA1AB;--rule:#2C323C;--ink:#05070A;--on-ink:#ECEEF1;
+  --navy:#8299DA;--blue:#6FA8D2;--teal:#4CC3D4;--plum:#D58FC1;--slate:#A3A19B;--coal:#C9CCD2;
+  --navy-t:#1E2740;--blue-t:#18293A;--teal-t:#123238;--plum-t:#33202E;--slate-t:#25262A;--coal-t:#2A2E35;
+  --good:#5FC38A;--good-t:#16301F;--warn:#E0A64A;--warn-t:#33270F;--bad:#EC7B7B;--bad-t:#3A1A1A;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1216;--surface:#161A20;--sunk:#1D222A;--fg:#ECEEF1;--muted:#9BA1AB;--rule:#2C323C;--ink:#05070A;--on-ink:#ECEEF1;
+  --navy:#8299DA;--blue:#6FA8D2;--teal:#4CC3D4;--plum:#D58FC1;--slate:#A3A19B;--coal:#C9CCD2;
+  --navy-t:#1E2740;--blue-t:#18293A;--teal-t:#123238;--plum-t:#33202E;--slate-t:#25262A;--coal-t:#2A2E35;
+  --good:#5FC38A;--good-t:#16301F;--warn:#E0A64A;--warn-t:#33270F;--bad:#EC7B7B;--bad-t:#3A1A1A;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:400 16px/1.55 var(--body);margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--ink)}
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{text-wrap:balance}
+a{color:var(--blue)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+
+/* masthead */
+.mast{background:var(--ink);color:var(--on-ink)}
+.mast .wrap{padding-block:14px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{display:flex;flex-direction:column;gap:6px}
+.wordmark{font-family:var(--display);font-size:15px;letter-spacing:.16em;line-height:1}.wordmark b{font-weight:700}.wordmark span{font-weight:500}
+.bands{display:flex;width:132px;height:6px}.bands i{flex:1}
+.bands i:nth-child(1){background:#344982}.bands i:nth-child(2){background:#2F6F9E}.bands i:nth-child(3){background:#2CA5B8}.bands i:nth-child(4){background:#AB5C95}
+.mast .tag{font:600 11px var(--cond);letter-spacing:.2em;text-transform:uppercase;color:#C9CFDA}
+
+.hero .wrap{padding-block:40px 28px;display:grid;grid-template-columns:1.4fr 1fr;gap:32px;align-items:end}
+.eyebrow{font:700 12px var(--cond);letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+.hero h1{font:600 clamp(36px,6vw,64px)/1 var(--display);letter-spacing:.01em;text-transform:uppercase;margin:0 0 16px}
+.hero p.lead{font-size:18px;max-width:58ch;margin:0}
+.formula{display:flex;flex-direction:column;gap:6px;font:600 13px var(--cond);text-transform:uppercase;letter-spacing:.06em}
+.formula div{display:flex;align-items:center;gap:10px}
+.formula i{width:28px;height:10px;flex:none}
+
+/* rail */
+.rail{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--rule)}
+.rail .wrap{display:flex;gap:4px;overflow-x:auto;padding-block:8px;scrollbar-width:none}
+.rail a{font:600 13px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--fg);text-decoration:none;padding:6px 10px;white-space:nowrap;border-radius:4px}
+.rail a:hover{background:var(--sunk)}
+.rail a.on{background:var(--ink);color:var(--on-ink)}
+
+section.s{padding-block:44px;border-bottom:1px solid var(--rule);scroll-margin-top:56px}
+.s-head{display:flex;flex-direction:column;gap:6px;margin-bottom:22px;max-width:70ch}
+.s-head h2{font:600 30px/1.1 var(--display);text-transform:uppercase;letter-spacing:.02em;margin:0}
+.s-head p{margin:0;color:var(--muted)}
+h3{font:700 15px var(--cond);text-transform:uppercase;letter-spacing:.1em;margin:28px 0 12px}
+
+/* beat colours */
+.b-hook{--c:var(--navy);--ct:var(--navy-t)}.b-cause{--c:var(--blue);--ct:var(--blue-t)}.b-method{--c:var(--teal);--ct:var(--teal-t)}
+.b-detail{--c:var(--plum);--ct:var(--plum-t)}.b-alone{--c:var(--slate);--ct:var(--slate-t)}.b-cta{--c:var(--coal);--ct:var(--coal-t)}
+
+/* ad breakdown */
+.ads{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.ad{background:var(--surface);border:1px solid var(--rule);padding:18px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.ad .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.ad h4{margin:0;font:600 20px var(--display);text-transform:uppercase}
+.ad .len{font:600 13px var(--cond);color:var(--muted);font-variant-numeric:tabular-nums}
+.ad blockquote{margin:0;font-style:italic;font-size:15px}
+.bar{display:flex;height:22px;border:1px solid var(--rule);background:var(--sunk)}
+.bar button{border:0;padding:0;background:var(--c);cursor:pointer;min-width:0;position:relative}
+.bar button + button{border-left:1px solid var(--surface)}
+.bar button[aria-pressed="true"]{outline:2px solid var(--fg);outline-offset:-2px;z-index:1}
+.bar-note{font-size:14px;min-height:3.1em;color:var(--fg)}
+.bar-note b{font:700 12px var(--cond);text-transform:uppercase;letter-spacing:.1em;color:var(--c)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:14px;margin:0}
+.kv dt{font:700 12px var(--cond);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding-top:2px}
+.kv dd{margin:0}
+.missing{font-size:13px;color:var(--muted)}
+.patterns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:24px}
+.patterns div{background:var(--surface);padding:14px 16px}
+.patterns b{display:block;font:600 15px var(--cond);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.patterns span{font-size:14px;color:var(--muted)}
+.gap-note{margin-top:16px;padding:14px 16px;background:var(--plum-t);border-left:4px solid var(--plum);font-size:15px}
+
+/* formula timeline */
+.tl{display:flex;height:56px;border:1px solid var(--rule)}
+.tl button{flex:var(--w);border:0;background:var(--ct);color:var(--fg);cursor:pointer;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:0 10px;min-width:0;border-top:5px solid var(--c);text-align:left}
+.tl button+button{border-left:1px solid var(--surface)}
+.tl button span{font:600 14px var(--cond);text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.tl button small{font:500 12px var(--cond);color:var(--muted);font-variant-numeric:tabular-nums}
+.tl button[aria-selected="true"]{background:var(--c);color:var(--surface)}
+.tl button[aria-selected="true"] small{color:var(--surface)}
+.beat-card{margin-top:14px;background:var(--surface);border:1px solid var(--rule);border-top:4px solid var(--c);padding:18px 20px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
+.beat-card .lbl{font:700 12px var(--cond);text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:4px}
+.beat-card p{margin:0}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:20px;padding:0;list-style:none}
+.rules li{background:var(--sunk);padding:12px 14px;font-size:15px}
+
+/* chips + hooks */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.chip{border:1px solid var(--rule);background:var(--surface);padding:6px 12px;border-radius:999px;cursor:pointer;font:600 13px var(--cond);text-transform:uppercase;letter-spacing:.06em}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--on-ink);border-color:var(--ink)}
+.chip .ct{font-variant-numeric:tabular-nums;opacity:.65;margin-left:4px}
+.hooks{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.hook{background:var(--surface);border:1px solid var(--rule);border-left:4px solid var(--hc,var(--navy));padding:14px 16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.hook q{font:500 18px/1.3 var(--body);quotes:"\201C" "\201D"}
+.hook .shot{font-size:14px;color:var(--muted)}
+.hook .meta{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-top:auto}
+.pill{font:700 11px var(--cond);text-transform:uppercase;letter-spacing:.1em;padding:2px 8px;background:var(--sunk);border-radius:3px}
+.btn{border:1px solid var(--rule);background:var(--surface);padding:5px 10px;cursor:pointer;font:600 12px var(--cond);text-transform:uppercase;letter-spacing:.08em;border-radius:3px}
+.btn:hover{border-color:var(--fg)}
+.btn.primary{background:var(--ink);color:var(--on-ink);border-color:var(--ink)}
+.offer{margin-top:16px;padding:14px 16px;background:var(--teal-t);border-left:4px solid var(--teal)}
+
+/* scripts */
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.tab{border:1px solid var(--rule);background:var(--surface);padding:8px 12px;cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:2px;min-width:0}
+.tab b{font:600 14px var(--cond);text-transform:uppercase;letter-spacing:.04em}
+.tab small{font-size:12px;color:var(--muted)}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--on-ink);border-color:var(--ink)}
+.tab[aria-selected="true"] small{color:#C9CFDA}
+.script{background:var(--surface);border:1px solid var(--rule)}
+.script .row{display:grid;grid-template-columns:88px minmax(0,1.3fr) minmax(0,1fr);gap:16px;padding:12px 16px;border-top:1px solid var(--rule);align-items:start}
+.script .row:first-child{border-top:0}
+.script .row.head{font:700 12px var(--cond);text-transform:uppercase;letter-spacing:.12em;color:var(--muted);background:var(--sunk);padding-block:8px}
+.script .t{font:600 13px var(--cond);font-variant-numeric:tabular-nums;border-left:4px solid var(--c);padding-left:8px}
+.script .t span{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--c)}
+.script .say{font-size:16px}
+.script .show{font-size:14px;color:var(--muted)}
+.script-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 16px;border-top:1px solid var(--rule);background:var(--sunk);font-size:14px}
+
+/* builder */
+.builder{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;margin-top:8px}
+.fields{display:flex;flex-direction:column;gap:12px}
+.fld{display:flex;flex-direction:column;gap:4px}
+.fld label{font:700 12px var(--cond);text-transform:uppercase;letter-spacing:.1em;display:flex;align-items:center;gap:8px}
+.fld label i{width:10px;height:10px;background:var(--c);display:inline-block}
+.fld textarea,.fld select,.fld input{width:100%;border:1px solid var(--rule);background:var(--surface);padding:8px 10px;border-radius:3px;font-size:15px}
+.fld textarea{resize:vertical;min-height:44px}
+.out{background:var(--surface);border:1px solid var(--rule);padding:18px;display:flex;flex-direction:column;gap:12px;align-self:start;position:sticky;top:64px}
+.out pre{white-space:pre-wrap;margin:0;font:400 15px/1.55 var(--body)}
+.meter{display:flex;justify-content:space-between;gap:8px;font:600 13px var(--cond);text-transform:uppercase;letter-spacing:.06em;font-variant-numeric:tabular-nums}
+.track{height:8px;background:var(--sunk);position:relative}
+.track .fill{position:absolute;inset:0 auto 0 0;background:var(--teal)}
+.track .zone{position:absolute;top:-3px;bottom:-3px;border-left:1px dashed var(--muted);border-right:1px dashed var(--muted)}
+
+/* checker */
+.checker{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px}
+.checker textarea{width:100%;min-height:200px;border:1px solid var(--rule);background:var(--surface);padding:12px;border-radius:3px;font-size:15px;resize:vertical}
+.flags{display:flex;flex-direction:column;gap:8px}
+.flag{padding:10px 12px;border-left:4px solid var(--warn);background:var(--warn-t);font-size:14px}
+.flag.bad{border-color:var(--bad);background:var(--bad-t)}
+.flag.ok{border-color:var(--good);background:var(--good-t)}
+.flag b{display:block;font:700 12px var(--cond);text-transform:uppercase;letter-spacing:.1em}
+.flag mark{background:none;color:inherit;font-weight:600;text-decoration:underline wavy}
+.flag a{color:inherit}
+
+/* checklists */
+.lists{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.list{background:var(--surface);border:1px solid var(--rule)}
+.list h4{margin:0;padding:10px 14px;font:700 13px var(--cond);text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--rule);display:flex;justify-content:space-between;background:var(--sunk)}
+.list h4 span{font-variant-numeric:tabular-nums;color:var(--muted)}
+.list label{display:flex;gap:10px;padding:9px 14px;border-top:1px solid var(--rule);cursor:pointer;font-size:14px;align-items:flex-start}
+.list label:first-of-type{border-top:0}
+.list input{margin-top:3px;accent-color:var(--teal);width:16px;height:16px;flex:none}
+.list input:checked + span{color:var(--muted);text-decoration:line-through}
+.guard{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:20px}
+
+/* metrics */
+.calc{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:24px}
+.inputs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.inputs .fld input{font-variant-numeric:tabular-nums}
+.results{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;align-content:start}
+.res{background:var(--surface);border:1px solid var(--rule);padding:14px;display:flex;flex-direction:column;gap:4px}
+.res .k{font:700 12px var(--cond);text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.res .v{font:600 30px/1.1 var(--display);font-variant-numeric:tabular-nums}
+.res .st{font:700 11px var(--cond);text-transform:uppercase;letter-spacing:.1em;padding:2px 8px;border-radius:3px;align-self:flex-start}
+.st.good{background:var(--good-t);color:var(--good)}.st.bad{background:var(--bad-t);color:var(--bad)}.st.na{background:var(--sunk);color:var(--muted)}
+.res .why{font-size:13px;color:var(--muted)}
+.steps{counter-reset:s;list-style:none;padding:0;margin:0 0 24px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.steps li{background:var(--surface);border:1px solid var(--rule);padding:14px;font-size:14px}
+.steps li::before{counter-increment:s;content:"Weeks " attr(data-w);display:block;font:700 12px var(--cond);text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.steps b{display:block;font:600 16px var(--cond);text-transform:uppercase;margin:2px 0 4px}
+.small{font-size:13px;color:var(--muted)}
+
+footer.f .wrap{padding-block:32px 48px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:flex-end}
+footer.f small{font:600 12px var(--cond);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--on-ink);padding:8px 14px;font:600 13px var(--cond);letter-spacing:.06em;text-transform:uppercase;border-radius:4px;z-index:20}
+
+@media (max-width:860px){
+  .hero .wrap{grid-template-columns:1fr}
+  .ads,.lists,.guard{grid-template-columns:1fr}
+  .patterns{grid-template-columns:1fr 1fr}
+  .builder,.checker,.calc{grid-template-columns:1fr}
+  .out{position:static}
+  .beat-card{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr 1fr}
+}
+@media (max-width:560px){
+  .script .row{grid-template-columns:1fr;gap:4px}
+  .script .row.head{display:none}
+  .tl{height:auto;flex-wrap:wrap}
+  .tl button{flex:1 1 30%;padding:8px}
+  .steps{grid-template-columns:1fr}
+  .patterns{grid-template-columns:1fr}
+  .inputs{grid-template-columns:1fr 1fr}
+}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+
+<header class="mast">
+  <div class="wrap">
+    <div class="brand">
+      <div class="bands" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      <div class="wordmark"><b>ESTUS</b> <span>HEALTH</span></div>
+    </div>
+    <div class="tag">Marketing · Meta Reels</div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">Built from 3 Exercise Healthcare Australia Reels · 29 Oct 2026</p>
+      <h1>Short-Form Ad Playbook</h1>
+      <p class="lead">Every ad that works here runs the same six beats in 25 to 40 seconds. Pick a hook, fill the beats, check the copy, shoot, then test one thing at a time.</p>
+    </div>
+    <div class="formula" aria-label="The six beats">
+      <div class="b-hook"><i style="background:var(--c)"></i>1 Hook: show the struggle</div>
+      <div class="b-cause"><i style="background:var(--c)"></i>2 Kind cause</div>
+      <div class="b-method"><i style="background:var(--c)"></i>3 Method on screen</div>
+      <div class="b-detail"><i style="background:var(--c)"></i>4 One concrete detail</div>
+      <div class="b-alone"><i style="background:var(--c)"></i>5 You won't be alone</div>
+      <div class="b-cta"><i style="background:var(--c)"></i>6 First step + CTA</div>
+    </div>
+  </div>
+</div>
+
+<nav class="rail" aria-label="Sections">
+  <div class="wrap" id="rail">
+    <a href="#studied">Studied</a><a href="#beats">6 beats</a><a href="#hooks">Hooks</a><a href="#scripts">Scripts</a><a href="#builder">Builder</a><a href="#check">Copy check</a><a href="#shoot">Shoot</a><a href="#test">Test</a>
+  </div>
+</nav>
+
+<main>
+<section class="s" id="studied"><div class="wrap">
+  <div class="s-head"><p class="eyebrow">What we studied</p><h2>Three ads, one skeleton</h2><p>Tap a block on any bar to see what that part of the ad does. Gaps show the beats each ad skipped.</p></div>
+  <div class="ads" id="ads"></div>
+  <div class="patterns">
+    <div><b>Function, not diagnosis</b><span>Chair, floor, carrying. Never "do you have arthritis?"</span></div>
+    <div><b>Show it in 2 seconds</b><span>Staff act the problem out on camera.</span></div>
+    <div><b>"Safe" every time</b><span>Fear of getting hurt is the main objection.</span></div>
+    <div><b>Local every time</b><span>Suburb name, shopfront, "our clinic here".</span></div>
+    <div><b>Cheap to make</b><span>Phone, lapel mic, polo, word-by-word captions.</span></div>
+    <div><b>CTA says what happens</b><span>Assessment, phone call, a named person.</span></div>
+  </div>
+  <div class="gap-note"><b>Where EHA leaves money on the table:</b> no funding line, no visible end result, and no named offer. Small Hinges fixes the last one for Estus.</div>
+</div></section>
+
+<section class="s" id="beats"><div class="wrap">
+  <div class="s-head"><p class="eyebrow">The formula</p><h2>The 6-beat script</h2><p>About 30 seconds, 70 to 100 spoken words. Tap a beat.</p></div>
+  <div class="tl" id="tl" role="tablist" aria-label="Beats"></div>
+  <div class="beat-card" id="beatcard" role="tabpanel"></div>
+  <ul class="rules">
+    <li>Captions burned in, centred, 2 to 4 words at a time. Most people watch on mute.</li>
+    <li>A cut or new angle every 3 to 6 seconds.</li>
+    <li>End on a line that loops back into the hook.</li>
+    <li>Add the funding line in beat 5 or 6: "NDIS and private clients welcome".</li>
+  </ul>
+</div></section>
+
+<section class="s" id="hooks"><div class="wrap">
+  <div class="s-head"><p class="eyebrow">Hook bank</p><h2>Name a moment, not a condition</h2><p>Each hook is acted out in the first 2 seconds. Filter by audience, copy the one you want, or send it to the builder.</p></div>
+  <div class="chips" id="chips" role="group" aria-label="Filter hooks"></div>
+  <div class="hooks" id="hooklist"></div>
+  <div class="offer" id="offer"><b>Small Hinges offer line for beat 6:</b> "It's called Small Hinges. Pick one area, one session at a time." Test two CTAs: book a call vs the free Small Hinges webinar or guide.</div>
+</div></section>
+
+<section class="s" id="scripts"><div class="wrap">
+  <div class="s-head"><p class="eyebrow">Ready to shoot</p><h2>Six scripts</h2><p>Shoot each with two or three hook takes so you can test hooks without reshooting the body.</p></div>
+  <div class="tabs" id="stabs" role="tablist" aria-label="Scripts"></div>
+  <div class="script" id="script"></div>
+</div></section>
+
+<section class="s" id="builder"><div class="wrap">
+  <div class="s-head"><p class="eyebrow">Script builder</p><h2>Write your own</h2><p>Fill each beat. The timer assumes about 3 words a second, the pace of the EHA ads. Aim for the shaded 25 to 40 second zone.</p></div>
+  <div class="builder">
+    <div class="fields">
+      <div class="fld b-hook"><label for="bh"><i></i>1 Hook</label><select id="bh_pick" aria-label="Pick a hook from the bank"></select><textarea id="bh" rows="2"></textarea></div>
+      <div class="fld b-cause"><label for="bc"><i></i>2 Kind cause</label><textarea id="bc" rows="2"></textarea></div>
+      <div class="fld b-method"><label for="bm"><i></i>3 Method</label><textarea id="bm" rows="2"></textarea></div>
+      <div class="fld b-detail"><label for="bd"><i></i>4 Concrete detail</label><textarea id="bd" rows="2"></textarea></div>
+      <div class="fld b-alone"><label for="ba"><i></i>5 Not alone + funding</label><textarea id="ba" rows="2"></textarea></div>
+      <div class="fld b-cta"><label for="bx"><i></i>6 First step + CTA</label><textarea id="bx" rows="2"></textarea></div>
+    </div>
+    <div class="out" aria-live="polite">
+      <div class="meter"><span id="wc">0 words</span><span id="secs">0s</span></div>
+      <div class="track"><div class="zone" style="left:50%;width:30%"></div><div class="fill" id="fill" style="width:0"></div></div>
+      <pre id="assembled"></pre>
+      <div id="bflags" class="flags"></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" type="button" id="copyscript">Copy script</button><button class="btn" type="button" id="checkscript">Run copy check</button><button class="btn" type="button" id="clearscript">Clear</button></div>
+    </div>
+  </div>
+</div></section>
+
+<section class="s" id="check"><div class="wrap">
+  <div class="s-head"><p class="eyebrow">Guardrails</p><h2>Copy check</h2><p>OT is Ahpra-regulated and exercise physiology is not, so Estus can't copy EHA's "300+ five-star reviews" sign. Paste a script or caption to flag common problems. It catches patterns, not everything, so still tick the checklist.</p></div>
+  <div class="checker">
+    <div class="fld"><label for="copyin">Script or caption</label><textarea id="copyin">Do you have ADHD? Our clients say we changed their lives. Book now and we guarantee you'll finally get organised. NDIS will fund it.</textarea></div>
+    <div class="flags" id="flags" aria-live="polite"></div>
+  </div>
+  <div class="guard" id="guard"></div>
+  <p class="small">Sources: <a href="https://www.ahpra.gov.au/resources/advertising-hub/resources-for-advertisers/testimonial-tool.aspx" target="_blank" rel="noopener">Ahpra testimonial tool</a> · <a href="https://www.jonloomer.com/qvt/personal-attributes-and-ad-rejections/" target="_blank" rel="noopener">Jon Loomer on Meta personal attributes</a></p>
+</div></section>
+
+<section class="s" id="shoot"><div class="wrap">
+  <div class="s-head"><p class="eyebrow">Production</p><h2>One half-day, 6 to 10 ads</h2><p>Ticks are saved in this browser only.</p></div>
+  <div class="lists" id="shootlists"></div>
+  <p style="margin-top:12px"><button class="btn" type="button" id="resetticks">Reset all ticks</button></p>
+</div></section>
+
+<section class="s" id="test"><div class="wrap">
+  <div class="s-head"><p class="eyebrow">Testing</p><h2>Test one thing at a time</h2><p>Same budget per ad, 5 to 7 days before you judge. Order: hook, then body, then CTA.</p></div>
+  <ol class="steps">
+    <li data-w="1 to 2"><b>Hooks</b>One body, three hooks. Keep the best hook rate.</li>
+    <li data-w="3 to 4"><b>Bodies</b>Winning hook on 2 or 3 scripts. Keep the best cost per lead.</li>
+    <li data-w="5 to 6"><b>CTA</b>Book a call vs free Small Hinges guide. Keep the cheapest booked session.</li>
+    <li data-w="7 +"><b>Repeat</b>Next hinge or next audience.</li>
+  </ol>
+  <div class="calc">
+    <div>
+      <h3 style="margin-top:0">Paste numbers from Ads Manager</h3>
+      <div class="inputs">
+        <div class="fld"><label for="m_imp">Impressions</label><input id="m_imp" type="number" min="0" inputmode="numeric" value="12000"></div>
+        <div class="fld"><label for="m_3s">3-second views</label><input id="m_3s" type="number" min="0" inputmode="numeric" value="3360"></div>
+        <div class="fld"><label for="m_tp">ThruPlays</label><input id="m_tp" type="number" min="0" inputmode="numeric" value="420"></div>
+        <div class="fld"><label for="m_cl">Link clicks</label><input id="m_cl" type="number" min="0" inputmode="numeric" value="132"></div>
+        <div class="fld"><label for="m_sp">Spend (AUD)</label><input id="m_sp" type="number" min="0" step="0.01" inputmode="decimal" value="180"></div>
+        <div class="fld"><label for="m_ld">Leads</label><input id="m_ld" type="number" min="0" inputmode="numeric" value="9"></div>
+        <div class="fld"><label for="m_bk">First sessions booked</label><input id="m_bk" type="number" min="0" inputmode="numeric" value="3"></div>
+      </div>
+      <p class="small">Example numbers loaded. Booked sessions come from PracSuite.</p>
+    </div>
+    <div class="results" id="results"></div>
+  </div>
+  <p class="small">Targets are common industry starting points, not Meta figures. Swap in your own after round one. Spy tip: in the Ad Library, an ad active for 30+ days is usually one the advertiser is happy with. EHA's Alderley ad started 22 Oct 2026.</p>
+</div></section>
+</main>
+
+<footer class="f"><div class="wrap">
+  <div class="brand"><div class="bands" aria-hidden="true"><i></i><i></i><i></i><i></i></div><div class="wordmark"><b>ESTUS</b> <span>HEALTH</span></div><small>Neuroaffirming OT · Perth · Telehealth Australia-wide</small></div>
+  <small>Prepared for Liam Fagan · 29 Oct 2026</small>
+</div></footer>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(function(){
+var $=function(s,r){return (r||document).querySelector(s)};
+var esc=function(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})};
+function toast(m){var t=$("#toast");t.textContent=m;t.hidden=false;clearTimeout(toast.h);toast.h=setTimeout(function(){t.hidden=true},1600)}
+function copy(text,ok){
+  var done=function(){toast(ok||"Copied")};
+  try{navigator.clipboard.writeText(text).then(done,fallback)}catch(e){fallback()}
+  function fallback(){var ta=document.createElement("textarea");ta.value=text;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");done()}catch(e){toast("Select and copy the text")}ta.remove()}
+}
+var store={get:function(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set:function(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+
+var BEATS={hook:"Hook",cause:"Kind cause",method:"Method",detail:"Concrete detail",alone:"Not alone",cta:"First step + CTA"};
+
+/* ---------- ads ---------- */
+var ADS=[
+ {name:"North Lakes",len:24,hook:"“Are you noticing it's hard to get up from the chair?”",proof:"Leg press: “100 kg, we start you at 20”",next:"EP by your side, Learn More",
+  beats:[["hook",0,2,"Clinician struggles up off a bench while asking the question."],["cause",2,4,"“Probably because your muscles or bones aren't strong enough.” No blame."],["method",4,10,"Cut to clinic and leg press. “The safest way possible.”"],["detail",10,15,"“If you weigh 100 kilos, we put the weight on 20.”"],["alone",15,20,"Second clinician steps in and coaches. “An EP with you.”"],["cta",20,24,"“Click our Learn More button below.”"]]},
+ {name:"Acacia Ridge",len:26,hook:"“Do you live in Acacia Ridge?”",proof:"A-frame sign: 300+ five-star Google reviews",next:"Assessment: strength, mobility, balance",
+  beats:[["hook",0,4,"Suburb call-out, then “getting up off a chair or picking something up off the floor.”"],["method",4,11,"“Step one is an assessment. We test strength, mobility, maybe balance.”"],["alone",11,13,"“Make sure you're really safe in the gym.”"],["detail",13,18,"“A really personalised program.”"],["cta",18,26,"“Click the link below.” Loops back to the suburb hook."]]},
+ {name:"Alderley",len:40,hook:"EP walks at camera carrying kettlebells",proof:"Supported row machine",next:"1 hour assessment, “Gemma or Ashley will call”",
+  beats:[["hook",0,9,"“Harder to pick things up or carry things around the home?” Acted out with kettlebells."],["cause",9,17,"“Before you can't do those things anymore.” Loss aversion, not blame."],["method",17,26,"“Equipment like this supported row... no matter where you are at.”"],["detail",26,30,"“Gradually build you up over time.”"],["cta",30,40,"“1 hour initial assessment. Gemma or Ashley will give you a call.”"]]}
+];
+var adsEl=$("#ads");
+ADS.forEach(function(a,ai){
+  var present={};a.beats.forEach(function(b){present[b[0]]=1});
+  var miss=Object.keys(BEATS).filter(function(k){return !present[k]}).map(function(k){return BEATS[k]});
+  var el=document.createElement("article");el.className="ad";
+  el.innerHTML='<div class="top"><h4>'+esc(a.name)+'</h4><span class="len">'+a.len+'s</span></div>'+
+   '<blockquote>'+esc(a.hook)+'</blockquote>'+
+   '<div class="bar" role="group" aria-label="Beats in the '+esc(a.name)+' ad">'+a.beats.map(function(b,i){return '<button type="button" class="b-'+b[0]+'" style="flex:'+(b[2]-b[1])+'" aria-pressed="'+(i===0)+'" data-i="'+i+'" aria-label="'+BEATS[b[0]]+', '+b[1]+' to '+b[2]+' seconds"></button>'}).join("")+'</div>'+
+   '<div class="bar-note"></div>'+
+   '<dl class="kv"><dt>Proof</dt><dd>'+esc(a.proof)+'</dd><dt>Next step</dt><dd>'+esc(a.next)+'</dd></dl>'+
+   '<div class="missing">'+(miss.length?'Skips: '+miss.join(", "):'Uses all six beats')+'</div>';
+  adsEl.appendChild(el);
+  var note=$(".bar-note",el);
+  function show(i){var b=a.beats[i];note.className="bar-note b-"+b[0];note.innerHTML='<b>'+BEATS[b[0]]+' · '+b[1]+' to '+b[2]+'s</b><br>'+esc(b[3]);
+    el.querySelectorAll(".bar button").forEach(function(x,j){x.setAttribute("aria-pressed",j===i)})}
+  el.querySelectorAll(".bar button").forEach(function(x){x.addEventListener("click",function(){show(+x.dataset.i)})});
+  show(0);
+});
+
+/* ---------- formula ---------- */
+var FORM=[
+ ["hook","0 to 3s",3,"Show a struggle they live with, acted out on camera.","“Hard to get up from the chair?”","“The task takes 10 minutes. Starting it takes 3 hours.”"],
+ ["cause","3 to 6s",3,"Explain it without blame. Neuroaffirming: a mismatch, not a deficit.","“Your muscles aren't strong enough yet.”","“It's not laziness. Your brain needs a different way in.”"],
+ ["method","6 to 15s",9,"Show what you actually do. Screen share counts as equipment for telehealth.","Leg press, supported row","A routine being built on screen, a visual planner, a sensory audit"],
+ ["detail","15 to 20s",5,"One specific, gentle number or step.","“100 kg, we start you at 20.”","“We start with one routine, not your whole life.”"],
+ ["alone","20 to 25s",5,"Remove the fear. Add the funding line here.","“An EP is with you the whole time.”","“Same OT every week, by telehealth. NDIS and private clients welcome.”"],
+ ["cta","last 5s",5,"Say exactly what happens next, then point at the button.","“Gemma or Ashley will call you.”","“Tap Learn More and our team will call to book your first session.”"]
+];
+var tl=$("#tl"),bc=$("#beatcard");
+FORM.forEach(function(f,i){var b=document.createElement("button");b.type="button";b.className="b-"+f[0];b.style.setProperty("--w",f[2]);b.setAttribute("role","tab");b.id="beat-"+i;
+  b.innerHTML="<span>"+(i+1)+" "+BEATS[f[0]]+"</span><small>"+f[1]+"</small>";b.addEventListener("click",function(){pick(i)});tl.appendChild(b)});
+function pick(i){var f=FORM[i];tl.querySelectorAll("button").forEach(function(b,j){b.setAttribute("aria-selected",j===i)});
+  bc.className="beat-card b-"+f[0];bc.setAttribute("aria-labelledby","beat-"+i);
+  bc.innerHTML='<div><div class="lbl">Job</div><p>'+esc(f[3])+'</p></div><div><div class="lbl">EHA line</div><p>'+esc(f[4])+'</p></div><div><div class="lbl">Estus version</div><p>'+esc(f[5])+'</p></div>'}
+pick(0);
+
+/* ---------- hooks ---------- */
+var HC={adults:"var(--navy)",parents:"var(--blue)",ndis:"var(--slate)",hinges:"var(--teal)",gaming:"var(--plum)",driving:"var(--coal)"};
+var HL={adults:"Adults",parents:"Parents",ndis:"NDIS",hinges:"Small Hinges",gaming:"Gaming",driving:"Driving"};
+var HOOKS=[
+ ["adults","The task takes 10 minutes. Starting it takes 3 hours.","OT at a laptop, jump-cut clock 9:00 to 12:00","Professionals"],
+ ["adults","Back-to-back meetings, then nothing left for home.","OT slumps in the car after work","Late-identified professionals"],
+ ["adults","The noise in the office isn't a small thing.","OT winces in a loud open-plan space","Adults at work"],
+ ["adults","Ever used a planner for three days, then never again?","Pile of half-used planners","Adults"],
+ ["adults","You don't need to be fixed. Your setup does.","OT rearranging a desk","Broad, brand"],
+ ["adults","Perth or Darwin, your OT is on your couch.","Phone on a couch showing a telehealth call","Regional and remote"],
+ ["parents","Mornings with your kid shouldn't feel like a battle.","Parent POV, school bag by the door","Parents"],
+ ["ndis","Your plan says capacity building. Here's what that looks like.","OT on telehealth with a visual schedule","Participants and carers"],
+ ["hinges","11pm. Exhausted. Wide awake.","Phone glow in a dark bedroom","Sleep Architecture"],
+ ["hinges","Every morning feels like starting from zero.","Keys missing, shoes by the door, clock","Morning Architecture"],
+ ["hinges","Great at 10am. Gone by 2pm.","OT sharp at the desk, then flat on the couch","Energy Management"],
+ ["hinges","47 tabs open. In your browser and in your head.","Screen full of tabs, then the OT closing them","Cognitive Load Reduction"],
+ ["hinges","The meltdown isn't about the iPad. It's about stopping.","Tablet put down, timer on screen","Transition Scaffolding"],
+ ["hinges","Home from work, but your brain is still at work.","OT in the driveway, still on a work call","Shutdown Ritual"],
+ ["gaming","Six hours planning a build. Six minutes on homework.","Big build on screen, then a blank worksheet","Parents"],
+ ["gaming","Gaming isn't the problem. It's where we start.","OT holding a controller, turns to camera","Parents"],
+ ["gaming","Our OTs run a game server. Here's why.","Screen recording of the Estus server, Discord on the side","Parents, teens"],
+ ["gaming","Rage-quit again? Let's talk about that.","Controller dropped on a couch","Parents"],
+ ["gaming","On our server, older teens can earn moderator roles.","Mod badge on screen, OT explaining","Parents of teens"],
+ ["driving","All their mates have their licence. They haven't even booked the L's test.","Teen's bedroom, L's handbook gathering dust","Parents"],
+ ["driving","Driving lessons where nobody yells.","Calm in-car shot, one OT, dash cam visible","Drivers 17 to 25"],
+ ["driving","The road isn't the hard part. The pressure is.","Busy roundabout, then a quiet car park","Young drivers"],
+ ["driving","Your participant wants to drive. Here's the first step.","OT with a report on a clipboard","Support coordinators"],
+ ["driving","Do you live in [suburb]? Here's how we start new drivers.","OT beside the car, suburb sign behind","Local, all"]
+];
+var filt=store.get("eh_filter","all");
+var chips=$("#chips"),hl=$("#hooklist");
+function renderChips(){var cats=["all"].concat(Object.keys(HL));
+  chips.innerHTML=cats.map(function(c){var n=c==="all"?HOOKS.length:HOOKS.filter(function(h){return h[0]===c}).length;
+    return '<button type="button" class="chip" data-c="'+c+'" aria-pressed="'+(filt===c)+'">'+(c==="all"?"All":HL[c])+'<span class="ct">'+n+'</span></button>'}).join("");
+  chips.querySelectorAll(".chip").forEach(function(b){b.addEventListener("click",function(){filt=b.dataset.c;store.set("eh_filter",filt);renderChips();renderHooks()})})}
+function renderHooks(){
+  hl.innerHTML=HOOKS.map(function(h,i){return filt!=="all"&&h[0]!==filt?"":'<article class="hook" style="--hc:'+HC[h[0]]+'"><q>'+esc(h[1])+'</q><div class="shot">On screen: '+esc(h[2])+'</div><div class="meta"><span class="pill">'+esc(HL[h[0]])+' · '+esc(h[3])+'</span><span style="display:flex;gap:6px"><button class="btn" type="button" data-copy="'+i+'">Copy</button><button class="btn" type="button" data-use="'+i+'">Use in builder</button></span></div></article>'}).join("");
+  $("#offer").hidden=!(filt==="all"||filt==="hinges");
+}
+hl.addEventListener("click",function(e){var c=e.target.closest("[data-copy]"),u=e.target.closest("[data-use]");
+  if(c)copy(HOOKS[+c.dataset.copy][1],"Hook copied");
+  if(u){$("#bh").value=HOOKS[+u.dataset.use][1];$("#bh_pick").value=u.dataset.use;build();location.hash="builder";toast("Hook added to builder")}});
+renderChips();renderHooks();
+
+/* ---------- scripts ---------- */
+var SCRIPTS=[
+ {id:"A",name:"Starting is the hard part",aud:"Adults",rows:[
+  ["0 to 3","hook","The task takes 10 minutes. Starting it takes 3 hours.","OT at a laptop, jump-cut clock 9:00 to 12:00"],
+  ["3 to 7","cause","That's not laziness. Your brain just needs a different way in.","OT turns to camera"],
+  ["7 to 16","method","In our OT sessions we build start-up routines around how you actually work.","Screen share: a 3-step start routine, a visual timer"],
+  ["16 to 21","detail","We start with one task. Not your whole life.","OT holds up one sticky note"],
+  ["21 to 26","alone","Same OT each week, by telehealth, anywhere in Australia.","Telehealth call on a phone"],
+  ["26 to 31","cta","Tap Learn More and our team will call to book your first session.","OT points down to the button"]]},
+ {id:"B",name:"Morning battles",aud:"Parents",rows:[
+  ["0 to 3","hook","Mornings with your kid shouldn't feel like a battle.","Parent POV: school bag, shoes, clock"],
+  ["3 to 7","cause","Often it's not behaviour. It's the routine not fitting their brain.","OT kneels to child height, talks to camera"],
+  ["7 to 16","method","Our OTs build visual routines and sensory supports that work at home.","Laminated visual schedule on a fridge"],
+  ["16 to 21","detail","We start with the one part of the morning that blows up most.","OT circles one card on the schedule"],
+  ["21 to 26","alone","Sessions by telehealth. NDIS and private families welcome.","Caption on screen"],
+  ["26 to 31","cta","Tap Learn More and we'll call you to get started.","OT points down"]]},
+ {id:"C",name:"What capacity building looks like",aud:"NDIS",rows:[
+  ["0 to 3","hook","Your plan says capacity building. Here's what that actually looks like.","OT holding a printed plan page, no real details"],
+  ["3 to 8","cause","It means building skills for your daily life, at your pace.","Cut to telehealth session"],
+  ["8 to 17","method","Things like a morning routine, cooking a meal, or managing money.","Quick cuts: routine card, recipe card, budget sheet"],
+  ["17 to 22","detail","Your OT sets goals with you, not for you.","OT and client writing goals together (actor)"],
+  ["22 to 27","alone","We work with self-managed and plan-managed participants.","Caption on screen"],
+  ["27 to 32","cta","Tap Learn More and we'll call to talk through your plan.","OT points down"]],note:"Check NDIS wording against current NDIA rules before you run this one."},
+ {id:"D",name:"Driving lessons where nobody yells",aud:"Driving on the Spectrum",rows:[
+  ["0 to 3","hook","Driving lessons where nobody yells.","OT in driver's seat, calm, turns to camera"],
+  ["3 to 7","cause","For a lot of new drivers, it's not the skills. It's the pressure in the car.","Busy traffic, then quiet"],
+  ["7 to 15","method","So it's just me in the car. I'm the OT and the instructor, with a dash cam instead of a second person.","Dash cam close-up, empty back seat"],
+  ["15 to 20","detail","We start in a quiet car park. No main roads until you're ready.","Empty car park, cones"],
+  ["20 to 25","alone","First step is a driving assessment. NDIS participants welcome.","OT with clipboard by the car"],
+  ["25 to 30","cta","Tap Learn More and we'll call you to talk it through.","OT points down"]],note:"Shoot it all in one morning: the car, a quiet car park, the OT. Swap the suburb for each area you target."},
+ {id:"E",name:"Great at 10am, gone by 2pm",aud:"Small Hinges",rows:[
+  ["0 to 3","hook","Great at 10am. Gone by 2pm.","OT sharp at desk, hard cut to flat on couch"],
+  ["3 to 7","cause","That crash isn't a character flaw. It's how your energy is being spent.","OT to camera"],
+  ["7 to 15","method","We map where your energy goes in a day, then plan around it.","Hand-drawn energy curve on a whiteboard"],
+  ["15 to 20","detail","It's one of our Small Hinges. One area, one session at a time.","Six hinge cards, one pulled out"],
+  ["20 to 25","alone","By telehealth, NDIS and private clients welcome.","Caption on screen"],
+  ["25 to 30","cta","Tap Learn More to grab the free guide or book a call.","OT points down"]]},
+ {id:"F",name:"Gaming isn't the problem",aud:"Gaming",rows:[
+  ["0 to 3","hook","Gaming isn't the problem. It's where we start.","OT with a controller, turns to camera"],
+  ["3 to 8","cause","If your kid can focus on a game for hours, that focus is real. We use it.","Screen recording of a build in progress"],
+  ["8 to 16","method","Our OTs work inside games to practise planning, turn-taking and handling a loss.","OT and client (actor) on telehealth with gameplay"],
+  ["16 to 21","detail","We even run a community server, with real jobs for older teens.","Server screen, mod badge"],
+  ["21 to 26","alone","NDIS and private families welcome, Australia-wide.","Caption on screen"],
+  ["26 to 31","cta","Tap Learn More and we'll call you.","OT points down"]],note:"No game logos. Check the game's usage guidelines before using gameplay in paid ads."}
+];
+var sel=store.get("eh_script","A");if(!SCRIPTS.some(function(s){return s.id===sel}))sel="A";
+var stabs=$("#stabs"),sbox=$("#script");
+function renderScripts(){
+  stabs.innerHTML=SCRIPTS.map(function(s){return '<button type="button" class="tab" role="tab" aria-selected="'+(s.id===sel)+'" data-id="'+s.id+'"><b>'+s.id+' · '+esc(s.name)+'</b><small>'+esc(s.aud)+'</small></button>'}).join("");
+  var s=SCRIPTS.filter(function(x){return x.id===sel})[0];
+  var words=s.rows.reduce(function(n,r){return n+r[2].split(/\s+/).length},0);
+  sbox.innerHTML='<div class="row head"><span>Time</span><span>Say</span><span>Show</span></div>'+s.rows.map(function(r){return '<div class="row b-'+r[1]+'"><div class="t"><span>'+BEATS[r[1]]+'</span>'+r[0]+'s</div><div class="say">'+esc(r[2])+'</div><div class="show">'+esc(r[3])+'</div></div>'}).join("")+
+   '<div class="script-foot"><span>'+words+' words'+(s.note?' · '+esc(s.note):'')+'</span><span style="display:flex;gap:6px"><button class="btn" type="button" id="cpys">Copy script</button><button class="btn primary" type="button" id="tobuild">Edit in builder</button></span></div>';
+  stabs.querySelectorAll(".tab").forEach(function(b){b.addEventListener("click",function(){sel=b.dataset.id;store.set("eh_script",sel);renderScripts()})});
+  $("#cpys").addEventListener("click",function(){copy(s.rows.map(function(r){return "["+r[0]+"s] "+r[2]+"\n   Show: "+r[3]}).join("\n"),"Script copied")});
+  $("#tobuild").addEventListener("click",function(){["bh","bc","bm","bd","ba","bx"].forEach(function(id,i){$("#"+id).value=s.rows[i]?s.rows[i][2]:""});$("#bh_pick").value="";build();location.hash="builder";toast("Script loaded into builder")});
+}
+renderScripts();
+
+/* ---------- copy checker ---------- */
+var COND="adhd|autis\\w*|asd|anxi\\w*|depress\\w*|dyslexi\\w*|dyspraxi\\w*|disab\\w*|pda|neurodivergent|on the spectrum|ocd|bipolar|trauma|ptsd|sensory processing disorder";
+var RULES=[
+ {re:new RegExp("\\b(do|are|have) you (got |have |been diagnosed with |living with |suffer\\w* (from|with) |struggl\\w* with )?("+COND+")","gi"),lvl:"bad",t:"Implies the viewer has a condition",d:"Meta's personal attributes policy rejects copy that asserts or implies the viewer's health or disability. Name a moment instead."},
+ {re:new RegExp("\\byour (own )?("+COND+"|diagnosis|condition|disorder|symptoms)","gi"),lvl:"bad",t:"“Your [condition]”",d:"Same Meta rule. Describe the service (“Our OTs support neurodivergent adults”), not the viewer."},
+ {re:new RegExp("\\bas an? ("+COND+"|disabled)","gi"),lvl:"bad",t:"“As a [condition] person”",d:"Same Meta rule. Talk about the moment, not who the viewer is."},
+ {re:/\b(clients?|parents?|families|patients?) (say|said|love|tell us|told us)\b|testimonial|\b(5|five)[- ]star|\breviews?\b|changed (my|our|their) li(fe|ves)/gi,lvl:"bad",t:"Testimonial or review",d:"Ahpra: no testimonials about symptoms, treatment or outcomes. Comments about service or communication style are fine if complete and unedited."},
+ {re:/\bguarantee\w*|\bcure\w*|\bfix (your|their|the)\b|\bno more (meltdowns|stress|overwhelm)|\bstop (the )?meltdowns|\bget your (licen[cs]e|l'?s|p'?s)\b|\bsleep through the night|\bfinally (get|be|feel)\b|\b100 ?%/gi,lvl:"bad",t:"Outcome promise",d:"Ahpra: don't create unrealistic expectations. Say what you do, not what they'll get."},
+ {re:/\bndis (will |can )?(fund|pay|cover)s?\b|\bfully funded\b|\bfree (with|under|through) (the )?ndis\b|\bndis approved\b/gi,lvl:"warn",t:"Implies NDIS funding",d:"Never imply funding is guaranteed. “NDIS participants welcome” is safe."},
+ {re:/\b(best|leading|number one|#1|top[- ]rated|world[- ]class)\b/gi,lvl:"warn",t:"Superlative claim",d:"Ahpra warns against claims you can't back up. Check you can prove it, or cut it."},
+ {re:new RegExp(String.fromCharCode(8212),"g"),lvl:"warn",t:"Em-dash",d:"House style: no em-dashes. Use a full stop or comma."}
+];
+function check(text){
+  var out=[];RULES.forEach(function(r){r.re.lastIndex=0;var m,hits=[];while((m=r.re.exec(text))!==null){hits.push(m[0]);if(m[0]==="")r.re.lastIndex++}
+    if(hits.length){var uniq=hits.filter(function(h,i){return hits.indexOf(h)===i});out.push({lvl:r.lvl,t:r.t,d:r.d,hits:uniq})}});
+  return out}
+function renderFlags(el,text){
+  if(!text.trim()){el.innerHTML='<div class="flag ok"><b>Nothing to check</b>Paste a script or caption.</div>';return}
+  var f=check(text);
+  el.innerHTML=f.length?f.map(function(x){return '<div class="flag '+(x.lvl==="bad"?"bad":"")+'"><b>'+esc(x.t)+'</b>Found: '+x.hits.map(function(h){return '<mark>'+esc(h)+'</mark>'}).join(", ")+'. '+esc(x.d)+'</div>'}).join(""):
+   '<div class="flag ok"><b>No flags found</b>Still run the checklist below before it goes live.</div>'}
+var cin=$("#copyin");cin.addEventListener("input",function(){renderFlags($("#flags"),cin.value)});renderFlags($("#flags"),cin.value);
+
+/* ---------- builder ---------- */
+var pickEl=$("#bh_pick");
+pickEl.innerHTML='<option value="">Pick from the hook bank, or type your own</option>'+HOOKS.map(function(h,i){return '<option value="'+i+'">'+esc(HL[h[0]])+': '+esc(h[1])+'</option>'}).join("");
+pickEl.addEventListener("change",function(){if(pickEl.value!==""){$("#bh").value=HOOKS[+pickEl.value][1];build()}});
+var BIDS=["bh","bc","bm","bd","ba","bx"],BKEYS=["hook","cause","method","detail","alone","cta"];
+var saved=store.get("eh_builder",null);
+if(saved){BIDS.forEach(function(id){if(saved[id]!=null)$("#"+id).value=saved[id]})}
+else{var s0=SCRIPTS[4];BIDS.forEach(function(id,i){$("#"+id).value=s0.rows[i][2]})}
+function build(){
+  var parts=BIDS.map(function(id){return $("#"+id).value.trim()});
+  var text=parts.filter(Boolean).join("\n\n");
+  var words=text?text.split(/\s+/).filter(Boolean).length:0,secs=Math.round(words/3);
+  $("#wc").textContent=words+" words";$("#secs").textContent="about "+secs+"s";
+  $("#fill").style.width=Math.min(100,secs/80*100)+"%";
+  $("#fill").style.background=secs>=25&&secs<=40?"var(--teal)":(secs>40?"var(--warn)":"var(--blue)");
+  $("#assembled").textContent=text||"Your script appears here.";
+  var st={};BIDS.forEach(function(id){st[id]=$("#"+id).value});store.set("eh_builder",st);
+  var f=check(text);$("#bflags").innerHTML=f.length?'<div class="flag bad"><b>'+f.length+' copy '+(f.length===1?"flag":"flags")+'</b>Run the copy check to see what to fix.</div>':"";
+}
+BIDS.forEach(function(id){$("#"+id).addEventListener("input",build)});
+$("#copyscript").addEventListener("click",function(){copy($("#assembled").textContent,"Script copied")});
+$("#checkscript").addEventListener("click",function(){cin.value=$("#assembled").textContent;renderFlags($("#flags"),cin.value);location.hash="check"});
+$("#clearscript").addEventListener("click",function(){BIDS.forEach(function(id){$("#"+id).value=""});pickEl.value="";build()});
+build();
+
+/* ---------- checklists ---------- */
+var ticks=store.get("eh_ticks",{});
+function list(el,title,key,items){
+  var box=document.createElement("div");box.className="list";
+  box.innerHTML='<h4>'+esc(title)+'<span></span></h4>'+items.map(function(t,i){var id=key+"_"+i;return '<label for="'+id+'"><input type="checkbox" id="'+id+'"'+(ticks[id]?" checked":"")+'><span>'+t+'</span></label>'}).join("");
+  el.appendChild(box);
+  function count(){var n=box.querySelectorAll("input:checked").length;$("h4 span",box).textContent=n+" / "+items.length}
+  box.addEventListener("change",function(e){ticks[e.target.id]=e.target.checked;store.set("eh_ticks",ticks);count()});count();
+}
+var g=$("#guard");
+list(g,"Ahpra","ga",["No testimonials about symptoms, treatment or outcomes, including review screenshots","Service or communication comments only if complete and unedited","No outcome promises. Say what you do, not what they'll get","Moderate comments on Estus pages, or switch reviews off"]);
+list(g,"Meta","gm",["Never imply the viewer has a condition or disability","Hook names a moment, not a diagnosis","Talk about the service, not who the viewer is"]);
+list(g,"Estus","ge",["Actors or staff only. No real clients, names or plan details","Never imply NDIS funding is guaranteed","Gaming: no game logos, check usage guidelines for footage","Driving on the Spectrum: brand name on the page, not in “you” sentences"]);
+var sl=$("#shootlists");
+list(sl,"Kit","sk",["Phone on a tripod, vertical 9:16 (1080 x 1920)","Lapel mic on every speaker","Estus top, the same across clinicians","Window light on faces, nothing bright behind","Props for each hook (planners, controller, keys, car)"]);
+list(sl,"Shoot","ss",["Act the hook out in the first 2 seconds","New angle or location every 3 to 6 seconds","Record the CTA with a point down to the button","3 versions of each hook, back to back","Talk to the lens like it's one person"]);
+list(sl,"Edit","se",["Captions burned in, centred, 2 to 4 words","25 to 40 seconds long","Cut every pause and “um”","Key text out of the top 15% and bottom 20%","End on a line that loops into the hook","Run the copy check before upload"]);
+$("#resetticks").addEventListener("click",function(){ticks={};store.set("eh_ticks",ticks);document.querySelectorAll(".list input").forEach(function(i){i.checked=false;i.dispatchEvent(new Event("change",{bubbles:true}))});toast("Ticks reset")});
+
+/* ---------- metrics ---------- */
+var M=["m_imp","m_3s","m_tp","m_cl","m_sp","m_ld","m_bk"];
+var mv=store.get("eh_metrics",null);if(mv)M.forEach(function(id){if(mv[id]!=null)$("#"+id).value=mv[id]});
+function n(id){var v=parseFloat($("#"+id).value);return isNaN(v)?0:v}
+function pct(a,b){return b>0?a/b*100:null}
+function money(v){return v==null?"n/a":"$"+v.toFixed(2)}
+function calc(){
+  var st={};M.forEach(function(id){st[id]=$("#"+id).value});store.set("eh_metrics",st);
+  var hr=pct(n("m_3s"),n("m_imp")),hold=pct(n("m_tp"),n("m_3s")),ctr=pct(n("m_cl"),n("m_imp"));
+  var cpl=n("m_ld")>0?n("m_sp")/n("m_ld"):null,cpb=n("m_bk")>0?n("m_sp")/n("m_bk"):null,conv=pct(n("m_bk"),n("m_ld"));
+  var R=[
+   ["Hook rate",hr==null?"n/a":hr.toFixed(1)+"%",hr==null?null:hr>=25,"Target 25%+. Low means test new hooks."],
+   ["Hold rate",hold==null?"n/a":hold.toFixed(1)+"%",hold==null?null:hold>=15,"Target 15%+. Low means the body loses them."],
+   ["Link CTR",ctr==null?"n/a":ctr.toFixed(2)+"%",ctr==null?null:ctr>=1,"Target 1%+. Low means the CTA or offer is weak."],
+   ["Cost per lead",money(cpl),null,"Set your baseline in round one."],
+   ["Lead to booked",conv==null?"n/a":conv.toFixed(0)+"%",null,"Shows how well the call converts."],
+   ["Cost per booked session",money(cpb),null,"The number that matters. Compare it to what a client is worth."]
+  ];
+  $("#results").innerHTML=R.map(function(r){var s=r[2]===null?'<span class="st na">Baseline</span>':(r[2]?'<span class="st good">On target</span>':'<span class="st bad">Below target</span>');
+    return '<div class="res"><span class="k">'+r[0]+'</span><span class="v">'+r[1]+'</span>'+s+'<span class="why">'+r[3]+'</span></div>'}).join("");
+}
+M.forEach(function(id){$("#"+id).addEventListener("input",calc)});calc();
+
+/* ---------- rail highlight ---------- */
+var links=[].slice.call(document.querySelectorAll("#rail a"));
+if("IntersectionObserver" in window){
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.toggle("on",a.getAttribute("href")==="#"+e.target.id)})}})},{rootMargin:"-40% 0px -55% 0px"});
+  document.querySelectorAll("section.s").forEach(function(s){io.observe(s)});
+}
+})();
+</script>
+
+</body></html>

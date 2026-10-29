@@ -1,0 +1,469 @@
+<!doctype html><html lang="en-AU"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body><style>
+.ehub{background:#090909;color:#FBFAF8;border-bottom:1px solid #2C323C;position:relative;z-index:6}
+.ehub-in{max-width:1120px;margin:0 auto;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));display:flex;justify-content:space-between;align-items:center;gap:10px 16px;flex-wrap:wrap}
+.ehub a{color:inherit;text-decoration:none}
+.ehub-home{display:flex;align-items:center;gap:12px;min-height:36px}
+.ehub-bands{display:flex;width:56px;height:5px;flex:none}.ehub-bands i{flex:1}
+.ehub-bands i:nth-child(1){background:#344982}.ehub-bands i:nth-child(2){background:#2F6F9E}.ehub-bands i:nth-child(3){background:#2CA5B8}.ehub-bands i:nth-child(4){background:#AB5C95}
+.ehub-wm{font:500 14px/1 "Oswald","Arial Narrow",Impact,sans-serif;letter-spacing:.16em}.ehub-wm b{font-weight:700}
+.ehub-sep{font:600 12px/1 "Barlow Semi Condensed","Arial Narrow",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#AEB5C2;border-left:1px solid #3A3F48;padding-left:12px}
+.ehub-home:hover .ehub-sep{color:#FBFAF8}
+.ehub-r{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ehub-btn{font:600 12px/1 "Barlow Semi Condensed","Arial Narrow",sans-serif;letter-spacing:.1em;text-transform:uppercase;border:1px solid #3A3F48;background:none;color:#FBFAF8;padding:9px 12px;cursor:pointer;min-height:36px;display:inline-flex;align-items:center;gap:8px}
+.ehub-btn:hover{border-color:#FBFAF8}
+.ehub-btn[aria-pressed="true"]{background:#2E7D4F;border-color:#2E7D4F}
+.ehub-btn:focus-visible,.ehub a:focus-visible{outline:2px solid #2CA5B8;outline-offset:2px}
+.ehub-next{background:#FBFAF8!important;color:#090909!important;border-color:#FBFAF8}
+@media (max-width:520px){.ehub-sep{display:none}.ehub-next .ehub-nl{display:none}}
+@media print{.ehub{display:none}}
+</style>
+<nav class="ehub" aria-label="Estus Training Hub" style="margin:-24px calc(-1 * max(16px, env(safe-area-inset-right, 0px))) 24px calc(-1 * max(16px, env(safe-area-inset-left, 0px)))"><div class="ehub-in">
+<a class="ehub-home" href="index.html"><span class="ehub-bands" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="ehub-wm"><b>ESTUS</b> HEALTH</span><span class="ehub-sep">&larr; Training Hub</span></a>
+<div class="ehub-r"><button class="ehub-btn" type="button" id="ehub-done" aria-pressed="false">Mark done</button><a class="ehub-btn ehub-next" href="check.html"><span class="ehub-nl">Next:</span> Clinician Check <span aria-hidden="true">&rarr;</span></a></div>
+</div></nav>
+<script>(function(){var K="hub_done",s="nurture",b=document.getElementById("ehub-done");function l(){try{return JSON.parse(localStorage.getItem(K))||{}}catch(e){return {}}}function r(){var on=!!l()[s];b.setAttribute("aria-pressed",on);b.textContent=on?"\u2713 Done":"Mark done"}b.addEventListener("click",function(){var v=l();if(v[s])delete v[s];else v[s]=1;try{localStorage.setItem(K,JSON.stringify(v))}catch(e){}r()});r()})();</script>
+
+<title>Estus Nurture Trainer</title><meta name="robots" content="noindex, nofollow"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 fill=%22%23090909%22/%3E%3Crect x=%224%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23344982%22/%3E%3Crect x=%2210%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232F6F9E%22/%3E%3Crect x=%2216%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232CA5B8%22/%3E%3Crect x=%2222%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23AB5C95%22/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap">
+<style>
+/* Layout: dispatch board. Tabs on top, lens switch, timeline with monospace clock rail on the left. */
+:root{
+  --paper:#EEF2EF; --surface:#FFFFFF; --ink:#16201C; --muted:#56645E; --line:#D3DCD7;
+  --accent:#1E56B8; --accent-soft:#E2EAF8; --on-accent:#FFFFFF;
+  --call:#B9440F; --text:#1E56B8; --email:#6A2BC9; --vm:#0E7468; --warn:#9A5B00; --warn-soft:#FFF1D6; --good:#17784A; --bad:#B42318;
+  --f-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body:"Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0E1412; --surface:#161F1C; --ink:#E6EEEA; --muted:#94A39C; --line:#2A3632;
+  --accent:#86ADF2; --accent-soft:#1B2A44; --on-accent:#0E1412;
+  --call:#F2A066; --text:#86ADF2; --email:#BFA2F7; --vm:#55CBB8; --warn:#F2C064; --warn-soft:#2E2512; --good:#5BD49A; --bad:#F38B80;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E1412; --surface:#161F1C; --ink:#E6EEEA; --muted:#94A39C; --line:#2A3632;
+  --accent:#86ADF2; --accent-soft:#1B2A44; --on-accent:#0E1412;
+  --call:#F2A066; --text:#86ADF2; --email:#BFA2F7; --vm:#55CBB8; --warn:#F2C064; --warn-soft:#2E2512; --good:#5BD49A; --bad:#F38B80;
+  color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:400 16px/1.55 var(--f-body);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 64px}
+.wrap{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.1}
+h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:800;letter-spacing:-.02em}
+h2{font-size:clamp(1.4rem,3vw,1.9rem);font-weight:700;letter-spacing:-.01em}
+h3{font-size:1.1rem;font-weight:700}
+p{margin:0;max-width:65ch}
+.eyebrow{font:700 .72rem/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.muted{color:var(--muted)}
+header.top{display:flex;flex-direction:column;gap:12px}
+.lede{font-size:1.08rem;color:var(--muted)}
+.lede b{color:var(--ink)}
+nav.tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);background:var(--paper);z-index:5;padding-top:6px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+nav.tabs button{font:600 .95rem var(--f-body);color:var(--muted);background:none;border:0;padding:10px 14px;border-bottom:3px solid transparent;cursor:pointer;margin-bottom:-1px}
+nav.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+section.view{display:flex;flex-direction:column;gap:22px}
+.lens{display:flex;gap:0;flex-wrap:wrap;border:1px solid var(--line);border-radius:10px;overflow:hidden;width:fit-content;max-width:100%;background:var(--surface)}
+.lens button{font:600 .9rem var(--f-body);background:none;border:0;padding:10px 16px;color:var(--muted);cursor:pointer;border-right:1px solid var(--line)}
+.lens button:last-child{border-right:0}
+.lens button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
+.lens-row{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.lens-note{font-size:.92rem;color:var(--muted);max-width:60ch}
+
+/* pillars */
+.pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.pillar{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:8px}
+.pillar .n{font:700 .75rem var(--f-mono);color:var(--accent)}
+.pillar .swap{font-size:.9rem;border-top:1px dashed var(--line);padding-top:8px;color:var(--muted)}
+.pillar .swap b{color:var(--ink)}
+
+.big{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px}
+.big .num{font:800 clamp(2.4rem,7vw,3.6rem)/1 var(--f-display);color:var(--accent);font-variant-numeric:tabular-nums}
+@media (max-width:520px){.big{grid-template-columns:1fr}}
+
+/* timeline */
+.tl{display:flex;flex-direction:column}
+.step{display:grid;grid-template-columns:118px 1fr;gap:18px}
+.rail{position:relative;padding-top:18px;text-align:right}
+.rail .clock{font:700 .85rem/1.2 var(--f-mono);font-variant-numeric:tabular-nums}
+.rail .when{font:500 .74rem/1.3 var(--f-mono);color:var(--muted);margin-top:2px}
+.step .card{position:relative;border-left:2px solid var(--line);padding:16px 0 26px 22px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.step .card::before{content:"";position:absolute;left:-7px;top:20px;width:12px;height:12px;border-radius:50%;background:var(--surface);border:2px solid var(--accent)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{font:700 .7rem/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:5px 8px;border-radius:999px;border:1.5px solid currentColor}
+.chip.call{color:var(--call)}.chip.text{color:var(--text)}.chip.email{color:var(--email)}.chip.vm{color:var(--vm)}
+.do{font-size:1rem}
+.script{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 14px 12px;display:flex;flex-direction:column;gap:10px}
+.script .lbl{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.script blockquote{margin:0;font-size:.98rem;white-space:pre-wrap;overflow-wrap:anywhere}
+.copy{font:600 .8rem var(--f-body);border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:8px;padding:6px 10px;cursor:pointer}
+.why{font-size:.9rem;background:var(--warn-soft);border-radius:8px;padding:10px 12px}
+.why b{color:var(--warn)}
+@media (max-width:560px){.step{grid-template-columns:1fr;gap:0}.rail{text-align:left;padding-top:8px}.step .card{padding-top:8px}}
+
+/* checklist */
+.check{display:flex;flex-direction:column;gap:0;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.check label{display:grid;grid-template-columns:22px 1fr;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line);cursor:pointer}
+.check label:last-child{border-bottom:0}
+.check input{width:18px;height:18px;margin-top:3px;accent-color:var(--accent)}
+.check .t{font-weight:600}
+.check .d{font-size:.92rem;color:var(--muted)}
+.check input:checked + span .t{text-decoration:line-through;color:var(--muted)}
+.prog{font:700 .8rem var(--f-mono);color:var(--muted)}
+
+/* rules */
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.rule{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.pair{display:grid;grid-template-columns:auto 1fr;gap:6px 10px;font-size:.93rem}
+.pair .x{color:var(--bad);font-weight:700}.pair .y{color:var(--good);font-weight:700}
+
+/* calculator */
+.calc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px}
+@media (max-width:720px){.calc{grid-template-columns:1fr}}
+.fields{display:flex;flex-direction:column;gap:14px}
+.field{display:flex;flex-direction:column;gap:4px}
+.field label{font-weight:600;font-size:.92rem;display:flex;justify-content:space-between}
+.field label output{font:700 .9rem var(--f-mono)}
+.field input[type=range]{width:100%;accent-color:var(--accent)}
+.bars{display:flex;flex-direction:column;gap:8px}
+.bar{display:grid;grid-template-columns:96px 1fr 52px;gap:10px;align-items:center;font-size:.88rem}
+.bar .track{height:22px;background:var(--paper);border-radius:6px;overflow:hidden}
+.bar .fill{height:100%;background:var(--accent);border-radius:6px;transition:width .3s}
+.bar .v{font:700 .85rem var(--f-mono);text-align:right;font-variant-numeric:tabular-nums}
+.callout{font-size:.95rem;border-top:1px dashed var(--line);padding-top:12px}
+
+/* quiz */
+.q{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:14px}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opts button{text-align:left;font:500 .97rem/1.4 var(--f-body);color:var(--ink);background:var(--paper);border:1.5px solid var(--line);border-radius:10px;padding:12px 14px;cursor:pointer}
+.opts button.right{border-color:var(--good)}
+.opts button.wrong{border-color:var(--bad)}
+.opts button:disabled{cursor:default}
+.fb{font-size:.95rem}
+.qnav{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.btn{font:600 .95rem var(--f-body);background:var(--accent);color:var(--on-accent);border:0;border-radius:10px;padding:10px 18px;cursor:pointer}
+.btn:disabled{opacity:.4;cursor:default}
+footer{font-size:.85rem;color:var(--muted);border-top:1px solid var(--line);padding-top:16px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style><style>
+:root{--paper:#F3F2EF;--surface:#FBFAF8;--ink:#0E1014;--muted:#65676E;--line:#D3D1CC;--accent:#344982;--accent-soft:#DDE2EF;--on-accent:#FBFAF8;--call:#AB5C95;--text:#2F6F9E;--email:#344982;--vm:#1E7C8B;--warn:#A86A12;--warn-soft:#F6E8D2;--good:#2E7D4F;--bad:#B23A3A;
+--f-display:"Oswald","Arial Narrow",Impact,sans-serif;--f-body:"Barlow","Segoe UI",system-ui,sans-serif;--f-mono:"Barlow Semi Condensed","Arial Narrow",sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#0F1216;--surface:#161A20;--ink:#ECEEF1;--muted:#9BA1AB;--line:#2C323C;--accent:#8299DA;--accent-soft:#1E2740;--on-accent:#0F1216;--call:#D58FC1;--text:#6FA8D2;--email:#8299DA;--vm:#4CC3D4;--warn:#E0A64A;--warn-soft:#33270F;--good:#5FC38A;--bad:#EC7B7B;color-scheme:dark}}
+:root[data-theme="dark"]{--paper:#0F1216;--surface:#161A20;--ink:#ECEEF1;--muted:#9BA1AB;--line:#2C323C;--accent:#8299DA;--accent-soft:#1E2740;--on-accent:#0F1216;--call:#D58FC1;--text:#6FA8D2;--email:#8299DA;--vm:#4CC3D4;--warn:#E0A64A;--warn-soft:#33270F;--good:#5FC38A;--bad:#EC7B7B;color-scheme:dark}
+h1,h2{font-weight:600!important;text-transform:uppercase;letter-spacing:.01em!important}
+h1{line-height:1!important}
+.eyebrow,.chip,.prog,.n,.lvl,.clock,.when,.m,.who,.card .n,.pillar .n{letter-spacing:.12em}
+.big .num{font-weight:600!important}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <span class="eyebrow">Estus Health · Driving on the Spectrum · team training</span>
+    <h1>Lead nurture, the Gym Launch way, rebuilt for OT</h1>
+    <p class="lede">Hormozi's gyms won on one thing: <b>they got back to people fast and kept going</b> until the person said yes, no, or later. This trainer teaches that sequence, then shows it applied to <b>ongoing online OT</b> and <b>in-person medical fitness to drive</b> assessments.</p>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Sections">
+    <button role="tab" data-v="learn" aria-selected="true">1. The idea</button>
+    <button role="tab" data-v="sequence" aria-selected="false">2. The sequence</button>
+    <button role="tab" data-v="show" aria-selected="false">3. Getting them to show</button>
+    <button role="tab" data-v="rules" aria-selected="false">4. Guardrails</button>
+    <button role="tab" data-v="practice" aria-selected="false">5. Practice</button>
+  </nav>
+
+  <!-- LEARN -->
+  <section class="view" id="v-learn">
+    <div class="big">
+      <div class="num">5 min</div>
+      <div><h3>Speed to lead</h3><p class="muted">The core rule. Reply to a new enquiry inside five minutes. Odds of reaching and qualifying a lead fall off a cliff after that. The lead is warmest the moment they hit submit.</p></div>
+    </div>
+
+    <div><span class="eyebrow">The four pillars</span><h2 style="margin-top:6px">What Hormozi measures, and what we swap</h2></div>
+    <div class="pillars">
+      <div class="pillar"><span class="n">PILLAR 1</span><h3>Availability</h3><p>Have open slots soon. Book the first appointment within 72 hours.</p><p class="swap"><b>For us:</b> clinicians keep short-notice slots in the lead calendar so welcome calls happen fast.</p></div>
+      <div class="pillar"><span class="n">PILLAR 2</span><h3>Speed</h3><p>First contact in under 5 minutes. Every hour of delay costs bookings.</p><p class="swap"><b>For us:</b> instant auto-text after hours, a human reply first thing next morning.</p></div>
+      <div class="pillar"><span class="n">PILLAR 3</span><h3>Personalisation</h3><p>Their name, their goal, their preferred channel. Feels like a person, not a machine.</p><p class="swap"><b>For us:</b> ask "call, text or email?" on the form. Many neurodivergent adults hate surprise calls. Honour it.</p></div>
+      <div class="pillar"><span class="n">PILLAR 4</span><h3>Volume</h3><p>Many touches. Gyms make up to 10 calls plus texts in week one.</p><p class="swap"><b>For us:</b> fewer, clearer touches. Tell them how many you'll send. Always an easy "not now".</p></div>
+    </div>
+
+    <div><span class="eyebrow">The shape</span><h2 style="margin-top:6px">Three phases</h2></div>
+    <div class="pillars">
+      <div class="pillar"><span class="n">MIN 0 TO DAY 1</span><h3>Strike</h3><p>Fast first contact, a second attempt with a new angle, then switch channel.</p></div>
+      <div class="pillar"><span class="n">DAY 2 TO DAY 7</span><h3>Persist</h3><p>Daily touches. Each one gives something: help, info, a simple question. Day 7 closes the loop politely.</p></div>
+      <div class="pillar"><span class="n">WEEK 2 ONWARD</span><h3>Long nurture</h3><p>Monthly value until they're ready. People come back months later. Stay useful, stay findable.</p></div>
+    </div>
+    <p class="muted">Then a separate job: once booked, <b>get them to show up</b>. A booking that no-shows is worth nothing. See tab 3.</p>
+  </section>
+
+  <!-- SEQUENCE -->
+  <section class="view" id="v-sequence" hidden>
+    <div class="lens-row">
+      <div class="lens" role="group" aria-label="Apply to">
+        <button data-lens="gym" aria-pressed="false">Gym original</button>
+        <button data-lens="ot" aria-pressed="true">Online OT</button>
+        <button data-lens="drive" aria-pressed="false">Fitness to drive</button>
+      </div>
+      <p class="lens-note" id="lensNote"></p>
+    </div>
+    <div class="tl" id="timeline"></div>
+  </section>
+
+  <!-- SHOW -->
+  <section class="view" id="v-show" hidden>
+    <div class="lens-row">
+      <div class="lens" role="group" aria-label="Apply to">
+        <button data-lens="gym" aria-pressed="false">Gym original</button>
+        <button data-lens="ot" aria-pressed="true">Online OT</button>
+        <button data-lens="drive" aria-pressed="false">Fitness to drive</button>
+      </div>
+      <span class="prog" id="showProg"></span>
+    </div>
+    <p class="muted">Tick each one off as you set it up. Your ticks stay in this browser.</p>
+    <div class="check" id="showList"></div>
+  </section>
+
+  <!-- RULES -->
+  <section class="view" id="v-rules" hidden>
+    <div><span class="eyebrow">Health, not gyms</span><h2 style="margin-top:6px">What we keep, what we drop</h2></div>
+    <p class="muted">Gym Launch uses testimonials, scarcity and pressure. Registered health practitioners can't. Keep the speed and the persistence. Drop the pressure.</p>
+    <div class="rules">
+      <div class="rule"><h3>No testimonials</h3><div class="pair"><span class="x">Gym</span><span>"Here's what Sarah said after 6 weeks..."</span><span class="y">Us</span><span>"Here's what a first session looks like." Explain the process instead.</span></div></div>
+      <div class="rule"><h3>No promised outcomes</h3><div class="pair"><span class="x">Gym</span><span>"Lose 10 kg in 6 weeks."</span><span class="y">Us</span><span>Never "we'll get you passed" or "fix your focus". Describe what we assess and how we help.</span></div></div>
+      <div class="rule"><h3>No fake urgency</h3><div class="pair"><span class="x">Gym</span><span>"Only 3 spots left, offer ends Friday."</span><span class="y">Us</span><span>Real info only: "Next opening is Thursday." Real deadlines are fine to mention (a DoT due date the client told you).</span></div></div>
+      <div class="rule"><h3>Consent and opt-out</h3><div class="pair"><span class="x">Gym</span><span>Call until they answer.</span><span class="y">Us</span><span>Say who you are in every message. Offer a clear "reply STOP" or "not now". Stop when asked.</span></div></div>
+      <div class="rule"><h3>Channel respect</h3><div class="pair"><span class="x">Gym</span><span>Double dial, every time.</span><span class="y">Us</span><span>Double dial only if they chose phone. Text-first is the default for neurodivergent adults.</span></div></div>
+      <div class="rule"><h3>Referrer privacy</h3><div class="pair"><span class="x">Gym</span><span>n/a</span><span class="y">Us</span><span>Update the GP or support coordinator only with the client's consent. Thank them for the referral either way.</span></div></div>
+    </div>
+    <p class="muted" style="font-size:.88rem">General guide only. Check the current Ahpra advertising guidelines and the Spam Act before going live.</p>
+  </section>
+
+  <!-- PRACTICE -->
+  <section class="view" id="v-practice" hidden>
+    <div><span class="eyebrow">Numbers</span><h2 style="margin-top:6px">Where clients leak out</h2></div>
+    <div class="calc">
+      <div class="fields">
+        <div class="field"><label for="c-leads">Enquiries per month <output id="o-leads"></output></label><input type="range" id="c-leads" min="5" max="150" value="40"></div>
+        <div class="field"><label for="c-contact">Reached (contact rate) <output id="o-contact"></output></label><input type="range" id="c-contact" min="10" max="100" value="60"></div>
+        <div class="field"><label for="c-book">Booked a welcome call <output id="o-book"></output></label><input type="range" id="c-book" min="10" max="100" value="55"></div>
+        <div class="field"><label for="c-show">Showed up <output id="o-show"></output></label><input type="range" id="c-show" min="10" max="100" value="70"></div>
+        <div class="field"><label for="c-sign">Signed service agreement <output id="o-sign"></output></label><input type="range" id="c-sign" min="10" max="100" value="70"></div>
+      </div>
+      <div class="bars" id="bars"></div>
+    </div>
+    <p class="muted" style="font-size:.88rem">Example figures. Swap in your real numbers from the CRM.</p>
+
+    <div><span class="eyebrow">Scenarios</span><h2 style="margin-top:6px">What would you do?</h2></div>
+    <div class="q" id="quiz"></div>
+  </section>
+
+  <footer>Built for Liam Fagan and the Estus team. Framework from Alex Hormozi's Gym Launch and $100M Leads, adapted for registered allied health.</footer>
+</div>
+
+<script>
+const LENS_NOTE = {
+  gym:"The original. Fast, loud, high volume. Read it to learn the bones.",
+  ot:"Goal: book a 15 min welcome call. Text-first, low demand, neuroaffirming.",
+  drive:"Goal: get the referral and docs in, then book the in-person assessment. More phone, more admin help."
+};
+
+const STEPS = [
+ {clock:"T+0:05", when:"Minute 0 to 5", title:"Strike fast",
+  gym:{ch:["call","call","vm","text"], do:"Call now. No answer? Hang up and call again straight away (the double dial). Leave a short voicemail. Then text.",
+   s:"Hey Sam, it's Jo from Iron Gym. Just tried you about your trial. When's good for a quick chat?"},
+  ot:{ch:["text"], do:"Text within 5 minutes. Call only if they picked phone on the form. After hours, an auto-text goes out and a human follows up first thing.",
+   s:"Hi Sam, it's Liam from Estus Health. Thanks for reaching out about OT support. I'm a real person, not a bot.\n\nWant to grab a free 15 min welcome call? Pick any time here: [calendar link]\n\nOr just reply with a day that suits.",
+   why:"Swap: no double dial by default. Unexpected calls are a big barrier for many neurodivergent adults."},
+  drive:{ch:["call","text"], do:"Call within 5 minutes. Parents, GPs and coordinators usually want a voice. If no answer, text the three things you need.",
+   s:"Hi Sam, Liam from Driving on the Spectrum. Got your enquiry about a driving assessment.\n\nTo get things moving I just need 3 things:\n1. A GP referral\n2. Your licence status\n3. How it's funded (NDIS or private)\n\nHappy to talk it through. Call or reply here, whatever's easier.",
+   why:"Swap: front-load the admin. Missing paperwork is what stalls driving leads, not interest."}},
+ {clock:"T+2:00", when:"Same day, 1 to 4 hrs", title:"Second attempt, new angle",
+  gym:{ch:["call","call","text"], do:"Second double dial. Text with a quick result or a member testimonial.",
+   s:"Sam, quick one. Mike started where you are and just hit his first pull-up. Want to see if we're a fit?"},
+  ot:{ch:["text"], do:"Send the 'what to expect' video. Lower the fear of the unknown. No testimonials.",
+   s:"Hi Sam, here's a 2 min video of what a first session with us looks like: [video link]\n\nNo prep needed, camera off is fine. Liam, Estus Health",
+   why:"Swap: process explainer replaces testimonial. Ahpra bans testimonials in health advertising."},
+  drive:{ch:["text"], do:"Explain how the assessment works so it feels less scary.",
+   s:"Here's how the assessment works, Sam:\n\nPart 1, in the clinic: vision, thinking skills, reaction time.\nPart 2, on the road in a dual-control car.\n\nAbout 2.5 to 3 hrs total. You can bring a support person. More here: [link]",
+   why:"Swap: anxiety about the test is a top reason people delay. Describe it, don't sell it."}},
+ {clock:"DAY 1 PM", when:"First evening", title:"Switch channel",
+  gym:{ch:["email"], do:"Third attempt on a different channel. DM on the platform they came from, or email.",
+   s:"Subject: Your trial at Iron Gym\n\nHey Sam, tried calling and texting. Here's everything in one place..."},
+  ot:{ch:["email"], do:"Email recap with everything in one place: booking link, fees (NDIS and private), telehealth basics, FAQs.",
+   s:"Subject: Your OT enquiry, everything in one place\n\nHi Sam,\n\nThanks again for getting in touch. Here's what you need:\n\nBook a welcome call: [link]\nFees and NDIS: [link]\nHow telehealth works: [link]\n\nNo rush. Reply any time.\n\nLiam Fagan\nEstus Health\n\nDon't want these emails? Reply 'stop'.",
+   why:"Swap: written info suits people who process better in writing and want to check fees privately."},
+  drive:{ch:["email"], do:"Email the document checklist and fee sheet. Separately, thank the referrer (no client details unless consented).",
+   s:"Subject: Driving assessment, your checklist\n\nHi Sam,\n\nAttached is a one-page checklist of what to bring and send. Once we have your GP referral we can lock in a date.\n\nFees: [link]\nWhat to expect: [link]\n\nLiam Fagan\nDriving on the Spectrum",
+   why:"Swap: a second lane for referrers. Fast thank-yous keep GPs and coordinators sending."}},
+ {clock:"DAY 2-3", when:"Days 2 and 3", title:"Persist with value",
+  gym:{ch:["call","call","text"], do:"Call twice a day, morning and afternoon. Text after the second call. Rotate: value, proof, question, offer to reschedule.",
+   s:"Morning Sam! Still keen to get started this week? I've got 6pm Thursday open."},
+  ot:{ch:["text"], do:"One touch a day, max. A low-demand yes or no question. Easy to answer without thinking.",
+   s:"Quick one, Sam: would mornings or afternoons suit better for sessions? Just reply AM or PM.",
+   why:"Swap: halve the volume, drop the effort to reply. A one-word answer restarts the conversation."},
+  drive:{ch:["call","text"], do:"One call and one text a day. Solve the blocker, usually the GP referral.",
+   s:"Hi Sam, is the GP referral the sticking point? I can send a short letter you can hand your GP so they know exactly what to write.",
+   why:"Swap: help with the admin. You remove friction instead of pushing harder."}},
+ {clock:"DAY 4-7", when:"Days 4 to 7", title:"Value, then close the loop",
+  gym:{ch:["call","text"], do:"One call and text a day. More value: tips, resources, case studies. Keep going.",
+   s:"Hey Sam, 3 easy protein swaps our members love: [link]. Want to book that trial?"},
+  ot:{ch:["text","email"], do:"Every second day. Send one genuinely useful tool. Day 7: the polite 'close the loop' text. This one gets surprising replies.",
+   s:"Hi Sam, I'll stop messaging so I'm not clogging up your phone.\n\nIf now's not the right time, totally fine. Reply any time, even months from now, and we'll pick it up.\n\nLiam, Estus Health",
+   why:"Swap: ending clearly is respectful and predictable. It often prompts the reply."},
+  drive:{ch:["text","email"], do:"Day 5: explain the process they may be facing (licence review, medical report). Day 7: close the loop.",
+   s:"Hi Sam, last message from me for now. Whenever the referral's ready, send it through and we'll book you in. If there's a DoT deadline, tell me the date and I'll prioritise you.\n\nLiam, Driving on the Spectrum",
+   why:"Swap: real deadlines (from the client) are fine to act on. Invented ones are not."}},
+ {clock:"WEEK 2+", when:"Ongoing", title:"Long-term nurture",
+  gym:{ch:["email","text"], do:"Weekly or monthly value. Seasonal offers. Reactivation blasts to old leads.",
+   s:"New year challenge starts Monday. Want in?"},
+  ot:{ch:["email"], do:"Monthly email: one useful idea, webinar invites, waitlist news. Opt-out in every message.",
+   s:"Subject: One small change for better mornings\n\nHi Sam, a 2 min idea from our Morning Architecture program: [tip]\n\nWebinar next month on divided attention: [link]",
+   why:"Swap: lead with education. The Small Hinges programs make great nurture content."},
+  drive:{ch:["email"], do:"Monthly, plus life triggers: turning 16 or 17, finishing school, licence renewal, NDIS plan review.",
+   s:"Subject: NDIS plan review coming up?\n\nIf driving is a goal, now's the time to get it in the plan. Here's how an assessment report helps: [link]",
+   why:"Swap: time touches to real life events, not sales calendars."}}
+];
+
+const SHOW = {
+ gym:[
+  ["Book within 72 hours","The longer the gap, the more no-shows."],
+  ["Instant confirmation text","Day, time, address, who they'll meet."],
+  ["Pre-frame video","Short clip: what happens, what to wear."],
+  ["Call the day before","A human confirming lifts show rate."],
+  ["Text 2 hrs before","Short reminder with parking info."],
+  ["No-show follow-up in 10 min","Call and rebook straight away."]],
+ ot:[
+  ["Book within 72 hours","Use the short-notice lead calendar."],
+  ["Instant confirmation","Time in their time zone, the video link, who they'll meet (with a photo)."],
+  ["Send the 'what to expect' video","Name the clinician, what you'll ask, how long, that camera off is fine."],
+  ["Tech check","Link to test their camera and mic. Remove day-of stress."],
+  ["Reminder 24 hrs before","Text or email, whichever they chose."],
+  ["Reminder 1 hr before","Join link right in the message."],
+  ["No-show text in 10 min","\"No stress, things happen. Want a new time? [link]\""],
+  ["Peer review the welcome call","Feeds the Welcome Call Excellence Program."]],
+ drive:[
+  ["Book once docs are in","Referral, licence status, funding confirmed before the date is locked."],
+  ["Confirmation with map","Address, parking, where to wait, how long (2.5 to 3 hrs)."],
+  ["What to bring list","Licence or permit, glasses, medication list, referral letter."],
+  ["Sensory prep","Quiet waiting space, can bring a support person, comfy clothes, breaks are fine."],
+  ["Call 2 days before","Confirm, answer worries, check they're well and rested."],
+  ["Text morning of","Short. Address again. 'See you at 9.'"],
+  ["No-show call in 10 min","Rebook. Check if anxiety was the reason and adjust."],
+  ["Update the referrer","With consent, tell the GP or coordinator it's booked."]]
+};
+
+const QUIZ = [
+ {q:"A new online OT enquiry lands at 9:12 pm. The form says 'prefers text'. What happens?",
+  o:["Call first thing tomorrow at 8 am","Auto-text tonight, human text by 8:30 am","Wait for them to book themselves","Double dial now, it's only 9 pm"], a:1,
+  f:"Speed still matters after hours. The auto-text holds the lead warm, a human follows up early. They chose text, so no call."},
+ {q:"You want to add proof to the day 0 second text for Estus. Best option?",
+  o:["A client quote about how much they improved","A star rating screenshot","A 2 min video of what a first session looks like","\"Our clients love us\""], a:2,
+  f:"Testimonials and ratings are out for registered health practitioners. Explaining the process builds trust without breaking the rules."},
+ {q:"A driving lead has gone quiet for 3 days after asking about fees. What's the most useful next touch?",
+  o:["\"Just checking in!\"","Ask if the GP referral is the blocker and offer a letter for their GP","Offer a 20% discount if they book today","Stop contact"], a:1,
+  f:"Find and remove the blocker. Discounts with time pressure look like inducements, and 'just checking in' gives them nothing."},
+ {q:"Day 7, still no reply. Which message fits our version?",
+  o:["\"Last chance, spots are filling fast\"","Close the loop politely and invite a reply any time","Keep calling twice a day","Delete the lead"], a:1,
+  f:"The break-up message is predictable and respectful. It often gets the reply. Then move them to monthly nurture."},
+ {q:"Which number tells you if your reminders are working?",
+  o:["Enquiries per month","Contact rate","Show rate","Followers on Instagram"], a:2,
+  f:"Show rate is the reminder scorecard. Contact rate shows speed and persistence. Enquiries show marketing."}
+];
+
+const $ = s=>document.querySelector(s), $$ = s=>[...document.querySelectorAll(s)];
+let lens = "ot";
+const store = { get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}, set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}} };
+const esc = s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const CHN = {call:"Call",text:"Text",email:"Email",vm:"Voicemail"};
+
+function renderTimeline(){
+  $("#lensNote").textContent = LENS_NOTE[lens];
+  $("#timeline").innerHTML = STEPS.map((st,i)=>{
+    const d = st[lens];
+    return `<div class="step"><div class="rail"><div class="clock">${st.clock}</div><div class="when">${st.when}</div></div>
+    <div class="card"><h3>${st.title}</h3>
+    <div class="chips">${d.ch.map(c=>`<span class="chip ${c}">${CHN[c]}</span>`).join("")}</div>
+    <p class="do">${esc(d.do)}</p>
+    <div class="script"><div class="lbl"><span class="eyebrow">Script</span><button class="copy" data-i="${i}">Copy</button></div><blockquote id="s-${i}">${esc(d.s)}</blockquote></div>
+    ${d.why?`<p class="why"><b>Why it's different.</b> ${esc(d.why.replace(/^Swap: /,""))}</p>`:""}
+    </div></div>`;
+  }).join("");
+}
+function renderShow(){
+  const done = store.get("show-"+lens,[]);
+  $("#showList").innerHTML = SHOW[lens].map((r,i)=>`<label><input type="checkbox" id="sh-${lens}-${i}" data-i="${i}" ${done.includes(i)?"checked":""}><span><div class="t">${esc(r[0])}</div><div class="d">${esc(r[1])}</div></span></label>`).join("");
+  $("#showProg").textContent = `${done.length} of ${SHOW[lens].length} set up`;
+}
+$("#showList").addEventListener("change",e=>{
+  if(!e.target.matches("input"))return;
+  const done = $$("#showList input").filter(x=>x.checked).map(x=>+x.dataset.i);
+  store.set("show-"+lens,done); $("#showProg").textContent = `${done.length} of ${SHOW[lens].length} set up`;
+});
+$("#timeline").addEventListener("click",async e=>{
+  const b=e.target.closest(".copy"); if(!b)return;
+  const txt = STEPS[+b.dataset.i][lens].s;
+  try{await navigator.clipboard.writeText(txt); b.textContent="Copied";}
+  catch(err){const r=document.createRange();r.selectNodeContents($("#s-"+b.dataset.i));const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent="Selected, press copy";}
+  setTimeout(()=>b.textContent="Copy",1800);
+});
+$$(".lens button").forEach(b=>b.addEventListener("click",()=>{
+  lens=b.dataset.lens; store.set("lens",lens);
+  $$(".lens button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.lens===lens));
+  renderTimeline(); renderShow();
+}));
+
+/* tabs */
+const views=["learn","sequence","show","rules","practice"];
+function go(v){ if(!views.includes(v))v="learn";
+  $$("nav.tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.v===v));
+  views.forEach(x=>$("#v-"+x).hidden = x!==v);
+  try{history.replaceState(null,"","#"+v)}catch(e){}
+}
+$$("nav.tabs button").forEach(b=>b.addEventListener("click",()=>{go(b.dataset.v);window.scrollTo({top:0})}));
+
+/* calculator */
+const C=["leads","contact","book","show","sign"];
+function calc(){
+  const v={}; C.forEach(k=>{v[k]=+$("#c-"+k).value; $("#o-"+k).textContent = k==="leads"?v[k]:v[k]+"%";});
+  const rows=[["Enquiries",v.leads]];
+  rows.push(["Reached",rows[0][1]*v.contact/100]);
+  rows.push(["Booked",rows[1][1]*v.book/100]);
+  rows.push(["Showed",rows[2][1]*v.show/100]);
+  rows.push(["New clients",rows[3][1]*v.sign/100]);
+  const max=v.leads;
+  const plus = v.leads*Math.min(100,v.contact+15)/100*v.book/100*v.show/100*v.sign/100 - rows[4][1];
+  const plusShow = rows[2][1]*Math.min(100,v.show+15)/100*v.sign/100 - rows[4][1];
+  $("#bars").innerHTML = rows.map(r=>`<div class="bar"><span>${r[0]}</span><div class="track"><div class="fill" style="width:${max?r[1]/max*100:0}%"></div></div><span class="v">${r[1].toFixed(1)}</span></div>`).join("")
+   + `<p class="callout">Faster, more persistent follow-up (+15 pts contact rate) adds <b>${plus.toFixed(1)}</b> clients a month. Better reminders (+15 pts show rate) add <b>${plusShow.toFixed(1)}</b>. Same ad spend.</p>`;
+}
+C.forEach(k=>$("#c-"+k).addEventListener("input",calc));
+
+/* quiz */
+let qi=0, score=0, answered=false;
+function renderQ(){
+  if(qi>=QUIZ.length){$("#quiz").innerHTML=`<h3>${score} of ${QUIZ.length}</h3><p>${score===QUIZ.length?"Ready to run the sequence.":"Review tabs 2 and 4, then try again."}</p><div class="qnav"><span></span><button class="btn" id="qr">Start again</button></div>`;
+    $("#qr").onclick=()=>{qi=0;score=0;renderQ()};return;}
+  const Q=QUIZ[qi]; answered=false;
+  $("#quiz").innerHTML=`<span class="eyebrow">Scenario ${qi+1} of ${QUIZ.length}</span><h3>${esc(Q.q)}</h3>
+  <div class="opts">${Q.o.map((o,i)=>`<button data-i="${i}">${esc(o)}</button>`).join("")}</div>
+  <p class="fb" id="fb" hidden></p><div class="qnav"><span class="prog">Score ${score}</span><button class="btn" id="qn" disabled>Next</button></div>`;
+  $$("#quiz .opts button").forEach(b=>b.onclick=()=>{
+    if(answered)return; answered=true; const i=+b.dataset.i;
+    $$("#quiz .opts button").forEach(x=>{x.disabled=true; if(+x.dataset.i===Q.a)x.classList.add("right");});
+    if(i===Q.a)score++; else b.classList.add("wrong");
+    const fb=$("#fb"); fb.hidden=false; fb.innerHTML=`<b>${i===Q.a?"Right.":"Not quite."}</b> ${esc(Q.f)}`;
+    $("#qn").disabled=false;
+  });
+  $("#qn").onclick=()=>{qi++;renderQ()};
+}
+
+/* init */
+lens = store.get("lens","ot"); if(!SHOW[lens])lens="ot";
+$$(".lens button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.lens===lens));
+renderTimeline(); renderShow(); calc(); renderQ();
+go((location.hash||"").slice(1));
+</script>
+
+</body></html>

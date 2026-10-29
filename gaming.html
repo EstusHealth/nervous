@@ -1,0 +1,271 @@
+<!doctype html><html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Gaming-Informed Therapy</title><meta name="robots" content="noindex, nofollow"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 fill=%22%23090909%22/%3E%3Crect x=%224%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23344982%22/%3E%3Crect x=%2210%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232F6F9E%22/%3E%3Crect x=%2216%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232CA5B8%22/%3E%3Crect x=%2222%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23AB5C95%22/%3E%3C/svg%3E"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap"><style>
+:root{
+  --g-bg:#F3F2EF;--g-surface:#FBFAF8;--g-sunk:#ECEAE6;--g-fg:#0E1014;--g-muted:#65676E;--g-rule:#D3D1CC;--g-ink:#090909;--g-on-ink:#FBFAF8;
+  --g-navy:#344982;--g-blue:#2F6F9E;--g-teal:#2CA5B8;--g-plum:#AB5C95;--g-coal:#22252B;
+  --g-navy-t:#DDE2EF;--g-blue-t:#DCE8F1;--g-teal-t:#DAF0F3;--g-plum-t:#F1E1EC;--g-coal-t:#DADBDE;
+  --g-good:#2E7D4F;--g-good-t:#DDEFE3;--g-warn:#A86A12;--g-warn-t:#F6E8D2;--g-bad:#B23A3A;--g-bad-t:#F5DEDE;
+  --g-display:"Oswald","Arial Narrow",Impact,sans-serif;--g-cond:"Barlow Semi Condensed","Arial Narrow",sans-serif;--g-body:"Barlow","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --g-bg:#0F1216;--g-surface:#161A20;--g-sunk:#1D222A;--g-fg:#ECEEF1;--g-muted:#9BA1AB;--g-rule:#2C323C;--g-ink:#05070A;--g-on-ink:#ECEEF1;
+  --g-navy:#8299DA;--g-blue:#6FA8D2;--g-teal:#4CC3D4;--g-plum:#D58FC1;--g-coal:#C9CCD2;
+  --g-navy-t:#1E2740;--g-blue-t:#18293A;--g-teal-t:#123238;--g-plum-t:#33202E;--g-coal-t:#2A2E35;
+  --g-good:#5FC38A;--g-good-t:#16301F;--g-warn:#E0A64A;--g-warn-t:#33270F;--g-bad:#EC7B7B;--g-bad-t:#3A1A1A;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --g-bg:#0F1216;--g-surface:#161A20;--g-sunk:#1D222A;--g-fg:#ECEEF1;--g-muted:#9BA1AB;--g-rule:#2C323C;--g-ink:#05070A;--g-on-ink:#ECEEF1;
+  --g-navy:#8299DA;--g-blue:#6FA8D2;--g-teal:#4CC3D4;--g-plum:#D58FC1;--g-coal:#C9CCD2;
+  --g-navy-t:#1E2740;--g-blue-t:#18293A;--g-teal-t:#123238;--g-plum-t:#33202E;--g-coal-t:#2A2E35;
+  --g-good:#5FC38A;--g-good-t:#16301F;--g-warn:#E0A64A;--g-warn-t:#33270F;--g-bad:#EC7B7B;--g-bad-t:#3A1A1A;color-scheme:dark}
+
+:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px)}
+body{margin:0;background:var(--g-bg);color:var(--g-fg);font:400 17px/1.55 var(--g-body)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--g-bg)}
+[hidden]{display:none!important}
+img{max-width:100%}
+
+.g-wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.g-root h1,.g-root h2,.g-root h3,.g-root h4{text-wrap:balance;margin:0}
+.g-root p{margin:0}
+.g-root a{color:var(--g-blue)}
+.g-root button,.g-root input,.g-root textarea,.g-root select{font:inherit;color:inherit}
+.g-root :focus-visible{outline:2px solid var(--g-teal);outline-offset:2px}
+.g-eyebrow{font:700 12px var(--g-cond);letter-spacing:.18em;text-transform:uppercase;color:var(--g-muted)}
+.g-navy{--c:var(--g-navy);--ct:var(--g-navy-t)}.g-blue{--c:var(--g-blue);--ct:var(--g-blue-t)}.g-teal{--c:var(--g-teal);--ct:var(--g-teal-t)}.g-plum{--c:var(--g-plum);--ct:var(--g-plum-t)}.g-coal{--c:var(--g-coal);--ct:var(--g-coal-t)}
+.g-hero{background:var(--g-ink);color:var(--g-on-ink)}
+.g-hero .g-wrap{padding-block:30px 36px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:32px;align-items:end}
+.g-hero .g-eyebrow{color:#AEB5C2}
+.g-hero h1{font:600 clamp(40px,7vw,76px)/.95 var(--g-display);text-transform:uppercase;letter-spacing:.01em;margin:8px 0 14px}
+.g-hero h1 em{font-style:normal;color:var(--hc,#4CC3D4)}
+.g-hero .g-lead{font-size:18px;max-width:56ch;color:#D6DAE2}
+.g-hero .g-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.g-hero .g-meta span{font:600 12px var(--g-cond);letter-spacing:.12em;text-transform:uppercase;border:1px solid #3A3F48;padding:4px 10px;color:#D6DAE2}
+.g-side{list-style:none;margin:0;padding:0;border:1px solid #2C323C;background:#111419}
+.g-side li{display:grid;grid-template-columns:34px minmax(0,1fr);gap:10px;align-items:baseline;padding:10px 14px;border-top:1px solid #2C323C}
+.g-side li:first-child{border-top:0}
+.g-side .n{font:600 20px var(--g-display);color:var(--h,#4CC3D4)}
+.g-side b{font:600 15px var(--g-cond);text-transform:uppercase;letter-spacing:.06em;display:block}
+.g-side span.w{font-size:14px;color:#AEB5C2}
+.g-rail{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--g-bg);border-bottom:1px solid var(--g-rule)}
+.g-rail .g-wrap{display:flex;gap:4px;overflow-x:auto;padding-block:8px;scrollbar-width:none}
+.g-rail a{font:600 13px var(--g-cond);letter-spacing:.08em;text-transform:uppercase;color:var(--g-fg);text-decoration:none;padding:6px 10px;white-space:nowrap;border-radius:3px}
+.g-rail a:hover{background:var(--g-sunk)}
+.g-s{padding-block:44px;border-bottom:1px solid var(--g-rule)}
+.g-head{display:flex;flex-direction:column;gap:6px;margin-bottom:22px;max-width:68ch}
+.g-head h2{font:600 clamp(26px,4vw,34px)/1.05 var(--g-display);text-transform:uppercase;letter-spacing:.02em}
+.g-head p{color:var(--g-muted)}
+.g-blocks{display:flex;flex-direction:column;gap:22px}
+.g-sub{font:700 15px var(--g-cond);text-transform:uppercase;letter-spacing:.1em}
+/* cards */
+.g-cards{display:grid;grid-template-columns:repeat(var(--cols,3),minmax(0,1fr));gap:16px}
+.g-card{background:var(--g-surface);border:1px solid var(--g-rule);border-top:5px solid var(--c,var(--g-rule));padding:18px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.g-card .tag{font:700 11px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;color:var(--c,var(--g-muted))}
+.g-card h3{font:600 21px/1.15 var(--g-display);text-transform:uppercase;letter-spacing:.02em}
+.g-card p{font-size:16px}
+.g-card ul{margin:0;padding-left:18px;font-size:15px;display:flex;flex-direction:column;gap:4px}
+.g-card .foot{font-size:14px;color:var(--g-muted);border-top:1px dashed var(--g-rule);padding-top:8px;margin-top:auto}
+.g-card .foot b{color:var(--g-fg)}
+.g-card a.more{font:600 13px var(--g-cond);text-transform:uppercase;letter-spacing:.1em;text-decoration:none;margin-top:auto}
+/* strip of big terms */
+.g-terms{display:grid;grid-template-columns:repeat(var(--cols,4),minmax(0,1fr));gap:1px;background:var(--g-rule);border:1px solid var(--g-rule)}
+.g-terms div{background:var(--g-surface);padding:16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.g-terms .L{font:600 34px/1 var(--g-display);color:var(--c,var(--g-blue))}
+.g-terms b{font:600 15px var(--g-cond);text-transform:uppercase;letter-spacing:.05em}
+.g-terms span{font-size:15px}
+.g-terms q{font-size:15px;color:var(--g-muted);quotes:"\201C" "\201D"}
+/* table */
+.g-tbl{overflow-x:auto;border:1px solid var(--g-rule);background:var(--g-surface)}
+.g-tbl table{border-collapse:collapse;width:100%;min-width:620px;font-size:15px}
+.g-tbl th,.g-tbl td{text-align:left;vertical-align:top;padding:12px 14px;border-top:1px solid var(--g-rule)}
+.g-tbl th{font:700 12px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;color:var(--g-muted);background:var(--g-sunk);border-top:0}
+.g-tbl td:first-child{font-weight:600}
+/* steps */
+.g-steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border:1px solid var(--g-rule);background:var(--g-surface)}
+.g-step{display:grid;grid-template-columns:170px minmax(0,1fr) minmax(0,1fr);gap:20px;padding:18px;border-top:1px solid var(--g-rule);align-items:start}
+.g-step:first-child{border-top:0}
+.g-step .when{border-left:5px solid var(--c);padding-left:10px;display:flex;flex-direction:column}
+.g-step .when b{font:600 21px/1.1 var(--g-display);text-transform:uppercase}
+.g-step .when small{font:600 13px var(--g-cond);color:var(--g-muted);letter-spacing:.06em;text-transform:uppercase}
+.g-step .lbl{font:700 12px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;color:var(--g-muted);margin-bottom:4px}
+.g-step .say{background:var(--ct);padding:10px 12px;font-weight:600}
+/* flow */
+.g-flow{display:grid;grid-template-columns:repeat(var(--n,5),minmax(0,1fr));gap:12px}
+.g-node{background:var(--g-surface);border:1px solid var(--g-rule);border-top:4px solid var(--c);padding:12px;display:flex;flex-direction:column;gap:4px;position:relative;min-width:0}
+.g-node b{font:600 16px var(--g-cond);text-transform:uppercase;letter-spacing:.05em}
+.g-node span{font-size:14px;color:var(--g-muted)}
+.g-node + .g-node::before{content:"";position:absolute;left:-12px;top:26px;width:12px;border-top:2px solid var(--g-muted)}
+.g-loopnote{font:600 13px var(--g-cond);text-transform:uppercase;letter-spacing:.08em;color:var(--g-muted);display:flex;gap:10px;align-items:center}
+.g-loopnote i{flex:1;border-top:2px dashed var(--g-muted)}
+/* callout */
+.g-call{padding:14px 16px;background:var(--ct,var(--g-teal-t));border-left:4px solid var(--c,var(--g-teal));max-width:78ch}
+.g-call ul{margin:6px 0 0;padding-left:20px}
+.g-call.warn{--c:var(--g-warn);--ct:var(--g-warn-t)}
+.g-call.ink{background:var(--g-ink);color:var(--g-on-ink);border-left-color:#D58FC1}
+/* do dont */
+.g-dd{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.g-dd ul{list-style:none;margin:0;padding:0;background:var(--g-surface);border:1px solid var(--g-rule)}
+.g-dd li{padding:12px 16px;border-top:1px solid var(--g-rule);font-size:16px}
+.g-dd li:first-child{border-top:0}
+.g-dd li b{display:block;font:600 15px var(--g-cond);text-transform:uppercase;letter-spacing:.05em}
+.g-dd h3{font:700 14px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px}
+.g-dd .yes h3{color:var(--g-good)}.g-dd .no h3{color:var(--g-bad)}
+/* pairs */
+.g-pair{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);border:1px solid var(--g-rule);background:var(--g-surface)}
+.g-pair > div{padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.g-pair .weak p{color:var(--g-muted)}
+.g-pair .strong{background:var(--g-good-t)}
+.g-pair .t{font:700 11px var(--g-cond);text-transform:uppercase;letter-spacing:.12em}
+.g-pair .weak .t{color:var(--g-bad)}.g-pair .strong .t{color:var(--g-good)}
+.g-pair .arrow{display:grid;place-items:center;padding:0 10px;font:600 22px var(--g-display);color:var(--g-muted);background:var(--g-sunk)}
+/* checklist */
+.g-check{border:1px solid var(--g-fg);background:var(--g-surface)}
+.g-check h4{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:6px 10px 6px 14px;background:var(--ct,var(--g-sunk));box-shadow:inset 5px 0 0 var(--c,var(--g-fg));border-bottom:1px solid var(--g-fg);font:700 14px var(--g-cond);text-transform:uppercase;letter-spacing:.08em}
+.g-check h4 small{font:500 12px var(--g-cond);color:var(--g-muted);font-variant-numeric:tabular-nums}
+.g-grp{padding:6px 10px 8px;display:flex;flex-direction:column}
+.g-grp + .g-grp{border-top:1px solid var(--g-rule)}
+.g-lbl{font:700 11px var(--g-cond);text-transform:uppercase;letter-spacing:.14em;color:var(--g-muted);margin:2px 0}
+.g-row{display:flex;align-items:baseline;gap:6px;padding:3px 4px;border-radius:2px;cursor:pointer;font:600 14px/1.4 var(--g-cond);text-transform:uppercase;letter-spacing:.02em;position:relative}
+.g-row:hover{background:var(--g-sunk)}
+.g-row input{position:absolute;opacity:0;pointer-events:none}
+.g-row .item{white-space:nowrap}
+.g-row .dots{flex:1;min-width:12px;border-bottom:1.5px dotted var(--g-muted);transform:translateY(-4px)}
+.g-row .resp{text-align:right}
+.g-row .bx{width:14px;height:14px;border:1.5px solid var(--g-muted);flex:none;transform:translateY(2px);display:grid;place-items:center;font-size:11px;line-height:1}
+.g-row:has(input:checked) .item,.g-row:has(input:checked) .resp{color:var(--g-muted)}
+.g-row:has(input:checked) .bx{background:var(--c,var(--g-teal));border-color:var(--c,var(--g-teal));color:var(--g-surface)}
+.g-row:has(input:checked) .bx::after{content:"\2713"}
+.g-row:has(input:focus-visible){outline:2px solid var(--c,var(--g-teal))}
+.g-checkfoot{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 10px 7px 14px;border-top:1px solid var(--g-fg);background:var(--g-sunk);font:700 13px var(--g-cond);text-transform:uppercase;letter-spacing:.04em}
+.g-checks{display:grid;grid-template-columns:repeat(var(--cols,2),minmax(0,1fr));gap:18px;align-items:start}
+/* buttons */
+.g-btn{border:1px solid var(--g-rule);background:var(--g-surface);color:var(--g-fg);padding:9px 14px;cursor:pointer;font:600 13px var(--g-cond);text-transform:uppercase;letter-spacing:.08em;min-height:40px}
+.g-btn:hover{border-color:var(--g-fg)}
+.g-btn.primary{background:var(--g-ink);color:var(--g-on-ink);border-color:var(--g-ink)}
+.g-btn.sm{min-height:30px;padding:4px 10px;font-size:12px}
+.g-chip{border:1px solid var(--g-rule);background:var(--g-surface);padding:7px 12px;border-radius:999px;cursor:pointer;font:600 13px var(--g-cond);text-transform:uppercase;letter-spacing:.06em;min-height:36px}
+.g-chip[aria-pressed="true"]{background:var(--c,var(--g-fg));border-color:var(--c,var(--g-fg));color:var(--g-surface)}
+/* quiz */
+.g-quiz{background:var(--g-surface);border:1px solid var(--g-rule);padding:20px;display:flex;flex-direction:column;gap:14px}
+.g-quiz .qh{display:flex;justify-content:space-between;gap:10px;font:700 12px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;color:var(--g-muted)}
+.g-quiz .said{font:500 20px/1.35 var(--g-body);padding-left:14px;border-left:4px solid var(--c,var(--g-plum))}
+.g-quiz .opts{display:flex;flex-direction:column;gap:8px}
+.g-quiz .opts button{text-align:left;background:var(--g-bg);border:1.5px solid var(--g-rule);padding:12px 14px;cursor:pointer;font-size:16px;line-height:1.4}
+.g-quiz .opts button:hover:not(:disabled){border-color:var(--g-fg)}
+.g-quiz .opts button.right{border-color:var(--g-good);background:var(--g-good-t)}
+.g-quiz .opts button.wrong{border-color:var(--g-bad);background:var(--g-bad-t)}
+.g-quiz .opts button:disabled{cursor:default}
+.g-quiz .fb{font-size:16px;padding:12px 14px;background:var(--g-sunk)}
+.g-quiz .fb b{font:700 13px var(--g-cond);text-transform:uppercase;letter-spacing:.1em;display:block}
+.g-quiz .qn{display:flex;justify-content:flex-end}
+/* tool shell */
+.g-tool{background:var(--g-surface);border:1px solid var(--g-rule);padding:20px;display:flex;flex-direction:column;gap:14px}
+.g-fld{display:flex;flex-direction:column;gap:4px;min-width:0}
+.g-fld label{font:700 12px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;color:var(--g-muted)}
+.g-fld input,.g-fld textarea,.g-fld select{width:100%;border:1px solid var(--g-rule);background:var(--g-bg);padding:9px 10px;border-radius:2px;font-size:16px}
+.g-fld textarea{min-height:70px;resize:vertical}
+.g-out{background:var(--ct,var(--g-teal-t));border-left:4px solid var(--c,var(--g-teal));padding:14px 16px;font-size:17px}
+.g-out b{font:700 12px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;display:block;color:var(--c,var(--g-teal))}
+.g-row2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.g-range label{display:flex;justify-content:space-between;font:600 14px var(--g-cond);text-transform:uppercase;letter-spacing:.04em}
+.g-range input{width:100%;accent-color:var(--c,var(--g-plum))}
+.g-msg{font:600 13px var(--g-cond);text-transform:uppercase;letter-spacing:.08em;color:var(--g-good);min-height:1em}
+/* related */
+.g-rel{display:flex;flex-wrap:wrap;gap:8px}
+.g-rel a{display:inline-flex;flex-direction:column;gap:2px;padding:10px 14px;border:1px solid var(--g-rule);background:var(--g-surface);text-decoration:none;color:var(--g-fg);border-left:4px solid var(--c,var(--g-teal));min-width:180px}
+.g-rel a b{font:600 15px var(--g-cond);text-transform:uppercase;letter-spacing:.05em}
+.g-rel a span{font-size:13px;color:var(--g-muted)}
+.g-rel a:hover{background:var(--g-sunk)}
+.g-foot{padding-block:28px 48px;color:var(--g-muted);font-size:14px}
+.g-foot ul{margin:6px 0 0;padding-left:18px}
+@media (max-width:860px){
+  .g-hero .g-wrap,.g-dd,.g-row2{grid-template-columns:1fr}
+  .g-cards{grid-template-columns:repeat(min(var(--cols,3),2),minmax(0,1fr))}
+  .g-terms{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .g-step{grid-template-columns:1fr;gap:10px}
+  .g-flow{grid-template-columns:1fr}
+  .g-node + .g-node::before{left:24px;top:-12px;width:0;height:12px;border-top:0;border-left:2px solid var(--g-muted)}
+  .g-checks{grid-template-columns:1fr}
+  .g-pair{grid-template-columns:1fr}.g-pair .arrow{transform:rotate(90deg);padding:4px}
+}
+@media (max-width:520px){
+  .g-cards,.g-terms{grid-template-columns:1fr}
+  .g-row .item{white-space:normal}
+}
+</style></head><body><style>
+.ehub{background:#090909;color:#FBFAF8;border-bottom:1px solid #2C323C;position:relative;z-index:6}
+.ehub-in{max-width:1120px;margin:0 auto;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));display:flex;justify-content:space-between;align-items:center;gap:10px 16px;flex-wrap:wrap}
+.ehub a{color:inherit;text-decoration:none}
+.ehub-home{display:flex;align-items:center;gap:12px;min-height:36px}
+.ehub-bands{display:flex;width:56px;height:5px;flex:none}.ehub-bands i{flex:1}
+.ehub-bands i:nth-child(1){background:#344982}.ehub-bands i:nth-child(2){background:#2F6F9E}.ehub-bands i:nth-child(3){background:#2CA5B8}.ehub-bands i:nth-child(4){background:#AB5C95}
+.ehub-wm{font:500 14px/1 "Oswald","Arial Narrow",Impact,sans-serif;letter-spacing:.16em}.ehub-wm b{font-weight:700}
+.ehub-sep{font:600 12px/1 "Barlow Semi Condensed","Arial Narrow",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#AEB5C2;border-left:1px solid #3A3F48;padding-left:12px}
+.ehub-home:hover .ehub-sep{color:#FBFAF8}
+.ehub-r{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ehub-btn{font:600 12px/1 "Barlow Semi Condensed","Arial Narrow",sans-serif;letter-spacing:.1em;text-transform:uppercase;border:1px solid #3A3F48;background:none;color:#FBFAF8;padding:9px 12px;cursor:pointer;min-height:36px;display:inline-flex;align-items:center;gap:8px}
+.ehub-btn:hover{border-color:#FBFAF8}
+.ehub-btn[aria-pressed="true"]{background:#2E7D4F;border-color:#2E7D4F}
+.ehub-btn:focus-visible,.ehub a:focus-visible{outline:2px solid #2CA5B8;outline-offset:2px}
+.ehub-next{background:#FBFAF8!important;color:#090909!important;border-color:#FBFAF8}
+@media (max-width:520px){.ehub-sep{display:none}.ehub-next .ehub-nl{display:none}}
+@media print{.ehub{display:none}}
+</style>
+<nav class="ehub" aria-label="Estus Training Hub" style="margin:0"><div class="ehub-in">
+<a class="ehub-home" href="index.html"><span class="ehub-bands" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="ehub-wm"><b>ESTUS</b> HEALTH</span><span class="ehub-sep">&larr; Training Hub</span></a>
+<div class="ehub-r"><button class="ehub-btn" type="button" id="ehub-done" aria-pressed="false">Mark done</button><a class="ehub-btn ehub-next" href="nervous.html"><span class="ehub-nl">Next:</span> Nervous System <span aria-hidden="true">&rarr;</span></a></div>
+</div></nav>
+<script>(function(){var K="hub_done",s="gaming",b=document.getElementById("ehub-done");function l(){try{return JSON.parse(localStorage.getItem(K))||{}}catch(e){return {}}}function r(){var on=!!l()[s];b.setAttribute("aria-pressed",on);b.textContent=on?"\u2713 Done":"Mark done"}b.addEventListener("click",function(){var v=l();if(v[s])delete v[s];else v[s]=1;try{localStorage.setItem(K,JSON.stringify(v))}catch(e){}r()});r()})();</script>
+<div class="g-root"><header class="g-hero"><div class="g-wrap"><div><p class="g-eyebrow">Therapy approaches</p><h1><em>Gaming</em>-informed therapy</h1><p class="g-lead">We meet clients in the worlds they already love. Games become the place to practise OT goals: planning, teamwork, regulation and responsibility.</p><div class="g-meta"><span>Minecraft Bedrock server</span><span>Whitelisted</span><span>Clinician-moderated</span></div></div><ol class="g-side"><li style="--h:#8299DA"><span class="n">1</span><p><b>Interest first</b><span class="w">Motivation they already have</span></p></li><li style="--h:#4CC3D4"><span class="n">2</span><p><b>Practise in-game</b><span class="w">Low stakes, high engagement</span></p></li><li style="--h:#D58FC1"><span class="n">3</span><p><b>Carry it over</b><span class="w">Into school, home and work</span></p></li></ol></div></header><nav class="g-rail" aria-label="Sections"><div class="g-wrap"><a href="#why">Why games</a><a href="#server">Our server</a><a href="#map">Goal to game</a><a href="#session">Run a session</a><a href="#sensory">Sensory setup</a><a href="#safety">Safety</a><a href="#teens">Teen moderators</a><a href="#parents">Talking to parents</a><a href="#practice">Practice</a></div></nav><section class="g-s" id="why"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">The case</p><h2>Why games work in therapy</h2></div><div class="g-blocks"><div class="g-cards" style="--cols:3"><article class="g-card g-navy"><h3>Interest-based engagement</h3><p>Many neurodivergent brains run on interest. A game they love brings the focus we'd otherwise have to fight for.</p></article><article class="g-card g-blue"><h3>Low-stakes practice</h3><p>Mistakes in a game cost little. That makes it a safe place to try new skills.</p></article><article class="g-card g-teal"><h3>Rich observation</h3><p>We see planning, frustration, teamwork and communication live, not just hear about them.</p></article><article class="g-card g-plum"><h3>Connection</h3><p>For isolated teens, a shared world is often the easiest way into friendship.</p></article><article class="g-card g-coal"><h3>Between sessions</h3><p>The server is a space to practise skills between sessions, not just in them.</p></article><article class="g-card g-navy"><h3>Respect for their world</h3><p>Taking their interest seriously builds trust fast. It says "your world matters".</p></article></div></div></div></section><section class="g-s" id="server"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">How we run it</p><h2>The Estus server</h2><p>Our current setup. Part of gaming-informed therapy, not a separate service.</p></div><div class="g-blocks"><div class="g-tbl"><table><thead><tr><th>What</th><th>How it works</th></tr></thead><tbody><tr><td>Edition</td><td>Minecraft Bedrock. Works on PC, Xbox, PlayStation, Switch, iOS and Android, so nobody is left out because of their device.</td></tr><tr><td>Access</td><td>Whitelisted. Only approved players can join, after a clinician confirms they're ready.</td></tr><tr><td>Who</td><td>Active Estus clients. Server access is part of the therapy plan.</td></tr><tr><td>Moderation</td><td>Clinician-moderated, with clear rules and server logs.</td></tr><tr><td>PvP</td><td>Off. A deliberate clinical choice: collaboration without the threat of attack.</td></tr><tr><td>Community</td><td>Discord with channels for housekeeping, general chat, the server, other games and voice hangouts.</td></tr><tr><td>Responsibility</td><td>Older teen clients (16+) can hold OP or moderator roles as a responsibility-building intervention.</td></tr></tbody></table></div></div></div></section><section class="g-s" id="map"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Try it</p><h2>Goal to game</h2><p>Pick an OT goal area. See what to try in the game, what to watch for, and how it carries over.</p></div><div class="g-blocks"><div class="g-tool g-teal"><div data-chips="single" id="gm_chips" style="display:flex;flex-wrap:wrap;gap:6px"><button class="g-chip g-teal" type="button" aria-pressed="true" data-g="Planning and sequencing">Planning and sequencing</button><button class="g-chip g-teal" type="button" aria-pressed="false" data-g="Collaboration">Collaboration</button><button class="g-chip g-teal" type="button" aria-pressed="false" data-g="Frustration and regulation">Frustration and regulation</button><button class="g-chip g-teal" type="button" aria-pressed="false" data-g="Communication">Communication</button><button class="g-chip g-teal" type="button" aria-pressed="false" data-g="Responsibility and leadership">Responsibility and leadership</button><button class="g-chip g-teal" type="button" aria-pressed="false" data-g="Transitions and time">Transitions and time</button></div><div class="g-cards" style="--cols:3" id="gm_out"></div></div></div></div></section><section class="g-s" id="session"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Session shape</p><h2>Run a gaming session</h2><p>The game is the context. The goal is still OT.</p></div><div class="g-blocks"><ol class="g-steps"><li class="g-step g-navy"><div class="when"><b>Check in</b><small>Out of game</small></div><div><p class="lbl">Do</p><p>A quick check-in before logging on: energy, mood, what happened this week.</p></div><div><p class="lbl">Say it like</p><p class="say">"How's your battery today?"</p></div></li><li class="g-step g-blue"><div class="when"><b>Set the mission</b><small>Goal in game terms</small></div><div><p class="lbl">Do</p><p>Turn the OT goal into a mission. Planning goal becomes "plan the castle before we build".</p></div><div><p class="lbl">Say it like</p><p class="say">"Today's mission: sketch the build before placing a block."</p></div></li><li class="g-step g-teal"><div class="when"><b>Play and notice</b><small>Narrate, observe</small></div><div><p class="lbl">Do</p><p>Play alongside. Notice and name skills as they happen. Coach in the moment.</p></div><div><p class="lbl">Say it like</p><p class="say">"You just changed plans when that failed. That's flexible thinking."</p></div></li><li class="g-step g-plum"><div class="when"><b>Debrief</b><small>Bridge to life</small></div><div><p class="lbl">Do</p><p>What worked? Where else would that help? Link it to home, school or work.</p></div><div><p class="lbl">Say it like</p><p class="say">"Where else do you need a plan before you start?"</p></div></li><li class="g-step g-coal"><div class="when"><b>Save point</b><small>Transition out</small></div><div><p class="lbl">Do</p><p>Warn early, stop at a natural end, and land in a calm close.</p></div><div><p class="lbl">Say it like</p><p class="say">"Five minutes. Let's find a good place to save."</p></div></li></ol></div></div></section><section class="g-s" id="sensory"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Regulation</p><h2>Sensory setup</h2><p>Games can be a lot. Tune the world to the person.</p></div><div class="g-blocks"><div class="g-cards" style="--cols:3"><article class="g-card g-navy"><h3>Visuals</h3><p>Lower graphics, brightness and particles. Reduce flashing effects.</p></article><article class="g-card g-blue"><h3>Sound</h3><p>Turn down or off music and specific sounds. Headphones help some, not all.</p></article><article class="g-card g-teal"><h3>Mode</h3><p>Creative mode removes threats and hunger. Good for early sessions and overloaded days.</p></article><article class="g-card g-plum"><h3>Scope</h3><p>One task area at a time: building, exploring or crafting. Not all three.</p></article><article class="g-card g-coal"><h3>Breaks</h3><p>Planned breaks, and a quiet spot in the world to retreat to.</p></article><article class="g-card g-navy"><h3>Chat</h3><p>Limit chat or voice when social load is high. Text can be easier than voice.</p></article></div></div></div></section><section class="g-s" id="safety"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Non-negotiables</p><h2>Safety and rules</h2></div><div class="g-blocks"><div class="g-checks" style="--cols:2"><section class="g-check g-teal"><h4><span>Before a client joins</span><small>Onboarding</small></h4><div class="g-grp"><label class="g-row" for="c1"><input type="checkbox" id="c1"><span class="bx" aria-hidden="true"></span><span class="item">Goal fit</span><span class="dots"></span><span class="resp">Discussed in session</span></label><label class="g-row" for="c2"><input type="checkbox" id="c2"><span class="bx" aria-hidden="true"></span><span class="item">Parent consent</span><span class="dots"></span><span class="resp">Signed</span></label><label class="g-row" for="c3"><input type="checkbox" id="c3"><span class="bx" aria-hidden="true"></span><span class="item">Rules sheet</span><span class="dots"></span><span class="resp">Sent to family</span></label><label class="g-row" for="c4"><input type="checkbox" id="c4"><span class="bx" aria-hidden="true"></span><span class="item">Rules agreement</span><span class="dots"></span><span class="resp">Client agreed</span></label><label class="g-row" for="c5"><input type="checkbox" id="c5"><span class="bx" aria-hidden="true"></span><span class="item">Gamertag</span><span class="dots"></span><span class="resp">Whitelisted</span></label><label class="g-row" for="c6"><input type="checkbox" id="c6"><span class="bx" aria-hidden="true"></span><span class="item">Orientation</span><span class="dots"></span><span class="resp">Done</span></label></div><div class="g-checkfoot"><span data-count></span><button class="g-btn sm" type="button" data-clear>Clear</button></div></section><section class="g-check g-plum"><h4><span>Ongoing</span><small>Moderation</small></h4><div class="g-grp"><label class="g-row" for="c7"><input type="checkbox" id="c7"><span class="bx" aria-hidden="true"></span><span class="item">Real names</span><span class="dots"></span><span class="resp">Never shown</span></label><label class="g-row" for="c8"><input type="checkbox" id="c8"><span class="bx" aria-hidden="true"></span><span class="item">Voice chat</span><span class="dots"></span><span class="resp">Optional</span></label><label class="g-row" for="c9"><input type="checkbox" id="c9"><span class="bx" aria-hidden="true"></span><span class="item">Logs</span><span class="dots"></span><span class="resp">Reviewed</span></label><label class="g-row" for="c10"><input type="checkbox" id="c10"><span class="bx" aria-hidden="true"></span><span class="item">Rule breaks</span><span class="dots"></span><span class="resp">Handled same day</span></label><label class="g-row" for="c11"><input type="checkbox" id="c11"><span class="bx" aria-hidden="true"></span><span class="item">Families</span><span class="dots"></span><span class="resp">Told of incidents</span></label><label class="g-row" for="c12"><input type="checkbox" id="c12"><span class="bx" aria-hidden="true"></span><span class="item">Goals</span><span class="dots"></span><span class="resp">Reviewed in session</span></label></div><div class="g-checkfoot"><span data-count></span><button class="g-btn sm" type="button" data-clear>Clear</button></div></section></div></div></div></section><section class="g-s" id="teens"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Responsibility</p><h2>Teen moderators</h2><p>For clients 16 and over. Responsibility is a real skill, and moderating is real responsibility.</p></div><div class="g-blocks"><div class="g-cards" style="--cols:4"><article class="g-card g-navy"><h3>Who</h3><p>Older teen clients with a goal around responsibility, leadership or work readiness.</p></article><article class="g-card g-blue"><h3>What they do</h3><p>Welcome new players, answer questions, help keep the rules, flag problems to a clinician.</p></article><article class="g-card g-teal"><h3>Supervision</h3><p>Clinicians stay in charge. Teen mods never handle serious issues alone.</p></article><article class="g-card g-plum"><h3>Link to goals</h3><p>Debrief their moderating in sessions. It's evidence for work readiness and NDIS reviews.</p></article></div></div></div></section><section class="g-s" id="parents"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Screen time conversations</p><h2>Talking to parents</h2><p>Parents often arrive worried about gaming. Start with curiosity, not a lecture.</p></div><div class="g-blocks"><div class="g-dd"><div class="yes"><h3>Do</h3><ul><li><b>Ask what they play</b>What, who with and why matters more than how long.</li><li><b>Name the benefits</b>Connection, regulation, mastery and a place they feel competent.</li><li><b>Work on the switch</b>Most fights are about stopping. Use the Transition Scaffolding plan.</li><li><b>Agree the warning signs</b>Lost sleep, distress when stopped, dropping other interests.</li></ul></div><div class="no"><h3>Don&#x27;t</h3><ul><li><b>Count hours only</b>Two hours with friends is different from two hours alone at 2am.</li><li><b>Use the game as a weapon</b>Taking it away as punishment can break trust and remove their main regulation tool.</li><li><b>Dismiss their worry</b>Sleep and school concerns are real. Plan for them.</li><li><b>Promise outcomes</b>We use games as a context for goals, not a cure.</li></ul></div></div></div></div></section><section class="g-s" id="practice"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Active recall</p><h2>Practice</h2></div><div class="g-blocks"><div class="g-quiz g-teal" data-q="[{&quot;s&quot;: &quot;Why is PvP off on our server?&quot;, &quot;o&quot;: [[&quot;It&#x27;s too hard to moderate.&quot;, 0, &quot;Not the main reason.&quot;], [&quot;A clinical choice: collaboration without threat.&quot;, 1, &quot;It removes conflict and anxiety so clients can focus on building and connecting.&quot;], [&quot;Players don&#x27;t like it.&quot;, 0, &quot;Some do. It&#x27;s a clinical decision.&quot;]]}, {&quot;s&quot;: &quot;A parent wants to ban gaming because stopping causes meltdowns. You suggest...&quot;, &quot;o&quot;: [[&quot;A full ban.&quot;, 0, &quot;Removes the interest and the regulation tool.&quot;], [&quot;A transition plan: warnings, save points and a bridge.&quot;, 1, &quot;The switch is the problem, not the game.&quot;], [&quot;Unlimited gaming.&quot;, 0, &quot;Doesn&#x27;t address the transition either.&quot;]]}, {&quot;s&quot;: &quot;Who can hold a moderator role?&quot;, &quot;o&quot;: [[&quot;Any player.&quot;, 0, &quot;It&#x27;s a clinical intervention.&quot;], [&quot;Older teen clients, 16+, with a related goal.&quot;, 1, &quot;Responsibility-building, with clinician supervision.&quot;], [&quot;Parents.&quot;, 0, &quot;Not part of the model.&quot;]]}, {&quot;s&quot;: &quot;A client is overloaded in survival mode. Best change?&quot;, &quot;o&quot;: [[&quot;Switch to creative mode for now.&quot;, 1, &quot;Removes threats and hunger. Lowers the load.&quot;], [&quot;Keep going to build tolerance.&quot;, 0, &quot;Overload isn&#x27;t a training opportunity.&quot;], [&quot;End the session.&quot;, 0, &quot;Possibly, but try adjusting first.&quot;]]}]"><div class="qh"><span class="pos"></span><span class="sc"></span></div><p class="said"></p><div class="opts"></div><div class="fb" hidden></div><div class="qn"><button class="g-btn primary nx" type="button" disabled>Next</button></div></div></div></div></section><section class="g-s" id="more"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Keep going</p><h2>Related</h2></div><div class="g-blocks"><div class="g-rel"><a class="g-navy" href="transition.html"><b>Transition Scaffolding</b><span>Getting off the game</span></a><a class="g-plum" href="nervous.html"><b>Nervous system</b><span>Regulation</span></a><a class="g-blue" href="mi.html"><b>Motivational interviewing</b><span>Engaging teens</span></a><a class="g-teal" href="journey.html"><b>Client Journey</b><span>Where gaming fits</span></a></div></div></div></section><footer class="g-foot"><div class="g-wrap"><p>Estus Health · Therapy approaches · Gaming-informed therapy</p></div></footer></div><script>
+(function(){
+  // checklists
+  document.querySelectorAll('.g-check').forEach(function(box){
+    var ins=[].slice.call(box.querySelectorAll('input[type=checkbox]')),c=box.querySelector('[data-count]');
+    function up(){if(c)c.textContent=ins.filter(function(x){return x.checked}).length+' of '+ins.length}
+    ins.forEach(function(i){i.addEventListener('change',up)});
+    var clr=box.querySelector('[data-clear]');if(clr)clr.addEventListener('click',function(){ins.forEach(function(i){i.checked=false});up()});
+    up();
+  });
+  // toggle chips
+  document.querySelectorAll('[data-chips]').forEach(function(g){
+    var multi=g.getAttribute('data-chips')==='multi';
+    g.querySelectorAll('.g-chip').forEach(function(b){b.addEventListener('click',function(){
+      var on=b.getAttribute('aria-pressed')!=='true';
+      if(!multi)g.querySelectorAll('.g-chip').forEach(function(x){x.setAttribute('aria-pressed','false')});
+      b.setAttribute('aria-pressed',on);g.dispatchEvent(new Event('chips'));
+    })});
+  });
+  // quizzes
+  document.querySelectorAll('.g-quiz').forEach(function(el){
+    var Q=JSON.parse(el.getAttribute('data-q')),qi=0,score=0;
+    var pos=el.querySelector('.pos'),sc=el.querySelector('.sc'),said=el.querySelector('.said'),opts=el.querySelector('.opts'),fb=el.querySelector('.fb'),nx=el.querySelector('.nx');
+    function show(){
+      var q=Q[qi];pos.textContent=(qi+1)+' of '+Q.length;sc.textContent='Score '+score;said.textContent=q.s;fb.hidden=true;nx.disabled=true;
+      nx.textContent=qi===Q.length-1?'See score':'Next';opts.innerHTML='';
+      q.o.forEach(function(o){var b=document.createElement('button');b.type='button';b.textContent=o[0];
+        b.addEventListener('click',function(){
+          opts.querySelectorAll('button').forEach(function(x,i){x.disabled=true;if(q.o[i][1])x.classList.add('right')});
+          if(o[1])score++;else b.classList.add('wrong');sc.textContent='Score '+score;
+          fb.innerHTML='';var t=document.createElement('b');t.textContent=o[1]?(q.ok||'Nice.'):'Not quite.';fb.appendChild(t);fb.appendChild(document.createTextNode(o[2]));fb.hidden=false;nx.disabled=false;nx.focus();
+        });opts.appendChild(b);});
+    }
+    nx.addEventListener('click',function(){
+      if(nx.dataset.done){delete nx.dataset.done;qi=0;score=0;show();return}
+      if(qi<Q.length-1){qi++;show();return}
+      said.textContent='You scored '+score+' of '+Q.length+'.';opts.innerHTML='';
+      fb.innerHTML='<b>Lock it in.</b>Run the ones you missed out loud with a colleague, three clean reps each.';fb.hidden=false;pos.textContent='Done';nx.textContent='Start again';nx.dataset.done=1;
+    });
+    show();
+  });
+  // copy buttons
+  document.querySelectorAll('[data-copy]').forEach(function(b){b.addEventListener('click',function(){
+    var src=document.getElementById(b.getAttribute('data-copy')),t=src.value!==undefined?src.value:src.innerText,m=b.parentNode.querySelector('.g-msg');
+    function ok(){if(m){m.textContent='Copied';setTimeout(function(){m.textContent=''},2500)}}
+    function fail(){if(src.select){src.focus();src.select()}if(m)m.textContent='Selected. Copy with your keyboard.'}
+    try{navigator.clipboard.writeText(t).then(ok,fail)}catch(e){fail()}
+  })});
+})();
+</script><script>var GM={"Planning and sequencing": [["Plan a build before starting: sketch, list materials, order the steps", "Gather resources for a project", "Follow and write build instructions"], ["Do they start without a plan?", "Can they break a big build into parts?", "What happens when a step fails?"], "Same plan-gather-build steps for a school project or cooking a meal."], "Collaboration": [["Shared build with roles", "Trading and sharing resources", "Agreeing on a group design"], ["Do they share ideas or take over?", "How do they handle a different idea?", "Do they check in with others?"], "Group work at school, family jobs, team sports."], "Frustration and regulation": [["Redstone or puzzles that fail and need fixing", "Survival mode setbacks", "Waiting for others"], ["Early signs of frustration", "What they do when stuck", "How long until they recover"], "A shared \"stuck plan\" for homework and hard tasks."], "Communication": [["Text chat with clear messages", "Voice chat on a shared build", "Asking for help in Discord"], ["Can they ask for what they need?", "Tone and turn-taking", "Reading others' messages"], "Messaging a teacher, ordering food, asking for help at work."], "Responsibility and leadership": [["Teen moderator (OP) role", "Running a server event", "Helping new players"], ["Do they follow through?", "Fair with rules?", "How do they handle conflict?"], "Part-time work, volunteering, leading at school."], "Transitions and time": [["Stopping at a save point", "Timed build sessions", "Scheduled server events"], ["Response to warnings", "Can they find a stopping point?", "Time estimation"], "The same warning and save-point plan at home. See Transition Scaffolding."]};(function(){var box=document.getElementById('gm_chips');function li(a){return '<ul>'+a.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul>'}
+ function run(){var b=box.querySelector('[aria-pressed="true"]');if(!b){box.querySelector('.g-chip').setAttribute('aria-pressed','true');b=box.querySelector('.g-chip')}var g=GM[b.dataset.g];
+ document.getElementById('gm_out').innerHTML='<article class="g-card g-navy"><span class="tag">In the game</span><h3>Try</h3>'+li(g[0])+'</article><article class="g-card g-teal"><span class="tag">Observe</span><h3>Watch for</h3>'+li(g[1])+'</article><article class="g-card g-plum"><span class="tag">Carry over</span><h3>In real life</h3><p>'+g[2]+'</p></article>'}
+ box.addEventListener('chips',run);run()})();</script></body></html>

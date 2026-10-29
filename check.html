@@ -1,0 +1,463 @@
+<!doctype html><html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Clinician Check</title><meta name="robots" content="noindex, nofollow"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 fill=%22%23090909%22/%3E%3Crect x=%224%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23344982%22/%3E%3Crect x=%2210%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232F6F9E%22/%3E%3Crect x=%2216%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232CA5B8%22/%3E%3Crect x=%2222%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23AB5C95%22/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap">
+<style>
+/* Layout: ink masthead like a QRH cover, sticky section rail, then the live 1:1 as a stack of phase boxes with dot-leader rows; each phase keeps its card colour */
+:root{
+  color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#F3F2EF;--surface:#FBFAF8;--sunk:#ECEAE6;--fg:#0E1014;--muted:#65676E;--rule:#D3D1CC;--ink:#090909;--on-ink:#FBFAF8;
+  --navy:#344982;--blue:#2F6F9E;--teal:#2CA5B8;--plum:#AB5C95;--coal:#22252B;
+  --navy-t:#DDE2EF;--blue-t:#DCE8F1;--teal-t:#DAF0F3;--plum-t:#F1E1EC;--coal-t:#DADBDE;
+  --good:#2E7D4F;--good-t:#DDEFE3;--warn:#A86A12;--warn-t:#F6E8D2;--bad:#B23A3A;--bad-t:#F5DEDE;
+  --display:"Oswald","Arial Narrow",Impact,sans-serif;--cond:"Barlow Semi Condensed","Arial Narrow",sans-serif;--body:"Barlow","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0F1216;--surface:#161A20;--sunk:#1D222A;--fg:#ECEEF1;--muted:#9BA1AB;--rule:#2C323C;--ink:#05070A;--on-ink:#ECEEF1;
+  --navy:#8299DA;--blue:#6FA8D2;--teal:#4CC3D4;--plum:#D58FC1;--coal:#C9CCD2;
+  --navy-t:#1E2740;--blue-t:#18293A;--teal-t:#123238;--plum-t:#33202E;--coal-t:#2A2E35;
+  --good:#5FC38A;--good-t:#16301F;--warn:#E0A64A;--warn-t:#33270F;--bad:#EC7B7B;--bad-t:#3A1A1A;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1216;--surface:#161A20;--sunk:#1D222A;--fg:#ECEEF1;--muted:#9BA1AB;--rule:#2C323C;--ink:#05070A;--on-ink:#ECEEF1;
+  --navy:#8299DA;--blue:#6FA8D2;--teal:#4CC3D4;--plum:#D58FC1;--coal:#C9CCD2;
+  --navy-t:#1E2740;--blue-t:#18293A;--teal-t:#123238;--plum-t:#33202E;--coal-t:#2A2E35;
+  --good:#5FC38A;--good-t:#16301F;--warn:#E0A64A;--warn-t:#33270F;--bad:#EC7B7B;--bad-t:#3A1A1A;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px)}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 17px/1.55 var(--body)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+[hidden]{display:none!important}
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{text-wrap:balance;margin:0}
+p{margin:0}
+a{color:var(--blue)}
+button,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.eyebrow{font:700 12px var(--cond);letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+
+/* hero */
+.hero{background:var(--ink);color:var(--on-ink)}
+.hero .wrap{padding-block:30px 36px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:32px;align-items:end}
+.hero .eyebrow{color:#AEB5C2}
+.hero h1{font:600 clamp(40px,7vw,76px)/.95 var(--display);text-transform:uppercase;letter-spacing:.01em;margin:8px 0 14px}
+.hero .lead{font-size:18px;max-width:54ch;color:#D6DAE2}
+.order{list-style:none;margin:0;padding:0;border:1px solid #2C323C;background:#111419}
+.order li{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:10px;align-items:center;padding:9px 14px;border-top:1px solid #2C323C}
+.order li:first-child{border-top:0}
+.order .n{font:600 20px var(--display);color:var(--c)}
+.order b{font:600 15px var(--cond);text-transform:uppercase;letter-spacing:.06em}
+.order span.w{font:500 12px var(--cond);color:#AEB5C2;text-transform:uppercase;letter-spacing:.08em}
+.code{display:flex;gap:10px;align-items:center;margin-top:12px;font:600 12px var(--cond);letter-spacing:.14em;text-transform:uppercase;color:#AEB5C2}
+.code b{font:500 18px var(--display);letter-spacing:.08em;color:var(--on-ink);border:1px solid #3A3F48;padding:2px 8px}
+
+.rail{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--rule)}
+.rail .wrap{display:flex;gap:4px;overflow-x:auto;padding-block:8px;scrollbar-width:none}
+.rail a{font:600 13px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--fg);text-decoration:none;padding:6px 10px;white-space:nowrap;border-radius:3px}
+.rail a:hover{background:var(--sunk)}
+
+section.s{padding-block:44px;border-bottom:1px solid var(--rule)}
+.s-head{display:flex;flex-direction:column;gap:6px;margin-bottom:22px;max-width:68ch}
+.s-head h2{font:600 clamp(26px,4vw,34px)/1.05 var(--display);text-transform:uppercase;letter-spacing:.02em}
+.s-head p{color:var(--muted)}
+
+/* live check */
+.who{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,2fr) minmax(0,1.2fr);gap:12px;margin-bottom:18px}
+.fld{display:flex;flex-direction:column;gap:4px;min-width:0}
+.fld label{font:700 12px var(--cond);text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
+.fld input{width:100%;border:1px solid var(--rule);background:var(--surface);padding:9px 10px;border-radius:2px;font-size:16px}
+.fld input:focus{border-color:var(--fg)}
+.tool{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start}
+.col{display:flex;flex-direction:column;gap:18px;min-width:0}
+.box{border:1px solid var(--fg);background:var(--surface)}
+.box h3{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:6px 10px 6px 14px;background:var(--ct);box-shadow:inset 5px 0 0 var(--c);border-bottom:1px solid var(--fg);font:700 14px var(--cond);text-transform:uppercase;letter-spacing:.08em}
+.box h3 .n{font:600 16px var(--display);margin-right:6px}
+.box h3 small{font:500 12px var(--cond);letter-spacing:.06em;color:var(--muted)}
+.p1{--c:var(--navy);--ct:var(--navy-t)}.p2{--c:var(--blue);--ct:var(--blue-t)}.p3{--c:var(--plum);--ct:var(--plum-t)}.p4{--c:var(--teal);--ct:var(--teal-t)}.p5{--c:var(--coal);--ct:var(--coal-t)}
+.grp{padding:6px 10px 8px;display:flex;flex-direction:column}
+.grp + .grp{border-top:1px solid var(--rule)}
+.lbl{font:700 11px var(--cond);text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin:2px 0}
+.row{display:flex;align-items:baseline;gap:6px;padding:3px 4px;border-radius:2px;cursor:pointer;font:600 14px/1.4 var(--cond);text-transform:uppercase;letter-spacing:.02em}
+.row:hover{background:var(--sunk)}
+.row input{position:absolute;opacity:0;pointer-events:none}
+.row .item{white-space:nowrap}
+.row .dots{flex:1;min-width:12px;border-bottom:1.5px dotted var(--muted);transform:translateY(-4px)}
+.row .resp{text-align:right}
+.row .box-i{width:14px;height:14px;border:1.5px solid var(--muted);flex:none;transform:translateY(2px);display:grid;place-items:center;font-size:11px;line-height:1}
+.row:has(input:checked) .item,.row:has(input:checked) .resp{color:var(--muted)}
+.row:has(input:checked) .box-i{background:var(--c);border-color:var(--c);color:var(--surface)}
+.row:has(input:checked) .box-i::after{content:"\2713"}
+.row:has(input:focus-visible){outline:2px solid var(--c)}
+.p5 .row:has(input:checked) .box-i{background:var(--teal);border-color:var(--teal)}
+.num{display:grid;grid-template-columns:minmax(0,1fr) 84px 92px;gap:8px;align-items:center;padding:5px 4px;border-top:1px dashed var(--rule)}
+.num:first-of-type{border-top:0}
+.num label{font:600 14px var(--cond);text-transform:uppercase;letter-spacing:.02em}
+.num label small{display:block;font:500 12px var(--cond);color:var(--muted);letter-spacing:.04em}
+.num input{width:100%;border:1px solid var(--rule);background:var(--bg);padding:6px 8px;font:600 16px var(--cond);text-align:right;font-variant-numeric:tabular-nums;border-radius:2px}
+.st{font:700 11px var(--cond);text-transform:uppercase;letter-spacing:.1em;padding:4px 6px;text-align:center;background:var(--sunk);color:var(--muted)}
+.st.good{background:var(--good-t);color:var(--good)}.st.bad{background:var(--bad-t);color:var(--bad)}.st.info{background:var(--ct);color:var(--c)}
+.consider{font-size:14px;padding:8px 14px;border-top:1px solid var(--rule)}
+.consider strong{font:700 13px var(--cond);text-transform:uppercase;letter-spacing:.06em}
+.gate{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 10px 7px 14px;border-top:1px solid var(--fg);font:700 13px var(--cond);text-transform:uppercase;letter-spacing:.04em;background:var(--sunk)}
+.gate .g{letter-spacing:.12em;padding:2px 8px;background:var(--surface);color:var(--muted);border:1px solid var(--rule);white-space:nowrap}
+.gate.ok{background:var(--good-t)}
+.gate.ok .g{background:var(--good);border-color:var(--good);color:var(--surface)}
+.plan{display:flex;gap:8px;align-items:center;padding:6px 14px;border-top:1px solid var(--rule);font-size:14px;cursor:pointer}
+.plan input{accent-color:var(--navy);width:16px;height:16px}
+
+/* actions */
+.acts{padding:8px 10px;display:flex;flex-direction:column;gap:8px}
+.act{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1fr) 32px;gap:6px}
+.act input{min-width:0;border:1px solid var(--rule);background:var(--bg);padding:7px 8px;font-size:15px;border-radius:2px}
+.x{border:1px solid var(--rule);background:none;cursor:pointer;color:var(--muted);font-size:16px;line-height:1}
+.x:hover{color:var(--bad);border-color:var(--bad)}
+.btn{border:1px solid var(--rule);background:var(--surface);color:var(--fg);padding:9px 14px;cursor:pointer;font:600 13px var(--cond);text-transform:uppercase;letter-spacing:.08em;min-height:40px}
+.btn:hover{border-color:var(--fg)}
+.btn.primary{background:var(--ink);color:var(--on-ink);border-color:var(--ink)}
+.btn.primary:hover{background:var(--teal);border-color:var(--teal);color:#090909}
+
+/* summary */
+.summary{margin-top:18px;border:1px solid var(--rule);background:var(--surface)}
+.summary-h{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 14px;border-bottom:1px solid var(--rule)}
+.summary-h b{font:600 18px var(--display);text-transform:uppercase;letter-spacing:.02em}
+.status-line{display:flex;gap:6px;flex-wrap:wrap}
+.status-line span{font:700 11px var(--cond);text-transform:uppercase;letter-spacing:.1em;padding:3px 8px;background:var(--sunk);color:var(--muted)}
+.status-line span.ok{background:var(--good-t);color:var(--good)}
+#out{width:100%;min-height:200px;border:0;background:transparent;padding:14px;font:400 15px/1.55 var(--body);resize:vertical}
+.summary-f{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 14px;border-top:1px solid var(--rule);background:var(--sunk)}
+.msg{font:600 13px var(--cond);text-transform:uppercase;letter-spacing:.08em;color:var(--good);min-height:1em}
+
+/* why */
+.whys{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.why{background:var(--surface);border:1px solid var(--rule);border-top:5px solid var(--c);padding:18px;display:flex;flex-direction:column;gap:10px}
+.why h3{font:600 22px var(--display);text-transform:uppercase;letter-spacing:.02em;display:flex;gap:10px;align-items:baseline}
+.why h3 span{color:var(--c)}
+.why p{font-size:16px}
+.why .look{font-size:14px;color:var(--muted);border-top:1px dashed var(--rule);padding-top:8px;margin-top:auto}
+.why .look b{color:var(--fg)}
+
+.thr{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin-bottom:20px}
+.thr div{background:var(--surface);padding:16px 18px;display:flex;flex-direction:column;gap:4px}
+.thr .k{font:700 12px var(--cond);text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
+.thr .v{font:600 44px/1 var(--display);font-variant-numeric:tabular-nums;color:var(--navy)}
+.thr p{font-size:15px}
+
+/* run it well */
+.dos{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.dos ul{list-style:none;margin:0;padding:0;background:var(--surface);border:1px solid var(--rule)}
+.dos li{padding:12px 16px;border-top:1px solid var(--rule);font-size:16px}
+.dos li:first-child{border-top:0}
+.dos li b{display:block;font:600 15px var(--cond);text-transform:uppercase;letter-spacing:.05em}
+.dos h3{font:700 14px var(--cond);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px}
+.dos .do h3{color:var(--good)}.dos .dont h3{color:var(--bad)}
+.ladder{list-style:none;margin:20px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.ladder li{background:var(--sunk);padding:14px 16px;border-left:4px solid var(--c)}
+.ladder b{display:block;font:600 16px var(--cond);text-transform:uppercase;letter-spacing:.04em}
+.ladder span{font-size:15px}
+
+footer{padding-block:28px 48px;color:var(--muted);font-size:14px}
+
+@media (max-width:860px){
+  .hero .wrap,.tool,.dos{grid-template-columns:1fr}
+  .who{grid-template-columns:1fr 1fr}
+  .who .fld:first-child{grid-column:1 / -1}
+  .thr,.ladder{grid-template-columns:1fr}
+}
+@media (max-width:480px){
+  .row .item{white-space:normal}
+  .act{grid-template-columns:1fr 1fr 32px}
+  .act input:first-child{grid-column:1 / -1}
+  .num{grid-template-columns:minmax(0,1fr) 72px 80px}
+}
+</style></head><body><style>
+.ehub{background:#090909;color:#FBFAF8;border-bottom:1px solid #2C323C;position:relative;z-index:6}
+.ehub-in{max-width:1120px;margin:0 auto;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));display:flex;justify-content:space-between;align-items:center;gap:10px 16px;flex-wrap:wrap}
+.ehub a{color:inherit;text-decoration:none}
+.ehub-home{display:flex;align-items:center;gap:12px;min-height:36px}
+.ehub-bands{display:flex;width:56px;height:5px;flex:none}.ehub-bands i{flex:1}
+.ehub-bands i:nth-child(1){background:#344982}.ehub-bands i:nth-child(2){background:#2F6F9E}.ehub-bands i:nth-child(3){background:#2CA5B8}.ehub-bands i:nth-child(4){background:#AB5C95}
+.ehub-wm{font:500 14px/1 "Oswald","Arial Narrow",Impact,sans-serif;letter-spacing:.16em}.ehub-wm b{font-weight:700}
+.ehub-sep{font:600 12px/1 "Barlow Semi Condensed","Arial Narrow",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#AEB5C2;border-left:1px solid #3A3F48;padding-left:12px}
+.ehub-home:hover .ehub-sep{color:#FBFAF8}
+.ehub-r{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ehub-btn{font:600 12px/1 "Barlow Semi Condensed","Arial Narrow",sans-serif;letter-spacing:.1em;text-transform:uppercase;border:1px solid #3A3F48;background:none;color:#FBFAF8;padding:9px 12px;cursor:pointer;min-height:36px;display:inline-flex;align-items:center;gap:8px}
+.ehub-btn:hover{border-color:#FBFAF8}
+.ehub-btn[aria-pressed="true"]{background:#2E7D4F;border-color:#2E7D4F}
+.ehub-btn:focus-visible,.ehub a:focus-visible{outline:2px solid #2CA5B8;outline-offset:2px}
+.ehub-next{background:#FBFAF8!important;color:#090909!important;border-color:#FBFAF8}
+@media (max-width:520px){.ehub-sep{display:none}.ehub-next .ehub-nl{display:none}}
+@media print{.ehub{display:none}}
+</style>
+<nav class="ehub" aria-label="Estus Training Hub" style="margin:0"><div class="ehub-in">
+<a class="ehub-home" href="index.html"><span class="ehub-bands" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="ehub-wm"><b>ESTUS</b> HEALTH</span><span class="ehub-sep">&larr; Training Hub</span></a>
+<div class="ehub-r"><button class="ehub-btn" type="button" id="ehub-done" aria-pressed="false">Mark done</button><a class="ehub-btn ehub-next" href="reels.html"><span class="ehub-nl">Next:</span> Reels Playbook <span aria-hidden="true">&rarr;</span></a></div>
+</div></nav>
+<script>(function(){var K="hub_done",s="check",b=document.getElementById("ehub-done");function l(){try{return JSON.parse(localStorage.getItem(K))||{}}catch(e){return {}}}function r(){var on=!!l()[s];b.setAttribute("aria-pressed",on);b.textContent=on?"\u2713 Done":"Mark done"}b.addEventListener("click",function(){var v=l();if(v[s])delete v[s];else v[s]=1;try{localStorage.setItem(K,JSON.stringify(v))}catch(e){}r()});r()})();</script>
+
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">Team leader · fortnightly 1:1</p>
+      <h1>Clinician check</h1>
+      <p class="lead">Same five checks, same order, every fortnight. Numbers first, people last. Run it live below, then send the summary the same day.</p>
+      <div class="code"><b>EH-C2</b><span>Normal procedures</span></div>
+    </div>
+    <ol class="order" aria-label="The five checks in order">
+      <li style="--c:#8299DA"><span class="n">1</span><b>Numbers</b><span class="w">Last 2 weeks</span></li>
+      <li style="--c:#6FA8D2"><span class="n">2</span><b>Notes</b><span class="w">Compliance</span></li>
+      <li style="--c:#D58FC1"><span class="n">3</span><b>Leave</b><span class="w">Capacity</span></li>
+      <li style="--c:#4CC3D4"><span class="n">4</span><b>Calendars</b><span class="w">Next 4 weeks</span></li>
+      <li style="--c:#C9CCD2"><span class="n">5</span><b>Close</b><span class="w">The 1:1</span></li>
+    </ol>
+  </div>
+</header>
+
+<nav class="rail" aria-label="Sections">
+  <div class="wrap"><a href="#run">Run the check</a><a href="#thresholds">Thresholds</a><a href="#why">Why each check</a><a href="#well">Run it well</a></div>
+</nav>
+
+<main>
+<section class="s" id="run"><div class="wrap">
+  <div class="s-head"><p class="eyebrow">Live in the 1:1</p><h2>Run the check</h2><p>Type the numbers, tick each line as you confirm it. A phase clears when every line is ticked. Your draft stays in this browser until you start a new check.</p></div>
+
+  <div class="who">
+    <div class="fld"><label for="c_clin">Clinician</label><input id="c_clin" type="text" autocomplete="off"></div>
+    <div class="fld"><label for="c_lead">Team leader</label><input id="c_lead" type="text" autocomplete="off"></div>
+    <div class="fld"><label for="c_date">Date</label><input id="c_date" type="text" placeholder="DD/MM/YY" autocomplete="off"></div>
+  </div>
+
+  <div class="tool">
+    <div class="col">
+      <section class="box p1" aria-labelledby="h1x">
+        <h3 id="h1x"><span><span class="n">1</span>Numbers</span><small>Last 2 weeks</small></h3>
+        <div class="grp">
+          <div class="num"><label for="n_bill">Billing attainment<small>Target 90%+</small></label><input id="n_bill" inputmode="decimal" placeholder="%"><span class="st" id="s_bill">Enter</span></div>
+          <div class="num"><label for="n_rebook">Rebooking rate<small>Target 96%+</small></label><input id="n_rebook" inputmode="decimal" placeholder="%"><span class="st" id="s_rebook">Enter</span></div>
+          <div class="num"><label for="n_cancel">Cancellations<small>Target 6.5% or under</small></label><input id="n_cancel" inputmode="decimal" placeholder="%"><span class="st" id="s_cancel">Enter</span></div>
+          <div class="num"><label for="n_case">Active caseload<small>Against capacity</small></label><input id="n_case" inputmode="numeric" placeholder="#"><span class="st info" id="s_case">Of <input id="n_cap" inputmode="numeric" placeholder="cap" aria-label="Capacity" style="width:44px;padding:1px 4px;font-size:12px;border:1px solid var(--rule);background:var(--surface);text-align:right"></span></div>
+          <div class="num"><label for="n_new">New sign-ups<small>Counted</small></label><input id="n_new" inputmode="numeric" placeholder="#"><span class="st info">Count</span></div>
+        </div>
+        <div class="consider"><strong>Consider:</strong> a metric under threshold two checks in a row gets its own plan in this 1:1.</div>
+        <label class="plan" for="n_plan"><input type="checkbox" id="n_plan"> Plan agreed for any metric under threshold</label>
+        <div class="gate" id="g1"><span>All three met or plan agreed</span><span class="g">Cleared</span></div>
+      </section>
+
+      <section class="box p2" data-phase="2" aria-labelledby="h2x">
+        <h3 id="h2x"><span><span class="n">2</span>Notes</span><small>Compliance</small></h3>
+        <div class="grp" data-rows='[["Case notes","Same day"],["Invoices","Same day"],["End-of-day horse","Posted daily"],["Overdue notes","Zero"],["Progress reports due","On track"],["NDIS plan end dates","Checked, next 90 days"],["Client check-ins Q1 to Q4","Booked"]]'></div>
+        <div class="gate"><span>No overdue notes or invoices</span><span class="g">Cleared</span></div>
+      </section>
+
+      <section class="box p3" data-phase="3" aria-labelledby="h3x">
+        <h3 id="h3x"><span><span class="n">3</span>Leave</span><small>Capacity</small></h3>
+        <div class="grp" data-rows='[["Leave booked","Dates in all calendars"],["Clients","Told in advance"],["Cover / reschedules","Arranged"],["Next leave","On the horizon"],["Workload","Sustainable"],["Wellbeing","Asked"]]'></div>
+        <div class="gate"><span>Leave visible everywhere it needs to be</span><span class="g">Cleared</span></div>
+      </section>
+    </div>
+
+    <div class="col">
+      <section class="box p4" data-phase="4" aria-labelledby="h4x">
+        <h3 id="h4x"><span><span class="n">4</span>Calendars</span><small>Next 4 weeks</small></h3>
+        <div class="grp" data-label="Master calendar" data-rows='[["Master calendar","Up to date"],["Clinic hours","Set"],["Admin / notes time","Blocked"],["Leave + personal","Blocked"]]'></div>
+        <div class="grp" data-label="PracSuite (clients)" data-rows='[["PracSuite diary","Matches master"],["Client appointments","In PracSuite"]]'></div>
+        <div class="grp" data-label="Short-notice Google calendar (new leads)" data-rows='[["Booking page","Open next 4 wks"],["Slots","Match master"],["Leave dates","Closed"],["Double bookings","None"],["Link in VSL email","Tested"]]'></div>
+        <div class="consider"><strong>Why two:</strong> new leads aren't clients yet, so the VSL email books into Google Calendar. Once the service agreement is signed, they move to PracSuite.</div>
+        <div class="gate"><span>A new lead could book a real slot today</span><span class="g">Cleared</span></div>
+      </section>
+
+      <section class="box p5" data-phase="5" aria-labelledby="h5x">
+        <h3 id="h5x"><span><span class="n">5</span>Close</span><small>The 1:1</small></h3>
+        <div class="grp" data-rows='[["Wins","Named"],["Blockers","Cleared / owned"],["Support needed","Asked"],["Next 1:1","Booked"]]'></div>
+        <div class="grp">
+          <p class="lbl">Actions: owner + date</p>
+        </div>
+        <div class="acts" id="acts"></div>
+        <div style="padding:0 10px 10px"><button class="btn" type="button" id="addAct">+ Add action</button></div>
+        <div class="gate" id="g5"><span>Actions sent same day</span><span class="g">Cleared</span></div>
+      </section>
+    </div>
+  </div>
+
+  <div class="summary">
+    <div class="summary-h"><b>Summary to send</b><div class="status-line" id="statusLine"></div></div>
+    <label for="out" class="eyebrow" style="position:absolute;left:-9999px">Summary text</label>
+    <textarea id="out" readonly></textarea>
+    <div class="summary-f">
+      <span class="msg" id="msg" aria-live="polite"></span>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" type="button" id="newCheck">Start new check</button><button class="btn primary" type="button" id="copy">Copy summary</button></div>
+    </div>
+  </div>
+</div></section>
+
+<section class="s" id="thresholds"><div class="wrap">
+  <div class="s-head"><p class="eyebrow">Check 1</p><h2>The three thresholds</h2><p>These are signals, not verdicts. They tell us where to look. One miss is a conversation. Two in a row gets its own plan.</p></div>
+  <div class="thr">
+    <div><span class="k">Billing attainment</span><span class="v">90%+</span><p>Hours billed against your target. Low usually means gaps in the diary, not effort.</p></div>
+    <div><span class="k">Rebooking rate</span><span class="v">96%+</span><p>Clients who leave a session with the next one booked. The clearest sign the work feels useful to them.</p></div>
+    <div><span class="k">Cancellations</span><span class="v">6.5%-</span><p>Sessions cancelled. High often points to timing, reminders or funding, so look at the pattern first.</p></div>
+  </div>
+  <ul class="ladder">
+    <li style="--c:var(--good)"><b>All met</b><span>Name it as a win. Move on.</span></li>
+    <li style="--c:var(--warn)"><b>One miss</b><span>Ask what's behind it. Note it for next check.</span></li>
+    <li style="--c:var(--bad)"><b>Two in a row</b><span>Own plan in this 1:1, with an owner and a date.</span></li>
+  </ul>
+</div></section>
+
+<section class="s" id="why"><div class="wrap">
+  <div class="s-head"><p class="eyebrow">What each check protects</p><h2>Why each check</h2><p>Every line on the card exists because something went wrong without it. Here's what each check is for and what good looks like.</p></div>
+  <div class="whys">
+    <article class="why" style="--c:var(--navy)"><h3><span>1</span>Numbers</h3><p>Fast, honest feedback on a job where most feedback is slow. Two weeks is short enough to act on.</p><p class="look"><b>Good looks like:</b> all three thresholds met, caseload near capacity, sign-ups counted.</p></article>
+    <article class="why" style="--c:var(--blue)"><h3><span>2</span>Notes</h3><p>Same-day notes and invoices keep records safe and cash moving. The horse emoji tells the team the day is closed off.</p><p class="look"><b>Good looks like:</b> zero overdue, NDIS plan end dates checked 90 days ahead.</p></article>
+    <article class="why" style="--c:var(--plum)"><h3><span>3</span>Leave</h3><p>Leave protects the clinician. Clients told early protects trust. Workload and wellbeing get asked every time, not only when things look bad.</p><p class="look"><b>Good looks like:</b> next leave on the horizon and visible in every calendar.</p></article>
+    <article class="why" style="--c:var(--teal)"><h3><span>4</span>Calendars</h3><p>Three calendars have to agree: master, PracSuite and the short-notice Google calendar for new leads. When they drift, leads book slots that don't exist.</p><p class="look"><b>Good looks like:</b> a new lead could book a real slot today.</p></article>
+    <article class="why" style="--c:var(--coal)"><h3><span>5</span>Close</h3><p>A 1:1 without written actions didn't happen. Wins first, then blockers, then what support is needed.</p><p class="look"><b>Good looks like:</b> every action has an owner and a date, sent the same day.</p></article>
+  </div>
+</div></section>
+
+<section class="s" id="well"><div class="wrap">
+  <div class="s-head"><p class="eyebrow">For team leaders</p><h2>Run it well</h2><p>A predictable 1:1 is a safe 1:1. Same order, same card, no surprises.</p></div>
+  <div class="dos">
+    <div class="do"><h3>Do</h3><ul>
+      <li><b>Send the card ahead</b>So numbers can be pulled before the meeting, not during it.</li>
+      <li><b>Keep the order</b>Numbers, notes, leave, calendars, close. Every time.</li>
+      <li><b>Ask before advising</b>"What's behind this one?" before any fix.</li>
+      <li><b>Start the close with wins</b>Name them specifically, the way they like to hear it.</li>
+    </ul></div>
+    <div class="dont"><h3>Don't</h3><ul>
+      <li><b>Turn a number into a judgement</b>A miss is a place to look, not a grade.</li>
+      <li><b>Stack fixes</b>One plan per metric. Two at most per 1:1.</li>
+      <li><b>Skip leave and wellbeing</b>Especially when the numbers are good.</li>
+      <li><b>Leave actions verbal</b>If it isn't sent the same day, it didn't happen.</li>
+    </ul></div>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="wrap">Estus Health · Neuroaffirming OT · Perth · Telehealth Australia-wide · EH-C2</div></footer>
+
+<script>
+(function(){
+  var KEY='cc_draft';
+  function load(){try{return JSON.parse(localStorage.getItem(KEY))||null}catch(e){return null}}
+  function save(v){try{localStorage.setItem(KEY,JSON.stringify(v))}catch(e){}}
+  var $=function(id){return document.getElementById(id)};
+
+  // build checklist rows
+  var rowId=0;
+  document.querySelectorAll('[data-rows]').forEach(function(g){
+    if(g.dataset.label){var l=document.createElement('p');l.className='lbl';l.textContent=g.dataset.label;g.appendChild(l)}
+    JSON.parse(g.dataset.rows).forEach(function(r){
+      var id='r'+(rowId++);
+      var lab=document.createElement('label');lab.className='row';lab.htmlFor=id;
+      lab.innerHTML='<input type="checkbox" id="'+id+'"><span class="box-i" aria-hidden="true"></span><span class="item"></span><span class="dots"></span><span class="resp"></span>';
+      lab.querySelector('.item').textContent=r[0];lab.querySelector('.resp').textContent=r[1];
+      g.appendChild(lab);
+    });
+  });
+
+  var acts=$('acts'), aid=0;
+  function addAct(v){
+    v=v||['','',''];var i=aid++;
+    var d=document.createElement('div');d.className='act';
+    d.innerHTML='<input id="a_t'+i+'" placeholder="Action" aria-label="Action"><input id="a_o'+i+'" placeholder="Owner" aria-label="Owner"><input id="a_d'+i+'" placeholder="Date" aria-label="Due date"><button class="x" type="button" aria-label="Remove action">&times;</button>';
+    var ins=d.querySelectorAll('input');ins.forEach(function(x,k){x.value=v[k]||''});
+    d.querySelector('.x').addEventListener('click',function(){d.remove();update()});
+    acts.appendChild(d);
+  }
+  $('addAct').addEventListener('click',function(){addAct();acts.lastChild.querySelector('input').focus();update()});
+
+  function pct(id){var v=$(id).value.replace('%','').trim();if(v==='')return null;var n=parseFloat(v);return isNaN(n)?null:n}
+  function setSt(id,val,ok){var s=$(id);if(val===null){s.className='st';s.textContent='Enter';return null}s.className='st '+(ok?'good':'bad');s.textContent=ok?'Met':'Under';return ok}
+
+  function collect(){
+    var d={who:[$('c_clin').value,$('c_lead').value,$('c_date').value],nums:{},plan:$('n_plan').checked,rows:{},acts:[]};
+    ['n_bill','n_rebook','n_cancel','n_case','n_cap','n_new'].forEach(function(k){d.nums[k]=$(k).value});
+    document.querySelectorAll('.row input').forEach(function(c){d.rows[c.id]=c.checked});
+    acts.querySelectorAll('.act').forEach(function(a){var v=[].map.call(a.querySelectorAll('input'),function(x){return x.value});if(v.join('').trim())d.acts.push(v)});
+    return d;
+  }
+  function apply(d){
+    if(!d)return;
+    ['c_clin','c_lead','c_date'].forEach(function(k,i){$(k).value=d.who[i]||''});
+    Object.keys(d.nums||{}).forEach(function(k){if($(k))$(k).value=d.nums[k]});
+    $('n_plan').checked=!!d.plan;
+    Object.keys(d.rows||{}).forEach(function(k){if($(k))$(k).checked=d.rows[k]});
+    (d.acts||[]).forEach(addAct);
+  }
+
+  function phaseRows(sec){return [].slice.call(sec.querySelectorAll('.row input'))}
+  function update(){
+    var b=pct('n_bill'),r=pct('n_rebook'),c=pct('n_cancel');
+    var m=[setSt('s_bill',b,b>=90),setSt('s_rebook',r,r>=96),setSt('s_cancel',c,c!==null&&c<=6.5)];
+    var allIn=m.every(function(x){return x!==null}),allMet=m.every(function(x){return x===true});
+    var g1=allIn&&(allMet||$('n_plan').checked);
+    $('g1').classList.toggle('ok',g1);$('g1').querySelector('.g').textContent=g1?'Cleared':'Open';
+    var cleared={1:g1};
+    document.querySelectorAll('[data-phase]').forEach(function(sec){
+      var rows=phaseRows(sec),ok=rows.length&&rows.every(function(x){return x.checked});
+      var p=sec.dataset.phase;
+      if(p==='5'){ok=ok&&acts.querySelectorAll('.act').length>0}
+      cleared[p]=ok;sec.querySelector('.gate').classList.toggle('ok',ok);sec.querySelector('.gate .g').textContent=ok?'Cleared':'Open';
+    });
+    var names={1:'Numbers',2:'Notes',3:'Leave',4:'Calendars',5:'Close'};
+    $('statusLine').innerHTML='';
+    for(var k=1;k<=5;k++){var s=document.createElement('span');s.textContent=names[k]+(cleared[k]?' cleared':' open');if(cleared[k])s.className='ok';$('statusLine').appendChild(s)}
+    var d=collect();save(d);
+    $('out').value=summary(d,cleared,{b:b,r:r,c:c});
+  }
+  function line(lbl,v,t){return lbl+': '+(v===null?'not entered':v+'%')+' (target '+t+')'}
+  function summary(d,cl,n){
+    var L=[];
+    L.push('Clinician Check'+(d.who[2]?', '+d.who[2]:''));
+    L.push('Clinician: '+(d.who[0]||'-')+'   Team leader: '+(d.who[1]||'-'));
+    L.push('');
+    L.push('NUMBERS (last 2 weeks)');
+    L.push('- '+line('Billing attainment',n.b,'90%+'));
+    L.push('- '+line('Rebooking rate',n.r,'96%+'));
+    L.push('- '+line('Cancellations',n.c,'6.5% or under'));
+    if(d.nums.n_case)L.push('- Active caseload: '+d.nums.n_case+(d.nums.n_cap?' of '+d.nums.n_cap:''));
+    if(d.nums.n_new)L.push('- New sign-ups: '+d.nums.n_new);
+    if(d.plan)L.push('- Plan agreed for any metric under threshold');
+    L.push('');
+    L.push('CHECKS');
+    var names={1:'Numbers',2:'Notes',3:'Leave',4:'Calendars',5:'Close'};
+    for(var k=1;k<=5;k++){
+      var open=[];
+      if(k>1){var sec=document.querySelector('[data-phase="'+k+'"]');phaseRows(sec).forEach(function(x){if(!x.checked)open.push(x.parentNode.querySelector('.item').textContent)})}
+      L.push('- '+names[k]+': '+(cl[k]?'cleared':'open')+(open.length?' (to follow up: '+open.join(', ')+')':''));
+    }
+    L.push('');
+    L.push('ACTIONS');
+    if(!d.acts.length)L.push('- None yet');
+    d.acts.forEach(function(a){L.push('- '+(a[0]||'Action')+' | '+(a[1]||'owner?')+' | '+(a[2]||'date?'))});
+    return L.join('\n');
+  }
+
+  document.addEventListener('input',function(e){if(e.target.closest('main'))update()});
+  document.addEventListener('change',function(e){if(e.target.closest('main'))update()});
+
+  $('copy').addEventListener('click',function(){
+    var t=$('out').value,msg=$('msg');
+    function done(){msg.textContent='Copied. Paste it into your email.';setTimeout(function(){msg.textContent=''},3000)}
+    function fallback(){$('out').focus();$('out').select();msg.textContent='Text selected. Copy it with your keyboard.'}
+    try{navigator.clipboard.writeText(t).then(done,fallback)}catch(e){fallback()}
+  });
+  var armed=false;
+  $('newCheck').addEventListener('click',function(){
+    var b=$('newCheck');
+    if(!armed){armed=true;b.textContent='Tap again to clear';setTimeout(function(){armed=false;b.textContent='Start new check'},3000);return}
+    armed=false;b.textContent='Start new check';
+    try{localStorage.removeItem(KEY)}catch(e){}
+    document.querySelectorAll('main input').forEach(function(x){if(x.type==='checkbox')x.checked=false;else if(!x.closest('.act'))x.value=''});
+    acts.innerHTML='';addAct();update();$('msg').textContent='Cleared. Ready for a new check.';
+  });
+
+  var d=load();
+  if(d)apply(d);
+  if(!acts.children.length)addAct();
+  update();
+})();
+</script>
+</body></html>
