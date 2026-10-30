@@ -1,0 +1,367 @@
+<!doctype html><html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Estus Training Playbook</title><meta name="robots" content="noindex, nofollow"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 fill=%22%23090909%22/%3E%3Crect x=%224%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23344982%22/%3E%3Crect x=%2210%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232F6F9E%22/%3E%3Crect x=%2216%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232CA5B8%22/%3E%3Crect x=%2222%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23AB5C95%22/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap">
+<style>
+/* Layout: ink masthead with Estus bands, sticky section rail, one reading column; each phase of the Estus Session owns a brand colour */
+:root{
+  color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#F3F2EF;--surface:#FBFAF8;--sunk:#ECEAE6;--fg:#0E1014;--muted:#65676E;--rule:#D3D1CC;--ink:#090909;--on-ink:#FBFAF8;
+  --navy:#344982;--blue:#2F6F9E;--teal:#2CA5B8;--plum:#AB5C95;--coal:#22252B;
+  --navy-t:#DDE2EF;--blue-t:#DCE8F1;--teal-t:#DAF0F3;--plum-t:#F1E1EC;--coal-t:#DADBDE;
+  --good:#2E7D4F;--good-t:#DDEFE3;--warn:#A86A12;--warn-t:#F6E8D2;
+  --display:"Oswald","Arial Narrow",Impact,sans-serif;--cond:"Barlow Semi Condensed","Arial Narrow",sans-serif;--body:"Barlow","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0F1216;--surface:#161A20;--sunk:#1D222A;--fg:#ECEEF1;--muted:#9BA1AB;--rule:#2C323C;--ink:#05070A;--on-ink:#ECEEF1;
+  --navy:#8299DA;--blue:#6FA8D2;--teal:#4CC3D4;--plum:#D58FC1;--coal:#C9CCD2;
+  --navy-t:#1E2740;--blue-t:#18293A;--teal-t:#123238;--plum-t:#33202E;--coal-t:#2A2E35;
+  --good:#5FC38A;--good-t:#16301F;--warn:#E0A64A;--warn-t:#33270F;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1216;--surface:#161A20;--sunk:#1D222A;--fg:#ECEEF1;--muted:#9BA1AB;--rule:#2C323C;--ink:#05070A;--on-ink:#ECEEF1;
+  --navy:#8299DA;--blue:#6FA8D2;--teal:#4CC3D4;--plum:#D58FC1;--coal:#C9CCD2;
+  --navy-t:#1E2740;--blue-t:#18293A;--teal-t:#123238;--plum-t:#33202E;--coal-t:#2A2E35;
+  --good:#5FC38A;--good-t:#16301F;--warn:#E0A64A;--warn-t:#33270F;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px)}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 17px/1.55 var(--body)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+[hidden]{display:none!important}
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{text-wrap:balance;margin:0}
+p{margin:0}
+a{color:var(--blue)}
+:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+
+.hero{background:var(--ink);color:var(--on-ink)}
+.hero .wrap{padding-block:28px 36px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:32px;align-items:end}
+.eyebrow{font:700 12px var(--cond);letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.hero .eyebrow{color:#AEB5C2}
+.hero h1{font:600 clamp(38px,6vw,68px)/.98 var(--display);text-transform:uppercase;letter-spacing:.01em;margin:8px 0 14px}
+.hero .lead{font-size:18px;max-width:56ch;color:#D6DAE2}
+.pillars{display:flex;flex-direction:column;gap:8px}
+.pillars div{display:grid;grid-template-columns:12px minmax(0,1fr);gap:12px;align-items:start}
+.pillars i{width:12px;height:12px;margin-top:5px}
+.pillars b{font:600 15px var(--cond);text-transform:uppercase;letter-spacing:.06em;display:block}
+.pillars span{font-size:14px;color:#AEB5C2}
+
+.rail{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--rule)}
+.rail .wrap{display:flex;gap:4px;overflow-x:auto;padding-block:8px;scrollbar-width:none}
+.rail a{font:600 13px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--fg);text-decoration:none;padding:6px 10px;white-space:nowrap;border-radius:3px}
+.rail a:hover{background:var(--sunk)}
+
+section.s{padding-block:44px;border-bottom:1px solid var(--rule)}
+.s-head{display:flex;flex-direction:column;gap:6px;margin-bottom:24px;max-width:68ch}
+.s-head h2{font:600 clamp(26px,4vw,34px)/1.05 var(--display);text-transform:uppercase;letter-spacing:.02em}
+.s-head p{color:var(--muted)}
+h3{font:700 15px var(--cond);text-transform:uppercase;letter-spacing:.1em}
+
+/* why */
+.why{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.why div{background:var(--surface);padding:18px;display:flex;flex-direction:column;gap:6px}
+.why .k{font:700 12px var(--cond);text-transform:uppercase;letter-spacing:.14em;color:var(--muted)}
+.why .v{font:600 22px/1.15 var(--display);text-transform:uppercase}
+
+/* method */
+.ideas{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.idea{background:var(--surface);border:1px solid var(--rule);border-top:5px solid var(--c);padding:18px;display:flex;flex-direction:column;gap:8px}
+.idea h3{color:var(--c)}
+.idea p{font-size:16px}
+.idea .do{font-size:14px;color:var(--muted);border-top:1px dashed var(--rule);padding-top:8px;margin-top:auto}
+.matrix{margin-top:28px;display:grid;grid-template-columns:auto minmax(0,1fr) minmax(0,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.matrix > div{background:var(--surface);padding:14px 16px}
+.matrix .ax{background:var(--sunk);font:700 12px var(--cond);text-transform:uppercase;letter-spacing:.12em;color:var(--muted);display:flex;align-items:center}
+.matrix .corner{background:var(--sunk)}
+.matrix b{display:block;font:600 16px var(--cond);text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px}
+.matrix span{font-size:15px;color:var(--muted)}
+.matrix .hot{background:var(--plum-t)}
+.matrix .hot b{color:var(--plum)}
+.rule-of-thumb{margin-top:16px;padding:14px 16px;background:var(--plum-t);border-left:4px solid var(--plum);max-width:72ch}
+
+/* session */
+.tl{display:flex;height:52px;border:1px solid var(--rule)}
+.tl div{flex:var(--w);background:var(--ct);border-top:5px solid var(--c);padding:4px 10px;min-width:0;display:flex;flex-direction:column;justify-content:center}
+.tl div + div{border-left:1px solid var(--surface)}
+.tl span{font:600 13px var(--cond);text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tl small{font:500 12px var(--cond);color:var(--muted);font-variant-numeric:tabular-nums}
+.phases{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-direction:column;border:1px solid var(--rule);background:var(--surface)}
+.phase{display:grid;grid-template-columns:150px minmax(0,1fr) minmax(0,1fr);gap:20px;padding:18px;border-top:1px solid var(--rule);align-items:start}
+.phase:first-child{border-top:0}
+.phase .when{border-left:5px solid var(--c);padding-left:10px;display:flex;flex-direction:column}
+.phase .when b{font:600 22px/1.1 var(--display);text-transform:uppercase}
+.phase .when small{font:600 13px var(--cond);color:var(--muted);font-variant-numeric:tabular-nums;letter-spacing:.06em}
+.phase .lbl{font:700 12px var(--cond);text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:4px}
+.phase .say{background:var(--ct);padding:10px 12px;font-weight:600}
+.p-kudos{--c:var(--navy);--ct:var(--navy-t)}.p-model{--c:var(--blue);--ct:var(--blue-t)}.p-practise{--c:var(--teal);--ct:var(--teal-t)}.p-correct{--c:var(--plum);--ct:var(--plum-t)}.p-close{--c:var(--coal);--ct:var(--coal-t)}
+.tele{margin-top:16px;padding:14px 16px;background:var(--teal-t);border-left:4px solid var(--teal)}
+
+/* loop */
+.loop{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;position:relative}
+.node{background:var(--surface);border:1px solid var(--rule);padding:14px;display:flex;flex-direction:column;gap:6px;position:relative;min-width:0}
+.node .n{font:600 28px/1 var(--display);color:var(--plum)}
+.node b{font:600 15px var(--cond);text-transform:uppercase;letter-spacing:.05em}
+.node q{font-size:15px;quotes:"\201C" "\201D";font-weight:600}
+.node span{font-size:14px;color:var(--muted)}
+.node.lock{background:var(--plum-t);border-color:var(--plum)}
+.node + .node::before{content:"";position:absolute;left:-12px;top:30px;width:12px;border-top:2px solid var(--muted)}
+.back{margin-top:10px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.back div{grid-column:2 / 4;border:2px dashed var(--plum);border-top:0;height:22px;position:relative}
+.back p{grid-column:2 / 5;font:600 13px var(--cond);text-transform:uppercase;letter-spacing:.08em;color:var(--plum);margin-top:-2px}
+.rules{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:24px;padding:0;list-style:none}
+.rules li{background:var(--sunk);padding:12px 14px;font-size:15px}
+.rules li b{display:block;font:600 14px var(--cond);text-transform:uppercase;letter-spacing:.06em}
+
+/* tables */
+.tbl{overflow-x:auto;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:15px}
+th,td{text-align:left;vertical-align:top;padding:12px 14px;border-top:1px solid var(--rule)}
+th{font:700 12px var(--cond);text-transform:uppercase;letter-spacing:.12em;color:var(--muted);background:var(--sunk);border-top:0}
+td:first-child{font-weight:600}
+td a{font-weight:600}
+.honest{margin-top:16px;padding:14px 16px;background:var(--warn-t);border-left:4px solid var(--warn);max-width:72ch}
+
+/* wicked */
+.moves{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.move{background:var(--surface);border:1px solid var(--rule);padding:16px;display:flex;flex-direction:column;gap:6px}
+.move b{font:600 16px var(--cond);text-transform:uppercase;letter-spacing:.04em}
+.move span{font-size:15px;color:var(--muted)}
+.case{margin-top:20px;background:var(--ink);color:var(--on-ink);padding:20px 22px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:20px}
+.case h3{color:#F2B7DF}
+.case p{color:#D6DAE2}
+
+/* run sheet */
+.sheet{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.blk{background:var(--surface);border:1px solid var(--rule)}
+.blk h4{margin:0;padding:10px 14px;font:700 13px var(--cond);text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--rule);background:var(--ct,var(--sunk));display:flex;justify-content:space-between;font-variant-numeric:tabular-nums}
+.blk label{display:flex;gap:10px;padding:9px 14px;border-top:1px solid var(--rule);cursor:pointer;font-size:15px;align-items:flex-start}
+.blk label:first-of-type{border-top:0}
+.blk input{margin-top:4px;accent-color:var(--teal);width:16px;height:16px;flex:none}
+.blk input:checked + span{color:var(--muted);text-decoration:line-through}
+.sheet-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px;font:600 14px var(--cond);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.btn{border:1px solid var(--rule);background:var(--surface);color:var(--fg);padding:8px 14px;cursor:pointer;font:600 13px var(--cond);text-transform:uppercase;letter-spacing:.08em;min-height:40px}
+.btn:hover{border-color:var(--fg)}
+
+footer{padding-block:28px 48px;color:var(--muted);font-size:14px}
+
+@media (max-width:820px){
+  .hero .wrap{grid-template-columns:1fr}
+  .ideas,.why,.sheet{grid-template-columns:1fr}
+  .phase{grid-template-columns:1fr;gap:10px}
+  .loop{grid-template-columns:1fr}
+  .node + .node::before{left:30px;top:-12px;width:0;height:12px;border-top:0;border-left:2px solid var(--muted)}
+  .back{display:none}
+  .rules{grid-template-columns:1fr 1fr}
+  .case{grid-template-columns:1fr}
+  .matrix{grid-template-columns:1fr}
+  .matrix .corner{display:none}
+  .tl span{font-size:11px}
+}
+@media (max-width:480px){.rules{grid-template-columns:1fr}.tl small{display:none}}
+</style></head><body><style>
+.ehub{background:#090909;color:#FBFAF8;border-bottom:1px solid #2C323C;position:relative;z-index:6}
+.ehub-in{max-width:1120px;margin:0 auto;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));display:flex;justify-content:space-between;align-items:center;gap:10px 16px;flex-wrap:wrap}
+.ehub a{color:inherit;text-decoration:none}
+.ehub-home{display:flex;align-items:center;gap:12px;min-height:36px}
+.ehub-bands{display:flex;width:56px;height:5px;flex:none}.ehub-bands i{flex:1}
+.ehub-bands i:nth-child(1){background:#344982}.ehub-bands i:nth-child(2){background:#2F6F9E}.ehub-bands i:nth-child(3){background:#2CA5B8}.ehub-bands i:nth-child(4){background:#AB5C95}
+.ehub-wm{font:500 14px/1 "Oswald","Arial Narrow",Impact,sans-serif;letter-spacing:.16em}.ehub-wm b{font-weight:700}
+.ehub-sep{font:600 12px/1 "Barlow Semi Condensed","Arial Narrow",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#AEB5C2;border-left:1px solid #3A3F48;padding-left:12px}
+.ehub-home:hover .ehub-sep{color:#FBFAF8}
+.ehub-r{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ehub-btn{font:600 12px/1 "Barlow Semi Condensed","Arial Narrow",sans-serif;letter-spacing:.1em;text-transform:uppercase;border:1px solid #3A3F48;background:none;color:#FBFAF8;padding:9px 12px;cursor:pointer;min-height:36px;display:inline-flex;align-items:center;gap:8px}
+.ehub-btn:hover{border-color:#FBFAF8}
+.ehub-btn[aria-pressed="true"]{background:#2E7D4F;border-color:#2E7D4F}
+.ehub-btn:focus-visible,.ehub a:focus-visible{outline:2px solid #2CA5B8;outline-offset:2px}
+.ehub-next{background:#FBFAF8!important;color:#090909!important;border-color:#FBFAF8}
+@media (max-width:520px){.ehub-sep{display:none}.ehub-next .ehub-nl{display:none}}
+@media print{.ehub{display:none}}
+</style>
+<nav class="ehub" aria-label="Estus Training Hub" style="margin:0"><div class="ehub-in">
+<a class="ehub-home" href="index.html"><span class="ehub-bands" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="ehub-wm"><b>ESTUS</b> HEALTH</span><span class="ehub-sep">&larr; Training Hub</span></a>
+<div class="ehub-r"><button class="ehub-btn" type="button" id="ehub-done" aria-pressed="false">Mark done</button><a class="ehub-btn ehub-next" href="journey.html"><span class="ehub-nl">Next:</span> Client Journey <span aria-hidden="true">&rarr;</span></a></div>
+</div></nav>
+<script>(function(){var K="hub_done",s="playbook",b=document.getElementById("ehub-done");function l(){try{return JSON.parse(localStorage.getItem(K))||{}}catch(e){return {}}}function r(){var on=!!l()[s];b.setAttribute("aria-pressed",on);b.textContent=on?"\u2713 Done":"Mark done"}b.addEventListener("click",function(){var v=l();if(v[s])delete v[s];else v[s]=1;try{localStorage.setItem(K,JSON.stringify(v))}catch(e){}r()});r()})();</script>
+
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">How we teach anything at Estus</p>
+      <h1>Training playbook</h1>
+      <p class="lead">Estus is a training business. We build clinicians the way we build our clients' skills: show it right, practise it out loud, fix it in the moment, lock it in.</p>
+    </div>
+    <div class="pillars" aria-label="The method in four lines">
+      <div><i style="background:#344982"></i><p><b>Do it, don't read it</b><span>Active recall, out loud, no scripts in hand</span></p></div>
+      <div><i style="background:#2F6F9E"></i><p><b>Show it first</b><span>Nobody tries it until they've seen it done right</span></p></div>
+      <div><i style="background:#2CA5B8"></i><p><b>Fix it now</b><span>Stop the mistake on the spot, one fix at a time</span></p></div>
+      <div><i style="background:#AB5C95"></i><p><b>Lock it in</b><span>Three clean reps before moving on</span></p></div>
+    </div>
+  </div>
+</header>
+
+<nav class="rail" aria-label="Sections">
+  <div class="wrap">
+    <a href="#why">Why</a><a href="#method">Method</a><a href="#session">The session</a><a href="#correct">Correct + lock in</a><a href="#adapt">Neuroaffirming</a><a href="#wicked">Wicked skills</a><a href="#use">Where we use it</a><a href="#runsheet">Run-sheet</a>
+  </div>
+</nav>
+
+<main>
+<section class="s" id="why"><div class="wrap">
+  <div class="s-head"><p class="eyebrow">Why this playbook</p><h2>We build clinicians, we don't buy them</h2><p>We can't hire finished clinicians off the shelf. One method for the team, the Accelerator and our clients: a welcome call, a referral handover, a session opener, an in-car instruction.</p></div>
+  <div class="why">
+    <div><span class="k">Target</span><span class="v">Core scripts to standard in 14 days</span><p>Welcome call, referral handover, session open and close.</p></div>
+    <div><span class="k">Principle</span><span class="v">Practise it right from the start</span><p>A mistake you practise is a mistake you keep.</p></div>
+    <div><span class="k">Limit</span><span class="v">Scripts are the kind part</span><p>Clinical judgement is wicked. It needs its own approach, below.</p></div>
+  </div>
+</div></section>
+
+<section class="s" id="method"><div class="wrap">
+  <div class="s-head"><p class="eyebrow">Our learning method</p><h2>Three ideas, used together</h2><p>The first two say how to practise. The third says when each one fits.</p></div>
+  <div class="ideas">
+    <article class="idea" style="--c:var(--navy)"><h3>Active recall</h3><p>You learn by pulling it out of your head and doing it, not by re-reading.</p><p class="do">No scripts in hand during practice. Say it, do it, out loud.</p></article>
+    <article class="idea" style="--c:var(--teal)"><h3>Errorless learning</h3><p>Set it up so the learner gets it right from the start. Show it first, catch mistakes straight away, repeat the right version.</p><p class="do">Best when a mistake is costly or likely to stick.</p></article>
+    <article class="idea" style="--c:var(--plum)"><h3>Kind vs wicked</h3><p>Kind: clear rules, fast honest feedback. Practice teaches the right lesson. Wicked: fuzzy rules, late or misleading feedback. Experience can teach the wrong lesson.</p><p class="do">Match the method to the environment.</p></article>
+  </div>
+  <div class="matrix" role="table" aria-label="Which method to use">
+    <div class="corner" role="columnheader"></div>
+    <div class="ax" role="columnheader">Kind environment</div>
+    <div class="ax" role="columnheader">Wicked environment</div>
+    <div class="ax" role="rowheader">Mistake is cheap</div>
+    <div role="cell"><b>Let it happen</b><span>Give feedback fast. Errors teach when feedback is clean.</span></div>
+    <div role="cell"><b>Try small versions</b><span>Cheap drafts, then review outcomes later.</span></div>
+    <div class="ax" role="rowheader">Mistake is costly</div>
+    <div role="cell"><b>Errorless</b><span>Model it, catch it, lock it in.</span></div>
+    <div class="hot" role="cell"><b>Scope in writing, then errorless</b><span>Get the rules confirmed before doing it for real.</span></div>
+  </div>
+  <p class="rule-of-thumb"><strong>Rule of thumb.</strong> If a mistake would hurt a client, a referrer or our reputation, train it errorless and confirm scope in writing first.</p>
+</div></section>
+
+<section class="s" id="session"><div class="wrap">
+  <div class="s-head"><p class="eyebrow">30 to 40 minutes, 2 to 6 people</p><h2>The Estus Session</h2><p>Every training block runs the same five phases. Train in groups, not 1-on-1: five people cost about the same trainer time as one.</p></div>
+  <div class="tl" aria-hidden="true">
+    <div class="p-kudos" style="--w:5"><span>Kudos</span><small>0 to 5</small></div>
+    <div class="p-model" style="--w:5"><span>Model</span><small>5 to 10</small></div>
+    <div class="p-practise" style="--w:10"><span>Practise</span><small>10 to 20</small></div>
+    <div class="p-correct" style="--w:15"><span>Correct + lock in</span><small>20 to 35</small></div>
+    <div class="p-close" style="--w:5"><span>Close</span><small>35 to 40</small></div>
+  </div>
+  <ol class="phases">
+    <li class="phase p-kudos"><div class="when"><b>Kudos</b><small>5 MIN</small></div><div><p class="lbl">Do</p><p>Name 2 or 3 specific things people did well this week. Then state the one skill we're training today.</p></div><div><p class="lbl">Say it like</p><p class="say">"Nam kept the parent on track by summarising before booking."</p></div></li>
+    <li class="phase p-model"><div class="when"><b>Model</b><small>5 MIN</small></div><div><p class="lbl">Do</p><p>The trainer runs it start to finish, the way we want it. Then runs it again, calling out the key moves.</p></div><div><p class="lbl">Rule</p><p class="say">Nobody tries it until they've seen it done right.</p></div></li>
+    <li class="phase p-practise"><div class="when"><b>Practise</b><small>10 MIN</small></div><div><p class="lbl">Do</p><p>Pairs. One plays the clinician, one plays the client or referrer. Everyone practises at once.</p></div><div><p class="lbl">During a good run</p><p class="say">Quiet signals only: thumbs up, a nod, a chat reaction. No talking over it.</p></div></li>
+    <li class="phase p-correct"><div class="when"><b>Correct + lock in</b><small>10 TO 15 MIN</small></div><div><p class="lbl">Do</p><p>Trainer moves between pairs. A mistake gets stopped on the spot, fixed, then locked in with 3 clean reps.</p></div><div><p class="lbl">See</p><p class="say"><a href="#correct">The correction loop</a></p></div></li>
+    <li class="phase p-close"><div class="when"><b>Close</b><small>5 MIN</small></div><div><p class="lbl">Do</p><p>One pair shows it to the group in 60 seconds. Log the skill as done in the onboarding tracker.</p></div><div><p class="lbl">Then</p><p class="say">Book the live check: a call review or an observed session.</p></div></li>
+  </ol>
+  <p class="tele"><strong>Telehealth version.</strong> Breakout rooms for pairs. Signals become emoji reactions. The trainer drops into rooms to correct.</p>
+</div></section>
+
+<section class="s" id="correct"><div class="wrap">
+  <div class="s-head"><p class="eyebrow">Fix it in the moment</p><h2>Correction and lock in</h2><p>Waiting until the end means the learner practises the mistake the whole way through, then gets a list of 17 things to remember. We stop it on the spot instead.</p></div>
+  <div class="loop">
+    <div class="node"><span class="n">1</span><b>Stop</b><q>Good. Go back to [the line].</q></div>
+    <div class="node"><span class="n">2</span><b>One fix</b><q>This time, [one change]. Try again.</q></div>
+    <div class="node"><span class="n">3</span><b>Re-try the step</b><span>Just that step, with the fix.</span></div>
+    <div class="node lock"><span class="n">4</span><b>Lock it in</b><q>Nice, lock it in.</q><span>3 clean reps in a row.</span></div>
+    <div class="node"><span class="n">5</span><b>Back in</b><span>Resume the full run from just before the step.</span></div>
+  </div>
+  <div class="back" aria-hidden="true"><div></div><p>Not right yet: re-try with the fix</p></div>
+  <ul class="rules">
+    <li><b>One fix at a time</b>Never stack corrections.</li>
+    <li><b>Be specific</b>"Slow down on the price" beats "sound more confident".</li>
+    <li><b>Fix the step</b>Not the person.</li>
+    <li><b>Three misses</b>Same step fails 3 times: the trainer models it again.</li>
+  </ul>
+</div></section>
+
+<section class="s" id="adapt"><div class="wrap">
+  <div class="s-head"><p class="eyebrow">Our team trains the way our clients do</p><h2>Neuroaffirming adaptations</h2><p>This method came from field-service training. We keep the engine and adjust the parts that can overload or exclude people.</p></div>
+  <div class="tbl"><table>
+    <thead><tr><th>Part of the method</th><th>Risk</th><th>Estus adjustment</th></tr></thead>
+    <tbody>
+      <tr><td>Public kudos</td><td>Spotlight can feel unsafe</td><td>Ask each person how they like recognition: out loud, in writing, or 1-on-1</td></tr>
+      <tr><td>Quiet signals</td><td>Constant nodding can distract</td><td>Agree signals before practice. "No signals" is a valid choice</td></tr>
+      <tr><td>Stopping mid-run</td><td>Can feel like a judgement</td><td>Agree upfront that stops are the method, not a verdict. Anyone can call a pause</td></tr>
+      <tr><td>Roleplay in front of peers</td><td>Performance anxiety</td><td>First run can be with the trainer only. Watching a round first is fine</td></tr>
+      <tr><td>Learning a script live</td><td>Processing time</td><td>Send the script and model recording the day before</td></tr>
+      <tr><td>3 reps to lock in</td><td>Can feel drilled</td><td>Explain the why. Reps can be spoken, typed or shown</td></tr>
+    </tbody>
+  </table></div>
+  <p class="honest"><strong>Honesty note.</strong> Claims that stopping an error "cuts off the neural pathway" are overstated. We use the stop, fix and lock-in loop because it works in practice and keeps feedback fast.</p>
+</div></section>
+
+<section class="s" id="wicked"><div class="wrap">
+  <div class="s-head"><p class="eyebrow">Judgement, not scripts</p><h2>Wicked skills</h2><p>Scripts get you to the door. The job is judgement: reading a family, choosing goals, writing an opinion that holds up. Feedback there is slow and noisy, so we build our own feedback loops.</p></div>
+  <div class="moves">
+    <div class="move"><b>Revisit outcomes</b><span>In case review, look back at a call from weeks ago. What did we predict? What happened?</span></div>
+    <div class="move"><b>Try the cheap version</b><span>Run a draft past a senior clinician before the real thing goes out.</span></div>
+    <div class="move"><b>Scope in writing</b><span>When rules are fuzzy, ask a yes or no question in writing before acting.</span></div>
+    <div class="move"><b>Label for the reader</b><span>Practice reports say so on page one: "Practice case study. Not a clinical opinion." No signature block.</span></div>
+    <div class="move"><b>Silence is missing data</b><span>No reply is not a verdict. Don't over-learn from one vague signal.</span></div>
+  </div>
+  <div class="case">
+    <h3>Case lesson: practice reports</h3>
+    <p>A practice assessment report was written to test a template. It included diagnoses, a fitness opinion and instructor language. The reader saw a real report, not a test. Intent doesn't travel; the document does. Train high-stakes work errorless and confirm scope first.</p>
+  </div>
+</div></section>
+
+<section class="s" id="use"><div class="wrap">
+  <div class="s-head"><p class="eyebrow">Start with what repeats every week</p><h2>Where we use it</h2><p>The skills that come up weekly and cost us when they go wrong. Each links to its training.</p></div>
+  <div class="tbl"><table>
+    <thead><tr><th>Skill</th><th>Who</th><th>Method</th><th>Done when</th></tr></thead>
+    <tbody>
+      <tr><td><a href="welcome.html">Welcome call</a></td><td>Clinicians</td><td>Estus Session, then Welcome Call Excellence peer review of transcripts</td><td>3 clean runs, then one live call reviewed</td></tr>
+      <tr><td><a href="nurture.html">Referral form to booked call</a></td><td>Clinicians, ops</td><td>Model the email sequence and handover</td><td>Runs it without checking notes</td></tr>
+      <tr><td><a href="journey.html">Session open and close</a></td><td>Clinicians</td><td>Estus Session</td><td>3 clean runs in roleplay</td></tr>
+      <tr><td><a href="check.html">Notes and invoices before the horse</a></td><td>Everyone</td><td>Errorless checklist, trainer checks first week</td><td>A week of same-day close-off</td></tr>
+      <tr><td><a href="gp.html">In-car instructions</a></td><td>Driving OTs, instructors</td><td>Prompt, then cue, then fade</td><td>Client acts without the prompt</td></tr>
+      <tr><td>Accelerator cohorts</td><td>Students, new grads</td><td>Estus Session for scripts, case review for judgement</td><td>Set by pathway</td></tr>
+    </tbody>
+  </table></div>
+  <p class="tele"><strong>With clients.</strong> The same loop works in therapy: show it, practise it, catch it early, repeat it right, then fade the help. Use it for routines, study skills and driving.</p>
+</div></section>
+
+<section class="s" id="runsheet"><div class="wrap">
+  <div class="s-head"><p class="eyebrow">Tick through it every session</p><h2>Trainer run-sheet</h2><p>Copy it into the calendar invite. Ticks clear when you leave the page.</p></div>
+  <div class="sheet" id="sheet">
+    <div class="blk"><h4>Day before</h4>
+      <label><input type="checkbox" id="r1"><span>Pick ONE skill for the session</span></label>
+      <label><input type="checkbox" id="r2"><span>Send the script and a model recording</span></label>
+      <label><input type="checkbox" id="r3"><span>Check each person's recognition and signal preferences</span></label></div>
+    <div class="blk" style="--ct:var(--navy-t)"><h4><span>Kudos</span><span>00:00</span></h4>
+      <label><input type="checkbox" id="r4"><span>2 or 3 specific wins, delivered the way each person prefers</span></label>
+      <label><input type="checkbox" id="r5"><span>State today's skill in one sentence</span></label></div>
+    <div class="blk" style="--ct:var(--blue-t)"><h4><span>Model</span><span>05:00</span></h4>
+      <label><input type="checkbox" id="r6"><span>Run it start to finish</span></label>
+      <label><input type="checkbox" id="r7"><span>Run it again, naming the key moves</span></label>
+      <label><input type="checkbox" id="r8"><span>Remind the group: stops are the method, anyone can pause</span></label></div>
+    <div class="blk" style="--ct:var(--teal-t)"><h4><span>Practise</span><span>10:00</span></h4>
+      <label><input type="checkbox" id="r9"><span>Pairs or breakout rooms, everyone at once</span></label>
+      <label><input type="checkbox" id="r10"><span>Agreed quiet signals only during good runs</span></label></div>
+    <div class="blk" style="--ct:var(--plum-t)"><h4><span>Correct + lock in</span><span>20:00</span></h4>
+      <label><input type="checkbox" id="r11"><span>Stop on the mistake, one fix only</span></label>
+      <label><input type="checkbox" id="r12"><span>Re-try the step, then "Nice, lock it in"</span></label>
+      <label><input type="checkbox" id="r13"><span>3 clean reps in a row, then back into the full run</span></label></div>
+    <div class="blk" style="--ct:var(--coal-t)"><h4><span>Close</span><span>35:00</span></h4>
+      <label><input type="checkbox" id="r14"><span>One pair shows it in 60 seconds</span></label>
+      <label><input type="checkbox" id="r15"><span>Log the skill in each person's onboarding tracker</span></label>
+      <label><input type="checkbox" id="r16"><span>Book the live check</span></label></div>
+  </div>
+  <div class="sheet-foot"><span id="count">0 of 16 done</span><button class="btn" type="button" id="reset">Clear ticks</button></div>
+</div></section>
+</main>
+
+<footer><div class="wrap">Estus Health · Neuroaffirming OT · Perth · Telehealth Australia-wide. Adapted from fast-feedback training methods, rebuilt for a clinical team.</div></footer>
+
+<script>
+(function(){
+  var boxes=[].slice.call(document.querySelectorAll('#sheet input'));
+  var out=document.getElementById('count');
+  function upd(){out.textContent=boxes.filter(function(b){return b.checked}).length+' of '+boxes.length+' done';}
+  boxes.forEach(function(b){b.addEventListener('change',upd)});
+  document.getElementById('reset').addEventListener('click',function(){boxes.forEach(function(b){b.checked=false});upd();});
+  upd();
+})();
+</script>
+</body></html>

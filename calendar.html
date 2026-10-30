@@ -1,0 +1,495 @@
+<!doctype html><html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Calendar Management</title><meta name="robots" content="noindex, nofollow"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 fill=%22%23090909%22/%3E%3Crect x=%224%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23344982%22/%3E%3Crect x=%2210%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232F6F9E%22/%3E%3Crect x=%2216%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232CA5B8%22/%3E%3Crect x=%2222%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23AB5C95%22/%3E%3C/svg%3E"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap"><style>
+:root{
+  --g-bg:#F3F2EF;--g-surface:#FBFAF8;--g-sunk:#ECEAE6;--g-fg:#0E1014;--g-muted:#65676E;--g-rule:#D3D1CC;--g-ink:#090909;--g-on-ink:#FBFAF8;
+  --g-navy:#344982;--g-blue:#2F6F9E;--g-teal:#2CA5B8;--g-plum:#AB5C95;--g-coal:#22252B;
+  --g-navy-t:#DDE2EF;--g-blue-t:#DCE8F1;--g-teal-t:#DAF0F3;--g-plum-t:#F1E1EC;--g-coal-t:#DADBDE;
+  --g-good:#2E7D4F;--g-good-t:#DDEFE3;--g-warn:#A86A12;--g-warn-t:#F6E8D2;--g-bad:#B23A3A;--g-bad-t:#F5DEDE;
+  --g-display:"Oswald","Arial Narrow",Impact,sans-serif;--g-cond:"Barlow Semi Condensed","Arial Narrow",sans-serif;--g-body:"Barlow","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --g-bg:#0F1216;--g-surface:#161A20;--g-sunk:#1D222A;--g-fg:#ECEEF1;--g-muted:#9BA1AB;--g-rule:#2C323C;--g-ink:#05070A;--g-on-ink:#ECEEF1;
+  --g-navy:#8299DA;--g-blue:#6FA8D2;--g-teal:#4CC3D4;--g-plum:#D58FC1;--g-coal:#C9CCD2;
+  --g-navy-t:#1E2740;--g-blue-t:#18293A;--g-teal-t:#123238;--g-plum-t:#33202E;--g-coal-t:#2A2E35;
+  --g-good:#5FC38A;--g-good-t:#16301F;--g-warn:#E0A64A;--g-warn-t:#33270F;--g-bad:#EC7B7B;--g-bad-t:#3A1A1A;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --g-bg:#0F1216;--g-surface:#161A20;--g-sunk:#1D222A;--g-fg:#ECEEF1;--g-muted:#9BA1AB;--g-rule:#2C323C;--g-ink:#05070A;--g-on-ink:#ECEEF1;
+  --g-navy:#8299DA;--g-blue:#6FA8D2;--g-teal:#4CC3D4;--g-plum:#D58FC1;--g-coal:#C9CCD2;
+  --g-navy-t:#1E2740;--g-blue-t:#18293A;--g-teal-t:#123238;--g-plum-t:#33202E;--g-coal-t:#2A2E35;
+  --g-good:#5FC38A;--g-good-t:#16301F;--g-warn:#E0A64A;--g-warn-t:#33270F;--g-bad:#EC7B7B;--g-bad-t:#3A1A1A;color-scheme:dark}
+
+:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px)}
+body{margin:0;background:var(--g-bg);color:var(--g-fg);font:400 17px/1.55 var(--g-body)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--g-bg)}
+[hidden]{display:none!important}
+img{max-width:100%}
+
+.g-wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.g-root h1,.g-root h2,.g-root h3,.g-root h4{text-wrap:balance;margin:0}
+.g-root p{margin:0}
+.g-root a{color:var(--g-blue)}
+.g-root button,.g-root input,.g-root textarea,.g-root select{font:inherit;color:inherit}
+.g-root :focus-visible{outline:2px solid var(--g-teal);outline-offset:2px}
+.g-eyebrow{font:700 12px var(--g-cond);letter-spacing:.18em;text-transform:uppercase;color:var(--g-muted)}
+.g-navy{--c:var(--g-navy);--ct:var(--g-navy-t)}.g-blue{--c:var(--g-blue);--ct:var(--g-blue-t)}.g-teal{--c:var(--g-teal);--ct:var(--g-teal-t)}.g-plum{--c:var(--g-plum);--ct:var(--g-plum-t)}.g-coal{--c:var(--g-coal);--ct:var(--g-coal-t)}
+.g-hero{background:var(--g-ink);color:var(--g-on-ink)}
+.g-hero .g-wrap{padding-block:30px 36px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:32px;align-items:end}
+.g-hero .g-eyebrow{color:#AEB5C2}
+.g-hero h1{font:600 clamp(40px,7vw,76px)/.95 var(--g-display);text-transform:uppercase;letter-spacing:.01em;margin:8px 0 14px}
+.g-hero h1 em{font-style:normal;color:var(--hc,#4CC3D4)}
+.g-hero .g-lead{font-size:18px;max-width:56ch;color:#D6DAE2}
+.g-hero .g-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.g-hero .g-meta span{font:600 12px var(--g-cond);letter-spacing:.12em;text-transform:uppercase;border:1px solid #3A3F48;padding:4px 10px;color:#D6DAE2}
+.g-side{list-style:none;margin:0;padding:0;border:1px solid #2C323C;background:#111419}
+.g-side li{display:grid;grid-template-columns:34px minmax(0,1fr);gap:10px;align-items:baseline;padding:10px 14px;border-top:1px solid #2C323C}
+.g-side li:first-child{border-top:0}
+.g-side .n{font:600 20px var(--g-display);color:var(--h,#4CC3D4)}
+.g-side b{font:600 15px var(--g-cond);text-transform:uppercase;letter-spacing:.06em;display:block}
+.g-side span.w{font-size:14px;color:#AEB5C2}
+.g-rail{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--g-bg);border-bottom:1px solid var(--g-rule)}
+.g-rail .g-wrap{display:flex;gap:4px;overflow-x:auto;padding-block:8px;scrollbar-width:none}
+.g-rail a{font:600 13px var(--g-cond);letter-spacing:.08em;text-transform:uppercase;color:var(--g-fg);text-decoration:none;padding:6px 10px;white-space:nowrap;border-radius:3px}
+.g-rail a:hover{background:var(--g-sunk)}
+.g-s{padding-block:44px;border-bottom:1px solid var(--g-rule)}
+.g-head{display:flex;flex-direction:column;gap:6px;margin-bottom:22px;max-width:68ch}
+.g-head h2{font:600 clamp(26px,4vw,34px)/1.05 var(--g-display);text-transform:uppercase;letter-spacing:.02em}
+.g-head p{color:var(--g-muted)}
+.g-blocks{display:flex;flex-direction:column;gap:22px}
+.g-sub{font:700 15px var(--g-cond);text-transform:uppercase;letter-spacing:.1em}
+/* cards */
+.g-cards{display:grid;grid-template-columns:repeat(var(--cols,3),minmax(0,1fr));gap:16px}
+.g-card{background:var(--g-surface);border:1px solid var(--g-rule);border-top:5px solid var(--c,var(--g-rule));padding:18px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.g-card .tag{font:700 11px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;color:var(--c,var(--g-muted))}
+.g-card h3{font:600 21px/1.15 var(--g-display);text-transform:uppercase;letter-spacing:.02em}
+.g-card p{font-size:16px}
+.g-card ul{margin:0;padding-left:18px;font-size:15px;display:flex;flex-direction:column;gap:4px}
+.g-card .foot{font-size:14px;color:var(--g-muted);border-top:1px dashed var(--g-rule);padding-top:8px;margin-top:auto}
+.g-card .foot b{color:var(--g-fg)}
+.g-card a.more{font:600 13px var(--g-cond);text-transform:uppercase;letter-spacing:.1em;text-decoration:none;margin-top:auto}
+/* strip of big terms */
+.g-terms{display:grid;grid-template-columns:repeat(var(--cols,4),minmax(0,1fr));gap:1px;background:var(--g-rule);border:1px solid var(--g-rule)}
+.g-terms div{background:var(--g-surface);padding:16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.g-terms .L{font:600 34px/1 var(--g-display);color:var(--c,var(--g-blue))}
+.g-terms b{font:600 15px var(--g-cond);text-transform:uppercase;letter-spacing:.05em}
+.g-terms span{font-size:15px}
+.g-terms q{font-size:15px;color:var(--g-muted);quotes:"\201C" "\201D"}
+/* table */
+.g-tbl{overflow-x:auto;border:1px solid var(--g-rule);background:var(--g-surface)}
+.g-tbl table{border-collapse:collapse;width:100%;min-width:620px;font-size:15px}
+.g-tbl th,.g-tbl td{text-align:left;vertical-align:top;padding:12px 14px;border-top:1px solid var(--g-rule)}
+.g-tbl th{font:700 12px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;color:var(--g-muted);background:var(--g-sunk);border-top:0}
+.g-tbl td:first-child{font-weight:600}
+/* steps */
+.g-steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border:1px solid var(--g-rule);background:var(--g-surface)}
+.g-step{display:grid;grid-template-columns:170px minmax(0,1fr) minmax(0,1fr);gap:20px;padding:18px;border-top:1px solid var(--g-rule);align-items:start}
+.g-step:first-child{border-top:0}
+.g-step .when{border-left:5px solid var(--c);padding-left:10px;display:flex;flex-direction:column}
+.g-step .when b{font:600 21px/1.1 var(--g-display);text-transform:uppercase}
+.g-step .when small{font:600 13px var(--g-cond);color:var(--g-muted);letter-spacing:.06em;text-transform:uppercase}
+.g-step .lbl{font:700 12px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;color:var(--g-muted);margin-bottom:4px}
+.g-step .say{background:var(--ct);padding:10px 12px;font-weight:600}
+/* flow */
+.g-flow{display:grid;grid-template-columns:repeat(var(--n,5),minmax(0,1fr));gap:12px}
+.g-node{background:var(--g-surface);border:1px solid var(--g-rule);border-top:4px solid var(--c);padding:12px;display:flex;flex-direction:column;gap:4px;position:relative;min-width:0}
+.g-node b{font:600 16px var(--g-cond);text-transform:uppercase;letter-spacing:.05em}
+.g-node span{font-size:14px;color:var(--g-muted)}
+.g-node + .g-node::before{content:"";position:absolute;left:-12px;top:26px;width:12px;border-top:2px solid var(--g-muted)}
+.g-loopnote{font:600 13px var(--g-cond);text-transform:uppercase;letter-spacing:.08em;color:var(--g-muted);display:flex;gap:10px;align-items:center}
+.g-loopnote i{flex:1;border-top:2px dashed var(--g-muted)}
+/* callout */
+.g-call{padding:14px 16px;background:var(--ct,var(--g-teal-t));border-left:4px solid var(--c,var(--g-teal));max-width:78ch}
+.g-call ul{margin:6px 0 0;padding-left:20px}
+.g-call.warn{--c:var(--g-warn);--ct:var(--g-warn-t)}
+.g-call.ink{background:var(--g-ink);color:var(--g-on-ink);border-left-color:#D58FC1}
+/* do dont */
+.g-dd{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.g-dd ul{list-style:none;margin:0;padding:0;background:var(--g-surface);border:1px solid var(--g-rule)}
+.g-dd li{padding:12px 16px;border-top:1px solid var(--g-rule);font-size:16px}
+.g-dd li:first-child{border-top:0}
+.g-dd li b{display:block;font:600 15px var(--g-cond);text-transform:uppercase;letter-spacing:.05em}
+.g-dd h3{font:700 14px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px}
+.g-dd .yes h3{color:var(--g-good)}.g-dd .no h3{color:var(--g-bad)}
+/* pairs */
+.g-pair{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);border:1px solid var(--g-rule);background:var(--g-surface)}
+.g-pair > div{padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.g-pair .weak p{color:var(--g-muted)}
+.g-pair .strong{background:var(--g-good-t)}
+.g-pair .t{font:700 11px var(--g-cond);text-transform:uppercase;letter-spacing:.12em}
+.g-pair .weak .t{color:var(--g-bad)}.g-pair .strong .t{color:var(--g-good)}
+.g-pair .arrow{display:grid;place-items:center;padding:0 10px;font:600 22px var(--g-display);color:var(--g-muted);background:var(--g-sunk)}
+/* checklist */
+.g-check{border:1px solid var(--g-fg);background:var(--g-surface)}
+.g-check h4{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:6px 10px 6px 14px;background:var(--ct,var(--g-sunk));box-shadow:inset 5px 0 0 var(--c,var(--g-fg));border-bottom:1px solid var(--g-fg);font:700 14px var(--g-cond);text-transform:uppercase;letter-spacing:.08em}
+.g-check h4 small{font:500 12px var(--g-cond);color:var(--g-muted);font-variant-numeric:tabular-nums}
+.g-grp{padding:6px 10px 8px;display:flex;flex-direction:column}
+.g-grp + .g-grp{border-top:1px solid var(--g-rule)}
+.g-lbl{font:700 11px var(--g-cond);text-transform:uppercase;letter-spacing:.14em;color:var(--g-muted);margin:2px 0}
+.g-row{display:flex;align-items:baseline;gap:6px;padding:3px 4px;border-radius:2px;cursor:pointer;font:600 14px/1.4 var(--g-cond);text-transform:uppercase;letter-spacing:.02em;position:relative}
+.g-row:hover{background:var(--g-sunk)}
+.g-row input{position:absolute;opacity:0;pointer-events:none}
+.g-row .item{white-space:nowrap}
+.g-row .dots{flex:1;min-width:12px;border-bottom:1.5px dotted var(--g-muted);transform:translateY(-4px)}
+.g-row .resp{text-align:right}
+.g-row .bx{width:14px;height:14px;border:1.5px solid var(--g-muted);flex:none;transform:translateY(2px);display:grid;place-items:center;font-size:11px;line-height:1}
+.g-row:has(input:checked) .item,.g-row:has(input:checked) .resp{color:var(--g-muted)}
+.g-row:has(input:checked) .bx{background:var(--c,var(--g-teal));border-color:var(--c,var(--g-teal));color:var(--g-surface)}
+.g-row:has(input:checked) .bx::after{content:"\2713"}
+.g-row:has(input:focus-visible){outline:2px solid var(--c,var(--g-teal))}
+.g-checkfoot{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 10px 7px 14px;border-top:1px solid var(--g-fg);background:var(--g-sunk);font:700 13px var(--g-cond);text-transform:uppercase;letter-spacing:.04em}
+.g-checks{display:grid;grid-template-columns:repeat(var(--cols,2),minmax(0,1fr));gap:18px;align-items:start}
+/* buttons */
+.g-btn{border:1px solid var(--g-rule);background:var(--g-surface);color:var(--g-fg);padding:9px 14px;cursor:pointer;font:600 13px var(--g-cond);text-transform:uppercase;letter-spacing:.08em;min-height:40px}
+.g-btn:hover{border-color:var(--g-fg)}
+.g-btn.primary{background:var(--g-ink);color:var(--g-on-ink);border-color:var(--g-ink)}
+.g-btn.sm{min-height:30px;padding:4px 10px;font-size:12px}
+.g-chip{border:1px solid var(--g-rule);background:var(--g-surface);padding:7px 12px;border-radius:999px;cursor:pointer;font:600 13px var(--g-cond);text-transform:uppercase;letter-spacing:.06em;min-height:36px}
+.g-chip[aria-pressed="true"]{background:var(--c,var(--g-fg));border-color:var(--c,var(--g-fg));color:var(--g-surface)}
+/* quiz */
+.g-quiz{background:var(--g-surface);border:1px solid var(--g-rule);padding:20px;display:flex;flex-direction:column;gap:14px}
+.g-quiz .qh{display:flex;justify-content:space-between;gap:10px;font:700 12px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;color:var(--g-muted)}
+.g-quiz .said{font:500 20px/1.35 var(--g-body);padding-left:14px;border-left:4px solid var(--c,var(--g-plum))}
+.g-quiz .opts{display:flex;flex-direction:column;gap:8px}
+.g-quiz .opts button{text-align:left;background:var(--g-bg);border:1.5px solid var(--g-rule);padding:12px 14px;cursor:pointer;font-size:16px;line-height:1.4}
+.g-quiz .opts button:hover:not(:disabled){border-color:var(--g-fg)}
+.g-quiz .opts button.right{border-color:var(--g-good);background:var(--g-good-t)}
+.g-quiz .opts button.wrong{border-color:var(--g-bad);background:var(--g-bad-t)}
+.g-quiz .opts button:disabled{cursor:default}
+.g-quiz .fb{font-size:16px;padding:12px 14px;background:var(--g-sunk)}
+.g-quiz .fb b{font:700 13px var(--g-cond);text-transform:uppercase;letter-spacing:.1em;display:block}
+.g-quiz .qn{display:flex;justify-content:flex-end}
+/* tool shell */
+.g-tool{background:var(--g-surface);border:1px solid var(--g-rule);padding:20px;display:flex;flex-direction:column;gap:14px}
+.g-fld{display:flex;flex-direction:column;gap:4px;min-width:0}
+.g-fld label{font:700 12px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;color:var(--g-muted)}
+.g-fld input,.g-fld textarea,.g-fld select{width:100%;border:1px solid var(--g-rule);background:var(--g-bg);padding:9px 10px;border-radius:2px;font-size:16px}
+.g-fld textarea{min-height:70px;resize:vertical}
+.g-out{background:var(--ct,var(--g-teal-t));border-left:4px solid var(--c,var(--g-teal));padding:14px 16px;font-size:17px}
+.g-out b{font:700 12px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;display:block;color:var(--c,var(--g-teal))}
+.g-row2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.g-range label{display:flex;justify-content:space-between;font:600 14px var(--g-cond);text-transform:uppercase;letter-spacing:.04em}
+.g-range input{width:100%;accent-color:var(--c,var(--g-plum))}
+.g-msg{font:600 13px var(--g-cond);text-transform:uppercase;letter-spacing:.08em;color:var(--g-good);min-height:1em}
+/* related */
+.g-rel{display:flex;flex-wrap:wrap;gap:8px}
+.g-rel a{display:inline-flex;flex-direction:column;gap:2px;padding:10px 14px;border:1px solid var(--g-rule);background:var(--g-surface);text-decoration:none;color:var(--g-fg);border-left:4px solid var(--c,var(--g-teal));min-width:180px}
+.g-rel a b{font:600 15px var(--g-cond);text-transform:uppercase;letter-spacing:.05em}
+.g-rel a span{font-size:13px;color:var(--g-muted)}
+.g-rel a:hover{background:var(--g-sunk)}
+.g-foot{padding-block:28px 48px;color:var(--g-muted);font-size:14px}
+.g-foot ul{margin:6px 0 0;padding-left:18px}
+@media (max-width:860px){
+  .g-hero .g-wrap,.g-dd,.g-row2{grid-template-columns:1fr}
+  .g-cards{grid-template-columns:repeat(min(var(--cols,3),2),minmax(0,1fr))}
+  .g-terms{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .g-step{grid-template-columns:1fr;gap:10px}
+  .g-flow{grid-template-columns:1fr}
+  .g-node + .g-node::before{left:24px;top:-12px;width:0;height:12px;border-top:0;border-left:2px solid var(--g-muted)}
+  .g-checks{grid-template-columns:1fr}
+  .g-pair{grid-template-columns:1fr}.g-pair .arrow{transform:rotate(90deg);padding:4px}
+}
+@media (max-width:520px){
+  .g-cards,.g-terms{grid-template-columns:1fr}
+  .g-row .item{white-space:normal}
+}
+
+.cal-app{background:var(--g-surface);border:1px solid var(--g-rule)}
+.cal-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 14px;border-bottom:1px solid var(--g-rule)}
+.cal-top .wk{display:flex;align-items:center;gap:8px;font:600 14px var(--g-cond);text-transform:uppercase;letter-spacing:.08em;color:var(--g-muted)}
+.cal-top .wk input{border:0;border-bottom:1px solid var(--g-rule);background:transparent;width:150px;font:500 16px var(--g-body);padding:2px 4px;color:var(--g-fg)}
+.cal-tabs{display:flex;gap:4px}
+.cal-tabs button{border:1px solid var(--g-rule);background:var(--g-surface);padding:7px 12px;cursor:pointer;font:600 13px var(--g-cond);text-transform:uppercase;letter-spacing:.08em;min-height:36px}
+.cal-tabs button[aria-selected="true"]{background:var(--g-ink);color:var(--g-on-ink);border-color:var(--g-ink)}
+.cal-tray{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:10px 14px;border-bottom:1px solid var(--g-rule);min-height:54px}
+.cal-tray .lbl{font:700 11px var(--g-cond);text-transform:uppercase;letter-spacing:.14em;color:var(--g-muted);margin-right:4px}
+.cal-tray.bin{background:var(--g-bad-t)}
+.cal-tray.bin .lbl::after{content:" · drop here to remove"}
+.cal-add{display:flex;gap:6px;align-items:center;margin-left:auto;flex-wrap:wrap}
+.cal-add input{border:1px solid var(--g-rule);background:var(--g-bg);padding:6px 8px;width:140px;font-size:15px}
+.sw{width:22px;height:22px;border-radius:50%;border:1px solid var(--g-rule);cursor:pointer;padding:0}
+.sw[aria-pressed="true"]{outline:2px solid var(--g-fg);outline-offset:1px}
+.k1{background:var(--g-navy-t);color:var(--g-navy)}.k2{background:var(--g-blue-t);color:var(--g-blue)}.k3{background:var(--g-teal-t);color:var(--g-teal)}
+.k4{background:var(--g-plum-t);color:var(--g-plum)}.k5{background:var(--g-warn-t);color:var(--g-warn)}.k6{background:var(--g-coal-t);color:var(--g-coal)}
+.chip-b,.blk{touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab}
+.chip-b{padding:6px 10px;font:600 14px var(--g-cond);text-transform:uppercase;letter-spacing:.04em;display:inline-flex;align-items:center;gap:6px;border-radius:3px}
+.chip-b .x{border:0;background:none;cursor:pointer;padding:0;opacity:.55;font-size:15px;line-height:1;color:inherit}
+.cal-scroll{overflow-x:auto}
+.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(132px,1fr));min-width:940px}
+.day{border-right:1px solid var(--g-rule);min-height:300px;display:flex;flex-direction:column}
+.day:last-child{border-right:0}
+.day h4{margin:0;padding:10px;text-align:center;font:600 16px var(--g-display);text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid var(--g-rule);display:flex;justify-content:space-between;align-items:center}
+.day h4 small{font:600 11px var(--g-cond);color:var(--g-muted);letter-spacing:.08em}
+.day.today h4{background:var(--g-teal-t);color:var(--g-teal)}
+.day .drop{flex:1;padding:8px;display:flex;flex-direction:column;gap:6px}
+.day .drop.over{background:var(--g-sunk);outline:2px dashed var(--g-teal);outline-offset:-4px}
+.blk{padding:6px 8px;border-radius:3px;position:relative;text-align:left;border:0;font:inherit;width:100%}
+.blk .t{font:600 14px var(--g-cond);text-transform:uppercase;letter-spacing:.03em;display:block;padding-right:14px}
+.blk .tm{font-size:12.5px;font-variant-numeric:tabular-nums;opacity:.9}
+.blk .tp{font-size:12px;opacity:.85;display:block;margin-top:2px}
+.blk.anchor{box-shadow:inset 4px 0 0 currentColor}
+.blk.sel{outline:2px solid var(--g-fg);outline-offset:1px}
+.gap{font:600 11px var(--g-cond);text-transform:uppercase;letter-spacing:.08em;color:var(--g-muted);text-align:center;border-top:1px dashed var(--g-rule);padding-top:3px}
+.gap.tight{color:var(--g-bad);border-top-color:var(--g-bad)}
+.ghost{position:fixed;pointer-events:none;z-index:50;opacity:.92;box-shadow:0 6px 18px rgba(0,0,0,.18)}
+.dragging{opacity:.35}
+.cal-edit{border-top:1px solid var(--g-rule);padding:14px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;background:var(--g-sunk)}
+.cal-edit .wide{grid-column:span 2}
+.cal-edit .full{grid-column:1 / -1;display:flex;gap:8px;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.cal-edit .g-fld input,.cal-edit .g-fld select{background:var(--g-surface)}
+.cal-edit .chk{display:flex;align-items:center;gap:8px;font:600 14px var(--g-cond);text-transform:uppercase;letter-spacing:.04em;cursor:pointer}
+.cal-edit .chk input{width:18px;height:18px;accent-color:var(--g-teal)}
+.cal-empty{padding:12px 14px;border-top:1px solid var(--g-rule);font-size:14px;color:var(--g-muted)}
+.cal-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 14px;border-top:1px solid var(--g-rule)}
+/* today */
+.now{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1px;background:var(--g-rule);border-bottom:1px solid var(--g-rule)}
+.now > div{background:var(--g-surface);padding:14px 16px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.now .k{font:700 11px var(--g-cond);text-transform:uppercase;letter-spacing:.14em;color:var(--g-muted)}
+.now .v{font:600 24px/1.1 var(--g-display);text-transform:uppercase}
+.now .s{font-size:14px;color:var(--g-muted);font-variant-numeric:tabular-nums}
+.banner{display:flex;gap:12px;align-items:center;padding:12px 16px;background:var(--g-warn-t);border-left:5px solid var(--g-warn);font-size:16px}
+.banner b{font:700 13px var(--g-cond);text-transform:uppercase;letter-spacing:.1em;color:var(--g-warn)}
+.daybar{display:flex;gap:4px;flex-wrap:wrap;padding:10px 14px;border-bottom:1px solid var(--g-rule)}
+.daybar button{border:1px solid var(--g-rule);background:var(--g-surface);padding:5px 10px;cursor:pointer;font:600 13px var(--g-cond);text-transform:uppercase;letter-spacing:.06em}
+.daybar button[aria-pressed="true"]{background:var(--g-fg);color:var(--g-bg);border-color:var(--g-fg)}
+.run{list-style:none;margin:0;padding:14px;display:flex;flex-direction:column;gap:0}
+.run .ev{display:grid;grid-template-columns:110px minmax(0,1fr);gap:12px;padding:10px 12px;border-radius:3px}
+.run .ev .tm{font:600 15px var(--g-cond);font-variant-numeric:tabular-nums}
+.run .ev b{font:600 17px var(--g-cond);text-transform:uppercase;letter-spacing:.03em}
+.run .ev.past{opacity:.5}
+.run .ev.cur{outline:2px solid currentColor}
+.run .tr{margin:4px 0 4px 40px;padding:10px 14px;border-left:3px dashed var(--g-muted);display:flex;flex-direction:column;gap:3px;font-size:15px}
+.run .tr .h{font:700 11px var(--g-cond);text-transform:uppercase;letter-spacing:.14em;color:var(--g-muted)}
+.run .tr.tight{border-left-color:var(--g-bad)}
+.run .tr.tight .h{color:var(--g-bad)}
+@media (max-width:760px){.cal-edit{grid-template-columns:1fr 1fr}.cal-edit .wide{grid-column:1 / -1}.now{grid-template-columns:1fr}.run .ev{grid-template-columns:80px minmax(0,1fr)}.run .tr{margin-left:12px}}
+@media (prefers-reduced-motion:reduce){.ghost{box-shadow:none}}
+</style></head><body><style>
+.ehub{background:#090909;color:#FBFAF8;border-bottom:1px solid #2C323C;position:relative;z-index:6}
+.ehub-in{max-width:1120px;margin:0 auto;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));display:flex;justify-content:space-between;align-items:center;gap:10px 16px;flex-wrap:wrap}
+.ehub a{color:inherit;text-decoration:none}
+.ehub-home{display:flex;align-items:center;gap:12px;min-height:36px}
+.ehub-bands{display:flex;width:56px;height:5px;flex:none}.ehub-bands i{flex:1}
+.ehub-bands i:nth-child(1){background:#344982}.ehub-bands i:nth-child(2){background:#2F6F9E}.ehub-bands i:nth-child(3){background:#2CA5B8}.ehub-bands i:nth-child(4){background:#AB5C95}
+.ehub-wm{font:500 14px/1 "Oswald","Arial Narrow",Impact,sans-serif;letter-spacing:.16em}.ehub-wm b{font-weight:700}
+.ehub-sep{font:600 12px/1 "Barlow Semi Condensed","Arial Narrow",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#AEB5C2;border-left:1px solid #3A3F48;padding-left:12px}
+.ehub-home:hover .ehub-sep{color:#FBFAF8}
+.ehub-r{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ehub-btn{font:600 12px/1 "Barlow Semi Condensed","Arial Narrow",sans-serif;letter-spacing:.1em;text-transform:uppercase;border:1px solid #3A3F48;background:none;color:#FBFAF8;padding:9px 12px;cursor:pointer;min-height:36px;display:inline-flex;align-items:center;gap:8px}
+.ehub-btn:hover{border-color:#FBFAF8}
+.ehub-btn[aria-pressed="true"]{background:#2E7D4F;border-color:#2E7D4F}
+.ehub-btn:focus-visible,.ehub a:focus-visible{outline:2px solid #2CA5B8;outline-offset:2px}
+.ehub-next{background:#FBFAF8!important;color:#090909!important;border-color:#FBFAF8}
+@media (max-width:520px){.ehub-sep{display:none}.ehub-next .ehub-nl{display:none}}
+@media print{.ehub{display:none}}
+</style>
+<nav class="ehub" aria-label="Estus Training Hub" style="margin:0"><div class="ehub-in">
+<a class="ehub-home" href="index.html"><span class="ehub-bands" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="ehub-wm"><b>ESTUS</b> HEALTH</span><span class="ehub-sep">&larr; Training Hub</span></a>
+<div class="ehub-r"><button class="ehub-btn" type="button" id="ehub-done" aria-pressed="false">Mark done</button><a class="ehub-btn ehub-next" href="index.html"><span class="ehub-nl">Next:</span> All training <span aria-hidden="true">&rarr;</span></a></div>
+</div></nav>
+<script>(function(){var K="hub_done",s="calendar",b=document.getElementById("ehub-done");function l(){try{return JSON.parse(localStorage.getItem(K))||{}}catch(e){return {}}}function r(){var on=!!l()[s];b.setAttribute("aria-pressed",on);b.textContent=on?"\u2713 Done":"Mark done"}b.addEventListener("click",function(){var v=l();if(v[s])delete v[s];else v[s]=1;try{localStorage.setItem(K,JSON.stringify(v))}catch(e){}r()});r()})();</script>
+<div class="g-root"><header class="g-hero"><div class="g-wrap"><div><p class="g-eyebrow">Lifestyle first</p><h1>Calendar <em>management</em></h1><p class="g-lead">The master calendar is how we protect your life, your energy and your clients. Life goes in first. Work fits around it. Every switch gets a transition.</p><div class="g-meta"><span>Estus ritual</span><span>Built-in planner below</span></div></div><ol class="g-side"><li style="--h:#8299DA"><span class="n">1</span><p><b>Anchors</b><span class="w">Fitness, family, sleep, leave</span></p></li><li style="--h:#6FA8D2"><span class="n">2</span><p><b>Recovery</b><span class="w">Breaks and buffers</span></p></li><li style="--h:#4CC3D4"><span class="n">3</span><p><b>Clients</b><span class="w">Your availability</span></p></li><li style="--h:#D58FC1"><span class="n">4</span><p><b>Admin</b><span class="w">Notes, then the horse</span></p></li><li style="--h:#C9CCD2"><span class="n">5</span><p><b>Transitions</b><span class="w">A prompt before every switch</span></p></li></ol></div></header><nav class="g-rail" aria-label="Sections"><div class="g-wrap"><a href="#why">Why</a><a href="#three">Three calendars</a><a href="#build">Build order</a><a href="#transitions">Transitions</a><a href="#planner">The planner</a><a href="#clients">With clients</a><a href="#reset">Weekly reset</a><a href="#practice">Practice</a></div></nav><section class="g-s" id="why"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Systems over willpower</p><h2>Why the calendar matters</h2><p>A calendar is a promise you make to your future self. If it's built well, the week runs without heroics.</p></div><div class="g-blocks"><div class="g-cards" style="--cols:3"><article class="g-card g-navy"><h3>Lifestyle first</h3><p>Put the things that keep you well in first: training, family, sleep, leave. Work fills the space that's left, not the other way around.</p></article><article class="g-card g-blue"><h3>Burnout is a calendar problem</h3><p>Most overload is visible in the calendar weeks before it's felt. Back-to-back days, no buffers, no recovery.</p></article><article class="g-card g-teal"><h3>Transitions cost energy</h3><p>Every switch between tasks has a cost. Planned transitions make it smaller. Unplanned ones leak energy all day.</p></article><article class="g-card g-plum"><h3>Clients book what you offer</h3><p>Your calendar sets your caseload. Open only the hours you actually want to work.</p></article><article class="g-card g-coal"><h3>Predictable is kind</h3><p>For you and for clients. Same days, same times, fewer surprises, less load.</p></article><article class="g-card g-navy"><h3>We practise what we teach</h3><p>The same tools we use with clients in <a href="energy.html">Energy</a>, <a href="transition.html">Transitions</a> and <a href="shutdown.html">Shutdown</a>.</p></article></div></div></div></section><section class="g-s" id="three"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">At Estus</p><h2>Three calendars, one truth</h2><p>The master calendar is the source of truth. The other two copy from it.</p></div><div class="g-blocks"><div class="g-tbl"><table><thead><tr><th>Calendar</th><th>What goes in it</th><th>Rule</th></tr></thead><tbody><tr><td><b>Master calendar</b></td><td>Everything: life anchors, clinic hours, admin blocks, leave, personal.</td><td>Updated first. If it's not here, it doesn't exist.</td></tr><tr><td><b>PracSuite</b></td><td>Client appointments for signed clients.</td><td>Must match the master. Check it in every <a href="check.html">Clinician Check</a>.</td></tr><tr><td><b>Short-notice Google calendar</b></td><td>Welcome call slots for new leads, booked through the VSL email.</td><td>Open the next 4 weeks. Close leave dates. No double bookings.</td></tr></tbody></table></div><div class="g-call g-teal"><strong>Why separate?</strong> New leads aren't clients yet, so they book a welcome call in Google Calendar. Once the service agreement is signed, they move into PracSuite. See the <a href="journey.html">Client Journey</a>.</div></div></div></section><section class="g-s" id="build"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Order matters</p><h2>Build the week in this order</h2><p>Big rocks first. If you start with clients, life gets squeezed into the gaps.</p></div><div class="g-blocks"><div><div class="g-flow" style="--n:5"><div class="g-node g-navy"><b>1. Anchors</b><span>Fitness, family, sleep, leave</span></div><div class="g-node g-blue"><b>2. Recovery</b><span>Breaks, lunch, buffers</span></div><div class="g-node g-teal"><b>3. Clients</b><span>Your open hours</span></div><div class="g-node g-plum"><b>4. Admin</b><span>Notes, invoices, the horse</span></div><div class="g-node g-coal"><b>5. Transitions</b><span>A prompt before each switch</span></div></div></div><div class="g-terms" style="--cols:4"><div class="g-blue"><span class="L">30</span><b>Minute breaks</b><span>Between telehealth sessions, on purpose. Eat, move, reset.</span></div><div class="g-teal"><span class="L">1</span><b>Day fully off</b><span>At least one day a week with nothing booked.</span></div><div class="g-plum"><span class="L">0</span><b>Admin after hours</b><span>Notes are done when the session ends. Then post the horse.</span></div><div class="g-navy"><span class="L">4</span><b>Weeks open</b><span>Keep lead slots open 4 weeks ahead so new clients can book fast.</span></div></div></div></div></section><section class="g-s" id="transitions"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">The hidden cost</p><h2>Transition prompts</h2><p>A transition prompt is a short plan for the switch: when to start winding down, where to stop, what bridges the gap, and what to do first.</p></div><div class="g-blocks"><div class="g-terms" style="--cols:4"><div class="g-navy"><span class="L">1</span><b>Warning</b><span>A heads-up before the next block. 5 to 15 minutes is usually enough.</span><q>10 minutes until my 2pm client.</q></div><div class="g-blue"><span class="L">2</span><b>Finish point</b><span>A natural place to stop the current task, so it doesn't feel cut off.</span><q>Finish this paragraph, then save.</q></div><div class="g-teal"><span class="L">3</span><b>Bridge</b><span>A short, easy activity between the two. It resets the body.</span><q>Refill water, two minutes on the treadmill.</q></div><div class="g-plum"><span class="L">4</span><b>First step</b><span>The very first thing to do in the next block, so starting is easy.</span><q>Camera on, open last session&#x27;s summary.</q></div></div><div class="g-call g-teal">Same idea as <a href="transition.html">Transition Scaffolding</a> for clients: warn, finish, bridge. We use it on ourselves first.</div></div></div></section><section class="g-s" id="planner"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Try it</p><h2>The planner</h2><p>A simple version of the weekly planner. Drag blocks onto days, tap a block to set times and its transition prompt, then switch to Today to see every transition laid out. It opens with an example week. Your plan saves in this browser only.</p></div><div class="g-blocks">
+<div class="cal-app" id="cal">
+  <div class="cal-top">
+    <div class="wk">Week of <input id="cal_week" type="text" placeholder="e.g. 3 Nov" aria-label="Week of"></div>
+    <div class="cal-tabs" role="tablist"><button type="button" role="tab" aria-selected="true" data-v="week">Week</button><button type="button" role="tab" aria-selected="false" data-v="today">Today + transitions</button></div>
+  </div>
+
+  <div id="v_week">
+    <div class="cal-tray" id="cal_tray" data-drop="tray">
+      <span class="lbl">Blocks</span>
+      <div id="cal_chips" style="display:contents"></div>
+      <div class="cal-add"><input id="cal_new" type="text" placeholder="New block" aria-label="New block name"><div id="cal_sw" style="display:flex;gap:4px"></div><button class="g-btn sm" type="button" id="cal_addb">Add</button></div>
+    </div>
+    <div class="cal-scroll"><div class="cal-grid" id="cal_grid"></div></div>
+    <div class="cal-empty" id="cal_hint">Drag a block onto a day. Tap a block to set its time and transition prompt.</div>
+    <div class="cal-edit" id="cal_edit" hidden>
+      <div class="g-fld wide"><label for="e_label">Block</label><input id="e_label" type="text"></div>
+      <div class="g-fld"><label for="e_start">Start</label><input id="e_start" type="time"></div>
+      <div class="g-fld"><label for="e_end">End</label><input id="e_end" type="time"></div>
+      <div class="g-fld wide"><label for="e_prompt">Transition prompt (what I tell myself before)</label><input id="e_prompt" type="text" placeholder="e.g. Close notes, fill water, camera on"></div>
+      <div class="g-fld"><label for="e_bridge">Bridge activity</label><input id="e_bridge" type="text" placeholder="e.g. walk on the treadmill"></div>
+      <div class="g-fld"><label for="e_warn">Warn me (min before)</label><select id="e_warn"><option>0</option><option>5</option><option selected>10</option><option>15</option><option>30</option></select></div>
+      <div class="full"><label class="chk" for="e_anchor"><input type="checkbox" id="e_anchor"> Anchor (stays every week)</label><div style="display:flex;gap:8px"><button class="g-btn sm" type="button" id="e_del">Remove block</button><button class="g-btn sm primary" type="button" id="e_done">Done</button></div></div>
+    </div>
+    <div class="cal-foot"><span class="g-msg" id="cal_msg" aria-live="polite"></span><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="g-btn sm" type="button" id="cal_example">Load example week</button><button class="g-btn sm" type="button" id="cal_newwk">New week (keep anchors)</button></div></div>
+  </div>
+
+  <div id="v_today" hidden>
+    <div class="now"><div><span class="k">Now</span><span class="v" id="t_now">-</span><span class="s" id="t_nows"></span></div><div><span class="k">Next</span><span class="v" id="t_next">-</span><span class="s" id="t_nexts"></span></div></div>
+    <div class="banner" id="t_banner" hidden><b>Transition</b><span id="t_btext"></span></div>
+    <div class="daybar" id="t_days" role="group" aria-label="Day"></div>
+    <ol class="run" id="t_run"></ol>
+    <div class="cal-foot"><span class="g-msg"></span><button class="g-btn sm primary" type="button" data-copy="t_copy">Copy day plan</button><textarea id="t_copy" hidden></textarea></div>
+  </div>
+</div>
+</div></div></section><section class="g-s" id="clients"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Use it in sessions</p><h2>Calendar work with clients</h2><p>The same method works for clients, with adjustments.</p></div><div class="g-blocks"><div class="g-tbl"><table><thead><tr><th>Profile</th><th>What helps</th></tr></thead><tbody><tr><td>ADHD</td><td>Make time visible. Use warnings on everything. Keep the plan short and novel enough to stay interesting. Body doubling for the weekly reset.</td></tr><tr><td>Autistic</td><td>Same blocks at the same times each week. Plan changes in advance. Put sensory recovery after social or busy blocks.</td></tr><tr><td>PDA</td><td>The calendar is theirs, not a list of orders. Offer options and loose blocks, not strict times. Use declarative prompts.</td></tr><tr><td>Families</td><td>One shared visual week on the fridge or phone. Anchors for the whole family first, then each person's blocks.</td></tr><tr><td>Burnout risk</td><td>Book recovery before anything else. Cap the number of big drains per day. See <a href="energy.html">Energy Management</a>.</td></tr></tbody></table></div></div></div></section><section class="g-s" id="reset"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Every week</p><h2>Weekly reset</h2><p>Fifteen minutes, same time each week. Friday works well.</p></div><div class="g-blocks"><div class="g-checks" style="--cols:1"><section class="g-check g-teal"><h4><span>Weekly reset</span><small>15 min</small></h4><div class="g-grp"><p class="g-lbl">Look back</p><label class="g-row" for="c1"><input type="checkbox" id="c1"><span class="bx" aria-hidden="true"></span><span class="item">Last week</span><span class="dots"></span><span class="resp">What worked, what didn&#x27;t</span></label><label class="g-row" for="c2"><input type="checkbox" id="c2"><span class="bx" aria-hidden="true"></span><span class="item">Leaks</span><span class="dots"></span><span class="resp">Where energy went</span></label></div><div class="g-grp"><p class="g-lbl">Plan ahead</p><label class="g-row" for="c3"><input type="checkbox" id="c3"><span class="bx" aria-hidden="true"></span><span class="item">Anchors</span><span class="dots"></span><span class="resp">In first</span></label><label class="g-row" for="c4"><input type="checkbox" id="c4"><span class="bx" aria-hidden="true"></span><span class="item">Leave</span><span class="dots"></span><span class="resp">In all calendars</span></label><label class="g-row" for="c5"><input type="checkbox" id="c5"><span class="bx" aria-hidden="true"></span><span class="item">Client hours</span><span class="dots"></span><span class="resp">Set</span></label><label class="g-row" for="c6"><input type="checkbox" id="c6"><span class="bx" aria-hidden="true"></span><span class="item">Lead slots</span><span class="dots"></span><span class="resp">Open 4 wks</span></label><label class="g-row" for="c7"><input type="checkbox" id="c7"><span class="bx" aria-hidden="true"></span><span class="item">Buffers</span><span class="dots"></span><span class="resp">Between sessions</span></label><label class="g-row" for="c8"><input type="checkbox" id="c8"><span class="bx" aria-hidden="true"></span><span class="item">Transition prompts</span><span class="dots"></span><span class="resp">On hard switches</span></label></div><div class="g-grp"><p class="g-lbl">Sync</p><label class="g-row" for="c9"><input type="checkbox" id="c9"><span class="bx" aria-hidden="true"></span><span class="item">PracSuite</span><span class="dots"></span><span class="resp">Matches master</span></label><label class="g-row" for="c10"><input type="checkbox" id="c10"><span class="bx" aria-hidden="true"></span><span class="item">Google lead calendar</span><span class="dots"></span><span class="resp">Matches master</span></label></div><div class="g-checkfoot"><span data-count></span><button class="g-btn sm" type="button" data-clear>Clear</button></div></section></div></div></div></section><section class="g-s" id="practice"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Active recall</p><h2>Practice</h2></div><div class="g-blocks"><div class="g-quiz g-teal" data-q="[{&quot;s&quot;: &quot;You&#x27;re building next week. What goes in first?&quot;, &quot;o&quot;: [[&quot;Client sessions.&quot;, 0, &quot;Then life gets the leftovers.&quot;], [&quot;Anchors: fitness, family, sleep, leave.&quot;, 1, &quot;Lifestyle first. Work fits around it.&quot;], [&quot;Admin.&quot;, 0, &quot;Admin goes in after clients.&quot;]]}, {&quot;s&quot;: &quot;Two telehealth sessions are booked back to back with no gap. You...&quot;, &quot;o&quot;: [[&quot;Push through, it&#x27;s only one day.&quot;, 0, &quot;That&#x27;s how the week leaks energy.&quot;], [&quot;Add a buffer and a transition prompt.&quot;, 1, &quot;A break plus a planned switch keeps you in the window.&quot;], [&quot;Skip your notes.&quot;, 0, &quot;Notes are done when the session ends.&quot;]]}, {&quot;s&quot;: &quot;A new lead wants to book a welcome call. Which calendar?&quot;, &quot;o&quot;: [[&quot;PracSuite.&quot;, 0, &quot;Only for signed clients.&quot;], [&quot;The short-notice Google calendar.&quot;, 1, &quot;Leads book there through the VSL email.&quot;], [&quot;The master calendar directly.&quot;, 0, &quot;The master is updated first, but leads book through Google.&quot;]]}, {&quot;s&quot;: &quot;What&#x27;s a bridge activity?&quot;, &quot;o&quot;: [[&quot;A short, easy activity between two blocks.&quot;, 1, &quot;It resets the body before the next thing.&quot;], [&quot;A meeting about the next task.&quot;, 0, &quot;That&#x27;s just another task.&quot;], [&quot;Extra admin.&quot;, 0, &quot;No.&quot;]]}]"><div class="qh"><span class="pos"></span><span class="sc"></span></div><p class="said"></p><div class="opts"></div><div class="fb" hidden></div><div class="qn"><button class="g-btn primary nx" type="button" disabled>Next</button></div></div></div></div></section><section class="g-s" id="more"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Keep going</p><h2>Related</h2></div><div class="g-blocks"><div class="g-rel"><a class="g-navy" href="transition.html"><b>Transition Scaffolding</b><span>Warn, finish, bridge</span></a><a class="g-teal" href="energy.html"><b>Energy Management</b><span>Drains and charges</span></a><a class="g-blue" href="shutdown.html"><b>Shutdown Ritual</b><span>Close the day</span></a><a class="g-plum" href="check.html"><b>Clinician Check</b><span>Calendars every fortnight</span></a><a class="g-coal" href="culture.html"><b>Estus Culture</b><span>Lifestyle first</span></a></div></div></div></section><footer class="g-foot"><div class="g-wrap"><p>Estus Health · Calendar management · Lifestyle first</p></div></footer></div><script>
+(function(){
+  // checklists
+  document.querySelectorAll('.g-check').forEach(function(box){
+    var ins=[].slice.call(box.querySelectorAll('input[type=checkbox]')),c=box.querySelector('[data-count]');
+    function up(){if(c)c.textContent=ins.filter(function(x){return x.checked}).length+' of '+ins.length}
+    ins.forEach(function(i){i.addEventListener('change',up)});
+    var clr=box.querySelector('[data-clear]');if(clr)clr.addEventListener('click',function(){ins.forEach(function(i){i.checked=false});up()});
+    up();
+  });
+  // toggle chips
+  document.querySelectorAll('[data-chips]').forEach(function(g){
+    var multi=g.getAttribute('data-chips')==='multi';
+    g.querySelectorAll('.g-chip').forEach(function(b){b.addEventListener('click',function(){
+      var on=b.getAttribute('aria-pressed')!=='true';
+      if(!multi)g.querySelectorAll('.g-chip').forEach(function(x){x.setAttribute('aria-pressed','false')});
+      b.setAttribute('aria-pressed',on);g.dispatchEvent(new Event('chips'));
+    })});
+  });
+  // quizzes
+  document.querySelectorAll('.g-quiz').forEach(function(el){
+    var Q=JSON.parse(el.getAttribute('data-q')),qi=0,score=0;
+    var pos=el.querySelector('.pos'),sc=el.querySelector('.sc'),said=el.querySelector('.said'),opts=el.querySelector('.opts'),fb=el.querySelector('.fb'),nx=el.querySelector('.nx');
+    function show(){
+      var q=Q[qi];pos.textContent=(qi+1)+' of '+Q.length;sc.textContent='Score '+score;said.textContent=q.s;fb.hidden=true;nx.disabled=true;
+      nx.textContent=qi===Q.length-1?'See score':'Next';opts.innerHTML='';
+      q.o.forEach(function(o){var b=document.createElement('button');b.type='button';b.textContent=o[0];
+        b.addEventListener('click',function(){
+          opts.querySelectorAll('button').forEach(function(x,i){x.disabled=true;if(q.o[i][1])x.classList.add('right')});
+          if(o[1])score++;else b.classList.add('wrong');sc.textContent='Score '+score;
+          fb.innerHTML='';var t=document.createElement('b');t.textContent=o[1]?(q.ok||'Nice.'):'Not quite.';fb.appendChild(t);fb.appendChild(document.createTextNode(o[2]));fb.hidden=false;nx.disabled=false;nx.focus();
+        });opts.appendChild(b);});
+    }
+    nx.addEventListener('click',function(){
+      if(nx.dataset.done){delete nx.dataset.done;qi=0;score=0;show();return}
+      if(qi<Q.length-1){qi++;show();return}
+      said.textContent='You scored '+score+' of '+Q.length+'.';opts.innerHTML='';
+      fb.innerHTML='<b>Lock it in.</b>Run the ones you missed out loud with a colleague, three clean reps each.';fb.hidden=false;pos.textContent='Done';nx.textContent='Start again';nx.dataset.done=1;
+    });
+    show();
+  });
+  // copy buttons
+  document.querySelectorAll('[data-copy]').forEach(function(b){b.addEventListener('click',function(){
+    var src=document.getElementById(b.getAttribute('data-copy')),t=src.value!==undefined?src.value:src.innerText,m=b.parentNode.querySelector('.g-msg');
+    function ok(){if(m){m.textContent='Copied';setTimeout(function(){m.textContent=''},2500)}}
+    function fail(){if(src.select){src.focus();src.select()}if(m)m.textContent='Selected. Copy with your keyboard.'}
+    try{navigator.clipboard.writeText(t).then(ok,fail)}catch(e){fail()}
+  })});
+})();
+</script><script>
+(function(){
+var DAYS=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],KEY='estus_cal_v1',$=function(i){return document.getElementById(i)};
+var uid=function(){return Math.random().toString(36).slice(2,9)};
+function B(label,k,start,end,o){o=o||{};return {id:uid(),label:label,k:k,start:start,end:end,anchor:!!o.a,prompt:o.p||'',bridge:o.b||'',warn:o.w==null?10:o.w}}
+function example(){
+  var d={};DAYS.forEach(function(x){d[x]=[]});
+  ['Mon','Wed','Fri'].forEach(function(x){d[x].push(B('Gym',1,'06:00','07:00',{a:1,p:'Shoes by the door, water bottle',w:15}))});
+  ['Mon','Tue','Wed','Thu'].forEach(function(x){
+    d[x].push(B('Clients',2,'09:00','10:00',{p:'Camera on, notes template open, water',b:'',w:10}));
+    d[x].push(B('Clients',2,'10:30','11:30',{p:'Read the last summary, check the goal',b:'Walk on the treadmill',w:10}));
+    d[x].push(B('Lunch + move',3,'11:45','12:30',{p:'Close the laptop, step outside',w:5}));
+    d[x].push(B('Clients',2,'13:00','14:00',{p:'Check sensory prefs for this client',w:10}));
+    d[x].push(B('Notes + horse',6,'14:15','14:45',{p:'Notes, invoices, then post the horse',w:5}));
+  });
+  d.Fri.push(B('Admin + lead slots',5,'09:00','11:00',{p:'Booking page open, lead calendar checked',w:10}));
+  d.Fri.push(B('Weekly reset',4,'11:30','12:00',{a:1,p:'Inbox to zero, plan next week',w:10}));
+  d.Sat.push(B('Family',3,'09:00','13:00',{a:1,p:'Phone on do not disturb',w:0}));
+  d.Sun.push(B('Rest',4,'14:00','17:00',{p:'Nothing scheduled. On purpose.',w:0}));
+  return {week:'',lib:[{id:'l1',label:'Clients',k:2},{id:'l2',label:'Notes + horse',k:6},{id:'l3',label:'Gym',k:1},{id:'l4',label:'Family',k:3},{id:'l5',label:'Admin',k:5},{id:'l6',label:'Rest',k:4},{id:'l7',label:'Deep work',k:1}],days:d};
+}
+function load(){try{var r=localStorage.getItem(KEY);return r?JSON.parse(r):null}catch(e){return null}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+var S=load()||example(),pick=2,sel=null;
+function msg(t){var m=$('cal_msg');m.textContent=t;clearTimeout(msg.t);msg.t=setTimeout(function(){m.textContent=''},2200)}
+function mins(t){if(!t)return null;var p=t.split(':');return (+p[0])*60+(+p[1])}
+function fmt(m){if(m==null)return '';m=((m%1440)+1440)%1440;var h=Math.floor(m/60),mm=m%60;return (h%12||12)+':'+String(mm).padStart(2,'0')+(h<12?'am':'pm')}
+function sorted(day){return (S.days[day]||[]).slice().sort(function(a,b){return (mins(a.start)==null?9999:mins(a.start))-(mins(b.start)==null?9999:mins(b.start))})}
+function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
+function todayName(){return DAYS[(new Date().getDay()+6)%7]}
+
+function renderTray(){
+  var box=$('cal_chips');box.innerHTML='';
+  S.lib.forEach(function(l){var c=el('div','chip-b k'+l.k);c.appendChild(document.createTextNode(l.label));var x=el('button','x','×');x.type='button';x.setAttribute('aria-label','Delete '+l.label);
+    x.addEventListener('click',function(){S.lib=S.lib.filter(function(v){return v.id!==l.id});save();renderTray()});c.appendChild(x);drag(c,{type:'lib',id:l.id});box.appendChild(c)});
+  var sw=$('cal_sw');sw.innerHTML='';for(var k=1;k<=6;k++){(function(k){var b=el('button','sw k'+k);b.type='button';b.setAttribute('aria-label','Colour '+k);b.setAttribute('aria-pressed',k===pick);b.addEventListener('click',function(){pick=k;renderTray()});sw.appendChild(b)})(k)}
+}
+function renderGrid(){
+  var g=$('cal_grid');g.innerHTML='';var td=todayName();
+  DAYS.forEach(function(d){
+    var col=el('div','day'+(d===td?' today':''));var h=el('h4');h.appendChild(document.createTextNode(d));var list=sorted(d),tot=0;list.forEach(function(b){var a=mins(b.start),z=mins(b.end);if(a!=null&&z!=null&&z>a)tot+=z-a});h.appendChild(el('small','',tot?(tot/60).toFixed(1).replace('.0','')+'h':''));col.appendChild(h);
+    var dz=el('div','drop');dz.dataset.drop=d;
+    list.forEach(function(b,i){
+      if(i>0){var prev=list[i-1],gp=(mins(b.start)!=null&&mins(prev.end)!=null)?mins(b.start)-mins(prev.end):null;if(gp!=null){var gEl=el('div','gap'+(gp<10?' tight':''),gp<=0?'No gap':gp+' min gap');dz.appendChild(gEl)}}
+      dz.appendChild(blk(b,d));
+    });
+    col.appendChild(dz);g.appendChild(col);
+  });
+}
+function blk(b,day){
+  var d=el('button','blk k'+b.k+(b.anchor?' anchor':'')+(sel&&sel.id===b.id?' sel':''));d.type='button';
+  d.appendChild(el('span','t',b.label));d.appendChild(el('span','tm',b.start?fmt(mins(b.start))+(b.end?' to '+fmt(mins(b.end)):''):'Set a time'));
+  if(b.prompt)d.appendChild(el('span','tp','→ '+b.prompt));
+  d.addEventListener('click',function(){if(d.dataset.dragged){delete d.dataset.dragged;return}sel={id:b.id,day:day};openEdit();renderGrid()});
+  drag(d,{type:'blk',id:b.id,day:day});return d;
+}
+function find(){if(!sel)return null;var a=S.days[sel.day]||[];for(var i=0;i<a.length;i++)if(a[i].id===sel.id)return a[i];return null}
+function openEdit(){var b=find();var ed=$('cal_edit');if(!b){ed.hidden=true;$('cal_hint').hidden=false;return}ed.hidden=false;$('cal_hint').hidden=true;
+  $('e_label').value=b.label;$('e_start').value=b.start||'';$('e_end').value=b.end||'';$('e_prompt').value=b.prompt||'';$('e_bridge').value=b.bridge||'';$('e_warn').value=String(b.warn);$('e_anchor').checked=!!b.anchor}
+['e_label','e_start','e_end','e_prompt','e_bridge','e_warn','e_anchor'].forEach(function(id){$(id).addEventListener('input',function(){var b=find();if(!b)return;b.label=$('e_label').value||b.label;b.start=$('e_start').value;b.end=$('e_end').value;b.prompt=$('e_prompt').value;b.bridge=$('e_bridge').value;b.warn=+$('e_warn').value;b.anchor=$('e_anchor').checked;save();renderGrid();renderToday()});$(id).addEventListener('change',function(){$(id).dispatchEvent(new Event('input'))})});
+$('e_done').addEventListener('click',function(){sel=null;openEdit();renderGrid()});
+$('e_del').addEventListener('click',function(){if(!sel)return;S.days[sel.day]=(S.days[sel.day]||[]).filter(function(x){return x.id!==sel.id});sel=null;save();openEdit();renderGrid();renderToday();msg('Removed')});
+function addLib(){var v=$('cal_new').value.trim();if(!v)return;S.lib.push({id:uid(),label:v,k:pick});$('cal_new').value='';save();renderTray()}
+$('cal_addb').addEventListener('click',addLib);$('cal_new').addEventListener('keydown',function(e){if(e.key==='Enter')addLib()});
+$('cal_week').value=S.week||'';$('cal_week').addEventListener('input',function(){S.week=$('cal_week').value;save()});
+var armed={};function confirmBtn(id,label,fn){var b=$(id);b.addEventListener('click',function(){if(!armed[id]){armed[id]=1;b.textContent='Tap again to confirm';setTimeout(function(){armed[id]=0;b.textContent=label},3000);return}armed[id]=0;b.textContent=label;fn()})}
+confirmBtn('cal_newwk','New week (keep anchors)',function(){DAYS.forEach(function(d){S.days[d]=(S.days[d]||[]).filter(function(b){return b.anchor})});S.week='';$('cal_week').value='';sel=null;save();openEdit();renderGrid();renderToday();msg('New week. Anchors kept.')});
+confirmBtn('cal_example','Load example week',function(){S=example();sel=null;save();$('cal_week').value='';renderAll();msg('Example week loaded')});
+
+// drag
+var D=null;
+function drag(node,src){
+  node.addEventListener('pointerdown',function(e){if(e.button!==0||e.target.closest('.x'))return;D={node:node,src:src,x:e.clientX,y:e.clientY,on:false,g:null,over:null};node.setPointerCapture(e.pointerId)});
+  node.addEventListener('pointermove',function(e){if(!D||D.node!==node)return;if(!D.on){if(Math.hypot(e.clientX-D.x,e.clientY-D.y)<6)return;D.on=true;var r=node.getBoundingClientRect();D.ox=e.clientX-r.left;D.oy=e.clientY-r.top;var g=node.cloneNode(true);g.classList.add('ghost');g.style.width=r.width+'px';document.body.appendChild(g);D.g=g;if(src.type==='blk'){node.classList.add('dragging');$('cal_tray').classList.add('bin')}}
+    D.g.style.left=(e.clientX-D.ox)+'px';D.g.style.top=(e.clientY-D.oy)+'px';var t=document.elementFromPoint(e.clientX,e.clientY),z=t&&t.closest('[data-drop]');var ok=z&&(z.dataset.drop!=='tray'||src.type==='blk')?z:null;if(D.over&&D.over!==ok)D.over.classList.remove('over');if(ok&&ok.classList.contains('drop'))ok.classList.add('over');D.over=ok});
+  function end(){if(!D||D.node!==node)return;var d=D;D=null;if(!d.on)return;d.g.remove();node.classList.remove('dragging');$('cal_tray').classList.remove('bin');node.dataset.dragged=1;setTimeout(function(){delete node.dataset.dragged},50);if(d.over){d.over.classList.remove('over');drop(src,d.over.dataset.drop)}}
+  node.addEventListener('pointerup',end);node.addEventListener('pointercancel',end);
+}
+function drop(src,to){
+  if(to==='tray'){if(src.type==='blk'){S.days[src.day]=(S.days[src.day]||[]).filter(function(b){return b.id!==src.id});if(sel&&sel.id===src.id){sel=null;openEdit()}msg('Removed')}}
+  else if(src.type==='lib'){var l=S.lib.filter(function(v){return v.id===src.id})[0];if(!l)return;var last=sorted(to).filter(function(b){return b.end}).pop();var st=last?mins(last.end)+15:540;var b=B(l.label,l.k,fmtIn(st),fmtIn(st+60),{});(S.days[to]=S.days[to]||[]).push(b);sel={id:b.id,day:to};openEdit()}
+  else if(src.type==='blk'&&src.day!==to){var a=S.days[src.day]||[],b2=null;S.days[src.day]=a.filter(function(b){if(b.id===src.id){b2=b;return false}return true});if(b2){(S.days[to]=S.days[to]||[]).push(b2);if(sel&&sel.id===b2.id)sel.day=to}}
+  save();renderGrid();renderToday();
+}
+function fmtIn(m){m=Math.min(m,23*60+45);return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0')}
+
+// today view
+var tday=todayName();
+function renderDays(){var bar=$('t_days');bar.innerHTML='';DAYS.forEach(function(d){var b=el('button','',d+(d===todayName()?' (today)':''));b.type='button';b.setAttribute('aria-pressed',d===tday);b.addEventListener('click',function(){tday=d;renderDays();renderToday()});bar.appendChild(b)})}
+function renderToday(){
+  var run=$('t_run');run.innerHTML='';var list=sorted(tday).filter(function(b){return b.start}),isToday=tday===todayName(),n=new Date(),nm=n.getHours()*60+n.getMinutes(),lines=[tday+(S.week?' (week of '+S.week+')':'')];
+  if(!list.length){run.appendChild(el('li','cal-empty','No timed blocks on '+tday+'. Add some in the Week view.'));}
+  list.forEach(function(b,i){
+    var s=mins(b.start),e=mins(b.end);
+    if(i>0){var p=list[i-1],gp=(mins(p.end)!=null)?s-mins(p.end):null,tr=el('li','tr'+(gp!=null&&gp<10?' tight':''));
+      tr.appendChild(el('span','h','Transition'+(gp!=null?' · '+(gp<=0?'no gap':gp+' min'):'')+(gp!=null&&gp<10?' · too tight':'')));
+      if(b.warn)tr.appendChild(el('span','','At '+fmt(s-b.warn)+': '+b.warn+'-minute warning'));
+      tr.appendChild(el('span','','Finish point: wrap up '+p.label.toLowerCase()+(p.end?' by '+fmt(mins(p.end)):'')));
+      if(b.bridge)tr.appendChild(el('span','','Bridge: '+b.bridge));
+      if(b.prompt)tr.appendChild(el('span','','Prompt: '+b.prompt));
+      run.appendChild(tr);
+      lines.push('  -> '+(b.warn?b.warn+' min warning at '+fmt(s-b.warn)+'. ':'')+(b.bridge?'Bridge: '+b.bridge+'. ':'')+(b.prompt?'Prompt: '+b.prompt:''));
+    } else if(b.prompt||b.warn){var tr0=el('li','tr');tr0.appendChild(el('span','h','Getting started'));if(b.warn)tr0.appendChild(el('span','','At '+fmt(s-b.warn)+': '+b.warn+'-minute warning'));if(b.prompt)tr0.appendChild(el('span','','Prompt: '+b.prompt));run.appendChild(tr0)}
+    var cls='ev k'+b.k;if(isToday&&e!=null&&nm>=e)cls+=' past';if(isToday&&nm>=s&&(e==null||nm<e))cls+=' cur';
+    var ev=el('li',cls);ev.appendChild(el('span','tm',fmt(s)+(e!=null?' to '+fmt(e):'')));var w=el('div');w.appendChild(el('b','',b.label));ev.appendChild(w);run.appendChild(ev);
+    lines.push(fmt(s)+(e!=null?'-'+fmt(e):'')+'  '+b.label);
+  });
+  $('t_copy').value=lines.join('\n');
+  // now / next uses today regardless of selected tab
+  var tl=sorted(todayName()).filter(function(b){return b.start}),cur=null,nx=null;
+  tl.forEach(function(b){var s=mins(b.start),e=mins(b.end);if(nm>=s&&(e==null||nm<e))cur=b;if(s>nm&&!nx)nx=b});
+  $('t_now').textContent=cur?cur.label:'Free time';$('t_nows').textContent=cur?'Until '+fmt(mins(cur.end)):'Nothing scheduled right now';
+  $('t_next').textContent=nx?nx.label:'Nothing else today';$('t_nexts').textContent=nx?'At '+fmt(mins(nx.start))+', in '+(mins(nx.start)-nm)+' min':'';
+  var ban=$('t_banner');if(nx&&nx.warn&&mins(nx.start)-nm<=nx.warn){ban.hidden=false;$('t_btext').textContent=(mins(nx.start)-nm)+' min until '+nx.label+'. '+(cur?'Find a finish point for '+cur.label.toLowerCase()+'. ':'')+(nx.bridge?'Bridge: '+nx.bridge+'. ':'')+(nx.prompt?nx.prompt+'.':'')}else ban.hidden=true;
+}
+setInterval(renderToday,30000);
+
+document.querySelectorAll('.cal-tabs button').forEach(function(t){t.addEventListener('click',function(){document.querySelectorAll('.cal-tabs button').forEach(function(x){x.setAttribute('aria-selected',x===t)});$('v_week').hidden=t.dataset.v!=='week';$('v_today').hidden=t.dataset.v!=='today';renderToday()})});
+function renderAll(){renderTray();renderGrid();renderDays();renderToday();openEdit()}
+renderAll();
+})();
+</script></body></html>

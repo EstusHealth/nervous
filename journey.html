@@ -1,0 +1,694 @@
+<!doctype html><html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Client Journey</title><meta name="robots" content="noindex, nofollow"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 fill=%22%23090909%22/%3E%3Crect x=%224%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23344982%22/%3E%3Crect x=%2210%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232F6F9E%22/%3E%3Crect x=%2216%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232CA5B8%22/%3E%3Crect x=%2222%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23AB5C95%22/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap">
+<style>
+/* Layout: a flight-strip masthead (five phases as a route), sticky rail, the live client tracker as QRH phase boxes, then the reasoning sections; phase colours carry through every section */
+:root{
+  color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#F3F2EF;--surface:#FBFAF8;--sunk:#ECEAE6;--fg:#0E1014;--muted:#65676E;--rule:#D3D1CC;--ink:#090909;--on-ink:#FBFAF8;
+  --navy:#344982;--blue:#2F6F9E;--teal:#2CA5B8;--plum:#AB5C95;--coal:#22252B;
+  --navy-t:#DDE2EF;--blue-t:#DCE8F1;--teal-t:#DAF0F3;--plum-t:#F1E1EC;--coal-t:#DADBDE;
+  --good:#2E7D4F;--good-t:#DDEFE3;--warn:#A86A12;--warn-t:#F6E8D2;--bad:#B23A3A;--bad-t:#F5DEDE;
+  --display:"Oswald","Arial Narrow",Impact,sans-serif;--cond:"Barlow Semi Condensed","Arial Narrow",sans-serif;--body:"Barlow","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0F1216;--surface:#161A20;--sunk:#1D222A;--fg:#ECEEF1;--muted:#9BA1AB;--rule:#2C323C;--ink:#05070A;--on-ink:#ECEEF1;
+  --navy:#8299DA;--blue:#6FA8D2;--teal:#4CC3D4;--plum:#D58FC1;--coal:#C9CCD2;
+  --navy-t:#1E2740;--blue-t:#18293A;--teal-t:#123238;--plum-t:#33202E;--coal-t:#2A2E35;
+  --good:#5FC38A;--good-t:#16301F;--warn:#E0A64A;--warn-t:#33270F;--bad:#EC7B7B;--bad-t:#3A1A1A;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1216;--surface:#161A20;--sunk:#1D222A;--fg:#ECEEF1;--muted:#9BA1AB;--rule:#2C323C;--ink:#05070A;--on-ink:#ECEEF1;
+  --navy:#8299DA;--blue:#6FA8D2;--teal:#4CC3D4;--plum:#D58FC1;--coal:#C9CCD2;
+  --navy-t:#1E2740;--blue-t:#18293A;--teal-t:#123238;--plum-t:#33202E;--coal-t:#2A2E35;
+  --good:#5FC38A;--good-t:#16301F;--warn:#E0A64A;--warn-t:#33270F;--bad:#EC7B7B;--bad-t:#3A1A1A;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px)}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 17px/1.55 var(--body)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+[hidden]{display:none!important}
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{text-wrap:balance;margin:0}
+p{margin:0}
+a{color:var(--blue)}
+button,input,textarea,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.eyebrow{font:700 12px var(--cond);letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.p1{--c:var(--navy);--ct:var(--navy-t)}.p2{--c:var(--blue);--ct:var(--blue-t)}.p3{--c:var(--teal);--ct:var(--teal-t)}.p4{--c:var(--plum);--ct:var(--plum-t)}.p5{--c:var(--coal);--ct:var(--coal-t)}
+
+/* hero */
+.hero{background:var(--ink);color:var(--on-ink)}
+.hero .wrap{padding-block:30px 34px;display:flex;flex-direction:column;gap:26px}
+.hero .eyebrow{color:#AEB5C2}
+.hero h1{font:600 clamp(40px,7vw,80px)/.95 var(--display);text-transform:uppercase;letter-spacing:.01em;margin:8px 0 14px}
+.hero .lead{font-size:18px;max-width:62ch;color:#D6DAE2}
+.route{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border:1px solid #2C323C;background:#111419}
+.route div{padding:12px 14px;border-left:1px solid #2C323C;border-top:4px solid var(--h);display:flex;flex-direction:column;gap:2px;min-width:0}
+.route div:first-child{border-left:0}
+.route b{font:600 18px/1.1 var(--display);text-transform:uppercase;letter-spacing:.03em}
+.route span{font:600 12px var(--cond);text-transform:uppercase;letter-spacing:.1em;color:#AEB5C2}
+.route small{font:500 12px var(--cond);color:var(--h);letter-spacing:.08em;text-transform:uppercase}
+.code{display:flex;gap:10px;align-items:center;font:600 12px var(--cond);letter-spacing:.14em;text-transform:uppercase;color:#AEB5C2}
+.code b{font:500 18px var(--display);letter-spacing:.08em;color:var(--on-ink);border:1px solid #3A3F48;padding:2px 8px}
+
+.rail{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--rule)}
+.rail .wrap{display:flex;gap:4px;overflow-x:auto;padding-block:8px;scrollbar-width:none}
+.rail a{font:600 13px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--fg);text-decoration:none;padding:6px 10px;white-space:nowrap;border-radius:3px}
+.rail a:hover{background:var(--sunk)}
+
+section.s{padding-block:44px;border-bottom:1px solid var(--rule)}
+.s-head{display:flex;flex-direction:column;gap:6px;margin-bottom:22px;max-width:68ch}
+.s-head h2{font:600 clamp(26px,4vw,34px)/1.05 var(--display);text-transform:uppercase;letter-spacing:.02em}
+.s-head p{color:var(--muted)}
+h3.sub{font:700 15px var(--cond);text-transform:uppercase;letter-spacing:.1em;margin:28px 0 12px}
+
+/* tracker */
+.who{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1.3fr) minmax(0,1fr);gap:12px;margin-bottom:14px}
+.fld{display:flex;flex-direction:column;gap:4px;min-width:0}
+.fld label{font:700 12px var(--cond);text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
+.fld input{width:100%;border:1px solid var(--rule);background:var(--surface);padding:9px 10px;border-radius:2px;font-size:16px}
+.privacy{font-size:14px;color:var(--muted);margin-bottom:16px}
+.strip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;margin-bottom:18px}
+.strip div{border:1px solid var(--rule);background:var(--surface);padding:8px 10px;display:flex;justify-content:space-between;align-items:center;gap:6px;border-top:4px solid var(--c);min-width:0}
+.strip b{font:600 14px var(--cond);text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.strip span{font:700 11px var(--cond);text-transform:uppercase;letter-spacing:.1em;color:var(--muted);white-space:nowrap}
+.strip div.done{background:var(--good-t)}.strip div.done span{color:var(--good)}
+.strip div.now{background:var(--ct);outline:2px solid var(--c);outline-offset:-2px}
+.strip div.now span{color:var(--c)}
+.tool{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start}
+.col{display:flex;flex-direction:column;gap:18px;min-width:0}
+.box{border:1px solid var(--fg);background:var(--surface)}
+.box h4{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:6px 10px 6px 14px;background:var(--ct);box-shadow:inset 5px 0 0 var(--c);border-bottom:1px solid var(--fg);font:700 14px var(--cond);text-transform:uppercase;letter-spacing:.08em}
+.box h4 .n{font:600 16px var(--display);margin-right:6px}
+.box h4 small{font:500 12px var(--cond);letter-spacing:.06em;color:var(--muted)}
+.mi{display:flex;gap:8px;align-items:baseline;padding:6px 14px;border-bottom:1px solid var(--rule);font-size:14px}
+.mi b{font:700 11px var(--cond);text-transform:uppercase;letter-spacing:.12em;color:var(--c);white-space:nowrap}
+.grp{padding:6px 10px 8px;display:flex;flex-direction:column}
+.grp + .grp{border-top:1px solid var(--rule)}
+.lbl{font:700 11px var(--cond);text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin:2px 0}
+.row{display:flex;align-items:baseline;gap:6px;padding:3px 4px;border-radius:2px;cursor:pointer;font:600 14px/1.4 var(--cond);text-transform:uppercase;letter-spacing:.02em;position:relative}
+.row:hover{background:var(--sunk)}
+.row input{position:absolute;opacity:0;pointer-events:none}
+.row .item{white-space:nowrap}
+.row .dots{flex:1;min-width:12px;border-bottom:1.5px dotted var(--muted);transform:translateY(-4px)}
+.row .resp{text-align:right}
+.row .bx{width:14px;height:14px;border:1.5px solid var(--muted);flex:none;transform:translateY(2px);display:grid;place-items:center;font-size:11px;line-height:1}
+.row:has(input:checked) .item,.row:has(input:checked) .resp{color:var(--muted)}
+.row:has(input:checked) .bx{background:var(--c);border-color:var(--c);color:var(--surface)}
+.row:has(input:checked) .bx::after{content:"\2713"}
+.row:has(input:focus-visible){outline:2px solid var(--c)}
+.p5 .row:has(input:checked) .bx{background:var(--teal);border-color:var(--teal)}
+.qs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-bottom:1px solid var(--rule)}
+.q{padding:6px 4px 8px;text-align:center;display:flex;flex-direction:column;gap:1px;cursor:pointer;position:relative}
+.q + .q{border-left:1px solid var(--rule)}
+.q input{position:absolute;opacity:0;pointer-events:none}
+.q .qn{font:600 17px var(--display)}
+.q .qd{font:700 12px var(--cond);color:var(--c);font-variant-numeric:tabular-nums;letter-spacing:.04em}
+.q .qf{font:500 12px/1.2 var(--cond);color:var(--muted)}
+.q:has(input:checked){background:var(--plum-t)}
+.q:has(input:checked) .qn::after{content:" \2713";color:var(--plum)}
+.q:has(input:focus-visible){outline:2px solid var(--plum);outline-offset:-2px}
+.turb{padding:8px 14px;border-top:1px solid var(--rule)}
+.turb .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.chip{border:1px solid var(--rule);background:var(--bg);padding:5px 10px;border-radius:999px;cursor:pointer;font:600 12px var(--cond);text-transform:uppercase;letter-spacing:.06em}
+.chip[aria-pressed="true"]{background:var(--warn);border-color:var(--warn);color:var(--surface)}
+.alert{margin-top:8px;padding:8px 10px;background:var(--warn-t);border-left:4px solid var(--warn);font-size:14px}
+.next{display:flex;flex-wrap:wrap;gap:6px;padding:8px 14px;border-top:1px solid var(--rule)}
+.next .chip[aria-pressed="true"]{background:var(--coal);border-color:var(--coal);color:var(--surface)}
+.gate{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 10px 7px 14px;border-top:1px solid var(--fg);font:700 13px var(--cond);text-transform:uppercase;letter-spacing:.04em;background:var(--sunk)}
+.gate .g{letter-spacing:.12em;padding:2px 8px;background:var(--surface);color:var(--muted);border:1px solid var(--rule);white-space:nowrap}
+.gate.ok{background:var(--good-t)}
+.gate.ok .g{background:var(--good);border-color:var(--good);color:var(--surface)}
+.toolbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:16px}
+.btn{border:1px solid var(--rule);background:var(--surface);color:var(--fg);padding:9px 14px;cursor:pointer;font:600 13px var(--cond);text-transform:uppercase;letter-spacing:.08em;min-height:40px}
+.btn:hover{border-color:var(--fg)}
+.btn.primary{background:var(--ink);color:var(--on-ink);border-color:var(--ink)}
+.msg{font:600 13px var(--cond);text-transform:uppercase;letter-spacing:.08em;color:var(--good)}
+
+/* experience */
+.loop{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;position:relative;margin-bottom:10px}
+.node{background:var(--surface);border:1px solid var(--rule);border-top:4px solid var(--c);padding:12px;display:flex;flex-direction:column;gap:4px;position:relative;min-width:0}
+.node b{font:600 16px var(--cond);text-transform:uppercase;letter-spacing:.05em}
+.node span{font-size:14px;color:var(--muted)}
+.node + .node::before{content:"";position:absolute;left:-12px;top:26px;width:12px;border-top:2px solid var(--muted)}
+.loopback{display:flex;align-items:center;gap:10px;font:600 13px var(--cond);text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.loopback i{flex:1;border-top:2px dashed var(--muted);max-width:none}
+.reasons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:22px}
+.reason{background:var(--surface);border:1px solid var(--rule);padding:18px;display:flex;flex-direction:column;gap:6px}
+.reason h4{font:600 20px var(--display);text-transform:uppercase;letter-spacing:.02em}
+.reason p{font-size:16px}
+.reason .so{font-size:14px;color:var(--muted);border-top:1px dashed var(--rule);padding-top:8px;margin-top:auto}
+
+/* goals */
+.goals{display:flex;flex-direction:column;gap:12px}
+.pair{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:0;border:1px solid var(--rule);background:var(--surface)}
+.pair .weak,.pair .strong{padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.pair .weak p{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--bad)}
+.pair .strong{background:var(--good-t)}
+.pair .tagx{font:700 11px var(--cond);text-transform:uppercase;letter-spacing:.12em}
+.pair .weak .tagx{color:var(--bad)}.pair .strong .tagx{color:var(--good)}
+.pair .arrow{display:grid;place-items:center;padding:0 10px;font:600 22px var(--display);color:var(--muted);background:var(--sunk)}
+.why3{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:20px}
+.why3 div{background:var(--surface);padding:16px;display:flex;flex-direction:column;gap:4px}
+.why3 b{font:600 16px var(--cond);text-transform:uppercase;letter-spacing:.04em;color:var(--teal)}
+.why3 span{font-size:15px}
+
+/* MI */
+.procs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.proc{background:var(--surface);border:1px solid var(--rule);padding:16px;display:flex;flex-direction:column;gap:8px}
+.proc .k{font:600 26px/1 var(--display);text-transform:uppercase;letter-spacing:.02em}
+.proc .q2{font-weight:600}
+.proc .where{font:700 11px var(--cond);text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-top:auto;display:flex;gap:4px;flex-wrap:wrap}
+.proc .where i{font-style:normal;padding:2px 6px;background:var(--ct);color:var(--c)}
+.oars{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.oars div{background:var(--surface);padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.oars .L{font:600 40px/1 var(--display);color:var(--blue)}
+.oars b{font:600 15px var(--cond);text-transform:uppercase;letter-spacing:.05em}
+.oars q{font-size:15px;quotes:"\201C" "\201D";color:var(--muted)}
+.darn{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;margin-top:4px}
+.darn > div{background:var(--surface);border:1px solid var(--rule);padding:16px}
+.darn h4{font:700 13px var(--cond);text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:8px}
+.darn ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.darn li{display:grid;grid-template-columns:96px minmax(0,1fr);gap:10px;font-size:15px}
+.darn li b{font:600 14px var(--cond);text-transform:uppercase;letter-spacing:.04em;color:var(--plum)}
+.nd{margin-top:16px;padding:14px 16px;background:var(--teal-t);border-left:4px solid var(--teal)}
+.nd ul{margin:6px 0 0;padding-left:20px}
+
+/* practice */
+.quiz{background:var(--surface);border:1px solid var(--rule);padding:20px;display:flex;flex-direction:column;gap:14px}
+.qhead{display:flex;justify-content:space-between;gap:10px;font:700 12px var(--cond);text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
+.said{font:500 20px/1.35 var(--body);padding-left:14px;border-left:4px solid var(--plum)}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opts button{text-align:left;background:var(--bg);border:1.5px solid var(--rule);padding:12px 14px;cursor:pointer;font-size:16px;line-height:1.4}
+.opts button:hover:not(:disabled){border-color:var(--fg)}
+.opts button.right{border-color:var(--good);background:var(--good-t)}
+.opts button.wrong{border-color:var(--bad);background:var(--bad-t)}
+.opts button:disabled{cursor:default}
+.fb{font-size:16px;padding:12px 14px;background:var(--sunk)}
+.fb b{font:700 13px var(--cond);text-transform:uppercase;letter-spacing:.1em;display:block}
+.qnav{display:flex;justify-content:space-between;align-items:center;gap:10px}
+
+/* continuity */
+.offers{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:22px}
+.offer{background:var(--surface);border:1px solid var(--rule);padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.offer b{font:600 17px var(--cond);text-transform:uppercase;letter-spacing:.04em}
+.offer span{font-size:15px;color:var(--muted)}
+.offer.hl{border-color:var(--plum);background:var(--plum-t)}
+.offer.hl b{color:var(--plum)}
+.formula{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--ink);color:var(--on-ink);padding:18px 22px;margin-bottom:18px}
+.formula .t{font:600 clamp(20px,3.5vw,30px)/1.1 var(--display);text-transform:uppercase;letter-spacing:.02em}
+.formula .t em{font-style:normal;color:#4CC3D4}
+.formula p{color:#AEB5C2;font-size:15px;max-width:44ch}
+.calc{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:20px}
+.inputs{display:flex;flex-direction:column;gap:12px}
+.inp label{display:flex;justify-content:space-between;font:600 14px var(--cond);text-transform:uppercase;letter-spacing:.04em}
+.inp label output{font-variant-numeric:tabular-nums}
+.inp input[type=range]{width:100%;accent-color:var(--plum)}
+.inp input[type=number]{width:100%;border:1px solid var(--rule);background:var(--bg);padding:7px 9px;font-size:16px;font-variant-numeric:tabular-nums}
+.ex{font-size:13px;color:var(--muted)}
+.res{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;align-content:start}
+.tile{border:1px solid var(--rule);padding:12px 14px;display:flex;flex-direction:column;gap:2px;background:var(--bg)}
+.tile .k{font:700 11px var(--cond);text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
+.tile .v{font:600 32px/1.1 var(--display);font-variant-numeric:tabular-nums}
+.tile.big{grid-column:1 / -1;border-color:var(--plum);background:var(--plum-t)}
+.tile.big .v{color:var(--plum);font-size:44px}
+.levers{grid-column:1 / -1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.lever{padding:12px 14px;border-left:4px solid var(--c);background:var(--sunk);font-size:15px}
+.lever b{display:block;font:600 14px var(--cond);text-transform:uppercase;letter-spacing:.05em}
+.chart{grid-column:1 / -1}
+.chart svg{width:100%;height:auto;display:block}
+.guard{margin-top:22px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.guard > div{border:1px solid var(--rule);background:var(--surface);padding:16px}
+.guard h4{font:700 14px var(--cond);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px}
+.guard .yes h4{color:var(--good)}.guard .no h4{color:var(--bad)}
+.guard ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.estus{margin-top:16px;padding:14px 16px;background:var(--plum-t);border-left:4px solid var(--plum)}
+
+footer{padding-block:28px 48px;color:var(--muted);font-size:14px}
+footer ul{margin:6px 0 0;padding-left:18px}
+
+@media (max-width:900px){
+  .procs,.oars,.offers,.why3{grid-template-columns:1fr 1fr}
+  .calc{grid-template-columns:1fr}
+}
+@media (max-width:760px){
+  .route,.strip{grid-template-columns:1fr}
+  .route div{border-left:0;border-top:1px solid #2C323C;border-left:4px solid var(--h)}
+  .route div:first-child{border-top:0}
+  .tool,.reasons,.darn,.guard,.levers{grid-template-columns:1fr}
+  .who{grid-template-columns:1fr 1fr}.who .fld:first-child{grid-column:1 / -1}
+  .loop{grid-template-columns:1fr}
+  .node + .node::before{left:24px;top:-12px;width:0;height:12px;border-top:0;border-left:2px solid var(--muted)}
+  .pair{grid-template-columns:1fr}.pair .arrow{padding:4px;transform:rotate(90deg)}
+  .res{grid-template-columns:1fr 1fr}
+}
+@media (max-width:480px){
+  .procs,.oars,.offers,.why3{grid-template-columns:1fr}
+  .row .item{white-space:normal}
+  .darn li{grid-template-columns:80px minmax(0,1fr)}
+}
+</style></head><body><style>
+.ehub{background:#090909;color:#FBFAF8;border-bottom:1px solid #2C323C;position:relative;z-index:6}
+.ehub-in{max-width:1120px;margin:0 auto;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));display:flex;justify-content:space-between;align-items:center;gap:10px 16px;flex-wrap:wrap}
+.ehub a{color:inherit;text-decoration:none}
+.ehub-home{display:flex;align-items:center;gap:12px;min-height:36px}
+.ehub-bands{display:flex;width:56px;height:5px;flex:none}.ehub-bands i{flex:1}
+.ehub-bands i:nth-child(1){background:#344982}.ehub-bands i:nth-child(2){background:#2F6F9E}.ehub-bands i:nth-child(3){background:#2CA5B8}.ehub-bands i:nth-child(4){background:#AB5C95}
+.ehub-wm{font:500 14px/1 "Oswald","Arial Narrow",Impact,sans-serif;letter-spacing:.16em}.ehub-wm b{font-weight:700}
+.ehub-sep{font:600 12px/1 "Barlow Semi Condensed","Arial Narrow",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#AEB5C2;border-left:1px solid #3A3F48;padding-left:12px}
+.ehub-home:hover .ehub-sep{color:#FBFAF8}
+.ehub-r{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ehub-btn{font:600 12px/1 "Barlow Semi Condensed","Arial Narrow",sans-serif;letter-spacing:.1em;text-transform:uppercase;border:1px solid #3A3F48;background:none;color:#FBFAF8;padding:9px 12px;cursor:pointer;min-height:36px;display:inline-flex;align-items:center;gap:8px}
+.ehub-btn:hover{border-color:#FBFAF8}
+.ehub-btn[aria-pressed="true"]{background:#2E7D4F;border-color:#2E7D4F}
+.ehub-btn:focus-visible,.ehub a:focus-visible{outline:2px solid #2CA5B8;outline-offset:2px}
+.ehub-next{background:#FBFAF8!important;color:#090909!important;border-color:#FBFAF8}
+@media (max-width:520px){.ehub-sep{display:none}.ehub-next .ehub-nl{display:none}}
+@media print{.ehub{display:none}}
+</style>
+<nav class="ehub" aria-label="Estus Training Hub" style="margin:0"><div class="ehub-in">
+<a class="ehub-home" href="index.html"><span class="ehub-bands" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="ehub-wm"><b>ESTUS</b> HEALTH</span><span class="ehub-sep">&larr; Training Hub</span></a>
+<div class="ehub-r"><button class="ehub-btn" type="button" id="ehub-done" aria-pressed="false">Mark done</button><a class="ehub-btn ehub-next" href="welcome.html"><span class="ehub-nl">Next:</span> Welcome Call <span aria-hidden="true">&rarr;</span></a></div>
+</div></nav>
+<script>(function(){var K="hub_done",s="journey",b=document.getElementById("ehub-done");function l(){try{return JSON.parse(localStorage.getItem(K))||{}}catch(e){return {}}}function r(){var on=!!l()[s];b.setAttribute("aria-pressed",on);b.textContent=on?"\u2713 Done":"Mark done"}b.addEventListener("click",function(){var v=l();if(v[s])delete v[s];else v[s]=1;try{localStorage.setItem(K,JSON.stringify(v))}catch(e){}r()});r()})();</script>
+
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">Referral to 12-month review</p>
+      <h1>Client journey</h1>
+      <p class="lead">Every Estus client flies the same route. Five phases, each with a gate. The route is part of the therapy: it builds trust, keeps the dose steady, and gives us evidence at plan review.</p>
+    </div>
+    <div class="route" aria-label="The five phases">
+      <div style="--h:#8299DA"><small>1 · Engage</small><b>Pre-flight</b><span>Referral to close</span></div>
+      <div style="--h:#6FA8D2"><small>2 · Engage</small><b>Takeoff</b><span>Welcome meeting</span></div>
+      <div style="--h:#4CC3D4"><small>3 · Focus + evoke</small><b>Flight plan</b><span>Goal setting</span></div>
+      <div style="--h:#D58FC1"><small>4 · Evoke + plan</small><b>Cruise</b><span>Quarterly check-ins</span></div>
+      <div style="--h:#C9CCD2"><small>5 · Plan</small><b>Landing</b><span>12-month review</span></div>
+    </div>
+    <div class="code"><b>EH-C1</b><span>Normal procedures</span></div>
+  </div>
+</header>
+
+<nav class="rail" aria-label="Sections">
+  <div class="wrap"><a href="#track">Track a client</a><a href="#experience">Experience is therapy</a><a href="#goals">Goals</a><a href="#mi">Motivational interviewing</a><a href="#practice">Practice</a><a href="#continuity">Continuity</a></div>
+</nav>
+
+<main>
+<!-- TRACKER -->
+<section class="s" id="track"><div class="wrap">
+  <div class="s-head"><p class="eyebrow">Live tool</p><h2>Track a client</h2><p>Enter the start date and the four check-in dates fill themselves. Tick each line as it's done. A phase clears when every line is ticked.</p></div>
+  <div class="who">
+    <div class="fld"><label for="j_client">Client initials</label><input id="j_client" type="text" autocomplete="off" maxlength="6" placeholder="e.g. JS"></div>
+    <div class="fld"><label for="j_clin">Clinician</label><input id="j_clin" type="text" autocomplete="off"></div>
+    <div class="fld"><label for="j_start">Start date</label><input id="j_start" type="date"></div>
+  </div>
+  <p class="privacy">Initials only. Nothing here leaves this browser, and PracSuite stays the record.</p>
+
+  <div class="strip" id="strip" aria-label="Phase status">
+    <div class="p1"><b>Pre-flight</b><span>Open</span></div>
+    <div class="p2"><b>Takeoff</b><span>Open</span></div>
+    <div class="p3"><b>Flight plan</b><span>Open</span></div>
+    <div class="p4"><b>Cruise</b><span>Open</span></div>
+    <div class="p5"><b>Landing</b><span>Open</span></div>
+  </div>
+
+  <div class="tool">
+    <div class="col">
+      <section class="box p1" data-phase="1">
+        <h4><span><span class="n">1</span>Pre-flight</span><small>Referral to close</small></h4>
+        <p class="mi"><b>MI: Engage</b><span>Listen first. Learn why now.</span></p>
+        <div class="grp" data-rows='[["Referral","Logged in CRM"],["Source / referrer","Recorded"],["Funding","NDIS PM / SM / Private"],["First contact","Within 1 bus. day"],["Fit check","Reason, goals, comms pref"],["Clinician","Matched"],["Closing call","Booked (in writing)"]]'></div>
+        <div class="grp" data-label="On the call" data-rows='[["How we work","Explained"],["Fees / cancellations","Explained"],["Telehealth setup","Checked"],["Questions","Answered"],["Decision","Yes / Not now / Refer on"]]'></div>
+        <div class="gate"><span>Yes + welcome date locked</span><span class="g">Open</span></div>
+      </section>
+      <section class="box p2" data-phase="2">
+        <h4><span><span class="n">2</span>Takeoff</span><small>Welcome meeting</small></h4>
+        <p class="mi"><b>MI: Engage</b><span>Partnership before plans.</span></p>
+        <div class="grp" data-label="Before" data-rows='[["Service agreement","Signed"],["Consent + intake","Returned"],["Plan / budget","On file, checked"],["Telehealth link","Tested + sent"],["Agenda","Sent, plain language"]]'></div>
+        <div class="grp" data-label="During" data-rows='[["Introductions","Complete"],["Sensory / comms prefs","Camera, breaks, pace"],["What matters now","In their words"],["Roles + updates","Agreed"]]'></div>
+        <div class="gate"><span>Paperwork done + goals session booked</span><span class="g">Open</span></div>
+      </section>
+      <section class="box p3" data-phase="3">
+        <h4><span><span class="n">3</span>Flight plan</span><small>Goal setting</small></h4>
+        <p class="mi"><b>MI: Focus + evoke</b><span>Their goals, their words, their reasons.</span></p>
+        <div class="grp" data-rows='[["Assessments","As required"],["Goals","2 to 4 set"],["Wording","Client&#39;s own"],["Baseline + target","Set (GAS / COPM)"],["NDIS plan goals","Linked"],["Therapy plan","Frequency, length, home strategies"],["Hours vs budget","Mapped 12 mo"],["Goals","Shared"],["Q1 to Q4 check-ins","Booked now"]]'></div>
+        <div class="gate"><span>Client signs off goals</span><span class="g">Open</span></div>
+      </section>
+    </div>
+    <div class="col">
+      <section class="box p4" data-phase="4">
+        <h4><span><span class="n">4</span>Cruise</span><small>Quarterly check-ins</small></h4>
+        <p class="mi"><b>MI: Evoke + plan</b><span>Reflect progress. Let them name the next step.</span></p>
+        <div class="qs" id="qs">
+          <label class="q" for="q1"><input type="checkbox" id="q1"><span class="qn">Q1</span><span class="qd" data-m="3">Month 3</span><span class="qf">Early wins</span></label>
+          <label class="q" for="q2"><input type="checkbox" id="q2"><span class="qn">Q2</span><span class="qd" data-m="6">Month 6</span><span class="qf">Budget burn</span></label>
+          <label class="q" for="q3"><input type="checkbox" id="q3"><span class="qn">Q3</span><span class="qd" data-m="9">Month 9</span><span class="qf">Plan review evidence</span></label>
+          <label class="q" for="q4"><input type="checkbox" id="q4"><span class="qn">Q4</span><span class="qd" data-m="12">Month 12</span><span class="qf">Into landing</span></label>
+        </div>
+        <div class="grp" data-label="Every check-in" data-rows='[["Progress","Rated vs target"],["Client voice","First"],["Goals","Keep / tweak / retire"],["Hours used","Vs plan"],["Summary","Sent within 1 wk"],["Next check-in","Confirmed"]]'></div>
+        <div class="turb">
+          <p class="lbl">Turbulence: tap any that apply</p>
+          <div class="chips" id="turb">
+            <button class="chip" type="button" aria-pressed="false" data-t="Missed sessions">Missed sessions</button>
+            <button class="chip" type="button" aria-pressed="false" data-t="Funding change">Funding change</button>
+            <button class="chip" type="button" aria-pressed="false" data-t="Life event">Life event</button>
+            <button class="chip" type="button" aria-pressed="false" data-t="Stalled goal">Stalled goal</button>
+          </div>
+          <p class="alert" id="turbAlert" hidden><strong>Call early.</strong> Don't wait for the next quarter. Ask what's changed and what would help.</p>
+        </div>
+        <div class="gate"><span>All four check-ins done</span><span class="g">Open</span></div>
+      </section>
+      <section class="box p5" data-phase="5">
+        <h4><span><span class="n">5</span>Landing</span><small>12-month review</small></h4>
+        <p class="mi"><b>MI: Plan</b><span>They choose what's next. Every option is a good landing.</span></p>
+        <div class="grp" data-rows='[["Outcomes report","Written"],["NDIS reassessment","Report in on time"],["Wins","Celebrated"],["Feedback","Captured"]]'></div>
+        <div class="next" id="nextStep" role="group" aria-label="Next step">
+          <button class="chip" type="button" aria-pressed="false" data-n="New cycle">New cycle</button>
+          <button class="chip" type="button" aria-pressed="false" data-n="Step down">Step down</button>
+          <button class="chip" type="button" aria-pressed="false" data-n="Handover">Handover</button>
+        </div>
+        <div class="gate"><span>Next step chosen. New cycle: back to 3</span><span class="g">Open</span></div>
+      </section>
+    </div>
+  </div>
+  <div class="toolbar"><span class="msg" id="msg" aria-live="polite"></span><button class="btn" type="button" id="newClient">Start new client</button></div>
+</div></section>
+
+<!-- EXPERIENCE -->
+<section class="s" id="experience"><div class="wrap">
+  <div class="s-head"><p class="eyebrow">Why the route matters</p><h2>Client experience is therapy</h2><p>The admin around therapy isn't separate from therapy. A smooth journey keeps people in the work long enough for the work to help.</p></div>
+  <div class="loop">
+    <div class="node p1"><b>Smooth journey</b><span>Clear steps, fast replies, no surprises</span></div>
+    <div class="node p2"><b>Trust</b><span>They feel heard and safe</span></div>
+    <div class="node p3"><b>Engagement</b><span>They turn up and try things</span></div>
+    <div class="node p4"><b>Steady dose</b><span>Enough sessions, close enough together</span></div>
+    <div class="node p5"><b>Outcomes</b><span>Goals move. They tell others.</span></div>
+  </div>
+  <p class="loopback"><span>Outcomes feed trust</span><i></i><span>so the loop repeats</span></p>
+  <div class="reasons">
+    <article class="reason"><h4>The relationship does the work</h4><p>Across therapies, the working relationship is one of the most reliable predictors of outcome. Every touchpoint, from first reply to the review report, builds or wears it down.</p><p class="so">So: first contact within one business day, plain-language agendas, updates as agreed.</p></article>
+    <article class="reason"><h4>Dropping out ends progress</h4><p>A client who leaves at week four gets week-four results. Most "lost" clients don't quit therapy. They drift away after a gap nobody noticed.</p><p class="so">So: check-ins booked at the start, and turbulence called early.</p></article>
+    <article class="reason"><h4>Predictable lowers the load</h4><p>For neurodivergent clients, not knowing what happens next costs energy. A clear route frees that energy for the actual work.</p><p class="so">So: same route for everyone, sensory and comms preferences captured on day one.</p></article>
+    <article class="reason"><h4>Evidence needs a system</h4><p>NDIS plan reviews run on evidence. Baselines, ratings and summaries written along the way make the 12-month report easy and strong.</p><p class="so">So: baseline at Flight plan, ratings every check-in, summary within a week.</p></article>
+  </div>
+</div></section>
+
+<!-- GOALS -->
+<section class="s" id="goals"><div class="wrap">
+  <div class="s-head"><p class="eyebrow">Phase 3: Flight plan</p><h2>Why we set goals this way</h2><p>Goals are the steering wheel of therapy. Vague goals give vague therapy and weak NDIS evidence. Goals in the client's own words give them ownership.</p></div>
+  <div class="goals">
+    <div class="pair"><div class="weak"><span class="tagx">Weak</span><p>Improve executive functioning.</p></div><div class="arrow" aria-hidden="true">&rarr;</div><div class="strong"><span class="tagx">Strong</span><p>"Get out the door by 8:15 on school days, 4 out of 5 days, with one reminder."</p></div></div>
+    <div class="pair"><div class="weak"><span class="tagx">Weak</span><p>Better emotional regulation.</p></div><div class="arrow" aria-hidden="true">&rarr;</div><div class="strong"><span class="tagx">Strong</span><p>"Use my reset plan after gaming instead of a meltdown, most nights this term."</p></div></div>
+    <div class="pair"><div class="weak"><span class="tagx">Weak</span><p>Increase independence with daily living.</p></div><div class="arrow" aria-hidden="true">&rarr;</div><div class="strong"><span class="tagx">Strong</span><p>"Cook two of my own dinners a week without help."</p></div></div>
+  </div>
+  <div class="why3">
+    <div><b>Their words</b><span>Ownership drives effort. A goal they wrote is one they want.</span></div>
+    <div><b>2 to 4 goals</b><span>Enough to matter, few enough to remember.</span></div>
+    <div><b>Baseline + target</b><span>GAS or COPM ratings show change we can both see.</span></div>
+    <div><b>Linked to NDIS</b><span>Plan goals connect the work to the funding.</span></div>
+  </div>
+</div></section>
+
+<!-- MI -->
+<section class="s" id="mi"><div class="wrap">
+  <div class="s-head"><p class="eyebrow">How we talk across the journey</p><h2>Motivational interviewing</h2><p>MI is a way of talking that helps people find their own reasons to change. Miller and Rollnick's model has four processes. They map straight onto our route.</p></div>
+  <div class="procs">
+    <article class="proc p1"><span class="k">Engage</span><p class="q2">Can we work together?</p><p>Build the relationship. Listen more than you talk.</p><p class="where"><i>Pre-flight</i><i>Takeoff</i></p></article>
+    <article class="proc p3"><span class="k">Focus</span><p class="q2">What are we working on?</p><p>Agree the direction. Pick what matters most.</p><p class="where"><i>Flight plan</i></p></article>
+    <article class="proc p4"><span class="k">Evoke</span><p class="q2">Why would they change?</p><p>Draw out their own reasons. Don't supply yours.</p><p class="where"><i>Flight plan</i><i>Cruise</i></p></article>
+    <article class="proc p5"><span class="k">Plan</span><p class="q2">How, and what next?</p><p>Turn their reasons into steps they choose.</p><p class="where"><i>Cruise</i><i>Landing</i></p></article>
+  </div>
+
+  <h3 class="sub">The four core skills: OARS</h3>
+  <div class="oars">
+    <div><span class="L">O</span><b>Open questions</b><q>What would a good morning look like?</q></div>
+    <div><span class="L">A</span><b>Affirmations</b><q>You kept trying even when the plan fell apart.</q></div>
+    <div><span class="L">R</span><b>Reflections</b><q>Mornings take everything you've got.</q></div>
+    <div><span class="L">S</span><b>Summaries</b><q>So the routine works, until something changes. Then it all goes.</q></div>
+  </div>
+
+  <h3 class="sub">Listen for change talk</h3>
+  <div class="darn">
+    <div><h4>Preparing to change</h4><ul>
+      <li><b>Desire</b><span>"I want to get to school on time."</span></li>
+      <li><b>Ability</b><span>"I could probably do it with a checklist."</span></li>
+      <li><b>Reasons</b><span>"Then I wouldn't get in trouble."</span></li>
+      <li><b>Need</b><span>"I have to sort this before year 11."</span></li>
+    </ul></div>
+    <div><h4>Moving to change</h4><ul>
+      <li><b>Commitment</b><span>"I'm going to try it this week."</span></li>
+      <li><b>Activation</b><span>"I'm ready to give it a go."</span></li>
+      <li><b>Taking steps</b><span>"I set two alarms last night."</span></li>
+    </ul></div>
+  </div>
+  <div class="nd"><strong>The Estus way: MI, neuroaffirming.</strong> MI is never a trick to get compliance. We use it to find the client's own reasons.
+    <ul>
+      <li>Ask one question at a time. Leave silence. Chat or typing is fine.</li>
+      <li>Literal questions beat clever ones. Offer two or three options in writing if that helps.</li>
+      <li>Resist the "righting reflex": the urge to fix it for them.</li>
+      <li>Reflect the barrier, not a flaw: "Mornings ask a lot of your brain."</li>
+    </ul>
+  </div>
+</div></section>
+
+<!-- PRACTICE -->
+<section class="s" id="practice"><div class="wrap">
+  <div class="s-head"><p class="eyebrow">Active recall</p><h2>Practice: pick the MI response</h2><p>Read what the client said. Pick the response that keeps them talking about their own reasons.</p></div>
+  <div class="quiz" id="quiz">
+    <div class="qhead"><span id="qPos">1 of 4</span><span id="qScore">Score 0</span></div>
+    <p class="said" id="qSaid"></p>
+    <div class="opts" id="qOpts"></div>
+    <div class="fb" id="qFb" hidden></div>
+    <div class="qnav"><span></span><button class="btn primary" type="button" id="qNext" disabled>Next</button></div>
+  </div>
+</div></section>
+
+<!-- CONTINUITY -->
+<section class="s" id="continuity"><div class="wrap">
+  <div class="s-head"><p class="eyebrow">The business side</p><h2>Why Hormozi keeps talking about continuity</h2><p>In <em>$100M Money Models</em>, Hormozi sorts offers into four types. Continuity is the one that stacks.</p></div>
+  <div class="offers">
+    <div class="offer"><b>Attraction</b><span>Gets a first yes. For us: the free welcome call.</span></div>
+    <div class="offer"><b>Upsell</b><span>More value straight after. For us: adding a Small Hinges program.</span></div>
+    <div class="offer"><b>Downsell</b><span>A smaller yes after a no. For us: a shorter block or fewer sessions.</span></div>
+    <div class="offer hl"><b>Continuity</b><span>Value that repeats over time. For us: ongoing OT through the year.</span></div>
+  </div>
+  <div class="formula">
+    <span class="t">Max clients = <em>new per month</em> &divide; <em>% leaving per month</em></span>
+    <p>His "hypothetical max". Growth flattens when leavers equal joiners. Cutting churn raises the ceiling more than finding more leads.</p>
+  </div>
+
+  <div class="calc">
+    <div class="inputs">
+      <div class="inp"><label for="c_new">New clients per month <output id="o_new"></output></label><input type="range" id="c_new" min="1" max="30" value="6"></div>
+      <div class="inp"><label for="c_churn">Leaving per month <output id="o_churn"></output></label><input type="range" id="c_churn" min="1" max="25" step="0.5" value="8"></div>
+      <div class="inp"><label for="c_sess">Sessions per client per month <output id="o_sess"></output></label><input type="range" id="c_sess" min="1" max="8" step="0.5" value="3"></div>
+      <div class="inp"><label for="c_fee">Fee per session ($)</label><input type="number" id="c_fee" min="0" step="1" value="190"></div>
+      <p class="ex">Example numbers. Change them to yours.</p>
+    </div>
+    <div class="res">
+      <div class="tile big"><span class="k">Ceiling: active clients</span><span class="v" id="r_max">0</span></div>
+      <div class="tile"><span class="k">Avg months per client</span><span class="v" id="r_months">0</span></div>
+      <div class="tile"><span class="k">Value per client</span><span class="v" id="r_ltv">$0</span></div>
+      <div class="tile"><span class="k">Monthly revenue at ceiling</span><span class="v" id="r_rev">$0</span></div>
+      <div class="levers">
+        <div class="lever p4"><b>Leaving drops by 2 points</b><span id="r_l1"></span></div>
+        <div class="lever p1"><b>2 more new clients a month</b><span id="r_l2"></span></div>
+      </div>
+      <div class="chart" id="chart" aria-label="Active clients over 36 months, approaching the ceiling"></div>
+    </div>
+  </div>
+
+  <div class="guard">
+    <div class="yes"><h4>Continuity in health: earned</h4><ul>
+      <li>Clients stay because the goals keep moving.</li>
+      <li>Q1 to Q4 check-ins booked at the start keep the dose steady.</li>
+      <li>Rebooking and cancellations are the churn levers we track in every <a href="check.html">Clinician Check</a>.</li>
+      <li>Steady caseloads mean predictable income for clinicians.</li>
+    </ul></div>
+    <div class="no"><h4>Never engineered</h4><ul>
+      <li>No lock-in contracts, no pressure to stay.</li>
+      <li>No promised outcomes or fake urgency.</li>
+      <li>Step down and handover are good landings, not losses.</li>
+      <li>NDIS funds goals, not retention. The report must stand on its own.</li>
+    </ul></div>
+  </div>
+  <p class="estus"><strong>The Gym Launch lesson.</strong> Hormozi sold a big one-off package, and revenue reset to zero every month. Adding a reason to stay on an ongoing program changed everything. Our version is simple: the route itself is the reason to stay. Clients can see where they are going and how far they've come.</p>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  <p>Estus Health · Neuroaffirming OT · Perth · Telehealth Australia-wide · EH-C1</p>
+  <p style="margin-top:10px">Sources:</p>
+  <ul>
+    <li><a href="https://rosetta.to/u/alexhormozi/my-business-has-stopped-growing-what-should-i-do" target="_blank" rel="noopener">Hormozi on the hypothetical max (transcript)</a></li>
+    <li><a href="https://jxnl.co/writing/2025/08/20/the-100m-money-models-the-complete-report" target="_blank" rel="noopener">$100M Money Models: the four offer types (summary)</a></li>
+    <li><a href="https://www.guilford.com/books/Motivational-Interviewing/Miller-Rollnick/9781462552795" target="_blank" rel="noopener">Miller and Rollnick, Motivational Interviewing, 4th ed. (2023)</a></li>
+  </ul>
+</div></footer>
+
+<script>
+(function(){
+  var $=function(id){return document.getElementById(id)};
+  var KEY='cj_draft';
+  function load(){try{return JSON.parse(localStorage.getItem(KEY))||null}catch(e){return null}}
+  function save(v){try{localStorage.setItem(KEY,JSON.stringify(v))}catch(e){}}
+
+  // checklist rows
+  var rid=0;
+  document.querySelectorAll('[data-rows]').forEach(function(g){
+    if(g.dataset.label){var l=document.createElement('p');l.className='lbl';l.textContent=g.dataset.label;g.appendChild(l)}
+    JSON.parse(g.dataset.rows).forEach(function(r){
+      var id='j'+(rid++);var lab=document.createElement('label');lab.className='row';lab.htmlFor=id;
+      lab.innerHTML='<input type="checkbox" id="'+id+'"><span class="bx" aria-hidden="true"></span><span class="item"></span><span class="dots"></span><span class="resp"></span>';
+      lab.querySelector('.item').textContent=r[0];lab.querySelector('.resp').textContent=r[1];g.appendChild(lab);
+    });
+  });
+  function press(group,multi){
+    group.querySelectorAll('.chip').forEach(function(b){b.addEventListener('click',function(){
+      var on=b.getAttribute('aria-pressed')!=='true';
+      if(!multi)group.querySelectorAll('.chip').forEach(function(x){x.setAttribute('aria-pressed','false')});
+      b.setAttribute('aria-pressed',on);update();
+    })});
+  }
+  press($('turb'),true);press($('nextStep'),false);
+
+  var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  function qdates(){
+    var v=$('j_start').value;
+    document.querySelectorAll('.qd').forEach(function(el){
+      var m=+el.dataset.m;
+      if(!v){el.textContent='Month '+m;return}
+      var y=+v.slice(0,4),mo=+v.slice(5,7)-1,d=+v.slice(8,10);
+      var t=new Date(Date.UTC(y,mo+m,1));var last=new Date(Date.UTC(t.getUTCFullYear(),t.getUTCMonth()+1,0)).getUTCDate();
+      el.textContent=Math.min(d,last)+' '+MON[t.getUTCMonth()]+' '+String(t.getUTCFullYear()).slice(2);
+    });
+  }
+
+  function collect(){
+    var d={f:{},c:{},t:[],n:''};
+    ['j_client','j_clin','j_start'].forEach(function(k){d.f[k]=$(k).value});
+    document.querySelectorAll('#track input[type=checkbox]').forEach(function(x){d.c[x.id]=x.checked});
+    $('turb').querySelectorAll('[aria-pressed="true"]').forEach(function(b){d.t.push(b.dataset.t)});
+    var n=$('nextStep').querySelector('[aria-pressed="true"]');d.n=n?n.dataset.n:'';
+    return d;
+  }
+  function apply(d){
+    if(!d)return;
+    Object.keys(d.f||{}).forEach(function(k){$(k).value=d.f[k]||''});
+    Object.keys(d.c||{}).forEach(function(k){if($(k))$(k).checked=d.c[k]});
+    $('turb').querySelectorAll('.chip').forEach(function(b){b.setAttribute('aria-pressed',(d.t||[]).indexOf(b.dataset.t)>-1)});
+    $('nextStep').querySelectorAll('.chip').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.n===d.n)});
+  }
+  function update(){
+    qdates();
+    var strip=$('strip').children,first=-1;
+    document.querySelectorAll('[data-phase]').forEach(function(sec,i){
+      var boxes=[].slice.call(sec.querySelectorAll('input[type=checkbox]'));
+      var ok=boxes.length&&boxes.every(function(x){return x.checked});
+      if(sec.dataset.phase==='5')ok=ok&&!!$('nextStep').querySelector('[aria-pressed="true"]');
+      sec.querySelector('.gate').classList.toggle('ok',ok);
+      sec.querySelector('.gate .g').textContent=ok?'Cleared':'Open';
+      strip[i].classList.toggle('done',ok);strip[i].classList.remove('now');
+      strip[i].querySelector('span').textContent=ok?'Cleared':'Open';
+      if(!ok&&first<0)first=i;
+    });
+    if(first>-1){strip[first].classList.add('now');strip[first].querySelector('span').textContent='Now'}
+    $('turbAlert').hidden=!$('turb').querySelector('[aria-pressed="true"]');
+    save(collect());
+  }
+  $('track').addEventListener('change',update);
+  $('track').addEventListener('input',update);
+  var armed=false;
+  $('newClient').addEventListener('click',function(){
+    var b=$('newClient');
+    if(!armed){armed=true;b.textContent='Tap again to clear';setTimeout(function(){armed=false;b.textContent='Start new client'},3000);return}
+    armed=false;b.textContent='Start new client';
+    try{localStorage.removeItem(KEY)}catch(e){}
+    document.querySelectorAll('#track input').forEach(function(x){if(x.type==='checkbox')x.checked=false;else x.value=''});
+    document.querySelectorAll('#track .chip').forEach(function(x){x.setAttribute('aria-pressed','false')});
+    update();$('msg').textContent='Cleared. Ready for a new client.';setTimeout(function(){$('msg').textContent=''},3000);
+  });
+  apply(load());update();
+
+  // MI quiz
+  var Q=[
+    {s:'"I know I should do the morning routine. I just never do."',o:[
+      ['You need to set an alarm and stick to it.',0,'This is the righting reflex. It supplies our solution and invites "yes, but".'],
+      ['Part of you wants mornings to be different.',1,'A reflection that picks up the change talk ("should"). It invites them to say more about their own reasons.'],
+      ['Why don\'t you do it?',0,'A "why" question about failing tends to pull sustain talk and can feel like blame.']]},
+    {s:'"My mum made me come. I don\'t think I need OT."',o:[
+      ['You\'re here, so let\'s make the most of it.',0,'Pushes past the ambivalence instead of engaging with it.'],
+      ['Coming here wasn\'t your idea, and you\'re not sure it\'s for you.',1,'Reflects without arguing. It respects their autonomy, which is what lowers resistance in the Engage phase.'],
+      ['Your mum is worried about you, you know.',0,'Takes a side in the argument. Expect them to defend their position.']]},
+    {s:'"I tried a planner before. It lasted two days."',o:[
+      ['What made the first two days work?',1,'An open question that looks for ability. Two days is a success to build on.'],
+      ['Planners don\'t work for ADHD brains anyway.',0,'Our opinion, and a label. It closes the conversation instead of evoking their experience.'],
+      ['Let\'s try a better planner this time.',0,'Jumps to Plan before Evoke. They haven\'t said what they want yet.']]},
+    {s:'"I\'ve started packing my bag the night before. Sort of."',o:[
+      ['Sort of? Are you doing it or not?',0,'Focuses on the gap and sounds like a test.'],
+      ['You\'ve already taken a step. How has it gone so far?',1,'Affirms taking steps (change talk) and asks for more. This builds momentum in the Cruise phase.'],
+      ['Great. Now add your lunch too.',0,'Stacks a new task straight away. One change at a time, chosen by them.']]}
+  ];
+  var qi=0,score=0;
+  function showQ(){
+    var q=Q[qi];$('qPos').textContent=(qi+1)+' of '+Q.length;$('qScore').textContent='Score '+score;
+    $('qSaid').textContent=q.s;$('qFb').hidden=true;$('qNext').disabled=true;
+    $('qNext').textContent=qi===Q.length-1?'See score':'Next';
+    var box=$('qOpts');box.innerHTML='';
+    q.o.forEach(function(o){
+      var b=document.createElement('button');b.type='button';b.textContent=o[0];
+      b.addEventListener('click',function(){
+        box.querySelectorAll('button').forEach(function(x,i){x.disabled=true;if(q.o[i][1])x.classList.add('right')});
+        if(o[1]){score++}else{b.classList.add('wrong')}
+        $('qScore').textContent='Score '+score;
+        $('qFb').innerHTML='';var t=document.createElement('b');t.textContent=o[1]?'Nice, that\'s MI.':'Not quite.';$('qFb').appendChild(t);$('qFb').appendChild(document.createTextNode(o[2]));
+        $('qFb').hidden=false;$('qNext').disabled=false;$('qNext').focus();
+      });
+      box.appendChild(b);
+    });
+  }
+  $('qNext').addEventListener('click',function(){
+    if(qi<Q.length-1){qi++;showQ();return}
+    $('qSaid').textContent='You scored '+score+' of '+Q.length+'.';
+    $('qOpts').innerHTML='';$('qFb').innerHTML='<b>Lock it in.</b>Run the ones you missed out loud with a colleague, three clean reps each.';$('qFb').hidden=false;
+    $('qPos').textContent='Done';$('qNext').textContent='Start again';$('qNext').onclick=function(){qi=0;score=0;$('qNext').onclick=null;showQ()};
+  });
+  showQ();
+
+  // continuity calculator
+  function money(n){return '$'+Math.round(n).toLocaleString('en-AU')}
+  function draw(newM,churn,max){
+    var W=640,H=200,L=44,R=12,T=16,B=28,months=36,pts=[],a=0;
+    for(var m=0;m<=months;m++){pts.push(a);a=a*(1-churn)+newM}
+    var top=Math.max(max,1)*1.12;
+    var x=function(m){return L+(W-L-R)*m/months},y=function(v){return T+(H-T-B)*(1-v/top)};
+    var d=pts.map(function(v,m){return (m?'L':'M')+x(m).toFixed(1)+' '+y(v).toFixed(1)}).join(' ');
+    var area=d+' L'+x(months)+' '+y(0)+' L'+x(0)+' '+y(0)+' Z';
+    var ticks=[0,12,24,36].map(function(m){return '<text x="'+x(m)+'" y="'+(H-8)+'" text-anchor="middle" font-size="11" fill="var(--muted)">'+(m?m+' mo':'Start')+'</text><line x1="'+x(m)+'" x2="'+x(m)+'" y1="'+T+'" y2="'+(H-B)+'" stroke="var(--rule)"/>'}).join('');
+    $('chart').innerHTML='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Active clients climb toward a ceiling of '+Math.round(max)+'">'+ticks+
+      '<path d="'+area+'" fill="var(--plum)" fill-opacity=".12"/>'+
+      '<line x1="'+L+'" x2="'+(W-R)+'" y1="'+y(max)+'" y2="'+y(max)+'" stroke="var(--plum)" stroke-dasharray="4 4"/>'+
+      '<text x="'+(L+4)+'" y="'+(y(max)-6)+'" font-size="11" fill="var(--plum)" font-weight="600">Ceiling '+Math.round(max)+'</text>'+
+      '<path d="'+d+'" fill="none" stroke="var(--plum)" stroke-width="2"/>'+
+      '<circle cx="'+x(months)+'" cy="'+y(pts[months])+'" r="4" fill="var(--plum)"/>'+
+      '<text x="'+(L-6)+'" y="'+(y(0)+4)+'" font-size="11" text-anchor="end" fill="var(--muted)">0</text></svg>';
+  }
+  function calc(){
+    var n=+$('c_new').value,c=+$('c_churn').value/100,s=+$('c_sess').value,f=Math.max(0,+$('c_fee').value||0);
+    $('o_new').textContent=n;$('o_churn').textContent=(+$('c_churn').value).toFixed(1).replace('.0','')+'%';$('o_sess').textContent=s;
+    var max=n/c,months=1/c,ltv=months*s*f,rev=max*s*f;
+    $('r_max').textContent=Math.round(max);$('r_months').textContent=months.toFixed(1);$('r_ltv').textContent=money(ltv);$('r_rev').textContent=money(rev);
+    var c2=Math.max(0.005,c-0.02),max2=n/c2,max3=(n+2)/c;
+    $('r_l1').textContent='Ceiling goes from '+Math.round(max)+' to '+Math.round(max2)+' clients (+'+Math.round(max2-max)+').';
+    $('r_l2').textContent='Ceiling goes from '+Math.round(max)+' to '+Math.round(max3)+' clients (+'+Math.round(max3-max)+').';
+    draw(n,c,max);
+  }
+  ['c_new','c_churn','c_sess','c_fee'].forEach(function(id){$(id).addEventListener('input',calc)});
+  calc();
+})();
+</script>
+</body></html>

@@ -1,0 +1,398 @@
+<!doctype html><html lang="en-AU"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body><style>
+.ehub{background:#090909;color:#FBFAF8;border-bottom:1px solid #2C323C;position:relative;z-index:6}
+.ehub-in{max-width:1120px;margin:0 auto;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));display:flex;justify-content:space-between;align-items:center;gap:10px 16px;flex-wrap:wrap}
+.ehub a{color:inherit;text-decoration:none}
+.ehub-home{display:flex;align-items:center;gap:12px;min-height:36px}
+.ehub-bands{display:flex;width:56px;height:5px;flex:none}.ehub-bands i{flex:1}
+.ehub-bands i:nth-child(1){background:#344982}.ehub-bands i:nth-child(2){background:#2F6F9E}.ehub-bands i:nth-child(3){background:#2CA5B8}.ehub-bands i:nth-child(4){background:#AB5C95}
+.ehub-wm{font:500 14px/1 "Oswald","Arial Narrow",Impact,sans-serif;letter-spacing:.16em}.ehub-wm b{font-weight:700}
+.ehub-sep{font:600 12px/1 "Barlow Semi Condensed","Arial Narrow",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#AEB5C2;border-left:1px solid #3A3F48;padding-left:12px}
+.ehub-home:hover .ehub-sep{color:#FBFAF8}
+.ehub-r{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ehub-btn{font:600 12px/1 "Barlow Semi Condensed","Arial Narrow",sans-serif;letter-spacing:.1em;text-transform:uppercase;border:1px solid #3A3F48;background:none;color:#FBFAF8;padding:9px 12px;cursor:pointer;min-height:36px;display:inline-flex;align-items:center;gap:8px}
+.ehub-btn:hover{border-color:#FBFAF8}
+.ehub-btn[aria-pressed="true"]{background:#2E7D4F;border-color:#2E7D4F}
+.ehub-btn:focus-visible,.ehub a:focus-visible{outline:2px solid #2CA5B8;outline-offset:2px}
+.ehub-next{background:#FBFAF8!important;color:#090909!important;border-color:#FBFAF8}
+@media (max-width:520px){.ehub-sep{display:none}.ehub-next .ehub-nl{display:none}}
+@media print{.ehub{display:none}}
+</style>
+<nav class="ehub" aria-label="Estus Training Hub" style="margin:0"><div class="ehub-in">
+<a class="ehub-home" href="index.html"><span class="ehub-bands" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="ehub-wm"><b>ESTUS</b> HEALTH</span><span class="ehub-sep">&larr; Training Hub</span></a>
+<div class="ehub-r"><button class="ehub-btn" type="button" id="ehub-done" aria-pressed="false">Mark done</button><a class="ehub-btn ehub-next" href="nurture.html"><span class="ehub-nl">Next:</span> Nurture Trainer <span aria-hidden="true">&rarr;</span></a></div>
+</div></nav>
+<script>(function(){var K="hub_done",s="welcome",b=document.getElementById("ehub-done");function l(){try{return JSON.parse(localStorage.getItem(K))||{}}catch(e){return {}}}function r(){var on=!!l()[s];b.setAttribute("aria-pressed",on);b.textContent=on?"\u2713 Done":"Mark done"}b.addEventListener("click",function(){var v=l();if(v[s])delete v[s];else v[s]=1;try{localStorage.setItem(K,JSON.stringify(v))}catch(e){}r()});r()})();</script>
+
+<title>Estus Welcome Call Playbook</title><meta name="robots" content="noindex, nofollow"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 fill=%22%23090909%22/%3E%3Crect x=%224%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23344982%22/%3E%3Crect x=%2210%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232F6F9E%22/%3E%3Crect x=%2216%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232CA5B8%22/%3E%3Crect x=%2222%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23AB5C95%22/%3E%3C/svg%3E">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@600;700&display=swap">
+<style>
+/* Layout: black masthead, sticky jump bar, then three stacked tools: the call frame, the objection finder, the templates. Single light brand theme by choice. */
+:root {
+  color-scheme: light;
+  --bone: #FBFAF8; --paper: #FFFFFF; --ink: #090909; --soft: #3F434B; --hair: #D5D8DE; --mist: #EEF1F7;
+  --navy: #344982; --blue: #2F6F9E; --teal: #2CA5B8; --teal-ink: #1E7C8B; --plum: #AB5C95; --plum-ink: #8E4A7B; --sky: #DCE8F1;
+  --display: Oswald, Impact, "Arial Narrow", sans-serif;
+  --body: Barlow, "Segoe UI", system-ui, sans-serif;
+  --label: "Barlow Semi Condensed", Barlow, "Arial Narrow", sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bone); color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.5; }
+.inner { max-width: 1040px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--ink); }
+.mast { background: var(--ink); color: var(--bone); }
+.mast .inner { padding-block: 22px 26px; display: flex; flex-direction: column; gap: 10px; }
+.stripe { display: flex; width: 120px; height: 5px; } .stripe i { flex: 1; }
+.stripe i:nth-child(1){background:var(--navy)} .stripe i:nth-child(2){background:var(--blue)} .stripe i:nth-child(3){background:var(--teal)} .stripe i:nth-child(4){background:var(--plum)}
+.word { font-family: var(--display); letter-spacing: .18em; font-size: 15px; }
+h1 { font-family: var(--display); font-weight: 700; text-transform: uppercase; font-size: clamp(34px, 6vw, 56px); line-height: .98; margin: 6px 0 0; text-wrap: balance; }
+.mast p { margin: 0; color: #C9CED9; max-width: 62ch; }
+.jump { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bone); border-bottom: 2px solid var(--ink); }
+.jump .inner { display: flex; gap: 8px; padding-block: 10px; overflow-x: auto; }
+.jump a { flex: none; font-family: var(--label); font-weight: 700; font-size: 15px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink); text-decoration: none; border: 2px solid var(--ink); padding: 8px 14px; min-height: 44px; display: inline-flex; align-items: center; background: var(--paper); }
+.jump a:hover { background: var(--mist); }
+main { padding-block: 40px 80px; display: flex; flex-direction: column; gap: 64px; }
+section { scroll-margin-top: 80px; }
+.eyebrow { font-family: var(--label); font-weight: 700; font-size: 14px; letter-spacing: .18em; text-transform: uppercase; color: var(--blue); }
+h2 { font-family: var(--display); font-weight: 600; text-transform: uppercase; font-size: clamp(28px, 4vw, 40px); line-height: 1.05; margin: 4px 0 8px; }
+.lede { margin: 0 0 22px; color: var(--soft); max-width: 66ch; }
+.lab { display: block; font-family: var(--label); font-weight: 700; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--soft); margin-bottom: 4px; }
+
+/* CLOSER */
+.timeline { display: flex; height: 14px; border: 2px solid var(--ink); margin: 0 0 6px; }
+.timeline i { display: block; height: 100%; border-right: 1px solid var(--ink); }
+.timeline i:last-child { border-right: 0; }
+.tl-key { display: flex; justify-content: space-between; font-family: var(--label); font-weight: 700; font-size: 13px; color: var(--soft); margin-bottom: 18px; }
+.steps { list-style: none; margin: 0; padding: 0; border: 2px solid var(--ink); background: var(--paper); }
+.step { display: grid; grid-template-columns: 84px minmax(0, 1fr); border-bottom: 1px solid var(--ink); }
+.step:last-child { border-bottom: 0; }
+.letter { font-family: var(--display); font-weight: 700; font-size: 52px; line-height: 1; display: flex; align-items: flex-start; justify-content: center; padding-top: 18px; color: #fff; }
+.s-navy .letter { background: var(--navy); } .s-blue .letter { background: var(--blue); } .s-teal .letter { background: var(--teal-ink); } .s-plum .letter { background: var(--plum-ink); }
+.sbody { padding: 18px 20px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.shead { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.shead h3 { margin: 0; font-family: var(--display); font-weight: 600; font-size: 24px; text-transform: uppercase; line-height: 1.1; }
+.mins { font-family: var(--label); font-weight: 700; font-size: 14px; letter-spacing: .08em; border: 1.5px solid var(--ink); padding: 2px 8px; white-space: nowrap; }
+.say { background: var(--mist); padding: 10px 14px; border-left: 5px solid var(--ink); }
+.say p { margin: 0 0 4px; font-weight: 600; } .say p:last-child { margin: 0; }
+.row2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+.row2 p { margin: 0; color: var(--soft); }
+.vs { margin-top: 18px; border: 2px solid var(--ink); background: var(--paper); display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.vs > div { padding: 16px 18px; border-right: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+.vs ul { margin: 6px 0 0; padding-left: 18px; color: var(--soft); }
+.vs li { margin-bottom: 4px; }
+
+/* Objections */
+.tools { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 14px; }
+.tools label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+#q { flex: 1 1 260px; min-width: 0; font: inherit; font-size: 17px; padding: 10px 14px; min-height: 48px; border: 2px solid var(--ink); background: var(--paper); color: var(--ink); }
+.chip { font-family: var(--label); font-weight: 700; font-size: 15px; letter-spacing: .06em; text-transform: uppercase; min-height: 44px; padding: 6px 14px; border: 2px solid var(--ink); background: var(--paper); color: var(--ink); cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--ink); color: #fff; }
+.count { font-family: var(--label); font-weight: 700; font-size: 14px; color: var(--soft); margin: 0 0 10px; }
+.objs { border-top: 2px solid var(--ink); }
+.obj { border-bottom: 1px solid var(--ink); background: var(--paper); }
+.obj summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 76px minmax(0, 1fr) 28px; gap: 12px; align-items: center; padding: 14px 16px; min-height: 52px; }
+.obj summary::-webkit-details-marker { display: none; }
+.cat { font-family: var(--label); font-weight: 700; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--plum-ink); }
+.q { font-weight: 700; font-size: 18px; }
+.plus { font-family: var(--display); font-size: 26px; line-height: 1; color: var(--navy); text-align: right; }
+.obj[open] .plus { transform: rotate(45deg); }
+.oa { padding: 0 16px 18px; display: flex; flex-direction: column; gap: 12px; }
+.oa p { margin: 0; }
+.mean { color: var(--soft); }
+.avoid { color: var(--plum-ink); }
+.empty { padding: 18px 16px; color: var(--soft); }
+
+/* Templates */
+.tfilter { display: flex; gap: 10px; margin-bottom: 18px; }
+#tq { flex: 1 1 auto; min-width: 0; font: inherit; font-size: 17px; padding: 10px 14px; min-height: 48px; border: 2px solid var(--ink); background: var(--paper); color: var(--ink); }
+.tgroup { display: flex; flex-direction: column; gap: 14px; margin-bottom: 30px; }
+.tgroup h3 { margin: 0; font-family: var(--display); font-weight: 600; font-size: 22px; text-transform: uppercase; border-top: 3px solid var(--ink); padding-top: 12px; }
+.gi { margin: -8px 0 0; color: var(--soft); font-size: 15px; }
+.tpl { background: var(--paper); border: 2px solid var(--ink); padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; }
+.bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 10px; }
+.meta { font-size: 14px; color: var(--soft); min-width: 0; } .meta b { display: block; font-size: 18px; color: var(--ink); margin-top: 2px; }
+.subj { display: block; font-size: 15px; color: var(--ink); margin-top: 2px; }
+.tag { display: inline-block; font-family: var(--label); font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 2px 8px; color: #fff; }
+.tag.email { background: var(--navy); } .tag.sms { background: var(--plum-ink); }
+.copy { font-family: var(--display); font-weight: 500; font-size: 16px; letter-spacing: .06em; text-transform: uppercase; min-height: 44px; padding: 8px 16px; background: var(--teal); color: var(--ink); border: 2px solid var(--ink); cursor: pointer; }
+.status { font-size: 13px; color: var(--teal-ink); font-weight: 600; min-height: 1em; }
+.prev summary { cursor: pointer; font-family: var(--label); font-weight: 700; font-size: 14px; letter-spacing: .08em; text-transform: uppercase; color: var(--navy); min-height: 32px; }
+.mail { border: 1px dashed #9AA0AB; padding: 10px; overflow-x: auto; margin-top: 8px; }
+.sms { background: var(--mist); padding: 12px 14px; font-size: 16px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.guard { border: 2px solid var(--ink); background: var(--ink); color: var(--bone); padding: 22px; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
+.guard h3 { margin: 0 0 6px; font-family: var(--display); font-weight: 600; text-transform: uppercase; font-size: 20px; }
+.guard ul { margin: 0; padding-left: 18px; color: #C9CED9; }
+.guard li { margin-bottom: 5px; }
+.guard .no h3 { color: #F2B7DF; } .guard .yes h3 { color: #7FD3E0; }
+a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
+@media (max-width: 560px) {
+  .step { grid-template-columns: 52px minmax(0, 1fr); }
+  .letter { font-size: 34px; }
+  .obj summary { grid-template-columns: minmax(0, 1fr) 24px; }
+  .cat { grid-column: 1 / -1; }
+}
+@media (prefers-reduced-motion: no-preference) { .plus { transition: transform .2s ease; } .chip, .jump a { transition: background .15s ease; } }
+</style>
+
+<header class="mast">
+  <div class="inner">
+    <span class="stripe" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+    <span class="word"><b>ESTUS</b> HEALTH</span>
+    <h1>Welcome call playbook</h1>
+    <p>For Nik, Nam and the team. How to run the free 15 minute call, answer the usual worries, and follow up with the right message.</p>
+  </div>
+</header>
+
+<nav class="jump" aria-label="Sections">
+  <div class="inner">
+    <a href="#closer">The call (CLOSER)</a>
+    <a href="#objections">Objections</a>
+    <a href="#templates">Templates</a>
+    <a href="#guardrails">Guardrails</a>
+  </div>
+</nav>
+
+<main class="inner">
+
+  <section id="closer" aria-labelledby="closer-h">
+    <span class="eyebrow">15 minutes, six moves</span>
+    <h2 id="closer-h">The call: CLOSER, the Estus way</h2>
+    <p class="lede">Hormozi's CLOSER frame, adapted for a neuroaffirming, Ahpra-safe welcome call. Same order, gentler moves: we label the barrier, show the destination and respect the decision. The aim is a clear, easy choice, not a hard sell.</p>
+    <div class="timeline" aria-hidden="true">
+      <i style="flex:2;background:var(--navy)"></i><i style="flex:1;background:var(--blue)"></i><i style="flex:2;background:var(--teal-ink)"></i><i style="flex:3;background:var(--plum-ink)"></i><i style="flex:4;background:var(--navy)"></i><i style="flex:3;background:var(--blue)"></i>
+    </div>
+    <div class="tl-key"><span>0 min</span><span>15 min</span></div>
+    <ol class="steps"><li class="step s-navy"><div class="letter" aria-hidden="true">C</div><div class="sbody">
+<div class="shead"><h3>Clarify why they are here</h3><span class="mins">2 min</span></div>
+<div class="say"><span class="lab">Say</span><p>&quot;What made you reach out now?&quot;</p><p>&quot;If this call goes well, what would you want to walk away with?&quot;</p></div>
+<div class="row2"><div><span class="lab">Listen for</span><p>The trigger. Something changed: school, work, burnout, a diagnosis.</p></div><div><span class="lab">Neuroaffirming tweak</span><p>Ask one question at a time. Let silence sit. Typing in chat is fine.</p></div></div>
+</div></li><li class="step s-blue"><div class="letter" aria-hidden="true">L</div><div class="sbody">
+<div class="shead"><h3>Label the barrier, not the person</h3><span class="mins">1 min</span></div>
+<div class="say"><span class="lab">Say</span><p>&quot;So the hard part isn&#x27;t knowing what to do. It&#x27;s getting started.&quot;</p><p>&quot;Have I got that right?&quot;</p></div>
+<div class="row2"><div><span class="lab">Listen for</span><p>A clear yes. If not, ask again. Use their words, not clinical ones.</p></div><div><span class="lab">Neuroaffirming tweak</span><p>Name the environment or demand, never a flaw. &quot;Mornings ask a lot of your brain&quot;, not &quot;you struggle with mornings&quot;.</p></div></div>
+</div></li><li class="step s-teal"><div class="letter" aria-hidden="true">O</div><div class="sbody">
+<div class="shead"><h3>Overview what has been tried</h3><span class="mins">2 min</span></div>
+<div class="say"><span class="lab">Say</span><p>&quot;What have you tried so far?&quot;</p><p>&quot;What helped, even a little? What made it worse?&quot;</p></div>
+<div class="row2"><div><span class="lab">Listen for</span><p>Past OT, psych, apps, school plans. What they liked about each.</p></div><div><span class="lab">Neuroaffirming tweak</span><p>No blame for what didn&#x27;t work. &quot;That approach didn&#x27;t fit your brain&quot; is enough.</p></div></div>
+</div></li><li class="step s-plum"><div class="letter" aria-hidden="true">S</div><div class="sbody">
+<div class="shead"><h3>Show the destination</h3><span class="mins">3 min</span></div>
+<div class="say"><span class="lab">Say</span><p>&quot;What would a good week look like?&quot;</p><p>&quot;Here&#x27;s how we&#x27;d start: [ongoing OT / Small Hinges]. You&#x27;d work with [Nik / Nam].&quot;</p></div>
+<div class="row2"><div><span class="lab">Listen for</span><p>A concrete picture in their words: getting to school, finishing work, sleeping.</p></div><div><span class="lab">Neuroaffirming tweak</span><p>Describe the plan and the person, not results. Never promise outcomes or timeframes.</p></div></div>
+</div></li><li class="step s-navy"><div class="letter" aria-hidden="true">E</div><div class="sbody">
+<div class="shead"><h3>Explain away concerns</h3><span class="mins">4 min</span></div>
+<div class="say"><span class="lab">Say</span><p>&quot;What questions do you have?&quot;</p><p>&quot;Is there anything that would make this hard to start?&quot;</p></div>
+<div class="row2"><div><span class="lab">Listen for</span><p>Cost, time, funding, partner, past bad experiences. Use the objections list below.</p></div><div><span class="lab">Neuroaffirming tweak</span><p>Answer facts plainly. Fees and funding up front, every time.</p></div></div>
+</div></li><li class="step s-blue"><div class="letter" aria-hidden="true">R</div><div class="sbody">
+<div class="shead"><h3>Respect the decision</h3><span class="mins">3 min</span></div>
+<div class="say"><span class="lab">Say</span><p>&quot;Would you like me to send the agreement and book the first session, or would you rather have some time? Both are completely fine.&quot;</p></div>
+<div class="row2"><div><span class="lab">Listen for</span><p>Their choice, said out loud. Then send the matching template the same day.</p></div><div><span class="lab">Neuroaffirming tweak</span><p>Offer two clear choices. No deadlines, no scarcity, no &quot;places are filling fast&quot;.</p></div></div>
+</div></li></ol>
+    <div class="vs">
+      <div><span class="lab">Hormozi's version</span><ul><li>Label them with a problem</li><li>Overview past pain</li><li>Sell the vacation</li><li>Reinforce the decision</li></ul></div>
+      <div><span class="lab">Our version</span><ul><li>Label the barrier, not the person</li><li>Overview what has been tried, without blame</li><li>Show the destination, never promise outcomes</li><li>Respect the decision with two clear choices</li></ul></div>
+    </div>
+  </section>
+
+  <section id="objections" aria-labelledby="obj-h">
+    <span class="eyebrow">The usual worries</span>
+    <h2 id="obj-h">Objection handling</h2>
+    <p class="lede">An objection is usually a question in disguise. Answer the question, with facts, then hand the choice back.</p>
+    <div class="tools">
+      <label for="q">Search objections</label>
+      <input id="q" type="search" placeholder="Search, for example: cost, NDIS, partner" autocomplete="off">
+      <div role="group" aria-label="Filter by topic" style="display:flex;flex-wrap:wrap;gap:8px"><button type="button" class="chip" data-cat="All" aria-pressed="true">All</button><button type="button" class="chip" data-cat="Money" aria-pressed="false">Money</button><button type="button" class="chip" data-cat="People" aria-pressed="false">People</button><button type="button" class="chip" data-cat="Past" aria-pressed="false">Past</button><button type="button" class="chip" data-cat="Fit" aria-pressed="false">Fit</button><button type="button" class="chip" data-cat="Time" aria-pressed="false">Time</button></div>
+    </div>
+    <p class="count" id="ocount" aria-live="polite">14 objections</p>
+    <div class="objs" id="objs"><details class="obj" data-cat="Money" data-search="&quot;it&#x27;s too expensive.&quot; worried about cost, or not sure it&#x27;s worth it. &quot;fair question. it&#x27;s $193.99 an hour, the ndis rate. private clients pay the same.&quot; &quot;if cost is the main thing, small hinges is 1 to 6 single sessions on one area, so you can start small.&quot;">
+<summary><span class="cat">Money</span><span class="q">&quot;It&#x27;s too expensive.&quot;</span><span class="plus" aria-hidden="true">+</span></summary>
+<div class="oa"><p class="mean"><span class="lab">Often means</span>Worried about cost, or not sure it&#x27;s worth it.</p>
+<div class="say"><span class="lab">Try</span><p>&quot;Fair question. It&#x27;s $193.99 an hour, the NDIS rate. Private clients pay the same.&quot;</p><p>&quot;If cost is the main thing, Small Hinges is 1 to 6 single sessions on one area, so you can start small.&quot;</p></div>
+<p class="avoid"><span class="lab">Avoid</span>Discounting on the spot, or implying it pays for itself.</p></div></details><details class="obj" data-cat="Money" data-search="&quot;we&#x27;re waiting on our ndis plan.&quot; wants to start but funding isn&#x27;t sorted. &quot;that&#x27;s really common. we can hold your referral and book in as soon as the plan is through.&quot; &quot;if you&#x27;d like to start sooner, private is an option at the same rate.&quot;">
+<summary><span class="cat">Money</span><span class="q">&quot;We&#x27;re waiting on our NDIS plan.&quot;</span><span class="plus" aria-hidden="true">+</span></summary>
+<div class="oa"><p class="mean"><span class="lab">Often means</span>Wants to start but funding isn&#x27;t sorted.</p>
+<div class="say"><span class="lab">Try</span><p>&quot;That&#x27;s really common. We can hold your referral and book in as soon as the plan is through.&quot;</p><p>&quot;If you&#x27;d like to start sooner, private is an option at the same rate.&quot;</p></div>
+<p class="avoid"><span class="lab">Avoid</span>Pushing them to self-fund.</p></div></details><details class="obj" data-cat="Money" data-search="&quot;we&#x27;re agency-managed.&quot; funding type we can&#x27;t take. &quot;we can only work with self-managed, plan-managed or private. your support coordinator can talk with you about switching to plan-managed if you&#x27;d like to work with us.&quot;">
+<summary><span class="cat">Money</span><span class="q">&quot;We&#x27;re agency-managed.&quot;</span><span class="plus" aria-hidden="true">+</span></summary>
+<div class="oa"><p class="mean"><span class="lab">Often means</span>Funding type we can&#x27;t take.</p>
+<div class="say"><span class="lab">Try</span><p>&quot;We can only work with self-managed, plan-managed or private. Your support coordinator can talk with you about switching to plan-managed if you&#x27;d like to work with us.&quot;</p></div>
+<p class="avoid"><span class="lab">Avoid</span>Giving funding advice beyond that.</p></div></details><details class="obj" data-cat="People" data-search="&quot;i need to talk to my partner first.&quot; shared decision, or a soft no. &quot;of course. would it help if i emailed a short summary you can share?&quot; &quot;happy to have a quick call with both of you too.&quot;">
+<summary><span class="cat">People</span><span class="q">&quot;I need to talk to my partner first.&quot;</span><span class="plus" aria-hidden="true">+</span></summary>
+<div class="oa"><p class="mean"><span class="lab">Often means</span>Shared decision, or a soft no.</p>
+<div class="say"><span class="lab">Try</span><p>&quot;Of course. Would it help if I emailed a short summary you can share?&quot;</p><p>&quot;Happy to have a quick call with both of you too.&quot;</p></div>
+<p class="avoid"><span class="lab">Avoid</span>Asking them to decide without their partner.</p></div></details><details class="obj" data-cat="People" data-search="&quot;my child won&#x27;t engage. they hate appointments.&quot; past sessions felt like demands. often pda. &quot;that makes sense. we keep demands low and start with what they already love, often a game or a story.&quot; &quot;they don&#x27;t have to talk, look at the camera or do anything on day one.&quot;">
+<summary><span class="cat">People</span><span class="q">&quot;My child won&#x27;t engage. They hate appointments.&quot;</span><span class="plus" aria-hidden="true">+</span></summary>
+<div class="oa"><p class="mean"><span class="lab">Often means</span>Past sessions felt like demands. Often PDA.</p>
+<div class="say"><span class="lab">Try</span><p>&quot;That makes sense. We keep demands low and start with what they already love, often a game or a story.&quot;</p><p>&quot;They don&#x27;t have to talk, look at the camera or do anything on day one.&quot;</p></div>
+<p class="avoid"><span class="lab">Avoid</span>Promising they will definitely engage.</p></div></details><details class="obj" data-cat="People" data-search="&quot;phone calls are hard for me.&quot; communication preference, not reluctance. &quot;thanks for telling me. we can do sessions by chat or text, and we&#x27;ll stick to it.&quot;">
+<summary><span class="cat">People</span><span class="q">&quot;Phone calls are hard for me.&quot;</span><span class="plus" aria-hidden="true">+</span></summary>
+<div class="oa"><p class="mean"><span class="lab">Often means</span>Communication preference, not reluctance.</p>
+<div class="say"><span class="lab">Try</span><p>&quot;Thanks for telling me. We can do sessions by chat or text, and we&#x27;ll stick to it.&quot;</p></div>
+<p class="avoid"><span class="lab">Avoid</span>Treating it as a hurdle to get past.</p></div></details><details class="obj" data-cat="Past" data-search="&quot;we&#x27;ve tried ot before and it didn&#x27;t help.&quot; burned before. needs to know this is different. &quot;i&#x27;m sorry it didn&#x27;t fit. can i ask what didn&#x27;t work?&quot; &quot;we work with how your brain works, not on making you look less autistic or adhd. if something isn&#x27;t working, we change it.&quot;">
+<summary><span class="cat">Past</span><span class="q">&quot;We&#x27;ve tried OT before and it didn&#x27;t help.&quot;</span><span class="plus" aria-hidden="true">+</span></summary>
+<div class="oa"><p class="mean"><span class="lab">Often means</span>Burned before. Needs to know this is different.</p>
+<div class="say"><span class="lab">Try</span><p>&quot;I&#x27;m sorry it didn&#x27;t fit. Can I ask what didn&#x27;t work?&quot;</p><p>&quot;We work with how your brain works, not on making you look less autistic or ADHD. If something isn&#x27;t working, we change it.&quot;</p></div>
+<p class="avoid"><span class="lab">Avoid</span>Criticising the previous clinician.</p></div></details><details class="obj" data-cat="Past" data-search="&quot;i don&#x27;t have a diagnosis&quot; or &quot;i&#x27;m not sure i&#x27;m autistic enough.&quot; fear of not belonging, or of being judged. &quot;you don&#x27;t need a diagnosis to work with us privately. we work with what&#x27;s hard for you now.&quot; &quot;if ndis funding is the plan, a diagnosis does matter, and we can talk through that.&quot;">
+<summary><span class="cat">Past</span><span class="q">&quot;I don&#x27;t have a diagnosis&quot; or &quot;I&#x27;m not sure I&#x27;m autistic enough.&quot;</span><span class="plus" aria-hidden="true">+</span></summary>
+<div class="oa"><p class="mean"><span class="lab">Often means</span>Fear of not belonging, or of being judged.</p>
+<div class="say"><span class="lab">Try</span><p>&quot;You don&#x27;t need a diagnosis to work with us privately. We work with what&#x27;s hard for you now.&quot;</p><p>&quot;If NDIS funding is the plan, a diagnosis does matter, and we can talk through that.&quot;</p></div>
+<p class="avoid"><span class="lab">Avoid</span>Diagnosing or suggesting a diagnosis on the call.</p></div></details><details class="obj" data-cat="Fit" data-search="&quot;is gaming therapy just playing games?&quot; parent sceptical, or worried it adds screen time. &quot;good question. the game is the way in, not the goal. we use it to work on planning, regulation and getting along with others, then bring that into real life.&quot; &quot;we only use games if they help. lots of clients never game in session.&quot;">
+<summary><span class="cat">Fit</span><span class="q">&quot;Is gaming therapy just playing games?&quot;</span><span class="plus" aria-hidden="true">+</span></summary>
+<div class="oa"><p class="mean"><span class="lab">Often means</span>Parent sceptical, or worried it adds screen time.</p>
+<div class="say"><span class="lab">Try</span><p>&quot;Good question. The game is the way in, not the goal. We use it to work on planning, regulation and getting along with others, then bring that into real life.&quot;</p><p>&quot;We only use games if they help. Lots of clients never game in session.&quot;</p></div>
+<p class="avoid"><span class="lab">Avoid</span>Overselling the evidence.</p></div></details><details class="obj" data-cat="Fit" data-search="&quot;will telehealth work for us?&quot; unsure it can be as good as in person. &quot;for most people, yes. being at home means less to adjust to. camera off is fine.&quot; &quot;if it isn&#x27;t working after a few sessions, we&#x27;ll talk about it honestly.&quot;">
+<summary><span class="cat">Fit</span><span class="q">&quot;Will telehealth work for us?&quot;</span><span class="plus" aria-hidden="true">+</span></summary>
+<div class="oa"><p class="mean"><span class="lab">Often means</span>Unsure it can be as good as in person.</p>
+<div class="say"><span class="lab">Try</span><p>&quot;For most people, yes. Being at home means less to adjust to. Camera off is fine.&quot;</p><p>&quot;If it isn&#x27;t working after a few sessions, we&#x27;ll talk about it honestly.&quot;</p></div>
+<p class="avoid"><span class="lab">Avoid</span>Saying it is always as good as in person.</p></div></details><details class="obj" data-cat="Fit" data-search="&quot;i just want an assessment or report.&quot; needs a document, not ongoing therapy. &quot;we can do that. tell me what it&#x27;s for, like ndis or school, and who will read it, and i&#x27;ll explain what&#x27;s involved and the cost.&quot;">
+<summary><span class="cat">Fit</span><span class="q">&quot;I just want an assessment or report.&quot;</span><span class="plus" aria-hidden="true">+</span></summary>
+<div class="oa"><p class="mean"><span class="lab">Often means</span>Needs a document, not ongoing therapy.</p>
+<div class="say"><span class="lab">Try</span><p>&quot;We can do that. Tell me what it&#x27;s for, like NDIS or school, and who will read it, and I&#x27;ll explain what&#x27;s involved and the cost.&quot;</p></div>
+<p class="avoid"><span class="lab">Avoid</span>Pushing ongoing therapy instead.</p></div></details><details class="obj" data-cat="Time" data-search="&quot;i don&#x27;t have time right now.&quot; overloaded. maybe burnt out. &quot;totally fair. sessions are by telehealth, so no travel. we can also start with one small hinge and stop there.&quot; &quot;or we can hold your referral and check in later. whatever works.&quot;">
+<summary><span class="cat">Time</span><span class="q">&quot;I don&#x27;t have time right now.&quot;</span><span class="plus" aria-hidden="true">+</span></summary>
+<div class="oa"><p class="mean"><span class="lab">Often means</span>Overloaded. Maybe burnt out.</p>
+<div class="say"><span class="lab">Try</span><p>&quot;Totally fair. Sessions are by telehealth, so no travel. We can also start with one Small Hinge and stop there.&quot;</p><p>&quot;Or we can hold your referral and check in later. Whatever works.&quot;</p></div>
+<p class="avoid"><span class="lab">Avoid</span>Saying they can&#x27;t afford not to.</p></div></details><details class="obj" data-cat="Time" data-search="&quot;how long will it take?&quot; wants to know the commitment. &quot;small hinges is 1 to 6 sessions. ongoing ot depends on your goals. we review together regularly, and you can stop any time.&quot;">
+<summary><span class="cat">Time</span><span class="q">&quot;How long will it take?&quot;</span><span class="plus" aria-hidden="true">+</span></summary>
+<div class="oa"><p class="mean"><span class="lab">Often means</span>Wants to know the commitment.</p>
+<div class="say"><span class="lab">Try</span><p>&quot;Small Hinges is 1 to 6 sessions. Ongoing OT depends on your goals. We review together regularly, and you can stop any time.&quot;</p></div>
+<p class="avoid"><span class="lab">Avoid</span>Giving a promised number of sessions to an outcome.</p></div></details><details class="obj" data-cat="Time" data-search="&quot;i need to think about it.&quot; genuine, or an unvoiced concern. &quot;of course. is there anything you&#x27;re unsure about that i can answer now?&quot; &quot;i&#x27;ll email a recap so you don&#x27;t have to remember it all.&quot;">
+<summary><span class="cat">Time</span><span class="q">&quot;I need to think about it.&quot;</span><span class="plus" aria-hidden="true">+</span></summary>
+<div class="oa"><p class="mean"><span class="lab">Often means</span>Genuine, or an unvoiced concern.</p>
+<div class="say"><span class="lab">Try</span><p>&quot;Of course. Is there anything you&#x27;re unsure about that I can answer now?&quot;</p><p>&quot;I&#x27;ll email a recap so you don&#x27;t have to remember it all.&quot;</p></div>
+<p class="avoid"><span class="lab">Avoid</span>Chasing more than once after the check-in text.</p></div></details><div class="empty" id="oempty" hidden>Nothing matches. Try another word, or answer it plainly and add it here next time.</div></div>
+  </section>
+
+  <section id="templates" aria-labelledby="tpl-h">
+    <span class="eyebrow">Copy, swap the brackets, send</span>
+    <h2 id="tpl-h">Email and SMS templates</h2>
+    <p class="lede">Emails: paste into the normal Message box in PracSuite (not the &lt;/&gt; button), then add the subject. Texts: paste into the SMS template or your phone. Swap everything in [BRACKETS] before sending.</p>
+    <div class="tfilter">
+      <label for="tq" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Search templates</label>
+      <input id="tq" type="search" placeholder="Search, for example: reminder, missed, yes" autocomplete="off">
+    </div>
+    <div class="tgroup"><h3>After the referral (automatic)</h3><p class="gi">Set up once in PracSuite Form Automations.</p><article class="tpl" data-search="welcome email on form submit"><div class="bar"><div class="meta"><span class="tag email">Email</span> On form submit<b>Welcome email</b><span class="subj">Subject: Book your free 15 minute call</span></div><button type="button" class="copy" data-target="m-a1" data-kind="email">Copy email</button></div><div class="status" aria-live="polite"></div><details class="prev"><summary>Show email</summary><div class="mail" id="m-a1"><table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;background:#FBFAF8;font-family:Arial,Helvetica,sans-serif;color:#1A1A1A;"><tr><td align="center" style="padding:24px 12px;border:none;">
+<table width="560" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;max-width:560px;width:100%;background:#ffffff;border:2px solid #090909;">
+<tr><td style="background:#090909;padding:18px 24px;border:none;border-bottom:6px solid #2CA5B8;"><div style="color:#FBFAF8;font-size:16px;letter-spacing:3px;font-weight:bold;">ESTUS HEALTH</div></td></tr>
+<tr><td style="border:none;padding:28px 24px 8px;font-size:16px;line-height:1.55;"><p style="margin:0 0 14px;">Hi [FIRST NAME],</p><p style="margin:0 0 14px;">Thanks for sending your referral. The next step is a free 15 minute call with the OT you'd work with:</p><p style="margin:0 0 14px;"><b>Nik</b> for teens 16+ and adults<br><b>Nam</b> for kids under 16 and their families</p></td></tr>
+<tr><td style="border:none;padding:0 24px 24px;"><a href="https://www.estushealth.com/book-your-call" style="display:inline-block;background:#344982;color:#ffffff;text-decoration:none;font-weight:bold;letter-spacing:1px;padding:14px 26px;border:2px solid #090909;">PICK A TIME &#9656;</a></td></tr>
+<tr><td style="border:none;padding:0 24px 28px;font-size:15px;line-height:1.55;color:#3F434B;"><p style="margin:0 0 12px;">The call is about you and your goals. Camera off is fine, and there's no pressure to book anything after.</p><p style="margin:0 0 12px;">Phone calls hard? Say so in the booking notes and we can do it by chat or text instead.</p><p style="margin:0;">Estus Health<br><a href="mailto:hello@estushealth.com" style="color:#344982;">hello@estushealth.com</a></p></td></tr>
+</table></td></tr></table></div></details></article><article class="tpl" data-search="last nudge email day 5"><div class="bar"><div class="meta"><span class="tag email">Email</span> Day 5<b>Last nudge email</b><span class="subj">Subject: Still keen to chat?</span></div><button type="button" class="copy" data-target="m-a2" data-kind="email">Copy email</button></div><div class="status" aria-live="polite"></div><details class="prev"><summary>Show email</summary><div class="mail" id="m-a2"><table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;background:#FBFAF8;font-family:Arial,Helvetica,sans-serif;color:#1A1A1A;"><tr><td align="center" style="padding:24px 12px;border:none;">
+<table width="560" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;max-width:560px;width:100%;background:#ffffff;border:2px solid #090909;">
+<tr><td style="background:#090909;padding:18px 24px;border:none;border-bottom:6px solid #2CA5B8;"><div style="color:#FBFAF8;font-size:16px;letter-spacing:3px;font-weight:bold;">ESTUS HEALTH</div></td></tr>
+<tr><td style="border:none;padding:28px 24px 8px;font-size:16px;line-height:1.55;"><p style="margin:0 0 14px;">Hi [FIRST NAME],</p><p style="margin:0 0 14px;">We haven't seen a booking come through yet, so here's the link one more time.</p></td></tr>
+<tr><td style="border:none;padding:0 24px 24px;"><a href="https://www.estushealth.com/book-your-call" style="display:inline-block;background:#344982;color:#ffffff;text-decoration:none;font-weight:bold;letter-spacing:1px;padding:14px 26px;border:2px solid #090909;">BOOK MY FREE CALL &#9656;</a></td></tr>
+<tr><td style="border:none;padding:0 24px 28px;font-size:15px;line-height:1.55;color:#3F434B;"><p style="margin:0 0 12px;">If none of the times suit, or you'd rather start by email, just reply and we'll sort it.</p><p style="margin:0 0 12px;">If now isn't the right time, that's fine too. Your referral stays on file.</p><p style="margin:0;">Estus Health<br><a href="mailto:hello@estushealth.com" style="color:#344982;">hello@estushealth.com</a></p></td></tr>
+</table></td></tr></table></div></details></article></div><div class="tgroup"><h3>Once booked (the team sends)</h3><p class="gi">Nik or Nam send these by hand. Swap everything in [BRACKETS]. In the link, use nik or nam.</p><article class="tpl" data-search="booking confirmed email same day they book"><div class="bar"><div class="meta"><span class="tag email">Email</span> Same day they book<b>Booking confirmed email</b><span class="subj">Subject: See you [DAY] at [TIME]</span></div><button type="button" class="copy" data-target="m-b1" data-kind="email">Copy email</button></div><div class="status" aria-live="polite"></div><details class="prev"><summary>Show email</summary><div class="mail" id="m-b1"><table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;background:#FBFAF8;font-family:Arial,Helvetica,sans-serif;color:#1A1A1A;"><tr><td align="center" style="padding:24px 12px;border:none;">
+<table width="560" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;max-width:560px;width:100%;background:#ffffff;border:2px solid #090909;">
+<tr><td style="background:#090909;padding:18px 24px;border:none;border-bottom:6px solid #2CA5B8;"><div style="color:#FBFAF8;font-size:16px;letter-spacing:3px;font-weight:bold;">ESTUS HEALTH</div></td></tr>
+<tr><td style="border:none;padding:28px 24px 8px;font-size:16px;line-height:1.55;"><p style="margin:0 0 14px;">Hi [FIRST NAME],</p><p style="margin:0 0 14px;">It's [YOUR NAME] from Estus Health. Thanks for booking in. I'm looking forward to meeting you.</p><p style="margin:0 0 14px;"><b>When:</b> [DAY, DATE] at [TIME] AWST<br><b>How long:</b> 15 minutes<br><b>Where:</b> [VIDEO LINK], or I can call you on the number you gave us</p><p style="margin:0 0 14px;">There's nothing to prepare. I've read your referral, so we can start with what matters to you. Camera off is completely fine.</p></td></tr>
+<tr><td style="border:none;padding:0 24px 24px;"><a href="https://www.estushealth.com/what-to-expect?with=[nik or nam]" style="display:inline-block;background:#344982;color:#ffffff;text-decoration:none;font-weight:bold;letter-spacing:1px;padding:14px 26px;border:2px solid #090909;">WHAT TO EXPECT &#9656;</a></td></tr>
+<tr><td style="border:none;padding:0 24px 28px;font-size:15px;line-height:1.55;color:#3F434B;"><p style="margin:0 0 12px;">Need a different time, or would chat or text suit you better? Just reply to this email.</p><p style="margin:0;">[YOUR NAME], Estus Health<br><a href="mailto:hello@estushealth.com" style="color:#344982;">hello@estushealth.com</a></p></td></tr>
+</table></td></tr></table></div></details></article><article class="tpl" data-search="booking confirmed sms same day they book"><div class="bar"><div class="meta"><span class="tag sms">SMS</span> Same day they book<b>Booking confirmed SMS</b></div><button type="button" class="copy" data-target="m-b2" data-kind="sms">Copy text</button></div><div class="status" aria-live="polite"></div><div class="sms" id="m-b2">Hi [FIRST NAME], it&#x27;s [YOUR NAME] from Estus. You&#x27;re booked for [DAY] at [TIME]: [VIDEO LINK]. Camera off is fine. Reply to change it.</div></article><article class="tpl" data-search="reminder sms day before"><div class="bar"><div class="meta"><span class="tag sms">SMS</span> Day before<b>Reminder SMS</b></div><button type="button" class="copy" data-target="m-b3" data-kind="sms">Copy text</button></div><div class="status" aria-live="polite"></div><div class="sms" id="m-b3">Hi [FIRST NAME], reminder: your free 15 min call with [YOUR NAME] from Estus is tomorrow at [TIME]: [VIDEO LINK]. Reply to move it.</div></article><article class="tpl" data-search="reminder email day before (optional)"><div class="bar"><div class="meta"><span class="tag email">Email</span> Day before (optional)<b>Reminder email</b><span class="subj">Subject: Tomorrow at [TIME]: your free call</span></div><button type="button" class="copy" data-target="m-b4" data-kind="email">Copy email</button></div><div class="status" aria-live="polite"></div><details class="prev"><summary>Show email</summary><div class="mail" id="m-b4"><table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;background:#FBFAF8;font-family:Arial,Helvetica,sans-serif;color:#1A1A1A;"><tr><td align="center" style="padding:24px 12px;border:none;">
+<table width="560" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;max-width:560px;width:100%;background:#ffffff;border:2px solid #090909;">
+<tr><td style="background:#090909;padding:18px 24px;border:none;border-bottom:6px solid #2CA5B8;"><div style="color:#FBFAF8;font-size:16px;letter-spacing:3px;font-weight:bold;">ESTUS HEALTH</div></td></tr>
+<tr><td style="border:none;padding:28px 24px 8px;font-size:16px;line-height:1.55;"><p style="margin:0 0 14px;">Hi [FIRST NAME],</p><p style="margin:0 0 14px;">Quick reminder that we're chatting tomorrow, [DAY] at [TIME] AWST, for 15 minutes.</p><p style="margin:0 0 14px;">Here's what we'll cover: what's going on for you, what you'd like to change, how we work, fees and funding, and any questions you have. Then you decide.</p></td></tr>
+<tr><td style="border:none;padding:0 24px 24px;"><a href="[VIDEO LINK]" style="display:inline-block;background:#344982;color:#ffffff;text-decoration:none;font-weight:bold;letter-spacing:1px;padding:14px 26px;border:2px solid #090909;">JOIN THE CALL &#9656;</a></td></tr>
+<tr><td style="border:none;padding:0 24px 28px;font-size:15px;line-height:1.55;color:#3F434B;"><p style="margin:0 0 12px;">Can't make it? Reply and we'll find another time. No stress.</p><p style="margin:0;">[YOUR NAME], Estus Health<br><a href="mailto:hello@estushealth.com" style="color:#344982;">hello@estushealth.com</a></p></td></tr>
+</table></td></tr></table></div></details></article><article class="tpl" data-search="on the day sms 1 hour before"><div class="bar"><div class="meta"><span class="tag sms">SMS</span> 1 hour before<b>On the day SMS</b></div><button type="button" class="copy" data-target="m-b5" data-kind="sms">Copy text</button></div><div class="status" aria-live="polite"></div><div class="sms" id="m-b5">Hi [FIRST NAME], [YOUR NAME] from Estus here. See you at [TIME] for our 15 min chat: [VIDEO LINK]. Camera optional.</div></article></div><div class="tgroup"><h3>If they miss the call</h3><p class="gi">Send within the hour. Keep it warm, no guilt.</p><article class="tpl" data-search="missed call sms within the hour"><div class="bar"><div class="meta"><span class="tag sms">SMS</span> Within the hour<b>Missed call SMS</b></div><button type="button" class="copy" data-target="m-c1" data-kind="sms">Copy text</button></div><div class="status" aria-live="polite"></div><div class="sms" id="m-c1">Hi [FIRST NAME], [YOUR NAME] from Estus. Sorry we missed each other today. No problem at all. Want to pick another time? estushealth.com/book-your-call</div></article><article class="tpl" data-search="missed call email same day"><div class="bar"><div class="meta"><span class="tag email">Email</span> Same day<b>Missed call email</b><span class="subj">Subject: Sorry we missed you</span></div><button type="button" class="copy" data-target="m-c2" data-kind="email">Copy email</button></div><div class="status" aria-live="polite"></div><details class="prev"><summary>Show email</summary><div class="mail" id="m-c2"><table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;background:#FBFAF8;font-family:Arial,Helvetica,sans-serif;color:#1A1A1A;"><tr><td align="center" style="padding:24px 12px;border:none;">
+<table width="560" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;max-width:560px;width:100%;background:#ffffff;border:2px solid #090909;">
+<tr><td style="background:#090909;padding:18px 24px;border:none;border-bottom:6px solid #2CA5B8;"><div style="color:#FBFAF8;font-size:16px;letter-spacing:3px;font-weight:bold;">ESTUS HEALTH</div></td></tr>
+<tr><td style="border:none;padding:28px 24px 8px;font-size:16px;line-height:1.55;"><p style="margin:0 0 14px;">Hi [FIRST NAME],</p><p style="margin:0 0 14px;">We were booked to chat today and I didn't see you come through. That's completely fine. Life happens.</p><p style="margin:0 0 14px;">If you'd still like to talk, pick a new time below. If a call feels like a lot right now, reply and we can start over email instead.</p></td></tr>
+<tr><td style="border:none;padding:0 24px 24px;"><a href="https://www.estushealth.com/book-your-call" style="display:inline-block;background:#344982;color:#ffffff;text-decoration:none;font-weight:bold;letter-spacing:1px;padding:14px 26px;border:2px solid #090909;">PICK A NEW TIME &#9656;</a></td></tr>
+<tr><td style="border:none;padding:0 24px 28px;font-size:15px;line-height:1.55;color:#3F434B;"><p style="margin:0 0 12px;">If now isn't the right time, that's okay too. Your referral stays on file.</p><p style="margin:0;">[YOUR NAME], Estus Health<br><a href="mailto:hello@estushealth.com" style="color:#344982;">hello@estushealth.com</a></p></td></tr>
+</table></td></tr></table></div></details></article></div><div class="tgroup"><h3>After the call (the team sends)</h3><p class="gi">Send the same day as the call.</p><article class="tpl" data-search="ready to start email they said yes"><div class="bar"><div class="meta"><span class="tag email">Email</span> They said yes<b>Ready to start email</b><span class="subj">Subject: Next steps: your first session</span></div><button type="button" class="copy" data-target="m-d1" data-kind="email">Copy email</button></div><div class="status" aria-live="polite"></div><details class="prev"><summary>Show email</summary><div class="mail" id="m-d1"><table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;background:#FBFAF8;font-family:Arial,Helvetica,sans-serif;color:#1A1A1A;"><tr><td align="center" style="padding:24px 12px;border:none;">
+<table width="560" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;max-width:560px;width:100%;background:#ffffff;border:2px solid #090909;">
+<tr><td style="background:#090909;padding:18px 24px;border:none;border-bottom:6px solid #2CA5B8;"><div style="color:#FBFAF8;font-size:16px;letter-spacing:3px;font-weight:bold;">ESTUS HEALTH</div></td></tr>
+<tr><td style="border:none;padding:28px 24px 8px;font-size:16px;line-height:1.55;"><p style="margin:0 0 14px;">Hi [FIRST NAME],</p><p style="margin:0 0 14px;">Great to chat today. Here is what happens next:</p><p style="margin:0 0 14px;"><b>1.</b> Sign the service agreement (link below). It takes about 5 minutes.<br><b>2.</b> We book your first session: [DAY, DATE] at [TIME] AWST.<br><b>3.</b> You get a reminder the day before.</p><p style="margin:0 0 14px;">Funding: [NDIS PLAN-MANAGED / SELF-MANAGED / PRIVATE] at $193.99 per hour.</p></td></tr>
+<tr><td style="border:none;padding:0 24px 24px;"><a href="[SERVICE AGREEMENT LINK]" style="display:inline-block;background:#344982;color:#ffffff;text-decoration:none;font-weight:bold;letter-spacing:1px;padding:14px 26px;border:2px solid #090909;">SIGN THE AGREEMENT &#9656;</a></td></tr>
+<tr><td style="border:none;padding:0 24px 28px;font-size:15px;line-height:1.55;color:#3F434B;"><p style="margin:0 0 12px;">Any questions before then, just reply.</p><p style="margin:0;">[YOUR NAME], Estus Health<br><a href="mailto:hello@estushealth.com" style="color:#344982;">hello@estushealth.com</a></p></td></tr>
+</table></td></tr></table></div></details></article><article class="tpl" data-search="ready to start sms they said yes"><div class="bar"><div class="meta"><span class="tag sms">SMS</span> They said yes<b>Ready to start SMS</b></div><button type="button" class="copy" data-target="m-d2" data-kind="sms">Copy text</button></div><div class="status" aria-live="polite"></div><div class="sms" id="m-d2">Hi [FIRST NAME], great to chat today. I&#x27;ve emailed your service agreement. Once it&#x27;s signed, you&#x27;re booked for [DAY] at [TIME]. [YOUR NAME], Estus</div></article><article class="tpl" data-search="thinking it over email they want to think"><div class="bar"><div class="meta"><span class="tag email">Email</span> They want to think<b>Thinking it over email</b><span class="subj">Subject: No rush: everything from today</span></div><button type="button" class="copy" data-target="m-d3" data-kind="email">Copy email</button></div><div class="status" aria-live="polite"></div><details class="prev"><summary>Show email</summary><div class="mail" id="m-d3"><table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;background:#FBFAF8;font-family:Arial,Helvetica,sans-serif;color:#1A1A1A;"><tr><td align="center" style="padding:24px 12px;border:none;">
+<table width="560" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;max-width:560px;width:100%;background:#ffffff;border:2px solid #090909;">
+<tr><td style="background:#090909;padding:18px 24px;border:none;border-bottom:6px solid #2CA5B8;"><div style="color:#FBFAF8;font-size:16px;letter-spacing:3px;font-weight:bold;">ESTUS HEALTH</div></td></tr>
+<tr><td style="border:none;padding:28px 24px 8px;font-size:16px;line-height:1.55;"><p style="margin:0 0 14px;">Hi [FIRST NAME],</p><p style="margin:0 0 14px;">Thanks for the chat today. Take all the time you need. Here's a quick recap so you don't have to remember it all:</p><p style="margin:0 0 14px;"><b>What you want to change:</b> [IN THEIR WORDS]<br><b>How we would start:</b> [ONGOING OT / SMALL HINGES: WHICH ONES]<br><b>Who you would see:</b> [NIK / NAM]<br><b>Cost:</b> $193.99 per hour, [FUNDING]</p><p style="margin:0 0 14px;">When you are ready, just reply "ready" and I will send the next steps.</p></td></tr>
+
+<tr><td style="border:none;padding:0 24px 28px;font-size:15px;line-height:1.55;color:#3F434B;"><p style="margin:0 0 12px;">If you decide it's not for you, that's completely fine too.</p><p style="margin:0;">[YOUR NAME], Estus Health<br><a href="mailto:hello@estushealth.com" style="color:#344982;">hello@estushealth.com</a></p></td></tr>
+</table></td></tr></table></div></details></article><article class="tpl" data-search="gentle check-in sms 3 days later, if no reply"><div class="bar"><div class="meta"><span class="tag sms">SMS</span> 3 days later, if no reply<b>Gentle check-in SMS</b></div><button type="button" class="copy" data-target="m-d4" data-kind="sms">Copy text</button></div><div class="status" aria-live="polite"></div><div class="sms" id="m-d4">Hi [FIRST NAME], [YOUR NAME] from Estus. Just checking in, no pressure. Any questions I can answer? Reply &#x27;ready&#x27; whenever you want to start.</div></article><article class="tpl" data-search="referral on email not the right fit"><div class="bar"><div class="meta"><span class="tag email">Email</span> Not the right fit<b>Referral on email</b><span class="subj">Subject: Some options that may suit you better</span></div><button type="button" class="copy" data-target="m-d5" data-kind="email">Copy email</button></div><div class="status" aria-live="polite"></div><details class="prev"><summary>Show email</summary><div class="mail" id="m-d5"><table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;background:#FBFAF8;font-family:Arial,Helvetica,sans-serif;color:#1A1A1A;"><tr><td align="center" style="padding:24px 12px;border:none;">
+<table width="560" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;max-width:560px;width:100%;background:#ffffff;border:2px solid #090909;">
+<tr><td style="background:#090909;padding:18px 24px;border:none;border-bottom:6px solid #2CA5B8;"><div style="color:#FBFAF8;font-size:16px;letter-spacing:3px;font-weight:bold;">ESTUS HEALTH</div></td></tr>
+<tr><td style="border:none;padding:28px 24px 8px;font-size:16px;line-height:1.55;"><p style="margin:0 0 14px;">Hi [FIRST NAME],</p><p style="margin:0 0 14px;">Thanks for talking with me today. From what you shared, I think [OTHER SERVICE / PROVIDER] may be a better fit right now, because [REASON].</p><p style="margin:0 0 14px;">Here are some options: [OPTION 1], [OPTION 2].</p><p style="margin:0 0 14px;">If things change, you are always welcome back. Your referral stays on file.</p></td></tr>
+
+<tr><td style="border:none;padding:0 24px 28px;font-size:15px;line-height:1.55;color:#3F434B;"><p style="margin:0;">[YOUR NAME], Estus Health<br><a href="mailto:hello@estushealth.com" style="color:#344982;">hello@estushealth.com</a></p></td></tr>
+</table></td></tr></table></div></details></article></div>
+  </section>
+
+  <section id="guardrails" aria-labelledby="g-h">
+    <span class="eyebrow">Every call, every message</span>
+    <h2 id="g-h">Guardrails</h2>
+    <div class="guard">
+      <div class="yes"><h3>Always</h3><ul><li>Say fees and funding up front</li><li>Use their words for their goals</li><li>Offer chat or text if calls are hard</li><li>Send the follow-up the same day</li><li>Refer on when we are not the right fit</li></ul></div>
+      <div class="no"><h3>Never</h3><ul><li>Promise outcomes or a set number of sessions</li><li>Use testimonials or client stories</li><li>Create urgency: "spots filling fast", "today only"</li><li>Diagnose on the call</li><li>Chase more than once after the check-in</li></ul></div>
+    </div>
+  </section>
+</main>
+
+<script>
+(function () {
+  const q = document.getElementById('q');
+  const chips = Array.from(document.querySelectorAll('.chip'));
+  const objs = Array.from(document.querySelectorAll('.obj'));
+  const count = document.getElementById('ocount');
+  const empty = document.getElementById('oempty');
+  let cat = 'All';
+  function filter() {
+    const term = q.value.trim().toLowerCase();
+    let n = 0;
+    objs.forEach((o) => {
+      const ok = (cat === 'All' || o.dataset.cat === cat) && (!term || o.dataset.search.includes(term));
+      o.hidden = !ok; if (ok) n++;
+    });
+    count.textContent = n + (n === 1 ? ' objection' : ' objections');
+    empty.hidden = n !== 0;
+  }
+  q.addEventListener('input', filter);
+  chips.forEach((c) => c.addEventListener('click', () => {
+    cat = c.dataset.cat;
+    chips.forEach((x) => x.setAttribute('aria-pressed', String(x === c)));
+    filter();
+  }));
+
+  const tq = document.getElementById('tq');
+  const tpls = Array.from(document.querySelectorAll('.tpl'));
+  tq.addEventListener('input', () => {
+    const term = tq.value.trim().toLowerCase();
+    tpls.forEach((t) => { t.hidden = term && !t.dataset.search.includes(term); });
+    document.querySelectorAll('.tgroup').forEach((g) => { g.hidden = !g.querySelector('.tpl:not([hidden])'); });
+  });
+
+  function selectNode(el) {
+    const r = document.createRange(); r.selectNodeContents(el);
+    const s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+  }
+  document.querySelectorAll('.copy').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const el = document.getElementById(btn.dataset.target);
+      const card = btn.closest('.tpl');
+      const status = card.querySelector('.status');
+      const isEmail = btn.dataset.kind === 'email';
+      const done = () => { status.textContent = 'Copied.'; };
+      const fallback = () => {
+        if (isEmail) { const d = card.querySelector('details'); if (d) d.open = true; }
+        selectNode(el);
+        let ok = false;
+        try { ok = document.execCommand('copy'); } catch (e) {}
+        status.textContent = ok ? 'Copied.' : 'Selected. Press Ctrl+C (or Cmd+C) to copy.';
+      };
+      try {
+        if (isEmail && navigator.clipboard && window.ClipboardItem) {
+          const item = new ClipboardItem({ 'text/html': new Blob([el.innerHTML], { type: 'text/html' }), 'text/plain': new Blob([el.innerText || el.textContent], { type: 'text/plain' }) });
+          navigator.clipboard.write([item]).then(done, fallback);
+        } else if (!isEmail && navigator.clipboard) {
+          navigator.clipboard.writeText(el.textContent).then(done, fallback);
+        } else { fallback(); }
+      } catch (e) { fallback(); }
+    });
+  });
+})();
+</script>
+
+</body></html>
