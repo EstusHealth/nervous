@@ -9,7 +9,7 @@ Estus Health's internal staff training intranet. A landing page plus one page pe
 | Team | `check` |
 | Small Hinges | `hinges`, `sleep`, `morning`, `energy`, `load`, `transition`, `shutdown` |
 | Therapy approaches | `act`, `cbt`, `mi`, `gaming`, `nervous` |
-| Growth | `reels`, `gp` |
+| Growth | `reels`, `copy`, `gp` |
 
 Progress ticks and tool drafts save in each person's own browser only.
 
