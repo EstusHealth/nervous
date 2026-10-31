@@ -1,0 +1,708 @@
+<!doctype html><html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<!--ART-->
+<title>Rematch With Fear</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap">
+<style>
+/* Layout: Estus Training Hub shell. Ink hero, sticky fight bar, one centred stage card at a time, then a themed quiz. */
+:root{
+  --g-bg:#F3F2EF;--g-surface:#FBFAF8;--g-sunk:#ECEAE6;--g-fg:#0E1014;--g-muted:#5F6168;--g-rule:#D3D1CC;--g-ink:#090909;--g-on-ink:#FBFAF8;
+  --g-navy:#344982;--g-blue:#2F6F9E;--g-teal:#1F8A9B;--g-plum:#9C4F86;--g-coal:#22252B;
+  --g-navy-t:#DDE2EF;--g-blue-t:#DCE8F1;--g-teal-t:#DAF0F3;--g-plum-t:#F1E1EC;--g-coal-t:#DADBDE;
+  --g-good:#2E7D4F;--g-good-t:#DDEFE3;--g-warn:#A86A12;--g-warn-t:#F6E8D2;
+  --g-display:"Oswald","Arial Narrow",Impact,sans-serif;--g-cond:"Barlow Semi Condensed","Arial Narrow",sans-serif;--g-body:"Barlow","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --g-bg:#0F1216;--g-surface:#161A20;--g-sunk:#1D222A;--g-fg:#ECEEF1;--g-muted:#9BA1AB;--g-rule:#2C323C;--g-ink:#05070A;--g-on-ink:#ECEEF1;
+  --g-navy:#8299DA;--g-blue:#6FA8D2;--g-teal:#4CC3D4;--g-plum:#D58FC1;--g-coal:#C9CCD2;
+  --g-navy-t:#1E2740;--g-blue-t:#18293A;--g-teal-t:#123238;--g-plum-t:#33202E;--g-coal-t:#2A2E35;
+  --g-good:#5FC38A;--g-good-t:#16301F;--g-warn:#E0A64A;--g-warn-t:#33270F;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --g-bg:#0F1216;--g-surface:#161A20;--g-sunk:#1D222A;--g-fg:#ECEEF1;--g-muted:#9BA1AB;--g-rule:#2C323C;--g-ink:#05070A;--g-on-ink:#ECEEF1;
+  --g-navy:#8299DA;--g-blue:#6FA8D2;--g-teal:#4CC3D4;--g-plum:#D58FC1;--g-coal:#C9CCD2;
+  --g-navy-t:#1E2740;--g-blue-t:#18293A;--g-teal-t:#123238;--g-plum-t:#33202E;--g-coal-t:#2A2E35;
+  --g-good:#5FC38A;--g-good-t:#16301F;--g-warn:#E0A64A;--g-warn-t:#33270F;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--g-bg);color:var(--g-fg);font:400 18px/1.55 var(--g-body)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--g-bg)}
+[hidden]{display:none!important}
+.g-wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.rg h1,.rg h2,.rg h3{text-wrap:balance;margin:0}
+.rg p{margin:0}
+.rg a{color:var(--g-blue)}
+.rg button,.rg input{font:inherit;color:inherit}
+.rg :focus-visible{outline:3px solid var(--g-teal);outline-offset:2px}
+.eyebrow{font:700 12px var(--g-cond);letter-spacing:.18em;text-transform:uppercase;color:var(--g-muted)}
+.c-room{--c:var(--g-navy);--ct:var(--g-navy-t)}.c-unhook{--c:var(--g-blue);--ct:var(--g-blue-t)}.c-here{--c:var(--g-teal);--ct:var(--g-teal-t)}
+.c-sky{--c:var(--g-plum);--ct:var(--g-plum-t)}.c-why{--c:var(--g-coal);--ct:var(--g-coal-t)}.c-step{--c:var(--g-good);--ct:var(--g-good-t)}
+
+/* hero */
+.hero{background:var(--g-ink);color:var(--g-on-ink)}
+.hero .g-wrap{padding-block:32px 36px;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:32px;align-items:center}
+.hero .eyebrow{color:#AEB5C2}
+.hero h1{font:600 clamp(44px,8vw,84px)/.92 var(--g-display);text-transform:uppercase;letter-spacing:.01em;margin:10px 0 16px}
+.hero h1 em{font-style:normal;color:#EC7B7B}
+.hero .lead{font-size:19px;max-width:52ch;color:#D6DAE2}
+.big-idea{margin-top:18px;border-left:4px solid #4CC3D4;padding:6px 0 6px 14px;max-width:52ch}
+.big-idea b{display:block;font:700 12px var(--g-cond);letter-spacing:.16em;text-transform:uppercase;color:#AEB5C2;margin-bottom:4px}
+.big-idea p{font:600 22px/1.3 var(--g-body);color:#FBFAF8}
+.pairs{display:flex;flex-direction:column;gap:10px}
+.pair{border:1px solid #2C323C;background:#111419;padding:12px 14px}
+.pair h3{font:700 12px var(--g-cond);letter-spacing:.16em;text-transform:uppercase;color:#AEB5C2;margin-bottom:6px}
+.pair ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pair li{display:flex;flex-direction:column;border-left:3px solid var(--h);padding-left:8px}
+.pair li b{font:600 17px/1.15 var(--g-display);text-transform:uppercase;letter-spacing:.03em}
+.pair li span{font-size:14px;color:#AEB5C2;line-height:1.35}
+
+/* fight bar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--g-bg);border-bottom:1px solid var(--g-rule)}
+.bar .g-wrap{display:flex;align-items:center;gap:14px;padding-block:10px}
+.track{flex:1;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:5px;min-width:0}
+.tk{display:flex;flex-direction:column;gap:3px;min-width:0}
+.tk i{height:6px;background:var(--g-rule);display:block}
+.tk.on i{background:var(--g-fg)}
+.tk.tw i{background:var(--g-good)}.tk.aw i{background:var(--g-warn)}
+.tk b{font:600 12px var(--g-cond);letter-spacing:.06em;text-transform:uppercase;color:var(--g-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tk.on b{color:var(--g-fg)}
+.tk .s{display:none}
+.tally{display:flex;gap:10px;font:700 13px var(--g-cond);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;font-variant-numeric:tabular-nums}
+.tally .t{color:var(--g-good)}.tally .a{color:var(--g-warn)}
+
+/* stage */
+.sec{padding-block:36px 44px;border-bottom:1px solid var(--g-rule)}
+.stage{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+.card{background:var(--g-surface);border:1px solid var(--g-rule);border-top:6px solid var(--c,var(--g-fg));padding:24px;display:flex;flex-direction:column;gap:18px}
+.subs{display:flex;gap:6px;flex-wrap:wrap}
+.subs span{font:700 12px var(--g-cond);letter-spacing:.12em;text-transform:uppercase;padding:5px 10px;border:1px solid var(--g-rule);color:var(--g-muted)}
+.subs span.on{background:var(--c,var(--g-fg));border-color:var(--c,var(--g-fg));color:var(--g-surface)}
+.subs span.dn{color:var(--g-fg)}
+.skill{font:600 clamp(44px,9vw,72px)/.92 var(--g-display);text-transform:uppercase;letter-spacing:.01em;color:var(--c)}
+.actname{font:600 14px var(--g-cond);letter-spacing:.06em;text-transform:uppercase;color:var(--g-muted)}
+.one{font:600 clamp(22px,3.6vw,27px)/1.3 var(--g-body);max-width:34ch}
+.ex{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ex div{background:var(--g-bg);border:1px solid var(--g-rule);padding:14px 16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.ex b,.lbl{font:700 12px var(--g-cond);letter-spacing:.14em;text-transform:uppercase;color:var(--g-muted)}
+.ex p{font-size:17px}
+.meta{background:var(--ct);border-left:4px solid var(--c);padding:12px 16px;font-size:17px}
+.h2{font:600 clamp(28px,5vw,40px)/1 var(--g-display);text-transform:uppercase;letter-spacing:.01em}
+.ins{font-size:19px;font-weight:600}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{border:1px solid var(--g-rule);background:var(--g-surface);padding:12px 18px;cursor:pointer;font:600 15px var(--g-cond);text-transform:uppercase;letter-spacing:.08em;min-height:46px}
+.btn:hover:not(:disabled){border-color:var(--g-fg)}
+.btn.p{background:var(--g-ink);color:var(--g-on-ink);border-color:var(--g-ink)}
+.btn.p:disabled{opacity:.35;cursor:not-allowed}
+.link{background:none;border:0;padding:0;color:var(--g-blue);text-decoration:underline;cursor:pointer;font-size:17px}
+.msg{font-size:17px;min-height:1.55em;color:var(--g-muted)}
+.msg.good{color:var(--g-good);font-weight:600}
+.how{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;counter-reset:h}
+.how li{background:var(--g-bg);border:1px solid var(--g-rule);padding:14px;display:flex;flex-direction:column;gap:4px;counter-increment:h;min-width:0}
+.how li::before{content:counter(h);font:600 30px/1 var(--g-display);color:var(--g-teal)}
+.how b{font:600 18px var(--g-cond);text-transform:uppercase;letter-spacing:.04em}
+.how span{font-size:16px;color:var(--g-muted)}
+.legend{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.legend div{padding:12px 14px;border:1px solid var(--g-rule);font-size:16px;min-width:0}
+.legend b{display:block;font:600 18px var(--g-cond);text-transform:uppercase;letter-spacing:.04em}
+.legend .tw{border-left:5px solid var(--g-good)}.legend .tw b{color:var(--g-good)}
+.legend .aw{border-left:5px solid var(--g-warn)}.legend .aw b{color:var(--g-warn)}
+
+/* widgets */
+.dials{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.dial{background:var(--g-bg);border:1px solid var(--g-rule);padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.dial-h{display:flex;justify-content:space-between;align-items:baseline;font:600 18px var(--g-cond);text-transform:uppercase;letter-spacing:.06em}
+.dial-h b{font:600 34px/1 var(--g-display);font-variant-numeric:tabular-nums}
+.dial small{font-size:14px;color:var(--g-muted)}
+.fear .dial-h{color:var(--g-warn)}.will .dial-h{color:var(--g-good)}
+.meter{height:16px;background:var(--g-sunk);border:1px solid var(--g-rule);position:relative;overflow:hidden}
+.meter i{position:absolute;inset:0 auto 0 0;width:80%;background:var(--g-warn);transition:width .45s ease}
+input[type=range]{width:100%;height:30px;accent-color:var(--g-good)}
+.walk{display:flex;align-items:center;gap:10px;font:700 12px var(--g-cond);letter-spacing:.12em;text-transform:uppercase;color:var(--g-muted)}
+.path{flex:1;height:4px;background:repeating-linear-gradient(90deg,var(--g-rule) 0 10px,transparent 10px 16px);position:relative}
+.walker{position:absolute;top:50%;width:20px;height:20px;border-radius:50%;background:var(--g-good);transform:translateY(-50%);left:calc(var(--p,.2) * (100% - 20px));transition:left .35s ease}
+.cage{width:44px;height:44px;flex:none;display:grid;place-items:center;background:var(--g-fg);color:var(--g-bg);clip-path:polygon(29% 0,71% 0,100% 29%,100% 71%,71% 100%,29% 100%,0 71%,0 29%);font-size:11px}
+.thoughts{display:flex;flex-direction:column;gap:10px}
+.th{text-align:left;cursor:pointer;background:var(--g-bg);border:2px solid var(--g-fg);padding:14px 16px;font:600 clamp(20px,3.4vw,26px)/1.15 var(--g-display);text-transform:uppercase;letter-spacing:.02em;transition:all .3s ease}
+.th.off{cursor:default;border:1px solid var(--g-rule);font:500 17px/1.4 var(--g-body);text-transform:none;letter-spacing:0;color:var(--g-muted)}
+.th.off em{font-style:normal;color:var(--c);font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{cursor:pointer;border:1px solid var(--g-rule);background:var(--g-bg);padding:9px 14px;border-radius:999px;font-size:17px;min-height:44px}
+.chip:hover{border-color:var(--g-fg)}
+.chip.yes{background:var(--g-good-t);border-color:var(--g-good);color:var(--g-good);font-weight:600}
+.chip.no{border-color:var(--g-warn);color:var(--g-warn)}
+.chip[aria-pressed="true"]{background:var(--c);border-color:var(--c);color:var(--g-surface);font-weight:600}
+.sky{position:relative;height:200px;overflow:hidden;border:1px solid var(--g-rule);background:var(--g-bg)}
+.wx{position:absolute;top:var(--y);left:-45%;white-space:nowrap;padding:6px 12px;border:1px solid var(--g-warn);color:var(--g-warn);background:var(--g-surface);font-weight:600;font-size:16px;animation:drift var(--s) linear infinite;animation-delay:var(--d);transition:transform .5s ease,opacity .5s ease}
+@keyframes drift{from{left:-45%}to{left:105%}}
+.sky.wide{background:var(--ct)}
+.sky.wide .wx{transform:scale(.6);opacity:.7}
+.skycap{position:absolute;left:12px;right:12px;bottom:10px;font:600 17px var(--g-body);color:var(--c)}
+.form{display:flex;flex-direction:column;gap:14px}
+.fld{display:flex;flex-direction:column;gap:5px}
+.fld label{font:700 12px var(--g-cond);letter-spacing:.14em;text-transform:uppercase;color:var(--g-muted)}
+.fld input{width:100%;border:1px solid var(--g-rule);background:var(--g-bg);padding:11px 12px;font-size:17px}
+
+/* choices */
+.prompt{font:600 clamp(22px,3.6vw,27px)/1.25 var(--g-body)}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{display:flex;justify-content:space-between;align-items:center;gap:12px;text-align:left;cursor:pointer;background:var(--g-bg);border:1.5px solid var(--g-rule);padding:14px 16px;font-size:18px;line-height:1.4}
+.opt:hover:not(:disabled){border-color:var(--g-fg)}
+.opt:disabled{cursor:default}
+.opt .tag{font:700 12px var(--g-cond);letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
+.opt.tw{border-color:var(--g-good);background:var(--g-good-t)}.opt.tw .tag{color:var(--g-good)}
+.opt.aw{border-color:var(--g-warn);background:var(--g-warn-t)}.opt.aw .tag{color:var(--g-warn)}
+.opt.dim{opacity:.55}
+.fb{background:var(--g-bg);border:1px solid var(--g-rule);padding:14px 16px;font-size:17px;display:flex;flex-direction:column;gap:4px}
+.fb .v{font:600 22px var(--g-display);text-transform:uppercase;letter-spacing:.03em}
+.fb .v.tw{color:var(--g-good)}.fb .v.aw{color:var(--g-warn)}
+.fb small{font-size:15px;color:var(--g-muted)}
+
+/* end */
+.final{font:600 clamp(48px,10vw,84px)/.9 var(--g-display);text-transform:uppercase}
+.final span{color:var(--g-good)}
+.sklist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border:1px solid var(--g-rule)}
+.sklist li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 14px;border-top:1px solid var(--g-rule);background:var(--g-bg)}
+.sklist li:first-child{border-top:0}
+.sklist .sw{width:10px;align-self:stretch;background:var(--c)}
+.sklist b{font:600 19px var(--g-cond);text-transform:uppercase;letter-spacing:.04em;display:block}
+.sklist span{font-size:15px;color:var(--g-muted)}
+.sklist em{font:700 12px var(--g-cond);letter-spacing:.12em;text-transform:uppercase;font-style:normal;white-space:nowrap}
+.sklist em.tw{color:var(--g-good)}.sklist em.aw{color:var(--g-warn)}
+.pledge{font:600 21px/1.4 var(--g-body);padding:16px 18px;border:2px dashed var(--g-good);background:var(--g-bg)}
+
+/* quiz */
+.qhead{display:flex;flex-direction:column;gap:8px;max-width:760px;margin:0 auto 22px}
+.themes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.theme{cursor:pointer;text-align:left;background:var(--g-surface);border:1px solid var(--g-rule);border-top:5px solid var(--c);padding:16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.theme:hover{border-color:var(--g-fg);border-top-color:var(--c)}
+.theme b{font:600 24px/1 var(--g-display);text-transform:uppercase;letter-spacing:.02em}
+.theme span{font-size:15px;color:var(--g-muted)}
+.theme q{font-size:15px;font-style:italic;quotes:"\201C" "\201D"}
+.qbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;font:700 13px var(--g-cond);letter-spacing:.1em;text-transform:uppercase;color:var(--g-muted)}
+.prog{height:6px;background:var(--g-sunk)}
+.prog i{display:block;height:100%;background:var(--c);transition:width .3s ease}
+.q{font:600 clamp(21px,3.4vw,25px)/1.35 var(--g-body)}
+.opt.right{border-color:var(--g-good);background:var(--g-good-t)}
+.opt.wrong{border-color:var(--g-warn);background:var(--g-warn-t)}
+.res{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.res > div{background:var(--g-bg);border:1px solid var(--g-rule);border-left:5px solid var(--c);padding:12px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.res b{font:600 17px var(--g-cond);text-transform:uppercase;letter-spacing:.04em}
+.pips{display:flex;gap:4px}.pips i{flex:1;height:8px;background:var(--g-sunk)}.pips i.on{background:var(--c)}
+.res span{font-size:14px;color:var(--g-muted)}
+details.cheat{background:var(--g-surface);border:1px solid var(--g-rule);padding:12px 16px}
+details.cheat summary{cursor:pointer;font:600 15px var(--g-cond);letter-spacing:.08em;text-transform:uppercase}
+.cheat ul{margin:10px 0 0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cheat li{border-left:4px solid var(--c);padding-left:10px;font-size:16px}
+.cheat li b{font:600 16px var(--g-cond);text-transform:uppercase;letter-spacing:.04em;display:block}
+.foot{padding-block:26px 48px;color:var(--g-muted);font-size:14px;display:flex;flex-direction:column;gap:6px}
+.foot a{color:var(--g-muted)}
+
+@media (max-width:860px){
+  .hero .g-wrap{grid-template-columns:1fr}
+  .themes,.res{grid-template-columns:1fr 1fr}
+}
+@media (max-width:600px){
+  .ex,.dials,.legend,.how,.cheat ul{grid-template-columns:1fr}
+  .card{padding:18px}
+  .tk .l{display:none}.tk .s{display:inline}
+  .tally{flex-direction:column;gap:0;font-size:12px}
+}
+@media (max-width:420px){.themes,.res,.pair ul{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){
+  .sky{height:auto;padding:14px 14px 44px;display:flex;flex-wrap:wrap;gap:8px}
+  .wx{position:static;animation:none}
+  .walker,.meter i,.th,.prog i{transition:none}
+}
+</style>
+<!--/ART-->
+</head><body>
+<!--HUB-->
+<style>
+.ehub{background:#090909;color:#FBFAF8;border-bottom:1px solid #2C323C;position:relative;z-index:6}
+.ehub-in{max-width:1120px;margin:0 auto;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));display:flex;justify-content:space-between;align-items:center;gap:10px 16px;flex-wrap:wrap}
+.ehub a{color:inherit;text-decoration:none}
+.ehub-home{display:flex;align-items:center;gap:12px;min-height:36px}
+.ehub-bands{display:flex;width:56px;height:5px;flex:none}.ehub-bands i{flex:1}
+.ehub-bands i:nth-child(1){background:#344982}.ehub-bands i:nth-child(2){background:#2F6F9E}.ehub-bands i:nth-child(3){background:#2CA5B8}.ehub-bands i:nth-child(4){background:#AB5C95}
+.ehub-wm{font:500 14px/1 "Oswald","Arial Narrow",Impact,sans-serif;letter-spacing:.16em}.ehub-wm b{font-weight:700}
+.ehub-sep{font:600 12px/1 "Barlow Semi Condensed","Arial Narrow",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#AEB5C2;border-left:1px solid #3A3F48;padding-left:12px}
+.ehub-home:hover .ehub-sep{color:#FBFAF8}
+.ehub-r{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ehub-btn{font:600 12px/1 "Barlow Semi Condensed","Arial Narrow",sans-serif;letter-spacing:.1em;text-transform:uppercase;border:1px solid #3A3F48;background:none;color:#FBFAF8;padding:9px 12px;cursor:pointer;min-height:36px;display:inline-flex;align-items:center;gap:8px}
+.ehub-btn:hover{border-color:#FBFAF8}
+.ehub-btn[aria-pressed="true"]{background:#2E7D4F;border-color:#2E7D4F}
+.ehub-btn:focus-visible,.ehub a:focus-visible{outline:2px solid #2CA5B8;outline-offset:2px}
+.ehub-next{background:#FBFAF8!important;color:#090909!important;border-color:#FBFAF8}
+@media (max-width:520px){.ehub-sep{display:none}.ehub-next .ehub-nl{display:none}}
+</style>
+<nav class="ehub" aria-label="Estus Training Hub" style="margin:0"><div class="ehub-in">
+<a class="ehub-home" href="index.html"><span class="ehub-bands" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="ehub-wm"><b>ESTUS</b> HEALTH</span><span class="ehub-sep">&larr; Training Hub</span></a>
+<div class="ehub-r"><button class="ehub-btn" type="button" id="ehub-done" aria-pressed="false">Mark done</button><a class="ehub-btn ehub-next" href="act.html"><span class="ehub-nl">Back to</span> ACT <span aria-hidden="true">&rarr;</span></a></div>
+</div></nav>
+<script>(function(){var K="hub_done",s="act-game",b=document.getElementById("ehub-done");function l(){try{return JSON.parse(localStorage.getItem(K))||{}}catch(e){return {}}}function r(){var on=!!l()[s];b.setAttribute("aria-pressed",on);b.textContent=on?"✓ Done":"Mark done"}b.addEventListener("click",function(){var v=l();if(v[s])delete v[s];else v[s]=1;try{localStorage.setItem(K,JSON.stringify(v))}catch(e){}r()});r()})();</script>
+<!--/HUB-->
+<!--ARTBODY-->
+<div class="rg">
+<header class="hero"><div class="g-wrap">
+  <div>
+    <p class="eyebrow">An ACT game · UFC 94 · Las Vegas · 31 January 2009</p>
+    <h1>Rematch With <em>Fear</em></h1>
+    <p class="lead">Georges St-Pierre (GSP) was one of the greatest fighters ever. He also said he was scared before every single fight. He fought anyway. This game shows you how, one skill at a time.</p>
+    <div class="big-idea"><b>ACT in one line</b><p>You don't have to get rid of fear to do what matters. You can bring it with you.</p></div>
+  </div>
+  <div class="pairs" aria-label="The six ACT skills">
+    <div class="pair"><h3>Open up</h3><ul><li style="--h:#8299DA"><b>Make room</b><span>Let feelings be there</span></li><li style="--h:#6FA8D2"><b>Unhook</b><span>A thought is just a thought</span></li></ul></div>
+    <div class="pair"><h3>Be here</h3><ul><li style="--h:#4CC3D4"><b>Come back</b><span>Attention on right now</span></li><li style="--h:#D58FC1"><b>Step back</b><span>You're the sky, not the weather</span></li></ul></div>
+    <div class="pair"><h3>Do what matters</h3><ul><li style="--h:#C9CCD2"><b>Know your why</b><span>Your compass</span></li><li style="--h:#5FC38A"><b>Take the step</b><span>Small moves, again and again</span></li></ul></div>
+  </div>
+</div></header>
+
+<div class="bar" aria-label="Fight progress"><div class="g-wrap"><div class="track" id="track"></div><div class="tally" id="tally" aria-live="polite"></div></div></div>
+
+<section class="sec" id="fight"><div class="g-wrap"><div class="stage" id="stage"></div></div></section>
+
+<section class="sec" id="quiz"><div class="g-wrap">
+  <div class="qhead"><p class="eyebrow">Quiz · 18 questions</p><h2 class="h2">Try it on your own life</h2><p>Pick a world you know. Every question happens there. Three questions for each of the six skills.</p></div>
+  <div class="stage" id="qz"></div>
+</div></section>
+
+<footer class="g-wrap foot">
+  <p>ACT is Acceptance and Commitment Therapy. This game teaches the ideas. It isn't therapy. If fear or worry is getting in the way of life, talk to a health professional.</p>
+  <p>Fight facts: <a href="https://www.ufc.com/news/its-rushs-hour-gsp-dismantles-penn-four" target="_blank" rel="noopener">UFC.com</a>, <a href="https://lasvegassun.com/news/2009/feb/03/grease-gate-clouds-st-pierres-dominant-win/" target="_blank" rel="noopener">Las Vegas Sun</a>. GSP on fear: <a href="https://africa.espn.com/extra/mma/columns/story?id=5890821" target="_blank" rel="noopener">ESPN</a>, <a href="https://www.businessinsider.in/sports/news/georges-st-pierre-says-he-used-to-cry-before-bouts-early-in-his-career-and-never-enjoyed-fighting-in-the-ufc/articleshow/80222091.cms" target="_blank" rel="noopener">Business Insider</a>. ACT: Russ Harris, <em>ACT Made Simple</em>.</p>
+</footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+function $(s,r){return (r||document).querySelector(s)}
+function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))}
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function cap(s){return s.charAt(0).toUpperCase()+s.slice(1)}
+function lc(s){return /^I[ ']/.test(s)?s:s.charAt(0).toLowerCase()+s.slice(1)}
+function noDot(s){return s.replace(/[.!?]+$/,"")}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
+function store(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
+
+/* ---------- the six skills ---------- */
+var SK = {
+  room:  {name:"Make room",     act:"Acceptance",       pair:"Open up",         c:"c-room",   one:"Let the feeling be there, instead of fighting it."},
+  unhook:{name:"Unhook",        act:"Defusion",         pair:"Open up",         c:"c-unhook", one:"Notice a thought is just a thought. You don't have to obey it."},
+  here:  {name:"Come back",     act:"Present moment",   pair:"Be here",         c:"c-here",   one:"Bring your attention back to what's happening right now."},
+  sky:   {name:"Step back",     act:"Self-as-context",  pair:"Be here",         c:"c-sky",    one:"You're the one noticing your thoughts and feelings. You're bigger than any of them."},
+  why:   {name:"Know your why", act:"Values",           pair:"Do what matters", c:"c-why",    one:"Know what matters to you. It's a compass: a direction, not a finish line."},
+  step:  {name:"Take the step", act:"Committed action", pair:"Do what matters", c:"c-step",   one:"Do small things that move you toward what matters, even when it's hard. Then do it again."}
+};
+var ORDER = ["room","unhook","here","sky","why","step"];
+
+/* ---------- the fight ---------- */
+var VALUES = ["Being brave","Family","Being healthy","Learning","Freedom","Being kind","Doing my best","Adventure","Helping others","Being honest","Creativity","Respect"];
+
+var STAGES = [
+  {id:"walk", label:"Walkout", sk:"room",
+   life:"You feel sick with nerves before a job interview. You notice the nerves, let them sit there, and walk in anyway.",
+   fight:"Early in his career, GSP cried before fights and promised himself each one would be his last. The fear never fully left. He learned to walk out with it.",
+   tryTitle:"Two dials. One you control. One you don't.",
+   choice:{prompt:"The walkout music starts. Your heart is pounding. What do you do?", opts:[
+     {t:"Wait in the tunnel until the fear goes away.", ok:false, fb:"Fear doesn't leave on cue. Waiting to feel ready can mean never walking."},
+     {t:"Let your heart pound, and start walking.", ok:true, fb:"That's making room. The fear walks with you, but you're the one walking."},
+     {t:"Tell yourself “I'm not scared” over and over.", ok:false, fb:"Pushing a feeling away usually makes it louder. You saw that with the fear dial."}]}},
+  {id:"r1", label:"Round 1", sk:"unhook",
+   life:"Your mind says “I'll never get this right.” You notice it: “There's that thought again.” Then you keep working.",
+   fight:"Round 1 was close. Penn blocked GSP's takedown and hit him with a clean one-two.",
+   tryTitle:"These thoughts are shouting at you. Tap each one to unhook from it.",
+   choice:{prompt:"You just got hit. Your mind says: “You're losing this round.” What do you do?", opts:[
+     {t:"Argue back: “No I'm not, I'm winning!”", ok:false, fb:"Arguing with a thought keeps you fighting your mind instead of your opponent."},
+     {t:"Notice it. “Thanks, mind.” Then back to the game plan.", ok:true, fb:"You heard the thought and kept going. It's along for the ride, but it's not driving."},
+     {t:"Believe it. Cover up and wait for the bell.", ok:false, fb:"Now the thought is calling the shots."}]}},
+  {id:"r2", label:"Round 2", sk:"here",
+   life:"Halfway through a chat with a friend, you start planning dinner. You notice, and come back to what they're saying.",
+   fight:"In round 2, GSP took over. He kept his jab in Penn's face and kept going for takedowns.",
+   tryTitle:"Your mind keeps wandering. Tap only what's happening right now, in the cage.",
+   choice:{prompt:"Penn is pinned against the fence. Your mind starts writing your victory speech. What do you do?", opts:[
+     {t:"Keep working on the speech. It's going to be a good one.", ok:false, fb:"That's the future. The takedown is happening now."},
+     {t:"Replay the punch you took in round 1.", ok:false, fb:"That's the past. You can't fight it again."},
+     {t:"Feel your feet on the canvas. Find the angle. Take the shot.", ok:true, fb:"Your attention went where the work is: right here."}]}},
+  {id:"r3", label:"Round 3", sk:"sky",
+   life:"After a mistake at work, your mind says “I'm useless.” You step back: “I'm someone having a rough day. That's not all of me.”",
+   fight:"Between rounds, officials pulled up GSP's corner for rubbing Vaseline on his back, and had him toweled down. Noise and controversy, with one minute to reset.",
+   meta:"Picture the sky and the weather. Thoughts and feelings are the weather. They come and go. You're the sky. A storm never hurts the sky.",
+   tryTitle:"Your head is full of weather. Tap the button to step back.",
+   choice:{prompt:"The bell for round 3 is close. Your head is full of noise. What do you take back out there?", opts:[
+     {t:"“I notice anger and noise. I'm the one noticing it.” Back to the plan.", ok:true, fb:"You stepped back from the storm. You didn't need it to stop."},
+     {t:"“This is a disaster. Everyone thinks I'm a cheat.”", ok:false, fb:"That's a story stuck to who you are. It's heavier than the gloves."},
+     {t:"Spend the minute arguing with the officials.", ok:false, fb:"Fighting what you can't control uses up the minute you can control."}]}},
+  {id:"r4", label:"Round 4", sk:"why",
+   life:"You care about being a good parent. That's why you get up for the 3am feed, even when you're wrecked.",
+   fight:"GSP has said he never enjoyed fighting itself. What kept him going was what it stood for: the love of winning, and the freedom fighting gave him.",
+   tryTitle:"Pick up to three things that matter to you.",
+   choice:{prompt:"Round 4. Your lungs are burning. Your mind says: “Just survive this.” What do you do?", opts:[
+     {t:"Coast. Don't do anything that could go wrong.", ok:false, fb:"That's moving away from discomfort, not toward anything."},
+     {t:"__WHY__", ok:true, fb:"Tired, scared, and still moving toward what matters. That's what a why is for."},
+     {t:"Stare at the clock and count down the seconds.", ok:false, fb:"The time passes either way. Spend it on something that matters."}]}},
+  {id:"after", label:"After", sk:"step",
+   life:"You care about your health. You don't run a marathon tomorrow. You go for a 15-minute walk today.",
+   fight:"After round 4, Penn's corner stopped the fight. GSP kept his title. The judges had him ahead 40-35, 40-34 and 40-34.",
+   tryTitle:"The belt is won in the cage. The real fight is your week. Write one small step.",
+   choice:{prompt:"A week later your mind says: “Train when you feel motivated.” What do you do?", opts:[
+     {t:"Wait until the motivation shows up.", ok:false, fb:"Motivation comes and goes like weather. Action can come first."},
+     {t:"Book your next session now, motivated or not.", ok:true, fb:"Small, specific, and done. That's taking the step."},
+     {t:"Plan to train twice a day, every day, from Monday.", ok:false, fb:"Too big to keep. Small and steady beats big and short-lived."}]}}
+];
+
+function freshGame(){return {i:-1, sub:0, picks:{}, values:[], will:2, plan:{a:"",v:"",f:""}}}
+var G = freshGame(), timers = [];
+function whyText(){var v=G.values.map(function(x){return x.toLowerCase()});if(!v.length)return "what matters to you";if(v.length===1)return v[0];return v.slice(0,-1).join(", ")+" and "+v[v.length-1]}
+function optText(o){return o.t==="__WHY__"?"Take one more step toward "+whyText()+".":o.t}
+
+function renderBar(){
+  $("#track").innerHTML = STAGES.map(function(s,i){
+    var p=G.picks[s.id], cls=(i===G.i?" on":"")+(p===true?" tw":p===false?" aw":"");
+    return '<div class="tk'+cls+'"'+(i===G.i?' aria-current="step"':'')+'><i></i><b><span class="l">'+s.label+'</span><span class="s">'+(s.label==="Walkout"?"Walk":s.label.replace("Round ","R"))+'</span></b></div>';
+  }).join("");
+  var t=0,a=0;Object.keys(G.picks).forEach(function(k){G.picks[k]?t++:a++});
+  $("#tally").innerHTML='<span class="t">Towards '+t+'</span><span class="a">Away '+a+'</span>';
+}
+
+function subs(n){
+  return '<div class="subs" aria-label="Steps">'+["Learn","Try it","Your move"].map(function(x,i){
+    return '<span class="'+(i===n?"on":i<n?"dn":"")+'">'+(i+1)+" "+x+'</span>'}).join("")+'</div>';
+}
+
+function viewIntro(){
+  return '<div class="card"><p class="eyebrow">How it works</p><h2 class="h2">Six stages. Six skills.</h2>'+
+  '<p>The fight has six stages: the walkout, four rounds, and the week after. Each stage teaches one ACT skill.</p>'+
+  '<ol class="how"><li><b>Learn</b><span>What the skill is, in plain words.</span></li><li><b>Try it</b><span>A quick hands-on moment.</span></li><li><b>Your move</b><span>Fear shows up. You choose what to do.</span></li></ol>'+
+  '<div class="legend"><div class="tw"><b>Towards move</b>Takes you closer to what matters, even with fear along.</div><div class="aw"><b>Away move</b>Gets rid of the fear for now, but takes you off course.</div></div>'+
+  '<p>Away moves aren\'t “wrong”. Everyone makes them. The game is about noticing which way you\'re heading.</p>'+
+  '<div class="row"><button class="btn p" id="start">Start the walkout</button><button class="link" id="toquiz">Skip to the quiz</button></div></div>';
+}
+
+function viewLearn(s){
+  var k=SK[s.sk];
+  return '<div class="card '+k.c+'">'+subs(0)+
+  '<div><p class="eyebrow">'+s.label+' · Skill '+(G.i+1)+' of 6 · '+k.pair+'</p><h2 class="skill" tabindex="-1">'+k.name+'</h2><p class="actname">ACT name: '+k.act+'</p></div>'+
+  '<p class="one">'+k.one+'</p>'+
+  '<div class="ex"><div><b>In everyday life</b><p>'+s.life+'</p></div><div><b>In the fight</b><p>'+s.fight+'</p></div></div>'+
+  (s.meta?'<p class="meta">'+s.meta+'</p>':'')+
+  '<div class="row"><button class="btn p" id="go">Try it</button></div></div>';
+}
+
+function tryBody(s){
+  switch(s.id){
+  case "walk": return '<div class="dials"><div class="dial fear"><div class="dial-h"><span>Fear</span><b id="fv">8</b></div><div class="meter"><i id="fb"></i></div><button class="btn" id="push">Push the fear away</button><small>You don\'t control this one.</small></div>'+
+    '<div class="dial will"><div class="dial-h"><label for="will">Willing</label><b id="wv">'+G.will+'</b></div><input type="range" id="will" min="0" max="10" step="1" value="'+G.will+'"><small>How willing are you to walk with the fear? You control this one. Drag it.</small></div></div>'+
+    '<div class="walk" aria-hidden="true"><span>Tunnel</span><div class="path"><div class="walker" id="walker"></div></div><span class="cage">CAGE</span></div>';
+  case "r1": return '<div class="thoughts">'+["He's going to embarrass me","I'm not made for this","Everyone will see I'm a fraud"].map(function(t){return '<button class="th" data-t="'+esc(t)+'">'+esc(t)+'</button>'}).join("")+'</div>';
+  case "r2": var it=[["Your feet on the canvas",1],["Tomorrow's headlines",0],["Your breathing",1],["The fight you lost years ago",0],["Penn's lead hand",1],["Your post-fight interview",0]];
+    return '<div class="chips">'+it.map(function(x){return '<button class="chip" data-a="'+x[1]+'">'+x[0]+'</button>'}).join("")+'</div>';
+  case "r3": var wx=["Anger","This isn't fair","Embarrassment","Crowd noise","What will people say?","Adrenaline"];
+    return '<div class="sky" id="sky">'+wx.map(function(w,i){return '<span class="wx" style="--y:'+(12+(i%3)*50)+'px;--d:-'+(i*3.4).toFixed(1)+'s;--s:'+(11+(i%3)*2)+'s">'+esc(w)+'</span>'}).join("")+'<p class="skycap" id="skycap" hidden>You\'re the sky. This is just weather. It passes.</p></div><div class="row"><button class="btn" id="back">Step back</button></div>';
+  case "r4": return '<div class="chips">'+VALUES.map(function(v){return '<button class="chip" aria-pressed="'+(G.values.indexOf(v)>-1)+'" data-v="'+v+'">'+v+'</button>'}).join("")+'</div>';
+  case "after": return '<div class="form"><div class="fld"><label for="pa">This week I will</label><input id="pa" placeholder="e.g. go for one 15-minute walk" value="'+esc(G.plan.a)+'"></div>'+
+    '<div class="fld"><label for="pv">Because I care about</label><input id="pv" placeholder="e.g. my health" value="'+esc(G.plan.v||(G.values.length?whyText():""))+'"></div>'+
+    '<div class="fld"><label for="pf">When this feeling or thought shows up</label><input id="pf" placeholder="e.g. “I\'m too tired”" value="'+esc(G.plan.f)+'"></div>'+
+    '<p>…I\'ll make room for it and do it anyway.</p></div>';
+  }
+}
+
+function viewTry(s){
+  var k=SK[s.sk];
+  return '<div class="card '+k.c+'">'+subs(1)+'<div><p class="eyebrow">'+s.label+' · '+k.name+'</p><h2 class="h2" tabindex="-1">Try it</h2></div>'+
+  '<p class="ins">'+s.tryTitle+'</p>'+tryBody(s)+'<p class="msg" id="msg" aria-live="polite"></p>'+
+  '<div class="row"><button class="btn p" id="go" disabled>Make your move</button></div></div>';
+}
+
+function viewChoose(s){
+  var k=SK[s.sk];
+  return '<div class="card '+k.c+'">'+subs(2)+'<div><p class="eyebrow">'+s.label+' · '+k.name+'</p><h2 class="h2" tabindex="-1">Your move</h2></div>'+
+  '<p class="prompt">'+s.choice.prompt+'</p><div class="opts">'+s.choice.opts.map(function(o,i){
+    return '<button class="opt" data-i="'+i+'"><span>'+esc(optText(o))+'</span><span class="tag"></span></button>'}).join("")+'</div>'+
+  '<div class="fb" id="cfb" hidden aria-live="polite"></div>'+
+  '<div class="row"><button class="btn p" id="go" hidden>'+(G.i===STAGES.length-1?"See your scorecard":"Next: "+STAGES[G.i+1].label)+'</button></div></div>';
+}
+
+function viewEnd(){
+  var t=0;ORDER.forEach(function(k,i){if(G.picks[STAGES[i].id])t++});
+  var verdict = t===6?"A clean sweep. Fear was there the whole fight. It just never got to choose your moves.":
+    t>=4?"Strong fight. A couple of away moves, which is normal. Notice them, then turn back.":
+    "Fear took a few stages this time. That's useful to know, not a verdict. Run it back.";
+  var plan = G.plan.a?"This week I will "+G.plan.a+", because I care about "+(G.plan.v||"what matters")+". When "+(G.plan.f||"fear")+" shows up, I'll make room for it and do it anyway.":"";
+  return '<div class="card"><p class="eyebrow">Scorecard</p><p class="final" tabindex="-1"><span>'+t+'</span> of 6 towards moves</p><p>'+verdict+'</p>'+
+  '<ul class="sklist">'+STAGES.map(function(s){var k=SK[s.sk],ok=G.picks[s.id];
+    return '<li class="'+k.c+'"><span class="sw"></span><div><b>'+k.name+'</b><span>'+k.act+' · '+k.one+'</span></div><em class="'+(ok?"tw":"aw")+'">'+(ok?"Towards":"Away")+'</em></li>'}).join("")+'</ul>'+
+  (plan?'<div><p class="lbl" style="margin-bottom:8px">Your next fight</p><p class="pledge" id="pledge">'+esc(plan)+'</p><div class="row" style="margin-top:10px"><button class="btn" id="copy">Copy my step</button><span class="msg" id="cmsg" aria-live="polite"></span></div></div>':'')+
+  '<div class="row"><button class="btn p" id="toquiz">Take the quiz</button><button class="btn" id="again">Play again</button></div></div>';
+}
+
+function wireTry(s){
+  var go=$("#go"), msg=$("#msg");
+  function ready(t){go.disabled=false;if(t){msg.textContent=t;msg.className="msg good"}}
+  function say(t){msg.textContent=t;msg.className="msg"}
+  if(s.id==="walk"){
+    var spike=false, grabs=0;
+    function setF(v){var a=$("#fv"),b=$("#fb");if(!a||!b)return;a.textContent=Math.round(v);b.style.width=(v*10)+"%"}
+    setF(8);
+    if(!reduce)timers.push(setInterval(function(){if(!spike)setF(7+Math.random()*2)},900));
+    $("#push").onclick=function(){grabs++;spike=true;setF(10);say(grabs>1?"Still pushing? Fear isn't the dial you control. Try the other one.":"Pushing it away made it bigger. That's the trap.");setTimeout(function(){spike=false;setF(8)},1300)};
+    function upd(){var w=G.will;$("#wv").textContent=w;$("#walker").style.setProperty("--p",w/10);
+      if(w>=8)ready("Fear is still about 8. You're at the cage anyway. That's making room.");
+      else{go.disabled=true;say(w<4?"Stuck in the tunnel, waiting to feel ready.":"Halfway. Still waiting for the fear to leave first?")}}
+    $("#will").addEventListener("input",function(e){G.will=+e.target.value;upd()});upd();
+  }
+  if(s.id==="r1"){
+    var n=0;
+    $$(".th").forEach(function(b){b.addEventListener("click",function(){
+      if(b.classList.contains("off"))return;
+      b.classList.add("off");b.innerHTML='<em>I notice I\'m having the thought:</em> “'+esc(b.dataset.t)+'”';n++;
+      if(n<3)say("Same words. Less grip. Keep going.");else ready("The thoughts are still there. They're just not in charge.");
+    })});
+  }
+  if(s.id==="r2"){
+    var m=0;
+    $$(".chip").forEach(function(b){b.addEventListener("click",function(){
+      if(b.dataset.a==="1"){if(b.classList.contains("yes"))return;b.classList.add("yes");m++;
+        if(m<3)say("Yes, that's here now. "+(3-m)+" more.");else ready("All three. That's what's in the cage right now.");}
+      else{b.classList.add("no");say("That's not in the cage. Notice it, and come back.");setTimeout(function(){b.classList.remove("no")},800)}
+    })});
+  }
+  if(s.id==="r3"){
+    $("#back").onclick=function(){var w=$("#sky").classList.toggle("wide");$("#skycap").hidden=!w;$("#back").textContent=w?"Zoom back in":"Step back";
+      if(w)ready("Same weather. But now you can see it's not you.")};
+  }
+  if(s.id==="r4"){
+    function upd(){if(G.values.length)ready("In your corner: "+G.values.join(", ")+".");else{go.disabled=true;say("")}}
+    $$(".chip").forEach(function(b){b.addEventListener("click",function(){
+      var v=b.dataset.v,on=G.values.indexOf(v)>-1;
+      if(!on&&G.values.length>=3){say("Three is plenty. Tap one to drop it first.");return}
+      G.values=on?G.values.filter(function(x){return x!==v}):G.values.concat(v);b.setAttribute("aria-pressed",String(!on));upd();
+    })});upd();
+  }
+  if(s.id==="after"){
+    function upd(){G.plan={a:$("#pa").value.trim(),v:$("#pv").value.trim(),f:$("#pf").value.trim()};
+      if(G.plan.a)ready("Small and specific. Good.");else{go.disabled=true;say("Write one small step to continue.")}}
+    ["pa","pv","pf"].forEach(function(id){$("#"+id).addEventListener("input",upd)});upd();
+  }
+  go.onclick=function(){G.sub=2;render(true)};
+}
+
+function wireChoose(s){
+  $$(".opt").forEach(function(b){b.addEventListener("click",function(){
+    if(G.picks[s.id]!==undefined)return;
+    var o=s.choice.opts[+b.dataset.i];G.picks[s.id]=o.ok;
+    $$(".opt").forEach(function(x,j){x.disabled=true;var oj=s.choice.opts[j];
+      if(x===b){x.classList.add(o.ok?"tw":"aw");x.querySelector(".tag").textContent=o.ok?"Towards":"Away"}
+      else if(oj.ok){x.classList.add("tw");x.querySelector(".tag").textContent="Towards"}
+      else x.classList.add("dim")});
+    var f=$("#cfb");f.innerHTML='<span class="v '+(o.ok?"tw":"aw")+'">'+(o.ok?"Towards move":"Away move")+'</span><span>'+o.fb+'</span>'+(o.ok?"":'<small>The towards move is marked in green.</small>');f.hidden=false;
+    var go=$("#go");go.hidden=false;go.onclick=function(){G.i++;G.sub=0;render(true)};go.focus();
+    renderBar();
+  })});
+}
+
+function render(focus){
+  timers.forEach(clearInterval);timers=[];
+  var st=$("#stage");
+  if(G.i<0){st.innerHTML=viewIntro();$("#start").onclick=function(){G.i=0;G.sub=0;render(true)};$("#toquiz").onclick=gotoQuiz}
+  else if(G.i>=STAGES.length){st.innerHTML=viewEnd();
+    $("#again").onclick=function(){G=freshGame();G.i=0;render(true)};$("#toquiz").onclick=gotoQuiz;
+    var c=$("#copy");if(c)c.onclick=function(){var t=$("#pledge").textContent;
+      function ok(){$("#cmsg").textContent="Copied."}
+      function fb(){var r=document.createRange();r.selectNodeContents($("#pledge"));var s=getSelection();s.removeAllRanges();s.addRange(r);$("#cmsg").textContent="Selected. Copy it with your keyboard."}
+      try{navigator.clipboard.writeText(t).then(ok,fb)}catch(e){fb()}}}
+  else{var s=STAGES[G.i];
+    if(G.sub===0){st.innerHTML=viewLearn(s);$("#go").onclick=function(){G.sub=1;render(true)}}
+    else if(G.sub===1){st.innerHTML=viewTry(s);wireTry(s)}
+    else{st.innerHTML=viewChoose(s);wireChoose(s)}}
+  renderBar();
+  if(focus){$("#fight").scrollIntoView({behavior:reduce?"auto":"smooth",block:"start"});var h=$("#stage [tabindex='-1']");if(h)h.focus({preventScroll:true})}
+}
+function gotoQuiz(){$("#quiz").scrollIntoView({behavior:reduce?"auto":"smooth",block:"start"});var b=$("#qz button");if(b)b.focus({preventScroll:true})}
+
+/* ---------- quiz: themes ---------- */
+var THEMES = {
+  fight:{name:"Fight night", c:"c-room", blurb:"Sparring, nerves and the gym floor", s:{
+    topic:"your fight training", big:"spar a stronger partner for the first time", feel:"a flutter of nerves",
+    thought:"I'm going to get embarrassed in front of the whole gym.", thought2:"I'm too slow for this level.",
+    fix:"Your gloves are too small and your knuckles ache after every session",
+    doing:"drilling takedowns with your partner", drift:"the fight clip you'll post tonight",
+    now:"Your partner's hips dropping", past:"The round you lost last month", future:"What your coach will say next week",
+    setback:"a bad loss in your last fight", tag:"a fraud", value:"being brave",
+    goal:"Win a title belt", goal2:"Make weight with 2 kilograms to spare",
+    step:"book one sparring round with a partner you trust", bigstep:"sign up for three fights this month",
+    avoid:"scrolling fight highlights on your phone"}},
+  garden:{name:"Gardening", c:"c-step", blurb:"Seedlings, shade and black thumbs", s:{
+    topic:"your garden", big:"dig up the back bed and start a veggie patch from scratch", feel:"a wave of worry",
+    thought:"I have a black thumb and everything I plant dies.", thought2:"The neighbours will think my garden is a mess.",
+    fix:"Your veggie bed sits in full shade all day and nothing will grow",
+    doing:"weeding the veggie patch", drift:"everything you still need to plant before spring",
+    now:"Soil under your fingernails", past:"Last summer's dead tomatoes", future:"Next year's harvest",
+    setback:"a heatwave killing every seedling you planted", tag:"a plant killer", value:"caring for living things",
+    goal:"Win a ribbon at the local show", goal2:"Grow 10 kilograms of tomatoes this season",
+    step:"plant one pot of basil this weekend", bigstep:"re-landscape the whole yard this weekend",
+    avoid:"watching garden videos instead of getting your hands dirty"}},
+  cook:{name:"Cooking", c:"c-sky", blurb:"Dinner parties, burnt pans and recipes", s:{
+    topic:"your cooking", big:"cook a three-course dinner for six friends", feel:"a sinking feeling",
+    thought:"I'm going to ruin it and everyone will be too polite to say.", thought2:"I'm not a real cook. I just follow recipes.",
+    fix:"Your oven runs 30 degrees hot and every cake burns",
+    doing:"cooking tonight's curry", drift:"whether your friends will like Saturday's dessert",
+    now:"The smell of onions hitting hot oil", past:"The risotto you burnt last month", future:"Saturday's dinner party",
+    setback:"a lasagne that came out raw in the middle", tag:"a terrible cook", value:"bringing people together",
+    goal:"Master the perfect soufflé", goal2:"Cook five new recipes this month",
+    step:"invite one friend over for a simple pasta on Tuesday", bigstep:"host a ten-person degustation this weekend",
+    avoid:"ordering takeaway again"}},
+  crypto:{name:"Crypto", c:"c-unhook", blurb:"Price charts, FOMO and 3am checks", s:{
+    topic:"your investing", big:"set a long-term plan and stop checking prices every hour", feel:"a knot of panic",
+    thought:"I always buy the top and sell the bottom.", thought2:"Everyone is getting rich except me.",
+    fix:"Your exchange account has no two-factor login and you worry about it every night",
+    doing:"reading a project's whitepaper", drift:"what the price might do overnight",
+    now:"The paragraph in front of you", past:"The coin you sold too early", future:"Where the market will be next year",
+    setback:"a 40 percent drop the week after you bought", tag:"an idiot with money", value:"building security for your family",
+    goal:"Grow your portfolio to $100,000", goal2:"Double your money by June",
+    step:"write your plan on one page and limit price checks to once a day", bigstep:"move all your savings into one coin tonight",
+    avoid:"refreshing the price chart over and over"}},
+  fitness:{name:"Fitness", c:"c-here", blurb:"Gym nerves, restarts and PBs", s:{
+    topic:"your training", big:"walk into a busy gym for the first time in years", feel:"a hot flush of embarrassment",
+    thought:"Everyone in there is going to stare at me.", thought2:"I've fallen off too many times to bother.",
+    fix:"Your running shoes are worn through and your knees ache after every run",
+    doing:"working through your gym session", drift:"how many weeks are left until summer",
+    now:"Your feet pressing into the floor", past:"The program you quit last year", future:"How you'll look in summer",
+    setback:"missing three weeks of training in a row", tag:"lazy", value:"looking after your body",
+    goal:"Run 5K in under 25 minutes", goal2:"Squat 100 kilograms by Christmas",
+    step:"do one 20-minute session on Monday morning", bigstep:"train two hours every day starting tomorrow",
+    avoid:"telling yourself you'll start next Monday"}},
+  property:{name:"Property", c:"c-why", blurb:"Auctions, suburbs and first offers", s:{
+    topic:"your property investing", big:"make an offer on your first investment property", feel:"a tight feeling in your chest",
+    thought:"I'll pick the wrong suburb and lose everything.", thought2:"People like me don't own investment properties.",
+    fix:"Your rental's roof leaks and the tenants keep reporting it",
+    doing:"walking through an open home", drift:"where interest rates will be in five years",
+    now:"The crack running along the ceiling", past:"The house you missed out on last year", future:"Whether prices will drop next year",
+    setback:"losing at auction by $5,000", tag:"a failure", value:"building freedom for your future",
+    goal:"Own three properties by 45", goal2:"Get a 6 percent rental yield",
+    step:"book a 30-minute chat with a mortgage broker this week", bigstep:"buy two properties before the end of the month",
+    avoid:"watching property shows instead of looking at listings"}}
+};
+
+/* ---------- quiz: 18 question patterns, 3 per skill ---------- */
+function skillOpts(right, a, b){return [[SK[right].name,1],[SK[a].name,0],[SK[b].name,0]]}
+var TPL = [
+  {sk:"room", q:function(s){return "You want to "+s.big+". You notice "+s.feel+". You tell yourself: “This feeling can come too. I'll start anyway.” Which skill is that?"},
+   o:function(){return skillOpts("room","why","sky")}, why:"Letting a feeling be there, instead of waiting for it to leave, is making room."},
+  {sk:"room", q:function(s){return "You want to "+s.big+". Every time you think about it, "+s.feel+" kicks in. What does making room look like?"},
+   o:function(s){return [["Notice the feeling, breathe, and start with it still there.",1],["Wait until you feel calm and confident, then start.",0],["Put it off by "+s.avoid+".",0]]},
+   why:"Waiting to feel ready can take forever, and distraction only works for a while. Making room lets you move now."},
+  {sk:"room", q:function(s){return s.fix+". A friend says, “ACT says just accept it.” What's the better read?"},
+   o:function(){return [["Fix what can be fixed. Make room for the feelings that are left.",1],["Accept it. Acceptance means putting up with everything.",0],["Ignore it and hope it sorts itself out.",0]]},
+   why:"Making room is for feelings and thoughts. Problems you can solve, you solve."},
+
+  {sk:"unhook", q:function(s){return "Your mind says: “"+s.thought+"” You reply: “I notice I'm having the thought that "+lc(noDot(s.thought))+".” Then you keep going. Which skill is that?"},
+   o:function(){return skillOpts("unhook","room","here")}, why:"Putting “I notice I'm having the thought…” in front of a thought shows it for what it is: words, not orders. That's unhooking."},
+  {sk:"unhook", q:function(s){return "You're about to "+s.big+". Your mind shouts: “"+s.thought2+"” What does unhooking look like?"},
+   o:function(){return [["“Thanks, mind.” Notice the thought and carry on.",1],["Argue back until you've proved the thought wrong.",0],["Believe it and drop the idea.",0]]},
+   why:"Arguing keeps you stuck in the thought. Believing it hands it the wheel. Unhooking lets it ride along without steering."},
+  {sk:"unhook", q:function(s){return "Your mind keeps saying: “"+s.thought+"” Which question helps you unhook?"},
+   o:function(){return [["Is this thought helpful right now?",1],["Is this thought 100 percent true?",0],["How do I make this thought stop forever?",0]]},
+   why:"ACT doesn't debate whether a thought is true. It asks whether following it takes you where you want to go."},
+
+  {sk:"here", q:function(s){return "You're "+s.doing+". Your mind drifts to "+s.drift+". You notice, and bring your attention back to "+lc(s.now)+". Which skill is that?"},
+   o:function(){return skillOpts("here","unhook","why")}, why:"Noticing your mind has wandered and bringing it back to right now is coming back."},
+  {sk:"here", q:function(s){return "You're "+s.doing+". Which of these is happening right now?"},
+   o:function(s){return [[s.now,1],[s.past,0],[s.future,0]]}, why:"The other two live in the past or the future. Only one is in front of you."},
+  {sk:"here", q:function(s){return "You're "+s.doing+" and realise your mind has been on "+s.drift+" for ten minutes. What now?"},
+   o:function(){return [["Notice it wandered, no drama, and gently come back.",1],["Get annoyed with yourself for losing focus.",0],["Give up for today. Clearly not your day.",0]]},
+   why:"Minds wander. That's normal. Noticing and coming back is the skill, and every return is one more rep."},
+
+  {sk:"sky", q:function(s){return "After "+s.setback+", you catch yourself thinking “I'm "+s.tag+".” Then you add: “I'm someone having a hard time with this. It isn't all of me.” Which skill is that?"},
+   o:function(){return skillOpts("sky","room","step")}, why:"Seeing yourself as bigger than one label or one bad moment is stepping back."},
+  {sk:"sky", q:function(s){return "Whenever "+s.topic+" gets hard, your mind calls you "+s.tag+". What does stepping back look like?"},
+   o:function(){return [["See the label as words your mind is using. You're the one noticing them.",1],["Accept the label. Your mind has seen the evidence.",0],["Prove the label wrong by pushing twice as hard tonight.",0]]},
+   why:"A label is weather passing through. You don't need to believe it or beat it. You can notice it from a step back."},
+  {sk:"sky", q:function(s){return "Picture your thoughts and feelings about "+s.topic+" as weather: storms, sunshine, fog. In this picture, what are you?"},
+   o:function(){return [["The sky. Big enough to hold any weather.",1],["The storm.",0],["A forecaster trying to stop the rain.",0]]},
+   why:"Weather changes all the time. The sky stays. You can have a stormy thought without being the storm."},
+
+  {sk:"why", q:function(s){return "Which one of these is a value, not a goal?"},
+   o:function(s){return [[cap(s.value),1],[s.goal,0],[s.goal2,0]]}, why:"Goals get ticked off. A value is a direction you keep heading in. You never “finish” it."},
+  {sk:"why", q:function(s){return "Some days "+s.topic+" feels like a grind. You keep going because it's about "+s.value+". Which skill is that?"},
+   o:function(){return skillOpts("why","step","room")}, why:"Knowing what something is really about for you, and using that to keep going, is knowing your why."},
+  {sk:"why", q:function(s){return "You've lost your spark for "+s.topic+". Nothing feels motivating. What does knowing your why look like?"},
+   o:function(s){return [["Ask what you want it to stand for, like "+s.value+".",1],["Set a bigger target: "+lc(s.goal)+".",0],["Push on with willpower and stop asking questions.",0]]},
+   why:"Targets run out, whether you hit them or not. Your why keeps giving the next step a reason."},
+
+  {sk:"step", q:function(s){return "You want to "+s.big+". Which first step fits best?"},
+   o:function(s){return [[cap(s.step)+".",1],[cap(s.bigstep)+".",0],["Wait until you feel completely ready.",0]]},
+   why:"Small, specific and doable this week beats big and someday."},
+  {sk:"step", q:function(s){return "You care about "+s.value+". It's scary, but you go ahead and "+s.step+". Which skill is that?"},
+   o:function(){return skillOpts("step","why","here")}, why:"Doing something small toward what matters, while it's still scary, is taking the step."},
+  {sk:"step", q:function(s){return "You planned to "+s.step+", but the week got away from you and it didn't happen. What now?"},
+   o:function(){return [["Notice it, be kind to yourself, and recommit to the step.",1],["Decide you're just not disciplined, and quit.",0],["Make next week's plan three times bigger to make up for it.",0]]},
+   why:"Missing a step is part of it. Taking the step means coming back to the path again and again."}
+];
+
+function buildQuiz(themeKey){
+  var s=THEMES[themeKey].s;
+  return shuffle(TPL).map(function(t){
+    return {sk:t.sk, q:t.q(s), opts:shuffle(t.o(s).map(function(o){return {t:o[0],ok:!!o[1]}})), why:t.why};
+  });
+}
+
+var Q = {theme:null, list:[], i:0, score:0, bySk:{}, answered:false};
+
+function cheat(){
+  return '<details class="cheat"><summary>Need a reminder? The six skills</summary><ul>'+ORDER.map(function(k){var x=SK[k];
+    return '<li class="'+x.c+'"><b>'+x.name+'</b>'+x.one+'</li>'}).join("")+'</ul></details>';
+}
+
+function qzPick(){
+  var last=store("act_quiz_theme");
+  $("#qz").innerHTML='<p class="ins">Choose your world</p><div class="themes">'+Object.keys(THEMES).map(function(k){var t=THEMES[k];
+    return '<button class="theme '+t.c+'" data-k="'+k+'"><b>'+t.name+'</b><span>'+t.blurb+'</span><q>'+esc(noDot(t.s.thought))+'</q>'+(k===last?'<span>Last played</span>':'')+'</button>'}).join("")+'</div>'+cheat();
+  $$("#qz .theme").forEach(function(b){b.onclick=function(){startQuiz(b.dataset.k)}});
+}
+function startQuiz(k){
+  store("act_quiz_theme",k);
+  Q={theme:k, list:buildQuiz(k), i:0, score:0, bySk:{}, answered:false};
+  ORDER.forEach(function(x){Q.bySk[x]=0});
+  qzShow(true);
+}
+function qzShow(focus){
+  var t=THEMES[Q.theme], q=Q.list[Q.i], n=Q.list.length;
+  $("#qz").innerHTML='<div class="card '+t.c+'"><div class="qbar"><span>'+t.name+' · Question '+(Q.i+1)+' of '+n+'</span><span>Score '+Q.score+'</span></div>'+
+    '<div class="prog" aria-hidden="true"><i style="width:'+(Q.i/n*100)+'%"></i></div>'+
+    '<p class="q" tabindex="-1">'+esc(q.q)+'</p><div class="opts">'+q.opts.map(function(o,i){return '<button class="opt" data-i="'+i+'"><span>'+esc(o.t)+'</span><span class="tag"></span></button>'}).join("")+'</div>'+
+    '<div class="fb" id="qfb" hidden aria-live="polite"></div>'+
+    '<div class="row"><button class="btn p" id="qnext" hidden>'+(Q.i===n-1?"See my results":"Next question")+'</button><button class="link" id="qtheme">Change world</button></div></div>'+cheat();
+  $$("#qz .opt").forEach(function(b){b.onclick=function(){
+    if(Q.answered)return;Q.answered=true;
+    var o=q.opts[+b.dataset.i];if(o.ok){Q.score++;Q.bySk[q.sk]++}
+    $$("#qz .opt").forEach(function(x,j){x.disabled=true;if(q.opts[j].ok){x.classList.add("right");x.querySelector(".tag").textContent="Best answer"}else if(x===b){x.classList.add("wrong");x.querySelector(".tag").textContent="Your pick"}else x.classList.add("dim")});
+    var k=SK[q.sk];
+    $("#qfb").innerHTML='<span class="v '+(o.ok?"tw":"aw")+'">'+(o.ok?"Got it":"Not quite")+'</span><span>'+esc(q.why)+'</span><small>Skill: '+k.name+' ('+k.act+')</small>';
+    $("#qfb").hidden=false;$(".qbar span:last-child").textContent="Score "+Q.score;
+    var nx=$("#qnext");nx.hidden=false;nx.focus();
+  }});
+  $("#qnext").onclick=function(){Q.answered=false;if(Q.i<Q.list.length-1){Q.i++;qzShow(true)}else qzResults()};
+  $("#qtheme").onclick=qzPick;
+  if(focus){var p=$("#qz .q");if(p)p.focus({preventScroll:true});$("#quiz").scrollIntoView({behavior:reduce?"auto":"smooth",block:"start"})}
+}
+function qzResults(){
+  var t=THEMES[Q.theme], n=Q.list.length, sc=Q.score;
+  var weak=ORDER.filter(function(k){return Q.bySk[k]<2}).map(function(k){return SK[k].name});
+  var line = sc>=16?"You've got ACT. You could explain this to someone else.":sc>=12?"Solid. You know most of the skills well.":sc>=8?"Good start. A few skills need another look.":"Early days. Play the fight again, then retry.";
+  $("#qz").innerHTML='<div class="card '+t.c+'"><p class="eyebrow">'+t.name+' · Results</p><p class="final" tabindex="-1"><span>'+sc+'</span> of '+n+'</p><p>'+line+'</p>'+
+    '<div class="res">'+ORDER.map(function(k){var x=SK[k],v=Q.bySk[k];
+      return '<div class="'+x.c+'"><b>'+x.name+'</b><div class="pips">'+[0,1,2].map(function(i){return '<i class="'+(i<v?"on":"")+'"></i>'}).join("")+'</div><span>'+v+' of 3 · '+x.act+'</span></div>'}).join("")+'</div>'+
+    (weak.length?'<p class="meta" style="--c:var(--g-warn);--ct:var(--g-warn-t)">Worth another look: <b>'+weak.join(", ")+'</b>. Replay those stages in the fight above.</p>':'')+
+    '<div class="row"><button class="btn p" id="qagain">Retry this world</button><button class="btn" id="qother">Try another world</button></div></div>';
+  $("#qagain").onclick=function(){startQuiz(Q.theme)};
+  $("#qother").onclick=function(){qzPick();gotoQuiz()};
+  var f=$("#qz .final");if(f)f.focus({preventScroll:true});
+}
+
+render(false);
+qzPick();
+})();
+</script>
+<!--/ARTBODY-->
+</body></html>

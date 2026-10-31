@@ -8,7 +8,7 @@ Estus Health's internal staff training intranet. A landing page plus one page pe
 | Client pathway | `journey`, `welcome`, `nurture` |
 | Team | `check` |
 | Small Hinges | `hinges`, `sleep`, `morning`, `energy`, `load`, `transition`, `shutdown` |
-| Therapy approaches | `act`, `cbt`, `mi`, `gaming`, `nervous` |
+| Therapy approaches | `act` (plus `act-game`), `cbt`, `mi`, `gaming`, `nervous` |
 | Growth | `reels`, `gp` |
 
 Progress ticks and tool drafts save in each person's own browser only.
