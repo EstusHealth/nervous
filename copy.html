@@ -1,0 +1,612 @@
+<!doctype html><html lang="en-AU"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style></head><body><style>
+.ehub{background:#090909;color:#FBFAF8;border-bottom:1px solid #2C323C;position:relative;z-index:6}
+.ehub-in{max-width:1120px;margin:0 auto;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));display:flex;justify-content:space-between;align-items:center;gap:10px 16px;flex-wrap:wrap}
+.ehub a{color:inherit;text-decoration:none}
+.ehub-home{display:flex;align-items:center;gap:12px;min-height:36px}
+.ehub-bands{display:flex;width:56px;height:5px;flex:none}.ehub-bands i{flex:1}
+.ehub-bands i:nth-child(1){background:#344982}.ehub-bands i:nth-child(2){background:#2F6F9E}.ehub-bands i:nth-child(3){background:#2CA5B8}.ehub-bands i:nth-child(4){background:#AB5C95}
+.ehub-wm{font:500 14px/1 "Oswald","Arial Narrow",Impact,sans-serif;letter-spacing:.16em}.ehub-wm b{font-weight:700}
+.ehub-sep{font:600 12px/1 "Barlow Semi Condensed","Arial Narrow",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#AEB5C2;border-left:1px solid #3A3F48;padding-left:12px}
+.ehub-home:hover .ehub-sep{color:#FBFAF8}
+.ehub-r{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ehub-btn{font:600 12px/1 "Barlow Semi Condensed","Arial Narrow",sans-serif;letter-spacing:.1em;text-transform:uppercase;border:1px solid #3A3F48;background:none;color:#FBFAF8;padding:9px 12px;cursor:pointer;min-height:36px;display:inline-flex;align-items:center;gap:8px}
+.ehub-btn:hover{border-color:#FBFAF8}
+.ehub-btn[aria-pressed="true"]{background:#2E7D4F;border-color:#2E7D4F}
+.ehub-btn:focus-visible,.ehub a:focus-visible{outline:2px solid #2CA5B8;outline-offset:2px}
+.ehub-next{background:#FBFAF8!important;color:#090909!important;border-color:#FBFAF8}
+@media (max-width:520px){.ehub-sep{display:none}.ehub-next .ehub-nl{display:none}}
+@media print{.ehub{display:none}}
+</style>
+<nav class="ehub" aria-label="Estus Training Hub" style="margin:0"><div class="ehub-in">
+<a class="ehub-home" href="index.html"><span class="ehub-bands" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="ehub-wm"><b>ESTUS</b> HEALTH</span><span class="ehub-sep">&larr; Training Hub</span></a>
+<div class="ehub-r"><button class="ehub-btn" type="button" id="ehub-done" aria-pressed="false">Mark done</button><a class="ehub-btn ehub-next" href="gp.html"><span class="ehub-nl">Next:</span> GP Referral Pathways <span aria-hidden="true">&rarr;</span></a></div>
+</div></nav>
+<script>(function(){var K="hub_done",s="copy",b=document.getElementById("ehub-done");function l(){try{return JSON.parse(localStorage.getItem(K))||{}}catch(e){return {}}}function r(){var on=!!l()[s];b.setAttribute("aria-pressed",on);b.textContent=on?"\u2713 Done":"Mark done"}b.addEventListener("click",function(){var v=l();if(v[s])delete v[s];else v[s]=1;try{localStorage.setItem(K,JSON.stringify(v))}catch(e){}r()});r()})();</script>
+
+<title>Geometry Puzzle Copy</title><meta name="robots" content="noindex, nofollow"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 fill=%22%23090909%22/%3E%3Crect x=%224%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23344982%22/%3E%3Crect x=%2210%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232F6F9E%22/%3E%3Crect x=%2216%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232CA5B8%22/%3E%3Crect x=%2222%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23AB5C95%22/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap">
+<style>
+/* Layout: ink masthead, a geometry puzzle that solves itself, sticky section rail, then one column of tools. Each move owns a band colour: fact navy, plain words blue, movement teal, inertia plum */
+:root{
+  --bg:#F3F2EF;--surface:#FBFAF8;--sunk:#ECEAE6;--fg:#0E1014;--muted:#65676E;--rule:#D3D1CC;--ink:#090909;--on-ink:#FBFAF8;
+  --navy:#344982;--blue:#2F6F9E;--teal:#2CA5B8;--plum:#AB5C95;
+  --navy-t:#DDE2EF;--blue-t:#DCE8F1;--teal-t:#DAF0F3;--plum-t:#F1E1EC;
+  --good:#2E7D4F;--good-t:#DDEFE3;--warn:#A86A12;--warn-t:#F6E8D2;--bad:#B23A3A;--bad-t:#F5DEDE;
+  --display:"Oswald","Arial Narrow",Impact,sans-serif;--cond:"Barlow Semi Condensed","Arial Narrow",sans-serif;--body:"Barlow","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0F1216;--surface:#161A20;--sunk:#1D222A;--fg:#ECEEF1;--muted:#9BA1AB;--rule:#2C323C;--ink:#05070A;--on-ink:#ECEEF1;
+  --navy:#8299DA;--blue:#6FA8D2;--teal:#4CC3D4;--plum:#D58FC1;
+  --navy-t:#1E2740;--blue-t:#18293A;--teal-t:#123238;--plum-t:#33202E;
+  --good:#5FC38A;--good-t:#16301F;--warn:#E0A64A;--warn-t:#33270F;--bad:#EC7B7B;--bad-t:#3A1A1A;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1216;--surface:#161A20;--sunk:#1D222A;--fg:#ECEEF1;--muted:#9BA1AB;--rule:#2C323C;--ink:#05070A;--on-ink:#ECEEF1;
+  --navy:#8299DA;--blue:#6FA8D2;--teal:#4CC3D4;--plum:#D58FC1;
+  --navy-t:#1E2740;--blue-t:#18293A;--teal-t:#123238;--plum-t:#33202E;
+  --good:#5FC38A;--good-t:#16301F;--warn:#E0A64A;--warn-t:#33270F;--bad:#EC7B7B;--bad-t:#3A1A1A;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:400 16px/1.55 var(--body);margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--ink)}
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{text-wrap:balance}
+a{color:var(--blue)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+
+.m-fact{--c:var(--navy);--ct:var(--navy-t)}.m-plain{--c:var(--blue);--ct:var(--blue-t)}.m-move{--c:var(--teal);--ct:var(--teal-t)}.m-inert{--c:var(--plum);--ct:var(--plum-t)}
+
+/* masthead */
+.mast{background:var(--ink);color:var(--on-ink)}
+.mast .wrap{padding-block:14px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{display:flex;flex-direction:column;gap:6px}
+.wordmark{font-family:var(--display);font-size:15px;letter-spacing:.16em;line-height:1}.wordmark b{font-weight:700}.wordmark span{font-weight:500}
+.bands{display:flex;width:132px;height:6px}.bands i{flex:1}
+.bands i:nth-child(1){background:#344982}.bands i:nth-child(2){background:#2F6F9E}.bands i:nth-child(3){background:#2CA5B8}.bands i:nth-child(4){background:#AB5C95}
+.mast .tag{font:600 11px var(--cond);letter-spacing:.2em;text-transform:uppercase;color:#C9CFDA}
+
+.hero .wrap{padding-block:40px 32px;display:grid;grid-template-columns:1.25fr 1fr;gap:32px;align-items:center}
+.eyebrow{font:700 12px var(--cond);letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+.hero h1{font:600 clamp(38px,6.4vw,68px)/.98 var(--display);letter-spacing:.01em;text-transform:uppercase;margin:0 0 16px}
+.hero h1 em{font-style:normal;color:var(--teal)}
+.hero p.lead{font-size:18px;max-width:54ch;margin:0}
+.moves-mini{display:flex;flex-direction:column;gap:6px;margin-top:20px;font:600 13px var(--cond);text-transform:uppercase;letter-spacing:.06em}
+.moves-mini div{display:flex;align-items:center;gap:10px}
+.moves-mini i{width:28px;height:10px;flex:none;background:var(--c)}
+
+/* puzzle */
+.puzzle{background:var(--surface);border:1px solid var(--rule);padding:16px;display:flex;flex-direction:column;gap:10px}
+.puzzle .ph{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font:700 12px var(--cond);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.puzzle svg{width:100%;height:auto;display:block}
+.puzzle .q{font:600 18px/1.3 var(--cond)}
+.puzzle .ans{font-size:15px;min-height:3em}
+.pz-arc,.pz-axis{fill:none;stroke:var(--muted);stroke-width:2}
+.pz-rect{fill:var(--sunk);stroke:var(--fg);stroke-width:2.5}
+.pz-diag{stroke:var(--plum);stroke-width:3;stroke-dasharray:7 6}
+.pz-extra{stroke:var(--teal);stroke-width:4;stroke-linecap:round;stroke-dasharray:260;stroke-dashoffset:260;transition:stroke-dashoffset .9s ease}
+.puzzle.solved .pz-extra{stroke-dashoffset:0}
+.pz-t{font:600 18px var(--cond);fill:var(--fg)}
+.pz-t.q{fill:var(--plum)}
+.pz-t.r{fill:var(--teal);opacity:0;transition:opacity .4s .7s}
+.puzzle.solved .pz-t.r{opacity:1}
+@media (prefers-reduced-motion:reduce){.pz-extra,.pz-t.r{transition:none}}
+
+/* rail */
+.rail{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--rule)}
+.rail .wrap{display:flex;gap:4px;overflow-x:auto;padding-block:8px;scrollbar-width:none}
+.rail a{font:600 13px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--fg);text-decoration:none;padding:6px 10px;white-space:nowrap;border-radius:4px}
+.rail a:hover{background:var(--sunk)}
+.rail a.on{background:var(--ink);color:var(--on-ink)}
+
+section.s{padding-block:44px;border-bottom:1px solid var(--rule);scroll-margin-top:56px}
+.s-head{display:flex;flex-direction:column;gap:6px;margin-bottom:22px;max-width:70ch}
+.s-head h2{font:600 30px/1.1 var(--display);text-transform:uppercase;letter-spacing:.02em;margin:0}
+.s-head p{margin:0;color:var(--muted)}
+h3{font:700 15px var(--cond);text-transform:uppercase;letter-spacing:.1em;margin:28px 0 12px}
+
+/* moves */
+.moves{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.move{background:var(--surface);border:1px solid var(--rule);border-top:5px solid var(--c);padding:16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.move .n{font:600 30px/1 var(--display);color:var(--c)}
+.move h4{margin:0;font:600 20px/1.1 var(--display);text-transform:uppercase}
+.move p{margin:0;font-size:15px}
+.move .ba{margin-top:auto;display:flex;flex-direction:column;gap:4px;font-size:14px;border-top:1px solid var(--rule);padding-top:10px}
+.move .ba s{color:var(--muted)}
+.move .ba b{font-weight:600}
+.move .ba span{font:700 11px var(--cond);text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
+
+/* fact finder */
+.finder{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.ask{background:var(--surface);border:1px solid var(--rule);border-left:4px solid var(--navy);padding:14px 16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.ask b{font:600 17px/1.25 var(--cond)}
+.ask .eg{font-size:14px;color:var(--muted)}
+.ask .eg q{font-style:italic;color:var(--fg)}
+.ask textarea{width:100%;border:1px solid var(--rule);background:var(--bg);padding:8px 10px;border-radius:3px;font-size:15px;resize:vertical;min-height:44px}
+
+/* lab */
+.lab{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:20px}
+.fields{display:flex;flex-direction:column;gap:14px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fld{display:flex;flex-direction:column;gap:4px;min-width:0}
+.fld label{font:700 12px var(--cond);text-transform:uppercase;letter-spacing:.1em;display:flex;align-items:center;gap:8px;justify-content:space-between}
+.fld label i{width:10px;height:10px;background:var(--c);display:inline-block;margin-right:6px}
+.fld label small{font:600 12px var(--cond);letter-spacing:.04em;color:var(--muted);text-transform:none;font-variant-numeric:tabular-nums}
+.fld textarea,.fld input,.fld select{width:100%;border:1px solid var(--rule);background:var(--surface);padding:9px 10px;border-radius:3px;font-size:15px}
+.fld textarea{resize:vertical;min-height:44px;line-height:1.5}
+.fld.big textarea{min-height:170px;font-size:16px}
+.fld .hint{font-size:13px;color:var(--muted)}
+.levers{display:flex;flex-wrap:wrap;gap:6px}
+.lever{border:1px solid var(--rule);background:var(--surface);padding:6px 10px;border-radius:999px;cursor:pointer;font:600 12px var(--cond);text-transform:uppercase;letter-spacing:.06em;min-height:34px}
+.lever:hover{border-color:var(--plum);color:var(--plum)}
+.lab-actions{display:flex;flex-wrap:wrap;gap:8px}
+.btn{border:1px solid var(--rule);background:var(--surface);padding:8px 12px;cursor:pointer;font:600 12px var(--cond);text-transform:uppercase;letter-spacing:.08em;border-radius:3px;min-height:36px}
+.btn:hover{border-color:var(--fg)}
+.btn.primary{background:var(--ink);color:var(--on-ink);border-color:var(--ink)}
+.btn.sm{padding:4px 8px;min-height:28px;font-size:11px}
+
+.score{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;align-self:start;position:sticky;top:64px}
+.score-h{background:var(--ink);color:var(--on-ink);padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.score-h .big{font:600 44px/1 var(--display);font-variant-numeric:tabular-nums}
+.score-h .big small{font:600 15px var(--cond);text-transform:uppercase;letter-spacing:.08em;color:#AEB5C2;margin-left:6px}
+.score-h .verdict{font:700 12px var(--cond);text-transform:uppercase;letter-spacing:.14em;text-align:right;color:#C9CFDA;max-width:18ch}
+.cells{display:flex;gap:4px;padding:10px 16px 0}
+.cells i{flex:1;height:8px;background:var(--sunk)}
+.cells i.on{background:var(--good)}
+.checks{list-style:none;margin:0;padding:6px 0 0}
+.chk{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:4px 10px;padding:10px 16px;border-top:1px solid var(--rule);align-items:start}
+.chk:first-child{border-top:0}
+.chk .dot{width:14px;height:14px;margin-top:4px;border-radius:50%;background:var(--sunk);border:2px solid var(--muted)}
+.chk.pass .dot{background:var(--good);border-color:var(--good)}
+.chk.warn .dot{background:var(--warn);border-color:var(--warn)}
+.chk.fail .dot{background:var(--bad);border-color:var(--bad)}
+.chk b{font:600 15px/1.3 var(--cond);text-transform:uppercase;letter-spacing:.04em;display:block}
+.chk .why{font-size:14px;color:var(--muted)}
+.chk .v{font:600 15px var(--cond);font-variant-numeric:tabular-nums;white-space:nowrap}
+.chk .hits{grid-column:2/4;display:flex;flex-wrap:wrap;gap:4px}
+.hit{font-size:13px;padding:2px 8px;background:var(--sunk);border-radius:3px;display:inline-flex;gap:6px;align-items:center}
+.hit.m{background:var(--teal-t)}
+.hit.x{background:var(--bad-t)}
+.hit button{border:0;background:none;color:var(--blue);cursor:pointer;font:600 12px var(--cond);text-transform:uppercase;letter-spacing:.06em;padding:0}
+.preview{border-top:1px solid var(--rule);padding:14px 16px;font-size:15px;line-height:1.6}
+.preview .lbl{font:700 11px var(--cond);text-transform:uppercase;letter-spacing:.14em;color:var(--muted);display:block;margin-bottom:4px}
+.preview mark{background:var(--teal-t);color:inherit;border-bottom:2px solid var(--teal);padding:0 1px}
+.preview mark.long{background:var(--blue-t);border-color:var(--blue)}
+.preview mark.bad{background:var(--bad-t);border-color:var(--bad)}
+.preview mark.ine{background:var(--plum-t);border-color:var(--plum)}
+.key{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12px;color:var(--muted);margin-top:8px}
+.key span::before{content:"";display:inline-block;width:10px;height:10px;margin-right:5px;vertical-align:-1px;background:var(--k)}
+
+.drafts{margin-top:28px}
+.dlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.draft{background:var(--surface);border:1px solid var(--rule);padding:12px 14px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.draft b{font:600 15px var(--cond);text-transform:uppercase;letter-spacing:.04em;overflow-wrap:anywhere}
+.draft p{margin:0;font-size:14px;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.draft .r{display:flex;gap:6px;margin-top:auto}
+.none{color:var(--muted);font-size:15px}
+
+/* swaps */
+.swapbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.swapbar input{flex:1 1 220px;border:1px solid var(--rule);background:var(--surface);padding:9px 10px;border-radius:3px;font-size:15px;min-width:0}
+.swaps{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.sw{background:var(--surface);padding:10px 14px;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;font-size:15px}
+.sw s{color:var(--muted)}
+.sw b{font-weight:600;color:var(--blue)}
+
+/* examples */
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.tab{border:1px solid var(--rule);background:var(--surface);padding:8px 12px;cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:2px;min-width:0}
+.tab b{font:600 14px var(--cond);text-transform:uppercase;letter-spacing:.04em}
+.tab small{font-size:12px;color:var(--muted)}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--on-ink);border-color:var(--ink)}
+.tab[aria-selected="true"] small{color:#C9CFDA}
+.ex{background:var(--surface);border:1px solid var(--rule)}
+.ex-fact{padding:18px 20px;border-left:6px solid var(--navy);background:var(--navy-t)}
+.ex-fact .lbl,.ex-pitch .lbl,.ex-why .lbl{font:700 12px var(--cond);text-transform:uppercase;letter-spacing:.14em;color:var(--muted);display:block;margin-bottom:6px}
+.ex-fact p{margin:0;font:600 22px/1.3 var(--cond)}
+.ex-pitch{padding:18px 20px;font-size:17px;line-height:1.65}
+.ex-pitch p{margin:0}
+.ex-why{padding:14px 20px;border-top:1px solid var(--rule);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;font-size:14px}
+.ex-why div{border-left:3px solid var(--c);padding-left:10px}
+.ex-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 20px;border-top:1px solid var(--rule);background:var(--sunk);font-size:14px}
+
+/* prompt */
+.prompt{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:20px}
+.prompt pre{margin:0;background:var(--surface);border:1px solid var(--rule);padding:16px;white-space:pre-wrap;font:400 14px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;max-height:520px;overflow:auto}
+.note{padding:14px 16px;background:var(--teal-t);border-left:4px solid var(--teal);font-size:15px}
+.note+.note{margin-top:10px}
+.note.plum{background:var(--plum-t);border-color:var(--plum)}
+
+footer.f .wrap{padding-block:32px 48px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:flex-end}
+footer.f small{font:600 12px var(--cond);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--on-ink);padding:8px 14px;font:600 13px var(--cond);letter-spacing:.06em;text-transform:uppercase;border-radius:4px;z-index:20}
+
+@media (max-width:900px){
+  .hero .wrap{grid-template-columns:1fr}
+  .moves{grid-template-columns:1fr 1fr}
+  .lab,.prompt{grid-template-columns:1fr}
+  .score{position:static}
+  .ex-why{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  .moves{grid-template-columns:1fr}
+  .row2{grid-template-columns:1fr}
+  .ex-fact p{font-size:19px}
+}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+@media print{.rail,.lab-actions,.levers,.score{display:none}}
+</style>
+
+<header class="mast">
+  <div class="wrap">
+    <div class="brand">
+      <div class="bands" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      <div class="wordmark"><b>ESTUS</b> <span>HEALTH</span></div>
+    </div>
+    <div class="tag">Marketing · Copywriting</div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">After Rory Sutherland · for ads, pages, emails and posts</p>
+      <h1>Geometry <em>puzzle</em> copy</h1>
+      <p class="lead">Some puzzles look hard until you draw one extra line. Then the answer is obvious. Good copy works the same way: find the one fact that makes saying yes feel like common sense, then say it like you would to a mate.</p>
+      <div class="moves-mini" aria-label="The four moves">
+        <div class="m-fact"><i></i>1 Find the one extra line</div>
+        <div class="m-plain"><i></i>2 Use short, plain words</div>
+        <div class="m-move"><i></i>3 Make it move</div>
+        <div class="m-inert"><i></i>4 Make the next step feel safe</div>
+      </div>
+    </div>
+    <figure class="puzzle" id="puzzle" style="margin:0">
+      <div class="ph"><span>Try it</span><span>Quarter circle, radius 10</span></div>
+      <p class="q">How long is the dashed line?</p>
+      <svg viewBox="0 0 300 290" role="img" aria-labelledby="pzt"><title id="pzt">A rectangle inside a quarter circle of radius 10. One corner sits on the curve. The question asks for the length of the rectangle's diagonal.</title>
+        <path class="pz-axis" d="M40 270 H260 M40 270 V50"/>
+        <path class="pz-arc" d="M260 270 A220 220 0 0 0 40 50"/>
+        <rect class="pz-rect" x="40" y="101.5" width="141.4" height="168.5"/>
+        <line class="pz-diag" x1="40" y1="101.5" x2="181.4" y2="270"/>
+        <line class="pz-extra" x1="40" y1="270" x2="181.4" y2="101.5"/>
+        <text class="pz-t q" x="104" y="254">?</text>
+        <text class="pz-t" x="215" y="288">10</text>
+        <text class="pz-t r" x="98" y="134">10</text>
+      </svg>
+      <p class="ans" id="pzans" aria-live="polite">Most people reach for Pythagoras and get stuck.</p>
+      <div><button class="btn primary" type="button" id="pzbtn">Draw the extra line</button></div>
+    </figure>
+  </div>
+</div>
+
+<nav class="rail" aria-label="Sections">
+  <div class="wrap" id="rail">
+    <a href="#moves">4 moves</a><a href="#finder">Fact finder</a><a href="#lab">Pitch lab</a><a href="#swaps">Word swaps</a><a href="#examples">Examples</a><a href="#prompt">Prompt</a>
+  </div>
+</nav>
+
+<main>
+<section class="s" id="moves"><div class="wrap">
+  <div class="s-head"><p class="eyebrow">The method</p><h2>Four moves</h2><p>People don't weigh up every option. They do what they did last time. Your job is to make the new thing feel obvious and safe, not to win an argument.</p></div>
+  <div class="moves">
+    <article class="move m-fact"><span class="n">1</span><h4>Find the one extra line</h4><p>One true fact about the reader or their day that reframes the choice. Not a feature. Not jargon. Something they'd nod at.</p><div class="ba"><span>Swap</span><s>Evidence-based driving assessments</s><b>Your teen will learn to drive from someone.</b></div></article>
+    <article class="move m-plain"><span class="n">2</span><h4>Use short, plain words</h4><p>Old, short English words land in the gut: get, help, start, home. Long Latin words land in a report: obtain, facilitate, commence, residence.</p><div class="ba"><span>Swap</span><s>We facilitate participation</s><b>We help you join in</b></div></article>
+    <article class="move m-move"><span class="n">3</span><h4>Make it move</h4><p>Verbs do the work, not adjectives. Walk, book, pick, fix, swing. Turn every feature into what it feels like on a Tuesday.</p><div class="ba"><span>Swap</span><s>Flexible telehealth sessions</s><b>Log on from the couch, no drive</b></div></article>
+    <article class="move m-inert"><span class="n">4</span><h4>Make the next step feel safe</h4><p>Shrink the first step. Keep what they already do. Name the cost of waiting. Give them a way out.</p><div class="ba"><span>Swap</span><s>Book your initial assessment</s><b>Start with a free 15 minute call</b></div></article>
+  </div>
+</div></section>
+
+<section class="s" id="finder"><div class="wrap">
+  <div class="s-head"><p class="eyebrow">Move 1</p><h2>Fact finder</h2><p>Answer a few of these about your reader. The fact is usually hiding in one of your answers. Pick the line that makes them go "well, yeah". Notes save in this browser.</p></div>
+  <div class="finder" id="asks"></div>
+  <h3>Test your fact</h3>
+  <div class="note"><b>A good fact:</b> fits in one breath (20 words or fewer), has no jargon, is true even if Estus didn't exist, and changes the question from "should I?" to "which way?". The lab below checks the first two for you.</div>
+</div></section>
+
+<section class="s" id="lab"><div class="wrap">
+  <div class="s-head"><p class="eyebrow">Moves 2 to 4</p><h2>Pitch lab</h2><p>Write the fact, then a 3 to 5 sentence pitch. The scorecard checks it as you type. It reads patterns, so it can't tell if your fact is true or kind. You still can.</p></div>
+  <div class="lab">
+    <div class="fields">
+      <div class="row2">
+        <div class="fld"><label for="f_prod">Product or service</label><input id="f_prod" type="text" placeholder="e.g. Small Hinges"></div>
+        <div class="fld"><label for="f_aud">Audience</label><input id="f_aud" type="text" placeholder="e.g. late-diagnosed adults at work"></div>
+      </div>
+      <div class="fld"><label for="f_now">What they do now <small>their default</small></label><input id="f_now" type="text" placeholder="e.g. buy another planner and push through"></div>
+      <div class="fld m-fact"><label for="f_fact"><span><i></i>The fact</span><small id="factn">0 words</small></label><textarea id="f_fact" rows="2" placeholder="One line. True. They'd nod."></textarea></div>
+      <div class="fld big m-move"><label for="f_pitch"><span><i></i>The pitch</span><small id="pitchn">0 sentences</small></label><textarea id="f_pitch" placeholder="Talk like you're at the pub. 3 to 5 sentences."></textarea>
+        <span class="hint">Make the step feel safe. Tap to add a starter line, then make it yours:</span>
+        <div class="levers m-inert" id="levers"></div>
+      </div>
+      <div class="lab-actions">
+        <button class="btn primary" type="button" id="saveDraft">Save draft</button>
+        <button class="btn" type="button" id="copyPitch">Copy fact + pitch</button>
+        <button class="btn" type="button" id="toPrompt">Send to prompt</button>
+        <button class="btn" type="button" id="clearLab">Clear</button>
+      </div>
+    </div>
+    <aside class="score" aria-label="Scorecard">
+      <div class="score-h"><div class="big" aria-live="polite"><span id="scoreN">0</span><small>of <span id="scoreT">8</span></small></div><div class="verdict" id="verdict">Start writing</div></div>
+      <div class="cells" id="cells" aria-hidden="true"></div>
+      <ul class="checks" id="checks"></ul>
+      <div class="preview"><span class="lbl">Your pitch, marked up</span><div id="preview"></div>
+        <div class="key"><span style="--k:var(--teal)">Movement</span><span style="--k:var(--blue)">Long or Latin</span><span style="--k:var(--plum)">Lowers the bar</span><span style="--k:var(--bad)">Fix this</span></div>
+      </div>
+    </aside>
+  </div>
+  <div class="drafts">
+    <h3>Saved drafts <span class="small" style="text-transform:none;letter-spacing:0;font-weight:500;color:var(--muted)">this browser only</span></h3>
+    <div class="dlist" id="dlist"></div>
+  </div>
+</div></section>
+
+<section class="s" id="swaps"><div class="wrap">
+  <div class="s-head m-plain"><p class="eyebrow">Move 2</p><h2>Word swaps</h2><p>The long word on the left is usually Latin or French. The short one on the right is the one people actually say. The lab offers these swaps as you type.</p></div>
+  <div class="swapbar"><label class="small" for="swq" style="font:700 12px var(--cond);text-transform:uppercase;letter-spacing:.1em;color:var(--fg)">Find a word</label><input id="swq" type="search" placeholder="e.g. facilitate"></div>
+  <div class="swaps" id="swaplist"></div>
+</div></section>
+
+<section class="s" id="examples"><div class="wrap">
+  <div class="s-head"><p class="eyebrow">Worked examples</p><h2>Estus pitches</h2><p>Each one runs all four moves. Load one into the lab to see how it scores, then bend it to your own audience.</p></div>
+  <div class="tabs" id="extabs" role="tablist" aria-label="Examples"></div>
+  <div class="ex" id="ex" role="tabpanel"></div>
+</div></section>
+
+<section class="s" id="prompt"><div class="wrap">
+  <div class="s-head"><p class="eyebrow">With Claude</p><h2>The prompt</h2><p>Want options fast? This fills in the original prompt with your product, audience and default, plus our guardrails. Paste it into Claude, then run the best result back through the lab.</p></div>
+  <div class="prompt">
+    <div>
+      <div class="note">Uses what's in the lab. Fill in at least the product and audience first.</div>
+      <div class="note plum"><b>Guardrails it adds:</b> no testimonials, no outcome promises, no "do you have ADHD?" hooks, never imply NDIS will fund it, Australian spelling, no em dashes.</div>
+      <p style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" type="button" id="copyPromptBtn">Copy prompt</button></p>
+    </div>
+    <pre id="promptOut"></pre>
+  </div>
+</div></section>
+</main>
+
+<footer class="f"><div class="wrap">
+  <div class="brand"><div class="bands" aria-hidden="true"><i></i><i></i><i></i><i></i></div><div class="wordmark"><b>ESTUS</b> <span>HEALTH</span></div></div>
+  <small>Internal training · Drafts and notes save in this browser only</small>
+</div></footer>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(function(){
+var $=function(s,r){return (r||document).querySelector(s)};
+function esc(t){return String(t).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+var store={get:function(k,d){try{var v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set:function(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+var tt;function toast(m){var t=$("#toast");t.textContent=m;t.hidden=false;clearTimeout(tt);tt=setTimeout(function(){t.hidden=true},1800)}
+function copy(text,msg){
+  function fb(){var a=document.createElement("textarea");a.value=text;a.style.position="fixed";a.style.opacity="0";document.body.appendChild(a);a.select();try{document.execCommand("copy");toast(msg)}catch(e){toast("Select and copy by hand")}document.body.removeChild(a)}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){toast(msg)},fb)}else fb();
+}
+
+/* ---------- puzzle ---------- */
+var pz=$("#puzzle"),pzb=$("#pzbtn");
+pzb.addEventListener("click",function(){
+  var on=!pz.classList.contains("solved");pz.classList.toggle("solved",on);
+  $("#pzans").innerHTML=on?"<b>It's 10.</b> A rectangle's two diagonals are the same length, and the other one is a radius. No maths needed. That line is your fact.":"Most people reach for Pythagoras and get stuck.";
+  pzb.textContent=on?"Hide the line":"Draw the extra line";
+});
+
+/* ---------- word data ---------- */
+var SWAPS=[["utilise","use"],["utilize","use"],["facilitate","help"],["commence","start"],["assist","help"],["assistance","help"],["approximately","about"],["demonstrate","show"],["individuals","people"],["individual","person"],["participate","join in"],["participation","joining in"],["purchase","buy"],["sufficient","enough"],["require","need"],["requires","needs"],["obtain","get"],["regarding","about"],["additional","more"],["implement","set up"],["enhance","lift"],["endeavour","try"],["terminate","end"],["residence","home"],["comprehensive","full"],["numerous","many"],["accommodate","fit"],["anticipate","expect"],["ascertain","find out"],["consequently","so"],["currently","now"],["difficulty","trouble"],["eliminate","cut"],["ensure","make sure"],["expedite","speed up"],["frequently","often"],["however","but"],["initiate","start"],["locate","find"],["modify","change"],["optimal","best"],["permit","let"],["prior to","before"],["provide","give"],["receive","get"],["remainder","rest"],["subsequently","then"],["therefore","so"],["inform","tell"],["establish","set up"],["maximise","get the most from"],["accessible","easy to reach"],["commencement","start"],["functionality","what it does"],["opportunity","chance"],["approximately","about"],["capacity building","getting better at"],["intervention","session"],["therapeutic","helpful"],["enable","let"],["engage","get into"],["objective","goal"],["concerning","about"],["acquire","get"],["discontinue","stop"],["sufficiently","enough"],["exhausted","wiped out"],["observe","see"],["converse","talk"]];
+var seen={};SWAPS=SWAPS.filter(function(p){if(seen[p[0]])return false;seen[p[0]]=1;return true});
+var JARGON=["evidence-based","holistic","person-centred","person-centered","client-centred","tailored","bespoke","best practice","modality","modalities","outcomes","empower","empowering","empowerment","journey","leverage","solutions","seamless","innovative","cutting-edge","world-class","neurodiverse individuals","functional capacity","supports","wellbeing"];
+var MOVE=["walk","run","ran","move","start","step","go","goes","went","gone","get","got","take","took","taken","bring","brought","book","call","pick","drop","push","pull","carry","build","built","fix","swing","swung","open","shut","switch","jump","climb","lift","drive","drove","driven","ride","rode","reach","grab","send","sent","show","meet","met","join","leave","left","come","came","head","land","hit","throw","threw","catch","caught","cut","break","broke","track","find","found","try","tried","make","made","stop","shift","roll","slide","swap","kick","spin","launch","sprint","race","wake","woke","rise","rose","fall","fell","lean","point","plug","tap","click","trip","stall","slip","log","drag","turn","chase","grow","grew","clear","dig","stretch","pack","hand","talk","listen","fly","flew","jog","hop","punch","tackle","sort","drift","crash","burn","stack","pile","sweep","land"];
+var MOVESET={};MOVE.forEach(function(w){MOVESET[w]=1});
+var INERT=["free","just","only","one session","first step","15 minute","fifteen minute","no forms","no wait","no waitlist","no referral","no contract","no lock-in","nothing to sign","from home","from the couch","already","same","still","see how","try","no drive","cancel","one area","one thing","before you","you don't need","you don't have to","if we're not","no pressure"];
+var BAD=[
+  [/\bguarantee[sd]?\b/gi,"Outcome promise. Ahpra: say what you do, not what they'll get."],
+  [/\bcure[sd]?\b/gi,"Outcome promise."],
+  [/\blife[- ]chang(ing|ed)\b/gi,"Sounds like a testimonial or promise."],
+  [/\bchanged (my|his|her|their|our) li(fe|ves)\b/gi,"Testimonial. Not allowed for Ahpra-regulated services."],
+  [/\bwill finally\b/gi,"Outcome promise."],
+  [/\b100 ?%/g,"Absolute claim."],
+  [/\b(best|number one|#1|leading) (ot|ots|occupational therap\w*|service|clinic|practice|team)\b/gi,"Comparative claim you can't back up."],
+  [/\b(5|five)[- ]star\b/gi,"Review or rating. Ahpra testimonial rules."],
+  [/\b(reviews|testimonials?|leave a review|review us)\b/gi,"Reviews and testimonials about care are off limits."],
+  [/\b(do|does) (you|your (kid|child|son|daughter|teen)) have (adhd|autism|anxiety|depression|dyspraxia|a disability|add|ocd|pda)\b/gi,"Names a condition. Meta and Estus: name a moment, not a diagnosis."],
+  [/\bare you (autistic|adhd|neurodivergent|disabled|anxious)\b/gi,"Names a condition. Name a moment instead."],
+  [/\bndis (will|can) (fund|pay|cover)\b/gi,"Never imply NDIS funding is a sure thing. Say 'NDIS and private clients welcome'."],
+  [/\bfully funded\b/gi,"Never imply funding is a sure thing."],
+  [/\u2014/g,"Em dash. House style: use a full stop, comma or colon."]
+];
+
+/* ---------- text helpers ---------- */
+function words(t){return (t.toLowerCase().match(/[a-z][a-z'\-]*/g)||[]).map(function(w){return w.replace(/^'+|'+$/g,"")}).filter(Boolean)}
+function sentences(t){var s=t.trim();if(!s)return [];return s.split(/(?<=[.!?])\s+(?=[A-Z0-9"'\u201C])/).filter(function(x){return x.trim()})}
+function syl(w){w=w.toLowerCase().replace(/[^a-z]/g,"");if(w.length<=3)return 1;w=w.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/,"").replace(/^y/,"");var m=w.match(/[aeiouy]{1,2}/g);return m?m.length:1}
+var LATIN=/(tion|sion|ity|ment|ance|ence|ative|ology|ize|ise|ising|izing|isation|ization)s?$/;
+var PLAINOK={"something":1,"anything":1,"everything":1,"everyone":1,"anyone":1,"tomorrow":1,"yesterday":1,"afternoon":1,"another":1,"together":1,"underneath":1,"whatever":1,"however":0,"everybody":1,"basketball":1,"overnight":1,"butterflies":1,"sometimes":1,"otherwise":1,"family":1,"families":1,"everyday":1,"different":1,"minecraft":1,"autistic":1,"saturday":1,"wednesday":1,"tuesday":1,"telehealth":1,"neighbour":1,"neighbours":1,"usually":1,"probably":1,"already":1,"actually":1,"only":1,"really":1,"easily":1,"nobody":1,"somebody":1,"every":1,"open":1,"over":1,"under":1,"after":1,"even":1,"ever":1,"never":1,"other":1,"water":1,"later":1,"inside":1,"outside":1,"forget":1,"forgotten":1,"understand":1,"understanding":1,"remember":1,"anybody":1,"waiting":1,"morning":1,"evening":1,"getting":1,"talking":1,"working":1,"thinking":1,"starting":1,"swinging":1,"sitting":1,"walking":1,"reading":1,"learning":1,"daughter":1,"brother":1,"mother":1,"father":1,"sister":1,"children":1,"teenager":1,"teenagers":1,"football":1,"homework":1,"weekend":1,"bedtime":1,"driving":1,"growing":1,"listening":1,"waitlist":1,"waitlists":1,"breakfast":1,"forever":1,"hundred":1,"seventeen":1,"fifteen":1,"twenty":1,"thirty":1,"forty":1,"fifty":1};
+function isLong(w){if(PLAINOK[w])return false;if(/^(estus|ndis|ot|ots|ahpra)$/.test(w))return false;if(LATIN.test(w)&&w.length>6)return true;return syl(w)>=3}
+function isMove(w){if(MOVESET[w])return true;var b=w.replace(/(ing|ed|es|s)$/,"");if(MOVESET[b])return true;if(MOVESET[b+"e"])return true;if(b.length>3&&b[b.length-1]===b[b.length-2]&&MOVESET[b.slice(0,-1)])return true;return false}
+function findPhrases(t,list){var low=t.toLowerCase(),out=[];list.forEach(function(p){var re=new RegExp("(^|[^a-z])"+p.replace(/[-]/g,"[- ]").replace(/ /g,"[ -]")+"(?=$|[^a-z])","i");if(re.test(low))out.push(p)});return out}
+function findSwaps(t){var low=t.toLowerCase(),out=[];SWAPS.forEach(function(p){var re=new RegExp("\\b"+p[0].replace(/ /g,"\\s+")+"\\b","i");if(re.test(low))out.push(p)});return out}
+function findBad(t){var out=[];BAD.forEach(function(b){var m=t.match(b[0]);if(m)out.push([m[0],b[1]]);b[0].lastIndex=0});return out}
+
+/* ---------- analyse ---------- */
+function analyse(fact,pitch){
+  var R=[],fw=words(fact),pw=words(pitch),ss=sentences(pitch);
+  var fJ=findPhrases(fact,JARGON),pJ=findPhrases(pitch,JARGON);
+  var fS=findSwaps(fact),pS=findSwaps(pitch);
+  var bad=findBad(fact+" \n"+pitch);
+  var mv={},mvN=0;pw.forEach(function(w){if(isMove(w)){mvN++;mv[w]=1}});
+  var longs={},longN=0;pw.forEach(function(w){if(isLong(w)){longN++;longs[w]=1}});
+  var you=(pitch.match(/\byou(r|rs|'re|'ll|'ve|'d)?\b/gi)||[]).length;
+  var third=findPhrases(pitch,["clients","individuals","participants","consumers","patients","stakeholders","people with"]);
+  var ine=findPhrases(pitch,INERT);
+  var factS=sentences(fact).length;
+  var empty=!fact.trim()&&!pitch.trim();
+
+  R.push({id:"fact",m:"m-fact",t:"Fact fits in one breath",
+    st:!fact.trim()?"todo":(fw.length<=20&&factS<=2&&!fJ.length?"pass":(fw.length<=28&&!fJ.length?"warn":"fail")),
+    v:fw.length+" words",why:fJ.length?"Jargon in the fact. Say it the way they'd say it.":"20 words or fewer, no jargon, one or two sentences.",hits:fJ.map(function(j){return {t:j,c:"x"}})});
+  var n=ss.length;
+  R.push({id:"len",m:"m-plain",t:"3 to 5 sentences",st:!pitch.trim()?"todo":(n>=3&&n<=5?"pass":(n===2||n===6?"warn":"fail")),v:n+(n===1?" sentence":" sentences"),why:"Short enough to read in one go."});
+  var avg=n?Math.round(pw.length/n):0;
+  R.push({id:"avg",m:"m-plain",t:"Pub length sentences",st:!pitch.trim()?"todo":(avg<=16?"pass":(avg<=22?"warn":"fail")),v:avg+" words avg",why:"Aim for 16 words or fewer on average. Mix in a very short one."});
+  var share=pw.length?Math.round(longN/pw.length*100):0;
+  R.push({id:"plain",m:"m-plain",t:"Short, plain words",st:!pitch.trim()?"todo":((share<=10&&!pS.length)?"pass":(share<=16?"warn":"fail")),v:share+"% long",why:pS.length?"Swap the long word for the one you'd say out loud.":"Keep words of 3+ syllables or Latin endings under 10%.",
+    hits:pS.concat(fS).map(function(p){return {t:p[0]+" \u2192 "+p[1],swap:p}}).concat(Object.keys(longs).filter(function(w){return !pS.some(function(p){return p[0]===w})}).slice(0,8).map(function(w){return {t:w}}))});
+  R.push({id:"move",m:"m-move",t:"Verbs of movement",st:!pitch.trim()?"todo":(mvN>=4?"pass":(mvN>=2?"warn":"fail")),v:mvN+" found",why:"4 or more. Let verbs carry it: book, pick, walk, fix.",hits:Object.keys(mv).map(function(w){return {t:w,c:"m"}})});
+  R.push({id:"feel",m:"m-move",t:"Feels-like, not features",st:!pitch.trim()?"todo":(!pJ.length?"pass":(pJ.length===1?"warn":"fail")),v:pJ.length?pJ.length+" feature words":"clear",why:pJ.length?"Say what each of these feels like on a normal day.":"No brochure words. Nice.",hits:pJ.map(function(j){return {t:j,c:"x"}})});
+  R.push({id:"you",m:"m-move",t:"Talking to one person",st:!pitch.trim()?"todo":(you>=2?"pass":(you>=1?"warn":"fail")),v:you+" \u00D7 you",why:(third.length&&you<2)?"Talking about '"+third.join("', '")+"'. Talk to them instead.":"Say 'you' at least twice. Like across a table."});
+  R.push({id:"inert",m:"m-inert",t:"Lowers the bar",st:!pitch.trim()?"todo":(ine.length>=2?"pass":(ine.length===1?"warn":"fail")),v:ine.length+" levers",why:"Shrink the step, keep the old habit, give a way out. Use the buttons under the pitch.",hits:ine.map(function(w){return {t:w}})});
+  if(bad.length){R.push({id:"guard",m:"",t:"Guardrails",st:"fail",v:bad.length+" to fix",why:"Ahpra, Meta and house style. These must go before anything ships.",hits:bad.map(function(b){return {t:b[0]+": "+b[1],c:"x"}})})}
+  else R.push({id:"guard",m:"",t:"Guardrails",st:empty?"todo":"pass",v:"clear",why:"No promises, testimonials, diagnoses, funding claims or em dashes."});
+  return {R:R,mv:mv,longs:longs,ine:ine,pJ:pJ,bad:bad};
+}
+
+/* ---------- lab ---------- */
+var F={prod:$("#f_prod"),aud:$("#f_aud"),now:$("#f_now"),fact:$("#f_fact"),pitch:$("#f_pitch")};
+var saved=store.get("eh_gp_lab",null);
+if(saved)Object.keys(F).forEach(function(k){if(saved[k]!=null)F[k].value=saved[k]});
+var cellsEl=$("#cells");
+function markup(t,a){
+  var bads=a.bad.map(function(b){return b[0].toLowerCase()});
+  var ineSet={};a.ine.forEach(function(p){p.split(/\s+/).forEach(function(w){ineSet[w]=1})});
+  var jSet={};a.pJ.forEach(function(p){p.split(/[\s-]+/).forEach(function(w){jSet[w]=1})});
+  return esc(t).replace(/\u2014/g,'<mark class="bad">\u2014</mark>').replace(/[A-Za-z][A-Za-z'\-]*/g,function(w){
+    var l=w.toLowerCase();
+    if(jSet[l]||bads.some(function(b){return b.split(/\s+/).indexOf(l)>-1}))return '<mark class="bad">'+w+'</mark>';
+    if(a.mv[l])return '<mark>'+w+'</mark>';
+    if(a.longs[l])return '<mark class="long">'+w+'</mark>';
+    if(ineSet[l]&&l.length>2)return '<mark class="ine">'+w+'</mark>';
+    return w;
+  }).replace(/\n/g,"<br>");
+}
+function run(){
+  var st={};Object.keys(F).forEach(function(k){st[k]=F[k].value});store.set("eh_gp_lab",st);
+  var a=analyse(F.fact.value,F.pitch.value),R=a.R;
+  var pass=R.filter(function(r){return r.st==="pass"}).length;
+  $("#scoreN").textContent=pass;$("#scoreT").textContent=R.length;
+  if(cellsEl.children.length!==R.length){cellsEl.innerHTML=R.map(function(){return "<i></i>"}).join("")}
+  R.forEach(function(r,i){cellsEl.children[i].className=r.st==="pass"?"on":""});
+  var empty=!F.fact.value.trim()&&!F.pitch.value.trim();
+  var guardFail=R.some(function(r){return r.id==="guard"&&r.st==="fail"});
+  $("#verdict").textContent=empty?"Start writing":guardFail?"Fix the guardrails first":pass===R.length?"Ready to test":pass>=R.length-2?"Nearly there":"Keep shaping";
+  $("#checks").innerHTML=R.map(function(r){
+    var hits=(r.hits||[]).length?'<div class="hits">'+r.hits.map(function(h,j){return '<span class="hit'+(h.c?" "+h.c:"")+'">'+esc(h.t)+(h.swap?' <button type="button" data-swap="'+esc(h.swap[0])+'" data-to="'+esc(h.swap[1])+'">Swap</button>':"")+'</span>'}).join("")+'</div>':"";
+    return '<li class="chk '+r.m+' '+r.st+'"><span class="dot" aria-hidden="true"></span><div><b>'+esc(r.t)+'</b><span class="why">'+esc(r.why)+'</span></div><span class="v">'+esc(r.v)+'</span>'+hits+'</li>';
+  }).join("");
+  var fw=words(F.fact.value).length;$("#factn").textContent=fw+(fw===1?" word":" words");
+  var sn=sentences(F.pitch.value).length;$("#pitchn").textContent=sn+(sn===1?" sentence":" sentences")+" \u00B7 "+words(F.pitch.value).length+" words";
+  $("#preview").innerHTML=F.pitch.value.trim()?markup(F.pitch.value,a):'<span class="none">Write a pitch to see movement verbs, long words and barrier-lowerers marked up.</span>';
+  renderPrompt();
+}
+Object.keys(F).forEach(function(k){F[k].addEventListener("input",run)});
+$("#checks").addEventListener("click",function(e){
+  var b=e.target.closest("button[data-swap]");if(!b)return;
+  var from=b.getAttribute("data-swap"),to=b.getAttribute("data-to");
+  var re=new RegExp("\\b"+from.replace(/ /g,"\\s+")+"\\b","gi");
+  ["fact","pitch"].forEach(function(k){F[k].value=F[k].value.replace(re,function(m){return m[0]===m[0].toUpperCase()?to[0].toUpperCase()+to.slice(1):to})});
+  run();toast("Swapped "+from+" for "+to);
+});
+var LEVERS=[["Shrink the step","Start with one session and see how it feels."],["Free first call","It starts with a free 15 minute call."],["Keep the old habit","You don't have to change anything else."],["From home","You do it from home, on the screen you already use."],["Way out","If we're not the right fit, we'll tell you who is."],["Cost of waiting","Waiting costs you another term of the same."],["No paperwork","No forms to fill in before we talk."]];
+$("#levers").innerHTML=LEVERS.map(function(l,i){return '<button class="lever" type="button" data-l="'+i+'">'+esc(l[0])+'</button>'}).join("");
+$("#levers").addEventListener("click",function(e){var b=e.target.closest("[data-l]");if(!b)return;var l=LEVERS[+b.getAttribute("data-l")][1];var v=F.pitch.value.replace(/\s+$/,"");F.pitch.value=v?v+" "+l:l;F.pitch.focus();run()});
+
+function pitchText(){return "The Fact: "+F.fact.value.trim()+"\n\nThe Pitch: "+F.pitch.value.trim()}
+$("#copyPitch").addEventListener("click",function(){if(!F.fact.value.trim()&&!F.pitch.value.trim()){toast("Nothing to copy yet");return}copy(pitchText(),"Copied")});
+$("#clearLab").addEventListener("click",function(){Object.keys(F).forEach(function(k){F[k].value=""});run();toast("Cleared")});
+$("#toPrompt").addEventListener("click",function(){renderPrompt();location.hash="prompt"});
+
+/* drafts */
+var drafts=store.get("eh_gp_drafts",[]);
+function renderDrafts(){
+  $("#dlist").innerHTML=drafts.length?drafts.map(function(d,i){return '<div class="draft"><b>'+esc(d.prod||"Untitled")+(d.aud?" \u00B7 "+esc(d.aud):"")+'</b><p>'+esc(d.fact||d.pitch||"")+'</p><div class="r"><button class="btn sm" type="button" data-load="'+i+'">Load</button><button class="btn sm" type="button" data-del="'+i+'">Delete</button></div></div>'}).join(""):'<p class="none">No drafts yet. Save one from the lab.</p>';
+}
+$("#saveDraft").addEventListener("click",function(){
+  if(!F.fact.value.trim()&&!F.pitch.value.trim()){toast("Write something first");return}
+  var d={};Object.keys(F).forEach(function(k){d[k]=F[k].value});d.ts=Date.now();
+  drafts.unshift(d);drafts=drafts.slice(0,30);store.set("eh_gp_drafts",drafts);renderDrafts();toast("Draft saved");
+});
+$("#dlist").addEventListener("click",function(e){
+  var l=e.target.closest("[data-load]"),d=e.target.closest("[data-del]");
+  if(l){var x=drafts[+l.getAttribute("data-load")];Object.keys(F).forEach(function(k){F[k].value=x[k]||""});run();location.hash="lab";toast("Draft loaded")}
+  if(d){drafts.splice(+d.getAttribute("data-del"),1);store.set("eh_gp_drafts",drafts);renderDrafts()}
+});
+
+/* ---------- fact finder ---------- */
+var ASKS=[
+  ["What do they already do every day that proves your point?","Families already use a screen every day.","Telehealth"],
+  ["What happens either way, with or without you?","Your teen will learn to drive from someone.","Driving on the Spectrum"],
+  ["Where does it actually break? Be exact.","Days don't fall apart in the middle. They fall apart at the doors.","Small Hinges"],
+  ["What does waiting cost, in time they can count?","Another school term on a waitlist.","Regional families"],
+  ["What do they spend more time on than the fix would take?","More time googling than a 15 minute call.","Welcome call"],
+  ["What would they say to a mate about this, word for word?","\u201CI've bought four planners this year.\u201D","Late-diagnosed adults"],
+  ["What's the small thing that sets the size of the big thing?","Your first two years as an OT set the shape of the next twenty.","Accelerator"]
+];
+var notes=store.get("eh_gp_finder",{});
+$("#asks").innerHTML=ASKS.map(function(a,i){return '<div class="ask"><b>'+esc(a[0])+'</b><span class="eg">'+esc(a[2])+': <q>'+esc(a[1])+'</q></span><textarea id="ask'+i+'" aria-label="Your answer" rows="2" placeholder="Your answer">'+esc(notes[i]||"")+'</textarea><div><button class="btn sm" type="button" data-usefact="'+i+'">Use as fact</button></div></div>'}).join("");
+$("#asks").addEventListener("input",function(e){var m=e.target.id.match(/^ask(\d+)$/);if(m){notes[m[1]]=e.target.value;store.set("eh_gp_finder",notes)}});
+$("#asks").addEventListener("click",function(e){var b=e.target.closest("[data-usefact]");if(!b)return;var v=$("#ask"+b.getAttribute("data-usefact")).value.trim();if(!v){toast("Write an answer first");return}F.fact.value=v;run();location.hash="lab";toast("Sent to the lab")});
+
+/* ---------- swaps ---------- */
+function renderSwaps(q){q=(q||"").toLowerCase().trim();var list=SWAPS.filter(function(p){return !q||p[0].indexOf(q)>-1||p[1].indexOf(q)>-1});
+  $("#swaplist").innerHTML=list.length?list.map(function(p){return '<div class="sw"><s>'+esc(p[0])+'</s><span aria-hidden="true">\u2192</span><b>'+esc(p[1])+'</b></div>'}).join(""):'<div class="sw"><span class="none">Not on the list. If it has 3+ syllables, try the word a 10 year old would use.</span></div>';}
+$("#swq").addEventListener("input",function(){renderSwaps(this.value)});renderSwaps("");
+
+/* ---------- examples ---------- */
+var EX=[
+  {k:"Driving on the Spectrum",s:"Parents of autistic teens",prod:"Driving on the Spectrum pre-driving support",aud:"Parents of autistic teens about to learn to drive",now:"Book the driving school the neighbours used and hope it clicks",
+   fact:"Your teen will learn to drive from someone. The only question is whether that person knows how their brain works.",
+   pitch:"Most families book the same driving school their neighbours used and hope it clicks. But a lot of autistic teens stall on the bits nobody teaches: reading other drivers, handling a sudden change, staying calm when the car gets loud. We start before the first lesson, find what will trip them up, and build the plan around how they learn. You still book lessons the way you always would. They just walk in with a plan.",
+   why:["It happens either way. That turns \"should we?\" into \"who with?\"","Stall, trip, walk in, book. No adjectives doing the work.","Keeps the old habit: they still book lessons. We add one step before it."]},
+  {k:"Small Hinges",s:"Late-diagnosed adults at work",prod:"Small Hinges",aud:"Late-diagnosed adults who work full time",now:"Buy another planner and push through",
+   fact:"Most days don't fall apart in the middle. They fall apart at the doors: getting up, switching tasks, and stopping.",
+   pitch:"You've tried the big overhaul, the new planner, the 5am start, and it lasted a week. That's not you failing, it's the plan being too big. Small Hinges picks one door in your day and works on just that, one session at a time. You don't sign up for months. Fix one hinge, feel the day swing easier, then decide if you want the next.",
+   why:["Names exactly where it breaks, so the fix feels small and obvious.","Swing, pick, fix, sign up. The hinge image does the explaining.","One session, no months, decide later. Every step has an exit."]},
+  {k:"Welcome call",s:"Unsure parents",prod:"Free 15 minute welcome call",aud:"Parents wondering if their child needs OT",now:"Google it late at night and put it off",
+   fact:"You'll spend more time googling \"does my kid need OT\" this week than a 15 minute call would take.",
+   pitch:"Most parents sit on the question for months, reading forums at 11pm. Book a free 15 minute call instead. You talk, we listen, and you walk away knowing if OT fits, what it looks like and what it costs. No forms, no plan review, nothing to sign. If we're not the right fit, we'll tell you who is.",
+   why:["Compares the call to something they're already doing, and it wins on time.","Book, talk, listen, walk away. The call happens in your head as you read.","Free, short, nothing to sign, and a way out. Four bars lowered."]},
+  {k:"Telehealth",s:"Regional families",prod:"Estus telehealth OT",aud:"Families in regional towns like Griffith and Mildura",now:"Sit on the local waitlist",
+   fact:"The right OT for your child probably doesn't live in your town.",
+   pitch:"In a lot of towns the OT waitlist can run longer than a school term. We meet your child on the screen they already use every day, at home, where the real stuff happens. No drive, no waiting room, no lost afternoon off work. You can start with one session and see how it feels. NDIS and private clients welcome.",
+   why:["Plain geography. Hard to argue with, and it makes distance the point.","Meet, run, drive, start. Then three short \"no\" lines you can feel.","Uses the screen they already have. One session, then see."]},
+  {k:"Accelerator",s:"New grad OTs",prod:"The Estus Accelerator",aud:"New grad and early-career OTs",now:"Take the first job that offers more hours",
+   fact:"Your first two years as an OT set the shape of the next twenty.",
+   pitch:"Most new grads take the first job with the most hours and figure out the rest later. Later rarely comes. At Estus you pick a path in year one, learn from people who've built what you want to build, and grow into a lead role, not just a full calendar. You still see clients every day. You just stop guessing where it's heading.",
+   why:["A small window that sets a big thing. Makes the choice of first job feel bigger.","Pick, learn, build, grow, stop guessing. Career as movement.","They still see clients every day. The new thing feels like the old thing, plus a map."]}
+];
+var exI=0;
+function renderEx(){
+  $("#extabs").innerHTML=EX.map(function(e,i){return '<button class="tab" type="button" role="tab" aria-selected="'+(i===exI)+'" data-ex="'+i+'"><b>'+esc(e.k)+'</b><small>'+esc(e.s)+'</small></button>'}).join("");
+  var e=EX[exI];
+  $("#ex").innerHTML='<div class="ex-fact"><span class="lbl">The fact</span><p>'+esc(e.fact)+'</p></div><div class="ex-pitch"><span class="lbl">The pitch</span><p>'+esc(e.pitch)+'</p></div><div class="ex-why"><div class="m-fact"><span class="lbl">Why the fact works</span>'+esc(e.why[0])+'</div><div class="m-move"><span class="lbl">Movement</span>'+esc(e.why[1])+'</div><div class="m-inert"><span class="lbl">Inertia</span>'+esc(e.why[2])+'</div></div><div class="ex-foot"><span>For: '+esc(e.aud)+'</span><button class="btn primary" type="button" id="loadEx">Load into the lab</button></div>';
+}
+$("#extabs").addEventListener("click",function(ev){var b=ev.target.closest("[data-ex]");if(!b)return;exI=+b.getAttribute("data-ex");renderEx()});
+$("#ex").addEventListener("click",function(ev){if(!ev.target.closest("#loadEx"))return;var e=EX[exI];F.prod.value=e.prod;F.aud.value=e.aud;F.now.value=e.now;F.fact.value=e.fact;F.pitch.value=e.pitch;run();location.hash="lab";toast("Example loaded")});
+renderEx();
+
+/* ---------- prompt ---------- */
+function renderPrompt(){
+  var p=F.prod.value.trim()||"[INSERT PRODUCT/SERVICE]",a=F.aud.value.trim()||"[INSERT AUDIENCE]",n=F.now.value.trim();
+  var t="The \"Geometry Puzzle\" Copywriting Prompt\n\n"+
+  "Role: Act as a Master Behavioral Strategist and Copywriter trained in Rory Sutherland's school of thought.\n\n"+
+  "Task: Your goal is to write a \"Geometry Puzzle\" pitch for "+p+" targeting "+a+"."+(n?"\nWhat they do now (their default): "+n+".":"")+"\n\n"+
+  "Step 1: Identify the \"One Extra Line\" (The Undeniable Fact)\nFind a single, undeniable truth about the product or the audience's current behavior that acts as a \"geometry puzzle\" solution. This fact must be so clear that it makes the choice to use the product feel mathematically or psychologically inevitable. Avoid technical jargon; focus on a \"psychological fact\" that changes the reader's frame of reference.\n\n"+
+  "Step 2: Apply the \"Anglo-Saxon\" Linguistic Filter\nWrite the pitch using the following constraints derived from Sutherland's rules for \"good copy\":\n * Verbs of Movement: Prioritize active verbs that imply action over static adjectives.\n * Plain English: Use \"Anglo-Saxon\" words (short, punchy, grounded) rather than \"Romance\" words (long, flowery, abstract).\n * Conversational Tone: Write as if you are speaking to a friend in a pub, not presenting to a boardroom.\n * Feature to Benefit: Ensure every technical reality is framed as a human \"feels-like\" advantage.\n\n"+
+  "Step 3: Overcome Habitual Inertia\nAcknowledge that the reader's default mode is to \"do what they've done before\". Your pitch must lower the barrier to behavioral change by making the new action feel safer or more \"common sense\" than staying the course.\n\n"+
+  "Estus guardrails (must follow):\n * Estus Health is a neuroaffirming OT practice (Ahpra-regulated). No testimonials or reviews about care, no outcome promises or guarantees, no \"best\" or \"#1\" claims.\n * Name a moment, never a diagnosis. Never ask \"Do you have ADHD/autism?\" or imply the reader has a condition.\n * Never imply NDIS will fund it. If funding comes up, say \"NDIS and private clients welcome\".\n * Australian spelling. No em dashes anywhere.\n\n"+
+  "Output Format:\nGive 3 options. For each:\nThe Fact: (State the \"one extra line\" you identified, under 20 words).\nThe Pitch: (A 3-5 sentence conversational narrative using verbs of movement).\nThen say which option you'd test first and why, in one line.";
+  $("#promptOut").textContent=t;return t;
+}
+$("#copyPromptBtn").addEventListener("click",function(){copy(renderPrompt(),"Prompt copied")});
+
+run();renderDrafts();
+
+/* ---------- rail highlight ---------- */
+var links=[].slice.call(document.querySelectorAll("#rail a"));
+if("IntersectionObserver" in window){
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.toggle("on",a.getAttribute("href")==="#"+e.target.id)})}})},{rootMargin:"-40% 0px -55% 0px"});
+  document.querySelectorAll("section.s").forEach(function(s){io.observe(s)});
+}
+window.__gp={analyse:analyse,EX:EX};
+})();
+</script>
+
+</body></html>
