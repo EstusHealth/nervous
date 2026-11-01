@@ -10,8 +10,13 @@ Estus Health's internal staff training intranet. A landing page plus one page pe
 | Small Hinges | `hinges`, `sleep`, `morning`, `energy`, `load`, `transition`, `shutdown` |
 | Therapy approaches | `act` (plus `act-game`), `cbt`, `mi`, `gaming`, `nervous` |
 | Growth | `reels`, `gp` |
+| Templates | `fca`, `ptd` (Potential to Drive), `ftd` (Medical Fitness to Drive) |
 
 Progress ticks and tool drafts save in each person's own browser only.
+
+## Driving report builders
+
+`ptd.html` and `ftd.html` share one engine, `drive.js`, and the brand fonts for Word export, `drive-fonts.js`. Drafts use the same JSON schema as the earlier driving builder, so old drafts and Gem output open unchanged. Opening a draft of the other type switches to the right builder.
 
 ## Deploy
 
