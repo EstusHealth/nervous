@@ -38,6 +38,16 @@ p{margin:0}
 .wordmark b{font-weight:700}.wordmark span{font-weight:500}
 .bands{display:flex;width:132px;height:6px}.bands i{flex:1}
 .bands i:nth-child(1){background:#344982}.bands i:nth-child(2){background:#2F6F9E}.bands i:nth-child(3){background:#2CA5B8}.bands i:nth-child(4){background:#AB5C95}
+.tabs{display:flex;align-items:center;gap:4px 18px;flex-wrap:wrap}
+.tabs a{font:600 13px var(--cond);letter-spacing:.14em;text-transform:uppercase;color:var(--on-ink);text-decoration:none;padding:6px 0;border-bottom:2px solid transparent}
+.tabs a:hover{border-bottom-color:#2CA5B8}
+.tabs .tag{padding-left:18px;border-left:1px solid #2C323C}
+.a-tpl{--c:var(--plum);--ct:var(--plum-t)}
+#templates{scroll-margin-top:16px}
+.tpl{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.tpl .soon{border-style:dashed;background:transparent}
+.tpl .soon .body{color:var(--muted)}
+@media (max-width:520px){.tabs .tag{display:none}}
 .tag{font:600 12px var(--cond);letter-spacing:.2em;text-transform:uppercase;color:var(--ink-muted)}
 .hero{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:40px;align-items:end;padding-block:40px 40px}
 .eyebrow{font:700 12px var(--cond);letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
@@ -129,7 +139,7 @@ footer .wordmark{color:var(--fg)}
   <div class="wrap">
     <div class="top">
       <div class="brand"><span class="bands" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="wordmark"><b>ESTUS</b> <span>HEALTH</span></span></div>
-      <span class="tag">Team intranet · internal only</span>
+      <nav class="tabs" aria-label="Hub sections"><a href="#path">New starter</a><a href="#shelf">Training</a><a href="#templates">Templates</a><span class="tag">Internal only</span></nav>
     </div>
     <div class="hero">
       <div>
@@ -439,6 +449,27 @@ footer .wordmark{color:var(--fg)}
         </div>
       </div>
       <p class="empty" id="empty" hidden>Nothing for this role yet.</p>
+    </div>
+  </section>
+
+  <section class="s" id="templates" style="padding-top:8px">
+    <div class="wrap">
+      <div class="s-head">
+        <div><p class="eyebrow">Report templates</p><h2>Templates</h2></div>
+        <p class="sub">Builders for the reports we write. Each one follows the Estus structure, checks your draft, and downloads a branded Word file.</p>
+      </div>
+      <div class="tpl">
+        <article class="card a-tpl" data-slug="fca">
+          <div class="meta"><span class="pill">Report builder</span><span class="code">NDIS</span></div>
+          <div class="body">
+            <h4><a href="fca.html">Functional Capacity Assessment</a></h4>
+            <p class="d">Write an FCA one section at a time. Score bands fill in, support costs calculate, and checks flag gaps and wording before you send.</p>
+            <ul class="inside"><li>22 sections</li><li>Score tables</li><li>Support calculator</li><li>Word export</li></ul>
+            <div class="who"><span>Clinicians</span></div>
+          </div>
+          <div class="foot"><span class="hint" style="font:600 12px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Drafts save in this browser</span><a class="open" href="fca.html">Open <span aria-hidden="true">&rarr;</span></a></div>
+        </article>
+      </div>
     </div>
   </section>
 </main>

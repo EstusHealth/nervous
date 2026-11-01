@@ -1,0 +1,928 @@
+<!doctype html><html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>FCA Builder</title><meta name="robots" content="noindex, nofollow"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 fill=%22%23090909%22/%3E%3Crect x=%224%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23344982%22/%3E%3Crect x=%2210%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232F6F9E%22/%3E%3Crect x=%2216%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232CA5B8%22/%3E%3Crect x=%2222%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23AB5C95%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap">
+<style>
+/* Layout: ink masthead, then a quiet desk: a section index on the left and one section at a time on the right.
+   Preview swaps the writing column for the A4 report. Checks open in a side drawer, so nothing nags while you write. */
+:root{
+  --bg:#F3F2EF;--surface:#FBFAF8;--sunk:#ECEAE6;--fg:#0E1014;--muted:#65676E;--rule:#D8D6D1;
+  --ink:#090909;--on-ink:#FBFAF8;--ink-muted:#AEB5C2;--ink-rule:#34373D;
+  --navy:#344982;--blue:#2F6F9E;--teal:#2CA5B8;--plum:#AB5C95;
+  --navy-t:#DDE2EF;--teal-t:#DAF0F3;--plum-t:#F1E1EC;--good:#2E7D4F;--good-t:#DDEFE3;
+  --on-accent:#071A1D;--desk:#E3E1DC;--scrim:rgba(9,9,9,.28);--shadow:rgba(9,9,9,.18);
+  --paper:#FFFFFF;--paper-ink:#0E1014;--paper-muted:#65676E;--paper-rule:#D3D1CC;--paper-sunk:#F3F2EF;
+  --paper-mast:#090909;--paper-on-mast:#FBFAF8;--paper-mast-muted:#AEB5C2;
+  --paper-navy:#344982;--paper-teal:#2CA5B8;--paper-plum:#AB5C95;--paper-navy-t:#DDE2EF;--paper-plum-t:#F7E9F2;
+  --display:"Oswald","Arial Narrow",Impact,sans-serif;
+  --cond:"Barlow Semi Condensed","Arial Narrow",sans-serif;
+  --body:"Barlow","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0F1216;--surface:#161A20;--sunk:#1D222A;--fg:#ECEEF1;--muted:#9BA1AB;--rule:#2C323C;
+  --ink:#05070A;--on-ink:#ECEEF1;--ink-muted:#9BA1AB;--ink-rule:#2C323C;
+  --navy:#8299DA;--blue:#6FA8D2;--teal:#4CC3D4;--plum:#D58FC1;
+  --navy-t:#1E2740;--teal-t:#123238;--plum-t:#33202E;--good:#5FC38A;--good-t:#16301F;
+  --on-accent:#05151A;--desk:#0B0E12;--scrim:rgba(0,0,0,.55);--shadow:rgba(0,0,0,.5);color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1216;--surface:#161A20;--sunk:#1D222A;--fg:#ECEEF1;--muted:#9BA1AB;--rule:#2C323C;
+  --ink:#05070A;--on-ink:#ECEEF1;--ink-muted:#9BA1AB;--ink-rule:#2C323C;
+  --navy:#8299DA;--blue:#6FA8D2;--teal:#4CC3D4;--plum:#D58FC1;
+  --navy-t:#1E2740;--teal-t:#123238;--plum-t:#33202E;--good:#5FC38A;--good-t:#16301F;
+  --on-accent:#05151A;--desk:#0B0E12;--scrim:rgba(0,0,0,.55);--shadow:rgba(0,0,0,.5);color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:16px 56px}
+.app{max-width:1260px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+button{font-family:inherit}
+
+/* masthead */
+.top{background:var(--ink);color:var(--on-ink);display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between;padding:12px 16px}
+.brand{display:flex;align-items:center;gap:16px;min-width:0}
+.mark{color:inherit;text-decoration:none;display:flex;flex-direction:column;gap:5px;padding-right:16px;border-right:1px solid var(--ink-rule)}
+.wm{font-family:var(--display);font-size:13px;letter-spacing:.16em;line-height:1}.wm b{font-weight:700}.wm span{font-weight:500}
+.bands{display:flex;width:112px;height:5px}.bands i{flex:1}
+.bands i:nth-child(1){background:#344982}.bands i:nth-child(2){background:#2F6F9E}.bands i:nth-child(3){background:#2CA5B8}.bands i:nth-child(4){background:#AB5C95}
+.top h1{font-family:var(--display);font-weight:600;font-size:21px;letter-spacing:.06em;text-transform:uppercase;margin:0;line-height:1}
+.who{font:600 11px var(--cond);letter-spacing:.16em;color:var(--ink-muted);text-transform:uppercase;margin-top:6px;max-width:34ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.acts{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.tb{font:600 13px var(--cond);letter-spacing:.08em;text-transform:uppercase;padding:9px 13px;background:transparent;color:var(--on-ink);border:1px solid var(--ink-rule);cursor:pointer;line-height:1;display:inline-flex;gap:8px;align-items:center}
+.tb:hover{border-color:var(--on-ink)}
+.mode{display:inline-grid;grid-template-columns:1fr 1fr;border:1px solid var(--ink-rule)}
+.mode button{font:600 13px var(--cond);letter-spacing:.08em;text-transform:uppercase;padding:9px 14px;background:transparent;color:var(--on-ink);border:0;cursor:pointer;line-height:1}
+.mode button[aria-pressed="true"]{background:var(--on-ink);color:var(--ink)}
+.cnt{font:700 12px var(--cond);min-width:20px;padding:2px 6px;text-align:center;background:var(--plum);color:#fff;line-height:1.2}
+.cnt.ok{background:var(--good)}
+.menu{position:relative}
+.pop{position:absolute;right:0;top:calc(100% + 6px);background:var(--surface);color:var(--fg);border:1px solid var(--rule);min-width:250px;box-shadow:0 14px 34px -14px var(--shadow);z-index:30;display:flex;flex-direction:column;padding:6px}
+.pop button{text-align:left;background:none;border:0;padding:10px 12px;font:500 14.5px var(--body);color:var(--fg);cursor:pointer;display:flex;flex-direction:column;gap:1px}
+.pop button small{font-size:12.5px;color:var(--muted)}
+.pop button:hover{background:var(--sunk)}
+.pop button:disabled{opacity:.45;cursor:not-allowed}
+.pop hr{border:0;border-top:1px solid var(--rule);margin:4px 6px}
+.pop .danger{color:var(--plum)}
+
+/* desk */
+.desk{display:grid;grid-template-columns:184px minmax(0,1fr);gap:52px;align-items:start}
+.nav{position:sticky;top:max(16px,env(safe-area-inset-top,0px));max-height:calc(100vh - 32px);overflow:auto;padding-bottom:12px}
+.nav .g{font:600 11px var(--cond);letter-spacing:.18em;color:var(--muted);text-transform:uppercase;margin:20px 0 6px 12px}
+.nav .g:first-child{margin-top:4px}
+.nav button{display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;text-align:left;background:none;border:0;border-left:2px solid transparent;padding:5px 8px 5px 12px;font:500 14px var(--body);color:var(--muted);cursor:pointer;line-height:1.3}
+.nav button:hover{color:var(--fg)}
+.nav button[aria-current="true"]{color:var(--fg);border-left-color:var(--teal);font-weight:600}
+.nav .n{font:700 11px var(--cond);color:var(--plum);font-variant-numeric:tabular-nums}
+.navsel{display:none}
+.main{min-width:0;max-width:780px;display:flex;flex-direction:column;gap:30px}
+.desk[data-mode="preview"] .main{max-width:none}
+
+.banner{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;background:var(--plum-t);border-left:3px solid var(--plum);padding:10px 14px;font-size:14px}
+.banner button{font:600 12px var(--cond);letter-spacing:.08em;text-transform:uppercase;background:var(--fg);color:var(--bg);border:0;padding:8px 12px;cursor:pointer}
+
+.shead{display:flex;flex-direction:column;gap:6px}
+.shead .eb{font:600 12px var(--cond);letter-spacing:.18em;text-transform:uppercase;color:var(--teal)}
+.shead h2{font-family:var(--display);font-weight:600;font-size:30px;letter-spacing:.03em;text-transform:uppercase;margin:0;line-height:1.1;text-wrap:balance}
+.shead p{margin:0;color:var(--muted);max-width:62ch}
+
+.form{display:flex;flex-direction:column;gap:22px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px 16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px 16px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px 12px}
+.span2{grid-column:1/-1}
+.fld{display:flex;flex-direction:column;gap:6px;min-width:0}
+.fld>label,.lbl{font:600 12px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.hint{font-size:13px;color:var(--muted);line-height:1.4}
+input[type=text],input[type=date],select,textarea{width:100%;min-width:0;font:400 15px/1.5 var(--body);color:var(--fg);background:var(--surface);border:1px solid var(--rule);padding:9px 11px;border-radius:0}
+input[type=text]:focus,input[type=date]:focus,select:focus,textarea:focus{border-color:var(--teal);outline:none;box-shadow:0 0 0 1px var(--teal)}
+textarea{resize:none;overflow:hidden;min-height:78px}
+input::placeholder,textarea::placeholder{color:var(--muted);opacity:.75}
+.sub{font-family:var(--display);font-weight:500;font-size:17px;letter-spacing:.05em;text-transform:uppercase;margin:6px 0 -6px;color:var(--fg)}
+.say{font-size:14px;color:var(--muted);background:var(--sunk);padding:10px 12px;line-height:1.45}
+.say b{color:var(--fg);font-weight:600}
+
+.chk{display:flex;gap:10px;align-items:flex-start;cursor:pointer;font-size:15px}
+.chk input{width:18px;height:18px;margin:2px 0 0;accent-color:var(--teal);flex:none}
+.tools{display:flex;flex-direction:column;border-top:1px solid var(--rule)}
+.tool{display:flex;flex-direction:column;gap:10px;padding:12px 0;border-bottom:1px solid var(--rule)}
+.tool .grid2{padding-left:28px}
+
+.area{display:flex;flex-direction:column;gap:12px;padding-top:22px;border-top:1px solid var(--rule)}
+.area-head{display:flex;align-items:center;gap:10px}
+.area-name{flex:1;min-width:0;font:500 18px var(--display)!important;letter-spacing:.04em;text-transform:uppercase;border:0!important;background:transparent!important;padding:2px 0!important;color:var(--fg)}
+.area-name:focus{box-shadow:none!important;border-bottom:1px solid var(--teal)!important}
+.x{background:none;border:0;color:var(--muted);font:600 12px var(--cond);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;padding:6px 2px;flex:none}
+.x:hover{color:var(--plum)}
+.pair{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:14px}
+.add{align-self:flex-start;background:none;border:1px dashed var(--muted);color:var(--fg);font:600 13px var(--cond);letter-spacing:.08em;text-transform:uppercase;padding:9px 14px;cursor:pointer}
+.add:hover{border-style:solid}
+.empty{padding:22px;border:1px dashed var(--rule);color:var(--muted);display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+
+.seg{display:inline-grid;grid-auto-flow:column;grid-auto-columns:1fr;border:1px solid var(--fg);max-width:100%}
+.seg label{position:relative;cursor:pointer;min-width:0}
+.seg input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.seg span{display:block;text-align:center;padding:7px 12px;font:600 12.5px var(--cond);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+.seg label+label span{border-left:1px solid var(--fg)}
+.seg input:checked+span{background:var(--fg);color:var(--bg)}
+.seg input:focus-visible+span{outline:2px solid var(--teal);outline-offset:-3px}
+.grp-h{font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:14px}
+.sup{display:flex;flex-direction:column;gap:12px;padding-top:20px;border-top:1px solid var(--rule)}
+.sup .area-head{flex-wrap:wrap}
+.sup .nm{flex:1;min-width:0;font:500 17px var(--display);letter-spacing:.04em;text-transform:uppercase}
+.sup .nm small{display:block;font:600 11px var(--cond);letter-spacing:.14em;color:var(--muted)}
+.calc{display:flex;flex-direction:column;gap:12px;background:var(--sunk);padding:14px}
+.calc input{background:var(--surface)}
+.out{font:500 14px var(--body);color:var(--fg);border-left:3px solid var(--teal);padding:2px 0 2px 10px;white-space:pre-line;font-variant-numeric:tabular-nums}
+.out:empty::before{content:"Enter hours to see the line";color:var(--muted)}
+
+.sgrid{overflow-x:auto}
+.sgrid table{border-collapse:collapse;width:100%;min-width:420px}
+.sgrid th{font:600 11.5px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:left;padding:4px 6px 6px;font-weight:600}
+.sgrid td{padding:3px 6px 3px 0;vertical-align:middle}
+.sgrid td:first-child{font:600 14px var(--cond);white-space:nowrap;padding-right:12px}
+.sgrid input,.sgrid select{padding:6px 8px;font-size:14px;font-variant-numeric:tabular-nums}
+.auto{font:600 13px var(--cond);letter-spacing:.03em;color:var(--navy);white-space:nowrap}
+.auto:empty::before{content:"\2013";color:var(--muted)}
+
+.pager{display:flex;justify-content:space-between;gap:12px;border-top:1px solid var(--rule);padding-top:18px;flex-wrap:wrap}
+.pager button{background:none;border:0;cursor:pointer;color:var(--fg);font:600 14px var(--cond);letter-spacing:.06em;text-transform:uppercase;padding:6px 0;display:flex;flex-direction:column;gap:2px;text-align:left}
+.pager button small{font:600 11px var(--cond);letter-spacing:.16em;color:var(--muted)}
+.pager .nx{margin-left:auto;text-align:right;align-items:flex-end}
+.pager button:hover span{color:var(--teal)}
+.big{font:600 14px var(--cond);letter-spacing:.08em;text-transform:uppercase;background:var(--teal);color:var(--on-accent);border:0;padding:12px 18px;cursor:pointer;align-self:flex-start}
+.big:disabled{opacity:.5;cursor:not-allowed}
+.done{display:flex;flex-direction:column;gap:12px}
+
+/* checks drawer */
+.scrim{position:fixed;inset:0;background:var(--scrim);z-index:39}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(430px,100%);background:var(--surface);border-left:1px solid var(--rule);z-index:40;display:flex;flex-direction:column;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);padding-right:env(safe-area-inset-right,0px);box-shadow:-18px 0 40px -24px var(--shadow)}
+.drawer>header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:18px 20px 14px;border-bottom:1px solid var(--rule)}
+.drawer h3{font-family:var(--display);font-weight:600;font-size:20px;letter-spacing:.05em;text-transform:uppercase;margin:0}
+.drawer header p{margin:4px 0 0;color:var(--muted);font-size:13.5px}
+.drawer .list{overflow:auto;padding:4px 20px 28px;display:flex;flex-direction:column}
+.dg{font:600 11.5px var(--cond);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:18px 0 4px}
+.ci{display:flex;gap:10px;align-items:baseline;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--rule);padding:10px 0;color:var(--fg);font:400 14.5px/1.4 var(--body);cursor:pointer}
+.ci:hover{color:var(--teal)}
+.ci .tg{flex:none;font:700 10.5px var(--cond);letter-spacing:.1em;text-transform:uppercase;padding:2px 6px;background:var(--plum-t);color:var(--plum)}
+.ci .tg.w{background:var(--navy-t);color:var(--navy)}
+.clear{padding:28px 0;color:var(--good);font:600 15px var(--cond);letter-spacing:.06em;text-transform:uppercase}
+
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--on-ink);font:600 13px var(--cond);letter-spacing:.06em;text-transform:uppercase;padding:10px 14px;z-index:50;max-width:calc(100vw - 32px);display:flex;gap:14px;align-items:center}
+.toast button{background:none;border:0;color:var(--teal);font:inherit;letter-spacing:inherit;text-transform:inherit;cursor:pointer;padding:0}
+
+@media (max-width:880px){
+  .desk{grid-template-columns:minmax(0,1fr);gap:0}
+  .nav{display:none}
+  .navsel{display:block}
+  .pair,.grid3{grid-template-columns:1fr}
+  .grid4{grid-template-columns:1fr 1fr}
+  .shead h2{font-size:25px}
+}
+@media (max-width:520px){.grid2{grid-template-columns:1fr}.tool .grid2{padding-left:0}.top h1{font-size:18px}}
+</style>
+<style id="sheetcss">
+.paper{background:var(--desk);padding:24px;min-width:0}
+.sheet{max-width:840px;margin:0 auto;background:var(--paper);color:var(--paper-ink);font-family:var(--body);font-size:14px;line-height:1.55;box-shadow:0 1px 2px rgba(9,9,9,.12),0 18px 40px -20px rgba(9,9,9,.45)}
+.mast{background:var(--paper-mast);color:var(--paper-on-mast);display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;padding:24px 40px 18px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.mast h2{font-family:var(--display);font-weight:600;font-size:27px;letter-spacing:.05em;text-transform:uppercase;margin:0;line-height:1.1}
+.mast .ms{font:600 10.5px var(--cond);letter-spacing:.16em;text-transform:uppercase;color:var(--paper-mast-muted);margin-top:8px;max-width:52ch;line-height:1.5}
+.mast .mk{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.sheet .wm{font-size:14px}
+.sheet .bands{width:124px;height:6px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.doc{padding:22px 40px 34px}
+.doc .rh{font-family:var(--display);font-weight:600;font-size:16.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--paper-navy);border-bottom:2px solid var(--paper-ink);padding-bottom:4px;margin:28px 0 12px;display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.doc .rh button{background:none;border:0;cursor:pointer;font:600 11px var(--cond);letter-spacing:.12em;text-transform:uppercase;color:var(--paper-muted);padding:0}
+.doc .rh button:hover{color:var(--paper-plum)}
+.doc>p,.doc>ul{max-width:76ch}
+.doc p{margin:0 0 9px}
+.doc h4{font:700 12.5px var(--cond);letter-spacing:.1em;text-transform:uppercase;color:var(--paper-navy);margin:16px 0 6px}
+.doc ul{margin:0 0 10px;padding-left:20px}
+.doc li{margin-bottom:4px}
+.tw{overflow-x:auto;margin:6px 0 16px}
+.rt{width:100%;border-collapse:collapse;border-top:2px solid var(--paper-ink);border-bottom:2px solid var(--paper-ink);font-size:13.5px;min-width:520px}
+.rt th{background:var(--paper-navy-t);color:var(--paper-navy);font:700 11px var(--cond);letter-spacing:.1em;text-transform:uppercase;text-align:left;padding:7px 10px;border-bottom:1px solid var(--paper-rule);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.rt td{padding:8px 10px;border-bottom:1px solid var(--paper-rule);vertical-align:top}
+.rt td+td,.rt th+th{border-left:1px solid var(--paper-rule)}
+.rt td.lab{background:var(--paper-sunk);font:700 12.5px var(--cond);letter-spacing:.03em;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.rt td.lab p{margin:0}
+.rt tr.grp td{background:var(--paper-mast);color:var(--paper-on-mast);font:600 12.5px var(--display);letter-spacing:.14em;text-transform:uppercase;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.rt td p{margin:0 0 6px}.rt td p:last-child{margin:0}
+.rt td ul{margin:0;padding-left:16px}
+.rt td li{margin-bottom:3px}
+.rt.num td{font-variant-numeric:tabular-nums}
+.gap{display:inline-block;font:600 11.5px var(--cond);letter-spacing:.06em;text-transform:uppercase;color:var(--paper-plum);background:var(--paper-plum-t);border-bottom:1.5px dashed var(--paper-plum);padding:1px 6px;line-height:1.4}
+.sign{margin-top:26px;display:flex;flex-direction:column;gap:2px}
+.sign .sp{height:38px}
+.sfoot{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;padding:16px 40px 24px;border-top:1px solid var(--paper-rule)}
+.sfoot small{font:600 10.5px var(--cond);letter-spacing:.12em;color:var(--paper-muted);text-transform:uppercase}
+@media (max-width:640px){.paper{padding:10px}.mast,.doc,.sfoot{padding-left:18px;padding-right:18px}.mast .mk{align-items:flex-start}}
+</style>
+
+</head><body>
+<div class="app">
+  <header class="top">
+    <div class="brand">
+      <a class="mark" href="index.html#templates" title="Back to the Training Hub"><div class="bands" aria-hidden="true"><i></i><i></i><i></i><i></i></div><div class="wm"><b>ESTUS</b> <span>HEALTH</span></div></a>
+      <div style="min-width:0"><h1>FCA Builder</h1><div class="who" id="who">Functional Capacity Assessment</div></div>
+    </div>
+    <div class="acts">
+      <div class="mode" role="group" aria-label="View">
+        <button type="button" id="m-write" aria-pressed="true">Write</button>
+        <button type="button" id="m-prev" aria-pressed="false">Preview</button>
+      </div>
+      <button type="button" class="tb" id="open-checks" aria-haspopup="dialog">Checks <span class="cnt" id="cnt">0</span></button>
+      <div class="menu">
+        <button type="button" class="tb" id="file-btn" aria-haspopup="true" aria-expanded="false">File</button>
+        <div class="pop" id="pop" hidden>
+          <button type="button" id="dl-docx"><span>Download Word document</span><small>Branded .docx, ready to edit or send</small></button>
+          <button type="button" id="dl-json"><span>Save draft file</span><small>.json you can reopen or share</small></button>
+          <button type="button" id="op-json"><span>Open draft file</span><small>Load a .json saved from this builder</small></button>
+          <hr>
+          <button type="button" id="new-rep" class="danger"><span>Start a new report</span><small>Clears this one from the builder</small></button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="desk" id="desk" data-mode="write">
+    <nav class="nav" id="nav" aria-label="Report sections"></nav>
+    <main class="main" id="main"></main>
+  </div>
+</div>
+
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="dr-h" hidden>
+  <header><div><h3 id="dr-h">Checks</h3><p id="dr-sub">Gaps first, then wording. Tap one to go to it.</p></div><button type="button" class="x" id="dr-close">Close</button></header>
+  <div class="list" id="dr-list"></div>
+</aside>
+<input type="file" id="openf" accept=".json,application/json" hidden>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden><span id="toast-m"></span><button type="button" id="toast-u" hidden>Undo</button></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+(function(){
+"use strict";
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const str=v=>v==null?"":String(v).trim();
+const clone=o=>JSON.parse(JSON.stringify(o));
+const uid=()=>"l"+Math.random().toString(36).slice(2,9);
+const num=v=>{const n=parseFloat(String(v==null?"":v).replace(/[^0-9.]/g,""));return isFinite(n)?n:0};
+const fmtN=n=>Number.isInteger(n)?String(n):String(Math.round(n*100)/100);
+const money=n=>n.toLocaleString("en-AU",{minimumFractionDigits:2,maximumFractionDigits:2});
+const whole=n=>Math.round(n).toLocaleString("en-AU");
+const fmtD=v=>{v=str(v);const m=v.match(/^(\d{4})-(\d{2})-(\d{2})$/);return m?m[3]+"/"+m[2]+"/"+m[1]:v};
+const paras=t=>str(t).split(/\n+/).map(s=>s.trim()).filter(Boolean);
+const items=t=>str(t).split(/\n+/).map(s=>s.replace(/^\s*[-*\u2022]\s*/,"").trim()).filter(Boolean);
+
+/* ---------- report structure (follows Nik's FCA, Oct 2026) ---------- */
+const DOMAINS=[
+ {id:"adl",nav:"Self-care",title:"Self-Care (Activities of Daily Living)",rows:["Personal Hygiene (Bathing & Grooming)","Dressing","Eating & Mealtimes","Toileting & Continence","Medication Management","Sleep & Rest"]},
+ {id:"iadl",nav:"Home management",title:"Home Management (Instrumental Activities of Daily Living)",rows:["Meal Preparation","Domestic Tasks","Financial Management","Appointments & Scheduling","Safety Awareness at Home"]},
+ {id:"comm",nav:"Community",title:"Community, Social & Civic Participation",rows:["Shopping & Errands","Community Access & Transport","Community Safety","Social Skills & Relationships","Leisure & Recreation"]},
+ {id:"env",nav:"Home environment",title:"Home & Living Environment",rows:["Access, Layout & Living Spaces","Bedroom & Sensory Environment","Kitchen, Bathroom & Safety Measures"]},
+ {id:"tech",nav:"Technology",title:"Access to Technology & Digital Inclusion",rows:["Personal Digital Devices & Digital Inclusion","Environmental Controls & Communication Devices (AAC)","Gaming & Recreational Tech"]},
+ {id:"work",nav:"Work & study",title:"Work & Study Participation",single:true},
+ {id:"phys",nav:"Physical",title:"Physical Assessment",rows:["Mobility, Transfers & Endurance","Fine Motor","Pain, Fatigue & Sensation"]},
+ {id:"comms",nav:"Communication",title:"Communication & Understanding",rows:["Expressive","Receptive","Reading, Writing & Functional Literacy"]},
+ {id:"cog",nav:"Cognition",title:"Cognition & Executive Functioning",rows:["Insight & Awareness","Planning & Problem-Solving","Memory & Attention"]},
+ {id:"psy",nav:"Wellbeing",title:"Psychosocial & Emotional Wellbeing",rows:["Emotional Regulation","Internalising Behaviours","Externalising Behaviours","Maladaptive Behaviours"]}
+];
+function band(v,list){if(str(v)==="")return"";const n=num(v);for(const [min,l] of list)if(n>=min)return l;return""}
+const AASP=[[18,23,35,44],[35,42,56,62],[18,25,41,48],[19,26,41,49]];
+function aasp(i,v){if(str(v)==="")return"";const n=num(v),c=AASP[i];if(!c)return"";
+  return n<=c[0]?"Much less than most people":n<=c[1]?"Less than most people":n<=c[2]?"Similar to most people":n<=c[3]?"More than most people":"Much more than most people"}
+const TOOLS={
+ whodas:{name:"World Health Organisation Disability Assessment Schedule 2.0 (WHODAS 2.0)",short:"WHODAS 2.0",
+  about:"The WHODAS 2.0 is a World Health Organisation measure of functioning and disability across six domains: Cognition, Mobility, Self-Care, Getting Along, Life Activities and Participation. Scores range from 0 (no difficulty) to 100 (extreme difficulty) and can be compared with the general population.",
+  rows:["Overall","Cognition","Mobility","Self-Care","Getting Along","Life Activities","Participation"],
+  cols:[{k:"s",h:"Score (0 to 100)"},{k:"p",h:"Percentile"},{k:"d",h:"Descriptor",opts:["None","Mild","Moderate","Severe","Extreme"]}],
+  note:"Take the descriptor from your scoring output."},
+ brown:{name:"Brown Executive Function/Attention Scales (Brown EF/A)",short:"Brown EF/A",
+  about:"The Brown EF/A Scales are a standardised rating scale of executive function and attention in daily life, reporting a Total Composite and six clusters: Activation, Focus, Effort, Emotion, Memory and Action. T-scores of 60 or above indicate that difficulties are more frequent or severe than expected for the person's age.",
+  rows:["Activation","Focus","Effort","Emotion","Memory","Action","Total Composite"],
+  cols:[{k:"r",h:"Raw"},{k:"t",h:"T-score"},{k:"p",h:"Percentile"},{k:"ci",h:"90% CI"},{k:"d",h:"Descriptor",auto:v=>band(v.t,[[70,"Markedly atypical"],[60,"Moderately atypical"],[55,"Somewhat atypical"],[0,"Typical"]])}],
+  note:"Descriptor fills from the T-score. Check it against the manual."},
+ aasp:{name:"Adolescent/Adult Sensory Profile",short:"Sensory Profile",
+  about:"The Adolescent/Adult Sensory Profile is a self-report questionnaire of how a person responds to everyday sensory experiences. It reports four quadrants (Low Registration, Sensation Seeking, Sensory Sensitivity and Sensation Avoiding), each compared with most people of the same age.",
+  rows:["Low Registration","Sensation Seeking","Sensory Sensitivity","Sensation Avoiding"],
+  cols:[{k:"r",h:"Raw score (/75)"},{k:"d",h:"Classification",auto:(v,i)=>aasp(i,v.r)}],
+  note:"Classification uses the 18 to 64 norms. Use the manual for other ages."},
+ gad7:{name:"Generalised Anxiety Disorder Assessment (GAD-7)",short:"GAD-7",
+  about:"The GAD-7 is a 7-item screening measure of the severity of generalised anxiety symptoms over the past two weeks. Scores of 5, 10 and 15 mark mild, moderate and severe anxiety respectively.",
+  rows:["Self-report","Informant"],
+  cols:[{k:"s",h:"Score (/21)"},{k:"d",h:"Severity",auto:v=>band(v.s,[[15,"Severe"],[10,"Moderate"],[5,"Mild"],[0,"Minimal"]])}]},
+ phq9:{name:"Patient Health Questionnaire (PHQ-9)",short:"PHQ-9",
+  about:"The PHQ-9 is a 9-item screening measure of the severity of depressive symptoms over the past two weeks. Scores of 5, 10, 15 and 20 mark mild, moderate, moderately severe and severe depression, and item 9 screens for thoughts of death or self-harm.",
+  rows:["Self-report","Informant"],
+  cols:[{k:"s",h:"Score (/27)"},{k:"i9",h:"Item 9"},{k:"d",h:"Severity",auto:v=>band(v.s,[[20,"Severe"],[15,"Moderately severe"],[10,"Moderate"],[5,"Mild"],[0,"Minimal"]])}]},
+ lsp16:{name:"Abbreviated Life Skills Profile (LSP-16)",short:"LSP-16",
+  about:"The Abbreviated Life Skills Profile (LSP-16) is a 16-item clinician-rated measure of everyday functioning across four areas: Withdrawal, Self-Care, Compliance and Anti-Social behaviour. Higher scores indicate greater difficulty.",
+  rows:["Total","Withdrawal","(Lack of) Self-Care","(Lack of) Compliance","Anti-Social"],
+  cols:[{k:"r",h:"Raw"},{k:"a",h:"Average (0 to 3)"},{k:"d",h:"Descriptor",opts:["Minimal","Mild","Moderate","Severe"]}],
+  note:"Take the descriptor from your scoring output."},
+ zarit:{name:"Carer Burden Scale (Zarit Burden Interview)",short:"Carer Burden",
+  about:"The Carer Burden Scale (Zarit Burden Interview) is a 22-item self-report measure of the emotional, physical and social impact of caring. Scores range from 0 to 88, and higher scores indicate greater burden (41 to 60 is moderate to severe, 61 and above is severe).",
+  rows:["Total"],
+  cols:[{k:"s",h:"Score (/88)"},{k:"d",h:"Burden",auto:v=>band(v.s,[[61,"Severe"],[41,"Moderate to severe"],[21,"Mild to moderate"],[0,"Little or no burden"]])}]}
+};
+const TOOL_ORDER=Object.keys(TOOLS);
+const CRITERIA=[
+ ["related","Related to the participant's disability","Name the disability, the limitations it causes, and the scores that show it. Every support should trace back to a need in this report."],
+ ["value","Represents value for money","Why these supports, at this amount, are no more than needed. Say what is not being requested."],
+ ["effective","Effective and beneficial for the participant","How they engage with and benefit from these supports, and how progress will be measured."],
+ ["family","Takes into account what is reasonable to expect family and carers to provide","What family provide now, the carer burden score, and what cannot reasonably be expected of them."],
+ ["costeff","Most cost-effective way to meet the participant's needs","Why lesser options would not work, and how building capacity lowers long-term cost."],
+ ["other","Does not include supports that are the responsibility of other systems","What sits with health, education, employment or other systems and is left out."]
+];
+const STOCK={
+ assess:"This assessment is based on a combination of clinical methods and a review of available documentation to form a holistic view of the participant's function.",
+ goals:"NDIS goals as stated in the plan.",
+ risks:"Without the recommended supports, the following risks are identified:",
+ idl:"It is recommended that this budget is allocated flexibly across the disciplines below, so the team can adjust hours as needs are clarified, rather than as fixed, siloed allocations.",
+ closing:"The findings and recommendations presented in this report have been compiled based on the assessment conducted and information provided by the participant and their support network. These may require amendment if new or additional information becomes available."
+};
+const IDL="Improved Daily Living Skills";
+function L(cat,name,mode,o){return Object.assign({id:uid(),cat,name,sub:"",custom:false,mode,why:"",amount:"",
+  w:{hrs:"",pattern:"",weeks:"52",rate:"",code:"",item:""},
+  y:{dir:"",dirL:"fortnightly sessions",mdt:"",mdtL:"quarterly MDT",rep:"",repL:"reports",oth:"",othL:"",rate:""}},o||{})}
+function defaultSupports(){return[
+ L("Core","Consumables","amount"),
+ L("Core","Assistance with Daily Life","week",{w:{hrs:"",pattern:"",weeks:"52",rate:"",code:"01_011_0107_1_1",item:"Assistance With Self-Care Activities, Standard, Weekday"}}),
+ L("Core","Assistance with Social, Economic and Community Participation","week",{w:{hrs:"",pattern:"",weeks:"52",rate:"",code:"04_104_0125_6_1",item:"Access Community Social and Rec Activ, Standard, Weekday"}}),
+ L("Core","Transport","amount"),
+ L("Core","Home and Living","nil"),
+ L("Core","Short Term Accommodation / Respite","amount"),
+ L("Capacity","Support Coordination","amount"),
+ L("Capacity","Choice and Control","amount"),
+ L("Capacity",IDL,"year",{sub:"Occupational Therapy"}),
+ L("Capacity",IDL,"nil",{sub:"Physiotherapy"}),
+ L("Capacity",IDL,"year",{sub:"Speech Pathology"}),
+ L("Capacity",IDL,"year",{sub:"Psychology"}),
+ L("Capacity","Behaviour Support","nil"),
+ L("Capacity","Relationships","nil"),
+ L("Capacity","Health and Wellbeing","amount"),
+ L("Capacity","Increased Social and Community Participation","amount"),
+ L("Capacity","Finding and Keeping a Job","amount"),
+ L("Capacity","Lifelong Learning","nil"),
+ L("Capacity","Improved Living Arrangements","nil"),
+ L("Capital","Assistive Technology","nil"),
+ L("Capital","Assistive Technology: Maintenance, Repair and Rental","nil"),
+ L("Capital","Home Modifications","nil"),
+ L("Capital","Specialist Disability Accommodation","nil")
+]}
+function blank(){return{
+ meta:{example:false,schema:1},
+ client:{fullName:"",preferred:"",pronouns:"they",dob:"",address:"",ndis:"",planReview:""},
+ assessor:{name:"",role:"Occupational Therapist",ahpra:"",email:""},
+ dates:{from:"",to:"",report:""},
+ referral:{prefLine:true,reason:""},
+ assessment:{intro:STOCK.assess,observations:"",interviews:"",docs:""},
+ goals:{intro:STOCK.goals,short:"",long:""},
+ background:{medical:"",social:"",education:"",living:""},
+ routines:{morning:"",afternoon:"",evening:""},
+ domains:Object.fromEntries(DOMAINS.map(d=>[d.id,{summary:"",rows:d.single?[{area:"",desc:"",recs:""}]:d.rows.map(a=>({area:a,desc:"",recs:""}))}])),
+ scores:{intro:"",tools:Object.fromEntries(TOOL_ORDER.map(t=>[t,{on:false,by:"",date:"",vals:{},notes:""}])),custom:[]},
+ summary:{text:""},
+ supports:{idlNote:STOCK.idl,lines:defaultSupports()},
+ criteria:{related:"",value:"",effective:"",family:"",costeff:"",other:""},
+ risks:{intro:STOCK.risks,items:""},
+ signoff:{closing:STOCK.closing,read:false}
+}}
+function example(){const s=blank();s.meta.example=true;
+ Object.assign(s.client,{fullName:"Jordan (Jo) Sample",preferred:"Jo",pronouns:"she",dob:"2003-04-12",address:"1 Example Street, Fremantle WA 6160",ndis:"430 000 000",planReview:"2027-02-15"});
+ Object.assign(s.assessor,{name:"Your Name",ahpra:"OCC0000000000",email:"you@estushealth.com"});
+ Object.assign(s.dates,{from:"2026-10-05",to:"2026-10-16",report:"2026-10-20"});
+ s.referral.reason="This Functional Capacity Assessment was requested by Pat Sample (parent and NDIS plan nominee) ahead of Jo's plan review on 15/02/2027. The last report is more than two years old and no longer reflects Jo's function, supports or goals.\nThis report reviews Jo's functional capacity in the context of Autism Spectrum Disorder, identifies current support needs, and makes recommendations to build Jo's independence at home, in the community and toward paid work.";
+ const T=s.scores.tools;
+ Object.assign(T.whodas,{on:true,by:"Pat Sample (proxy)",date:"2026-10-07",notes:"Completed by Pat as proxy. Life Activities (75) and Participation (72) were in the severe range, showing the greatest impact on household tasks, work and community participation."});
+ [["61","97.0","Severe"],["50","93.0","Moderate"],["38","90.0","Moderate"],["45","92.0","Moderate"],["58","95.5","Moderate"],["75","98.0","Severe"],["72","98.5","Severe"]].forEach((r,i)=>T.whodas.vals[i]={s:r[0],p:r[1],d:r[2]});
+ Object.assign(T.brown,{on:true,by:"Jo (self-report)",date:"2026-10-08",notes:"Elevated across most clusters, highest for Effort, which fits the difficulty Jo has sustaining effort on non-preferred tasks."});
+ [62,58,66,60,63,61,64].forEach((t,i)=>T.brown.vals[i]={t:String(t)});
+ Object.assign(T.gad7,{on:true,by:"Jo (self-report) and Pat Sample (informant)",date:"2026-10-09",notes:"Jo rated mild anxiety and Pat rated moderate anxiety, consistent with Jo underestimating the impact of anxiety on daily life."});
+ T.gad7.vals[0]={s:"9"};T.gad7.vals[1]={s:"14"};
+ Object.assign(T.zarit,{on:true,by:"Pat Sample",date:"2026-10-09",notes:""});T.zarit.vals[0]={s:"44"};
+ s.scores.intro="Assessments were completed between 7 and 9 October 2026.";
+ s.assessment.observations="Jo was observed across six telehealth OT sessions between 01/08/2026 and 30/09/2026, covering communication style, engagement, regulation and daily routines. The home environment was not observed in person.";
+ s.assessment.interviews="Pat Sample (parent and plan nominee) was interviewed on 05/10/2026 for about 90 minutes. Jo joined part of each session and answered most questions directly.";
+ s.assessment.docs="NDIS Plan, 15/02/2025 to 14/02/2027\nOccupational Therapy Progress Report, Example Therapy, 10/03/2026\nGP letter, 01/10/2026";
+ s.goals.short="During the plan, I would like to cook three simple meals on my own each week.\nDuring the plan, I would like to catch the train to my volunteering shift with less support.\nDuring the plan, I would like to keep a regular sleep and wake time.";
+ s.goals.long="During the plan, I would like to find part-time paid work in graphic design.\nDuring the plan, I would like to move into a shared house with support.";
+ s.background.medical="Jo was diagnosed with Autism Spectrum Disorder in 2011. Jo's GP manages general health, and physical health is reported as good.";
+ s.background.living="Jo lives with Pat and a younger sibling in a single-storey home in Fremantle and has not lived away from home.";
+ s.routines.morning="Jo usually wakes after 10am and goes straight to her phone. She showers independently most days, but breakfast is often skipped unless Pat prompts it.";
+ const A=s.domains.adl;
+ A.summary="Jo completes basic self-care independently, but needs prompting for consistent grooming, meals and medication. This is due to ASD-related executive dysfunction (Brown EF/A Total T=64) and is reflected in the WHODAS 2.0 Self-Care domain (45, moderate).";
+ A.rows[0].desc="Jo showers independently most days and needs no physical help. Teeth brushing and hair care are inconsistent, and Pat gives a verbal reminder before most appointments. Jo completes these tasks when prompted, so the gap is initiation, not skill (Brown EF/A Activation T=62).";
+ A.rows[0].recs="Occupational Therapy: To build a visual grooming routine tied to showering, so tasks happen without prompts.\nSupport Worker: To practise the routine with low-demand prompts, fading as consistency builds.";
+ A.rows[3].desc="Jo manages toileting independently, with no concerns reported.";A.rows[3].recs="Nil required.";
+ A.rows[4].desc="Pat orders and sets out Jo's medication. Jo takes evening doses reliably but forgets morning doses about twice a week, and Pat says this is normal for Jo.";
+ A.rows[4].recs="Occupational Therapy: To set up phone alarms linked to daily anchors, moving from Pat's set-up to Jo managing alone.";
+ s.summary.text="Jo is a 23-year-old with Autism Spectrum Disorder. She is capable and articulate, with real strengths in design and cooking. However, ASD-related executive dysfunction and demand-related distress mean Jo cannot reliably start, plan or finish non-preferred tasks without prompting (WHODAS 2.0 overall 61, Brown EF/A Total T=64).";
+ const sl=s.supports.lines;
+ sl[1].why="Provides a Support Worker to practise grooming, meal and medication routines set by OT, so skills carry over into daily life (WHODAS Self-Care 45).";sl[1].w.hrs="3";sl[1].w.pattern="1 x 3-hour shift";
+ sl[8].why="Fortnightly OT to build executive function, self-care and home management skills, and to guide Support Worker implementation.";Object.assign(sl[8].y,{dir:"26",mdt:"4",rep:"10"});
+ s.criteria.related="Jo's functional limitations arise from Autism Spectrum Disorder, which causes executive dysfunction (Brown EF/A Total T=64), sensory avoidance and difficulty regulating distress, restricting participation (WHODAS 2.0 Overall 61, Participation 72).";
+ s.risks.items="Carer breakdown, as Pat provides most prompting, planning and transport (Carer Burden 44/88).\nLoss of skills built in therapy, as Jo cannot yet maintain new routines without prompting.";
+ return s;
+}
+
+/* ---------- state ---------- */
+const KEY="estus-fca-builder-v1";
+let S,CUR="client",MODE="write";
+function deepMerge(base,inc){if(Array.isArray(base)||Array.isArray(inc))return inc!==undefined?inc:base;
+  if(base&&typeof base==="object"&&inc&&typeof inc==="object"){const o=Object.assign({},base);for(const k in inc)o[k]=k in base?deepMerge(base[k],inc[k]):inc[k];return o}
+  return inc===undefined?base:inc}
+function normalise(x){const o=deepMerge(blank(),x||{});
+  o.supports.lines=(o.supports.lines||[]).map(l=>deepMerge(L(l.cat||"Capacity",l.name||"","amount"),l));
+  DOMAINS.forEach(d=>{if(!Array.isArray(o.domains[d.id].rows))o.domains[d.id].rows=[]});
+  o.scores.custom=(o.scores.custom||[]).map(c=>Object.assign({id:uid(),name:"",about:"",by:"",date:"",table:"",notes:""},c));
+  delete o.document;return o}
+try{const raw=JSON.parse(localStorage.getItem(KEY)||"null");if(raw&&raw.cur){S=normalise(raw.cur);CUR=raw.sec||"client"}}catch(e){}
+if(!S)S=example();
+let saveT;function persist(){clearTimeout(saveT);saveT=setTimeout(()=>{try{localStorage.setItem(KEY,JSON.stringify({cur:S,sec:CUR}))}catch(e){}},350)}
+function getP(p){return p.split(".").reduce((o,k)=>o==null?undefined:o[k],S)}
+function setP(p,v){const ks=p.split(".");let o=S;for(let i=0;i<ks.length-1;i++){if(o[ks[i]]==null||typeof o[ks[i]]!=="object")o[ks[i]]={};o=o[ks[i]]}o[ks[ks.length-1]]=v}
+
+/* ---------- names and pronouns ---------- */
+const PRON={they:{label:"they/them",poss:"their"},she:{label:"she/her",poss:"her"},he:{label:"he/him",poss:"his"}};
+const pron=()=>PRON[S.client.pronouns]||PRON.they;
+function legalName(){return str(S.client.fullName).replace(/\s*\([^)]*\)\s*/g," ").replace(/\s+/g," ").trim()}
+function firstName(){return legalName().replace(/^(Mr|Mrs|Ms|Miss|Mx|Dr)\.?\s+/i,"").split(" ")[0]||""}
+function callName(){return str(S.client.preferred)||firstName()||"the participant"}
+function prefSentence(){const ln=legalName();if(!ln)return"";const pr=pron(),pref=str(S.client.preferred);
+  return pref&&pref!==firstName()?`In this report, ${ln} will be referred to by ${pr.poss} preferred name, ${pref}, with the pronouns ${pr.label}.`:`In this report, ${ln} will be referred to with the pronouns ${pr.label}.`}
+
+/* ---------- sections ---------- */
+const SECTIONS=[
+ {g:"About",id:"client",nav:"Client",title:"Client and assessor",lead:"Who the report is about, who wrote it, and when."},
+ {g:"About",id:"referral",nav:"Referral",title:"Reason for referral",lead:"Who asked for this report and what it needs to answer."},
+ {g:"About",id:"assessment",nav:"Assessment",title:"Assessment information",lead:"How you gathered the evidence. Tick the standardised tools you used and they appear under Scores."},
+ {g:"About",id:"goals",nav:"Goals",title:"Participant goals",lead:"Their goals, in their own words where you can. One goal per line."},
+ {g:"Findings",id:"background",nav:"Background",title:"Background",lead:"The history that explains today. Keep it to what bears on function and supports."},
+ {g:"Findings",id:"routines",nav:"Routines",title:"Routines",lead:"A typical day, and why it runs the way it does."},
+ ...DOMAINS.map(d=>({g:"Findings",id:d.id,nav:d.nav,title:d.title,dom:d,lead:d.single?"What they can do, what gets in the way, and the adjustments that make work or study possible.":"Open with a short summary backed by a score. Then each area: what happens now, who helps, why, and what you recommend."})),
+ {g:"Findings",id:"scores",nav:"Scores",title:"Formal assessments",lead:"Severity bands fill in from the score where the cut-offs are fixed. Then say what the scores show."},
+ {g:"The case",id:"summary",nav:"Functional summary",title:"Functional summary and justification",lead:"Pull the findings together and justify the supports as a whole."},
+ {g:"The case",id:"supports",nav:"Supports",title:"Recommended supports",lead:"Each funded line needs a reason that points back to the findings. Mark the rest Nil."},
+ {g:"The case",id:"criteria",nav:"Reasonable and necessary",title:"NDIS reasonable and necessary criteria",lead:"Answer each criterion with evidence from this report."},
+ {g:"The case",id:"risks",nav:"Risks of non-funding",title:"Risks of non-funding",lead:"What happens if the supports are not funded. One risk per line."},
+ {g:"Finish",id:"signoff",nav:"Sign-off",title:"Sign-off",lead:"Close the report, clear the checks and download it."}
+];
+const secById=id=>SECTIONS.find(s=>s.id===id)||SECTIONS[0];
+
+/* ---------- form helpers ---------- */
+function fid(p){return "f_"+p.replace(/[^\w]/g,"_")}
+function F(p,label,o){o=o||{};const id=fid(p);let c;
+  if(o.type==="area")c=`<textarea id="${id}" data-path="${p}" rows="${o.rows||3}" placeholder="${esc(o.ph||"")}"></textarea>`;
+  else if(o.type==="select")c=`<select id="${id}" data-path="${p}"${o.re?" data-rerender":""}>${o.opts.map(([v,t])=>`<option value="${esc(v)}">${esc(t)}</option>`).join("")}</select>`;
+  else c=`<input id="${id}" type="${o.type==="date"?"date":"text"}" data-path="${p}" placeholder="${esc(o.ph||"")}"${o.num?' inputmode="decimal"':""} autocomplete="off">`;
+  return `<div class="fld${o.cls?" "+o.cls:""}"><label for="${id}">${esc(label)}</label>${c}${o.hint?`<span class="hint">${esc(o.hint)}</span>`:""}</div>`}
+function CB(p,label,re){const id=fid(p);return `<label class="chk" for="${id}"><input type="checkbox" id="${id}" data-path="${p}"${re?" data-rerender":""}><span>${label}</span></label>`}
+function SEG(p,opts,name){return `<div class="seg" role="radiogroup">${opts.map(([v,t],j)=>`<label><input type="radio" name="${name}" id="${fid(p)}_${j}" value="${v}" data-path="${p}" data-rerender><span>${esc(t)}</span></label>`).join("")}</div>`}
+
+/* ---------- section renderers ---------- */
+function rClient(){return `<div class="form">
+ <div class="grid2">
+  ${F("client.fullName","Client name",{ph:"e.g. Jordan (Jo) Sample",cls:"span2"})}
+  ${F("client.preferred","Preferred name",{ph:"Leave blank if the same"})}
+  ${F("client.pronouns","Pronouns",{type:"select",opts:[["they","they/them"],["she","she/her"],["he","he/him"]]})}
+  ${F("client.dob","Date of birth",{type:"date"})}
+  ${F("client.ndis","NDIS number",{num:true})}
+  ${F("client.address","Address",{cls:"span2"})}
+ </div>
+ <div class="sub">Assessor</div>
+ <div class="grid2">
+  ${F("assessor.name","Name")}${F("assessor.ahpra","AHPRA number",{ph:"OCC..."})}
+  ${F("assessor.role","Role")}${F("assessor.email","Email",{ph:"name@estushealth.com"})}
+ </div>
+ <div class="sub">Dates</div>
+ <div class="grid2">
+  ${F("dates.from","Assessment from",{type:"date"})}${F("dates.to","Assessment to",{type:"date",hint:"Leave blank for a single day."})}
+  ${F("dates.report","Report date",{type:"date"})}${F("client.planReview","Plan review date",{type:"date",hint:"Optional."})}
+ </div></div>`}
+function rReferral(){return `<div class="form">
+ ${CB("referral.prefLine","Open with the name and pronouns sentence",true)}
+ ${S.referral.prefLine?`<div class="say" id="prefsay">${esc(prefSentence()||"Add the client name to build this sentence.")}</div>`:""}
+ ${F("referral.reason","Reason for referral",{type:"area",rows:8,ph:"Who requested the report and why now. What it covers (the disability, current supports, the plan review). What it needs to answer, e.g. staged progress toward independent living, community participation and work."})}
+ </div>`}
+function rAssessment(){
+ const tl=TOOL_ORDER.map(t=>{const o=S.scores.tools[t];return `<div class="tool">${CB("scores.tools."+t+".on",esc(TOOLS[t].name),true)}${o.on?`<div class="grid2">${F("scores.tools."+t+".by","Completed by",{ph:"e.g. Pat Sample (proxy)"})}${F("scores.tools."+t+".date","Date",{type:"date"})}</div>`:""}</div>`}).join("");
+ const cl=S.scores.custom.map((c,i)=>`<div class="tool"><div class="area-head"><input class="area-name" type="text" id="${fid("scores.custom."+i+".name")}" data-path="scores.custom.${i}.name" placeholder="Name of assessment" aria-label="Name of assessment"><button type="button" class="x" data-act="del" data-path="scores.custom" data-i="${i}">Remove</button></div><div class="grid2">${F("scores.custom."+i+".by","Completed by")}${F("scores.custom."+i+".date","Date",{type:"date"})}</div></div>`).join("");
+ return `<div class="form">
+ ${F("assessment.intro","Opening line",{type:"area",rows:2})}
+ <div class="fld"><span class="lbl">Standardised assessments used</span><div class="tools">${tl}${cl}</div></div>
+ <button type="button" class="add" data-act="add-tool">Add another assessment</button>
+ ${F("assessment.observations","Clinical observations",{type:"area",rows:4,ph:"How many sessions, over what period, in what setting. What you observed (communication, engagement, regulation, routines). Whether the home was observed in person."})}
+ ${F("assessment.interviews","Interviews and collaboration",{type:"area",rows:4,ph:"Who you interviewed, when and for how long. Who the main informant was and why."})}
+ ${F("assessment.docs","Documentation reviewed",{type:"area",rows:5,ph:"One document per line: title, author, date",hint:"Each line becomes a bullet in the report."})}
+ </div>`}
+function rGoals(){return `<div class="form">
+ ${F("goals.intro","Opening line")}
+ ${F("goals.short","Short-term goals",{type:"area",rows:6,ph:"During the plan, I would like to ..."})}
+ ${F("goals.long","Long-term goals",{type:"area",rows:5,ph:"During the plan, I would like to ..."})}
+ </div>`}
+function rBackground(){return `<div class="form">
+ ${F("background.medical","Medical and disability history",{type:"area",rows:6,ph:"Diagnosis, when, by whom, with which tools. Co-occurring conditions. How the disability affects function. Relevant health events and treating team."})}
+ ${F("background.social","Social and family context",{type:"area",rows:6,ph:"Who they live with. Who does what for them. Informal and formal supports. Carer capacity."})}
+ ${F("background.education","Education and vocation",{type:"area",rows:5,ph:"Schooling, study, work and volunteering history. What worked and why it ended."})}
+ ${F("background.living","Living arrangements and housing history",{type:"area",rows:4,ph:"Current home, any time living away, plans for independent living, SIL or SDA history."})}
+ </div>`}
+function rRoutines(){return `<div class="form">
+ ${F("routines.morning","Morning",{type:"area",rows:4,ph:"Wake time, first activities, self-care, medication, food. Who prompts what."})}
+ ${F("routines.afternoon","Afternoon",{type:"area",rows:4,ph:"Where the day is spent, appointments, travel, household tasks."})}
+ ${F("routines.evening","Evening",{type:"area",rows:4,ph:"Meals, online time, medication, sleep onset, safety plan if relevant."})}
+ </div>`}
+function rDomain(d){const D=S.domains[d.id],base="domains."+d.id;
+ if(d.single)return `<div class="form">
+  ${F(base+".summary","Summary",{type:"area",rows:3,ph:"What they have shown they can do, what stops them sustaining work or study, and the score that shows it."})}
+  ${F(base+".rows.0.desc","Description",{type:"area",rows:8,ph:"Study and work history, what worked and why, current realistic capacity (hours per week), and the barriers, each linked to the disability and evidence."})}
+  ${F(base+".rows.0.recs","Recommendations",{type:"area",rows:5,ph:"One per line, e.g. Occupational Therapy: To liaise with the employer on adjustments ..."})}
+ </div>`;
+ const rows=D.rows.map((r,i)=>`<div class="area"><div class="area-head"><input class="area-name" type="text" id="${fid(base+".rows."+i+".area")}" data-path="${base}.rows.${i}.area" placeholder="Area name" aria-label="Area name"><button type="button" class="x" data-act="del" data-path="${base}.rows" data-i="${i}">Remove</button></div>
+  <div class="pair">${F(base+".rows."+i+".desc","What you found",{type:"area",rows:5,ph:"What happens now, who helps and how often, and why. Name the evidence (a score, an observation, a report)."})}
+  ${F(base+".rows."+i+".recs","Recommendations",{type:"area",rows:5,ph:"One per line, e.g. Occupational Therapy: To develop ...\nor Nil required."})}</div></div>`).join("");
+ return `<div class="form">${F(base+".summary","Summary",{type:"area",rows:3,ph:"One or two sentences: what they can do, where it breaks down, why (link to the disability), and the score that shows it."})}${rows}<button type="button" class="add" data-act="add-area" data-d="${d.id}">Add an area</button></div>`}
+function toolCard(t){const T=TOOLS[t],o=S.scores.tools[t],base="scores.tools."+t;
+ const head=`<tr><th scope="col">Measure</th>${T.cols.map(c=>`<th scope="col">${esc(c.h)}</th>`).join("")}</tr>`;
+ const body=T.rows.map((r,i)=>`<tr><td>${esc(r)}</td>${T.cols.map(c=>{const p=`${base}.vals.${i}.${c.k}`;
+   if(c.auto)return `<td><span class="auto" id="auto_${t}_${i}"></span></td>`;
+   if(c.opts)return `<td><select id="${fid(p)}" data-path="${p}" aria-label="${esc(r+" "+c.h)}"><option value=""></option>${c.opts.map(x=>`<option>${esc(x)}</option>`).join("")}</select></td>`;
+   return `<td><input type="text" id="${fid(p)}" data-path="${p}" inputmode="decimal" aria-label="${esc(r+" "+c.h)}" autocomplete="off"></td>`}).join("")}</tr>`).join("");
+ return `<div class="area"><div class="area-head"><div class="nm" style="font:500 18px var(--display);letter-spacing:.04em;text-transform:uppercase;flex:1">${esc(T.name)}</div></div>
+  <div class="grid2">${F(base+".by","Completed by")}${F(base+".date","Date",{type:"date"})}</div>
+  <div class="sgrid"><table><thead>${head}</thead><tbody>${body}</tbody></table></div>${T.note?`<span class="hint">${esc(T.note)}</span>`:""}
+  ${F(base+".notes","What the scores show",{type:"area",rows:3,ph:"The headline result, what it means for daily life, and how it fits the rest of the report (e.g. self-rating lower than informant rating)."})}</div>`}
+function rScores(){const on=TOOL_ORDER.filter(t=>S.scores.tools[t].on);
+ const cust=S.scores.custom.map((c,i)=>{const b="scores.custom."+i;return `<div class="area"><div class="area-head"><input class="area-name" type="text" id="${fid(b+".name2")}" data-path="${b}.name" placeholder="Name of assessment" aria-label="Name of assessment"><button type="button" class="x" data-act="del" data-path="scores.custom" data-i="${i}">Remove</button></div>
+  ${F(b+".about","About the tool",{type:"area",rows:2,ph:"What it measures and how to read the scores."})}
+  ${F(b+".table","Scores",{type:"area",rows:3,ph:"One measure per line: Measure | Score | Descriptor",hint:"Each line becomes a table row."})}
+  ${F(b+".notes","What the scores show",{type:"area",rows:3})}</div>`}).join("");
+ if(!on.length&&!S.scores.custom.length)return `<div class="empty"><span>No assessments ticked yet. Tick the tools you used under Assessment and their score tables appear here.</span><button type="button" class="add" data-go="assessment">Go to Assessment</button></div>`;
+ return `<div class="form">${F("scores.intro","Opening line",{type:"area",rows:2,ph:"e.g. Assessments were completed between 9 and 20 October 2026."})}${on.map(toolCard).join("")}${cust}</div>`}
+function rSummary(){return `<div class="form">${F("summary.text","Functional summary and justification for supports",{type:"area",rows:16,ph:"Paragraph 1: who they are, their strengths, and how the disability limits function, with the key scores.\nParagraph 2: what informal supports provide and why that is not sustainable, what current supports have achieved, and why the recommended mix (core and capacity building) is reasonable and necessary. Name the lesser options and why they fall short."})}</div>`}
+function supOut(l){
+ if(l.mode==="nil")return["Nil"];
+ if(l.mode==="amount")return items(l.amount);
+ if(l.mode==="week"){const w=l.w,h=num(w.hrs),r=num(w.rate),wk=num(w.weeks)||52,o=[];
+  if(h)o.push(`${fmtN(h)} hours per week${str(w.pattern)?` (${str(w.pattern)})`:""}`);
+  const ci=[str(w.code),str(w.item)].filter(Boolean).join(" ");if(ci)o.push(ci);
+  if(h&&r)o.push(`$${money(r)}/hr = $${money(h*r)}/week (~$${whole(h*r*wk)}/year at ${fmtN(wk)} weeks)`);
+  return h?o:[]}
+ if(l.mode==="year"){const y=l.y,parts=[];[[y.dir,y.dirL],[y.mdt,y.mdtL],[y.rep,y.repL],[y.oth,y.othL]].forEach(([v,lb])=>{const n=num(v);if(n)parts.push(`${fmtN(n)} hours${str(lb)?" "+str(lb):""}`)});
+  if(!parts.length)return[];const tot=[y.dir,y.mdt,y.rep,y.oth].reduce((a,v)=>a+num(v),0);
+  const o=[(parts.length>1?parts.join(" + ")+" = ":"")+fmtN(tot)+" hours per year"];const r=num(y.rate);
+  if(r)o.push(`At $${money(r)}/hr: $${whole(tot*r)} per year`);return o}
+ return[]}
+const supLabel=l=>l.name===IDL?(str(l.sub)||"Discipline")+" (IDL)":(str(l.name)||"New support");
+function rSupports(){const ls=S.supports.lines;let h=`<div class="form">`;
+ ["Core","Capacity","Capital"].forEach(cat=>{h+=`<div class="grp-h">${cat}</div>`;
+  let idlDone=false;
+  ls.forEach((l,i)=>{if(l.cat!==cat)return;const b="supports.lines."+i;
+   if(l.name===IDL&&!idlDone){idlDone=true;h+=`<div class="sup"><div class="area-head"><div class="nm">${IDL}</div></div>${F("supports.idlNote","Note above the disciplines",{type:"area",rows:2})}</div>`}
+   const named=l.custom||l.name===IDL;
+   const title=l.name===IDL?`<div class="nm" style="display:flex;flex-direction:column"><small>${IDL}</small><input class="area-name" type="text" id="${fid(b+".sub")}" data-path="${b}.sub" placeholder="Discipline" aria-label="Discipline"></div>`
+     :l.custom?`<input class="area-name" type="text" id="${fid(b+".name")}" data-path="${b}.name" placeholder="Support name" aria-label="Support name">`:`<div class="nm">${esc(l.name)}</div>`;
+   h+=`<div class="sup" id="sup_${l.id}"><div class="area-head">${title}${named?`<button type="button" class="x" data-act="del" data-path="supports.lines" data-i="${i}">Remove</button>`:""}</div>
+    ${SEG(b+".mode",[["nil","Nil"],["amount","Amount"],["week","Per week"],["year","Per year"]],"m_"+l.id)}
+    ${F(b+".why",l.mode==="nil"?"Why nil (optional)":"Justification",{type:"area",rows:l.mode==="nil"?2:4,ph:l.mode==="nil"?"e.g. No physical access need has been identified.":"The need it meets, the evidence for that need (scores, findings), and why this amount."})}`;
+   if(l.mode==="amount")h+=F(b+".amount","Amount",{type:"area",rows:2,ph:"e.g. $1,000 per year\nor 3 hours per month (36 hours per year)"});
+   if(l.mode==="week")h+=`<div class="calc"><div class="grid4">${F(b+".w.hrs","Hours per week",{num:true})}${F(b+".w.rate","Rate ($/hr)",{num:true})}${F(b+".w.weeks","Weeks",{num:true})}${F(b+".w.pattern","Shifts",{ph:"2 x 2-hour"})}</div><div class="grid2">${F(b+".w.code","Support item number")}${F(b+".w.item","Support item name")}</div><div class="out" id="out_${l.id}"></div></div>`;
+   if(l.mode==="year")h+=`<div class="calc"><div class="grid4">${F(b+".y.dir","Hours",{num:true})}${F(b+".y.dirL","For")}${F(b+".y.mdt","Hours",{num:true})}${F(b+".y.mdtL","For")}${F(b+".y.rep","Hours",{num:true})}${F(b+".y.repL","For")}${F(b+".y.oth","Hours",{num:true})}${F(b+".y.othL","For",{ph:"e.g. travel"})}</div><div class="grid4">${F(b+".y.rate","Rate ($/hr)",{num:true,hint:"Optional."})}</div><div class="out" id="out_${l.id}"></div></div>`;
+   h+=`</div>`});
+  h+=`<div style="display:flex;gap:10px;flex-wrap:wrap">${cat==="Capacity"?`<button type="button" class="add" data-act="add-idl">Add a discipline</button>`:""}<button type="button" class="add" data-act="add-sup" data-cat="${cat}">Add a ${cat.toLowerCase()} support</button></div>`});
+ return h+`</div>`}
+function rCriteria(){return `<div class="form">${CRITERIA.map(([k,t,ph])=>F("criteria."+k,t,{type:"area",rows:5,ph})).join("")}</div>`}
+function rRisks(){return `<div class="form">${F("risks.intro","Opening line")}${F("risks.items","Risks",{type:"area",rows:10,ph:"One risk per line. Name the risk, then why it is likely, e.g. Carer breakdown. Carer Burden Scale 57/88, and without respite ..."})}</div>`}
+function rSignoff(){const n=CHECKS.length;return `<div class="form">
+ ${F("signoff.closing","Closing statement",{type:"area",rows:3})}
+ <div class="say">Signs off as <b>${esc(str(S.assessor.name)||"[assessor name]")}</b>, ${esc(str(S.assessor.role)||"Occupational Therapist")} | Estus Health${str(S.assessor.email)?", "+esc(S.assessor.email):""}. Change these under Client.</div>
+ ${CB("signoff.read","I have read this report end to end")}
+ <div class="done"><span class="hint" id="done-h">${n?`${n} check${n===1?"":"s"} still open. You can download now and finish in Word, or clear them here first.`:"All checks clear."}</span>
+ <div style="display:flex;gap:10px;flex-wrap:wrap"><button type="button" class="big" data-act="docx">Download Word document</button>${n?`<button type="button" class="add" data-act="checks">Open checks</button>`:""}</div></div>
+ </div>`}
+
+/* ---------- render ---------- */
+const main=$("#main"),nav=$("#nav");
+function renderNav(){let h="",g="";SECTIONS.forEach(s=>{if(s.g!==g){g=s.g;h+=`<div class="g">${esc(g)}</div>`}
+  h+=`<button type="button" data-sec="${s.id}" aria-current="${s.id===CUR}"><span>${esc(s.nav)}</span><span class="n" id="nc_${s.id}"></span></button>`});nav.innerHTML=h;navCounts()}
+function navSelect(){let h="",g="";SECTIONS.forEach(s=>{if(s.g!==g){if(g)h+="</optgroup>";g=s.g;h+=`<optgroup label="${esc(g)}">`}h+=`<option value="${s.id}"${s.id===CUR?" selected":""}>${esc(s.nav)}</option>`});return `<select class="navsel" id="navsel" aria-label="Section">${h}</optgroup></select>`}
+function renderSection(keepFocus){
+ const focusId=keepFocus&&document.activeElement?document.activeElement.id:null;
+ const s=secById(CUR),i=SECTIONS.indexOf(s),prev=SECTIONS[i-1],next=SECTIONS[i+1];
+ const body=s.dom?rDomain(s.dom):({client:rClient,referral:rReferral,assessment:rAssessment,goals:rGoals,background:rBackground,routines:rRoutines,scores:rScores,summary:rSummary,supports:rSupports,criteria:rCriteria,risks:rRisks,signoff:rSignoff})[s.id]();
+ main.innerHTML=`${S.meta.example?`<div class="banner"><span>Example report for a fictional client. Your edits save in this browser only.</span><button type="button" data-act="new-now">Start a new report</button></div>`:""}${navSelect()}
+  <div class="shead"><span class="eb">${esc(s.g)}</span><h2>${esc(s.title)}</h2><p>${esc(s.lead)}</p></div>${body}
+  <div class="pager">${prev?`<button type="button" data-go="${prev.id}"><small>Previous</small><span>\u2190 ${esc(prev.nav)}</span></button>`:""}${next?`<button type="button" class="nx" data-go="${next.id}"><small>Next</small><span>${esc(next.nav)} \u2192</span></button>`:""}</div>`;
+ main.querySelectorAll("[data-path]").forEach(el=>{const v=getP(el.dataset.path);
+  if(el.type==="checkbox")el.checked=!!v;else if(el.type==="radio")el.checked=v===el.value;else el.value=v==null?"":v});
+ main.querySelectorAll("textarea").forEach(grow);
+ refreshLive();
+ nav.querySelectorAll("button[data-sec]").forEach(b=>b.setAttribute("aria-current",b.dataset.sec===CUR));
+ if(focusId){const f=document.getElementById(focusId);if(f)f.focus({preventScroll:true})}
+}
+function grow(t){t.style.height="auto";t.style.height=(t.scrollHeight+2)+"px"}
+function refreshLive(){
+ const ps=$("#prefsay");if(ps)ps.textContent=prefSentence()||"Add the client name to build this sentence.";
+ TOOL_ORDER.forEach(t=>{const T=TOOLS[t];T.rows.forEach((r,i)=>{const el=document.getElementById(`auto_${t}_${i}`);if(!el)return;const c=T.cols.find(c=>c.auto);el.textContent=c.auto(S.scores.tools[t].vals[i]||{},i)})});
+ S.supports.lines.forEach(l=>{const el=document.getElementById("out_"+l.id);if(el)el.textContent=supOut(l).join("\n")});
+ $("#who").textContent=str(S.client.fullName)||"Functional Capacity Assessment";
+}
+function go(id,path){CUR=id;persist();if(MODE!=="write")setMode("write");else renderSection();
+ if(path){requestAnimationFrame(()=>{const el=main.querySelector(`[data-path="${path}"]`);if(el){el.scrollIntoView({block:"center",behavior:"smooth"});setTimeout(()=>el.focus({preventScroll:true}),250)}})}
+ else window.scrollTo({top:0,behavior:"smooth"})}
+function setMode(m){MODE=m;$("#desk").dataset.mode=m;$("#m-write").setAttribute("aria-pressed",m==="write");$("#m-prev").setAttribute("aria-pressed",m==="preview");
+ if(m==="write")renderSection();else renderPreview()}
+
+/* ---------- edits ---------- */
+let chkT;function dirty(){persist();clearTimeout(chkT);chkT=setTimeout(runChecks,400)}
+function onEdit(t){const p=t.dataset.path;if(!p)return;
+ if(t.type==="checkbox")setP(p,t.checked);else if(t.type==="radio"){if(!t.checked)return;setP(p,t.value)}else setP(p,t.value);
+ if(t.tagName==="TEXTAREA")grow(t);
+ if(t.hasAttribute("data-rerender"))renderSection(true);else refreshLive();
+ dirty()}
+main.addEventListener("input",e=>{const t=e.target;if(t.type==="checkbox"||t.type==="radio"||t.tagName==="SELECT")return;onEdit(t)});
+main.addEventListener("change",e=>{const t=e.target;if(t.id==="navsel"){go(t.value);return}if(t.type==="checkbox"||t.type==="radio"||t.tagName==="SELECT"||t.type==="date")onEdit(t)});
+let UNDO=null;
+main.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
+ if(b.dataset.go){go(b.dataset.go);return}
+ const a=b.dataset.act;if(!a)return;
+ if(a==="del"){const arr=getP(b.dataset.path),i=+b.dataset.i;const snap=clone(S);arr.splice(i,1);renderSection();dirty();toast("Removed",()=>{S=snap;renderSection();dirty()});return}
+ if(a==="add-area"){S.domains[b.dataset.d].rows.push({area:"",desc:"",recs:""});renderSection();dirty();focusLast(".area-name");return}
+ if(a==="add-tool"){S.scores.custom.push({id:uid(),name:"",about:"",by:"",date:"",table:"",notes:""});renderSection();dirty();focusLast(".tool .area-name");return}
+ if(a==="add-sup"){const ls=S.supports.lines;let at=-1;ls.forEach((l,i)=>{if(l.cat===b.dataset.cat)at=i});ls.splice(at+1,0,L(b.dataset.cat,"","amount",{custom:true}));renderSection();dirty();return}
+ if(a==="add-idl"){const ls=S.supports.lines;let at=-1;ls.forEach((l,i)=>{if(l.name===IDL)at=i});if(at<0)ls.forEach((l,i)=>{if(l.cat==="Capacity")at=i});ls.splice(at+1,0,L("Capacity",IDL,"year",{sub:""}));renderSection();dirty();return}
+ if(a==="new-now"){newReport();return}
+ if(a==="docx"){downloadDocx();return}
+ if(a==="checks"){openChecks();return}
+});
+function focusLast(sel){const all=main.querySelectorAll(sel);const el=all[all.length-1];if(el){el.scrollIntoView({block:"center",behavior:"smooth"});el.focus({preventScroll:true})}}
+nav.addEventListener("click",e=>{const b=e.target.closest("button[data-sec]");if(b)go(b.dataset.sec)});
+
+/* ---------- checks ---------- */
+let CHECKS=[];
+const PHRASES=[
+ [/\bno (issues|concerns)\b/i,"\u201CNo issues\u201D on its own. Name what was intact and how you know."],
+ [/\bnormal\b/i,"\u201CNormal\u201D compared with what? Name the standard or the observation."],
+ [/\b(obviously|clearly)\b/i,"Asserts rather than evidences. Give the observation."],
+ [/\bsuffers? (from|with)\b/i,"Neuroaffirming language: use \u201Chas\u201D or \u201Cexperiences\u201D."],
+ [/\b(high|low)[- ]functioning\b/i,"Functioning labels. Describe the support needs instead."],
+ [/\bnon-?compliant\b/i,"Describe what got in the way (demand, sensory, communication)."],
+ [/\b(challenging|problem) behaviours?\b/i,"Describe the behaviour and what it communicates."],
+ [/\bwheelchair[- ]bound\b/i,"Use \u201Cuses a wheelchair\u201D."],
+ [/\u2014/,"Em-dash. Estus style uses a comma or full stop."]
+];
+function texts(){const T=[];const t=(sec,path,label)=>{const v=getP(path);if(str(v))T.push({sec,path,label,v:String(v)})};
+ t("referral","referral.reason","Reason for referral");
+ t("assessment","assessment.observations","Clinical observations");t("assessment","assessment.interviews","Interviews");
+ t("goals","goals.short","Short-term goals");t("goals","goals.long","Long-term goals");
+ [["medical","Medical history"],["social","Social and family"],["education","Education and vocation"],["living","Living arrangements"]].forEach(([k,l])=>t("background","background."+k,l));
+ ["morning","afternoon","evening"].forEach(k=>t("routines","routines."+k,k[0].toUpperCase()+k.slice(1)));
+ DOMAINS.forEach(d=>{t(d.id,`domains.${d.id}.summary`,"Summary");S.domains[d.id].rows.forEach((r,i)=>{const n=d.single?"Work and study":str(r.area)||"Area";t(d.id,`domains.${d.id}.rows.${i}.desc`,n);t(d.id,`domains.${d.id}.rows.${i}.recs`,n+" recommendations")})});
+ TOOL_ORDER.forEach(k=>{if(S.scores.tools[k].on)t("scores",`scores.tools.${k}.notes`,TOOLS[k].short)});
+ S.scores.custom.forEach((c,i)=>t("scores",`scores.custom.${i}.notes`,str(c.name)||"Assessment"));
+ t("summary","summary.text","Functional summary");
+ S.supports.lines.forEach((l,i)=>t("supports",`supports.lines.${i}.why`,supLabel(l)));
+ CRITERIA.forEach(([k,l])=>t("criteria","criteria."+k,l));
+ t("risks","risks.items","Risks");
+ return T}
+function runChecks(){const out=[];const add=(sec,path,msg,w)=>out.push({sec,path,msg,w:!!w});
+ [["client.fullName","Client name"],["client.dob","Date of birth"],["client.ndis","NDIS number"],["client.address","Address"],["assessor.name","Assessor name"],["assessor.ahpra","AHPRA number"],["dates.from","Assessment date"],["dates.report","Report date"]].forEach(([p,l])=>{if(!str(getP(p)))add("client",p,l+" is empty")});
+ if(!str(S.referral.reason))add("referral","referral.reason","Reason for referral is empty");
+ if(!TOOL_ORDER.some(t=>S.scores.tools[t].on)&&!S.scores.custom.length)add("assessment","assessment.intro","No standardised assessments ticked");
+ if(!str(S.assessment.observations))add("assessment","assessment.observations","Clinical observations are empty");
+ if(!str(S.assessment.interviews))add("assessment","assessment.interviews","Interviews and collaboration are empty");
+ if(!str(S.assessment.docs))add("assessment","assessment.docs","List the documents you reviewed");
+ if(!str(S.goals.short)&&!str(S.goals.long))add("goals","goals.short","No goals listed");
+ [["medical","Medical and disability history"],["social","Social and family context"],["education","Education and vocation"],["living","Living arrangements"]].forEach(([k,l])=>{if(!str(S.background[k]))add("background","background."+k,l+" is empty")});
+ if(!["morning","afternoon","evening"].some(k=>str(S.routines[k])))add("routines","routines.morning","Routines are empty");
+ else ["morning","afternoon","evening"].forEach(k=>{if(!str(S.routines[k]))add("routines","routines."+k,k[0].toUpperCase()+k.slice(1)+" is empty")});
+ DOMAINS.forEach(d=>{const D=S.domains[d.id],b="domains."+d.id;
+  if(!str(D.summary))add(d.id,b+".summary","Summary is empty");else if(!/\d/.test(D.summary))add(d.id,b+".summary","Back the summary with a score (WHODAS, Brown EF/A, LSP-16)",true);
+  if(!D.rows.length)add(d.id,b+".summary","No areas in this section");
+  D.rows.forEach((r,i)=>{const n=d.single?"Work and study":str(r.area)||"Unnamed area";
+   if(!str(r.desc))add(d.id,`${b}.rows.${i}.desc`,d.single?"Description is empty":`${n}: write what you found, or remove the area`);
+   else if(!str(r.recs))add(d.id,`${b}.rows.${i}.recs`,`${n}: add a recommendation, or write \u201CNil required\u201D`)})});
+ TOOL_ORDER.forEach(t=>{const o=S.scores.tools[t];if(!o.on)return;const T=TOOLS[t];
+  const any=Object.values(o.vals||{}).some(v=>v&&Object.values(v).some(x=>str(x)));
+  if(!any)add("scores",`scores.tools.${t}.vals.0.${T.cols[0].k}`,`${T.short}: no scores entered`);
+  if(!str(o.by))add("scores",`scores.tools.${t}.by`,`${T.short}: who completed it?`);
+  if(!str(o.notes))add("scores",`scores.tools.${t}.notes`,`${T.short}: say what the scores show`)});
+ S.scores.custom.forEach((c,i)=>{if(!str(c.name))add("scores",`scores.custom.${i}.name`,"Name the added assessment");if(!str(c.table))add("scores",`scores.custom.${i}.table`,`${str(c.name)||"Added assessment"}: no scores entered`)});
+ if(!str(S.summary.text))add("summary","summary.text","Functional summary is empty");
+ S.supports.lines.forEach((l,i)=>{const n=supLabel(l),b="supports.lines."+i;if(l.mode==="nil")return;
+  if(!str(l.why))add("supports",b+".why",`${n}: add the justification`);
+  if(!supOut(l).length)add("supports",b+(l.mode==="amount"?".amount":l.mode==="week"?".w.hrs":".y.dir"),`${n}: add the amount`);
+  else if(l.mode==="week"&&!num(l.w.rate))add("supports",b+".w.rate",`${n}: add the hourly rate`)});
+ CRITERIA.forEach(([k,l])=>{if(!str(S.criteria[k]))add("criteria","criteria."+k,l)});
+ if(!str(S.risks.items))add("risks","risks.items","No risks listed");
+ if(!S.signoff.read)add("signoff","signoff.read","Confirm you have read the report end to end");
+ const T=texts();
+ T.forEach(x=>PHRASES.forEach(([re,m])=>{if(re.test(x.v))add(x.sec,x.path,`${x.label}: ${m}`,true)}));
+ const fn=firstName(),pref=str(S.client.preferred);
+ if(pref&&fn&&fn.toLowerCase()!==pref.toLowerCase()){const re=new RegExp("\\b"+fn.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"\\b");T.forEach(x=>{if(re.test(x.v))add(x.sec,x.path,`${x.label}: uses \u201C${fn}\u201D. The report calls them ${pref}.`,true)})}
+ CHECKS=out;
+ const c=$("#cnt");c.textContent=out.length;c.className="cnt"+(out.length?"":" ok");
+ navCounts();if(!$("#drawer").hidden)renderChecks();
+ const dh=$("#done-h");if(dh&&CUR==="signoff"){const n=out.length;dh.textContent=n?`${n} check${n===1?"":"s"} still open. You can download now and finish in Word, or clear them here first.`:"All checks clear."}
+}
+function navCounts(){const per={};CHECKS.forEach(c=>per[c.sec]=(per[c.sec]||0)+1);SECTIONS.forEach(s=>{const el=document.getElementById("nc_"+s.id);if(el)el.textContent=per[s.id]||""})}
+function renderChecks(){const L=$("#dr-list");
+ if(!CHECKS.length){L.innerHTML=`<div class="clear">All checks clear</div>`;$("#dr-sub").textContent="Nothing open. Download when ready.";return}
+ const gaps=CHECKS.filter(c=>!c.w).length,words=CHECKS.length-gaps;
+ $("#dr-sub").textContent=`${gaps} gap${gaps===1?"":"s"} and ${words} wording note${words===1?"":"s"}. Tap one to go to it.`;
+ let h="";SECTIONS.forEach(s=>{const cs=CHECKS.filter(c=>c.sec===s.id).sort((a,b)=>a.w-b.w);if(!cs.length)return;
+  h+=`<div class="dg">${esc(s.nav)}</div>`+cs.map(c=>`<button type="button" class="ci" data-sec="${c.sec}" data-path="${esc(c.path)}"><span class="tg${c.w?" w":""}">${c.w?"Wording":"Gap"}</span><span>${esc(c.msg)}</span></button>`).join("")});
+ L.innerHTML=h}
+function openChecks(){renderChecks();$("#drawer").hidden=false;$("#scrim").hidden=false;$("#dr-close").focus()}
+function closeChecks(){$("#drawer").hidden=true;$("#scrim").hidden=true}
+$("#open-checks").onclick=openChecks;$("#dr-close").onclick=closeChecks;$("#scrim").onclick=closeChecks;
+$("#dr-list").addEventListener("click",e=>{const b=e.target.closest(".ci");if(!b)return;closeChecks();go(b.dataset.sec,b.dataset.path)});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){if(!$("#drawer").hidden)closeChecks();if(!$("#pop").hidden)closeMenu()}});
+
+/* ---------- report model ---------- */
+const gapOr=(v,l)=>str(v)?[{p:str(v)}]:[{gap:l}];
+const parasOr=(v,l)=>{const p=paras(v);return p.length?p.map(x=>({p:x})):[{gap:l}]};
+function build(){const B=[],c=S.client,pr=pron();
+ const dates=[fmtD(S.dates.from),fmtD(S.dates.to)].filter(Boolean).join(" to ");
+ const info=[["Client name",gapOr(c.fullName,"Client name")],["Preferred name and pronouns",[{p:(str(c.preferred)?str(c.preferred)+", ":"")+pr.label}]],["Date of birth",gapOr(fmtD(c.dob),"Date of birth")],["Address",gapOr(c.address,"Address")],["NDIS number",gapOr(c.ndis,"NDIS number")],
+  ["Assessor and AHPRA number",str(S.assessor.name)?[{p:str(S.assessor.name)+(str(S.assessor.ahpra)?", "+str(S.assessor.ahpra):"")}]:[{gap:"Assessor"}]],["Assessment date",gapOr(dates,"Assessment date")],["Report date",gapOr(fmtD(S.dates.report),"Report date")]];
+ if(str(c.planReview))info.push(["Plan review date",[{p:fmtD(c.planReview)}]]);
+ B.push({t:"tbl",w:[32,68],rows:info.map(([k,v])=>({label:true,cells:[{c:[{b:k}]},{c:v}]}))});
+ B.push({t:"h",text:"Reason for Referral",sec:"referral"});
+ if(S.referral.prefLine&&prefSentence())B.push({t:"p",text:prefSentence()});
+ parasOr(S.referral.reason,"Reason for referral").forEach(x=>B.push(x.gap?{t:"gap",text:x.gap}:{t:"p",text:x.p}));
+ B.push({t:"h",text:"Assessment Information",sec:"assessment"});
+ if(str(S.assessment.intro))B.push({t:"p",text:str(S.assessment.intro)});
+ const used=TOOL_ORDER.filter(t=>S.scores.tools[t].on).map(t=>{const o=S.scores.tools[t];return TOOLS[t].name+(str(o.by)?", "+str(o.by):"")+(str(o.date)?" ("+fmtD(o.date)+")":"")})
+   .concat(S.scores.custom.filter(x=>str(x.name)).map(x=>str(x.name)+(str(x.by)?", "+str(x.by):"")+(str(x.date)?" ("+fmtD(x.date)+")":"")));
+ if(used.length){B.push({t:"lead",label:"Standardised assessments used"});B.push({t:"ul",items:used})}
+ if(str(S.assessment.observations))B.push({t:"lead",label:"Clinical observations",text:paras(S.assessment.observations).join(" ")});
+ if(str(S.assessment.interviews))B.push({t:"lead",label:"Interviews and collaboration",text:paras(S.assessment.interviews).join(" ")});
+ if(items(S.assessment.docs).length){B.push({t:"lead",label:"Documentation reviewed"});B.push({t:"ul",items:items(S.assessment.docs)})}
+ B.push({t:"h",text:"Participant Goals",sec:"goals"});
+ if(str(S.goals.intro))B.push({t:"p",text:str(S.goals.intro)});
+ if(items(S.goals.short).length){B.push({t:"sub",text:"Short term"});B.push({t:"ul",items:items(S.goals.short)})}
+ if(items(S.goals.long).length){B.push({t:"sub",text:"Long term"});B.push({t:"ul",items:items(S.goals.long)})}
+ if(!items(S.goals.short).length&&!items(S.goals.long).length)B.push({t:"gap",text:"Goals"});
+ B.push({t:"h",text:"NDIS Reasonable and Necessary Criteria",sec:"criteria"});
+ B.push({t:"tbl",w:[28,72],head:["Criterion","How it is met for "+callName()],rows:CRITERIA.map(([k,l])=>({label:true,cells:[{c:[{b:l}]},{c:parasOr(S.criteria[k],"Not yet written")}]}))});
+ B.push({t:"h",text:"Risks of Non-Funding",sec:"risks"});
+ if(items(S.risks.items).length){if(str(S.risks.intro))B.push({t:"p",text:str(S.risks.intro)});B.push({t:"ul",items:items(S.risks.items)})}else B.push({t:"gap",text:"Risks of non-funding"});
+ B.push({t:"h",text:"Background",sec:"background"});
+ [["medical","Medical & Disability History"],["social","Social & Family Context"],["education","Education & Vocation"],["living","Living Arrangements & Housing History"]].forEach(([k,l])=>{B.push({t:"sub",text:l});parasOr(S.background[k],l).forEach(x=>B.push(x.gap?{t:"gap",text:x.gap}:{t:"p",text:x.p}))});
+ B.push({t:"h",text:"Routines",sec:"routines"});
+ B.push({t:"tbl",w:[20,80],rows:[["morning","Morning"],["afternoon","Afternoon"],["evening","Evening"]].map(([k,l])=>({label:true,cells:[{c:[{b:l}]},{c:parasOr(S.routines[k],"Not yet written")}]}))});
+ DOMAINS.forEach(d=>{const D=S.domains[d.id];B.push({t:"h",text:d.title,sec:d.id});
+  parasOr(D.summary,"Summary").forEach(x=>B.push(x.gap?{t:"gap",text:x.gap}:{t:"p",text:x.p}));
+  const recC=r=>{const it=items(r.recs);return it.length?it.map(x=>({li:x})):[{gap:"Recommendations"}]};
+  if(d.single){const r=D.rows[0]||{desc:"",recs:""};B.push({t:"tbl",w:[22,78],rows:[{label:true,cells:[{c:[{b:"Description"}]},{c:parasOr(r.desc,"Description")}]},{label:true,cells:[{c:[{b:"Recommendations"}]},{c:recC(r)}]}]})}
+  else if(D.rows.length)B.push({t:"tbl",w:[19,47,34],head:["Area","Description","Recommendations"],rows:D.rows.map(r=>({label:true,cells:[{c:[{b:str(r.area)||"Area"}]},{c:parasOr(r.desc,"Not yet written")},{c:recC(r)}]}))})});
+ B.push({t:"h",text:"Formal Assessments",sec:"scores"});
+ if(str(S.scores.intro))B.push({t:"p",text:str(S.scores.intro)});
+ let anyTool=false;
+ TOOL_ORDER.forEach(t=>{const o=S.scores.tools[t];if(!o.on)return;anyTool=true;const T=TOOLS[t];
+  B.push({t:"sub",text:T.name});B.push({t:"p",text:T.about});
+  if(str(o.by)||str(o.date))B.push({t:"p",text:"Completed by "+(str(o.by)||"[not recorded]")+(str(o.date)?" on "+fmtD(o.date):"")+"."});
+  paras(o.notes).forEach(x=>B.push({t:"p",text:x}));
+  const rows=T.rows.map((r,i)=>{const v=o.vals[i]||{};const cells=T.cols.map(c=>c.auto?c.auto(v,i):str(v[c.k]));return cells.some(Boolean)?{label:true,cells:[{c:[{b:r}]},...cells.map(x=>({c:[{p:x||"\u2013"}]}))]}:null}).filter(Boolean);
+  if(rows.length)B.push({t:"tbl",num:true,w:[30,...T.cols.map(()=>70/T.cols.length)],head:["Measure",...T.cols.map(c=>c.h)],rows});else B.push({t:"gap",text:T.short+" scores"})});
+ S.scores.custom.forEach(c=>{if(!str(c.name)&&!str(c.table))return;anyTool=true;B.push({t:"sub",text:str(c.name)||"Assessment"});
+  paras(c.about).forEach(x=>B.push({t:"p",text:x}));
+  if(str(c.by)||str(c.date))B.push({t:"p",text:"Completed by "+(str(c.by)||"[not recorded]")+(str(c.date)?" on "+fmtD(c.date):"")+"."});
+  paras(c.notes).forEach(x=>B.push({t:"p",text:x}));
+  const rows=items(c.table).map(l=>l.split("|").map(s=>s.trim()));
+  if(rows.length)B.push({t:"tbl",num:true,w:[40,25,35],head:["Measure","Score","Descriptor"],rows:rows.map(r=>({label:true,cells:[{c:[{b:r[0]||""}]},{c:[{p:r[1]||"\u2013"}]},{c:[{p:r.slice(2).join(" | ")||"\u2013"}]}]}))})});
+ if(!anyTool)B.push({t:"gap",text:"No standardised assessments"});
+ B.push({t:"h",text:"Functional Summary & Justification for Supports",sec:"summary"});
+ parasOr(S.summary.text,"Functional summary").forEach(x=>B.push(x.gap?{t:"gap",text:x.gap}:{t:"p",text:x.p}));
+ B.push({t:"h",text:"Recommendations",sec:"supports"});
+ const rows=[];["Core","Capacity","Capital"].forEach(cat=>{const ls=S.supports.lines.filter(l=>l.cat===cat);if(!ls.length)return;rows.push({kind:"group",text:cat});let idl=false;
+  ls.forEach(l=>{if(l.name===IDL&&!idl){idl=true;rows.push({label:true,cells:[{c:[{b:IDL}]},{c:paras(S.supports.idlNote).map(x=>({p:x})),span:2}]})}
+   const lab=l.name===IDL?(str(l.sub)||"Discipline"):(str(l.name)||"Support");
+   const desc=l.mode==="nil"?(paras(l.why).length?paras(l.why).map(x=>({p:x})):[{p:"Nil required."}]):parasOr(l.why,"Justification");
+   const amt=supOut(l);
+   rows.push({label:true,cells:[{c:[{b:lab}]},{c:desc},{c:amt.length?amt.map(x=>({p:x})):[{gap:"Amount"}]}]})})});
+ B.push({t:"tbl",w:[22,48,30],head:["Support","Description","Required supports"],rows});
+ B.push({t:"sign"});
+ return B}
+
+/* ---------- preview ---------- */
+function cellH(c){let h="",ul=false;c.forEach(x=>{if(x.li!=null){if(!ul){h+="<ul>";ul=true}h+=`<li>${esc(x.li)}</li>`;return}if(ul){h+="</ul>";ul=false}
+  if(x.b!=null)h+=`<p>${esc(x.b)}</p>`;else if(x.gap!=null)h+=`<p><span class="gap">${esc(x.gap)}</span></p>`;else h+=`<p>${esc(x.p)}</p>`});return h+(ul?"</ul>":"")}
+function sheetHTML(B,interactive){const c=S.client;let h="";
+ B.forEach(b=>{
+  if(b.t==="h")h+=`<h3 class="rh"><span>${esc(b.text)}</span>${interactive?`<button type="button" data-edit="${b.sec}">Edit</button>`:""}</h3>`;
+  else if(b.t==="p")h+=`<p>${esc(b.text)}</p>`;
+  else if(b.t==="gap")h+=`<p><span class="gap">${esc(b.text)}</span></p>`;
+  else if(b.t==="lead")h+=b.text?`<p><b>${esc(b.label)}:</b> ${esc(b.text)}</p>`:`<p><b>${esc(b.label)}:</b></p>`;
+  else if(b.t==="sub")h+=`<h4>${esc(b.text)}</h4>`;
+  else if(b.t==="ul")h+=`<ul>${b.items.map(i=>`<li>${esc(i)}</li>`).join("")}</ul>`;
+  else if(b.t==="tbl"){h+=`<div class="tw"><table class="rt${b.num?" num":""}">`;
+   if(b.head)h+=`<thead><tr>${b.head.map(x=>`<th scope="col">${esc(x)}</th>`).join("")}</tr></thead>`;
+   h+="<tbody>"+b.rows.map(r=>r.kind==="group"?`<tr class="grp"><td colspan="${b.w.length}">${esc(r.text)}</td></tr>`:`<tr>${r.cells.map((x,j)=>`<td${x.span?` colspan="${x.span}"`:""}${r.label&&j===0?' class="lab"':""}>${cellH(x.c)}</td>`).join("")}</tr>`).join("")+"</tbody></table></div>"}
+  else if(b.t==="sign"){const a=S.assessor;h+=`<div class="sign">${paras(S.signoff.closing).map(x=>`<p>${esc(x)}</p>`).join("")}<p style="margin-top:10px">Kind regards,</p><div class="sp"></div><p style="margin:0"><b>${str(a.name)?esc(a.name):'<span class="gap">Assessor name</span>'}</b></p><p style="margin:0">${esc(str(a.role)||"Occupational Therapist")} | Estus Health</p>${str(a.email)?`<p style="margin:0">E: ${esc(a.email)}</p>`:""}<p style="margin:0">W: www.estushealth.com</p></div>`}
+ });
+ return `<article class="sheet"><header class="mast"><div><h2>Functional Capacity Assessment</h2><div class="ms">Confidential. Not to be released in part or in full without participant permission. Without prejudice.</div></div><div class="mk"><div class="bands" aria-hidden="true"><i></i><i></i><i></i><i></i></div><div class="wm"><b>ESTUS</b> <span>HEALTH</span></div></div></header><div class="doc">${h}</div><footer class="sfoot"><small>${esc(str(c.fullName)||"Client")} | Functional Capacity Assessment</small><small>hello@estushealth.com \u00B7 www.estushealth.com</small></footer></article>`}
+function renderPreview(){main.innerHTML=`<div class="paper">${sheetHTML(build(),true)}</div>`;window.scrollTo({top:0})}
+main.addEventListener("click",e=>{const b=e.target.closest("[data-edit]");if(b)go(b.dataset.edit)});
+
+/* ---------- Word export ---------- */
+const X=s=>String(s).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g,"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const COND="Barlow Semi Condensed";
+function R(text,o){o=o||{};let p="";
+ if(o.font)p+=`<w:rFonts w:ascii="${o.font}" w:hAnsi="${o.font}" w:cs="${o.font}"/>`;
+ if(o.b)p+="<w:b/>";if(o.i)p+="<w:i/>";if(o.caps)p+="<w:caps/>";
+ if(o.color)p+=`<w:color w:val="${o.color}"/>`;if(o.sp)p+=`<w:spacing w:val="${o.sp}"/>`;
+ if(o.sz)p+=`<w:sz w:val="${o.sz}"/><w:szCs w:val="${o.sz}"/>`;if(o.hl)p+=`<w:highlight w:val="${o.hl}"/>`;
+ return `<w:r>${p?"<w:rPr>"+p+"</w:rPr>":""}<w:t xml:space="preserve">${X(text)}</w:t></w:r>`}
+const TAB="<w:r><w:tab/></w:r>";
+function P(inner,ppr){return `<w:p>${ppr?"<w:pPr>"+ppr+"</w:pPr>":""}${inner||""}</w:p>`}
+const W=9638;
+function bullet(text,o,ind){ind=ind||360;return P(R("\u2022",{color:"2CA5B8",b:true})+TAB+R(text,o||{}),`<w:tabs><w:tab w:val="left" w:pos="${ind}"/></w:tabs><w:spacing w:after="60"/><w:ind w:left="${ind}" w:hanging="${ind===360?280:240}"/>`)}
+function cellX(c,label){if(!c.length)return P("",'<w:spacing w:after="0"/>');
+ return c.map(x=>{const sp='<w:spacing w:after="60"/>';
+  if(x.li!=null)return bullet(x.li,{sz:19},240);
+  if(x.b!=null)return P(R(x.b,label?{font:COND,b:true,sz:19,color:"0E1014"}:{b:true,sz:19}),sp);
+  if(x.gap!=null)return P(R("["+x.gap+"]",{hl:"yellow",sz:19}),sp);
+  return P(R(x.p,{sz:19}),sp)}).join("")}
+function tc(w,fill,inner,span){return `<w:tc><w:tcPr><w:tcW w:w="${w}" w:type="dxa"/>${span>1?`<w:gridSpan w:val="${span}"/>`:""}${fill?`<w:shd w:val="clear" w:color="auto" w:fill="${fill}"/>`:""}</w:tcPr>${inner}</w:tc>`}
+function tblX(t){const n=t.w.length,ws=t.w.map(p=>Math.round(W*p/100));ws[n-1]=W-ws.slice(0,-1).reduce((a,b)=>a+b,0);
+ let x=`<w:tbl><w:tblPr><w:tblW w:w="${W}" w:type="dxa"/><w:tblBorders><w:top w:val="single" w:sz="12" w:space="0" w:color="090909"/><w:bottom w:val="single" w:sz="12" w:space="0" w:color="090909"/><w:insideH w:val="single" w:sz="4" w:space="0" w:color="D3D1CC"/><w:insideV w:val="single" w:sz="4" w:space="0" w:color="D3D1CC"/></w:tblBorders><w:tblLayout w:type="fixed"/><w:tblCellMar><w:top w:w="70" w:type="dxa"/><w:left w:w="110" w:type="dxa"/><w:bottom w:w="50" w:type="dxa"/><w:right w:w="110" w:type="dxa"/></w:tblCellMar></w:tblPr><w:tblGrid>${ws.map(v=>`<w:gridCol w:w="${v}"/>`).join("")}</w:tblGrid>`;
+ if(t.head)x+=`<w:tr><w:trPr><w:tblHeader/><w:cantSplit/></w:trPr>${t.head.map((h,i)=>tc(ws[i],"DDE2EF",P(R(h,{font:COND,b:true,caps:true,sz:16,sp:10,color:"344982"}),'<w:spacing w:after="0"/>'))).join("")}</w:tr>`;
+ t.rows.forEach(r=>{
+  if(r.kind==="group"){x+=`<w:tr><w:trPr><w:cantSplit/></w:trPr>${tc(W,"090909",P(R(r.text,{font:"Oswald",caps:true,sz:19,sp:24,color:"FBFAF8"}),'<w:keepNext/><w:spacing w:after="0"/>'),n)}</w:tr>`;return}
+  let ci=0;x+="<w:tr>";r.cells.forEach((c,j)=>{const span=c.span||1,w=ws.slice(ci,ci+span).reduce((a,b)=>a+b,0);ci+=span;const lab=r.label&&j===0;x+=tc(w,lab?"F3F2EF":null,cellX(c.c,lab),span)});x+="</w:tr>"});
+ return x+"</w:tbl>"+P("",'<w:spacing w:after="120"/>')}
+function bandX(){const cols=["344982","2F6F9E","2CA5B8","AB5C95"],w=[2409,2409,2410,2410];
+ return `<w:tbl><w:tblPr><w:tblW w:w="${W}" w:type="dxa"/><w:tblLayout w:type="fixed"/><w:tblCellMar><w:left w:w="0" w:type="dxa"/><w:right w:w="0" w:type="dxa"/></w:tblCellMar></w:tblPr><w:tblGrid>${w.map(x=>`<w:gridCol w:w="${x}"/>`).join("")}</w:tblGrid><w:tr><w:trPr><w:trHeight w:val="90" w:hRule="exact"/></w:trPr>${cols.map((c,i)=>`<w:tc><w:tcPr><w:tcW w:w="${w[i]}" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="${c}"/></w:tcPr><w:p><w:pPr><w:spacing w:after="0" w:line="20" w:lineRule="exact"/></w:pPr></w:p></w:tc>`).join("")}</w:tr></w:tbl>`}
+function makeDocx(){const B=build(),NS='xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"';
+ let body=P(R("Functional Capacity Assessment",{font:"Oswald",caps:true,sz:44,sp:10,color:"090909"}),'<w:spacing w:before="60" w:after="60"/>');
+ body+=P(R("Confidential. Not to be released in part or in full without participant permission. Without prejudice.",{font:COND,b:true,caps:true,sz:16,sp:10,color:"65676E"}),'<w:spacing w:after="240"/>');
+ B.forEach(b=>{
+  if(b.t==="h")body+=P(R(b.text,{font:"Oswald",caps:true,sz:26,sp:10,color:"344982"}),'<w:keepNext/><w:pBdr><w:bottom w:val="single" w:sz="12" w:space="3" w:color="090909"/></w:pBdr><w:spacing w:before="360" w:after="160"/>');
+  else if(b.t==="p")body+=P(R(b.text));
+  else if(b.t==="gap")body+=P(R("["+b.text+"]",{hl:"yellow"}));
+  else if(b.t==="lead")body+=P(R(b.label+":",{b:true})+(b.text?R(" "+b.text):""),b.text?"":'<w:keepNext/>');
+  else if(b.t==="sub")body+=P(R(b.text,{font:COND,b:true,caps:true,sz:20,sp:10,color:"344982"}),'<w:keepNext/><w:spacing w:before="200" w:after="80"/>');
+  else if(b.t==="ul")b.items.forEach(i=>body+=bullet(i));
+  else if(b.t==="tbl")body+=tblX(b);
+  else if(b.t==="sign"){const a=S.assessor;paras(S.signoff.closing).forEach(x=>body+=P(R(x),'<w:spacing w:before="240"/>'));
+   body+=P(R("Kind regards,"),'<w:keepNext/><w:spacing w:before="200" w:after="600"/>');
+   body+=P(str(a.name)?R(str(a.name),{b:true}):R("[Assessor name]",{hl:"yellow"}),'<w:keepNext/><w:spacing w:after="0"/>');
+   body+=P(R((str(a.role)||"Occupational Therapist")+" | Estus Health"),'<w:keepNext/><w:spacing w:after="0"/>');
+   if(str(a.email))body+=P(R("E: "+str(a.email)),'<w:keepNext/><w:spacing w:after="0"/>');
+   body+=P(R("W: www.estushealth.com"),'<w:spacing w:after="0"/>')}
+ });
+ const doc=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document ${NS}><w:body>${body}<w:sectPr><w:headerReference w:type="default" r:id="rId2"/><w:footerReference w:type="default" r:id="rId3"/><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1418" w:right="1134" w:bottom="1134" w:left="1134" w:header="567" w:footer="510" w:gutter="0"/></w:sectPr></w:body></w:document>`;
+ const hs={font:COND,b:true,caps:true,sz:15,color:"65676E",sp:12};
+ const hdr=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:hdr ${NS}>${P(R("ESTUS ",{font:"Oswald",b:true,sp:40,sz:20})+R("HEALTH",{font:"Oswald",sp:40,sz:20})+TAB+R("hello@estushealth.com \u00B7 www.estushealth.com",hs),`<w:tabs><w:tab w:val="right" w:pos="${W}"/></w:tabs><w:spacing w:after="80"/>`)}${bandX()}${P("",'<w:spacing w:after="0"/>')}</w:hdr>`;
+ const fld=i=>`<w:fldSimple w:instr=" ${i} ">${R("1",hs)}</w:fldSimple>`;
+ const ftr=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:ftr ${NS}>${P(R((str(S.client.fullName)||"Client")+" | Functional Capacity Assessment",hs)+TAB+R("Page ",hs)+fld("PAGE")+R(" of ",hs)+fld("NUMPAGES"),`<w:pBdr><w:top w:val="single" w:sz="4" w:space="6" w:color="D3D1CC"/></w:pBdr><w:tabs><w:tab w:val="right" w:pos="${W}"/></w:tabs><w:spacing w:after="0"/>`)}</w:ftr>`;
+ const styles=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="Barlow" w:hAnsi="Barlow" w:cs="Barlow" w:eastAsia="Barlow"/><w:color w:val="0E1014"/><w:sz w:val="21"/><w:szCs w:val="21"/><w:lang w:val="en-AU"/></w:rPr></w:rPrDefault><w:pPrDefault><w:pPr><w:spacing w:after="120" w:line="288" w:lineRule="auto"/></w:pPr></w:pPrDefault></w:docDefaults><w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/><w:qFormat/></w:style></w:styles>`;
+ const ct=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/><Override PartName="/word/header1.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml"/><Override PartName="/word/footer1.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml"/></Types>`;
+ const rels=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>`;
+ const drels=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/header" Target="header1.xml"/><Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/footer" Target="footer1.xml"/></Relationships>`;
+ const z=new JSZip();
+ z.file("[Content_Types].xml",ct);z.file("_rels/.rels",rels);z.file("word/document.xml",doc);z.file("word/styles.xml",styles);
+ z.file("word/header1.xml",hdr);z.file("word/footer1.xml",ftr);z.file("word/_rels/document.xml.rels",drels);
+ return z.generateAsync({type:"blob",compression:"DEFLATE",mimeType:"application/vnd.openxmlformats-officedocument.wordprocessingml.document"})}
+window.__fca={build,makeDocx,runChecks,get state(){return S},set state(v){S=normalise(v)}};
+
+/* ---------- files ---------- */
+let tt;function toast(m,undo){$("#toast-m").textContent=m;const u=$("#toast-u");u.hidden=!undo;UNDO=undo||null;$("#toast").hidden=false;clearTimeout(tt);tt=setTimeout(()=>{$("#toast").hidden=true;UNDO=null},undo?6000:2600)}
+$("#toast-u").onclick=()=>{if(UNDO){UNDO();UNDO=null}$("#toast").hidden=true};
+function fname(ext){const n=str(S.client.fullName).replace(/[^\w\s()-]/g,"").replace(/\s+/g," ").trim();return `FCA ${n||"Draft"}${S.dates.report?" "+S.dates.report:""}.${ext}`}
+let DL=null;
+function plainSave(name,data){const blob=data instanceof Blob?data:new Blob([data],{type:"application/json"});const u=URL.createObjectURL(blob);const a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);toast("Saved "+name)}
+async function saveFile(name,data){if(!DL){plainSave(name,data);return}
+ try{const r=await DL.save({filename:name,data});if(r&&r.status==="saved")toast("Saved "+name)}
+ catch(e){const c=e&&e.code;if(c==="declined")return;toast(c==="rate_limited"?"A save is already open":"Could not save the file ("+(c||"error")+")")}}
+async function downloadDocx(){closeMenu();if(typeof JSZip==="undefined"){toast("Word export is still loading. Try again in a moment.");return}
+ try{const blob=await makeDocx();await saveFile(fname("docx"),blob)}catch(e){toast("Could not build the Word file")}}
+$("#dl-docx").onclick=downloadDocx;
+$("#dl-json").onclick=()=>{closeMenu();const out=Object.assign({document:{type:"Functional Capacity Assessment",generatedBy:"Estus FCA Builder",generatedAt:new Date().toISOString(),schema:1}},clone(S));saveFile(fname("json"),JSON.stringify(out,null,2))};
+$("#op-json").onclick=()=>{closeMenu();$("#openf").click()};
+$("#openf").onchange=e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const rd=new FileReader();
+ rd.onload=()=>{try{const snap=clone(S);const d=JSON.parse(rd.result);S=normalise(d);S.meta.example=false;CUR="client";renderNav();setMode("write");runChecks();persist();toast("Opened "+f.name,()=>{S=snap;renderNav();setMode("write");runChecks();persist()})}
+  catch(err){toast("That file is not a draft from this builder")}e.target.value=""};rd.readAsText(f)};
+let armed=false;
+function newReport(){const snap=clone(S);S=blank();CUR="client";closeMenu();renderNav();setMode("write");runChecks();persist();toast("New report started",()=>{S=snap;renderNav();setMode("write");runChecks();persist()})}
+$("#new-rep").onclick=()=>{if(!armed){armed=true;$("#new-rep").querySelector("span").textContent="Click again to clear";return}armed=false;$("#new-rep").querySelector("span").textContent="Start a new report";newReport()};
+function closeMenu(){$("#pop").hidden=true;$("#file-btn").setAttribute("aria-expanded","false");armed=false;$("#new-rep").querySelector("span").textContent="Start a new report"}
+$("#file-btn").onclick=e=>{e.stopPropagation();const open=$("#pop").hidden;if(open){$("#pop").hidden=false;$("#file-btn").setAttribute("aria-expanded","true")}else closeMenu()};
+document.addEventListener("click",e=>{if(!$("#pop").hidden&&!e.target.closest(".menu"))closeMenu()});
+$("#m-write").onclick=()=>setMode("write");$("#m-prev").onclick=()=>setMode("preview");
+function setDL(on){["dl-docx","dl-json"].forEach(id=>{$("#"+id).disabled=!on})}
+setDL(true);
+if(window.claude&&window.claude.use){setDL(false);(async()=>{try{DL=await window.claude.use("downloads")}catch(e){DL=null}setDL(!!DL)})()}
+
+renderNav();runChecks();renderSection();
+})();
+</script>
+
+</body></html>
