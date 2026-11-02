@@ -1,0 +1,264 @@
+<!doctype html><html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Email Signature Builder</title><meta name="robots" content="noindex, nofollow"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 fill=%22%23090909%22/%3E%3Crect x=%224%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23344982%22/%3E%3Crect x=%2210%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232F6F9E%22/%3E%3Crect x=%2216%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232CA5B8%22/%3E%3Crect x=%2222%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23AB5C95%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap">
+<style>
+/* Estus email signature builder.
+   Layout: ink top bar, then two columns: the form on the left, a sticky white "inbox" preview on the right with copy and Gmail steps.
+   The signature itself uses fixed light colours because it always lands on a white email. */
+:root{
+  --bg:#F3F2EF;--surface:#FBFAF8;--sunk:#ECEAE6;--fg:#0E1014;--muted:#65676E;--rule:#D8D6D1;
+  --ink:#090909;--on-ink:#FBFAF8;--ink-muted:#AEB5C2;--ink-rule:#34373D;
+  --navy:#344982;--blue:#2F6F9E;--teal:#2CA5B8;--plum:#AB5C95;
+  --navy-t:#DDE2EF;--teal-t:#DAF0F3;--plum-t:#F1E1EC;--good:#2E7D4F;--good-t:#DDEFE3;--warn:#9A5B12;--warn-t:#F6E8D3;
+  --paper:#FFFFFF;--paper-rule:#D3D1CC;
+  --display:"Oswald","Arial Narrow",Impact,sans-serif;
+  --cond:"Barlow Semi Condensed","Arial Narrow",sans-serif;
+  --body:"Barlow","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0F1216;--surface:#161A20;--sunk:#1D222A;--fg:#ECEEF1;--muted:#9BA1AB;--rule:#2C323C;
+  --ink:#05070A;--on-ink:#ECEEF1;--ink-muted:#9BA1AB;--ink-rule:#2C323C;
+  --navy:#8299DA;--blue:#6FA8D2;--teal:#4CC3D4;--plum:#D58FC1;
+  --navy-t:#1E2740;--teal-t:#123238;--plum-t:#33202E;--good:#5FC38A;--good-t:#16301F;--warn:#E3A857;--warn-t:#3A2A14;
+  --paper:#FFFFFF;--paper-rule:#3A3F48;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1216;--surface:#161A20;--sunk:#1D222A;--fg:#ECEEF1;--muted:#9BA1AB;--rule:#2C323C;
+  --ink:#05070A;--on-ink:#ECEEF1;--ink-muted:#9BA1AB;--ink-rule:#2C323C;
+  --navy:#8299DA;--blue:#6FA8D2;--teal:#4CC3D4;--plum:#D58FC1;
+  --navy-t:#1E2740;--teal-t:#123238;--plum-t:#33202E;--good:#5FC38A;--good-t:#16301F;--warn:#E3A857;--warn-t:#3A2A14;
+  --paper:#FFFFFF;--paper-rule:#3A3F48;color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 16px/1.5 var(--body)}
+:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+h1,h2,h3,p{margin:0}
+
+.top{background:var(--ink);color:var(--on-ink);display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between;
+  padding-block:14px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.brand{display:flex;align-items:center;gap:18px;min-width:0}
+.mark{display:flex;flex-direction:column;gap:5px;color:var(--on-ink);text-decoration:none}
+.bands{display:flex;width:110px;height:5px}.bands i{flex:1}
+.bands i:nth-child(1){background:#344982}.bands i:nth-child(2){background:#2F6F9E}.bands i:nth-child(3){background:#2CA5B8}.bands i:nth-child(4){background:#AB5C95}
+.wm{font-family:var(--display);font-size:13px;letter-spacing:.16em;line-height:1}.wm b{font-weight:700}.wm span{font-weight:500}
+.top h1{font:600 22px/1.1 var(--display);text-transform:uppercase;letter-spacing:.04em}
+.top .sub{font:600 12px var(--cond);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-muted)}
+.back{font:600 13px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--on-ink);text-decoration:none;border:1px solid var(--ink-rule);padding:8px 12px}
+.back:hover{border-color:var(--on-ink)}
+
+.desk{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:28px;align-items:start;
+  padding-block:28px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.form{display:flex;flex-direction:column;gap:18px;min-width:0}
+.hint{font-size:15px;color:var(--muted)}
+fieldset{margin:0;border:1px solid var(--rule);background:var(--surface);padding:16px 18px 18px;display:flex;flex-direction:column;gap:14px;min-width:0}
+legend{font:700 12px var(--cond);letter-spacing:.16em;text-transform:uppercase;color:var(--fg);padding:0 6px;margin-left:-6px;display:flex;gap:8px;align-items:center}
+legend::before{content:"";width:10px;height:10px;background:var(--c,var(--navy))}
+.f-you{--c:var(--navy)}.f-week{--c:var(--teal)}.f-book{--c:var(--plum)}
+.row2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+label.fld{display:flex;flex-direction:column;gap:5px;min-width:0}
+.lab{font:600 13px var(--cond);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.lab small{text-transform:none;letter-spacing:0;font-weight:500}
+input[type=text],input[type=email],input[type=url],input[type=tel]{width:100%;font:500 16px var(--body);color:var(--fg);background:var(--bg);border:1px solid var(--rule);padding:9px 11px}
+input:focus{border-color:var(--fg);outline:none}
+input[aria-invalid="true"]{border-color:var(--warn)}
+.err{font-size:13px;color:var(--warn);font-weight:600}
+.days{display:flex;flex-wrap:wrap;gap:6px}
+.day{font:700 14px var(--cond);letter-spacing:.08em;text-transform:uppercase;min-width:58px;min-height:40px;padding:6px 10px;cursor:pointer;
+  border:1.5px solid var(--rule);background:var(--surface);color:var(--fg)}
+.day[aria-pressed="true"]{background:var(--teal);border-color:var(--teal);color:var(--ink)}
+.daykey{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--muted)}
+.daykey i{display:inline-block;width:10px;height:10px;margin-right:6px;transform:translateY(1px)}
+.k-c{background:var(--teal)}.k-f{border:1.5px solid var(--rule);background:var(--surface)}
+.switch{display:flex;align-items:center;gap:10px;font-size:15px;cursor:pointer}
+.switch input{width:18px;height:18px;accent-color:var(--teal)}
+
+.side{position:sticky;top:16px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.cap{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.eyebrow{font:700 12px var(--cond);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.size{font:600 13px var(--cond);letter-spacing:.04em;color:var(--muted);font-variant-numeric:tabular-nums}
+.size.over{color:var(--warn)}
+.inbox{background:var(--paper);border:1px solid var(--paper-rule);overflow-x:auto}
+.inbox .bar{border-bottom:1px solid #E6E4E0;padding:10px 16px;font:500 13px Arial,Helvetica,sans-serif;color:#6F6D68;display:flex;gap:8px}
+.inbox .bar b{color:#202124;font-weight:600}
+.inbox .msg{padding:18px 18px 22px}
+.inbox .greet{font:14px Arial,Helvetica,sans-serif;color:#202124;margin-bottom:18px}
+
+.actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.btn{font:600 14px var(--cond);letter-spacing:.08em;text-transform:uppercase;padding:11px 16px;min-height:44px;cursor:pointer;border:1.5px solid var(--fg);background:var(--fg);color:var(--bg)}
+.btn.ghost{background:transparent;color:var(--fg);border-color:var(--rule)}
+.btn.ghost:hover{border-color:var(--fg)}
+.status{font:600 14px var(--cond);letter-spacing:.04em;color:var(--good);min-height:1.4em}
+.steps{border:1px solid var(--rule);background:var(--surface);padding:14px 18px;display:flex;flex-direction:column;gap:8px}
+.steps ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:5px;font-size:15px}
+.steps p{font-size:14px;color:var(--muted)}
+textarea.off{position:absolute;left:-9999px;top:0;width:1px;height:1px}
+
+@media (max-width:900px){.desk{grid-template-columns:1fr}.side{position:static}}
+@media (max-width:480px){.row2{grid-template-columns:1fr}}
+</style></head><body>
+
+<header class="top">
+  <div class="brand">
+    <a class="mark" href="index.html#templates" title="Back to the Training Hub"><div class="bands" aria-hidden="true"><i></i><i></i><i></i><i></i></div><div class="wm"><b>ESTUS</b> <span>HEALTH</span></div></a>
+    <div style="min-width:0"><h1>Email signature</h1><div class="sub">For Gmail and Google Workspace</div></div>
+  </div>
+  <a class="back" href="index.html#templates">Training Hub</a>
+</header>
+
+<main class="desk">
+  <form class="form" id="form" novalidate>
+    <p class="hint">Fill in your details. The preview updates as you type, and this browser remembers what you enter.</p>
+
+    <fieldset class="f-you">
+      <legend>You</legend>
+      <div class="row2">
+        <label class="fld"><span class="lab">Name</span><input type="text" id="name" autocomplete="name"></label>
+        <label class="fld"><span class="lab">Role</span><input type="text" id="role" autocomplete="organization-title"></label>
+      </div>
+      <div class="row2">
+        <label class="fld"><span class="lab">Work email</span><input type="email" id="email" autocomplete="email"><span class="err" id="email-err" hidden>Use your @estushealth.com address.</span></label>
+        <label class="fld"><span class="lab">Phone <small>(optional)</small></span><input type="tel" id="phone" autocomplete="tel" placeholder="08 1234 5678"></label>
+      </div>
+      <label class="fld"><span class="lab">Credentials <small>(optional, e.g. AHPRA OCC0001234567)</small></span><input type="text" id="cred"></label>
+    </fieldset>
+
+    <fieldset class="f-week">
+      <legend>Your week</legend>
+      <label class="switch"><input type="checkbox" id="showWeek"> Show my email hours in the signature</label>
+      <div id="weekBits" style="display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <span class="lab">Tap your clinical days</span>
+          <div class="days" id="days" role="group" aria-label="Clinical days"></div>
+          <div class="daykey"><span><i class="k-c"></i>Clinical: with clients, not on email</span><span><i class="k-f"></i>Non-clinical: on email</span></div>
+        </div>
+        <label class="fld"><span class="lab">Clinical day line</span><input type="text" id="cNote"></label>
+        <label class="fld"><span class="lab">Non-clinical day line</span><input type="text" id="fNote"></label>
+      </div>
+    </fieldset>
+
+    <fieldset class="f-book">
+      <legend>Booking button</legend>
+      <label class="fld"><span class="lab">Booking link <small>(Google Calendar booking page, optional)</small></span><input type="url" id="link" placeholder="https://calendar.app.google/..."><span class="err" id="link-err" hidden>Paste the full link, starting with https://</span></label>
+      <label class="fld"><span class="lab">Button text</span><input type="text" id="btn"></label>
+    </fieldset>
+
+    <div class="actions"><button type="button" class="btn ghost" id="reset">Start again</button></div>
+  </form>
+
+  <aside class="side" aria-label="Preview and copy">
+    <div class="cap"><span class="eyebrow">How it lands in an inbox</span><span class="size" id="size"></span></div>
+    <div class="inbox">
+      <div class="bar"><b>New message</b><span>to a client</span></div>
+      <div class="msg"><p class="greet">Cheers,</p><div id="sig"></div></div>
+    </div>
+    <div class="actions">
+      <button type="button" class="btn" id="copySig">Copy signature</button>
+      <button type="button" class="btn ghost" id="copyCode">Copy HTML</button>
+      <span class="status" id="status" role="status"></span>
+    </div>
+    <div class="steps">
+      <span class="eyebrow">Put it in Gmail</span>
+      <ol>
+        <li>Tap <b>Copy signature</b>. Use Chrome on a computer.</li>
+        <li>Gmail: gear icon, <b>See all settings</b>, <b>General</b>, scroll to <b>Signature</b>, <b>Create new</b>.</li>
+        <li>Paste. Pick it for new emails and replies. <b>Save changes</b> at the bottom.</li>
+      </ol>
+      <p>Copy HTML is only for signature tools that ask for code. Gmail takes the pasted version.</p>
+    </div>
+  </aside>
+</main>
+<textarea class="off" id="codeBox" aria-hidden="true" tabindex="-1"></textarea>
+
+<script>
+(function(){
+  var KEY='sig_v1', DAYS=['Mon','Tue','Wed','Thu','Fri'], LIMIT=10000;
+  var DEF={name:'Liam Fagan',role:'Director and Occupational Therapist',email:'liam.fagan@estushealth.com',phone:'',cred:'',
+    showWeek:true,clin:[0,1,2,3],cNote:"Clinical. I'm with clients and not on email.",fNote:'Non-clinical. I reply to email and take consulting calls.',
+    link:'https://calendar.app.google/fn4iHzvkmoEM9mG89',btn:'Book a Friday consult'};
+  var S=load();
+  function load(){try{var v=JSON.parse(localStorage.getItem(KEY));if(v)return Object.assign({},DEF,v)}catch(e){}return Object.assign({},DEF)}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+  var $=function(id){return document.getElementById(id)};
+  var textIds=['name','role','email','phone','cred','cNote','fNote','link','btn'];
+
+  var daysEl=$('days');
+  DAYS.forEach(function(d,i){var b=document.createElement('button');b.type='button';b.className='day';b.textContent=d;b.dataset.i=i;
+    b.addEventListener('click',function(){var k=S.clin.indexOf(i);if(k>-1)S.clin.splice(k,1);else S.clin.push(i);S.clin.sort();save();sync();render()});daysEl.appendChild(b)});
+
+  function fill(){textIds.forEach(function(id){$(id).value=S[id]||''});$('showWeek').checked=!!S.showWeek;sync()}
+  function sync(){[].forEach.call(daysEl.children,function(b){b.setAttribute('aria-pressed',S.clin.indexOf(+b.dataset.i)>-1)});$('weekBits').hidden=!S.showWeek}
+  textIds.forEach(function(id){$(id).addEventListener('input',function(){S[id]=this.value;save();render()})});
+  $('showWeek').addEventListener('change',function(){S.showWeek=this.checked;save();sync();render()});
+  $('reset').addEventListener('click',function(){S=Object.assign({},DEF,{clin:DEF.clin.slice()});save();fill();render();say('Back to the example.')});
+
+  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+  // Days as runs: [0,1,2,3] -> "Mon to Thu"; [0,2,4] -> "Mon, Wed and Fri"
+  function dayText(list){
+    if(!list.length)return '';
+    var runs=[],st=list[0],pv=list[0];
+    for(var i=1;i<=list.length;i++){var c=list[i];if(c===pv+1){pv=c;continue}
+      runs.push(st===pv?DAYS[st]:(pv-st===1?DAYS[st]+' and '+DAYS[pv]:DAYS[st]+' to '+DAYS[pv]));st=pv=c}
+    if(runs.length===1)return runs[0];
+    return runs.slice(0,-1).join(', ')+' and '+runs[runs.length-1];
+  }
+  function okEmail(v){return /^[^\s@]+@estushealth\.com$/i.test(v.trim())}
+  function okLink(v){return /^https:\/\/\S+$/i.test(v.trim())}
+
+  function build(){
+    var F="font-family:Arial,Helvetica,sans-serif;", D="font-family:Oswald,'Arial Narrow',Arial,sans-serif;";
+    var h='<table cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;'+F+'color:#090909;max-width:520px">';
+    if(S.name.trim())h+='<tr><td style="padding:0 0 2px 0;'+D+'font-size:22px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#090909;line-height:1.1">'+esc(S.name.trim())+'</td></tr>';
+    if(S.role.trim())h+='<tr><td style="padding:0 0 '+(S.cred.trim()?'2':'10')+'px 0;font-size:13px;color:#344982;font-weight:bold;line-height:1.3">'+esc(S.role.trim())+'</td></tr>';
+    if(S.cred.trim())h+='<tr><td style="padding:0 0 10px 0;font-size:11px;color:#6F6D68;line-height:1.3">'+esc(S.cred.trim())+'</td></tr>';
+    h+='<tr><td style="padding:0 0 8px 0"><table cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse"><tr>';
+    ['#344982','#2F6F9E','#2CA5B8','#AB5C95'].forEach(function(c){h+='<td width="30" height="4" bgcolor="'+c+'" style="width:30px;height:4px;font-size:0;line-height:0;background:'+c+'">&nbsp;</td>'});
+    h+='</tr></table></td></tr>';
+    h+='<tr><td style="padding:0 0 2px 0;'+D+'font-size:14px;letter-spacing:3px;color:#090909;line-height:1.2"><b>ESTUS</b> HEALTH</td></tr>';
+    h+='<tr><td style="padding:0 0 10px 0;font-size:12px;color:#6F6D68;line-height:1.4">Neuroaffirming OT &middot; Perth &middot; Telehealth Australia-wide</td></tr>';
+    var bits=[];
+    if(S.email.trim())bits.push('<a href="mailto:'+esc(S.email.trim())+'" style="color:#2F6F9E;text-decoration:none">'+esc(S.email.trim())+'</a>');
+    if(S.phone.trim())bits.push('<a href="tel:'+esc(S.phone.replace(/[^\d+]/g,''))+'" style="color:#2F6F9E;text-decoration:none">'+esc(S.phone.trim())+'</a>');
+    bits.push('<a href="https://www.estushealth.com" style="color:#2F6F9E;text-decoration:none">estushealth.com</a>');
+    h+='<tr><td style="padding:0 0 12px 0;font-size:13px;line-height:1.5">'+bits.join(' &nbsp;|&nbsp; ')+'</td></tr>';
+    if(S.showWeek){
+      var c=S.clin.slice(), f=[0,1,2,3,4].filter(function(i){return c.indexOf(i)<0}), lines=[];
+      if(c.length&&S.cNote.trim())lines.push('<b style="color:#344982">'+dayText(c)+':</b> '+esc(S.cNote.trim()));
+      if(f.length&&S.fNote.trim())lines.push('<b style="color:#AB5C95">'+dayText(f)+':</b> '+esc(S.fNote.trim()));
+      if(lines.length)h+='<tr><td style="padding:10px 12px;border-left:3px solid #2CA5B8;background:#F3F6F9;font-size:12px;line-height:1.55;color:#090909">'+lines.join('<br>')+'</td></tr>';
+    }
+    if(S.link.trim()&&okLink(S.link)&&S.btn.trim()){
+      h+='<tr><td style="padding:12px 0 0 0"><table cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse"><tr><td bgcolor="#090909" style="background:#090909;padding:8px 14px"><a href="'+esc(S.link.trim())+'" style="'+F+'font-size:12px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;color:#FFFFFF;text-decoration:none">'+esc(S.btn.trim())+' &rarr;</a></td></tr></table></td></tr>';
+    }
+    return h+'</table>';
+  }
+
+  function render(){
+    var html=build();$('sig').innerHTML=html;
+    var e=S.email.trim(), eBad=!!e&&!okEmail(e); $('email').setAttribute('aria-invalid',eBad);$('email-err').hidden=!eBad;
+    var l=S.link.trim(), lBad=!!l&&!okLink(l); $('link').setAttribute('aria-invalid',lBad);$('link-err').hidden=!lBad;
+    var n=html.length, sz=$('size'); sz.textContent=n.toLocaleString('en-AU')+' of Gmail’s '+LIMIT.toLocaleString('en-AU')+' characters';
+    sz.classList.toggle('over',n>LIMIT);
+  }
+
+  var st=$('status');
+  function say(t){st.textContent=t;clearTimeout(say.t);say.t=setTimeout(function(){st.textContent=''},4000)}
+  $('copySig').addEventListener('click',function(){
+    var sig=$('sig'), html=sig.innerHTML, text=sig.innerText;
+    function fallback(){var r=document.createRange();r.selectNodeContents(sig);var s=getSelection();s.removeAllRanges();s.addRange(r);
+      var ok=false;try{ok=document.execCommand('copy')}catch(e){}say(ok?'Copied. Paste it into Gmail.':'Selected. Press Ctrl+C or Cmd+C.')}
+    try{navigator.clipboard.write([new ClipboardItem({'text/html':new Blob([html],{type:'text/html'}),'text/plain':new Blob([text],{type:'text/plain'})})])
+      .then(function(){say('Copied. Paste it into Gmail.')},fallback)}catch(e){fallback()}
+  });
+  $('copyCode').addEventListener('click',function(){
+    var code=$('sig').innerHTML.trim();
+    function fallback(){var b=$('codeBox');b.value=code;b.select();var ok=false;try{ok=document.execCommand('copy')}catch(e){}say(ok?'HTML copied.':'Copy blocked. Use Copy signature.')}
+    try{navigator.clipboard.writeText(code).then(function(){say('HTML copied.')},fallback)}catch(e){fallback()}
+  });
+
+  fill();render();
+})();
+</script>
+</body></html>
