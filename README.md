@@ -14,6 +14,10 @@ Estus Health's internal staff training intranet. A landing page plus one page pe
 
 Progress ticks and tool drafts save in each person's own browser only.
 
+## Light and dark mode
+
+`theme.js` is loaded in the `<head>` of every page except `welcome` (light only). It adds a Light/Dark button to the top bar and saves the choice in the browser (`hub_theme`), shared across every page. With no choice saved, pages follow the device setting. New pages need `<script src="theme.js"></script>` before `</head>` and the usual `:root[data-theme="light"|"dark"]` token blocks.
+
 ## Driving report builders
 
 `ptd.html` and `ftd.html` share one engine, `drive.js`, and the brand fonts for Word export, `drive-fonts.js`. Drafts use the same JSON schema as the earlier driving builder, so old drafts and Gem output open unchanged. Opening a draft of the other type switches to the right builder.
