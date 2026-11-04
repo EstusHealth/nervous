@@ -9,7 +9,7 @@ Estus Health's internal staff training intranet. A landing page plus one page pe
 | Team | `check` |
 | Small Hinges | `hinges`, `sleep`, `morning`, `energy`, `load`, `transition`, `shutdown` |
 | Therapy approaches | `act` (plus `act-game`), `cbt`, `mi`, `gaming`, `nervous` |
-| Growth | `reels`, `gp` |
+| Growth | `reels`, `copy`, `gp` |
 | Templates | `fca`, `ptd` (Potential to Drive), `ftd` (Medical Fitness to Drive), `signature` (Gmail email signature) |
 
 Progress ticks and tool drafts save in each person's own browser only.
