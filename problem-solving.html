@@ -43,7 +43,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
   --bg: var(--g-bg); --surface: var(--g-surface); --ink: var(--g-fg); --muted: var(--g-muted); --line: var(--g-rule);
   --zoom: var(--g-warn); --zoom-soft: var(--g-warn-t); --flow: var(--g-blue); --flow-soft: var(--g-blue-t);
   --iao: var(--g-plum); --iao-soft: var(--g-plum-t); --kit-soft: var(--g-sunk);
-  --good: var(--g-good); --bad: var(--g-bad);
+  --good: var(--g-good); --good-soft: var(--g-good-t); --bad: var(--g-bad); --bad-soft: var(--g-bad-t);
   --font-display: var(--g-display); --font-body: var(--g-body);
 }
 * { box-sizing: border-box; }
@@ -159,6 +159,59 @@ p { margin: 0; max-width: 65ch; }
 .vs .inf { background: var(--kit-soft); }
 .rules.five { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
 
+/* index */
+.index { display: flex; flex-direction: column; gap: 18px; scroll-margin-top: 16px; }
+.index-groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+.group { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.group-h { display: flex; flex-direction: column; gap: 0; }
+.group-h b { font-family: var(--font-display); font-size: 1.1rem; }
+.group-h span { color: var(--muted); font-size: 0.85rem; }
+.icard { display: flex; flex-direction: column; gap: 2px; text-decoration: none; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--c, var(--muted)); border-radius: 10px; padding: 9px 14px; }
+.icard:hover { border-color: var(--ink); border-left-color: var(--c, var(--ink)); }
+.icard b { font-weight: 700; line-height: 1.3; }
+.icard span { color: var(--muted); font-size: 0.9rem; line-height: 1.35; }
+.icard.z { --c: var(--zoom); } .icard.f { --c: var(--flow); } .icard.i { --c: var(--iao); }
+.to-index { position: fixed; right: calc(16px + env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 5; background: var(--ink); color: var(--surface); text-decoration: none; font-weight: 700; font-size: 0.85rem; padding: 9px 14px; border-radius: 999px; box-shadow: 0 2px 10px rgba(0,0,0,.25); }
+
+/* task analysis */
+.txt { font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 7px 10px; width: 100%; min-width: 0; }
+.txt:focus-visible { outline: 3px solid var(--flow); outline-offset: 1px; }
+.steps { display: flex; flex-direction: column; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.steps li { display: grid; grid-template-columns: 1.8em 1fr auto auto; gap: 8px; align-items: center; }
+.steps .n { font-family: var(--font-display); font-weight: 700; color: var(--muted); text-align: right; font-variant-numeric: tabular-nums; }
+.steps li.broke .txt { border-color: var(--bad); background: var(--bad-soft); }
+.brk, .del { font: inherit; font-size: 0.8rem; font-weight: 700; padding: 6px 10px; border-radius: 8px; border: 1px solid var(--line); background: transparent; color: var(--muted); cursor: pointer; white-space: nowrap; }
+.brk[aria-pressed="true"] { background: var(--bad); border-color: var(--bad); color: var(--surface); }
+.del { padding: 6px 9px; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.seg button { font: inherit; font-weight: 700; font-size: 0.9rem; padding: 8px 14px; border: none; background: transparent; color: var(--ink); cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--surface); }
+.chain { display: flex; flex-wrap: wrap; gap: 6px; }
+.chain span { padding: 6px 10px; border-radius: 8px; font-size: 0.88rem; font-weight: 700; border: 1px solid var(--line); background: var(--bg); color: var(--muted); }
+.chain span.them { background: var(--good-soft); border-color: var(--good); color: var(--ink); }
+.legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); }
+.legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -1px; margin-right: 5px; border: 1px solid var(--line); background: var(--bg); }
+.legend i.them { background: var(--good-soft); border-color: var(--good); }
+
+/* just right */
+.zone { position: relative; display: grid; grid-template-columns: 3fr 4fr 3fr; height: 36px; border-radius: 8px; border: 1px solid var(--line); }
+.zone div { display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; text-align: center; }
+.zone .z1 { background: var(--flow-soft); color: var(--flow); border-radius: 7px 0 0 7px; }
+.zone .z2 { background: var(--good-soft); color: var(--good); }
+.zone .z3 { background: var(--bad-soft); color: var(--bad); border-radius: 0 7px 7px 0; }
+.zone .pin { position: absolute; top: -5px; bottom: -5px; width: 4px; background: var(--ink); border-radius: 2px; transform: translateX(-50%); }
+input[type="range"] { width: 100%; accent-color: var(--ink); }
+
+/* rule of 100 */
+.r100-top { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; }
+.r100-count { display: flex; align-items: baseline; gap: 6px; }
+.r100-count strong { font-family: var(--font-display); font-size: 2.6rem; line-height: 1; font-variant-numeric: tabular-nums; }
+.r100-act { flex: 1; min-width: 220px; display: flex; flex-direction: column; gap: 6px; }
+.dots100 { display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px; max-width: 380px; }
+.dots100 button { aspect-ratio: 1; width: 100%; border-radius: 50%; border: 1px solid var(--line); background: var(--bg); padding: 0; cursor: pointer; }
+.dots100 button.on { background: var(--ink); border-color: var(--ink); }
+.fix .ghost { margin-left: 6px; }
+
 /* bottleneck sim */
 .sim { display: flex; flex-direction: column; gap: 10px; }
 .stage { display: grid; grid-template-columns: 10em 1fr 5.5em; grid-template-areas: "nm tr bt"; gap: 10px; align-items: center; }
@@ -258,6 +311,8 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--flow); outline-
   .panel { padding: 18px; }
   .quad { min-height: 90px; padding: 10px; }
   .quad .qname { font-size: 1.1rem; }
+  .steps li { grid-template-columns: 1.4em 1fr auto auto; gap: 6px; }
+  .brk { padding: 6px 7px; }
   .stage { grid-template-columns: 1fr auto; grid-template-areas: "nm bt" "tr tr"; gap: 6px 10px; }
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -287,26 +342,42 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--flow); outline-
         <span>Do you fix where the problem starts or where it lands?</span>
       </div>
     </div>
-    <nav class="toc" aria-label="On this page">
-      <span class="eyebrow">On this page</span>
-      <div class="toc-links">
-        <a class="z" href="#zoom">Top down / bottom up</a>
-        <a class="f" href="#flow">Upstream / downstream</a>
-        <a href="#map">The map</a>
-        <a class="i" href="#iao">Input, algorithm, output</a>
-        <a href="#bottleneck">Bottleneck</a>
-        <a href="#loops">Feedback loops</a>
-        <a href="#leadlag">Lead vs lag</a>
-        <a href="#second">Second-order effects</a>
-        <a href="#inversion">Inversion</a>
-        <a href="#environment">Environment</a>
-        <a href="#signal">Signal vs noise</a>
-        <a href="#infinite">Finite vs infinite</a>
-        <a href="#run">Run your own problem</a>
-        <a href="#game">Sort it</a>
-      </div>
-    </nav>
   </header>
+
+  <nav class="index" id="index" aria-labelledby="index-h">
+    <div class="explain-head"><span class="eyebrow">Index</span><h2 id="index-h">Every tool at a glance</h2><p>Each tool answers one question. Tap to jump to it.</p></div>
+    <div class="index-groups">
+      <div class="group"><div class="group-h"><b>See the problem</b><span>Where to look</span></div>
+        <a class="icard z" href="#zoom"><b>Top down vs bottom up</b><span>Whole or parts?</span></a>
+        <a class="icard f" href="#flow"><b>Upstream vs downstream</b><span>Cause or result?</span></a>
+        <a class="icard" href="#map"><b>The map</b><span>Both at once</span></a>
+      </div>
+      <div class="group"><div class="group-h"><b>How results get made</b><span>What drives the outcome</span></div>
+        <a class="icard i" href="#iao"><b>Input → Algorithm → Output</b><span>What went in, or what happened to it?</span></a>
+        <a class="icard" href="#bottleneck"><b>Bottleneck</b><span>Where does work pile up?</span></a>
+        <a class="icard" href="#loops"><b>Feedback loops</b><span>Snowball or spiral?</span></a>
+      </div>
+      <div class="group"><div class="group-h"><b>Measure it</b><span>Know if it's working</span></div>
+        <a class="icard" href="#leadlag"><b>Lead vs lag</b><span>Can you change it this week?</span></a>
+        <a class="icard" href="#signal"><b>Signal vs noise</b><span>Trend or one bad day?</span></a>
+        <a class="icard" href="#rule100"><b>Rule of 100</b><span>Done it 100 times yet?</span></a>
+      </div>
+      <div class="group"><div class="group-h"><b>Think ahead</b><span>Before you commit</span></div>
+        <a class="icard" href="#second"><b>Second-order effects</b><span>And then what?</span></a>
+        <a class="icard" href="#inversion"><b>Inversion</b><span>What would guarantee failure?</span></a>
+        <a class="icard" href="#infinite"><b>Finite vs infinite</b><span>Is there a finish line?</span></a>
+      </div>
+      <div class="group"><div class="group-h"><b>Make it doable</b><span>Turn it into action</span></div>
+        <a class="icard" href="#task"><b>Task analysis</b><span>Which step breaks?</span></a>
+        <a class="icard" href="#justright"><b>Just-right challenge</b><span>Too easy, just right or too hard?</span></a>
+        <a class="icard" href="#environment"><b>Environment over willpower</b><span>Trying harder, or changing the setup?</span></a>
+      </div>
+      <div class="group"><div class="group-h"><b>Practise</b><span>Use the kit</span></div>
+        <a class="icard" href="#run"><b>Run your own problem</b><span>Every tool, one problem</span></a>
+        <a class="icard" href="#game"><b>Sort it</b><span>10 quick questions</span></a>
+      </div>
+    </div>
+  </nav>
 
   <section class="panel zoom-card" id="zoom" aria-labelledby="zoom-h">
     <div class="explain-head">
@@ -432,6 +503,44 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--flow); outline-
     <p class="note">Track the lead every week. Check the lag every month or quarter. Lead is <b class="flow-t">upstream</b> of lag.</p>
   </section>
 
+  <section class="panel kit" id="signal" aria-labelledby="sn-h">
+    <div class="explain-head">
+      <span class="eyebrow">Which feedback matters</span>
+      <h2 id="sn-h">Signal vs noise</h2>
+      <p><b>Signal:</b> a real pattern worth acting on. <b>Noise:</b> random ups and downs. One data point is usually noise. A trend is signal.</p>
+    </div>
+    <div class="test">Quick test: has it happened <b>more than once</b>, from <b>more than one source</b>?</div>
+    <div class="chips" id="sn-chips" role="group" aria-label="Signal and noise examples"></div>
+    <div class="compare">
+      <div class="side dim"><span class="tag">Noise</span><span class="arrow">Notice it, don't react</span><p id="sn-a"></p></div>
+      <div class="side lit"><span class="tag">Signal</span><span class="arrow">Act on it</span><p id="sn-b"></p></div>
+    </div>
+  </section>
+
+  <section class="panel kit" id="rule100" aria-labelledby="r100-h">
+    <div class="explain-head">
+      <span class="eyebrow">Stick with it long enough to know</span>
+      <h2 id="r100-h">Rule of 100</h2>
+      <p>Do the core action 100 times before you judge whether it works. Most people quit after a handful of tries, long before the results can tell them anything.</p>
+    </div>
+    <div class="test">Quick test: have you done it <b>100 times</b> yet?</div>
+    <div class="chips" id="r100-chips" role="group" aria-label="Rule of 100 examples"></div>
+    <p class="fix"><span id="r100-ex"></span><button class="ghost" id="r100-use" type="button">Track this</button></p>
+    <div class="r100-top">
+      <div class="r100-count"><strong id="r100-n">0</strong><span class="step-count">/ 100</span></div>
+      <div class="r100-act"><label for="r100-action">The one action I'm counting</label><input class="txt" id="r100-action" type="text"></div>
+    </div>
+    <div class="dots100" id="r100-dots" role="group" aria-label="Tracker, 100 dots"></div>
+    <div class="run-row"><button class="solid" id="r100-plus" type="button">+1 done</button><button class="ghost" id="r100-minus" type="button">Undo</button><button class="ghost" id="r100-reset" type="button">Reset</button></div>
+    <p class="sim-msg" id="r100-msg" aria-live="polite"></p>
+    <div class="rules">
+      <div class="rule"><strong>Count inputs, not outputs.</strong><span>Reps are yours to control. Results come later.</span></div>
+      <div class="rule"><strong>Volume first, polish later.</strong><span>Early reps teach you more than planning does.</span></div>
+      <div class="rule"><strong>Then judge.</strong><span>At 100 you have data. Before that you have feelings.</span></div>
+    </div>
+    <p class="note">From Alex Hormozi. Links to lead measures (count the action), signal vs noise (100 reps shows a trend) and the infinite game (stay in long enough to learn). Your count saves in this browser only.</p>
+  </section>
+
   <section class="panel kit" id="second" aria-labelledby="so-h">
     <div class="explain-head">
       <span class="eyebrow">Looking one step further</span>
@@ -460,35 +569,6 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--flow); outline-
     <div class="compare">
       <div class="side dim"><span class="tag">Forward</span><span class="arrow" id="inv-fq"></span><p id="inv-a"></p></div>
       <div class="side lit"><span class="tag">Inverted</span><span class="arrow" id="inv-iq"></span><p id="inv-b"></p></div>
-    </div>
-  </section>
-
-  <section class="panel kit" id="environment" aria-labelledby="env-h">
-    <div class="explain-head">
-      <span class="eyebrow">Make the right thing easy</span>
-      <h2 id="env-h">Environment over willpower</h2>
-      <p>Willpower runs out. A good setup keeps working. Change the space so the right action is the easy one.</p>
-    </div>
-    <div class="test">Quick test: are you <b>trying harder</b>, or <b>changing the setup</b>?</div>
-    <div class="chips" id="env-chips" role="group" aria-label="Environment examples"></div>
-    <div class="compare">
-      <div class="side dim"><span class="tag">Willpower</span><span class="arrow">Try harder</span><p id="env-a"></p></div>
-      <div class="side lit"><span class="tag">Environment</span><span class="arrow">Change the setup</span><p id="env-b"></p></div>
-    </div>
-    <p class="note">This is an <b class="iao-t">input</b> change. Same person, different setup, different output.</p>
-  </section>
-
-  <section class="panel kit" id="signal" aria-labelledby="sn-h">
-    <div class="explain-head">
-      <span class="eyebrow">Which feedback matters</span>
-      <h2 id="sn-h">Signal vs noise</h2>
-      <p><b>Signal:</b> a real pattern worth acting on. <b>Noise:</b> random ups and downs. One data point is usually noise. A trend is signal.</p>
-    </div>
-    <div class="test">Quick test: has it happened <b>more than once</b>, from <b>more than one source</b>?</div>
-    <div class="chips" id="sn-chips" role="group" aria-label="Signal and noise examples"></div>
-    <div class="compare">
-      <div class="side dim"><span class="tag">Noise</span><span class="arrow">Notice it, don't react</span><p id="sn-a"></p></div>
-      <div class="side lit"><span class="tag">Signal</span><span class="arrow">Act on it</span><p id="sn-b"></p></div>
     </div>
   </section>
 
@@ -521,6 +601,68 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--flow); outline-
       <div class="rule"><strong>Courage to lead</strong><span>Choosing the long game when the short game pays more today.</span></div>
     </div>
     <p class="note">Idea from James Carse's <i>Finite and Infinite Games</i>, made popular by Simon Sinek's <i>The Infinite Game</i>. Ties in with thinking in decades, lead measures and second-order effects.</p>
+  </section>
+
+  <section class="panel kit" id="task" aria-labelledby="task-h">
+    <div class="explain-head">
+      <span class="eyebrow">Make it doable</span>
+      <h2 id="task-h">Task analysis</h2>
+      <p>Break a task into small steps. Find the one step where it falls apart. Then teach that step, grade it, or change the setup around it.</p>
+    </div>
+    <div class="test">Quick test: could a stranger follow your steps <b>without asking a question</b>?</div>
+    <div class="chips" id="task-chips" role="group" aria-label="Task examples"></div>
+    <p class="note">Edit the steps, add your own, and tap where it breaks.</p>
+    <ol class="steps" id="task-steps"></ol>
+    <div class="run-row"><button class="ghost" id="task-add" type="button">+ Add a step</button></div>
+    <p class="fix" id="task-break" aria-live="polite"></p>
+    <h3>Chaining: which steps they do</h3>
+    <p class="note"><b>Forward:</b> they learn the first step first. <b>Backward:</b> you do the start and they finish, so every try ends in a win.</p>
+    <div class="run-row">
+      <div class="seg" role="group" aria-label="Chaining type"><button type="button" id="chain-fwd" aria-pressed="false">Forward</button><button type="button" id="chain-back" aria-pressed="true">Backward</button></div>
+      <div class="run-row"><button class="ghost" id="stage-down" type="button" aria-label="Fewer steps for them">−</button><span class="step-count">They do <b id="stage-n"></b></span><button class="ghost" id="stage-up" type="button" aria-label="More steps for them">+</button></div>
+    </div>
+    <div class="chain" id="chain"></div>
+    <div class="legend"><span><i class="them"></i>They do it</span><span><i></i>You help</span></div>
+    <p class="note" id="chain-note"></p>
+  </section>
+
+  <section class="panel kit" id="justright" aria-labelledby="jr-h">
+    <div class="explain-head">
+      <span class="eyebrow">Make it doable</span>
+      <h2 id="jr-h">Just-right challenge</h2>
+      <p>Too easy and nothing grows. Too hard and people shut down. Just right is hard but doable: they get there most of the time, with effort.</p>
+    </div>
+    <div class="test">Quick test: do they succeed <b>most of the time, with effort</b>?</div>
+    <label for="jr-range">How hard is this step for them right now? <span class="step-count" id="jr-val"></span></label>
+    <input type="range" id="jr-range" min="1" max="10" value="6">
+    <div class="zone" aria-hidden="true"><div class="z1">Too easy</div><div class="z2">Just right</div><div class="z3">Too hard</div><span class="pin" id="jr-pin"></span></div>
+    <p class="fix" aria-live="polite"><b id="jr-zone"></b> <span id="jr-text"></span></p>
+    <h3>Ways to grade it</h3>
+    <div class="vs" role="table" aria-label="Ways to make a step easier or harder">
+      <div class="h" role="columnheader"></div><div class="h" role="columnheader">Grade down (easier)</div><div class="h inf" role="columnheader">Grade up (harder)</div>
+      <div class="rl" role="rowheader">Help</div><div role="cell">Model it, more prompts</div><div class="inf" role="cell">Fewer prompts, then none</div>
+      <div class="rl" role="rowheader">Steps</div><div role="cell">Fewer steps, you do some</div><div class="inf" role="cell">All the steps</div>
+      <div class="rl" role="rowheader">Time</div><div role="cell">No rush</div><div class="inf" role="cell">Quicker or timed</div>
+      <div class="rl" role="rowheader">Place</div><div role="cell">Quiet and familiar</div><div class="inf" role="cell">Busy or new</div>
+      <div class="rl" role="rowheader">Tools</div><div role="cell">Adapted tools</div><div class="inf" role="cell">Everyday tools</div>
+      <div class="rl" role="rowheader">Size</div><div role="cell">A smaller chunk</div><div class="inf" role="cell">The whole task</div>
+    </div>
+    <p class="note">Just right is set by the person, not an age chart. It moves day to day: tired, sick or overloaded days need a lower setting.</p>
+  </section>
+
+  <section class="panel kit" id="environment" aria-labelledby="env-h">
+    <div class="explain-head">
+      <span class="eyebrow">Make the right thing easy</span>
+      <h2 id="env-h">Environment over willpower</h2>
+      <p>Willpower runs out. A good setup keeps working. Change the space so the right action is the easy one.</p>
+    </div>
+    <div class="test">Quick test: are you <b>trying harder</b>, or <b>changing the setup</b>?</div>
+    <div class="chips" id="env-chips" role="group" aria-label="Environment examples"></div>
+    <div class="compare">
+      <div class="side dim"><span class="tag">Willpower</span><span class="arrow">Try harder</span><p id="env-a"></p></div>
+      <div class="side lit"><span class="tag">Environment</span><span class="arrow">Change the setup</span><p id="env-b"></p></div>
+    </div>
+    <p class="note">This is an <b class="iao-t">input</b> change. Same person, different setup, different output.</p>
   </section>
 
   <section class="panel kit" id="run" aria-labelledby="run-h">
@@ -579,6 +721,8 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--flow); outline-
     <p class="feedback" id="feedback" aria-live="polite"></p>
     <button class="next" id="next" type="button" hidden>Next</button>
   </section>
+
+  <a class="to-index" href="#index">↑ Index</a>
 
   <p class="foot">Short version: <b class="zoom-t">zoom</b> is how much you look at. <b class="flow-t">Flow</b> is when you step in. <b class="iao-t">Input, algorithm, output</b> is where you pull the lever. The <b>bottleneck</b> tells you which lever matters most.</p>
 </div>
@@ -687,6 +831,138 @@ pair("fi-chips", "fi", [
   { name: "Career", a: "Get the title, then coast.", b: "Keep learning and stay useful as the field changes." }
 ]);
 
+// task analysis
+const taskPresets = [
+  { name: "Brushing teeth", steps: ["Go to the bathroom", "Pick up toothbrush", "Put toothpaste on", "Brush top teeth", "Brush bottom teeth", "Spit and rinse", "Put brush away"], breaks: 2, tip: "Try a pump-top toothpaste, or have it ready on the brush." },
+  { name: "Getting dressed", steps: ["Get clothes out", "Undies on", "Pants on", "Shirt on", "Socks on", "Shoes on"], breaks: 4, tip: "Try seamless socks, or sit on the floor with your back to the wall for balance." },
+  { name: "Packing school bag", steps: ["Check today's timetable", "Lunchbox in", "Drink bottle in", "Books for today in", "Hat in", "Bag by the door"], breaks: 0, tip: "Photo checklist on the bag, packed the night before." },
+  { name: "Joining telehealth", steps: ["Charge the device", "Open the link", "Allow camera and mic", "Check the sound", "Say hello"], breaks: 2, tip: "Do a practice run with the family before session one." }
+];
+let task = { steps: [], broke: -1, tip: "", tipFor: -1 }, chainMode = "back", stage = 1;
+function drawBreak() {
+  const out = $("task-break");
+  if (task.broke < 0) { out.textContent = "Tap \"Breaks here\" on the step where it falls apart."; return; }
+  out.textContent = "It breaks at step " + (task.broke + 1) + ": " + (task.steps[task.broke] || "this step") + ". " + (task.tip && task.tipFor === task.broke ? task.tip + " " : "") + "Teach just this step, grade it, or change the setup around it.";
+}
+function drawChain() {
+  const n = task.steps.length;
+  stage = Math.max(1, Math.min(stage, Math.max(n, 1)));
+  $("stage-n").textContent = n ? stage + " of " + n : "0";
+  const host = $("chain"); host.innerHTML = "";
+  task.steps.forEach((st, i) => {
+    const them = chainMode === "fwd" ? i < stage : i >= n - stage;
+    const sp = document.createElement("span");
+    if (them) sp.className = "them";
+    sp.textContent = (i + 1) + ". " + (st || "Step");
+    host.appendChild(sp);
+  });
+  const w = stage === 1 ? " step" : " steps";
+  $("chain-note").textContent = chainMode === "fwd"
+    ? "Forward: they do the first " + stage + w + ". You help with the rest. Add the next step when it's solid."
+    : "Backward: you do the start. They do the last " + stage + w + ", so they always finish and get the win.";
+  $("stage-down").disabled = stage <= 1;
+  $("stage-up").disabled = stage >= n;
+  $("chain-fwd").setAttribute("aria-pressed", chainMode === "fwd" ? "true" : "false");
+  $("chain-back").setAttribute("aria-pressed", chainMode === "back" ? "true" : "false");
+}
+function drawTask() {
+  const ol = $("task-steps"); ol.innerHTML = "";
+  task.steps.forEach((st, i) => {
+    const li = document.createElement("li");
+    if (i === task.broke) li.className = "broke";
+    li.innerHTML = '<span class="n"></span><input class="txt" type="text"><button class="brk" type="button">Breaks here</button><button class="del" type="button">×</button>';
+    li.querySelector(".n").textContent = i + 1;
+    const inp = li.querySelector("input");
+    inp.value = st; inp.id = "task-step-" + i; inp.setAttribute("aria-label", "Step " + (i + 1));
+    inp.addEventListener("input", () => { task.steps[i] = inp.value; drawChain(); drawBreak(); });
+    const b = li.querySelector(".brk");
+    b.setAttribute("aria-pressed", i === task.broke ? "true" : "false");
+    b.addEventListener("click", () => { task.broke = task.broke === i ? -1 : i; drawTask(); });
+    const d = li.querySelector(".del");
+    d.setAttribute("aria-label", "Remove step " + (i + 1));
+    d.addEventListener("click", () => {
+      task.steps.splice(i, 1);
+      if (task.broke === i) task.broke = -1; else if (task.broke > i) task.broke--;
+      if (task.tipFor === i) task.tipFor = -1; else if (task.tipFor > i) task.tipFor--;
+      drawTask();
+    });
+    ol.appendChild(li);
+  });
+  drawChain(); drawBreak();
+}
+chips("task-chips", taskPresets, p => {
+  task = { steps: p.steps.slice(), broke: p.breaks, tip: p.tip, tipFor: p.breaks }; stage = 1; drawTask();
+});
+$("task-add").addEventListener("click", () => {
+  task.steps.push("New step"); drawTask();
+  const inp = $("task-step-" + (task.steps.length - 1)); inp.focus(); inp.select();
+});
+$("chain-fwd").addEventListener("click", () => { chainMode = "fwd"; drawChain(); });
+$("chain-back").addEventListener("click", () => { chainMode = "back"; drawChain(); });
+$("stage-down").addEventListener("click", () => { stage--; drawChain(); });
+$("stage-up").addEventListener("click", () => { stage++; drawChain(); });
+
+// just-right challenge
+const jr = $("jr-range");
+function drawJr() {
+  const v = +jr.value;
+  $("jr-pin").style.left = ((v - 0.5) / 10 * 100) + "%";
+  $("jr-val").textContent = "(" + v + " out of 10)";
+  let z, t;
+  if (v <= 3) { z = "Too easy."; t = "Little stretch, little growth. Grade up: less help, more steps, a busier place, or a bit of time pressure."; }
+  else if (v <= 7) { z = "Just right."; t = "Hard but doable. They get there most of the time with effort. Stay here and repeat."; }
+  else { z = "Too hard."; t = "Overwhelm shuts learning down. Grade down: fewer steps, more help, a calmer time, better tools."; }
+  $("jr-zone").textContent = z; $("jr-text").textContent = t;
+}
+jr.addEventListener("input", drawJr); drawJr();
+
+// rule of 100
+const R100 = "zoom-flow-r100";
+let r100 = { action: "Message or call one referrer", count: 0 };
+try { const sv = JSON.parse(localStorage.getItem(R100) || "null"); if (sv && typeof sv.count === "number") r100 = sv; } catch (e) {}
+function saveR() { try { localStorage.setItem(R100, JSON.stringify(r100)); } catch (e) {} }
+const dotsHost = $("r100-dots");
+for (let i = 1; i <= 100; i++) {
+  const b = document.createElement("button");
+  b.type = "button"; b.setAttribute("aria-label", "Set count to " + i);
+  b.addEventListener("click", () => { r100.count = r100.count === i ? i - 1 : i; saveR(); drawR(); });
+  dotsHost.appendChild(b);
+}
+function drawR() {
+  const c = r100.count;
+  dotsHost.querySelectorAll("button").forEach((b, i) => b.classList.toggle("on", i < c));
+  $("r100-n").textContent = c;
+  if (document.activeElement !== $("r100-action")) $("r100-action").value = r100.action;
+  let m;
+  if (c === 0) m = "Start. Tap +1 or a dot each time you do it.";
+  else if (c < 10) m = "Early days. Anything you see now is noise.";
+  else if (c < 50) m = "Keep going. You're building reps, not judging results yet.";
+  else if (c < 100) m = "Patterns start to show around here. Look for signal.";
+  else m = "100 done. Now judge it, with real data.";
+  $("r100-msg").textContent = m;
+  $("r100-minus").disabled = c <= 0;
+  $("r100-plus").disabled = c >= 100;
+}
+let r100Pick = null;
+chips("r100-chips", [
+  { name: "Referrer outreach", ex: "100 messages or calls to GPs, schools and support coordinators.", track: "Message or call one referrer" },
+  { name: "Content", ex: "100 short videos or posts before deciding if video works.", track: "Post one short video" },
+  { name: "New clinical skill", ex: "Use a new tool or approach in 100 sessions before deciding it's not for you.", track: "Use the new approach in a session" },
+  { name: "Home routine", ex: "100 nights of the same bedtime before deciding it doesn't help.", track: "Same bedtime tonight" }
+], ex => { r100Pick = ex; $("r100-ex").textContent = ex.ex; });
+$("r100-use").addEventListener("click", () => { r100.action = r100Pick.track; saveR(); drawR(); });
+$("r100-action").addEventListener("input", e => { r100.action = e.target.value; saveR(); });
+$("r100-plus").addEventListener("click", () => { if (r100.count < 100) { r100.count++; saveR(); drawR(); } });
+$("r100-minus").addEventListener("click", () => { if (r100.count > 0) { r100.count--; saveR(); drawR(); } });
+let armed = null;
+$("r100-reset").addEventListener("click", e => {
+  const b = e.currentTarget;
+  if (!armed) { b.textContent = "Tap again to reset"; armed = setTimeout(() => { armed = null; b.textContent = "Reset"; }, 3000); return; }
+  clearTimeout(armed); armed = null; b.textContent = "Reset";
+  r100.count = 0; saveR(); drawR();
+});
+drawR();
+
 // map
 const quads = [
   { name: "Design", sub: "Big picture + cause", what: "Start with the goal. Shape the causes so the result is close to guaranteed.", ex: "You want steady referrals, so you build strong referrer relationships before you need them.", good: "Long-term results.", watch: "Slow to see payoff." },
@@ -777,11 +1053,14 @@ const runSteps = [
   { tool: "Bottleneck", cls: "kit-t", q: "What's the one slowest step?", hint: "Where does work pile up and wait?" },
   { tool: "Feedback loops", cls: "kit-t", q: "Is a loop keeping this going?", hint: "Snowball or spiral? What feeds back in?" },
   { tool: "Lead vs lag", cls: "kit-t", q: "What could you track weekly?", hint: "Something you control now that predicts the result later." },
+  { tool: "Signal vs noise", cls: "kit-t", q: "Is this a trend or one bad day?", hint: "More than once? More than one source?" },
+  { tool: "Rule of 100", cls: "kit-t", q: "What one action will you do 100 times?", hint: "Pick something you can count. Don't judge it until you hit 100." },
   { tool: "Second-order effects", cls: "kit-t", q: "If you fix it, and then what?", hint: "What might the fix cause a month from now?" },
   { tool: "Inversion", cls: "kit-t", q: "What would guarantee it gets worse?", hint: "List a few. Are any of them already happening?" },
-  { tool: "Environment", cls: "kit-t", q: "What setup change makes the right thing easy?", hint: "Change the space, not the effort." },
-  { tool: "Signal vs noise", cls: "kit-t", q: "Is this a trend or one bad day?", hint: "More than once? More than one source?" },
-  { tool: "Finite vs infinite", cls: "kit-t", q: "Is this a game you win, or one you keep playing?", hint: "If it never ends, what choice keeps you in the game for the long run?" }
+  { tool: "Finite vs infinite", cls: "kit-t", q: "Is this a game you win, or one you keep playing?", hint: "If it never ends, what choice keeps you in the game for the long run?" },
+  { tool: "Task analysis", cls: "kit-t", q: "What are the steps, and which one breaks?", hint: "Write it so a stranger could follow it." },
+  { tool: "Just-right challenge", cls: "kit-t", q: "Is that step too easy, just right or too hard?", hint: "How could you grade it up or down?" },
+  { tool: "Environment", cls: "kit-t", q: "What setup change makes the right thing easy?", hint: "Change the space, not the effort." }
 ];
 const KEY = "zoom-flow-run";
 let run = { problem: "", answers: runSteps.map(() => ""), at: 0 };
@@ -868,7 +1147,7 @@ $("copy-notes").addEventListener("click", () => {
 drawRun();
 
 // game
-const labels = { top: "Top down", bottom: "Bottom up", up: "Upstream", down: "Downstream", in: "Input", alg: "Algorithm", bn: "The bottleneck", notbn: "Not the bottleneck", snow: "Snowball", spiral: "Spiral", lead: "Lead", lag: "Lag", first: "First-order", second: "Second-order", fwd: "Forward", inv: "Inverted", will: "Willpower", env: "Environment", sig: "Signal", noise: "Noise", fin: "Finite mindset", inf: "Infinite mindset" };
+const labels = { top: "Top down", bottom: "Bottom up", up: "Upstream", down: "Downstream", in: "Input", alg: "Algorithm", bn: "The bottleneck", notbn: "Not the bottleneck", snow: "Snowball", spiral: "Spiral", lead: "Lead", lag: "Lag", first: "First-order", second: "Second-order", fwd: "Forward", inv: "Inverted", will: "Willpower", env: "Environment", sig: "Signal", noise: "Noise", fin: "Finite mindset", inf: "Infinite mindset", fwd2: "Forward chaining", back: "Backward chaining", easy: "Too easy", right: "Just right", hard: "Too hard", keep: "Keep going", judge: "Judge it now" };
 const kinds = {
   zoom: { ask: "Top down or bottom up?", opts: ["top", "bottom"], cls: "zoom-t" },
   flow: { ask: "Upstream or downstream?", opts: ["up", "down"], cls: "flow-t" },
@@ -880,7 +1159,10 @@ const kinds = {
   inv: { ask: "Forward or inverted thinking?", opts: ["fwd", "inv"], cls: "kit-t" },
   env: { ask: "Willpower or environment?", opts: ["will", "env"], cls: "kit-t" },
   sn: { ask: "Signal or noise?", opts: ["sig", "noise"], cls: "kit-t" },
-  fi: { ask: "Finite or infinite mindset?", opts: ["fin", "inf"], cls: "kit-t" }
+  fi: { ask: "Finite or infinite mindset?", opts: ["fin", "inf"], cls: "kit-t" },
+  ch: { ask: "Forward or backward chaining?", opts: ["fwd2", "back"], cls: "kit-t" },
+  jr: { ask: "Too easy, just right or too hard?", opts: ["easy", "right", "hard"], cls: "kit-t" },
+  r1: { ask: "Judge it now, or keep going?", opts: ["keep", "judge"], cls: "kit-t" }
 };
 const pool = [
   { t: "zoom", s: "A coach shows the team the whole game plan, then drills each play.", a: "top", why: "Goal first, then the parts." },
@@ -910,7 +1192,14 @@ const pool = [
   { t: "sn", s: "Three different referrers mention wait times in the same month.", a: "sig", why: "Repeated, from more than one source. Act on it." },
   { t: "fi", s: "Cutting clinician supervision to hit this quarter's revenue target.", a: "fin", why: "Wins the quarter, weakens the team for years." },
   { t: "fi", s: "Studying how a rival clinic runs intake so you can improve your own.", a: "inf", why: "The rival is a teacher, not just an enemy." },
-  { t: "fi", s: "Funding rules change, so you rebuild your service model to keep serving the same families.", a: "inf", why: "Flexible on the plan, fixed on the cause." }
+  { t: "fi", s: "Funding rules change, so you rebuild your service model to keep serving the same families.", a: "inf", why: "Flexible on the plan, fixed on the cause." },
+  { t: "ch", s: "You make the toast and butter it. The child cuts it and puts it on the plate.", a: "back", why: "You do the start, they finish. Every try ends in a win." },
+  { t: "ch", s: "The child gets the bread out of the bag, then you do the rest together.", a: "fwd2", why: "They learn the first step first." },
+  { t: "jr", s: "A teen ties their shoelaces perfectly every time without thinking.", a: "easy", why: "No stretch left. Grade it up or move on." },
+  { t: "jr", s: "A child melts down every time you try a 12-step routine on day one.", a: "hard", why: "Too much at once. Grade it down: fewer steps, more help." },
+  { t: "jr", s: "A child gets the zip done about 3 times out of 4, with effort.", a: "right", why: "Hard but doable. Stay here and repeat." },
+  { t: "r1", s: "You sent 6 messages to GPs and got no referrals. Drop GP outreach?", a: "keep", why: "6 is noise. Get to 100, then judge." },
+  { t: "r1", s: "You've posted 100 short videos, tracked enquiries, and none came from video.", a: "judge", why: "You've done the reps. Now the data means something." }
 ];
 const ROUND = 10;
 let game = [], idx = 0, right = 0, results = [];
