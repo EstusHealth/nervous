@@ -149,7 +149,7 @@ footer .wordmark{color:var(--fg)}
       </div>
       <div class="board" aria-live="polite">
         <div class="board-h"><span>Your progress</span><span>This browser</span></div>
-        <div class="board-big"><b id="doneN">0</b><span>of <span id="totalN">23</span> done</span></div>
+        <div class="board-big"><b id="doneN">0</b><span>of <span id="totalN">24</span> done</span></div>
         <div class="cells" id="cells" aria-hidden="true"></div>
         <p class="board-f">Tick a module done here or on its page.</p>
       </div>
@@ -435,6 +435,16 @@ footer .wordmark{color:var(--fg)}
               </div>
               <div class="foot"><button class="done" type="button" data-done="reels" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="reels.html">Open <span aria-hidden="true">&rarr;</span></a></div>
             </article>
+            <article class="card a-growth" data-slug="mustbenice" data-roles="marketing clinician">
+              <div class="meta"><span class="pill">Content series</span></div>
+              <div class="body">
+                <h4><a href="must-be-nice.html">Must Be Nice Series</a></h4>
+                <p class="d">One line, one turn, one flip, one small hinge. 55 ready cards, a post maker with overlays and carousel slides, and a batch day plan.</p>
+                <ul class="inside"><li>Card bank</li><li>Post maker</li><li>Inversion</li><li>Batch day</li></ul>
+                <div class="who"><span>Marketing</span><span>Clinicians</span></div>
+              </div>
+              <div class="foot"><button class="done" type="button" data-done="mustbenice" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="must-be-nice.html">Open <span aria-hidden="true">&rarr;</span></a></div>
+            </article>
             <article class="card a-growth" data-slug="copy" data-roles="marketing clinician lead driving">
               <div class="meta"><span class="pill">Interactive tool</span></div>
               <div class="body">
@@ -523,7 +533,7 @@ footer .wordmark{color:var(--fg)}
 
 <script>
 (function(){
-  var KEY='hub_done', slugs=['playbook','journey','welcome','nurture','check','reels','copy','gp','hinges','sleep','morning','energy','load','transition','shutdown','act','cbt','mi','gaming','nervous','culture','accelerator','calendar'];
+  var KEY='hub_done', slugs=['playbook','journey','welcome','nurture','check','reels','mustbenice','copy','gp','hinges','sleep','morning','energy','load','transition','shutdown','act','cbt','mi','gaming','nervous','culture','accelerator','calendar'];
   function load(){try{return JSON.parse(localStorage.getItem(KEY))||{}}catch(e){return {}}}
   function save(v){try{localStorage.setItem(KEY,JSON.stringify(v))}catch(e){}}
   var state=load();
