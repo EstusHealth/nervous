@@ -212,6 +212,21 @@ input[type="range"] { width: 100%; accent-color: var(--ink); }
 .dots100 button.on { background: var(--ink); border-color: var(--ink); }
 .fix .ghost { margin-left: 6px; }
 
+/* region beta */
+.chartbox { overflow-x: auto; }
+.chartbox svg { display: block; width: 100%; height: auto; min-width: 300px; }
+.rb-grid { stroke: var(--line); stroke-width: 1; fill: none; }
+.rb-axis { stroke: var(--muted); stroke-width: 1.5; fill: none; }
+.rb-txt { fill: var(--muted); font: 12px var(--font-body); }
+.rb-zone { fill: var(--zoom-soft); }
+.rb-zt { fill: var(--zoom); font: 700 11px var(--font-body); letter-spacing: 0.06em; }
+.rb-walk { stroke: var(--zoom); stroke-width: 3.5; fill: none; stroke-linecap: round; }
+.rb-bike { stroke: var(--flow); stroke-width: 3.5; fill: none; stroke-linecap: round; }
+.rb-trig { stroke: var(--ink); stroke-width: 1.5; stroke-dasharray: 5 4; fill: none; }
+.rb-dot { fill: var(--ink); stroke: var(--surface); stroke-width: 3; }
+.rb-legend i.w { background: var(--zoom); border-color: var(--zoom); }
+.rb-legend i.b { background: var(--flow); border-color: var(--flow); }
+
 /* bottleneck sim */
 .sim { display: flex; flex-direction: column; gap: 10px; }
 .stage { display: grid; grid-template-columns: 10em 1fr 5.5em; grid-template-areas: "nm tr bt"; gap: 10px; align-items: center; }
@@ -351,6 +366,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--flow); outline-
         <a class="icard z" href="#zoom"><b>Top down vs bottom up</b><span>Whole or parts?</span></a>
         <a class="icard f" href="#flow"><b>Upstream vs downstream</b><span>Cause or result?</span></a>
         <a class="icard" href="#map"><b>The map</b><span>Both at once</span></a>
+        <a class="icard" href="#regionbeta"><b>Region-beta paradox</b><span>Is "meh" keeping you stuck?</span></a>
       </div>
       <div class="group"><div class="group-h"><b>How results get made</b><span>What drives the outcome</span></div>
         <a class="icard i" href="#iao"><b>Input → Algorithm → Output</b><span>What went in, or what happened to it?</span></a>
@@ -428,6 +444,32 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--flow); outline-
         <span><b class="zoom-t">Watch out</b> <span id="d-watch"></span></span>
       </div>
     </div>
+  </section>
+
+  <section class="panel kit" id="regionbeta" aria-labelledby="rb-h">
+    <div class="explain-head">
+      <span class="eyebrow">Why "meh" lasts longest</span>
+      <h2 id="rb-h">Region-beta paradox</h2>
+      <p>Really bad problems get fixed fast, because they hit a trigger that makes us act. Mildly bad ones never hit the trigger, so they hang around for years.</p>
+    </div>
+    <div class="test">Quick test: is it <b>annoying but not bad enough</b> to act on?</div>
+    <p class="note">The classic example: you walk any trip under 2 km and cycle anything longer. So a 1.9 km trip takes you longer than a 3 km one. Slide to see it.</p>
+    <div class="chartbox"><svg id="rb-svg" viewBox="0 0 600 270" role="img" aria-label="Travel time by distance. Time climbs while walking up to 2 km, then drops when you switch to cycling."></svg></div>
+    <div class="legend rb-legend"><span><i class="w"></i>Walk (12 min per km)</span><span><i class="b"></i>Cycle (4 min per km)</span></div>
+    <label for="rb-range">Trip distance: <span class="step-count" id="rb-val"></span></label>
+    <input type="range" id="rb-range" min="0.2" max="4" step="0.1" value="1.9">
+    <p class="fix" id="rb-msg" aria-live="polite"></p>
+    <div class="chips" id="rb-chips" role="group" aria-label="Region-beta examples"></div>
+    <div class="compare">
+      <div class="side lit"><span class="tag">Mildly bad</span><span class="arrow">Lingers</span><p id="rb-a"></p></div>
+      <div class="side dim"><span class="tag">Really bad</span><span class="arrow">Gets fixed</span><p id="rb-b"></p></div>
+    </div>
+    <div class="rules">
+      <div class="rule"><strong>Name the meh.</strong><span>List the small things everyone just works around.</span></div>
+      <div class="rule"><strong>Lower the trigger.</strong><span>Decide ahead: "three annoyances and I fix it."</span></div>
+      <div class="rule"><strong>Would I choose this today?</strong><span>If not, it's only staying because it's not bad enough.</span></div>
+    </div>
+    <p class="note">From Daniel Gilbert and colleagues (2004). Links to signal vs noise (a small annoyance that keeps repeating is signal) and environment (fix the setup once, stop paying the small cost daily).</p>
   </section>
 
   <section class="panel iao-card" id="iao" aria-labelledby="iao-h">
@@ -831,6 +873,54 @@ pair("fi-chips", "fi", [
   { name: "Career", a: "Get the title, then coast.", b: "Keep learning and stay useful as the field changes." }
 ]);
 
+// region beta
+const RB = { W: 600, H: 270, L: 46, R: 16, T: 16, B: 44, maxD: 4, maxT: 26, trig: 2 };
+function rbx(d) { return RB.L + d / RB.maxD * (RB.W - RB.L - RB.R); }
+function rby(t) { return RB.T + (1 - t / RB.maxT) * (RB.H - RB.T - RB.B); }
+function rbTime(d) { return d < RB.trig ? d * 12 : d * 4; }
+(function () {
+  let g = "";
+  g += '<rect class="rb-zone" x="' + rbx(1.3) + '" y="' + RB.T + '" width="' + (rbx(2) - rbx(1.3)) + '" height="' + (rby(0) - RB.T) + '"/>';
+  g += '<text class="rb-zt" x="' + ((rbx(1.3) + rbx(2)) / 2) + '" y="' + (RB.T + 14) + '" text-anchor="middle">REGION BETA</text>';
+  [0, 5, 10, 15, 20, 25].forEach(t => {
+    g += '<line class="rb-grid" x1="' + RB.L + '" x2="' + (RB.W - RB.R) + '" y1="' + rby(t) + '" y2="' + rby(t) + '"/>';
+    g += '<text class="rb-txt" x="' + (RB.L - 8) + '" y="' + (rby(t) + 4) + '" text-anchor="end">' + t + '</text>';
+  });
+  [0, 1, 2, 3, 4].forEach(d => {
+    g += '<text class="rb-txt" x="' + rbx(d) + '" y="' + (rby(0) + 18) + '" text-anchor="middle">' + d + ' km</text>';
+  });
+  g += '<text class="rb-txt" x="' + RB.L + '" y="' + (RB.H - 4) + '">Distance</text>';
+  g += '<text class="rb-txt" x="12" y="' + (RB.T + 4) + '" transform="rotate(-90 12 ' + (RB.T + 4) + ')" text-anchor="end">Minutes</text>';
+  g += '<line class="rb-axis" x1="' + RB.L + '" x2="' + (RB.W - RB.R) + '" y1="' + rby(0) + '" y2="' + rby(0) + '"/>';
+  g += '<line class="rb-trig" x1="' + rbx(RB.trig) + '" x2="' + rbx(RB.trig) + '" y1="' + RB.T + '" y2="' + rby(0) + '"/>';
+  g += '<text class="rb-txt" x="' + (rbx(RB.trig) + 6) + '" y="' + (RB.T + 30) + '">Trigger: switch to the bike</text>';
+  g += '<path class="rb-walk" d="M' + rbx(0) + ' ' + rby(0) + ' L' + rbx(1.995) + ' ' + rby(1.995 * 12) + '"/>';
+  g += '<path class="rb-bike" d="M' + rbx(2) + ' ' + rby(8) + ' L' + rbx(4) + ' ' + rby(16) + '"/>';
+  g += '<circle class="rb-dot" id="rb-dot" r="8" cx="0" cy="0"/>';
+  $("rb-svg").innerHTML = g;
+})();
+const rbR = $("rb-range");
+function drawRb() {
+  const d = Math.round(+rbR.value * 10) / 10, t = Math.round(rbTime(d));
+  $("rb-val").textContent = d.toFixed(1) + " km";
+  const dot = $("rb-dot"); dot.setAttribute("cx", rbx(d)); dot.setAttribute("cy", rby(rbTime(d)));
+  const m = $("rb-msg");
+  if (d < RB.trig) {
+    const far = 3, ft = Math.round(rbTime(far));
+    m.textContent = d.toFixed(1) + " km is under the trigger, so you walk: " + t + " minutes." + (t > ft ? " A 3 km trip by bike takes " + ft + ". The shorter trip costs you more." : "");
+  } else {
+    m.textContent = d.toFixed(1) + " km is over the trigger, so you cycle: " + t + " minutes. Crossing the line made it quicker.";
+  }
+}
+rbR.addEventListener("input", drawRb); drawRb();
+pair("rb-chips", "rb", [
+  { name: "Clinic systems", a: "The intake form is a bit clunky. Staff work around it for years.", b: "The booking system crashes. It's fixed by Friday." },
+  { name: "Work", a: "A job that's just okay. People stay a decade.", b: "A job that's awful. People leave within months." },
+  { name: "Kids", a: "Comes home drained every day but is 'fine' at school. Nobody acts.", b: "A school refusal crisis. Supports arrive fast." },
+  { name: "Routines", a: "The morning routine runs 10 minutes late every day.", b: "You miss a flight. There's a new plan that night." },
+  { name: "Body", a: "A niggle you've ignored for a year.", b: "A sprained ankle. You see the physio this week." }
+]);
+
 // task analysis
 const taskPresets = [
   { name: "Brushing teeth", steps: ["Go to the bathroom", "Pick up toothbrush", "Put toothpaste on", "Brush top teeth", "Brush bottom teeth", "Spit and rinse", "Put brush away"], breaks: 2, tip: "Try a pump-top toothpaste, or have it ready on the brush." },
@@ -1049,6 +1139,7 @@ drawSim();
 const runSteps = [
   { tool: "Zoom", cls: "zoom-t", q: "What's the big-picture goal here?", hint: "Top down: what result do you actually want? Then list the parts that feed it." },
   { tool: "Flow", cls: "flow-t", q: "Where does this problem start?", hint: "What would an upstream fix look like, before it happens?" },
+  { tool: "Region-beta", cls: "kit-t", q: "Is there a 'meh' problem you keep putting up with?", hint: "Mildly bad things last longest. Would you choose this today?" },
   { tool: "Input, algorithm, output", cls: "iao-t", q: "Is it the input or the algorithm?", hint: "Is what goes in the problem, or the steps that work on it?" },
   { tool: "Bottleneck", cls: "kit-t", q: "What's the one slowest step?", hint: "Where does work pile up and wait?" },
   { tool: "Feedback loops", cls: "kit-t", q: "Is a loop keeping this going?", hint: "Snowball or spiral? What feeds back in?" },
@@ -1147,7 +1238,7 @@ $("copy-notes").addEventListener("click", () => {
 drawRun();
 
 // game
-const labels = { top: "Top down", bottom: "Bottom up", up: "Upstream", down: "Downstream", in: "Input", alg: "Algorithm", bn: "The bottleneck", notbn: "Not the bottleneck", snow: "Snowball", spiral: "Spiral", lead: "Lead", lag: "Lag", first: "First-order", second: "Second-order", fwd: "Forward", inv: "Inverted", will: "Willpower", env: "Environment", sig: "Signal", noise: "Noise", fin: "Finite mindset", inf: "Infinite mindset", fwd2: "Forward chaining", back: "Backward chaining", easy: "Too easy", right: "Just right", hard: "Too hard", keep: "Keep going", judge: "Judge it now" };
+const labels = { top: "Top down", bottom: "Bottom up", up: "Upstream", down: "Downstream", in: "Input", alg: "Algorithm", bn: "The bottleneck", notbn: "Not the bottleneck", snow: "Snowball", spiral: "Spiral", lead: "Lead", lag: "Lag", first: "First-order", second: "Second-order", fwd: "Forward", inv: "Inverted", will: "Willpower", env: "Environment", sig: "Signal", noise: "Noise", fin: "Finite mindset", inf: "Infinite mindset", fwd2: "Forward chaining", back: "Backward chaining", easy: "Too easy", right: "Just right", hard: "Too hard", keep: "Keep going", judge: "Judge it now", linger: "Likely to linger", fixed: "Likely to get fixed" };
 const kinds = {
   zoom: { ask: "Top down or bottom up?", opts: ["top", "bottom"], cls: "zoom-t" },
   flow: { ask: "Upstream or downstream?", opts: ["up", "down"], cls: "flow-t" },
@@ -1162,7 +1253,8 @@ const kinds = {
   fi: { ask: "Finite or infinite mindset?", opts: ["fin", "inf"], cls: "kit-t" },
   ch: { ask: "Forward or backward chaining?", opts: ["fwd2", "back"], cls: "kit-t" },
   jr: { ask: "Too easy, just right or too hard?", opts: ["easy", "right", "hard"], cls: "kit-t" },
-  r1: { ask: "Judge it now, or keep going?", opts: ["keep", "judge"], cls: "kit-t" }
+  r1: { ask: "Judge it now, or keep going?", opts: ["keep", "judge"], cls: "kit-t" },
+  rb: { ask: "Likely to linger, or likely to get fixed?", opts: ["linger", "fixed"], cls: "kit-t" }
 };
 const pool = [
   { t: "zoom", s: "A coach shows the team the whole game plan, then drills each play.", a: "top", why: "Goal first, then the parts." },
@@ -1199,7 +1291,10 @@ const pool = [
   { t: "jr", s: "A child melts down every time you try a 12-step routine on day one.", a: "hard", why: "Too much at once. Grade it down: fewer steps, more help." },
   { t: "jr", s: "A child gets the zip done about 3 times out of 4, with effort.", a: "right", why: "Hard but doable. Stay here and repeat." },
   { t: "r1", s: "You sent 6 messages to GPs and got no referrals. Drop GP outreach?", a: "keep", why: "6 is noise. Get to 100, then judge." },
-  { t: "r1", s: "You've posted 100 short videos, tracked enquiries, and none came from video.", a: "judge", why: "You've done the reps. Now the data means something." }
+  { t: "r1", s: "You've posted 100 short videos, tracked enquiries, and none came from video.", a: "judge", why: "You've done the reps. Now the data means something." },
+  { t: "rb", s: "The intake form is a bit clunky. Everyone just works around it.", a: "linger", why: "Mildly bad never hits the trigger. It can last for years." },
+  { t: "rb", s: "The booking system crashes and nobody can book for a day.", a: "fixed", why: "Bad enough to trigger action straight away." },
+  { t: "rb", s: "A teen is 'fine' at school but comes home drained every single day.", a: "linger", why: "A mild, constant cost is easy to miss. Worth a closer look." }
 ];
 const ROUND = 10;
 let game = [], idx = 0, right = 0, results = [];
