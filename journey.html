@@ -241,7 +241,7 @@ footer ul{margin:6px 0 0;padding-left:18px}
   .who{grid-template-columns:1fr 1fr}.who .fld:first-child{grid-column:1 / -1}
   .loop{grid-template-columns:1fr}
   .node + .node::before{left:24px;top:-12px;width:0;height:12px;border-top:0;border-left:2px solid var(--muted)}
-  .pair{grid-template-columns:1fr}.pair .arrow{padding:4px;transform:rotate(90deg)}
+  .pair{grid-template-columns:1fr}.pair .arrow{place-items:center start;padding:2px 16px;font-size:0}.pair .arrow::after{content:"\2193";font-size:20px}
   .res{grid-template-columns:1fr 1fr}
 }
 @media (max-width:480px){

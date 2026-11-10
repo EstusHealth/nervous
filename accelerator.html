@@ -186,7 +186,7 @@ img{max-width:100%}
   .g-flow{grid-template-columns:1fr}
   .g-node + .g-node::before{left:24px;top:-12px;width:0;height:12px;border-top:0;border-left:2px solid var(--g-muted)}
   .g-checks{grid-template-columns:1fr}
-  .g-pair{grid-template-columns:1fr}.g-pair .arrow{transform:rotate(90deg);padding:4px}
+  .g-pair{grid-template-columns:1fr}.g-pair .arrow{place-items:center start;padding:2px 16px;font-size:0}.g-pair .arrow::after{content:"\2193";font-size:20px}
 }
 @media (max-width:520px){
   .g-cards,.g-terms{grid-template-columns:1fr}
