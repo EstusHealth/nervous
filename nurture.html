@@ -17,7 +17,7 @@
 @media (max-width:520px){.ehub-sep{display:none}.ehub-next .ehub-nl{display:none}}
 @media print{.ehub{display:none}}
 </style>
-<nav class="ehub" aria-label="Estus Training Hub" style="margin:-24px calc(-1 * max(16px, env(safe-area-inset-right, 0px))) 24px calc(-1 * max(16px, env(safe-area-inset-left, 0px)))"><div class="ehub-in">
+<nav class="ehub" aria-label="Estus Training Hub" style="margin:0"><div class="ehub-in">
 <a class="ehub-home" href="index.html"><span class="ehub-bands" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="ehub-wm"><b>ESTUS</b> HEALTH</span><span class="ehub-sep">&larr; Training Hub</span></a>
 <div class="ehub-r"><button class="ehub-btn" type="button" id="ehub-done" aria-pressed="false">Mark done</button><a class="ehub-btn ehub-next" href="check.html"><span class="ehub-nl">Next:</span> Clinician Check <span aria-hidden="true">&rarr;</span></a></div>
 </div></nav>
@@ -28,442 +28,794 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap">
 <style>
-/* Layout: dispatch board. Tabs on top, lens switch, timeline with monospace clock rail on the left. */
+/* Layout: ink masthead with the pipeline strip, sticky tabs, then one view at a time.
+   The sequence view is a dispatch board: clock rail on the left, messages on the right, fill-once bar on top. */
 :root{
-  --paper:#EEF2EF; --surface:#FFFFFF; --ink:#16201C; --muted:#56645E; --line:#D3DCD7;
-  --accent:#1E56B8; --accent-soft:#E2EAF8; --on-accent:#FFFFFF;
-  --call:#B9440F; --text:#1E56B8; --email:#6A2BC9; --vm:#0E7468; --warn:#9A5B00; --warn-soft:#FFF1D6; --good:#17784A; --bad:#B42318;
-  --f-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
-  --f-body:"Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --f-mono:"JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --bg:#FBFAF8;--surface:#FFFFFF;--sunk:#EEF1F7;--fg:#090909;--muted:#3F434B;--rule:#D5D8DE;--edge:#090909;--ink:#090909;--on-ink:#FBFAF8;
+  --navy:#344982;--blue:#2F6F9E;--teal:#2CA5B8;--plum:#8E4A7B;
+  --good:#2E7D4F;--good-t:#DDEFE3;--warn:#8A5608;--warn-t:#F6E8D2;--bad:#B23A3A;--bad-t:#F5DEDE;
+  --display:Oswald,Impact,"Arial Narrow",sans-serif;--body:Barlow,"Segoe UI",system-ui,sans-serif;--cond:"Barlow Semi Condensed",Barlow,"Arial Narrow",sans-serif;
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --paper:#0E1412; --surface:#161F1C; --ink:#E6EEEA; --muted:#94A39C; --line:#2A3632;
-  --accent:#86ADF2; --accent-soft:#1B2A44; --on-accent:#0E1412;
-  --call:#F2A066; --text:#86ADF2; --email:#BFA2F7; --vm:#55CBB8; --warn:#F2C064; --warn-soft:#2E2512; --good:#5BD49A; --bad:#F38B80;
-  color-scheme:dark}}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0F1216;--surface:#161A20;--sunk:#1D222A;--fg:#ECEEF1;--muted:#A9AFB9;--rule:#2C323C;--edge:#4A5260;--ink:#05070A;--on-ink:#ECEEF1;
+  --navy:#8299DA;--blue:#6FA8D2;--teal:#4CC3D4;--plum:#D58FC1;
+  --good:#5FC38A;--good-t:#16301F;--warn:#E0A64A;--warn-t:#33270F;--bad:#EC7B7B;--bad-t:#3A1A1A;color-scheme:dark}}
 :root[data-theme="dark"]{
-  --paper:#0E1412; --surface:#161F1C; --ink:#E6EEEA; --muted:#94A39C; --line:#2A3632;
-  --accent:#86ADF2; --accent-soft:#1B2A44; --on-accent:#0E1412;
-  --call:#F2A066; --text:#86ADF2; --email:#BFA2F7; --vm:#55CBB8; --warn:#F2C064; --warn-soft:#2E2512; --good:#5BD49A; --bad:#F38B80;
-  color-scheme:dark}
+  --bg:#0F1216;--surface:#161A20;--sunk:#1D222A;--fg:#ECEEF1;--muted:#A9AFB9;--rule:#2C323C;--edge:#4A5260;--ink:#05070A;--on-ink:#ECEEF1;
+  --navy:#8299DA;--blue:#6FA8D2;--teal:#4CC3D4;--plum:#D58FC1;
+  --good:#5FC38A;--good-t:#16301F;--warn:#E0A64A;--warn-t:#33270F;--bad:#EC7B7B;--bad-t:#3A1A1A;color-scheme:dark}
 *{box-sizing:border-box}
-body{background:var(--paper);color:var(--ink);font:400 16px/1.55 var(--f-body);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 64px}
-.wrap{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
-h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.1}
-h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:800;letter-spacing:-.02em}
-h2{font-size:clamp(1.4rem,3vw,1.9rem);font-weight:700;letter-spacing:-.01em}
-h3{font-size:1.1rem;font-weight:700}
-p{margin:0;max-width:65ch}
-.eyebrow{font:700 .72rem/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.5}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--ink)}
+.inner{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+button,input{font:inherit;color:inherit}
+a{color:var(--navy)}
+a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+h1,h2,h3{text-wrap:balance}
+p{margin:0}
+
+.mast{background:var(--ink);color:var(--on-ink)}
+.mast .inner{padding-block:22px 26px;display:flex;flex-direction:column;gap:10px}
+.stripe{display:flex;width:120px;height:5px}.stripe i{flex:1}
+.stripe i:nth-child(1){background:#344982}.stripe i:nth-child(2){background:#2F6F9E}.stripe i:nth-child(3){background:#2CA5B8}.stripe i:nth-child(4){background:#AB5C95}
+.word{font-family:var(--display);letter-spacing:.18em;font-size:15px}
+h1{font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:clamp(32px,5.6vw,52px);line-height:1;margin:6px 0 0}
+.mast p{color:#C9CED9;max-width:66ch}
+.mast p b{color:#FBFAF8}
+.pipe{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:10px;border:1px solid #3A3F48}
+.pipe > *{padding:10px 12px;border-right:1px solid #3A3F48;color:#C9CED9;text-decoration:none;display:flex;flex-direction:column;gap:2px;min-width:0}
+.pipe > *:last-child{border-right:0}
+.pipe b{font:600 15px/1.15 var(--display);letter-spacing:.04em;text-transform:uppercase;color:#FBFAF8}
+.pipe span{font:600 12px/1.3 var(--cond);letter-spacing:.06em}
+.pipe .here{background:#FBFAF8;color:#3F434B}.pipe .here b{color:#090909}
+.pipe a:hover b{text-decoration:underline}
+@media (max-width:640px){.pipe{grid-template-columns:repeat(2,minmax(0,1fr))}.pipe > *:nth-child(2){border-right:0}.pipe > *:nth-child(-n+2){border-bottom:1px solid #3A3F48}}
+
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:2px solid var(--edge)}
+nav.tabs .inner{display:flex;gap:8px;padding-block:10px;overflow-x:auto}
+nav.tabs button{flex:none;font-family:var(--cond);font-weight:700;font-size:15px;letter-spacing:.08em;text-transform:uppercase;color:var(--fg);border:2px solid var(--edge);padding:8px 14px;min-height:44px;background:var(--surface);cursor:pointer}
+nav.tabs button[aria-selected="true"]{background:var(--fg);color:var(--bg)}
+
+main{padding-block:36px 72px}
+section.view{display:flex;flex-direction:column;gap:22px;min-width:0}
+.eyebrow{font-family:var(--cond);font-weight:700;font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:var(--blue)}
+h2{font-family:var(--display);font-weight:600;text-transform:uppercase;font-size:clamp(26px,3.6vw,36px);line-height:1.05;margin:4px 0 0}
+h3{font-family:var(--display);font-weight:600;text-transform:uppercase;font-size:20px;line-height:1.1;margin:0}
 .muted{color:var(--muted)}
-header.top{display:flex;flex-direction:column;gap:12px}
-.lede{font-size:1.08rem;color:var(--muted)}
-.lede b{color:var(--ink)}
-nav.tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);background:var(--paper);z-index:5;padding-top:6px}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
-nav.tabs button{font:600 .95rem var(--f-body);color:var(--muted);background:none;border:0;padding:10px 14px;border-bottom:3px solid transparent;cursor:pointer;margin-bottom:-1px}
-nav.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
-button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-section.view{display:flex;flex-direction:column;gap:22px}
-.lens{display:flex;gap:0;flex-wrap:wrap;border:1px solid var(--line);border-radius:10px;overflow:hidden;width:fit-content;max-width:100%;background:var(--surface)}
-.lens button{font:600 .9rem var(--f-body);background:none;border:0;padding:10px 16px;color:var(--muted);cursor:pointer;border-right:1px solid var(--line)}
-.lens button:last-child{border-right:0}
-.lens button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
-.lens-row{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
-.lens-note{font-size:.92rem;color:var(--muted);max-width:60ch}
+.small{font-size:14.5px}
 
-/* pillars */
-.pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
-.pillar{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:8px}
-.pillar .n{font:700 .75rem var(--f-mono);color:var(--accent)}
-.pillar .swap{font-size:.9rem;border-top:1px dashed var(--line);padding-top:8px;color:var(--muted)}
-.pillar .swap b{color:var(--ink)}
-
-.big{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px}
-.big .num{font:800 clamp(2.4rem,7vw,3.6rem)/1 var(--f-display);color:var(--accent);font-variant-numeric:tabular-nums}
+.big{display:grid;grid-template-columns:auto minmax(0,1fr);gap:20px;align-items:center;background:var(--surface);border:2px solid var(--edge);padding:20px}
+.big .num{font:700 clamp(44px,8vw,68px)/1 var(--display);color:var(--navy);text-transform:uppercase}
+.big p{margin-top:6px;max-width:62ch}
 @media (max-width:520px){.big{grid-template-columns:1fr}}
 
-/* timeline */
+.stages{width:100%;border-collapse:collapse;background:var(--surface);border:2px solid var(--edge)}
+.stages th,.stages td{text-align:left;vertical-align:top;padding:11px 14px;border-bottom:1px solid var(--rule)}
+.stages thead th{font:700 12px/1.2 var(--cond);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--edge)}
+.stages tbody tr:last-child td,.stages tbody tr:last-child th{border-bottom:0}
+.stages tbody th{font:600 17px/1.2 var(--display);text-transform:uppercase;white-space:nowrap}
+.tblwrap{overflow-x:auto}
+
+.pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));border:2px solid var(--edge);background:var(--surface)}
+.pillar{padding:16px 18px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);display:flex;flex-direction:column;gap:8px}
+.pillar .n{font:700 12px/1 var(--cond);letter-spacing:.14em;text-transform:uppercase;color:var(--plum)}
+.pillar .swap{font-size:15px;border-top:1px dashed var(--rule);padding-top:8px;color:var(--muted)}
+.pillar .swap b{color:var(--fg)}
+
+.seg{display:flex;flex-wrap:wrap;gap:8px}
+.seg button{font:700 14px/1 var(--cond);letter-spacing:.06em;text-transform:uppercase;min-height:44px;padding:6px 14px;border:2px solid var(--edge);background:var(--surface);color:var(--fg);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+.ctl{display:flex;flex-direction:column;gap:6px}
+.ctl .lab{font:700 12px/1 var(--cond);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.ctls{display:flex;flex-wrap:wrap;gap:16px 28px}
+.note{border-left:5px solid var(--teal);background:var(--sunk);padding:10px 14px;max-width:none}
+.note.warn{border-left-color:var(--warn);background:var(--warn-t)}
+.note b{font-weight:700}
+
 .tl{display:flex;flex-direction:column}
-.step{display:grid;grid-template-columns:118px 1fr;gap:18px}
-.rail{position:relative;padding-top:18px;text-align:right}
-.rail .clock{font:700 .85rem/1.2 var(--f-mono);font-variant-numeric:tabular-nums}
-.rail .when{font:500 .74rem/1.3 var(--f-mono);color:var(--muted);margin-top:2px}
-.step .card{position:relative;border-left:2px solid var(--line);padding:16px 0 26px 22px;display:flex;flex-direction:column;gap:10px;min-width:0}
-.step .card::before{content:"";position:absolute;left:-7px;top:20px;width:12px;height:12px;border-radius:50%;background:var(--surface);border:2px solid var(--accent)}
-.chips{display:flex;gap:6px;flex-wrap:wrap}
-.chip{font:700 .7rem/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:5px 8px;border-radius:999px;border:1.5px solid currentColor}
-.chip.call{color:var(--call)}.chip.text{color:var(--text)}.chip.email{color:var(--email)}.chip.vm{color:var(--vm)}
-.do{font-size:1rem}
-.script{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 14px 12px;display:flex;flex-direction:column;gap:10px}
-.script .lbl{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.script blockquote{margin:0;font-size:.98rem;white-space:pre-wrap;overflow-wrap:anywhere}
-.copy{font:600 .8rem var(--f-body);border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:8px;padding:6px 10px;cursor:pointer}
-.why{font-size:.9rem;background:var(--warn-soft);border-radius:8px;padding:10px 12px}
-.why b{color:var(--warn)}
-@media (max-width:560px){.step{grid-template-columns:1fr;gap:0}.rail{text-align:left;padding-top:8px}.step .card{padding-top:8px}}
+.step{display:grid;grid-template-columns:112px minmax(0,1fr);gap:18px}
+.rail{padding-top:16px;text-align:right}
+.rail .clock{font:700 20px/1.1 var(--display);text-transform:uppercase}
+.rail .when{font:600 13px/1.3 var(--cond);letter-spacing:.04em;color:var(--muted);margin-top:2px}
+.step .col{position:relative;border-left:2px solid var(--edge);padding:16px 0 30px 22px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.step .col::before{content:"";position:absolute;left:-8px;top:20px;width:14px;height:14px;background:var(--teal);border:2px solid var(--edge)}
+.step:last-child .col{padding-bottom:6px}
+.do{max-width:66ch}
+.why{font-size:15px;color:var(--muted);max-width:66ch}
+.why b{color:var(--fg)}
+.none{font-size:15px;color:var(--muted);border:1px dashed var(--rule);padding:10px 14px}
+.gymq{background:var(--sunk);border-left:5px solid var(--fg);padding:12px 14px;white-space:pre-wrap;overflow-wrap:anywhere;margin:0}
+.chans{display:flex;gap:6px;flex-wrap:wrap}
+.chan{font:700 12px/1.5 var(--cond);letter-spacing:.1em;text-transform:uppercase;padding:1px 8px;border:1.5px solid var(--edge)}
+@media (max-width:600px){.step{grid-template-columns:1fr;gap:0}.rail{text-align:left;padding-top:14px;display:flex;gap:10px;align-items:baseline}.step .col{border-left:0;padding-left:0;padding-top:8px}.step .col::before{display:none}}
+.hand{border:2px dashed var(--edge);padding:14px 16px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px}
+.hand p{max-width:60ch}
+.hand a{font:700 15px/1 var(--cond);letter-spacing:.08em;text-transform:uppercase;border:2px solid var(--edge);padding:10px 14px;text-decoration:none;color:var(--fg);background:var(--surface);min-height:44px;display:inline-flex;align-items:center}
 
-/* checklist */
-.check{display:flex;flex-direction:column;gap:0;background:var(--surface);border:1px solid var(--line);border-radius:12px}
-.check label{display:grid;grid-template-columns:22px 1fr;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line);cursor:pointer}
+.check{display:flex;flex-direction:column;background:var(--surface);border:2px solid var(--edge)}
+.check label{display:grid;grid-template-columns:24px minmax(0,1fr);gap:12px;padding:13px 16px;border-bottom:1px solid var(--rule);cursor:pointer}
 .check label:last-child{border-bottom:0}
-.check input{width:18px;height:18px;margin-top:3px;accent-color:var(--accent)}
+.check input{width:20px;height:20px;margin-top:3px;accent-color:#2E7D4F}
 .check .t{font-weight:600}
-.check .d{font-size:.92rem;color:var(--muted)}
+.check .d{font-size:15px;color:var(--muted)}
 .check input:checked + span .t{text-decoration:line-through;color:var(--muted)}
-.prog{font:700 .8rem var(--f-mono);color:var(--muted)}
+.prog{font:700 14px/1 var(--cond);letter-spacing:.06em;color:var(--muted)}
+.row{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between}
 
-/* rules */
-.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-.rule{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px}
-.pair{display:grid;grid-template-columns:auto 1fr;gap:6px 10px;font-size:.93rem}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));border:2px solid var(--edge);background:var(--surface)}
+.rule{padding:16px 18px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);display:flex;flex-direction:column;gap:10px}
+.pair{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 10px;font-size:15.5px}
 .pair .x{color:var(--bad);font-weight:700}.pair .y{color:var(--good);font-weight:700}
 
-/* calculator */
-.calc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px}
+.calc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px;background:var(--surface);border:2px solid var(--edge);padding:20px}
 @media (max-width:720px){.calc{grid-template-columns:1fr}}
 .fields{display:flex;flex-direction:column;gap:14px}
 .field{display:flex;flex-direction:column;gap:4px}
-.field label{font-weight:600;font-size:.92rem;display:flex;justify-content:space-between}
-.field label output{font:700 .9rem var(--f-mono)}
-.field input[type=range]{width:100%;accent-color:var(--accent)}
+.field label{font-weight:600;font-size:15.5px;display:flex;justify-content:space-between;gap:10px}
+.field label output{font:700 16px/1.3 var(--cond)}
+.field input[type=range]{width:100%;accent-color:#344982}
 .bars{display:flex;flex-direction:column;gap:8px}
-.bar{display:grid;grid-template-columns:96px 1fr 52px;gap:10px;align-items:center;font-size:.88rem}
-.bar .track{height:22px;background:var(--paper);border-radius:6px;overflow:hidden}
-.bar .fill{height:100%;background:var(--accent);border-radius:6px;transition:width .3s}
-.bar .v{font:700 .85rem var(--f-mono);text-align:right;font-variant-numeric:tabular-nums}
-.callout{font-size:.95rem;border-top:1px dashed var(--line);padding-top:12px}
+.bar{display:grid;grid-template-columns:96px minmax(0,1fr) 52px;gap:10px;align-items:center;font-size:15px}
+.bar .track{height:22px;background:var(--sunk)}
+.bar .fillb{height:100%;background:var(--navy)}
+.bar .v{font:700 16px/1 var(--cond);text-align:right;font-variant-numeric:tabular-nums}
+.callout{font-size:15.5px;border-top:1px dashed var(--rule);padding-top:12px;margin-top:4px}
 
-/* quiz */
-.q{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:14px}
+.quiz{background:var(--surface);border:2px solid var(--edge);padding:20px;display:flex;flex-direction:column;gap:14px}
+.quiz h3{font-family:var(--body);text-transform:none;font-weight:700;font-size:19px;line-height:1.3}
 .opts{display:flex;flex-direction:column;gap:8px}
-.opts button{text-align:left;font:500 .97rem/1.4 var(--f-body);color:var(--ink);background:var(--paper);border:1.5px solid var(--line);border-radius:10px;padding:12px 14px;cursor:pointer}
-.opts button.right{border-color:var(--good)}
-.opts button.wrong{border-color:var(--bad)}
+.opts button{text-align:left;font-size:16.5px;line-height:1.4;color:var(--fg);background:var(--bg);border:2px solid var(--rule);padding:12px 14px;cursor:pointer}
+.opts button.right{border-color:var(--good);background:var(--good-t)}
+.opts button.wrong{border-color:var(--bad);background:var(--bad-t)}
 .opts button:disabled{cursor:default}
-.fb{font-size:.95rem}
 .qnav{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.btn{font:600 .95rem var(--f-body);background:var(--accent);color:var(--on-accent);border:0;border-radius:10px;padding:10px 18px;cursor:pointer}
+.btn{font:500 16px/1 var(--display);letter-spacing:.06em;text-transform:uppercase;min-height:44px;padding:8px 18px;background:#2CA5B8;color:#090909;border:2px solid var(--edge);cursor:pointer}
 .btn:disabled{opacity:.4;cursor:default}
-footer{font-size:.85rem;color:var(--muted);border-top:1px solid var(--line);padding-top:16px}
-@media (prefers-reduced-motion: reduce){*{transition:none!important}}
-</style><style>
-:root{--paper:#F3F2EF;--surface:#FBFAF8;--ink:#0E1014;--muted:#65676E;--line:#D3D1CC;--accent:#344982;--accent-soft:#DDE2EF;--on-accent:#FBFAF8;--call:#AB5C95;--text:#2F6F9E;--email:#344982;--vm:#1E7C8B;--warn:#A86A12;--warn-soft:#F6E8D2;--good:#2E7D4F;--bad:#B23A3A;
---f-display:"Oswald","Arial Narrow",Impact,sans-serif;--f-body:"Barlow","Segoe UI",system-ui,sans-serif;--f-mono:"Barlow Semi Condensed","Arial Narrow",sans-serif}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#0F1216;--surface:#161A20;--ink:#ECEEF1;--muted:#9BA1AB;--line:#2C323C;--accent:#8299DA;--accent-soft:#1E2740;--on-accent:#0F1216;--call:#D58FC1;--text:#6FA8D2;--email:#8299DA;--vm:#4CC3D4;--warn:#E0A64A;--warn-soft:#33270F;--good:#5FC38A;--bad:#EC7B7B;color-scheme:dark}}
-:root[data-theme="dark"]{--paper:#0F1216;--surface:#161A20;--ink:#ECEEF1;--muted:#9BA1AB;--line:#2C323C;--accent:#8299DA;--accent-soft:#1E2740;--on-accent:#0F1216;--call:#D58FC1;--text:#6FA8D2;--email:#8299DA;--vm:#4CC3D4;--warn:#E0A64A;--warn-soft:#33270F;--good:#5FC38A;--bad:#EC7B7B;color-scheme:dark}
-h1,h2{font-weight:600!important;text-transform:uppercase;letter-spacing:.01em!important}
-h1{line-height:1!important}
-.eyebrow,.chip,.prog,.n,.lvl,.clock,.when,.m,.who,.card .n,.pillar .n{letter-spacing:.12em}
-.big .num{font-weight:600!important}
+footer{font-size:14.5px;color:var(--muted);border-top:1px solid var(--rule);padding-top:16px;margin-top:36px}
+@media (prefers-reduced-motion:no-preference){.bar .fillb{transition:width .3s}}
 </style>
 
-<div class="wrap">
-  <header class="top">
-    <span class="eyebrow">Estus Health · Driving on the Spectrum · team training</span>
+<header class="mast">
+  <div class="inner">
+    <span class="stripe" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+    <span class="word"><b>ESTUS</b> HEALTH</span>
     <h1>Lead nurture, the Gym Launch way, rebuilt for OT</h1>
-    <p class="lede">Hormozi's gyms won on one thing: <b>they got back to people fast and kept going</b> until the person said yes, no, or later. This trainer teaches that sequence, then shows it applied to <b>ongoing online OT</b> and <b>in-person medical fitness to drive</b> assessments.</p>
-  </header>
+    <p>Hormozi's gyms won on one thing: <b>they got back to people fast and kept going</b> until the person said yes, no, or later. This trainer teaches that sequence, then gives you the messages for <b>online OT</b> and <b>driving assessments</b>.</p>
+    <div class="pipe" aria-label="Where this page sits in the client pathway">
+      <div class="here"><b>1. Lead in</b><span>Get the referral form done. This page.</span></div>
+      <div class="here"><b>2. Form in</b><span>Get the call booked. This page.</span></div>
+      <a href="welcome.html#templates"><b>3. Call booked</b><span>Confirm, remind, run the call. Welcome page.</span></a>
+      <a href="welcome.html#templates"><b>4. Call done</b><span>Follow up the same day. Welcome page.</span></a>
+    </div>
+  </div>
+</header>
 
-  <nav class="tabs" role="tablist" aria-label="Sections">
-    <button role="tab" data-v="learn" aria-selected="true">1. The idea</button>
-    <button role="tab" data-v="sequence" aria-selected="false">2. The sequence</button>
-    <button role="tab" data-v="show" aria-selected="false">3. Getting them to show</button>
-    <button role="tab" data-v="rules" aria-selected="false">4. Guardrails</button>
-    <button role="tab" data-v="practice" aria-selected="false">5. Practice</button>
-  </nav>
+<nav class="tabs" aria-label="Sections"><div class="inner" role="tablist">
+  <button role="tab" data-v="learn" aria-selected="true">1. The idea</button>
+  <button role="tab" data-v="sequence" aria-selected="false">2. The sequence</button>
+  <button role="tab" data-v="show" aria-selected="false">3. Getting them to show</button>
+  <button role="tab" data-v="rules" aria-selected="false">4. Guardrails</button>
+  <button role="tab" data-v="practice" aria-selected="false">5. Practice</button>
+</div></nav>
+
+<main class="inner">
 
   <!-- LEARN -->
   <section class="view" id="v-learn">
     <div class="big">
       <div class="num">5 min</div>
-      <div><h3>Speed to lead</h3><p class="muted">The core rule. Reply to a new enquiry inside five minutes. Odds of reaching and qualifying a lead fall off a cliff after that. The lead is warmest the moment they hit submit.</p></div>
+      <div><h3>Speed to lead</h3><p class="muted">The core rule. The first reply lands inside five minutes, and the lead is warmest the moment they hit submit. For us, an email does that on its own. Your text follows the same business day.</p></div>
     </div>
 
-    <div><span class="eyebrow">The four pillars</span><h2 style="margin-top:6px">What Hormozi measures, and what we swap</h2></div>
+    <div><span class="eyebrow">Our rule</span><h2>Form first, then the call</h2></div>
+    <p class="muted">Nobody gets the booking link until the referral form is in. So there are two jobs before a welcome call, and each has one next step.</p>
+    <div class="tblwrap"><table class="stages">
+      <thead><tr><th scope="col">Stage</th><th scope="col">One next step</th><th scope="col">What goes out</th><th scope="col">Who sends it</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">1. Lead in</th><td>Referral form</td><td>Three emails, three texts, over seven days</td><td>Emails go on their own. You text by hand.</td></tr>
+        <tr><th scope="row">2. Form in</th><td>Book the 15 minute call</td><td>Three emails, three texts, over seven days</td><td>Emails go on their own. You text by hand.</td></tr>
+        <tr><th scope="row">3. Call booked</th><td>Turn up</td><td>Confirm, remind, on the day</td><td>You. See the Welcome Call page.</td></tr>
+        <tr><th scope="row">4. Call done</th><td>Sign, think, or refer on</td><td>Same-day follow-up</td><td>You. See the Welcome Call page.</td></tr>
+      </tbody>
+    </table></div>
+    <p class="muted small">PracSuite can't send texts for you. Every text on this page is typed or pasted by a clinician.</p>
+
+    <div><span class="eyebrow">The four pillars</span><h2>What Hormozi measures, and what we swap</h2></div>
     <div class="pillars">
-      <div class="pillar"><span class="n">PILLAR 1</span><h3>Availability</h3><p>Have open slots soon. Book the first appointment within 72 hours.</p><p class="swap"><b>For us:</b> clinicians keep short-notice slots in the lead calendar so welcome calls happen fast.</p></div>
-      <div class="pillar"><span class="n">PILLAR 2</span><h3>Speed</h3><p>First contact in under 5 minutes. Every hour of delay costs bookings.</p><p class="swap"><b>For us:</b> instant auto-text after hours, a human reply first thing next morning.</p></div>
-      <div class="pillar"><span class="n">PILLAR 3</span><h3>Personalisation</h3><p>Their name, their goal, their preferred channel. Feels like a person, not a machine.</p><p class="swap"><b>For us:</b> ask "call, text or email?" on the form. Many neurodivergent adults hate surprise calls. Honour it.</p></div>
-      <div class="pillar"><span class="n">PILLAR 4</span><h3>Volume</h3><p>Many touches. Gyms make up to 10 calls plus texts in week one.</p><p class="swap"><b>For us:</b> fewer, clearer touches. Tell them how many you'll send. Always an easy "not now".</p></div>
+      <div class="pillar"><span class="n">Pillar 1</span><h3>Availability</h3><p>Have open slots soon. Book the first appointment within 72 hours.</p><p class="swap"><b>For us:</b> keep short-notice slots open in the lead calendar, so a welcome call can happen this week.</p></div>
+      <div class="pillar"><span class="n">Pillar 2</span><h3>Speed</h3><p>First contact in under 5 minutes. Every hour of delay costs bookings.</p><p class="swap"><b>For us:</b> the email goes out on its own. Your text follows the same business day, or first thing next morning.</p></div>
+      <div class="pillar"><span class="n">Pillar 3</span><h3>Personalisation</h3><p>Their name, their goal, their preferred channel. Feels like a person, not a machine.</p><p class="swap"><b>For us:</b> read the referral before you text, and say so. Ask how they like to talk. Many neurodivergent adults dread surprise calls.</p></div>
+      <div class="pillar"><span class="n">Pillar 4</span><h3>Volume</h3><p>Many touches. Gyms make up to 10 calls plus texts in week one.</p><p class="swap"><b>For us:</b> three emails and three texts in week one. Then we say we are stopping, and we stop.</p></div>
     </div>
 
-    <div><span class="eyebrow">The shape</span><h2 style="margin-top:6px">Three phases</h2></div>
+    <div><span class="eyebrow">The shape</span><h2>Three phases</h2></div>
     <div class="pillars">
-      <div class="pillar"><span class="n">MIN 0 TO DAY 1</span><h3>Strike</h3><p>Fast first contact, a second attempt with a new angle, then switch channel.</p></div>
-      <div class="pillar"><span class="n">DAY 2 TO DAY 7</span><h3>Persist</h3><p>Daily touches. Each one gives something: help, info, a simple question. Day 7 closes the loop politely.</p></div>
-      <div class="pillar"><span class="n">WEEK 2 ONWARD</span><h3>Long nurture</h3><p>Monthly value until they're ready. People come back months later. Stay useful, stay findable.</p></div>
+      <div class="pillar"><span class="n">Minute 0 to day 1</span><h3>Strike</h3><p>Fast first contact, then a named person, on a channel they can answer in their own time.</p></div>
+      <div class="pillar"><span class="n">Day 2 to day 7</span><h3>Persist</h3><p>Each touch gives something: the path, an easy question, a way out. Day 7 closes the loop politely.</p></div>
+      <div class="pillar"><span class="n">Week 2 onward</span><h3>Long nurture</h3><p>One useful idea a month until they are ready. People come back months later. Stay useful, stay findable.</p></div>
     </div>
-    <p class="muted">Then a separate job: once booked, <b>get them to show up</b>. A booking that no-shows is worth nothing. See tab 3.</p>
   </section>
 
   <!-- SEQUENCE -->
   <section class="view" id="v-sequence" hidden>
-    <div class="lens-row">
-      <div class="lens" role="group" aria-label="Apply to">
-        <button data-lens="gym" aria-pressed="false">Gym original</button>
-        <button data-lens="ot" aria-pressed="true">Online OT</button>
-        <button data-lens="drive" aria-pressed="false">Fitness to drive</button>
+    <div class="ctls">
+      <div class="ctl"><span class="lab">Apply to</span>
+        <div class="seg" role="group" aria-label="Apply to" data-lensgroup>
+          <button type="button" data-lens="ot" aria-pressed="true">Online OT</button>
+          <button type="button" data-lens="drive" aria-pressed="false">Driving assessment</button>
+          <button type="button" data-lens="gym" aria-pressed="false">Gym original</button>
+        </div>
       </div>
-      <p class="lens-note" id="lensNote"></p>
+      <div class="ctl" id="trackCtl"><span class="lab">Where are they?</span>
+        <div class="seg" role="group" aria-label="Where are they">
+          <button type="button" data-track="lead" aria-pressed="true">New lead, no form yet</button>
+          <button type="button" data-track="form" aria-pressed="false">Form in, no booking yet</button>
+        </div>
+      </div>
     </div>
+    <p class="note" id="lensNote"></p>
+    <p class="note warn" id="setupNote" hidden></p>
+    <div id="fill"></div>
     <div class="tl" id="timeline"></div>
+    <div id="after"></div>
   </section>
 
   <!-- SHOW -->
   <section class="view" id="v-show" hidden>
-    <div class="lens-row">
-      <div class="lens" role="group" aria-label="Apply to">
-        <button data-lens="gym" aria-pressed="false">Gym original</button>
-        <button data-lens="ot" aria-pressed="true">Online OT</button>
-        <button data-lens="drive" aria-pressed="false">Fitness to drive</button>
+    <div><span class="eyebrow">A booking that no-shows is worth nothing</span><h2>Getting them to show</h2></div>
+    <div class="row">
+      <div class="seg" role="group" aria-label="Apply to" data-lensgroup>
+        <button type="button" data-lens="ot" aria-pressed="true">Online OT</button>
+        <button type="button" data-lens="drive" aria-pressed="false">Driving assessment</button>
+        <button type="button" data-lens="gym" aria-pressed="false">Gym original</button>
       </div>
       <span class="prog" id="showProg"></span>
     </div>
     <p class="muted">Tick each one off as you set it up. Your ticks stay in this browser.</p>
     <div class="check" id="showList"></div>
+    <div class="hand" id="showHand">
+      <p><b>Booked?</b> The confirm, reminder and missed-call messages are on the Welcome Call page.</p>
+      <a href="welcome.html#templates">Open the templates</a>
+    </div>
   </section>
 
   <!-- RULES -->
   <section class="view" id="v-rules" hidden>
-    <div><span class="eyebrow">Health, not gyms</span><h2 style="margin-top:6px">What we keep, what we drop</h2></div>
+    <div><span class="eyebrow">Health, not gyms</span><h2>What we keep, what we drop</h2></div>
     <p class="muted">Gym Launch uses testimonials, scarcity and pressure. Registered health practitioners can't. Keep the speed and the persistence. Drop the pressure.</p>
     <div class="rules">
-      <div class="rule"><h3>No testimonials</h3><div class="pair"><span class="x">Gym</span><span>"Here's what Sarah said after 6 weeks..."</span><span class="y">Us</span><span>"Here's what a first session looks like." Explain the process instead.</span></div></div>
+      <div class="rule"><h3>No testimonials</h3><div class="pair"><span class="x">Gym</span><span>"Here's what Sarah said after 6 weeks..."</span><span class="y">Us</span><span>"Here's what happens on the call." Explain the process instead.</span></div></div>
       <div class="rule"><h3>No promised outcomes</h3><div class="pair"><span class="x">Gym</span><span>"Lose 10 kg in 6 weeks."</span><span class="y">Us</span><span>Never "we'll get you passed" or "fix your focus". Describe what we assess and how we help.</span></div></div>
-      <div class="rule"><h3>No fake urgency</h3><div class="pair"><span class="x">Gym</span><span>"Only 3 spots left, offer ends Friday."</span><span class="y">Us</span><span>Real info only: "Next opening is Thursday." Real deadlines are fine to mention (a DoT due date the client told you).</span></div></div>
+      <div class="rule"><h3>No fake urgency</h3><div class="pair"><span class="x">Gym</span><span>"Only 3 spots left, offer ends Friday."</span><span class="y">Us</span><span>Real info only: "Next opening is Thursday." A real deadline the client told you about is fine to act on.</span></div></div>
       <div class="rule"><h3>Consent and opt-out</h3><div class="pair"><span class="x">Gym</span><span>Call until they answer.</span><span class="y">Us</span><span>Say who you are in every message. Offer a clear "reply STOP" or "not now". Stop when asked.</span></div></div>
-      <div class="rule"><h3>Channel respect</h3><div class="pair"><span class="x">Gym</span><span>Double dial, every time.</span><span class="y">Us</span><span>Double dial only if they chose phone. Text-first is the default for neurodivergent adults.</span></div></div>
+      <div class="rule"><h3>Channel respect</h3><div class="pair"><span class="x">Gym</span><span>Double dial, every time.</span><span class="y">Us</span><span>Call only if they chose phone. Text or email first is the default for neurodivergent adults.</span></div></div>
+      <div class="rule"><h3>No funding promises</h3><div class="pair"><span class="x">Gym</span><span>"It pays for itself."</span><span class="y">Us</span><span>Never say or imply the NDIS will fund it. The line is "NDIS and private clients welcome".</span></div></div>
       <div class="rule"><h3>Referrer privacy</h3><div class="pair"><span class="x">Gym</span><span>n/a</span><span class="y">Us</span><span>Update the GP or support coordinator only with the client's consent. Thank them for the referral either way.</span></div></div>
     </div>
-    <p class="muted" style="font-size:.88rem">General guide only. Check the current Ahpra advertising guidelines and the Spam Act before going live.</p>
+    <p class="muted small">General guide only. Check the current Ahpra advertising guidelines and the Spam Act before going live.</p>
   </section>
 
   <!-- PRACTICE -->
   <section class="view" id="v-practice" hidden>
-    <div><span class="eyebrow">Numbers</span><h2 style="margin-top:6px">Where clients leak out</h2></div>
+    <div><span class="eyebrow">Numbers</span><h2>Where clients leak out</h2></div>
     <div class="calc">
       <div class="fields">
         <div class="field"><label for="c-leads">Enquiries per month <output id="o-leads"></output></label><input type="range" id="c-leads" min="5" max="150" value="40"></div>
-        <div class="field"><label for="c-contact">Reached (contact rate) <output id="o-contact"></output></label><input type="range" id="c-contact" min="10" max="100" value="60"></div>
-        <div class="field"><label for="c-book">Booked a welcome call <output id="o-book"></output></label><input type="range" id="c-book" min="10" max="100" value="55"></div>
-        <div class="field"><label for="c-show">Showed up <output id="o-show"></output></label><input type="range" id="c-show" min="10" max="100" value="70"></div>
+        <div class="field"><label for="c-form">Sent the referral form <output id="o-form"></output></label><input type="range" id="c-form" min="10" max="100" value="50"></div>
+        <div class="field"><label for="c-book">Booked a welcome call <output id="o-book"></output></label><input type="range" id="c-book" min="10" max="100" value="70"></div>
+        <div class="field"><label for="c-show">Showed up <output id="o-show"></output></label><input type="range" id="c-show" min="10" max="100" value="75"></div>
         <div class="field"><label for="c-sign">Signed service agreement <output id="o-sign"></output></label><input type="range" id="c-sign" min="10" max="100" value="70"></div>
       </div>
       <div class="bars" id="bars"></div>
     </div>
-    <p class="muted" style="font-size:.88rem">Example figures. Swap in your real numbers from the CRM.</p>
+    <p class="muted small">Example figures. Swap in your real numbers from the Leadgen sheet and PracSuite.</p>
 
-    <div><span class="eyebrow">Scenarios</span><h2 style="margin-top:6px">What would you do?</h2></div>
-    <div class="q" id="quiz"></div>
+    <div><span class="eyebrow">Scenarios</span><h2>What would you do?</h2></div>
+    <div class="quiz" id="quiz"></div>
   </section>
 
   <footer>Built for Liam Fagan and the Estus team. Framework from Alex Hormozi's Gym Launch and $100M Leads, adapted for registered allied health.</footer>
-</div>
+</main>
 
+<script src="msg.js"></script>
 <script>
-const LENS_NOTE = {
-  gym:"The original. Fast, loud, high volume. Read it to learn the bones.",
-  ot:"Goal: book a 15 min welcome call. Text-first, low demand, neuroaffirming.",
-  drive:"Goal: get the referral and docs in, then book the in-person assessment. More phone, more admin help."
-};
+(function () {
+  'use strict';
+  var esc = HubMsg.esc, EXPECT = HubMsg.links.expect;
+  var $ = function (s) { return document.querySelector(s); };
+  var $$ = function (s) { return Array.prototype.slice.call(document.querySelectorAll(s)); };
+  var store = {
+    get: function (k, d) { try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+    set: function (k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  };
+  var STOP = 'Don\'t want these emails? Reply STOP.';
 
-const STEPS = [
- {clock:"T+0:05", when:"Minute 0 to 5", title:"Strike fast",
-  gym:{ch:["call","call","vm","text"], do:"Call now. No answer? Hang up and call again straight away (the double dial). Leave a short voicemail. Then text.",
-   s:"Hey Sam, it's Jo from Iron Gym. Just tried you about your trial. When's good for a quick chat?"},
-  ot:{ch:["text"], do:"Text within 5 minutes. Call only if they picked phone on the form. After hours, an auto-text goes out and a human follows up first thing.",
-   s:"Hi Sam, it's Liam from Estus Health. Thanks for reaching out about OT support. I'm a real person, not a bot.\n\nWant to grab a free 15 min welcome call? Pick any time here: [calendar link]\n\nOr just reply with a day that suits.",
-   why:"Swap: no double dial by default. Unexpected calls are a big barrier for many neurodivergent adults."},
-  drive:{ch:["call","text"], do:"Call within 5 minutes. Parents, GPs and coordinators usually want a voice. If no answer, text the three things you need.",
-   s:"Hi Sam, Liam from Driving on the Spectrum. Got your enquiry about a driving assessment.\n\nTo get things moving I just need 3 things:\n1. A GP referral\n2. Your licence status\n3. How it's funded (NDIS or private)\n\nHappy to talk it through. Call or reply here, whatever's easier.",
-   why:"Swap: front-load the admin. Missing paperwork is what stalls driving leads, not interest."}},
- {clock:"T+2:00", when:"Same day, 1 to 4 hrs", title:"Second attempt, new angle",
-  gym:{ch:["call","call","text"], do:"Second double dial. Text with a quick result or a member testimonial.",
-   s:"Sam, quick one. Mike started where you are and just hit his first pull-up. Want to see if we're a fit?"},
-  ot:{ch:["text"], do:"Send the 'what to expect' video. Lower the fear of the unknown. No testimonials.",
-   s:"Hi Sam, here's a 2 min video of what a first session with us looks like: [video link]\n\nNo prep needed, camera off is fine. Liam, Estus Health",
-   why:"Swap: process explainer replaces testimonial. Ahpra bans testimonials in health advertising."},
-  drive:{ch:["text"], do:"Explain how the assessment works so it feels less scary.",
-   s:"Here's how the assessment works, Sam:\n\nPart 1, in the clinic: vision, thinking skills, reaction time.\nPart 2, on the road in a dual-control car.\n\nAbout 2.5 to 3 hrs total. You can bring a support person. More here: [link]",
-   why:"Swap: anxiety about the test is a top reason people delay. Describe it, don't sell it."}},
- {clock:"DAY 1 PM", when:"First evening", title:"Switch channel",
-  gym:{ch:["email"], do:"Third attempt on a different channel. DM on the platform they came from, or email.",
-   s:"Subject: Your trial at Iron Gym\n\nHey Sam, tried calling and texting. Here's everything in one place..."},
-  ot:{ch:["email"], do:"Email recap with everything in one place: booking link, fees (NDIS and private), telehealth basics, FAQs.",
-   s:"Subject: Your OT enquiry, everything in one place\n\nHi Sam,\n\nThanks again for getting in touch. Here's what you need:\n\nBook a welcome call: [link]\nFees and NDIS: [link]\nHow telehealth works: [link]\n\nNo rush. Reply any time.\n\nLiam Fagan\nEstus Health\n\nDon't want these emails? Reply 'stop'.",
-   why:"Swap: written info suits people who process better in writing and want to check fees privately."},
-  drive:{ch:["email"], do:"Email the document checklist and fee sheet. Separately, thank the referrer (no client details unless consented).",
-   s:"Subject: Driving assessment, your checklist\n\nHi Sam,\n\nAttached is a one-page checklist of what to bring and send. Once we have your GP referral we can lock in a date.\n\nFees: [link]\nWhat to expect: [link]\n\nLiam Fagan\nDriving on the Spectrum",
-   why:"Swap: a second lane for referrers. Fast thank-yous keep GPs and coordinators sending."}},
- {clock:"DAY 2-3", when:"Days 2 and 3", title:"Persist with value",
-  gym:{ch:["call","call","text"], do:"Call twice a day, morning and afternoon. Text after the second call. Rotate: value, proof, question, offer to reschedule.",
-   s:"Morning Sam! Still keen to get started this week? I've got 6pm Thursday open."},
-  ot:{ch:["text"], do:"One touch a day, max. A low-demand yes or no question. Easy to answer without thinking.",
-   s:"Quick one, Sam: would mornings or afternoons suit better for sessions? Just reply AM or PM.",
-   why:"Swap: halve the volume, drop the effort to reply. A one-word answer restarts the conversation."},
-  drive:{ch:["call","text"], do:"One call and one text a day. Solve the blocker, usually the GP referral.",
-   s:"Hi Sam, is the GP referral the sticking point? I can send a short letter you can hand your GP so they know exactly what to write.",
-   why:"Swap: help with the admin. You remove friction instead of pushing harder."}},
- {clock:"DAY 4-7", when:"Days 4 to 7", title:"Value, then close the loop",
-  gym:{ch:["call","text"], do:"One call and text a day. More value: tips, resources, case studies. Keep going.",
-   s:"Hey Sam, 3 easy protein swaps our members love: [link]. Want to book that trial?"},
-  ot:{ch:["text","email"], do:"Every second day. Send one genuinely useful tool. Day 7: the polite 'close the loop' text. This one gets surprising replies.",
-   s:"Hi Sam, I'll stop messaging so I'm not clogging up your phone.\n\nIf now's not the right time, totally fine. Reply any time, even months from now, and we'll pick it up.\n\nLiam, Estus Health",
-   why:"Swap: ending clearly is respectful and predictable. It often prompts the reply."},
-  drive:{ch:["text","email"], do:"Day 5: explain the process they may be facing (licence review, medical report). Day 7: close the loop.",
-   s:"Hi Sam, last message from me for now. Whenever the referral's ready, send it through and we'll book you in. If there's a DoT deadline, tell me the date and I'll prioritise you.\n\nLiam, Driving on the Spectrum",
-   why:"Swap: real deadlines (from the client) are fine to act on. Invented ones are not."}},
- {clock:"WEEK 2+", when:"Ongoing", title:"Long-term nurture",
-  gym:{ch:["email","text"], do:"Weekly or monthly value. Seasonal offers. Reactivation blasts to old leads.",
-   s:"New year challenge starts Monday. Want in?"},
-  ot:{ch:["email"], do:"Monthly email: one useful idea, webinar invites, waitlist news. Opt-out in every message.",
-   s:"Subject: One small change for better mornings\n\nHi Sam, a 2 min idea from our Morning Architecture program: [tip]\n\nWebinar next month on divided attention: [link]",
-   why:"Swap: lead with education. The Small Hinges programs make great nurture content."},
-  drive:{ch:["email"], do:"Monthly, plus life triggers: turning 16 or 17, finishing school, licence renewal, NDIS plan review.",
-   s:"Subject: NDIS plan review coming up?\n\nIf driving is a goal, now's the time to get it in the plan. Here's how an assessment report helps: [link]",
-   why:"Swap: time touches to real life events, not sales calendars."}}
-];
+  /* ---------- the sequences ----------
+     {first} {child} {me} {form} {book} fill from the bar. [CAPS IN BRACKETS] is a blank to type by hand.
+     auto: true means it is set up once in an automation, so [FIRST NAME] is a merge field, not a blank. */
+  var LONG = function (p) {
+    return { clock: 'Week 2+', when: 'Ongoing', title: 'Long nurture',
+      does: 'One useful idea a month: one idea, one link, an opt-out. At 90 days, one text. After that, no more texts unless they reply.',
+      why: 'Lead with something useful. The Small Hinges programs make good nurture content.',
+      msgs: [
+        { id: p + 'n1', ch: 'email', auto: true, autoLabel: 'Bulk send', sign: 'team', when: 'Monthly', name: 'One idea email',
+          subj: 'One small change for [THE MOMENT, LIKE SCHOOL MORNINGS]',
+          body: ['Hi [FIRST NAME],', 'One idea this month. Two minutes to read.', '[ONE IDEA IN PLAIN WORDS. PULL IT FROM A SMALL HINGE.]', 'Try it for a week. Keep it if it helps. Drop it if it doesn\'t.'],
+          foot: ['If you\'d like a hand with it, reply to this email. A person answers.', STOP] },
+        { id: p + 'n2', ch: 'sms', only: ['adult', 'parent'], when: 'At 90 days, once', name: 'Reactivation text',
+          text: 'Hi {first}, {me} from Estus Health. You got in touch a while back about OT support. No pressure at all. If it\'s still on your mind, reply YES and I\'ll send the next step. If not, reply STOP and I won\'t text again.' }
+      ] };
+  };
 
-const SHOW = {
- gym:[
-  ["Book within 72 hours","The longer the gap, the more no-shows."],
-  ["Instant confirmation text","Day, time, address, who they'll meet."],
-  ["Pre-frame video","Short clip: what happens, what to wear."],
-  ["Call the day before","A human confirming lifts show rate."],
-  ["Text 2 hrs before","Short reminder with parking info."],
-  ["No-show follow-up in 10 min","Call and rebook straight away."]],
- ot:[
-  ["Book within 72 hours","Use the short-notice lead calendar."],
-  ["Instant confirmation","Time in their time zone, the video link, who they'll meet (with a photo)."],
-  ["Send the 'what to expect' video","Name the clinician, what you'll ask, how long, that camera off is fine."],
-  ["Tech check","Link to test their camera and mic. Remove day-of stress."],
-  ["Reminder 24 hrs before","Text or email, whichever they chose."],
-  ["Reminder 1 hr before","Join link right in the message."],
-  ["No-show text in 10 min","\"No stress, things happen. Want a new time? [link]\""],
-  ["Peer review the welcome call","Feeds the Welcome Call Excellence Program."]],
- drive:[
-  ["Book once docs are in","Referral, licence status, funding confirmed before the date is locked."],
-  ["Confirmation with map","Address, parking, where to wait, how long (2.5 to 3 hrs)."],
-  ["What to bring list","Licence or permit, glasses, medication list, referral letter."],
-  ["Sensory prep","Quiet waiting space, can bring a support person, comfy clothes, breaks are fine."],
-  ["Call 2 days before","Confirm, answer worries, check they're well and rested."],
-  ["Text morning of","Short. Address again. 'See you at 9.'"],
-  ["No-show call in 10 min","Rebook. Check if anxiety was the reason and adjust."],
-  ["Update the referrer","With consent, tell the GP or coordinator it's booked."]]
-};
+  var SEQ = {
+    'ot-lead': [
+      { clock: 'T+0:05', when: 'Minute 0 to 5', title: 'Strike fast',
+        does: 'The email goes out on its own. It points at one thing: the referral form. No booking link yet.',
+        why: 'No double dial. Surprise calls are a big barrier for many neurodivergent adults, so the first touch is one they can read in their own time.',
+        msgs: [
+          { id: 'l1', ch: 'email', auto: true, when: 'The moment they enquire', name: 'First reply email',
+            subj: 'Got your message. Here is the next step.',
+            body: ['Hi [FIRST NAME],',
+              'Thanks for getting in touch with Estus Health. A real person reads every message, and one of our OTs will text you by the next business day.',
+              'The next step is our referral form. You write it once and your OT reads it before you talk. So nobody asks you to tell the whole story again.'],
+            btn: { label: 'START THE FORM', href: '{form}' },
+            foot: ['Forms hard right now? Reply to this email with a few lines in your own words. We\'ll take it from there.', 'NDIS and private clients welcome. ' + STOP] }
+        ] },
+      { clock: 'Same day', when: 'Same business day', title: 'A named person texts',
+        does: 'You text by hand. Say who you are and that you are a real person. If it came in after hours, text first thing next morning.',
+        why: 'Speed still counts. But the first human touch is a text they can answer when they are ready.',
+        msgs: [
+          { id: 'l2', ch: 'sms', when: 'Same business day', name: 'Hello text',
+            text: 'Hi {first}, it\'s {me}, an OT at Estus Health. Thanks for reaching out. I\'m a real person, not a bot. Next step is our referral form, so you only tell your story once: {form} Or reply here if texting is easier. Reply STOP to opt out.',
+            v: {
+              parent: { text: 'Hi {first}, it\'s {me}, an OT at Estus Health. Thanks for reaching out about your child. I\'m a real person, not a bot. Next step is our referral form, so you only tell the story once: {form} Or reply here if texting is easier. Reply STOP to opt out.' },
+              coord: { text: 'Hi {first}, {me} here, an OT at Estus Health. Thanks for the enquiry. To refer someone, the form is here: {form} It comes straight to our OTs. Happy to talk first if that\'s easier. Reply STOP to opt out.' }
+            } }
+        ] },
+      { clock: 'Day 2', when: 'Day 2', title: 'Show the whole path',
+        does: 'Second automatic email. It shows every step, so nothing ahead is a surprise.',
+        why: 'A process explainer replaces the testimonial. Ahpra bans testimonials in health advertising.',
+        msgs: [
+          { id: 'l3', ch: 'email', auto: true, when: 'Day 2, if no form', name: 'The whole path email',
+            subj: 'What happens after the form',
+            body: ['Hi [FIRST NAME],',
+              'Here is the whole path, so there are no surprises:',
+              '**1.** You fill in the referral form.\n**2.** You pick a time for a free 15 minute call with your OT.\n**3.** On the call you hear how we\'d help, who with, and what it costs.\n**4.** You choose: start, think it over, or leave it.',
+              'Sessions are by telehealth. You log on from home, and camera off is fine.'],
+            btn: { label: 'START THE FORM', href: '{form}' },
+            foot: ['Questions first? Hit reply. A person answers.', STOP] }
+        ] },
+      { clock: 'Day 3', when: 'Day 3', title: 'One easy question',
+        does: 'One text. A question they can answer in one word. A one-word reply restarts the conversation.',
+        why: 'Half the volume of the gym version, and almost no effort to answer.',
+        msgs: [
+          { id: 'l4', ch: 'sms', when: 'Day 3, if no form', name: 'Sticking point text',
+            text: 'Hi {first}, {me} from Estus. Quick one: is the form the sticking point? Reply HELP and I\'ll make it easier. Or reply LATER and I\'ll leave you be.',
+            v: { coord: { text: 'Hi {first}, {me} from Estus. Is there anything you need from us before you refer? Our fees, our service agreement, availability? Reply and I\'ll send it.' } } }
+        ] },
+      { clock: 'Day 5', when: 'Day 5', title: 'Last automatic nudge',
+        does: 'Third and last automatic email. It says it is the last one, and it is.',
+        why: 'Telling people how many messages are left is the opposite of pressure. It is why they trust the next one.',
+        msgs: [
+          { id: 'l5', ch: 'email', auto: true, when: 'Day 5, if no form', name: 'Last nudge email',
+            subj: 'Still want to talk?',
+            body: ['Hi [FIRST NAME],', 'We haven\'t seen your form come through, so here is the link one last time.'],
+            btn: { label: 'START THE FORM', href: '{form}' },
+            foot: ['If the form is too much, reply to this email with a few lines and we\'ll go from there.', 'If now isn\'t the time, do nothing. We won\'t keep emailing.'] }
+        ] },
+      { clock: 'Day 7', when: 'Day 7', title: 'Close the loop',
+        does: 'Your last text. Polite, clear, final. Then move them to the long nurture list.',
+        why: 'Ending clearly is respectful and easy to predict. It often prompts the reply.',
+        msgs: [
+          { id: 'l6', ch: 'sms', when: 'Day 7, if no reply', name: 'Close the loop text',
+            text: 'Hi {first}, {me} from Estus. I\'ll stop messaging now so I\'m not filling up your phone. If the time isn\'t right, that\'s fine. Reply any time, even months from now, and we\'ll pick it up.' }
+        ] },
+      LONG('l')
+    ],
+    'ot-form': [
+      { clock: 'T+0:05', when: 'Minute 0 to 5', title: 'Strike fast',
+        does: 'The welcome email goes out the moment the form is submitted. This is the first time they see the booking link.',
+        why: 'The form was the hard part and they have done it. The only step left is 15 minutes.',
+        msgs: [
+          { id: 'f1', ch: 'email', auto: true, when: 'On form submit', name: 'Welcome email',
+            subj: 'Your referral is in. Pick a time to talk.',
+            body: ['Hi [FIRST NAME],',
+              'Thanks for sending your referral. Your OT reads it before you talk, so you won\'t have to tell your story twice.',
+              'The next step is a free 15 minute call with the OT you\'d work with:',
+              '**Nik** for an assessment or a report, or for ongoing therapy.\n**Nam** for ongoing therapy.',
+              'Not sure which? Pick either. We\'ll point you the right way on the call.'],
+            btn: { label: 'PICK A TIME', href: '{book}' },
+            foot: ['The call is yours to steer. Camera off is fine. There\'s nothing to prep and nothing to sign.', 'Calls hard? Say so in the booking notes and we\'ll do it by chat or email.'] }
+        ] },
+      { clock: 'Same day', when: 'Same business day', title: 'A named person texts',
+        does: 'Read the referral first. Then text by hand, and say that you have read it.',
+        why: '"I\'ve read your referral" is the proof that a person is on the other end.',
+        msgs: [
+          { id: 'f2', ch: 'sms', when: 'Same business day', name: 'Hello text',
+            text: 'Hi {first}, it\'s {me}, an OT at Estus Health. I\'ve read your referral. Want to talk it through? Free 15 min call, you pick the time: {book} Or reply here if texting is easier.',
+            v: {
+              parent: { text: 'Hi {first}, it\'s {me}, an OT at Estus Health. I\'ve read your referral for {child}. Want to talk it through? Free 15 min call, you pick the time: {book} Or reply here if texting is easier.' },
+              coord: { text: 'Hi {first}, {me} from Estus Health, one of the OTs. Thanks for referring {child}. Pick a time for a 15 min call, with you or with {child}: {book} Or reply with a time that suits.' }
+            } }
+        ] },
+      { clock: 'Day 2', when: 'Day 2', title: 'Show the whole call',
+        does: 'Second automatic email. It shows the call from start to finish, so nothing ahead is a surprise.',
+        why: 'A process explainer replaces the testimonial. Ahpra bans testimonials in health advertising.',
+        msgs: [
+          { id: 'f3', ch: 'email', auto: true, when: 'Day 2, if no booking', name: 'What happens on the call email',
+            subj: 'What happens on the call',
+            body: ['Hi [FIRST NAME],',
+              'Here is the whole call, start to finish:',
+              '**1.** You tell your OT what\'s going on.\n**2.** They tell you how we\'d help, who with, and what it costs.\n**3.** You choose: start, think it over, or leave it.',
+              'That\'s it. 15 minutes, from your couch. Camera off is fine.'],
+            btn: { label: 'PICK A TIME', href: '{book}' },
+            foot: ['Want to see more first? ' + EXPECT, 'Rather have it in writing? Reply and we\'ll email our fees and how we work.'] }
+        ] },
+      { clock: 'Day 3', when: 'Day 3', title: 'One easy question',
+        does: 'One text. A question they can answer in one word. A one-word reply restarts the conversation.',
+        why: 'Half the volume of the gym version, and almost no effort to answer.',
+        msgs: [
+          { id: 'f4', ch: 'sms', when: 'Day 3, if no booking', name: 'Call, chat or email text',
+            text: 'Hi {first}, {me} from Estus. Quick one: would a call, chat or email suit you best? Reply CALL, CHAT or EMAIL and I\'ll set it up.',
+            v: { coord: { text: 'Hi {first}, {me} from Estus. Would it help if I emailed our fees and service agreement first? Reply YES and I\'ll send them.' } } }
+        ] },
+      { clock: 'Day 5', when: 'Day 5', title: 'Last automatic nudge',
+        does: 'Third and last automatic email. It says it is the last one, and it is.',
+        why: 'Telling people how many messages are left is the opposite of pressure. It is why they trust the next one.',
+        msgs: [
+          { id: 'f5', ch: 'email', auto: true, when: 'Day 5, if no booking', name: 'Last nudge email',
+            subj: 'Still keen to talk?',
+            body: ['Hi [FIRST NAME],', 'No booking has come through yet, so here is the link one last time.'],
+            btn: { label: 'BOOK MY FREE CALL', href: '{book}' },
+            foot: ['If none of the times suit, reply with two that do and we\'ll make one work.', 'If now isn\'t the time, do nothing. Your referral stays on file and we won\'t keep emailing.'] }
+        ] },
+      { clock: 'Day 7', when: 'Day 7', title: 'Close the loop',
+        does: 'Your last text. Polite, clear, final. Then move them to the long nurture list.',
+        why: 'Ending clearly is respectful and easy to predict. It often prompts the reply.',
+        msgs: [
+          { id: 'f6', ch: 'sms', when: 'Day 7, if no reply', name: 'Close the loop text',
+            text: 'Hi {first}, {me} from Estus. I\'ll stop messaging now so I\'m not filling up your phone. Your referral stays on file. Reply any time, even months from now, and we\'ll pick it up.',
+            v: { coord: { text: 'Hi {first}, {me} from Estus. I\'ll leave this with you. {child}\'s referral stays on file. If the timing changes, reply here and we\'ll pick it up.' } } }
+        ] },
+      LONG('f')
+    ],
+    drive: [
+      { clock: 'T+0:05', when: 'Minute 0 to 5', title: 'Strike fast',
+        does: 'Call inside five minutes if they chose phone. Parents, GPs and coordinators usually want a voice. No answer? Text the three things you need.',
+        why: 'Front-load the admin. Missing paperwork is what stalls driving leads, not interest.',
+        msgs: [
+          { id: 'd1a', ch: 'say', tag: 'Call', brand: 'dots', only: ['adult', 'parent', 'coord'], when: 'If they chose phone', name: 'Call opener',
+            text: 'Hi {first}, it\'s {me} from Driving on the Spectrum. You asked about a driving assessment. Have you got two minutes now, or is there a better time?',
+            v: {
+              parent: { text: 'Hi {first}, it\'s {me} from Driving on the Spectrum. You asked about a driving assessment for {child}. Have you got two minutes now, or is there a better time?' },
+              coord: { text: 'Hi {first}, it\'s {me} from Driving on the Spectrum. You asked about a driving assessment for {child}. Have you got two minutes now, or is there a better time?' }
+            } },
+          { id: 'd1b', ch: 'sms', brand: 'dots', only: ['adult', 'parent', 'coord'], when: 'Straight after', name: 'Three things text',
+            text: 'Hi {first}, {me} from Driving on the Spectrum. Got your enquiry about a driving assessment. To get moving I need 3 things:\n1. A GP referral\n2. Your licence status\n3. How it\'s funded (NDIS or private)\nCall or reply here, whichever is easier.',
+            v: {
+              parent: { text: 'Hi {first}, {me} from Driving on the Spectrum. Got your enquiry about a driving assessment for {child}. To get moving I need 3 things:\n1. A GP referral\n2. Their licence or permit status\n3. How it\'s funded (NDIS or private)\nCall or reply here, whichever is easier.' },
+              coord: { text: 'Hi {first}, {me} from Driving on the Spectrum. Thanks for the enquiry about a driving assessment for {child}. To book I need:\n1. A GP referral\n2. Licence or permit status\n3. Plan dates and how the plan is managed\nHappy to talk it through.' }
+            } },
+          { id: 'd1g', ch: 'email', brand: 'dots', only: ['gp'], when: 'Within one business day', name: 'Referral received email',
+            subj: 'Referral received: [PATIENT INITIALS]',
+            body: ['Dear Dr [SURNAME],',
+              'Thank you for referring [PATIENT INITIALS] for an OT driving assessment. We have the referral and will contact them within one business day.',
+              'You will get a one-page summary on top of the full report.',
+              'If anything is missing, I will ask once, in one email.'] }
+        ] },
+      { clock: 'T+2:00', when: 'Same day', title: 'Explain the assessment',
+        does: 'Say how the assessment works, in two parts, so it feels less like a test.',
+        why: 'Worry about the test is a top reason people delay. Describe it. Don\'t sell it.',
+        msgs: [
+          { id: 'd2', ch: 'sms', brand: 'dots', only: ['adult', 'parent', 'coord'], when: '1 to 4 hours later', name: 'How it works text',
+            text: 'Here\'s how the assessment works, {first}:\nPart 1, in the clinic: vision, thinking skills, reaction time.\nPart 2, on the road in a dual-control car.\nAbout 2.5 to 3 hours all up, with breaks. You can bring a support person.',
+            v: {
+              parent: { text: 'Here\'s how the assessment works for {child}:\nPart 1, in the clinic: vision, thinking skills, reaction time.\nPart 2, on the road in a dual-control car.\nAbout 2.5 to 3 hours all up, with breaks. You or another support person can come.' },
+              coord: { text: 'Here\'s how the assessment runs for {child}:\nPart 1, in the clinic: vision, thinking skills, reaction time.\nPart 2, on the road in a dual-control car.\nAbout 2.5 to 3 hours all up, with breaks. {child} can bring a support person.' }
+            } }
+        ] },
+      { clock: 'Day 1 PM', when: 'First evening', title: 'Switch channel',
+        does: 'Email the checklist and the fee, so everything is in one place they can come back to.',
+        why: 'Written info suits people who want to check the details in their own time.',
+        msgs: [
+          { id: 'd3', ch: 'email', brand: 'dots', only: ['adult', 'parent', 'coord'], when: 'First evening', name: 'Checklist email',
+            subj: 'Your driving assessment checklist',
+            body: ['Hi {first},',
+              'Everything in one place:',
+              '**To book, I need:** a GP referral, your licence status, and how it\'s funded.\n**Bring on the day:** your licence or permit, glasses if you wear them, a list of your medicines.\n**How long:** about 2.5 to 3 hours, with breaks.\n**Cost:** [FEE]',
+              'Once the GP referral is in, we lock in a date.'],
+            foot: ['Stuck on the GP part? Reply and I\'ll send a short letter you can hand your GP.'],
+            v: {
+              parent: { subj: 'Driving assessment checklist for {child}',
+                body: ['Hi {first},',
+                  'Everything in one place:',
+                  '**To book, I need:** a GP referral, {child}\'s licence or permit status, and how it\'s funded.\n**Bring on the day:** the licence or permit, glasses if {child} wears them, a list of medicines.\n**How long:** about 2.5 to 3 hours, with breaks.\n**Cost:** [FEE]',
+                  'Once the GP referral is in, we lock in a date.'] },
+              coord: { subj: 'Driving assessment checklist for {child}',
+                body: ['Hi {first},',
+                  'Everything in one place for {child}:',
+                  '**To book, I need:** a GP referral, licence or permit status, the plan dates and how the plan is managed.\n**Bring on the day:** the licence or permit, glasses if worn, a list of medicines.\n**How long:** about 2.5 to 3 hours, with breaks.\n**Cost:** [FEE]',
+                  'Once the GP referral is in, we lock in a date.'],
+                foot: ['GP referral slow to come? Reply and I\'ll send a one-page letter for their GP.'] }
+            } },
+          { id: 'd3g', ch: 'email', brand: 'dots', only: ['gp'], when: 'Only if something is missing', name: 'One detail needed email',
+            subj: 'One detail needed: [PATIENT INITIALS]',
+            body: ['Dear Dr [SURNAME],',
+              'Thanks again for the referral for [PATIENT INITIALS]. To book the assessment I need one more thing: [VISION RESULTS / MEDICATION LIST / LICENCE STATUS / DUE DATE].',
+              'A reply to this email is all it takes.'] }
+        ] },
+      { clock: 'Day 2-3', when: 'Days 2 and 3', title: 'Solve the blocker',
+        does: 'One touch a day. Find the blocker and take it away. It is usually the GP referral.',
+        why: 'Help with the admin. You remove friction. You don\'t push harder.',
+        msgs: [
+          { id: 'd4', ch: 'sms', brand: 'dots', only: ['adult', 'parent', 'coord'], when: 'Day 2 or 3', name: 'GP letter text',
+            text: 'Hi {first}, {me} from Driving on the Spectrum. Is the GP referral the sticking point? I can send a short letter to hand your GP, so they know what to write. Reply LETTER and it\'s yours.',
+            v: {
+              parent: { text: 'Hi {first}, {me} from Driving on the Spectrum. Is the GP referral the sticking point? I can send a short letter for {child}\'s GP, so they know what to write. Reply LETTER and it\'s yours.' },
+              coord: { text: 'Hi {first}, {me} from Driving on the Spectrum. Is the GP referral holding things up for {child}? I can send a one-page letter for their GP. Reply LETTER and I\'ll send it.' }
+            } },
+          { id: 'd4g', ch: 'email', brand: 'dots', only: ['gp'], when: 'With the patient\'s consent', name: 'Assessment booked email',
+            subj: 'Assessment booked: [PATIENT INITIALS]',
+            body: ['Dear Dr [SURNAME],',
+              'With your patient\'s consent, a short update: the driving assessment for [PATIENT INITIALS] is booked for [DATE].',
+              'You will have the one-page summary and the full report after the assessment.'] }
+        ] },
+      { clock: 'Day 4-7', when: 'Days 4 to 7', title: 'Close the loop',
+        does: 'Day 7: the last message for now. If they have told you a real deadline, work to it.',
+        why: 'A real deadline, from the client, is fine to act on. An invented one is not.',
+        msgs: [
+          { id: 'd5', ch: 'sms', brand: 'dots', only: ['adult', 'parent', 'coord'], when: 'Day 7, if no reply', name: 'Close the loop text',
+            text: 'Hi {first}, last message from me for now. When the referral is ready, send it through and we\'ll book you in. If the Department of Transport has given you a due date, tell me the date and I\'ll work to it. {me}, Driving on the Spectrum',
+            v: {
+              parent: { text: 'Hi {first}, last message from me for now. When the referral is ready, send it through and we\'ll book {child} in. If the Department of Transport has given a due date, tell me the date and I\'ll work to it. {me}, Driving on the Spectrum' },
+              coord: { text: 'Hi {first}, last message from me for now. When the referral is ready, send it through and we\'ll book {child} in. If the Department of Transport has given a due date, tell me the date and I\'ll work to it. {me}, Driving on the Spectrum' }
+            } },
+          { id: 'd5g', ch: 'email', brand: 'dots', only: ['gp'], when: 'With the report', name: 'Report cover email',
+            subj: 'Driving assessment report: [PATIENT INITIALS]',
+            body: ['Dear Dr [SURNAME],',
+              'The assessment for [PATIENT INITIALS] is done. The one-page summary is on top and the full report sits under it.',
+              'In one line: [RECOMMENDATION].',
+              'Ring me if you\'d like to talk it through.'] }
+        ] },
+      { clock: 'Week 2+', when: 'Ongoing', title: 'Long nurture',
+        does: 'Monthly, plus real life triggers: turning 16 or 17, leaving school, a licence renewal, a plan review.',
+        why: 'Time the touch to real life, not to a sales calendar.',
+        msgs: [
+          { id: 'd6', ch: 'email', brand: 'dots', only: ['adult', 'parent', 'coord'], when: 'At a life trigger', name: 'Plan review email',
+            subj: 'Plan review coming up?',
+            body: ['Hi {first},',
+              'If driving is one of your goals, a plan review is the time to raise it.',
+              'A driving assessment report sets out what helps you drive safely, in plain words a planner can read. It doesn\'t decide the funding. It gives them something clear to work from.',
+              'If that would help, reply and I\'ll explain how it works and what it costs.'],
+            foot: [STOP],
+            v: {
+              parent: { body: ['Hi {first},',
+                'If driving is one of {child}\'s goals, a plan review is the time to raise it.',
+                'A driving assessment report sets out what helps {child} drive safely, in plain words a planner can read. It doesn\'t decide the funding. It gives them something clear to work from.',
+                'If that would help, reply and I\'ll explain how it works and what it costs.'] },
+              coord: { body: ['Hi {first},',
+                'If driving is one of {child}\'s goals, the plan review is the time to raise it.',
+                'A driving assessment report sets out what helps {child} drive safely, in plain words a planner can read. It doesn\'t decide the funding. It gives them something clear to work from.',
+                'If that would help, reply and I\'ll explain how it works and what it costs.'] }
+            } }
+        ] }
+    ],
+    gym: [
+      { clock: 'T+0:05', when: 'Minute 0 to 5', title: 'Strike fast', ch: ['Call', 'Call', 'Voicemail', 'Text'],
+        does: 'Call now. No answer? Hang up and call again straight away (the double dial). Leave a short voicemail. Then text.',
+        s: 'Hey Sam, it\'s Jo from Iron Gym. Just tried you about your trial. When\'s good for a quick chat?' },
+      { clock: 'T+2:00', when: 'Same day, 1 to 4 hrs', title: 'Second attempt, new angle', ch: ['Call', 'Call', 'Text'],
+        does: 'Second double dial. Text with a quick result or a member testimonial.',
+        s: 'Sam, quick one. Mike started where you are and just hit his first pull-up. Want to see if we\'re a fit?' },
+      { clock: 'Day 1 PM', when: 'First evening', title: 'Switch channel', ch: ['Email'],
+        does: 'Third attempt on a different channel. DM on the platform they came from, or email.',
+        s: 'Subject: Your trial at Iron Gym\n\nHey Sam, tried calling and texting. Here\'s everything in one place...' },
+      { clock: 'Day 2-3', when: 'Days 2 and 3', title: 'Persist with value', ch: ['Call', 'Call', 'Text'],
+        does: 'Call twice a day, morning and afternoon. Text after the second call. Rotate: value, proof, question, offer to reschedule.',
+        s: 'Morning Sam! Still keen to get started this week? I\'ve got 6pm Thursday open.' },
+      { clock: 'Day 4-7', when: 'Days 4 to 7', title: 'Value, then close the loop', ch: ['Call', 'Text'],
+        does: 'One call and text a day. More value: tips, resources, case studies. Keep going.',
+        s: 'Hey Sam, 3 easy protein swaps our members love: [link]. Want to book that trial?' },
+      { clock: 'Week 2+', when: 'Ongoing', title: 'Long-term nurture', ch: ['Email', 'Text'],
+        does: 'Weekly or monthly value. Seasonal offers. Reactivation blasts to old leads.',
+        s: 'New year challenge starts Monday. Want in?' }
+    ]
+  };
 
-const QUIZ = [
- {q:"A new online OT enquiry lands at 9:12 pm. The form says 'prefers text'. What happens?",
-  o:["Call first thing tomorrow at 8 am","Auto-text tonight, human text by 8:30 am","Wait for them to book themselves","Double dial now, it's only 9 pm"], a:1,
-  f:"Speed still matters after hours. The auto-text holds the lead warm, a human follows up early. They chose text, so no call."},
- {q:"You want to add proof to the day 0 second text for Estus. Best option?",
-  o:["A client quote about how much they improved","A star rating screenshot","A 2 min video of what a first session looks like","\"Our clients love us\""], a:2,
-  f:"Testimonials and ratings are out for registered health practitioners. Explaining the process builds trust without breaking the rules."},
- {q:"A driving lead has gone quiet for 3 days after asking about fees. What's the most useful next touch?",
-  o:["\"Just checking in!\"","Ask if the GP referral is the blocker and offer a letter for their GP","Offer a 20% discount if they book today","Stop contact"], a:1,
-  f:"Find and remove the blocker. Discounts with time pressure look like inducements, and 'just checking in' gives them nothing."},
- {q:"Day 7, still no reply. Which message fits our version?",
-  o:["\"Last chance, spots are filling fast\"","Close the loop politely and invite a reply any time","Keep calling twice a day","Delete the lead"], a:1,
-  f:"The break-up message is predictable and respectful. It often gets the reply. Then move them to monthly nurture."},
- {q:"Which number tells you if your reminders are working?",
-  o:["Enquiries per month","Contact rate","Show rate","Followers on Instagram"], a:2,
-  f:"Show rate is the reminder scorecard. Contact rate shows speed and persistence. Enquiries show marketing."}
-];
+  var LENS_NOTE = {
+    'ot-lead': '<b>Goal: the referral form.</b> They have enquired, from a Meta ad, the website or a phone call, but there is no form yet. No booking link goes out at this stage.',
+    'ot-form': '<b>Goal: the 15 minute welcome call.</b> The form is in. Now the booking link goes out, and a named OT follows up.',
+    drive: '<b>Goal: the referral and documents in, then the assessment booked.</b> More phone, more help with the admin.',
+    gym: '<b>The original.</b> Fast, loud, high volume. Read it to learn the bones. Don\'t send it.'
+  };
+  var SETUP = {
+    'ot-lead': 'The automatic emails for ad leads need an automation off the Leadgen sheet. Until that is live, send them by hand the same day.',
+    'ot-form': 'The automatic emails are set up once in PracSuite Form Automations. [FIRST NAME] is the merge field.'
+  };
+  var AUDS = {
+    ot: [{ id: 'adult', label: 'Adult client' }, { id: 'parent', label: 'Parent or carer' }, { id: 'coord', label: 'Support coordinator' }],
+    drive: [{ id: 'adult', label: 'Driver' }, { id: 'parent', label: 'Parent or carer' }, { id: 'coord', label: 'Support coordinator' }, { id: 'gp', label: 'GP' }]
+  };
+  var AUD_NAME = { adult: 'this person', parent: 'a parent', coord: 'a coordinator', gp: 'a GP' };
 
-const $ = s=>document.querySelector(s), $$ = s=>[...document.querySelectorAll(s)];
-let lens = "ot";
-const store = { get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}, set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}} };
-const esc = s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const CHN = {call:"Call",text:"Text",email:"Email",vm:"Voicemail"};
+  var lens = store.get('nurture_lens', 'ot'), track = store.get('nurture_track', 'lead');
+  if (['ot', 'drive', 'gym'].indexOf(lens) < 0) lens = 'ot';
+  if (['lead', 'form'].indexOf(track) < 0) track = 'lead';
+  function key() { return lens === 'ot' ? 'ot-' + track : lens; }
 
-function renderTimeline(){
-  $("#lensNote").textContent = LENS_NOTE[lens];
-  $("#timeline").innerHTML = STEPS.map((st,i)=>{
-    const d = st[lens];
-    return `<div class="step"><div class="rail"><div class="clock">${st.clock}</div><div class="when">${st.when}</div></div>
-    <div class="card"><h3>${st.title}</h3>
-    <div class="chips">${d.ch.map(c=>`<span class="chip ${c}">${CHN[c]}</span>`).join("")}</div>
-    <p class="do">${esc(d.do)}</p>
-    <div class="script"><div class="lbl"><span class="eyebrow">Script</span><button class="copy" data-i="${i}">Copy</button></div><blockquote id="s-${i}">${esc(d.s)}</blockquote></div>
-    ${d.why?`<p class="why"><b>Why it's different.</b> ${esc(d.why.replace(/^Swap: /,""))}</p>`:""}
-    </div></div>`;
-  }).join("");
-}
-function renderShow(){
-  const done = store.get("show-"+lens,[]);
-  $("#showList").innerHTML = SHOW[lens].map((r,i)=>`<label><input type="checkbox" id="sh-${lens}-${i}" data-i="${i}" ${done.includes(i)?"checked":""}><span><div class="t">${esc(r[0])}</div><div class="d">${esc(r[1])}</div></span></label>`).join("");
-  $("#showProg").textContent = `${done.length} of ${SHOW[lens].length} set up`;
-}
-$("#showList").addEventListener("change",e=>{
-  if(!e.target.matches("input"))return;
-  const done = $$("#showList input").filter(x=>x.checked).map(x=>+x.dataset.i);
-  store.set("show-"+lens,done); $("#showProg").textContent = `${done.length} of ${SHOW[lens].length} set up`;
-});
-$("#timeline").addEventListener("click",async e=>{
-  const b=e.target.closest(".copy"); if(!b)return;
-  const txt = STEPS[+b.dataset.i][lens].s;
-  try{await navigator.clipboard.writeText(txt); b.textContent="Copied";}
-  catch(err){const r=document.createRange();r.selectNodeContents($("#s-"+b.dataset.i));const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent="Selected, press copy";}
-  setTimeout(()=>b.textContent="Copy",1800);
-});
-$$(".lens button").forEach(b=>b.addEventListener("click",()=>{
-  lens=b.dataset.lens; store.set("lens",lens);
-  $$(".lens button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.lens===lens));
-  renderTimeline(); renderShow();
-}));
+  function renderTimeline() {
+    var k = key(), aud = HubMsg.state.aud;
+    $('#lensNote').innerHTML = LENS_NOTE[k];
+    var sn = $('#setupNote');
+    sn.hidden = !SETUP[k]; sn.textContent = SETUP[k] || '';
+    $('#trackCtl').hidden = lens !== 'ot';
+    $('#fill').hidden = lens === 'gym';
+    $('#timeline').innerHTML = SEQ[k].map(function (st) {
+      var inner;
+      if (lens === 'gym') {
+        inner = '<div class="chans">' + st.ch.map(function (c) { return '<span class="chan">' + c + '</span>'; }).join('') + '</div>' +
+          '<p class="do">' + esc(st.does) + '</p><blockquote class="gymq">' + esc(st.s) + '</blockquote>';
+      } else {
+        var cards = st.msgs.map(HubMsg.card).join('');
+        inner = '<p class="do">' + esc(st.does) + '</p>' +
+          (cards || '<p class="none">Nothing to send ' + AUD_NAME[aud] + ' at this step.</p>') +
+          '<p class="why"><b>Why it\'s different.</b> ' + esc(st.why) + '</p>';
+      }
+      return '<div class="step"><div class="rail"><div class="clock">' + st.clock + '</div><div class="when">' + st.when + '</div></div>' +
+        '<div class="col"><h3>' + esc(st.title) + '</h3>' + inner + '</div></div>';
+    }).join('');
+    var after = '';
+    if (k === 'ot-form') after = '<div class="hand"><p><b>Booked?</b> Switch to the Welcome Call page for the confirm, reminder and follow-up messages.</p><a href="welcome.html#templates">Open the templates</a></div>';
+    if (k === 'ot-lead') after = '<div class="hand"><p><b>Form in?</b> Switch to "Form in, no booking yet" above. The booking link goes out now.</p></div>';
+    if (k === 'drive' && aud === 'gp') after = '<div class="hand"><p><b>The long game with GPs</b> lives on its own page: check-ins, lunch and learns, practice managers.</p><a href="gp.html">Open GP Referral Pathways</a></div>';
+    $('#after').innerHTML = after;
+  }
 
-/* tabs */
-const views=["learn","sequence","show","rules","practice"];
-function go(v){ if(!views.includes(v))v="learn";
-  $$("nav.tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.v===v));
-  views.forEach(x=>$("#v-"+x).hidden = x!==v);
-  try{history.replaceState(null,"","#"+v)}catch(e){}
-}
-$$("nav.tabs button").forEach(b=>b.addEventListener("click",()=>{go(b.dataset.v);window.scrollTo({top:0})}));
-
-/* calculator */
-const C=["leads","contact","book","show","sign"];
-function calc(){
-  const v={}; C.forEach(k=>{v[k]=+$("#c-"+k).value; $("#o-"+k).textContent = k==="leads"?v[k]:v[k]+"%";});
-  const rows=[["Enquiries",v.leads]];
-  rows.push(["Reached",rows[0][1]*v.contact/100]);
-  rows.push(["Booked",rows[1][1]*v.book/100]);
-  rows.push(["Showed",rows[2][1]*v.show/100]);
-  rows.push(["New clients",rows[3][1]*v.sign/100]);
-  const max=v.leads;
-  const plus = v.leads*Math.min(100,v.contact+15)/100*v.book/100*v.show/100*v.sign/100 - rows[4][1];
-  const plusShow = rows[2][1]*Math.min(100,v.show+15)/100*v.sign/100 - rows[4][1];
-  $("#bars").innerHTML = rows.map(r=>`<div class="bar"><span>${r[0]}</span><div class="track"><div class="fill" style="width:${max?r[1]/max*100:0}%"></div></div><span class="v">${r[1].toFixed(1)}</span></div>`).join("")
-   + `<p class="callout">Faster, more persistent follow-up (+15 pts contact rate) adds <b>${plus.toFixed(1)}</b> clients a month. Better reminders (+15 pts show rate) add <b>${plusShow.toFixed(1)}</b>. Same ad spend.</p>`;
-}
-C.forEach(k=>$("#c-"+k).addEventListener("input",calc));
-
-/* quiz */
-let qi=0, score=0, answered=false;
-function renderQ(){
-  if(qi>=QUIZ.length){$("#quiz").innerHTML=`<h3>${score} of ${QUIZ.length}</h3><p>${score===QUIZ.length?"Ready to run the sequence.":"Review tabs 2 and 4, then try again."}</p><div class="qnav"><span></span><button class="btn" id="qr">Start again</button></div>`;
-    $("#qr").onclick=()=>{qi=0;score=0;renderQ()};return;}
-  const Q=QUIZ[qi]; answered=false;
-  $("#quiz").innerHTML=`<span class="eyebrow">Scenario ${qi+1} of ${QUIZ.length}</span><h3>${esc(Q.q)}</h3>
-  <div class="opts">${Q.o.map((o,i)=>`<button data-i="${i}">${esc(o)}</button>`).join("")}</div>
-  <p class="fb" id="fb" hidden></p><div class="qnav"><span class="prog">Score ${score}</span><button class="btn" id="qn" disabled>Next</button></div>`;
-  $$("#quiz .opts button").forEach(b=>b.onclick=()=>{
-    if(answered)return; answered=true; const i=+b.dataset.i;
-    $$("#quiz .opts button").forEach(x=>{x.disabled=true; if(+x.dataset.i===Q.a)x.classList.add("right");});
-    if(i===Q.a)score++; else b.classList.add("wrong");
-    const fb=$("#fb"); fb.hidden=false; fb.innerHTML=`<b>${i===Q.a?"Right.":"Not quite."}</b> ${esc(Q.f)}`;
-    $("#qn").disabled=false;
+  /* ---------- getting them to show ---------- */
+  var SHOW = {
+    gym: [
+      ['Book within 72 hours', 'The longer the gap, the more no-shows.'],
+      ['Instant confirmation text', 'Day, time, address, who they\'ll meet.'],
+      ['Pre-frame video', 'Short clip: what happens, what to wear.'],
+      ['Call the day before', 'A human confirming lifts show rate.'],
+      ['Text 2 hrs before', 'Short reminder with parking info.'],
+      ['No-show follow-up in 10 min', 'Call and rebook straight away.']],
+    ot: [
+      ['Book within 72 hours', 'Keep slots open in the short-notice lead calendar.'],
+      ['Confirm the same day', 'Email and text, by hand. Day, time, link, who they\'ll meet.'],
+      ['Send "what to expect"', 'The confirmation email links to it. It names the clinician, what you\'ll ask, how long, and that camera off is fine.'],
+      ['Say their time zone', 'We work Australia-wide. Put AWST and their local time in the message.'],
+      ['Reminder the day before', 'Text, or email if that is what they chose.'],
+      ['Reminder 1 hour before', 'Join link right in the message.'],
+      ['No-show text within the hour', 'No guilt. Offer a new time, or email instead of a call.'],
+      ['Peer review the welcome call', 'Use the scorecard on the Welcome Call page.']],
+    drive: [
+      ['Book once docs are in', 'Referral, licence status, funding confirmed before the date is locked.'],
+      ['Confirmation with map', 'Address, parking, where to wait, how long (2.5 to 3 hrs).'],
+      ['What to bring list', 'Licence or permit, glasses, medication list, referral letter.'],
+      ['Sensory prep', 'Quiet waiting space, can bring a support person, comfy clothes, breaks are fine.'],
+      ['Call 2 days before', 'Confirm, answer worries, check they\'re well and rested.'],
+      ['Text morning of', 'Short. Address again. "See you at 9."'],
+      ['No-show call in 10 min', 'Rebook. Check if anxiety was the reason and adjust.'],
+      ['Update the referrer', 'With consent, tell the GP or coordinator it\'s booked.']]
+  };
+  function renderShow() {
+    var done = store.get('show2-' + lens, []);
+    $('#showList').innerHTML = SHOW[lens].map(function (r, i) {
+      return '<label><input type="checkbox" data-i="' + i + '"' + (done.indexOf(i) >= 0 ? ' checked' : '') + '><span><div class="t">' + esc(r[0]) + '</div><div class="d">' + esc(r[1]) + '</div></span></label>';
+    }).join('');
+    $('#showProg').textContent = done.length + ' of ' + SHOW[lens].length + ' set up';
+    $('#showHand').hidden = lens !== 'ot';
+  }
+  $('#showList').addEventListener('change', function (e) {
+    if (e.target.tagName !== 'INPUT') return;
+    var done = $$('#showList input').filter(function (x) { return x.checked; }).map(function (x) { return +x.dataset.i; });
+    store.set('show2-' + lens, done);
+    $('#showProg').textContent = done.length + ' of ' + SHOW[lens].length + ' set up';
   });
-  $("#qn").onclick=()=>{qi++;renderQ()};
-}
 
-/* init */
-lens = store.get("lens","ot"); if(!SHOW[lens])lens="ot";
-$$(".lens button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.lens===lens));
-renderTimeline(); renderShow(); calc(); renderQ();
-go((location.hash||"").slice(1));
+  /* ---------- lens and track ---------- */
+  function paintSeg() {
+    $$('[data-lens]').forEach(function (x) { x.setAttribute('aria-pressed', String(x.dataset.lens === lens)); });
+    $$('[data-track]').forEach(function (x) { x.setAttribute('aria-pressed', String(x.dataset.track === track)); });
+  }
+  function setLens(l) {
+    lens = l; store.set('nurture_lens', lens);
+    paintSeg(); renderShow();
+    HubMsg.hideFields(lens === 'drive' ? ['form', 'book'] : []);
+    if (lens === 'gym') renderTimeline();
+    else HubMsg.setAudiences(AUDS[lens]);   /* fires onChange, which renders the timeline */
+  }
+  $$('[data-lens]').forEach(function (b) { b.addEventListener('click', function () { setLens(b.dataset.lens); }); });
+  $$('[data-track]').forEach(function (b) { b.addEventListener('click', function () {
+    track = b.dataset.track; store.set('nurture_track', track); paintSeg(); renderTimeline();
+  }); });
+
+  /* ---------- tabs ---------- */
+  var views = ['learn', 'sequence', 'show', 'rules', 'practice'];
+  function go(v) {
+    if (views.indexOf(v) < 0) v = 'learn';
+    $$('nav.tabs button').forEach(function (b) { b.setAttribute('aria-selected', String(b.dataset.v === v)); });
+    views.forEach(function (x) { $('#v-' + x).hidden = x !== v; });
+    try { history.replaceState(null, '', '#' + v); } catch (e) {}
+  }
+  $$('nav.tabs button').forEach(function (b) { b.addEventListener('click', function () { go(b.dataset.v); window.scrollTo({ top: 0 }); }); });
+  window.addEventListener('hashchange', function () { go((location.hash || '').slice(1)); });
+
+  /* ---------- calculator ---------- */
+  var C = ['leads', 'form', 'book', 'show', 'sign'];
+  function calc() {
+    var v = {};
+    C.forEach(function (k) { v[k] = +$('#c-' + k).value; $('#o-' + k).textContent = k === 'leads' ? v[k] : v[k] + '%'; });
+    var rows = [['Enquiries', v.leads]];
+    rows.push(['Form in', rows[0][1] * v.form / 100]);
+    rows.push(['Booked', rows[1][1] * v.book / 100]);
+    rows.push(['Showed', rows[2][1] * v.show / 100]);
+    rows.push(['New clients', rows[3][1] * v.sign / 100]);
+    var plus = v.leads * Math.min(100, v.form + 15) / 100 * v.book / 100 * v.show / 100 * v.sign / 100 - rows[4][1];
+    var plusShow = rows[2][1] * Math.min(100, v.show + 15) / 100 * v.sign / 100 - rows[4][1];
+    $('#bars').innerHTML = rows.map(function (r) {
+      return '<div class="bar"><span>' + r[0] + '</span><div class="track"><div class="fillb" style="width:' + (v.leads ? r[1] / v.leads * 100 : 0) + '%"></div></div><span class="v">' + r[1].toFixed(1) + '</span></div>';
+    }).join('') + '<p class="callout">A faster first touch and one clear next step (+15 points on forms) adds <b>' + plus.toFixed(1) + '</b> clients a month. Better reminders (+15 points on show rate) add <b>' + plusShow.toFixed(1) + '</b>. Same ad spend.</p>';
+  }
+  C.forEach(function (k) { $('#c-' + k).addEventListener('input', calc); });
+
+  /* ---------- quiz ---------- */
+  var QUIZ = [
+    { q: 'A new enquiry lands at 9:12 pm from a Meta ad. No referral form yet. What happens?',
+      o: ['Call first thing tomorrow at 8 am', 'The automatic email goes tonight with the form link. You text first thing next morning.', 'Text them the booking link tonight', 'Double dial now, it\'s only 9 pm'], a: 1,
+      f: 'Speed still matters after hours. The email keeps the lead warm and a named person follows up early. No booking link yet: form first.' },
+    { q: 'The referral form is in. Which link goes in your first text?',
+      o: ['The referral form again', 'The booking page for the 15 minute call', 'The service agreement', 'No link, just say hi'], a: 1,
+      f: 'Form in means the next step is the call. One message, one next step.' },
+    { q: 'A parent\'s form says they need a functional capacity assessment for their 12 year old. Who do they book?',
+      o: ['Nam, because the child is under 16', 'Nik, because assessments and reports sit with Nik', 'Whoever is free first', 'Neither. Refer on.'], a: 1,
+      f: 'We split by service, not by age. Assessments and reports go to Nik. Ongoing therapy goes to Nik or Nam.' },
+    { q: 'You want to add proof to the day 2 email. Best option?',
+      o: ['A client quote about how much they improved', 'A star rating screenshot', 'A plain walk-through of what happens on the call', '"Our clients love us"'], a: 2,
+      f: 'Testimonials and ratings are out for registered health practitioners. Explaining the process builds trust without breaking the rules.' },
+    { q: 'A driving lead has gone quiet for 3 days after asking about fees. What\'s the most useful next touch?',
+      o: ['"Just checking in!"', 'Ask if the GP referral is the blocker and offer a letter for their GP', 'Offer a 20% discount if they book today', 'Stop contact'], a: 1,
+      f: 'Find and remove the blocker. Discounts with time pressure look like inducements, and "just checking in" gives them nothing.' },
+    { q: 'Day 7, still no reply. Which message fits our version?',
+      o: ['"Last chance, spots are filling fast"', 'Close the loop politely and invite a reply any time', 'Keep calling twice a day', 'Delete the lead'], a: 1,
+      f: 'The close-the-loop message is easy to predict and respectful. It often gets the reply. Then move them to monthly nurture.' },
+    { q: 'Which number tells you if your reminders are working?',
+      o: ['Enquiries per month', 'Forms sent in', 'Show rate', 'Followers on Instagram'], a: 2,
+      f: 'Show rate is the reminder scorecard. Form rate shows speed and persistence. Enquiries show marketing.' }
+  ];
+  var qi = 0, score = 0, answered = false;
+  function renderQ() {
+    if (qi >= QUIZ.length) {
+      $('#quiz').innerHTML = '<h3>' + score + ' of ' + QUIZ.length + '</h3><p>' + (score === QUIZ.length ? 'Ready to run the sequence.' : 'Review tabs 2 and 4, then try again.') + '</p><div class="qnav"><span></span><button class="btn" id="qr" type="button">Start again</button></div>';
+      $('#qr').onclick = function () { qi = 0; score = 0; renderQ(); };
+      return;
+    }
+    var Q = QUIZ[qi]; answered = false;
+    $('#quiz').innerHTML = '<span class="eyebrow">Scenario ' + (qi + 1) + ' of ' + QUIZ.length + '</span><h3>' + esc(Q.q) + '</h3>' +
+      '<div class="opts">' + Q.o.map(function (o, i) { return '<button type="button" data-i="' + i + '">' + esc(o) + '</button>'; }).join('') + '</div>' +
+      '<p id="fb" hidden></p><div class="qnav"><span class="prog">Score ' + score + '</span><button class="btn" id="qn" type="button" disabled>Next</button></div>';
+    $$('#quiz .opts button').forEach(function (b) {
+      b.onclick = function () {
+        if (answered) return; answered = true;
+        var i = +b.dataset.i;
+        $$('#quiz .opts button').forEach(function (x) { x.disabled = true; if (+x.dataset.i === Q.a) x.classList.add('right'); });
+        if (i === Q.a) score++; else b.classList.add('wrong');
+        var fb = $('#fb'); fb.hidden = false; fb.innerHTML = '<b>' + (i === Q.a ? 'Right.' : 'Not quite.') + '</b> ' + esc(Q.f);
+        $('#qn').disabled = false;
+      };
+    });
+    $('#qn').onclick = function () { qi++; renderQ(); };
+  }
+
+  /* ---------- init ---------- */
+  HubMsg.init({ fields: ['first', 'child', 'me', 'form', 'book'], audiences: AUDS[lens === 'drive' ? 'drive' : 'ot'] });
+  HubMsg.fillBar($('#fill'));
+  HubMsg.hideFields(lens === 'drive' ? ['form', 'book'] : []);
+  HubMsg.onChange(renderTimeline);
+  paintSeg(); renderTimeline(); renderShow(); calc(); renderQ();
+  go((location.hash || '').slice(1));
+})();
 </script>
 
 </body></html>
