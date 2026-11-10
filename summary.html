@@ -1,0 +1,262 @@
+<!doctype html><html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Therapy Service Summary Builder</title><meta name="robots" content="noindex, nofollow"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 fill=%22%23090909%22/%3E%3Crect x=%224%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23344982%22/%3E%3Crect x=%2210%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232F6F9E%22/%3E%3Crect x=%2216%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232CA5B8%22/%3E%3Crect x=%2222%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23AB5C95%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="kit.css">
+<script src="theme.js"></script></head><body>
+<noscript><p style="padding:24px;font:16px sans-serif">This builder needs JavaScript. Turn it on and reload.</p></noscript>
+<script src="kit.js"></script>
+<script>
+/* Therapy service summary: a short report on what was provided, progress on each goal, and what is recommended
+   next, with the reason for each recommendation. Used at NDIS plan reassessment, as a progress update, at the
+   end of a block, or as a handover. Engine: kit.js.
+   One place to change a fact: RATE below is the default hourly rate for new recommendation rows. */
+EstusKit.start(function(K){
+const RATE="193.99";
+const {esc,str,num,cap,dot,undot,lowLead,items,paras,plural,listJoin,parseD,addMonths,daysBetween,fmtD,longD,today,money,hrs,ageAt,F,CB,SEG,SEGF,say,OT,FINISH,LIST,HEAD,row,pushParas}=K;
+const PURPOSE=[["reassess","NDIS plan reassessment"],["progress","Progress update"],["end","End of a block of therapy"],["handover","Handover to another provider"],["other","Other"]];
+const MODES=["Telehealth","Home","School","Community","Clinic"];
+const RATINGS=[["achieved","Achieved"],["track","On track"],["some","Some progress"],["none","No change yet"],["changed","Changed or paused"]];
+const RLAB={achieved:"Achieved",track:"On track",some:"Some progress",none:"No change yet",changed:"Changed or paused"};
+const MEASURES=["COPM performance (1 to 10)","COPM satisfaction (1 to 10)","Goal Attainment Scaling (GAS)","WHODAS 2.0","PEDI-CAT","Vineland-3"];
+const sgoal=()=>({goal:"",ndis:"",did:"",start:"",now:"",rating:"",next:""});
+const measure=()=>({name:"",start:"",now:"",note:""});
+const rec=()=>({support:"",hours:"",rate:RATE,why:""});
+const nm=()=>K.first()||"the participant";
+const Nm=()=>cap(nm());
+const modes=()=>MODES.filter(m=>K.S.service.modes[m]).concat(Object.keys(K.S.service.modes).filter(m=>!MODES.includes(m)&&K.S.service.modes[m]));
+function purposeLine(){const s=K.S,r=s.report,who=K.full()||nm(),f=str(r.audience)?" for "+undot(lowLead(str(r.audience).replace(/^for\s+/i,""))):"";
+  let t=`This summary covers occupational therapy provided to ${who} by Estus Health`;
+  if(parseD(r.from)&&parseD(r.to))t+=` from ${longD(r.from)} to ${longD(r.to)}`;t+=".";
+  const p=r.purpose;
+  if(p==="reassess")t+=` It was written${f} to support ${nm()}'s NDIS plan reassessment.`;
+  else if(p==="progress")t+=` It was written${f} as a progress update.`;
+  else if(p==="end")t+=` It was written${f} at the end of this block of therapy.`;
+  else if(p==="handover")t+=` It was written${f} to hand over to the next provider.`;
+  else if(f)t+=` It was written${f}.`;
+  return t}
+function hoursLine(){const s=K.S.service,h=num(s.hours),f=num(s.funded);
+  if(!h&&!f)return"";if(!f)return hrs(h)+" hours delivered.";if(!h)return hrs(f)+" hours funded.";
+  const left=Math.round((f-h)*100)/100;return `${hrs(h)} of ${hrs(f)} funded hours used (${Math.round(h/f*100)}%). ${left>=0?hrs(left)+" hours left.":"Over by "+hrs(-left)+" hours."}`}
+function recTotals(){let h=0,c=0;K.S.recs.rows.forEach(r=>{const x=num(r.hours);h+=x;c+=x*num(r.rate)});return{h:Math.round(h*100)/100,c}}
+function goalCount(){const c={};K.S.goals.forEach(g=>{if(g.rating)c[g.rating]=(c[g.rating]||0)+1});
+  const said={achieved:"achieved",track:"on track",some:"with some progress",none:"with no change yet",changed:"changed or paused"};
+  const parts=RATINGS.filter(([k])=>c[k]).map(([k])=>c[k]+" "+said[k]);return parts.length?listJoin(parts):""}
+
+return{
+id:"summary",name:"Therapy Service Summary",h1:"Therapy service summary",newLabel:"Start a new summary",newToast:"New summary started",
+exampleNote:"Example summary for a fictional participant. Your edits save in this browser only.",
+docTitle:()=>"Therapy Service Summary",
+docSub:()=>"Occupational therapy. Confidential. Not to be released in part or in full without consent.",
+blank:()=>({client:{firstName:"",preferred:"",surname:"",pronouns:"",dob:"",ndis:""},
+  plan:{start:"",end:"",managed:"",coord:"",coordContact:""},
+  report:{purpose:"reassess",audience:"",from:"",to:""},
+  about:{background:"",diagnosis:"",strengths:""},
+  service:{sessions:"",hours:"",funded:"",modes:{},with:"",other:"",focus:""},
+  goals:[sgoal()],measures:[],
+  works:{works:"",barriers:"",needs:""},
+  recs:{rows:[Object.assign(rec(),{support:"Occupational therapy"})],showCost:true,other:"",risk:"",review:""},
+  signoff:{consent:false,by:""}}),
+templates:{sgoal,measure,rec},
+normalise(o){["goals","measures"].forEach(k=>{if(!Array.isArray(o[k]))o[k]=[]});if(!Array.isArray(o.recs.rows))o.recs.rows=[];
+  if(!o.service.modes||typeof o.service.modes!=="object")o.service.modes={}},
+example(){const t=today();return{
+  client:{firstName:"Mia",preferred:"",surname:"Tran",pronouns:"she / her",dob:addMonths(t,-176),ndis:"430000000"},
+  plan:{start:addMonths(t,-10),end:addMonths(t,2),managed:"Plan managed",coord:"Sam Okafor",coordContact:"Example Support Coordination"},
+  report:{purpose:"reassess",audience:"her NDIS planner and support coordinator",from:addMonths(t,-10),to:t},
+  about:{background:"Mia is 14 and lives with her mum, dad and younger brother. She is in Year 9 at a mainstream high school.\nMia was referred for help with school mornings, homework and managing her energy across the week.",
+    diagnosis:"Autism (level 2) and ADHD, as documented by her paediatrician.",
+    strengths:"Funny, loyal to her friends and honest about what is hard.\nSerious skill in digital art and Minecraft builds.\nSticks with a plan once she has helped design it."},
+  service:{sessions:"22",hours:"27.5",funded:"36",modes:{Telehealth:true,School:true},with:"Mia, her mum (Kim) and, for two sessions, her Year 9 coordinator",other:"One school meeting, a written morning plan, and this summary",
+    focus:"Morning routine and getting to school on time\nPlanning homework and assessments\nEnergy and recovery across the school week"},
+  goals:[
+    {goal:"Get out the door by 8:15 on school days, 4 days out of 5, with one reminder.",ndis:"Build independence in my daily routines",did:"Built a morning plan with Mia. Moved bag packing to the night before. Agreed on one reminder from Mum at 8:00.",start:"1 or 2 days out of 5, with four or more reminders.",now:"4 days out of 5 for the last six school weeks, with one reminder.",rating:"achieved",next:"Hold the routine through the move to Year 10. Fade the reminder."},
+    {goal:"Hand in assessments on time, 3 out of 4 each term, using a backwards plan.",ndis:"Keep up with school",did:"Taught planning backwards from the due date. Set up a weekly planner and a Sunday check with Mum.",start:"1 out of 4 assessments handed in on time in Term 1.",now:"2 out of 4 handed in on time in Term 3. Mia starts earlier but still stalls at the first draft.",rating:"some",next:"Work on starting the first draft: a two minute first step, with someone working alongside her."},
+    {goal:"Use my recovery plan after school, 4 days out of 5, so I have energy left for Friday.",ndis:"Manage my energy and emotions",did:"Mapped Mia's energy across the week. Built a 30 minute recovery block straight after school.",start:"Shutdowns most Thursdays and Fridays, with one or two days off school each fortnight.",now:"Recovery block used 3 or 4 days a week. One day off school in the last five weeks.",rating:"track",next:"Add a lighter Wednesday. Share the plan with her Year 10 teachers."}],
+  measures:[{name:"COPM performance (1 to 10)",start:"3.0",now:"6.3",note:"Average across her three goals. A change of 2 or more is usually seen as meaningful."},
+    {name:"COPM satisfaction (1 to 10)",start:"2.3",now:"6.0",note:"Mia rates herself as much happier with how mornings go."}],
+  works:{works:"Plans she has helped design, written down and kept short.\nOne clear reminder, then space.\nRecovery time straight after school, before any questions.\nVisuals she can check on her own: lists, timers and the weekly planner.",
+    barriers:"Term 2 included three weeks of illness and a change of teacher, and sessions paused. Progress on homework slowed during that time.",
+    needs:"Mia still needs support to start large tasks, to plan across more than a week, and to manage her energy when demands rise. Year 10 brings more assessments and less structure, so these needs are likely to grow in the next plan."},
+  recs:{rows:[
+    {support:"Occupational therapy",hours:"36",rate:RATE,why:"To hold the morning routine through the move to Year 10, build skills for starting and planning assessments, and extend the energy plan. This is the same level as the current plan, which Mia has used well: 27.5 of 36 hours, with two months to go."},
+    {support:"School liaison and Year 10 handover",hours:"4",rate:RATE,why:"Two meetings and written strategies, so Year 10 staff use the same supports from day one. This protects the gains made this year."}],
+    showCost:true,other:"Keep the weekly planner and the Sunday check with Mum.\nReview goals at each quarterly check-in.",
+    risk:"Without continued support through the move to Year 10, Mia is at risk of losing the morning and homework routines she has built. Earlier patterns of shutdowns and missed school days are likely to return. That would affect her schooling and add to the load on her family.",
+    review:"At the next plan reassessment, or sooner if school attendance drops."},
+  signoff:{consent:true,by:"Mia and her mum"},meta:{date:t},ot:{ahpra:"OCC0001234567"}}},
+secOf:p=>{const t=p.split(".")[0];return({client:"details",plan:"details",report:"report",about:"about",service:"service",goals:"goals",measures:"measures",works:"works",recs:"recs",signoff:"finish"})[t]||null},
+
+sections:[
+{g:"About",id:"details",nav:"Participant",title:"Participant and plan",lead:"Who the summary is about, their NDIS plan, and who wrote it.",render:()=>`<div class="form">
+  <div class="grid3">${F("client.firstName","First name")}${F("client.preferred","Preferred name",{ph:"If different"})}${F("client.surname","Surname")}</div>
+  <div class="grid3">${F("client.pronouns","Pronouns",{type:"select",opts:[["","Choose"],"she / her","he / him","they / them"]})}${F("client.dob","Date of birth",{type:"date"})}${F("client.ndis","NDIS number",{ph:"9 digits",num:true})}</div>
+  ${say("name-say")}
+  <div class="sub">NDIS plan</div>
+  <div class="grid3">${F("plan.start","Plan start",{type:"date"})}${F("plan.end","Plan end",{type:"date"})}${F("plan.managed","Plan management",{type:"select",opts:[["","Choose"],"Plan managed","Self managed","Private (not NDIS)"]})}</div>
+  <div class="grid2">${F("plan.coord","Support coordinator",{ph:"Optional"})}${F("plan.coordContact","Their organisation or contact",{ph:"Optional"})}</div>
+  ${OT()}</div>`},
+{g:"About",id:"report",nav:"This report",title:"This report",lead:"Why you are writing it, who reads it, and the dates it covers.",render:()=>`<div class="form">
+  ${F("report.purpose","Purpose",{type:"select",opts:PURPOSE})}
+  ${F("report.audience","Written for",{ph:"her NDIS planner and support coordinator",hint:"Finishes the sentence “It was written for …”."})}
+  <div class="grid2">${F("report.from","Covers from",{type:"date"})}${F("report.to","Covers to",{type:"date"})}</div>
+  <div class="btns"><button type="button" class="add" data-act="use-plan">Use the plan start to today</button></div>
+  ${say("purp-say")}</div>`},
+{g:"About",id:"about",nav:"Background",title:"Background and strengths",lead:"Keep it short. The reader needs to know the person, not their whole history. Strengths come first at Estus.",render:()=>`<div class="form">
+  ${F("about.strengths","Strengths and interests",{type:"area",rows:3,ph:"One per line. What they are good at, what they love, what works in their favour."})}
+  ${F("about.background","Background",{type:"area",rows:4,ph:"Age, who they live with, school or work, and why they came to OT."})}
+  ${F("about.diagnosis","Diagnoses, as documented",{ph:"Autism (level 2) and ADHD, as documented by the paediatrician.",hint:"Say who documented it. Do not diagnose here."})}</div>`},
+{g:"Service",id:"service",nav:"What we provided",title:"What we provided",lead:"The dose. How much therapy, in what way, and with whom.",render:()=>`<div class="form">
+  <div class="grid3">${F("service.sessions","Sessions",{num:true,ph:"22"})}${F("service.hours","Hours delivered",{num:true,ph:"27.5"})}${F("service.funded","Hours funded for OT",{num:true,ph:"36",hint:"From the service agreement."})}</div>
+  ${say("hrs-say")}
+  <div class="fld"><span class="lbl">How sessions ran</span><div class="cbm">${MODES.map(m=>CB("service.modes."+m,m)).join("")}</div></div>
+  ${F("service.with","Who took part",{ph:"Mia, her mum and, for two sessions, her Year 9 coordinator"})}
+  ${F("service.other","Other work",{ph:"School meeting, written resources, this summary",hint:"Work outside sessions that the plan paid for."})}
+  ${F("service.focus","What we worked on",{type:"area",rows:3,ph:"One per line."})}</div>`},
+{g:"Service",id:"goals",nav:"Goals",title:"Progress on goals",lead:"One entry per goal. Say where they started and where they are now, using the same measure.",render:()=>`<div class="form">
+  ${LIST("goals",(g,i,p,arr)=>`${HEAD("goals",i,arr,"Goal "+(i+1))}
+    ${F(p+".goal","The goal",{type:"area",rows:2,ph:"Get out the door by 8:15 on school days, 4 days out of 5, with one reminder."})}
+    ${F(p+".ndis",K.S.plan.managed==="Private (not NDIS)"?"Plan goal it links to (optional)":"NDIS plan goal it links to",{ph:"Build independence in my daily routines"})}
+    ${F(p+".did","What we did",{type:"area",rows:2,ph:"The approach, in plain words."})}
+    <div class="grid2">${F(p+".start","Where they started",{type:"area",rows:2,ph:"The baseline."})}${F(p+".now","Where they are now",{type:"area",rows:2,ph:"Same measure as the baseline."})}</div>
+    <div class="fld"><span class="lbl">Progress</span>${SEG(p+".rating",RATINGS,{seg:"seg5 wide",aria:"Progress on goal "+(i+1)})}</div>
+    ${F(p+".next","Next step",{ph:"What happens with this goal now."})}`,{add:"Add a goal",tpl:"sgoal",empty:"No goals yet. Add the first one."})}
+  <p class="hint">Tip: open the Goal plan from the start of the year and copy the goals and baselines across.</p></div>`},
+{g:"Service",id:"measures",nav:"Outcome measures",title:"Outcome measures",lead:"Optional. Scores that show change we can both see.",render:()=>`<div class="form">
+  ${LIST("measures",(m,i,p,arr)=>`${HEAD("measures",i,arr,str(m.name)||"Measure "+(i+1))}
+    ${F(p+".name","Measure",{list:MEASURES,ph:"COPM performance (1 to 10)"})}
+    <div class="grid2">${F(p+".start","At the start",{ph:"3.0"})}${F(p+".now","Now",{ph:"6.3"})}</div>
+    ${F(p+".note","What it shows",{ph:"One plain sentence."})}`,{add:"Add a measure",tpl:"measure",empty:"No measures. That is fine if the goals carry their own numbers."})}</div>`},
+{g:"Now",id:"works",nav:"What works",title:"What works, and what is still needed",lead:"The part the next planner, teacher or therapist will use most.",render:()=>`<div class="form">
+  ${F("works.works","What works for them",{type:"area",rows:4,ph:"One per line. Strategies, setups and ways of talking that help."})}
+  ${F("works.barriers","What got in the way",{type:"area",rows:3,ph:"Illness, missed sessions, funding gaps, changes at home or school. Leave empty if nothing did."})}
+  ${F("works.needs","Support needs now",{type:"area",rows:4,ph:"What they still need help with, and what is coming up that will change the need."})}</div>`},
+{g:"Next",id:"recs",nav:"Recommendations",title:"Recommendations",lead:"Every recommendation needs a reason. Link it to a goal, a need, or what the evidence above shows.",render:()=>`<div class="form">
+  ${LIST("recs.rows",(r,i,p,arr)=>`${HEAD("recs.rows",i,arr,str(r.support)||"Recommendation "+(i+1))}
+    <div class="grid3">${F(p+".support","Support",{ph:"Occupational therapy",cls:"span1"})}${F(p+".hours","Hours",{num:true,ph:"36"})}${F(p+".rate","Hourly rate ($)",{num:true,ph:RATE})}</div>
+    ${F(p+".why","Why",{type:"area",rows:3,ph:"What it is for, what it will change, and why this amount."})}`,{add:"Add a recommendation",tpl:"rec",empty:"No recommendations yet."})}
+  ${say("rec-say")}
+  ${CB("recs.showCost","Show the cost of each recommendation in the report")}
+  <p class="hint">Check the hourly rate against the current NDIS Pricing Arrangements and the service agreement before you send.</p>
+  ${F("recs.other","Other recommendations",{type:"area",rows:3,ph:"One per line. Things that do not need hours."})}
+  ${F("recs.risk","If these supports are not in place",{type:"area",rows:3,ph:"What is likely to happen, to the person and to the people around them."})}
+  ${F("recs.review","Next review",{ph:"At the next plan reassessment, or sooner if …"})}</div>`},
+{g:"Finish",id:"finish",nav:"Sign-off",title:"Sign-off",lead:"Confirm consent, clear the checks and download.",render:()=>`<div class="form">
+  ${CB("signoff.consent","Consent was given for this summary to be shared")}
+  ${F("signoff.by","Who gave consent",{ph:"Mia and her mum"})}
+  ${F("meta.date","Report date",{type:"date"})}
+  ${FINISH()}</div>`}
+],
+actions:{"use-plan"(){const s=K.S;if(!parseD(s.plan.start)){K.toast("Add the plan start date first");return}s.report.from=s.plan.start;s.report.to=today();K.commit()}},
+live(){const s=K.S,c=s.client;
+  const ns=document.getElementById("name-say");if(ns){const a=ageAt(c.dob,str(s.meta.date)||today());
+    ns.innerHTML=K.first()?`The report calls them <b>${esc(nm())}</b>, with ${esc(K.pron().label)}${a!=null?`. Age at report: <b>${a}</b>`:""}.`:"Add the name to see how the report refers to them."}
+  const ps=document.getElementById("purp-say");if(ps)ps.textContent=purposeLine();
+  const hs=document.getElementById("hrs-say");if(hs)hs.textContent=hoursLine()||"Enter the hours to see how much of the plan was used.";
+  const rs=document.getElementById("rec-say");if(rs){const t=recTotals();rs.textContent=t.h?`Total: ${hrs(t.h)} hours, ${money(t.c)}.`:"Enter hours to see the total."}
+  s.measures.forEach((m,i)=>{const el=document.getElementById("it_"+K.fid("measures."+i));if(el)el.textContent=str(m.name)||"Measure "+(i+1)});
+  s.recs.rows.forEach((r,i)=>{const el=document.getElementById("it_"+K.fid("recs.rows."+i));if(el)el.textContent=str(r.support)||"Recommendation "+(i+1)})},
+checks(add,need){const s=K.S;
+  need("details","client.firstName","First name");need("details","client.surname","Surname");need("details","client.dob","Date of birth");need("details","client.pronouns","Pronouns");
+  if(s.plan.managed!=="Private (not NDIS)"){need("details","client.ndis","NDIS number");
+    if(str(s.client.ndis)&&str(s.client.ndis).replace(/\s/g,"").length!==9)add("details","client.ndis","NDIS numbers have 9 digits",true);
+    need("details","plan.start","Plan start");need("details","plan.end","Plan end")}
+  if(parseD(s.plan.start)&&parseD(s.plan.end)&&daysBetween(s.plan.start,s.plan.end)<=0)add("details","plan.end","Plan end is not after plan start",true);
+  need("details","ot.name","Your name");need("details","ot.ahpra","AHPRA number");
+  need("report","report.from","Covers from");need("report","report.to","Covers to");
+  if(parseD(s.report.from)&&parseD(s.report.to)&&daysBetween(s.report.from,s.report.to)<0)add("report","report.to","The report period ends before it starts",true);
+  if(!str(s.report.audience))add("report","report.audience","Say who the summary is written for",true);
+  need("about","about.strengths","Strengths and interests");need("about","about.background","Background");
+  need("service","service.sessions","Sessions");need("service","service.hours","Hours delivered");
+  if(!modes().length)add("service","service.modes.Telehealth","Tick how sessions ran");
+  if(num(s.service.funded)&&num(s.service.hours)>num(s.service.funded))add("service","service.hours","More hours delivered than funded. Check the numbers.",true);
+  if(!items(s.service.focus).length)add("service","service.focus","Say what you worked on",true);
+  if(!s.goals.length)add("goals","goals","Add at least one goal");
+  s.goals.forEach((g,i)=>{const b="goals."+i,n="Goal "+(i+1);
+    if(!str(g.goal))add("goals",b+".goal",n+" is empty");
+    if(!g.rating)add("goals",b+".rating",n+": pick a progress rating");
+    if(!str(g.now))add("goals",b+".now",n+": say where they are now");
+    if(!str(g.start))add("goals",b+".start",n+": no baseline. Progress is hard to show without one.",true);
+    if(!str(g.did))add("goals",b+".did",n+": say what you did",true)});
+  s.measures.forEach((m,i)=>{if(!str(m.name))add("measures",`measures.${i}.name`,`Measure ${i+1} has no name`);
+    else if(!str(m.start)||!str(m.now))add("measures",`measures.${i}.${str(m.start)?"now":"start"}`,`${str(m.name)}: add the start and current scores`,true)});
+  if(!str(s.works.works))add("works","works.works","Say what works for them",true);
+  need("works","works.needs","Support needs now");
+  const rows=s.recs.rows.filter(r=>str(r.support)||str(r.hours)||str(r.why));
+  if(!rows.length)add("recs","recs.rows","Add at least one recommendation");
+  s.recs.rows.forEach((r,i)=>{const b="recs.rows."+i,n=str(r.support)||"Recommendation "+(i+1);
+    if(!str(r.support))add("recs",b+".support",`Recommendation ${i+1}: name the support`);
+    if(!num(r.hours))add("recs",b+".hours",n+": no hours");
+    if(!str(r.why))add("recs",b+".why",n+": say why. Every recommendation needs a reason.");
+    if(s.recs.showCost&&!num(r.rate))add("recs",b+".rate",n+": no hourly rate, so the cost shows as $0",true)});
+  if(s.report.purpose==="reassess"&&!str(s.recs.risk))add("recs","recs.risk","Say what is at risk if these supports are not funded",true);
+  if(!s.signoff.consent)add("finish","signoff.consent","Confirm consent");
+  need("finish","meta.date","Report date")},
+
+build(){const s=K.S,B=[],c=s.client,p=K.pron(),ndis=s.plan.managed!=="Private (not NDIS)";
+  const who=K.full()?K.full()+(str(c.preferred)&&str(c.preferred)!==str(c.firstName)?` (${str(c.preferred)})`:"")+(str(c.pronouns)?", "+p.label:""):"";
+  const a=ageAt(c.dob,str(s.meta.date)||today()),info=[row("Participant",who?[{p:who}]:[{gap:"Name"}])];
+  info.push(row("Date of birth",parseD(c.dob)?[{p:fmtD(c.dob)+(a!=null?` (${a} years)`:"")}]:[{gap:"Date of birth"}]));
+  if(ndis){info.push(row("NDIS number",c.ndis,"NDIS number"));
+    info.push(row("Plan dates",parseD(s.plan.start)&&parseD(s.plan.end)?[{p:fmtD(s.plan.start)+" to "+fmtD(s.plan.end)}]:[{gap:"Plan dates"}]))}
+  if(str(s.plan.managed))info.push(row(ndis?"Plan management":"Funding",s.plan.managed));
+  if(str(s.plan.coord))info.push(row("Support coordinator",[str(s.plan.coord),str(s.plan.coordContact)].filter(Boolean).join(", ")));
+  info.push(row("Occupational therapist",str(s.ot.name)?[{p:str(s.ot.name)+", Estus Health"}]:[{gap:"Occupational therapist"}]));
+  info.push(row("Report date",parseD(s.meta.date)?[{p:fmtD(s.meta.date)}]:[{gap:"Report date"}]));
+  B.push({t:"tbl",w:[30,70],rows:info});
+  B.push({t:"h",text:"Purpose of this summary",sec:"report"});B.push({t:"p",text:purposeLine()});
+  B.push({t:"h",text:"About "+nm(),sec:"about"});
+  B.push({t:"sub",text:"Strengths and interests"});const st=items(s.about.strengths);if(st.length)B.push({t:"ul",items:st});else B.push({t:"gap",text:"Strengths and interests"});
+  B.push({t:"sub",text:"Background"});pushParas(B,s.about.background,"Background");
+  if(str(s.about.diagnosis))B.push({t:"lead",label:"Diagnoses",text:dot(s.about.diagnosis)});
+  B.push({t:"h",text:"What we provided",sec:"service"});
+  const sv=s.service,srows=[];
+  if(parseD(s.report.from)&&parseD(s.report.to))srows.push(row("Period",fmtD(s.report.from)+" to "+fmtD(s.report.to)));
+  srows.push(row("Sessions",sv.sessions,"Sessions"));
+  srows.push(row("Hours",hoursLine(),"Hours"));
+  srows.push(row("How sessions ran",modes().length?listJoin(modes()):"","How sessions ran"));
+  if(str(sv.with))srows.push(row("Who took part",sv.with));
+  if(str(sv.other))srows.push(row("Other work",sv.other));
+  B.push({t:"tbl",w:[30,70],rows:srows});
+  const fc=items(sv.focus);if(fc.length){B.push({t:"sub",text:"What we worked on"});B.push({t:"ul",items:fc})}
+  B.push({t:"h",text:"Progress on goals",sec:"goals"});
+  if(!s.goals.length)B.push({t:"gap",text:"Goals"});
+  else{const gc=goalCount();if(gc)B.push({t:"p",text:`${plural(s.goals.length,"goal")}: ${gc}.`});
+    s.goals.forEach((g,i)=>{const r=[{kind:"group",text:"Goal "+(i+1)+(g.rating?"  ·  "+RLAB[g.rating]:"")}];
+      r.push(row("Goal",g.goal,"Goal"));
+      if(str(g.ndis))r.push(row(ndis?"NDIS plan goal":"Plan goal",g.ndis));
+      if(str(g.did))r.push(row("What we did",g.did));
+      if(str(g.start))r.push(row("Where "+nm()+" started",g.start));
+      r.push(row("Where "+nm()+" is now",g.now,"Where they are now"));
+      if(!g.rating)r.push(row("Progress",[{gap:"Progress rating"}]));
+      if(str(g.next))r.push(row("Next step",g.next));
+      B.push({t:"tbl",w:[30,70],rows:r})})}
+  const ms=s.measures.filter(m=>str(m.name));
+  if(ms.length){B.push({t:"h",text:"Outcome measures",sec:"measures"});
+    B.push({t:"tbl",num:true,w:[30,12,12,46],head:["Measure","Start","Now","What it shows"],rows:ms.map(m=>({cells:[{c:[{p:str(m.name)}]},{c:str(m.start)?[{p:str(m.start)}]:[{gap:"Start"}]},{c:str(m.now)?[{p:str(m.now)}]:[{gap:"Now"}]},{c:str(m.note)?[{p:dot(m.note)}]:[]}]}))})}
+  const wk=items(s.works.works);
+  if(wk.length){B.push({t:"h",text:"What works for "+nm(),sec:"works"});B.push({t:"ul",items:wk})}
+  if(str(s.works.barriers)){B.push({t:"h",text:"What got in the way",sec:"works"});pushParas(B,s.works.barriers)}
+  B.push({t:"h",text:"Support needs now",sec:"works"});pushParas(B,s.works.needs,"Support needs now");
+  B.push({t:"h",text:"Recommendations",sec:"recs"});
+  const rr=s.recs.rows.filter(r=>str(r.support)||str(r.hours)||str(r.why)),cost=!!s.recs.showCost;
+  if(!rr.length)B.push({t:"gap",text:"Recommendations"});
+  else{const t=recTotals(),cell=(v,gl)=>str(v)?[{p:str(v)}]:[{gap:gl}];
+    const rows=rr.map(r=>{const cs=[{c:cell(r.support,"Support")},{c:num(r.hours)?[{p:hrs(num(r.hours))}]:[{gap:"Hours"}]}];if(cost)cs.push({c:num(r.hours)?[{p:money(num(r.hours)*num(r.rate))}]:[]});cs.push({c:str(r.why)?paras(r.why).map(x=>({p:x})):[{gap:"Why"}]});return{label:true,cells:cs}});
+    if(rr.length>1){const cs=[{c:[{b:"Total"}]},{c:[{p:hrs(t.h)}]}];if(cost)cs.push({c:[{p:money(t.c)}]});cs.push({c:[]});rows.push({label:true,tot:true,cells:cs})}
+    B.push({t:"tbl",num:true,w:cost?[24,10,15,51]:[26,12,62],head:cost?["Support","Hours","Cost","Why"]:["Support","Hours","Why"],rows});
+    if(cost){const rates=Array.from(new Set(rr.map(r=>num(r.rate)).filter(Boolean)));
+      if(rates.length)B.push({t:"fine",text:rates.length===1?`Costs are estimates at ${money(rates[0])} an hour.`:"Costs are estimates at the hourly rate for each support."})}}
+  const ot=items(s.recs.other);if(ot.length){B.push({t:"sub",text:"Other recommendations"});B.push({t:"ul",items:ot})}
+  if(str(s.recs.risk)){B.push({t:"sub",text:"If these supports are not in place"});pushParas(B,s.recs.risk)}
+  if(str(s.recs.review))B.push({t:"lead",label:"Next review",text:dot(s.recs.review)});
+  B.push({t:"h",text:"Consent and sign-off",sec:"finish"});
+  if(s.signoff.consent)B.push({t:"p",text:`${str(s.signoff.by)?cap(str(s.signoff.by))+" gave consent":"Consent was given"} for this summary to be shared${str(s.report.audience)?" with "+undot(lowLead(str(s.report.audience).replace(/^for\s+/i,""))):""}.`});
+  else B.push({t:"gap",text:"Consent"});
+  B.push({t:"p",text:"This summary reflects my clinical opinion, based on the sessions, observations and measures described above. Please contact me if anything needs explaining."});
+  B.push({t:"sign"});
+  return B}
+}});
+</script>
+</body></html>

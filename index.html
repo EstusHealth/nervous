@@ -44,6 +44,7 @@ p{margin:0}
 .tabs .tag{padding-left:18px;border-left:1px solid #2C323C}
 .a-tpl{--c:var(--plum);--ct:var(--plum-t)}
 #templates{scroll-margin-top:16px}
+.tplg{display:flex;flex-direction:column;gap:36px}
 .tpl{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
 .tpl .soon{border-style:dashed;background:transparent}
 .tpl .soon .body{color:var(--muted)}
@@ -485,50 +486,125 @@ footer .wordmark{color:var(--fg)}
   <section class="s" id="templates" style="padding-top:8px">
     <div class="wrap">
       <div class="s-head">
-        <div><p class="eyebrow">Reports and admin</p><h2>Templates</h2></div>
-        <p class="sub">Builders for the reports we write, plus your email signature. Each one follows the Estus look and saves in your browser.</p>
+        <div><p class="eyebrow">Reports, handouts and admin</p><h2>Templates</h2></div>
+        <p class="sub">Builders for the reports we write, the handouts we give, and your email signature. Each one follows the Estus look and saves in your browser.</p>
       </div>
-      <div class="tpl">
-        <article class="card a-tpl" data-slug="fca">
-          <div class="meta"><span class="pill">Report builder</span><span class="code">NDIS</span></div>
-          <div class="body">
-            <h4><a href="fca.html">Functional Capacity Assessment</a></h4>
-            <p class="d">Write an FCA one section at a time. Score bands fill in, support costs calculate, and checks flag gaps and wording before you send.</p>
-            <ul class="inside"><li>22 sections</li><li>Score tables</li><li>Support calculator</li><li>Word export</li></ul>
-            <div class="who"><span>Clinicians</span></div>
+      <div class="tplg">
+        <div class="area a-tpl">
+          <div class="area-h"><h3>Reports</h3><p>What we write for funders, schools and referrers</p></div>
+          <div class="tpl">
+          <article class="card a-tpl" data-slug="fca">
+            <div class="meta"><span class="pill">Report builder</span><span class="code">NDIS</span></div>
+            <div class="body">
+              <h4><a href="fca.html">Functional Capacity Assessment</a></h4>
+              <p class="d">Write an FCA one section at a time. Score bands fill in, support costs calculate, and checks flag gaps and wording before you send.</p>
+              <ul class="inside"><li>22 sections</li><li>Score tables</li><li>Support calculator</li><li>Word export</li></ul>
+              <div class="who"><span>Clinicians</span></div>
+            </div>
+            <div class="foot"><span class="hint" style="font:600 12px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Drafts save in this browser</span><a class="open" href="fca.html">Open <span aria-hidden="true">&rarr;</span></a></div>
+          </article>
+          <article class="card a-tpl" data-slug="ptd">
+            <div class="meta"><span class="pill">Report builder</span><span class="code">NDIS</span></div>
+            <div class="body">
+              <h4><a href="ptd.html">Potential to Drive</a></h4>
+              <p class="d">For learner drivers. Everyday skills, passenger commentary drive, Michon levels, outcome and lesson goals the instructor can track.</p>
+              <ul class="inside"><li>17 sections</li><li>Hazard search scoring</li><li>Lesson goals</li><li>GP letter</li></ul>
+              <div class="who"><span>Driving OTs</span></div>
+            </div>
+            <div class="foot"><span class="hint" style="font:600 12px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Drafts save in this browser</span><a class="open" href="ptd.html">Open <span aria-hidden="true">&rarr;</span></a></div>
+          </article>
+          <article class="card a-tpl" data-slug="ftd">
+            <div class="meta"><span class="pill">Report builder</span><span class="code">Austroads</span></div>
+            <div class="body">
+              <h4><a href="ftd.html">Medical Fitness to Drive</a></h4>
+              <p class="d">For licensed drivers after a medical change. Vision against the Austroads standard, cognition, on-road findings, licence conditions and recommendations.</p>
+              <ul class="inside"><li>13 sections</li><li>Austroads vision check</li><li>On-road flags</li><li>GP and lesson letters</li></ul>
+              <div class="who"><span>Driving OTs</span></div>
+            </div>
+            <div class="foot"><span class="hint" style="font:600 12px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Drafts save in this browser</span><a class="open" href="ftd.html">Open <span aria-hidden="true">&rarr;</span></a></div>
+          </article>
+          <article class="card a-tpl" data-slug="summary">
+            <div class="meta"><span class="pill">Report builder</span><span class="code">NDIS</span></div>
+            <div class="body">
+              <h4><a href="summary.html">Therapy Service Summary</a></h4>
+              <p class="d">A short report for a plan reassessment, a progress update or a handover. Sessions and hours, progress on each goal, and recommendations that each carry a reason.</p>
+              <ul class="inside"><li>9 sections</li><li>Hours used</li><li>Goal ratings</li><li>Cost totals</li></ul>
+              <div class="who"><span>Clinicians</span></div>
+            </div>
+            <div class="foot"><span class="hint" style="font:600 12px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Drafts save in this browser</span><a class="open" href="summary.html">Open <span aria-hidden="true">&rarr;</span></a></div>
+          </article>
+          <article class="card a-tpl" data-slug="sensory">
+            <div class="meta"><span class="pill">Report builder</span><span class="code">Schools</span></div>
+            <div class="body">
+              <h4><a href="sensory.html">Sensory Profile Report</a></h4>
+              <p class="d">Turn Sensory Profile results into a plain-language summary for schools and other stakeholders. Home and school side by side, what it means, and strategies matched to the results.</p>
+              <ul class="inside"><li>Home and school</li><li>Meaning builds itself</li><li>Strategy bank</li><li>Who does what</li></ul>
+              <div class="who"><span>Clinicians</span></div>
+            </div>
+            <div class="foot"><span class="hint" style="font:600 12px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Drafts save in this browser</span><a class="open" href="sensory.html">Open <span aria-hidden="true">&rarr;</span></a></div>
+          </article>
           </div>
-          <div class="foot"><span class="hint" style="font:600 12px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Drafts save in this browser</span><a class="open" href="fca.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-        </article>
-        <article class="card a-tpl" data-slug="ptd">
-          <div class="meta"><span class="pill">Report builder</span><span class="code">NDIS</span></div>
-          <div class="body">
-            <h4><a href="ptd.html">Potential to Drive</a></h4>
-            <p class="d">For learner drivers. Everyday skills, passenger commentary drive, Michon levels, outcome and lesson goals the instructor can track.</p>
-            <ul class="inside"><li>17 sections</li><li>Hazard search scoring</li><li>Lesson goals</li><li>GP letter</li></ul>
-            <div class="who"><span>Driving OTs</span></div>
+        </div>
+        <div class="area a-tpl">
+          <div class="area-h"><h3>Handouts</h3><p>What we give clients, families and support teams</p></div>
+          <div class="tpl">
+          <article class="card a-tpl" data-slug="goals">
+            <div class="meta"><span class="pill">Client handout</span><span class="code">SMART</span></div>
+            <div class="body">
+              <h4><a href="goals.html">Goal Plan</a></h4>
+              <p class="d">Set SMART goals in the client's own words. Fill the five parts and the sentence writes itself. Baseline, steps, NDIS link, and COPM or GAS ratings if you use them.</p>
+              <ul class="inside"><li>Goal sentence</li><li>SMART check</li><li>Neuroaffirming checks</li><li>COPM and GAS</li></ul>
+              <div class="who"><span>Clinicians</span></div>
+            </div>
+            <div class="foot"><span class="hint" style="font:600 12px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Drafts save in this browser</span><a class="open" href="goals.html">Open <span aria-hidden="true">&rarr;</span></a></div>
+          </article>
+          <article class="card a-tpl" data-slug="chaining">
+            <div class="meta"><span class="pill">Client handout</span><span class="code">Home program</span></div>
+            <div class="body">
+              <h4><a href="chaining.html">Chaining Plan</a></h4>
+              <p class="d">Forward or backward chaining for one routine. Break it into steps, set who does what this week, and send home a plan that explains both ways.</p>
+              <ul class="inside"><li>Starter routines</li><li>Who does which step</li><li>When to add a step</li><li>Practice log</li></ul>
+              <div class="who"><span>Clinicians</span></div>
+            </div>
+            <div class="foot"><span class="hint" style="font:600 12px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Drafts save in this browser</span><a class="open" href="chaining.html">Open <span aria-hidden="true">&rarr;</span></a></div>
+          </article>
+          <article class="card a-tpl" data-slug="prompts">
+            <div class="meta"><span class="pill">Handout</span><span class="code">Support workers</span></div>
+            <div class="body">
+              <h4><a href="prompts.html">Prompt Hierarchy Guide</a></h4>
+              <p class="d">The prompt ladder for support workers, from waiting to doing it together. General education only: it teaches the idea and never sets prompt levels for one person.</p>
+              <ul class="inside"><li>8-level ladder</li><li>Everyday examples</li><li>Fading</li><li>Consent for touch</li></ul>
+              <div class="who"><span>Clinicians</span><span>Support teams</span></div>
+            </div>
+            <div class="foot"><span class="hint" style="font:600 12px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Drafts save in this browser</span><a class="open" href="prompts.html">Open <span aria-hidden="true">&rarr;</span></a></div>
+          </article>
+          <article class="card a-tpl" data-slug="planner">
+            <div class="meta"><span class="pill">Client handout</span><span class="code">Students</span></div>
+            <div class="body">
+              <h4><a href="planner.html">Student Planner</a></h4>
+              <p class="d">A one-week planner for a student. The week at a glance, assessments planned backwards from the due date, a study recipe and a pack list. Empty parts print blank.</p>
+              <ul class="inside"><li>Week grid</li><li>Plan backwards</li><li>Study recipe</li><li>Pack list</li></ul>
+              <div class="who"><span>Clinicians</span></div>
+            </div>
+            <div class="foot"><span class="hint" style="font:600 12px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Drafts save in this browser</span><a class="open" href="planner.html">Open <span aria-hidden="true">&rarr;</span></a></div>
+          </article>
           </div>
-          <div class="foot"><span class="hint" style="font:600 12px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Drafts save in this browser</span><a class="open" href="ptd.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-        </article>
-        <article class="card a-tpl" data-slug="ftd">
-          <div class="meta"><span class="pill">Report builder</span><span class="code">Austroads</span></div>
-          <div class="body">
-            <h4><a href="ftd.html">Medical Fitness to Drive</a></h4>
-            <p class="d">For licensed drivers after a medical change. Vision against the Austroads standard, cognition, on-road findings, licence conditions and recommendations.</p>
-            <ul class="inside"><li>13 sections</li><li>Austroads vision check</li><li>On-road flags</li><li>GP and lesson letters</li></ul>
-            <div class="who"><span>Driving OTs</span></div>
+        </div>
+        <div class="area a-tpl">
+          <div class="area-h"><h3>Admin</h3><p>For you</p></div>
+          <div class="tpl">
+          <article class="card a-tpl" data-slug="signature">
+            <div class="meta"><span class="pill">Builder</span><span class="code">Gmail</span></div>
+            <div class="body">
+              <h4><a href="signature.html">Email Signature</a></h4>
+              <p class="d">Your Estus signature for Gmail. Pick your clinical days, add your work days or a leave notice if you need them, then copy and paste. Ready in two minutes.</p>
+              <ul class="inside"><li>Brand look</li><li>Email hours</li><li>Booking button</li><li>Copy for Gmail</li></ul>
+              <div class="who"><span>Everyone</span></div>
+            </div>
+            <div class="foot"><span class="hint" style="font:600 12px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Saves in this browser</span><a class="open" href="signature.html">Open <span aria-hidden="true">&rarr;</span></a></div>
+          </article>
           </div>
-          <div class="foot"><span class="hint" style="font:600 12px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Drafts save in this browser</span><a class="open" href="ftd.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-        </article>
-        <article class="card a-tpl" data-slug="signature">
-          <div class="meta"><span class="pill">Builder</span><span class="code">Gmail</span></div>
-          <div class="body">
-            <h4><a href="signature.html">Email Signature</a></h4>
-            <p class="d">Your Estus signature for Gmail. Pick your clinical days, add your work days or a leave notice if you need them, then copy and paste. Ready in two minutes.</p>
-            <ul class="inside"><li>Brand look</li><li>Email hours</li><li>Booking button</li><li>Copy for Gmail</li></ul>
-            <div class="who"><span>Everyone</span></div>
-          </div>
-          <div class="foot"><span class="hint" style="font:600 12px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Saves in this browser</span><a class="open" href="signature.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-        </article>
+        </div>
       </div>
     </div>
   </section>

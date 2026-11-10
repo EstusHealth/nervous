@@ -1,0 +1,185 @@
+<!doctype html><html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Chaining Plan Builder</title><meta name="robots" content="noindex, nofollow"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 fill=%22%23090909%22/%3E%3Crect x=%224%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23344982%22/%3E%3Crect x=%2210%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232F6F9E%22/%3E%3Crect x=%2216%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232CA5B8%22/%3E%3Crect x=%2222%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23AB5C95%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="kit.css">
+<script src="theme.js"></script></head><body>
+<noscript><p style="padding:24px;font:16px sans-serif">This builder needs JavaScript. Turn it on and reload.</p></noscript>
+<script src="kit.js"></script>
+<script>
+/* Chaining plan: a home handout for one routine. Task analysis, forward or backward chaining, who does which step
+   this week, and when to add the next one. Engine: kit.js. */
+EstusKit.start(function(K){
+const {esc,str,num,cap,dot,undot,paras,plural,F,CB,say,OT,FINISH,MOVE,row}=K;
+const METHOD={backward:"Backward chaining",forward:"Forward chaining",total:"Whole task"};
+const STARTERS={
+  bag:["Pack my school bag",["Check tomorrow's timetable","Put the homework folder in the bag","Put the laptop and charger in the bag","Pack sport or music gear if it is on tomorrow","Fill the water bottle","Zip the bag","Put the bag by the front door"]],
+  teeth:["Brush my teeth",["Wet the toothbrush","Put on a pea-sized amount of toothpaste","Brush the top teeth: outside, inside, chewing surfaces","Brush the bottom teeth: outside, inside, chewing surfaces","Spit out the toothpaste","Rinse the toothbrush","Put the toothbrush away"]],
+  toast:["Make toast",["Get out the bread, a plate, a knife and the spread","Put the bread in the toaster","Push the lever down","Wait for the toast to pop up","Put the toast on the plate","Spread the topping","Put the spread away","Put the knife in the sink"]],
+  dress:["Get dressed",["Lay out the clothes in order","Put on underwear","Put on pants or shorts","Put on the shirt","Put on socks","Put on shoes","Put pyjamas in the washing basket"]],
+  shower:["Have a shower",["Get a towel and clean clothes ready","Turn on the water","Check the temperature with a hand","Wet body and hair","Wash hair","Wash body with soap, top to bottom","Rinse off","Turn off the water","Dry off","Get dressed"]],
+  laces:["Tie my shoelaces",["Cross the laces to make an X","Tuck one lace under the other","Pull both laces tight","Make a loop with one lace","Wrap the other lace around the loop","Push it through the gap to make a second loop","Pull both loops tight"]]
+};
+const nm=()=>K.first()||"the learner";
+const Nm=()=>cap(nm());
+const live=()=>K.S.steps.map(s=>({text:str(s.text),tip:str(s.tip)})).filter(s=>s.text);
+const stage=N=>Math.max(1,Math.min(N||1,parseInt(K.S.stage,10)||1));
+/* Who does step i (0-based) of N: "they" alone, "learn" (the newest step), or "help" (the helper). */
+function whoDoes(i,N){const m=K.S.method,n=stage(N);
+  if(m==="total")return"they";
+  if(m==="forward")return i<n-1?"they":i===n-1?"learn":"help";
+  const f=N-n;return i<f?"help":i===f?"learn":"they"}
+const range=(a,b)=>a===b?"step "+a:b===a+1?"steps "+a+" and "+b:"steps "+a+" to "+b;
+/* True once the learner does every step of a forward or backward chain. */
+const allDone=()=>{const N=live().length;return K.S.method!=="total"&&N>0&&stage(N)>=N};
+const HARD={backward:"Go back one step. That is still practice, and finishing matters more than the step count.",forward:"Go back one step. That is still practice.",total:"Give more help today. That is still practice."};
+function thisWeek(){const N=live().length,n=stage(N),m=K.S.method;
+  if(!N)return"Add the steps to see who does what.";
+  if(m==="total")return `**${Nm()} has a go at every step, every time.** You help only on the steps that need it.`;
+  if(n>=N)return `**${Nm()} does every step now.** ${m==="forward"?"Step "+N:"Step 1"} is the newest one.`;
+  if(m==="forward")return `**${Nm()} does ${n===1?"the first step":"the first "+n+" steps"} (${range(1,n)}).** You finish ${range(n+1,N)}.`;
+  return `**${Nm()} does ${n===1?"the last step":"the last "+n+" steps"} (${range(N-n+1,N)}).** You do ${range(1,N-n)} first.`}
+const WHY={backward:()=>`Every practice ends with ${nm()} finishing the job, so the win comes straight away.`,
+  forward:()=>`${Nm()} learns the routine in the order it happens, and gets practice at getting started.`,
+  total:()=>`${Nm()} can already do most of the steps, so practising the whole routine works best.`};
+
+return{
+id:"chaining",name:"Chaining Plan",h1:"Chaining plan",newLabel:"Start a new plan",newToast:"New plan started",
+exampleNote:"Example plan for a fictional client. Your edits save in this browser only.",
+who:s=>str(s.client.preferred)||str(s.client.firstName),
+docTitle:()=>str(K.S.task.name)||"Step by step",
+docSub:()=>`A step-by-step plan for ${nm()} · ${METHOD[K.S.method]||METHOD.backward}`,
+blank:()=>({client:{firstName:"",preferred:"",pronouns:""},helper:"",task:{name:"",when:"",why:""},
+  steps:[{text:"",tip:""},{text:"",tip:""},{text:"",tip:""}],method:"backward",stage:1,
+  plan:{reason:"",help:"",move:"",hard:"",win:""},
+  log:{include:true,rows:"6"},notes:"",meta:{date:K.today()}}),
+templates:{step:()=>({text:"",tip:""})},
+normalise(o){if(!Array.isArray(o.steps))o.steps=[];if(!METHOD[o.method])o.method="backward";o.stage=parseInt(o.stage,10)||1},
+example:()=>({client:{firstName:"Sam",preferred:"",pronouns:"he / him"},helper:"Mum and Dad",
+  task:{name:"Pack my school bag",when:"School nights, straight after dinner",why:"“I hate the morning rush. I want to just grab my bag and go.”"},
+  steps:[{text:"Check tomorrow's timetable on the fridge",tip:""},{text:"Put the homework folder in the bag",tip:"The folder lives on the desk"},{text:"Put the laptop and charger in the bag",tip:""},{text:"Pack sport or music gear if it is on tomorrow",tip:"The timetable shows it"},{text:"Fill the water bottle",tip:""},{text:"Zip the bag",tip:""},{text:"Put the bag by the front door",tip:""}],
+  method:"backward",stage:3,
+  plan:{reason:"",help:"Point to the list on the bag tag. Count to five before you say anything.",move:"Sam does his steps 3 nights in a row without help",hard:"Go back one step. Sam still finishes the job, and that is the part that matters.",win:"Bag by the door means the evening is Sam's. No more school talk."},
+  log:{include:true,rows:"6"},notes:"",meta:{date:K.today()}}),
+secOf:p=>{const t=p.split(".")[0];return t==="steps"?"steps":t==="plan"||t==="method"?"method":t==="notes"||t==="log"?"finish":"who"},
+
+sections:[
+{g:"Set up",id:"who",nav:"Who and what",title:"Who and what",lead:"Who is learning, who helps, and the one routine this plan covers.",render:()=>`<div class="form">
+  <div class="grid3">${F("client.firstName","First name")}${F("client.preferred","Preferred name",{ph:"If different"})}${F("client.pronouns","Pronouns",{type:"select",opts:[["","Choose"],"she / her","he / him","they / them"]})}</div>
+  ${F("helper","Who helps at home",{ph:"Mum and Dad, or a support worker",hint:"Shown at the top of the handout. The handout speaks to them as “you”."})}
+  ${F("task.name","The routine or skill",{ph:"Pack my school bag",hint:"One routine per plan. It becomes the title."})}
+  ${F("task.when","When and where it happens",{ph:"School nights, straight after dinner"})}
+  ${F("task.why","Why it matters to them",{type:"area",rows:2,ph:"In their own words if you can"})}
+  ${OT()}</div>`},
+{g:"Set up",id:"steps",nav:"Steps",title:"Break it into steps",lead:"Task analysis. One action per step, in the order it happens. Could a stranger follow it without asking a question?",render(){const a=K.S.steps;return `<div class="form">
+  <div class="boxed"><div class="fld"><label for="starter">Start from a common routine</label><div class="btns"><select id="starter" style="max-width:280px">${Object.keys(STARTERS).map(k=>`<option value="${k}">${esc(STARTERS[k][0])}</option>`).join("")}</select><button type="button" class="add" data-act="use-starter">Use these steps</button></div><span class="hint">Replaces the steps below. You can undo it, then edit to fit the person and their home.</span></div></div>
+  <div class="rowlist">${a.map((x,i)=>`<div class="rowi" data-item="steps.${i}"><span class="rn">${i+1}</span><div class="rf two"><input type="text" id="${K.fid("steps."+i+".text")}" data-path="steps.${i}.text" data-enter="add-step" placeholder="What they do" aria-label="Step ${i+1}" autocomplete="off"><input type="text" class="tip" id="${K.fid("steps."+i+".tip")}" data-path="steps.${i}.tip" placeholder="Tip (optional)" aria-label="Tip for step ${i+1}" autocomplete="off"></div><div class="rb">${MOVE("steps",i,a.length)}<button type="button" class="x" data-act="del" data-path="steps" data-i="${i}">Remove</button></div></div>`).join("")}</div>
+  <button type="button" class="add" data-act="add-step">Add a step</button>
+  <p class="hint">Four to ten steps suits most routines. Press Enter in a step to add the next one.</p></div>`}},
+{g:"Plan",id:"method",nav:"Forward or backward",title:"Forward or backward?",lead:"Pick how they learn the chain. The handout explains both ways and says which one you chose.",render(){const m=K.S.method,N=live().length,n=stage(N);
+  const card=(val,name,how,when)=>`<label><input type="radio" name="f_method" id="f_method_${val}" value="${val}" data-path="method" data-rerender data-keep><span class="pk"><b>${name}</b><span>${how}</span><small><em>Works well when</em>${when}</small></span></label>`;
+  return `<div class="form">
+  <div class="pick" role="radiogroup" aria-label="Chaining method">
+    ${card("backward","Backward","You do the start. They do the last step, then the last two, and so on.","Finishing feels good, or an early win matters most.")}
+    ${card("forward","Forward","They do the first step, then the first two, and so on. You finish.","Starting is the hard part, or the first steps are the easiest.")}
+    ${card("total","Whole task","They try every step, every time. You help only where needed.","They can already do most steps, and one or two are sticky.")}
+  </div>
+  ${m==="total"?"":`<div class="fld"><span class="lbl">How many steps do they do right now?</span>
+    <div class="stepper"><button type="button" data-act="stage-" aria-label="One step fewer"${n<=1?" disabled":""}>−</button><output id="stage-out">${N?plural(n,"step")+" of "+N:"No steps yet"}</output><button type="button" data-act="stage+" aria-label="One more step"${n>=N?" disabled":""}>+</button></div>
+    <span class="hint">Count the step they are learning now. Come back and add one when it is solid, then print the new plan.</span></div>`}
+  <div class="strip" id="ch-strip"></div>
+  <div class="key"><span><i class="k-they"></i>They do it alone</span><span><i class="k-learn"></i>Learning now</span><span><i></i>You do it</span></div>
+  ${say("ch-say","goal")}
+  ${F("plan.reason","Why this way, in one line",{ph:WHY[m]?K.plainText(WHY[m]()):"",hint:"Optional. Leave it empty and the handout uses the line shown."})}
+  ${F("plan.help",m==="total"?"How to help on the sticky steps":"How to help on the learning step",{type:"area",rows:2,ph:"Point to the list on the bag tag. Count to five before you say anything."})}
+  ${m==="total"||allDone()?"":F("plan.move","Add the next step when",{ph:"They do their steps 3 times in a row without help"})}
+  ${F("plan.hard","On a hard day",{type:"area",rows:2,ph:HARD[m]||HARD.backward,hint:"Optional. Leave it empty and the handout uses the line shown."})}
+  ${F("plan.win","What happens at the end",{ph:"Bag by the door, then free time",hint:"The natural win for finishing. Not a bribe."})}</div>`}},
+{g:"Finish",id:"finish",nav:"Finish",title:"Finish",lead:"Add a practice log if it helps, then preview and send.",render:()=>`<div class="form">
+  ${CB("log.include","Add a practice log to the handout",true)}
+  ${K.S.log.include?F("log.rows","Rows in the log",{num:true,ph:"6",cls:"span2",hint:"Between 3 and 20."}):""}
+  ${F("notes","Anything else for the family",{type:"area",rows:3,ph:"Optional. One idea per line."})}
+  ${F("meta.date","Date",{type:"date"})}
+  ${FINISH({hint:"When they add a step, come back, tap + on the Forward or backward page and send the new plan."})}</div>`}
+],
+actions:{
+  "add-step"(){K.S.steps.push({text:"",tip:""});K.commit();const el=document.querySelector(`[data-path="steps.${K.S.steps.length-1}.text"]`);if(el){el.focus();el.scrollIntoView({block:"center",behavior:"smooth"})}},
+  "use-starter"(){const k=document.getElementById("starter").value,st=STARTERS[k];if(!st)return;
+    K.undoable("Steps replaced",()=>{K.S.steps=st[1].map(t=>({text:t,tip:""}));if(!str(K.S.task.name))K.S.task.name=st[0];K.S.stage=1})},
+  "stage-"(){K.S.stage=stage(live().length)-1;K.commit()},
+  "stage+"(){K.S.stage=stage(live().length)+1;K.commit()}
+},
+onList(p){if(p==="steps")K.S.stage=stage(live().length)},
+live(){const st=document.getElementById("ch-strip");
+  if(st){const L=live();st.innerHTML=L.length?L.map((x,i)=>{const w=whoDoes(i,L.length);return `<span class="${w==="help"?"":w}"><b>${i+1}</b>${esc(x.text)}</span>`}).join(""):"";
+    const sy=document.getElementById("ch-say");if(sy)sy.innerHTML=K.rich(thisWeek()).map(r=>r.b?"<b>"+esc(r.t)+"</b>":esc(r.t)).join("")}},
+checks(add,need){const s=K.S,L=live();
+  need("who","client.firstName","First name");need("who","task.name","The routine");
+  if(L.length<3)add("steps","steps.0.text","Add at least three steps");
+  else s.steps.forEach((x,i)=>{if(!str(x.text))add("steps",`steps.${i}.text`,`Step ${i+1} is empty. Fill it or remove it.`,true)});
+  s.steps.forEach((x,i)=>{const t=str(x.text);if(!t)return;
+    if(/\b(and then|then|after that)\b|;/i.test(t))add("steps",`steps.${i}.text`,`Step ${i+1} may be two actions. One action per step.`,true);
+    if(t.length>90)add("steps",`steps.${i}.text`,`Step ${i+1} is long. Short steps are easier to follow.`,true)});
+  if(L.length>12)add("steps","steps.0.text","More than 12 steps. Could this be two routines?",true);
+  if(s.method!=="total"&&!allDone()&&!str(s.plan.move))add("method","plan.move","Say when to add the next step");
+  if(!str(s.plan.help))add("method","plan.help",s.method==="total"?"Say how to help on the sticky steps":"Say how to help on the learning step",true);
+  need("finish","meta.date","Date")},
+
+build(){const s=K.S,B=[],L=live(),N=L.length,m=METHOD[s.method]?s.method:"backward",p=K.pron();
+  B.push({t:"note",tone:"teal",big:true,title:"This week",paras:[thisWeek()]});
+  B.push({t:"h",text:"The plan",sec:"who"});
+  const rows=[row("The routine",s.task.name,"Routine")];
+  if(str(s.task.when))rows.push(row("When",s.task.when));
+  if(str(s.task.why))rows.push(row("Why it matters",s.task.why));
+  if(str(s.helper))rows.push(row("Who helps",s.helper));
+  rows.push(row("How we teach it",[{p:METHOD[m]+". "+(str(s.plan.reason)?dot(s.plan.reason):WHY[m]())}]));
+  B.push({t:"tbl",w:[26,74],rows});
+  B.push({t:"h",text:"The steps",sec:"steps"});
+  if(!N)B.push({t:"gap",text:"Steps"});
+  else{const tips=L.some(x=>x.tip),lab={they:Nm(),learn:Nm()+", learning now",help:"You"};
+    B.push({t:"tbl",w:tips?[7,43,22,28]:[8,62,30],head:tips?["","Step","Who does it","Tip"]:["","Step","Who does it"],
+      rows:L.map((x,i)=>{const w=whoDoes(i,N),c=[{c:[{b:String(i+1)}]},{c:[{p:x.text}]},{c:[{p:w==="learn"?"**"+lab[w]+"**":lab[w]}],tone:w}];if(tips)c.push({c:x.tip?[{p:x.tip}]:[]});return{label:true,cells:c}})})}
+  B.push({t:"h",text:m==="total"?"How the whole task way works":"How "+METHOD[m].toLowerCase()+" works",sec:"method"});
+  if(m==="backward"){B.push({t:"p",text:`You do the first steps. ${Nm()} does the last part and finishes the job.`});
+    B.push({t:"p",text:`When that goes well, ${nm()} takes over one more step: the one just before. The chain grows backwards, one step at a time, until ${nm()} does the whole routine.`})}
+  else if(m==="forward"){B.push({t:"p",text:`${Nm()} does the first part. You do the rest.`});
+    B.push({t:"p",text:`When that goes well, ${nm()} adds the next step. The chain grows forwards, one step at a time, until ${nm()} does the whole routine.`})}
+  else{B.push({t:"p",text:`${Nm()} has a go at every step, in order, every time.`});
+    B.push({t:"p",text:"You help only on the steps that need it, with the smallest help that works. Over time you help less."})}
+  B.push({t:"sub",text:"Forward and backward, side by side"});
+  const tone=k=>m===k?"learn":null,cmp=(l,f,b)=>({label:true,cells:[{c:[{b:l}]},{c:[{p:f}],tone:tone("forward")},{c:[{p:b}],tone:tone("backward")}]});
+  B.push({t:"tbl",w:[22,39,39],head:["","Forward chaining","Backward chaining"],rows:[
+    cmp("Who starts","The learner does the first step","The helper does the first steps"),
+    cmp("Who finishes","The helper finishes the routine","The learner finishes, every time"),
+    cmp("How it grows","Add the next step, moving towards the end","Add the step before, moving towards the start"),
+    cmp("Works well when","Starting is the hard part, or the first steps are the easiest","Finishing feels good, or an early win matters most")]});
+  B.push({t:"p",text:m==="total"?"This plan uses a third way, the **whole task**: the learner tries every step and gets help only where needed.":`This plan uses **${METHOD[m].toLowerCase()}**. A third way is the whole task, where the learner tries every step and gets help only where needed.`});
+  B.push({t:"h",text:"How to help",sec:"method"});
+  const tipsL=["Keep the steps in the same order every time."];
+  if(m!=="total"&&!allDone())tipsL.push(`Do your own steps calmly, without a running commentary. Save your words for the steps ${nm()} does.`);
+  if(str(s.plan.help))tipsL.push((m==="total"?"**On the sticky steps:** ":"**On the learning step:** ")+dot(s.plan.help));
+  tipsL.push("Wait before you help. Count to five in your head.");
+  tipsL.push("Give the smallest help that works. Try a look or a point before words, and words before hands.");
+  tipsL.push(m==="backward"?`Let the routine end on a step ${nm()} did, not on a correction.`:"End on a win, even a small one.");
+  if(str(s.plan.win))tipsL.push("**At the end:** "+dot(s.plan.win));
+  tipsL.push(`Say what ${nm()} did, not how good ${p.he} ${K.v("was","were")}: “You zipped the bag.”`);
+  B.push({t:"ul",items:tipsL});
+  if(m==="total"){B.push({t:"h",text:"Giving less help over time",sec:"method"});
+    B.push({t:"p",text:"When a step goes well a few times, give a little less help on that step next time."})}
+  else if(allDone()){B.push({t:"h",text:"What comes next",sec:"method"});
+    B.push({t:"p",text:`${Nm()} does the whole routine now. Keep practising until it runs without help, then tell us. It may be time for the next routine.`})}
+  else{B.push({t:"h",text:"When to add a step",sec:"method"});
+    B.push({t:"lead",label:"Add the next step when",text:str(s.plan.move)?dot(s.plan.move):""})}
+  B.push({t:"lead",label:"On a hard day",text:dot(str(s.plan.hard)||HARD[m])});
+  B.push({t:"p",text:"Tired, sick or overloaded days are not a step backwards. Skills come back when energy does."});
+  if(s.log.include){const n=Math.max(3,Math.min(20,Math.round(num(s.log.rows))||6));
+    B.push({t:"h",text:"Practice log",sec:"finish"});
+    B.push({t:"tbl",w:[16,28,22,34],head:["Date",`Steps ${nm()} did`,"Help needed","Notes"],rows:Array.from({length:n},()=>({h:30,cells:[{c:[]},{c:[]},{c:[]},{c:[]}]}))})}
+  if(str(s.notes)){B.push({t:"h",text:"Notes from your OT",sec:"finish"});paras(s.notes).forEach(x=>B.push({t:"p",text:x}))}
+  B.push({t:"p",text:"Questions, or it is not working? Tell us. We change the plan, not the person."});
+  B.push({t:"sign",kind:"by",date:true});
+  return B}
+}});
+</script>
+</body></html>

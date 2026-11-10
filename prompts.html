@@ -1,0 +1,160 @@
+<!doctype html><html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Prompt Hierarchy Guide Builder</title><meta name="robots" content="noindex, nofollow"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 fill=%22%23090909%22/%3E%3Crect x=%224%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23344982%22/%3E%3Crect x=%2210%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232F6F9E%22/%3E%3Crect x=%2216%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232CA5B8%22/%3E%3Crect x=%2222%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23AB5C95%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="kit.css">
+<script src="theme.js"></script></head><body>
+<noscript><p style="padding:24px;font:16px sans-serif">This builder needs JavaScript. Turn it on and reload.</p></noscript>
+<script src="kit.js"></script>
+<script>
+/* Prompt hierarchy guide: general education for support workers. It teaches the idea of prompting.
+   It never sets prompt levels for one person. That belongs in the person's support plan. Engine: kit.js. */
+EstusKit.start(function(K){
+const {esc,str,cap,dot,paras,F,CB,SEGF,say,OT,FINISH}=K;
+/* key, plain name, the term services use, what it is */
+const LEVELS=[
+  ["wait","Wait","Independent","Give time. Stay close, stay quiet, and let them start on their own."],
+  ["visual","Visual","Visual prompt","A picture, a checklist, or the item placed where they will see it."],
+  ["gesture","Gesture","Gestural prompt","Point, look or nod towards what comes next."],
+  ["ask","Question","Indirect verbal prompt","A hint that gets them thinking, without giving the answer."],
+  ["tell","Tell","Direct verbal prompt","Say the step in a few plain words."],
+  ["show","Show","Model","Do the step yourself so they can copy."],
+  ["touch","Light touch","Partial physical prompt","With their okay, a light touch to start or steady the movement."],
+  ["hand","Do it together","Full physical prompt","With their okay, do the movement together. Your hand goes under theirs, so they stay in control."]
+];
+const TASKS={
+  teeth:{name:"Brushing teeth",lines:{
+    wait:"Stand back. Give them time to start once they are at the basin.",
+    visual:"Have picture steps on the mirror, or leave the toothbrush where they will see it.",
+    gesture:"Point to the toothbrush, or mime brushing.",
+    ask:"“What's next?”",
+    tell:"“Pick up your toothbrush.”",
+    show:"Brush your own teeth beside them so they can copy.",
+    touch:"With their okay, a light touch at the elbow to start the movement.",
+    hand:"With their okay, your hand under theirs, brushing together."}},
+  sandwich:{name:"Making a sandwich",lines:{
+    wait:"Have the bread, spread and knife out. Then wait.",
+    visual:"Have a picture recipe on the bench, open at the next step.",
+    gesture:"Point to the knife.",
+    ask:"“What do you need next?”",
+    tell:"“Spread the butter on the bread.”",
+    show:"Make your own sandwich beside them, one step at a time.",
+    touch:"With their okay, steady the bread or lightly guide the wrist to start spreading.",
+    hand:"With their okay, your hand under theirs, spreading together."}},
+  bus:{name:"Catching the bus",lines:{
+    wait:"At the stop, stand back and watch. Let them look for their bus.",
+    visual:"Have the bus number on a card or their phone, where they can check it.",
+    gesture:"Look or nod towards the bus as it comes.",
+    ask:"“Which bus are we after?”",
+    tell:"“This is our bus. Tap your card.”",
+    show:"Tap your own card first so they can copy.",
+    touch:"With their okay, a light touch on the arm as the doors open.",
+    hand:"Rarely right in the community. If this much help is needed, tell the OT. The task may need to change."}},
+  bag:{name:"Packing a bag",lines:{
+    wait:"Put the bag and the items out. Then wait.",
+    visual:"Have a packing list on the bag tag, with a picture for each item.",
+    gesture:"Point to the lunchbox.",
+    ask:"“What's still on the list?”",
+    tell:"“Put your lunchbox in the bag.”",
+    show:"Pack your own bag beside them.",
+    touch:"With their okay, hold the bag open or pass the item to their hand.",
+    hand:"With their okay, your hand under theirs, putting the item in together."}}
+};
+const team=()=>str(K.S.team);
+const waitN=()=>K.S.wait==="10"?"10":"5";
+
+return{
+id:"prompts",name:"Prompt Hierarchy Guide",h1:"Prompt hierarchy",newLabel:"Start a new guide",newToast:"New guide started",
+exampleNote:"Example guide. Your edits save in this browser only.",
+who:s=>cap(str(s.team)),
+docTitle:()=>"The prompt hierarchy",
+docSub:()=>`A guide for ${team()||"support workers"} · General education, not a support plan`,
+blank:()=>({client:{firstName:"",pronouns:""},team:"",taskName:TASKS.teeth.name,lines:Object.assign({},TASKS.teeth.lines),
+  include:{both:true,fade:true,dos:true,log:false},wait:"5",notes:"",meta:{date:K.today()}}),
+normalise(o){if(!o.lines||typeof o.lines!=="object")o.lines={};LEVELS.forEach(([k])=>{if(o.lines[k]==null)o.lines[k]=""})},
+example:()=>({client:{firstName:"",pronouns:""},team:"the support team at Example Care",taskName:TASKS.teeth.name,lines:Object.assign({},TASKS.teeth.lines),
+  include:{both:true,fade:true,dos:true,log:true},wait:"5",notes:"",meta:{date:K.today()}}),
+secOf:p=>{const t=p.split(".")[0];return t==="lines"||t==="taskName"?"example":t==="notes"||t==="include"?"parts":t==="wait"?"parts":"who"},
+phrases:[
+  [/\b(needs?|requires?|must (have|get|be given)|should (have|get|be given)|is to (have|get|be given)) (a |an |the |only )?(full |partial |light |direct |indirect )?(physical|verbal|gestural|gesture|visual|model|hand)/i,"Reads like a prescription. Keep this guide general, and put a person's own prompt levels in their support plan."],
+  [/\b(always|never) (use|give|start)\b/i,"A rule for one person belongs in their support plan. Here, teach the idea."]
+],
+
+sections:[
+{g:"Set up",id:"who",nav:"Who it's for",title:"Who it's for",lead:"The team that will read it. This guide teaches the idea of prompting. It does not set prompt levels for one person.",render:()=>`<div class="form">
+  <div class="say warn"><b>Education, not a plan.</b> A handout that says how much help one person gets is a prescription, and it carries clinical risk. That belongs in the person's support plan, written and reviewed with them. This guide stays general on purpose.</div>
+  ${F("team","Team or organisation",{ph:"the support team at Example Care",hint:"Reads as “A guide for …”. Leave it empty for “support workers”."})}
+  ${F("client.firstName","Who they support (first name, optional)",{ph:"Leave empty for a fully general guide",hint:"Only used in the opening note, to point the team back to that person's own plans."})}
+  ${OT()}</div>`},
+{g:"Content",id:"example",nav:"Example task",title:"An everyday example",lead:"One everyday task, shown at every level of help. Pick a common task, not one person's own routine.",render:()=>`<div class="form">
+  <div class="boxed"><div class="fld"><label for="starter">Start from an example</label><div class="btns"><select id="starter" style="max-width:280px">${Object.keys(TASKS).map(k=>`<option value="${k}">${esc(TASKS[k].name)}</option>`).join("")}</select><button type="button" class="add" data-act="use-task">Use this example</button></div><span class="hint">Replaces the lines below. You can undo it, then edit any line.</span></div></div>
+  ${F("taskName","Example task",{ph:"Brushing teeth"})}
+  <div class="sub">Least help to most help</div>
+  ${LEVELS.map(([k,n,j],i)=>`<div class="frow"><div><div class="lbl" style="color:var(--fg)">${i+1}. ${esc(n)}</div><div class="hint">${esc(j)}</div></div><textarea id="${K.fid("lines."+k)}" data-path="lines.${k}" rows="2" aria-label="Example for ${esc(n)}"></textarea></div>`).join("")}</div>`},
+{g:"Content",id:"parts",nav:"What to include",title:"What to include",lead:"The ladder, the wait and the consent note are always in. Choose the rest.",render:()=>`<div class="form">
+  ${SEGF("wait","Wait time to teach",[["5","Count to 5"],["10","Count to 10"]],{keep:true,hint:"Use 10 if the team supports people who need longer to process."})}
+  <div class="tools">
+    <div class="tool">${CB("include.both","Two ways to use the ladder: start low and step up, or start high and step down")}</div>
+    <div class="tool">${CB("include.fade","Fading: how to give less help over time")}</div>
+    <div class="tool">${CB("include.dos","Do and avoid")}</div>
+    <div class="tool">${CB("include.log","A blank “What I noticed” sheet to share with the OT")}</div>
+  </div>
+  ${F("notes","Anything else for the team",{type:"area",rows:3,ph:"Optional. General points only. One idea per line."})}</div>`},
+{g:"Finish",id:"finish",nav:"Finish",title:"Finish",lead:"Clear the checks, then preview and send.",render:()=>`<div class="form">
+  ${F("meta.date","Date",{type:"date"})}
+  ${FINISH()}</div>`}
+],
+actions:{
+  "use-task"(){const k=document.getElementById("starter").value,t=TASKS[k];if(!t)return;
+    K.undoable("Example replaced",()=>{K.S.taskName=t.name;K.S.lines=Object.assign({},t.lines)})}
+},
+checks(add,need){const s=K.S;
+  need("example","taskName","Example task");
+  LEVELS.forEach(([k,n])=>{if(!str(s.lines[k]))add("example","lines."+k,`Example for “${n}” is empty`)});
+  need("finish","meta.date","Date")},
+
+build(){const s=K.S,B=[],f=K.first(),task=str(s.taskName)||"an everyday task";
+  B.push({t:"note",tone:"plum",title:"General education only",paras:[
+    "This guide teaches the idea of prompting. It is not a support plan, a behaviour support plan, or a set of instructions for one person.",
+    f?`It does not set how to support ${f}. Follow ${f}'s own plans, and your organisation's policies and training. If a plan says something different from this guide, follow the plan and ask.`
+     :"Follow each person's own plans, and your organisation's policies and training. If a plan says something different from this guide, follow the plan and ask."]});
+  B.push({t:"h",text:"What is a prompt?",sec:"who"});
+  B.push({t:"p",text:"A prompt is any help you give so a person can do a step: a look, a point, a word, a hand."});
+  B.push({t:"p",text:"The aim is **the least help that works**, and less help over time. Too much help, given too fast, teaches people to wait for it. The right amount builds skill, confidence and choice."});
+  B.push({t:"h",text:"The prompt ladder",sec:"example"});
+  B.push({t:"p",text:"Least help is at the top. Most help is at the bottom."});
+  B.push({t:"tbl",w:[24,38,38],head:["Level","What it is","Example: "+task.toLowerCase()],rows:LEVELS.map(([k,n,j,d],i)=>({label:true,cells:[{c:[{b:(i+1)+". "+n},{sm:j}]},{c:[{p:d}]},{c:str(s.lines[k])?[{p:str(s.lines[k])}]:[{gap:"Example"}]}]}))});
+  B.push({t:"fine",text:"Ladders differ a little between services. The idea is the same: know which help is lighter and which is heavier."});
+  B.push({t:"h",text:"Wait first",sec:"parts"});
+  B.push({t:"p",text:`Before any prompt, wait. **Count to ${waitN()} in your head.** Many people need extra time to take in what was said and to get started. Jumping in early takes the turn away from them.`});
+  if(s.include.both){B.push({t:"h",text:"Two ways to use the ladder",sec:"parts"});
+    const r=(l,a,b)=>({label:true,cells:[{c:[{b:l}]},{c:[{p:a}]},{c:[{p:b}]}]});
+    B.push({t:"tbl",w:[18,41,41],head:["","Start low, step up","Start high, step down"],rows:[
+      r("Also called","Least-to-most prompting","Most-to-least prompting"),
+      r("How","Start at the top of the ladder. Wait. If the step does not happen, go one rung down.","Start with enough help for the step to go right the first time. Give a little less help each time."),
+      r("Good when","The person knows the task, or parts of it, and you are building independence.","The task is new, or a mistake would be unsafe or upsetting."),
+      r("Watch for","Lots of tries that go wrong. That wears people down. Step up sooner.","Help that never fades. Plan the next lighter rung from day one.")]})}
+  if(s.include.fade){B.push({t:"h",text:"Fading: less help over time",sec:"parts"});
+    B.push({t:"ul",items:[
+      "When a step goes well two or three times, try one rung lighter next time.",
+      "Fade your words: a full sentence, then one word, then a point, then nothing.",
+      "Spoken prompts are the easiest to give and the hardest to fade. Swap your voice for something the person controls, like a checklist.",
+      "If a lighter rung does not work, go back one. That is information, not failure."]})}
+  if(s.include.dos){B.push({t:"h",text:"Do and avoid",sec:"parts"});
+    B.push({t:"tbl",w:[50,50],head:["Do","Avoid"],rows:[{cells:[
+      {c:["Ask before you help: “Want a hand?”","Give one prompt at a time.","Use the same few words each time.","Let them finish, even if it is slow.","Say what they did: “You got the lid off.”","Tell the team what worked."].map(x=>({li:x}))},
+      {c:["Repeating the instruction louder or faster.","Stacking prompts: talking, pointing and reaching all at once.","Doing it for them to save time.","Touch without their okay.","Quizzing them when they are stressed or tired.","Praise that is about pleasing you."].map(x=>({li:x}))}]}]})}
+  B.push({t:"note",tone:"plum",title:"Touch needs consent",paras:[
+    "Light touch and doing it together need the person's okay, every time. If they pull away, tense up or say no, stop.",
+    "Holding or moving someone against their will is not a prompt. It may be a restrictive practice. Follow your organisation's policy and tell your team leader."]});
+  if(s.include.log){B.push({t:"h",text:"What I noticed",sec:"parts"});
+    B.push({t:"p",text:"Optional. Jot down what you saw and share it with the OT. It helps the whole team."});
+    B.push({t:"tbl",w:[14,24,26,36],head:["Date","Task","Help that worked","What happened"],rows:Array.from({length:6},()=>({h:30,cells:[{c:[]},{c:[]},{c:[]},{c:[]}]}))})}
+  if(str(s.notes)){B.push({t:"h",text:"From the OT",sec:"parts"});paras(s.notes).forEach(x=>B.push({t:"p",text:x}))}
+  B.push({t:"p",text:"Questions about this guide? Ask us."});
+  B.push({t:"sign",kind:"by",date:true});
+  return B}
+}});
+</script>
+</body></html>

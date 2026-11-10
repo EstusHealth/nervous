@@ -10,7 +10,9 @@ Estus Health's internal staff training intranet. A landing page plus one page pe
 | Small Hinges | `hinges`, `sleep`, `morning`, `energy`, `load`, `transition`, `shutdown` |
 | Therapy approaches | `act` (plus `act-game`), `cbt`, `mi`, `gaming`, `nervous`, `problem-solving` |
 | Growth | `reels`, `must-be-nice`, `copy`, `gp` |
-| Templates | `fca`, `ptd` (Potential to Drive), `ftd` (Medical Fitness to Drive), `signature` (Gmail email signature) |
+| Templates: reports | `fca`, `ptd` (Potential to Drive), `ftd` (Medical Fitness to Drive), `summary` (Therapy Service Summary), `sensory` (Sensory Profile Report for schools and stakeholders) |
+| Templates: handouts | `goals` (Goal Plan, SMART goals), `chaining` (forward or backward chaining plan), `prompts` (Prompt Hierarchy Guide for support workers), `planner` (Student Planner) |
+| Templates: admin | `signature` (Gmail email signature) |
 
 Progress ticks and tool drafts save in each person's own browser only.
 
@@ -31,6 +33,24 @@ Change a fact once: the hourly fee and the booking, referral form and what-to-ex
 ## Driving report builders
 
 `ptd.html` and `ftd.html` share one engine, `drive.js`, and the brand fonts for Word export, `drive-fonts.js`. Drafts use the same JSON schema as the earlier driving builder, so old drafts and Gem output open unchanged. Opening a draft of the other type switches to the right builder.
+
+## Template kit
+
+`summary.html`, `sensory.html`, `goals.html`, `chaining.html`, `prompts.html` and `planner.html` share one engine, `kit.js`, and one stylesheet, `kit.css`. Each page is a small shell: it loads the engine, then hands it a definition with the sections (forms), the checks, a worked example and `build()`, which returns the document as a list of blocks. The engine draws the page, saves the draft in the browser, shows the A4 preview, prints it (Ctrl+P or **File, Print or save as PDF** prints the document only) and turns the same blocks into a branded Word file. Word export loads JSZip and `drive-fonts.js` the first time it is used.
+
+- A clinician's own name, AHPRA number, phone and email are typed once and fill in on every kit template (`estus-kit-me-v1`). If empty, they are read from the driving builders.
+- Draft files (`.json`) open in any kit page and switch to the right template.
+- `**bold**` in any text field comes out bold in the preview and in Word.
+- Short tables and the sign-off stay on one page, in print and in Word. Printing from Chrome or Edge adds the client name and page numbers to the foot of each page.
+- The wording checks (functioning labels, em-dashes and so on) sit at the top of `kit.js` and run over every text field. A page can add its own, like the neuroaffirming goal checks in `goals.html`.
+- `sensory.html` holds no test items and no cut scores. The clinician enters the classification from the score summary.
+- `sensory.html` writes for a school by default. **Written for: Other stakeholders** swaps the headings for family, support workers or a workplace.
+- `chaining.html` covers forward chaining, backward chaining and the whole task. The **+** on the Forward or backward page moves the learner on one step.
+- `planner.html` takes any day in the week and runs from that Monday.
+- `prompts.html` is general education on purpose. It never sets prompt levels for one person. That belongs in the person's support plan.
+- The default hourly rate for new recommendation rows is `RATE` at the top of the script in `summary.html`.
+
+To add a template: copy the smallest page (`prompts.html`), change the definition, add the page to `PAGES` at the top of `kit.js`, then add a card in `index.html` and a line here.
 
 ## Deploy
 

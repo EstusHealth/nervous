@@ -1,0 +1,157 @@
+<!doctype html><html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Student Planner Builder</title><meta name="robots" content="noindex, nofollow"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 fill=%22%23090909%22/%3E%3Crect x=%224%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23344982%22/%3E%3Crect x=%2210%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232F6F9E%22/%3E%3Crect x=%2216%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232CA5B8%22/%3E%3Crect x=%2222%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23AB5C95%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="kit.css">
+<script src="theme.js"></script></head><body>
+<noscript><p style="padding:24px;font:16px sans-serif">This builder needs JavaScript. Turn it on and reload.</p></noscript>
+<script src="kit.js"></script>
+<script>
+/* Student planner: a one-week planner for a student. The week at a glance, what is due with the steps planned
+   backwards from the due date, a study recipe and a pack list. Empty parts print blank, to fill in by hand.
+   Engine: kit.js. */
+EstusKit.start(function(K){
+const {esc,str,cap,dot,items,plural,parseD,addDays,daysBetween,dayD,longD,today,F,CB,say,OT,FINISH,LIST,HEAD,MOVE,row}=K;
+const DAYS=[["mon","Mon"],["tue","Tue"],["wed","Wed"],["thu","Thu"],["fri","Fri"],["sat","Sat"],["sun","Sun"]];
+const STD=["Read the task sheet. Highlight what it asks for.","Collect what I need: notes, books, sources","Write a rough plan","Write the first draft","Check it against the marking guide. Fix it.","Hand it in"];
+const RECIPE=[
+  ["where","Where I study","Desk in my room. Phone stays in the kitchen."],
+  ["start","My first tiny step","Open the laptop and read the task for two minutes.","Small enough that starting is easy."],
+  ["focus","Work, then break","25 minutes on, 5 minutes off"],
+  ["stuck","When I get stuck","Skip it and keep going. Write down what I am stuck on."],
+  ["ask","Who I can ask","A teacher, a parent, a friend. Say when and where."],
+  ["finish","How I finish","Tick off what I did. Pack my bag. Then stop."]
+];
+const days=()=>K.S.week.weekend?DAYS:DAYS.slice(0,5);
+const nm=()=>K.first();
+const isMon=v=>{const d=parseD(v);return d&&d.getDay()===1};
+/* The Monday the planner runs from. A weekday snaps back to its Monday. A Saturday or Sunday snaps on to the next one. */
+const monOf=v=>{const d=parseD(v);if(!d)return"";const wd=d.getDay();return addDays(v,wd===6?2:wd===0?1:1-wd)};
+const weekStart=()=>monOf(str(K.S.term.weekOf));
+const dateOf=i=>{const w=weekStart();return w?addDays(w,i):""};
+const dayHead=(d,i)=>{const dt=parseD(dateOf(i));return dt?d[1]+" "+dt.getDate():d[1]};
+const wrow=l=>{const r={label:l||""};DAYS.forEach(([k])=>r[k]="");return r};
+/* Spread the steps between the start date and the day before the due date. The last step lands on the due date. */
+function planBack(a,freeWeekends){const n=a.steps.length,due=str(a.due);if(!n||!parseD(due))return false;
+  let start=parseD(a.start)?str(a.start):today();if(daysBetween(start,due)<0)start=due;
+  const end=daysBetween(start,due)>=1?addDays(due,-1):due,cand=[];
+  for(let d=start;daysBetween(d,end)>=0;d=addDays(d,1)){const wd=parseD(d).getDay();if(freeWeekends&&(wd===0||wd===6))continue;cand.push(d)}
+  if(!cand.length)cand.push(end);
+  const work=n-1;
+  a.steps.forEach((x,i)=>{x.date=i===n-1?due:cand[Math.min(cand.length-1,Math.max(0,Math.ceil((i+1)*cand.length/work)-1))]});
+  return true}
+function dueLine(a){const due=str(a.due);if(!parseD(due))return"Add the due date, then plan backwards from it.";
+  const n=daysBetween(today(),due),k=a.steps.filter(x=>str(x.text)).length;
+  return `Due ${dayD(due)}, ${n<0?"which has passed":n===0?"today":n===1?"tomorrow":"in "+n+" days"}. ${k?plural(k,"step")+".":"No steps yet."}`}
+const dueTitle=a=>[str(a.subject),str(a.task)].filter(Boolean).join(": ")||"New task";
+function nextMonday(){const d=parseD(today()),add=(8-d.getDay())%7;return addDays(today(),add===0?0:add)}
+
+return{
+id:"planner",name:"Student Planner",h1:"Student planner",newLabel:"Start a new planner",newToast:"New planner started",
+exampleNote:"Example planner for a fictional student. Your edits save in this browser only.",
+who:s=>str(s.client.preferred)||str(s.client.firstName),
+docTitle:()=>nm()?nm()+"'s planner":"My planner",
+docSub:()=>[str(K.S.school.year),str(K.S.term.label),weekStart()?"Week of "+longD(weekStart()):""].filter(Boolean).join(" · "),
+blank:()=>({client:{firstName:"",preferred:"",pronouns:""},school:{year:""},term:{label:"",weekOf:""},
+  week:{weekend:false,rows:[wrow("Before school"),wrow("After school"),wrow("Evening")]},
+  due:[],dueOpts:{weekends:true},
+  recipe:{where:"",start:"",focus:"25 minutes on, 5 minutes off",stuck:"",ask:"",finish:""},
+  pack:{mon:"",tue:"",wed:"",thu:"",fri:"",sat:"",sun:""},
+  include:{week:true,due:true,recipe:true,pack:true}}),
+templates:{wrow:()=>wrow(""),due:()=>({subject:"",task:"",due:"",start:today(),steps:[]})},
+normalise(o){if(!Array.isArray(o.week.rows))o.week.rows=[];o.week.rows=o.week.rows.map(r=>Object.assign(wrow(""),r||{}));
+  if(!Array.isArray(o.due))o.due=[];o.due.forEach(a=>{if(!Array.isArray(a.steps))a.steps=[]})},
+example(){const mon=nextMonday(),d=n=>addDays(mon,n);
+  const sci={subject:"Science",task:"Ecosystems poster",due:d(4),start:today(),steps:STD.map(t=>({text:t,date:""}))};
+  const o={client:{firstName:"Ava",preferred:"",pronouns:"she / her"},school:{year:"Year 9"},term:{label:"Term 4",weekOf:mon},
+    week:{weekend:false,rows:[
+      Object.assign(wrow("Before school"),{mon:"Pack PE gear",wed:"Library books back",fri:"Laptop charged"}),
+      Object.assign(wrow("After school"),{mon:"Snack and a 30 minute break\nMaths, 25 minutes",tue:"Netball training, 4 to 5:30",wed:"Science poster: first draft",thu:"Science poster: check and fix",fri:"Free"}),
+      Object.assign(wrow("Evening"),{mon:"Read for 20 minutes",tue:"English: read chapter 6",thu:"Print the poster\nPack my bag",fri:"Game night"})]},
+    due:[sci,{subject:"English",task:"Chapter 6 questions",due:d(2),start:mon,steps:[{text:"Read chapter 6",date:d(1)},{text:"Answer the questions",date:d(1)},{text:"Hand it in",date:d(2)}]}],
+    dueOpts:{weekends:true},
+    recipe:{where:"Desk in my room. Phone stays in the kitchen.",start:"Open the laptop and read the task for two minutes.",focus:"25 minutes on, 5 minutes off. Two rounds, then a real break.",stuck:"Skip it and keep going. Write down what I am stuck on.",ask:"Ms Lee in the library at lunch. Dad after dinner.",finish:"Tick off what I did. Pack my bag. Then stop."},
+    pack:{mon:"PE gear\nLaptop and charger",tue:"Netball shoes\nWater bottle",wed:"Library books",thu:"",fri:"Printed poster",sat:"",sun:""},
+    include:{week:true,due:true,recipe:true,pack:true}};
+  planBack(sci,true);
+  return o},
+secOf:p=>{const t=p.split(".")[0];return t==="week"?"week":t==="due"?"due":t==="recipe"?"recipe":t==="pack"?"pack":"who"},
+
+sections:[
+{g:"Set up",id:"who",nav:"Student",title:"Student and week",lead:"Who the planner is for, and which week it covers.",render:()=>`<div class="form">
+  <div class="grid3">${F("client.firstName","First name")}${F("client.preferred","Preferred name",{ph:"If different"})}${F("school.year","Year",{ph:"Year 9"})}</div>
+  <div class="grid2">${F("term.label","Term or label",{ph:"Term 4, Week 6"})}${F("term.weekOf","Week starting",{type:"date",hint:"Pick any day in the week. The planner runs from that Monday."})}</div>
+  ${say("wk-say")}
+  ${OT()}</div>`},
+{g:"The week",id:"week",nav:"My week",title:"My week",lead:"The week at a glance. Type it in together, or leave cells empty to print a blank one to fill in by hand.",render(){const ds=days(),rows=K.S.week.rows;return `<div class="form">
+  <div class="tools"><div class="tool">${CB("include.week","Include this page in the planner",true)}</div><div class="tool">${CB("week.weekend","Show Saturday and Sunday",true)}</div></div>
+  ${K.S.include.week?`<div class="wk"><table><thead><tr><th scope="col">Time of day</th>${ds.map((d,i)=>`<th scope="col">${esc(dayHead(d,i))}</th>`).join("")}<th></th></tr></thead><tbody>
+    ${rows.map((r,i)=>`<tr data-item="week.rows.${i}"><td><input type="text" id="${K.fid("week.rows."+i+".label")}" data-path="week.rows.${i}.label" placeholder="Label" aria-label="Row ${i+1} label" autocomplete="off"></td>${ds.map(([k,l])=>`<td><textarea id="${K.fid("week.rows."+i+"."+k)}" data-path="week.rows.${i}.${k}" rows="2" aria-label="${esc((str(r.label)||"Row "+(i+1))+", "+l)}"></textarea></td>`).join("")}<td class="wx"><button type="button" class="mv" data-act="del" data-path="week.rows" data-i="${i}" aria-label="Remove row ${i+1}">×</button></td></tr>`).join("")}
+  </tbody></table></div>
+  <button type="button" class="add" data-act="add" data-path="week.rows" data-tpl="wrow">Add a row</button>
+  <p class="hint">A new line in a cell becomes a new line on the planner. Short beats complete: one or two things per cell.</p>`:""}</div>`}},
+{g:"The week",id:"due",nav:"What's due",title:"What's due",lead:"Each assessment or task, broken into steps and planned backwards from the due date.",render:()=>`<div class="form">
+  <div class="tools"><div class="tool">${CB("include.due","Include this page in the planner",true)}</div><div class="tool">${CB("dueOpts.weekends","Keep weekends free when planning backwards")}</div></div>
+  ${K.S.include.due?LIST("due",(a,i,p,arr)=>`${HEAD("due",i,arr,dueTitle(a))}
+    <div class="grid2">${F(p+".subject","Subject",{ph:"Science"})}${F(p+".task","Task",{ph:"Ecosystems poster"})}</div>
+    <div class="grid2">${F(p+".due","Due date",{type:"date"})}${F(p+".start","Start working on it",{type:"date"})}</div>
+    ${say("due-say-"+i)}
+    <div class="rowlist">${a.steps.map((x,j)=>`<div class="rowi" data-item="${p}.steps.${j}"><span class="rn">${j+1}</span><div class="rf two"><input type="text" id="${K.fid(p+".steps."+j+".text")}" data-path="${p}.steps.${j}.text" placeholder="What I do" aria-label="Step ${j+1}" autocomplete="off"><input type="date" id="${K.fid(p+".steps."+j+".date")}" data-path="${p}.steps.${j}.date" aria-label="Do step ${j+1} by"></div><div class="rb">${MOVE(p+".steps",j,a.steps.length)}<button type="button" class="x" data-act="del" data-path="${p}.steps" data-i="${j}">Remove</button></div></div>`).join("")}</div>
+    <div class="btns"><button type="button" class="add" data-act="add-dstep" data-i="${i}">Add a step</button>${a.steps.length?"":`<button type="button" class="add" data-act="std-steps" data-i="${i}">Use the usual steps</button>`}<button type="button" class="big" data-act="plan-back" data-i="${i}"${a.steps.length?"":" disabled"}>Plan backwards</button></div>`,
+    {add:"Add an assessment or task",tpl:"due",empty:"Nothing due yet. Add one, or leave it empty to print a blank tracker."})
+    +`<p class="hint">Plan backwards spreads the steps from the start date to the day before it is due. The last step, handing it in, lands on the due date.</p>`:""}</div>`},
+{g:"How I study",id:"recipe",nav:"Study recipe",title:"My study recipe",lead:"How this student works best. Use their words. Empty lines print blank.",render:()=>`<div class="form">
+  <div class="tools"><div class="tool">${CB("include.recipe","Include this page in the planner",true)}</div></div>
+  ${K.S.include.recipe?RECIPE.map(([k,l,ph,hint])=>F("recipe."+k,l,{type:"area",rows:2,ph,hint})).join(""):""}</div>`},
+{g:"How I study",id:"pack",nav:"Pack list",title:"What to pack",lead:"What goes in the bag each day. One thing per line.",render:()=>`<div class="form">
+  <div class="tools"><div class="tool">${CB("include.pack","Include this page in the planner",true)}</div></div>
+  ${K.S.include.pack?`<div class="grid2">${days().map(([k,l],i)=>F("pack."+k,dayHead([k,l],i),{type:"area",rows:3})).join("")}</div>`:""}</div>`},
+{g:"Finish",id:"finish",nav:"Finish",title:"Finish",lead:"Preview it, then print it or send the Word file. Come back next week and change the dates.",render:()=>`<div class="form">${FINISH({hint:"Tip: print on A4 and put it where the student will see it, like the desk or the fridge."})}</div>`}
+],
+actions:{
+  "add-dstep"(b){const a=K.S.due[+b.dataset.i];if(!a)return;a.steps.push({text:"",date:""});K.commit();
+    const el=document.querySelector(`[data-path="due.${b.dataset.i}.steps.${a.steps.length-1}.text"]`);if(el)el.focus()},
+  "std-steps"(b){const a=K.S.due[+b.dataset.i];if(!a)return;a.steps=STD.map(t=>({text:t,date:""}));if(parseD(a.due))planBack(a,K.S.dueOpts.weekends);K.commit()},
+  "plan-back"(b){const i=+b.dataset.i,a=K.S.due[i];if(!a)return;
+    if(!parseD(a.due)){K.toast("Add the due date first");const el=document.querySelector(`[data-path="due.${i}.due"]`);if(el)el.focus();return}
+    K.undoable("Steps planned backwards",()=>{planBack(K.S.due[i],K.S.dueOpts.weekends)})}
+},
+live(){const s=K.S,w=document.getElementById("wk-say");
+  if(w){const v=str(s.term.weekOf);w.textContent=!parseD(v)?"Pick the week to date the planner. Without it, the columns just say Mon to Fri."
+    :`${isMon(v)?"":dayD(v)+" is not a Monday, so the planner uses the Monday of that week. "}Week of ${dayD(weekStart())} to ${dayD(addDays(weekStart(),s.week.weekend?6:4))}.`}
+  s.due.forEach((a,i)=>{const el=document.getElementById("due-say-"+i);if(el)el.textContent=dueLine(a);
+    const t=document.getElementById("it_"+K.fid("due."+i));if(t)t.textContent=dueTitle(a)})},
+checks(add,need){const s=K.S,inc=s.include;
+  need("who","client.firstName","First name");
+  if(!inc.week&&!inc.due&&!inc.recipe&&!inc.pack)add("week","include.week","No pages are included");
+  if(inc.due)s.due.forEach((a,i)=>{const b="due."+i;
+    if(!str(a.task)&&!str(a.subject))add("due",b+".task",`Task ${i+1} has no name`);
+    if(!parseD(a.due))add("due",b+".due",`${dueTitle(a)}: no due date`);
+    else{if(daysBetween(today(),a.due)<0)add("due",b+".due",`${dueTitle(a)}: the due date has passed`,true);
+      a.steps.forEach((x,j)=>{if(parseD(x.date)&&daysBetween(x.date,a.due)<0)add("due",`${b}.steps.${j}.date`,`${dueTitle(a)}: step ${j+1} is dated after the due date`,true)})}
+    a.steps.forEach((x,j)=>{if(!str(x.text))add("due",`${b}.steps.${j}.text`,`${dueTitle(a)}: step ${j+1} is empty`,true)})})},
+
+build(){const s=K.S,B=[],ds=days(),inc=s.include,lines=t=>str(t).split(/\n+/).map(x=>x.trim()).filter(Boolean);
+  if(inc.week){B.push({t:"h",text:"My week",sec:"week"});
+    const rows=s.week.rows.length?s.week.rows:[wrow(""),wrow(""),wrow("")],lw=ds.length>5?13:15,cw=(100-lw)/ds.length;
+    B.push({t:"tbl",tight:true,minw:ds.length>5?640:540,w:[lw].concat(ds.map(()=>cw)),head:[""].concat(ds.map(dayHead)),
+      rows:rows.map(r=>({label:true,h:62,cells:[{c:str(r.label)?[{b:str(r.label)}]:[]}].concat(ds.map(([k])=>({c:lines(r[k]).map(x=>({p:x}))})))}))})}
+  if(inc.due){B.push({t:"h",text:"What's due",sec:"due"});
+    const list=s.due.filter(a=>str(a.task)||str(a.subject));
+    if(!list.length)B.push({t:"tbl",w:[42,22,22,14],head:["What","Subject","Due","Done"],rows:Array.from({length:5},()=>({h:30,cells:[{c:[]},{c:[]},{c:[]},{c:[]}]}))});
+    list.forEach(a=>{const st=a.steps.filter(x=>str(x.text));
+      B.push({t:"sub",text:dueTitle(a)+(parseD(a.due)?". Due "+dayD(a.due):"")});
+      B.push({t:"tbl",w:[62,24,14],head:["Step","Do it by","Done"],rows:st.length
+        ?st.map(x=>({cells:[{c:[{p:str(x.text)}]},{c:parseD(x.date)?[{p:dayD(x.date)}]:[]},{c:[{box:true}],ctr:true}]}))
+        :Array.from({length:4},()=>({h:30,cells:[{c:[]},{c:[]},{c:[{box:true}],ctr:true}]}))})})}
+  if(inc.recipe){B.push({t:"h",text:"My study recipe",sec:"recipe"});
+    B.push({t:"tbl",w:[26,74],rows:RECIPE.map(([k,l])=>{const v=lines(s.recipe[k]);return{label:true,h:v.length?0:38,cells:[{c:[{b:l}]},{c:v.map(x=>({p:x}))}]}})})}
+  if(inc.pack){B.push({t:"h",text:"What to pack",sec:"pack"});
+    B.push({t:"tbl",w:[16,84],rows:ds.map((d,i)=>{const v=lines(s.pack[d[0]]);return{label:true,h:v.length?0:30,cells:[{c:[{b:dayHead(d,i)}]},{c:v.length?[{p:v.join("  ·  ")}]:[]}]}})})}
+  B.push({t:"note",tone:"teal",title:"Stuck or behind?",paras:["That happens to everyone. Pick the smallest next step and do only that one.",str(s.recipe.ask)?"Then tell someone. People I can ask: "+dot(lines(s.recipe.ask).join(" ")):"Then tell someone: a teacher, a parent or your OT."]});
+  B.push({t:"sign",kind:"by"});
+  return B}
+}});
+</script>
+</body></html>

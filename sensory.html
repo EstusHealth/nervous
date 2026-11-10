@@ -1,0 +1,309 @@
+<!doctype html><html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Sensory Profile Report Builder</title><meta name="robots" content="noindex, nofollow"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 fill=%22%23090909%22/%3E%3Crect x=%224%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23344982%22/%3E%3Crect x=%2210%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232F6F9E%22/%3E%3Crect x=%2216%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232CA5B8%22/%3E%3Crect x=%2222%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23AB5C95%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="kit.css">
+<script src="theme.js"></script></head><body>
+<noscript><p style="padding:24px;font:16px sans-serif">This builder needs JavaScript. Turn it on and reload.</p></noscript>
+<script src="kit.js"></script>
+<script>
+/* Sensory profile report: a plain-language summary of Sensory Profile results for schools and other stakeholders.
+   You enter the classifications from the score summary. This builder holds no test items and no cut scores.
+   It turns the pattern into what it means at school, what you might see, and what helps. Engine: kit.js. */
+EstusKit.start(function(K){
+const {esc,str,cap,dot,undot,lowLead,items,paras,plural,listJoin,parseD,addDays,addMonths,fmtD,longD,today,ageAt,F,CB,SEG,SEGF,say,OT,FINISH,LIST,HEAD,row,pushParas}=K;
+const FORMS={
+  child:{name:"Child Sensory Profile 2",col:"Home",by:"Parent or carer",ctx:"at home",cite:"Sensory Profile 2 (Dunn, 2014)"},
+  school:{name:"School Companion Sensory Profile 2",col:"School",by:"Teacher",ctx:"at school",cite:"Sensory Profile 2 (Dunn, 2014)"},
+  adult:{name:"Adolescent/Adult Sensory Profile",col:"Self-report",by:"",ctx:"in their own report",cite:"Adolescent/Adult Sensory Profile (Brown and Dunn, 2002)"}
+};
+const FKEYS=["child","school","adult"];
+/* key, plain name, what it means in a few words, SP2 name, Adolescent/Adult name */
+const QUADS=[
+  ["seeking","Seeking","Looks for sensory input","Seeking/Seeker","Sensation Seeking"],
+  ["avoiding","Avoiding","Moves away from sensory input","Avoiding/Avoider","Sensation Avoiding"],
+  ["sensitivity","Sensitivity","Notices sensory input","Sensitivity/Sensor","Sensory Sensitivity"],
+  ["registration","Registration","Misses sensory input","Registration/Bystander","Low Registration"]
+];
+/* key, plain name, name on the form, forms that score it */
+const SENSES=[
+  ["auditory","Sound","Auditory",["child","school"]],["visual","Sight","Visual",["child","school"]],["touch","Touch","Touch",["child","school"]],
+  ["movement","Movement","Movement",["child","school"]],["body","Body position","Body position",["child"]],["oral","Mouth: taste, smell and chewing","Oral sensory",["child"]]
+];
+const BEHAV=[
+  ["conduct","Conduct","child"],["social","Social and emotional responses","child"],["attention","Attention","child"],["behavioural","Behaviour","school"]
+];
+const FACTORS=[
+  ["f1","School Factor 1","Need for extra support"],["f2","School Factor 2","Alertness and activity in the learning environment"],
+  ["f3","School Factor 3","Tolerance in the learning environment"],["f4","School Factor 4","Availability for learning"]
+];
+const CLS=[["-2","Much less"],["-1","Less"],["0","Similar"],["1","More"],["2","Much more"]];
+const LAB2={"-2":"Much less than others","-1":"Less than others","0":"Just like the majority of others","1":"More than others","2":"Much more than others"};
+const LABA={"-2":"Much less than most people","-1":"Less than most people","0":"Similar to most people","1":"More than most people","2":"Much more than most people"};
+const lab=(f,v)=>(f==="adult"?LABA:LAB2)[String(v)]||"";
+/* Strategy bank. Tag: m = helps when they notice or avoid more, s = when they seek more, r = when they miss more. */
+const BANK=[
+  {id:"sound",title:"Sound",senses:["auditory"],items:[
+    ["a1","Seat away from doors, fans, speakers and busy walkways","m"],
+    ["a2","Offer ear defenders or earplugs, with free choice of when to use them","m"],
+    ["a3","Give a heads-up before loud events: bells, assemblies, fire drills, music","m"],
+    ["a4","Offer a quiet place for work that needs focus","m"],
+    ["a5","Say their name first and wait for a sign they have tuned in. Do not ask for eye contact.","r"],
+    ["a6","Give one instruction at a time, and back it up in writing or pictures","r"],
+    ["a7","Allow quiet music or white noise through headphones during independent work","s"]]},
+  {id:"sight",title:"Sight",senses:["visual"],items:[
+    ["v1","Keep the desk clear: only what this task needs","m"],
+    ["v2","Seat away from glare, flickering lights and windows with lots of movement","m"],
+    ["v3","Reduce busy wall displays near their seat","m"],
+    ["v4","Allow a cap, tinted glasses or lower lighting where the school can","m"],
+    ["v5","Use a visual timetable and written steps they can check back on","r"],
+    ["v6","Highlight or colour-code the key information","r"]]},
+  {id:"touch",title:"Touch",senses:["touch"],items:[
+    ["t1","Warn before touch, and do not touch from behind","m"],
+    ["t2","Let them stand at the front or back of lines, away from bumping","m"],
+    ["t3","Offer choices for messy work: tools, gloves, or watching first","m"],
+    ["t4","Be flexible with uniform fabrics, tags, socks and hats where the school can","m"],
+    ["t5","Give a defined spot on the mat: a cushion or a carpet square","m"],
+    ["t6","Have quiet fidget tools on hand, used freely and without comment","s"]]},
+  {id:"move",title:"Movement and body",senses:["movement","body"],items:[
+    ["m1","Build movement into the day: messenger jobs, handing out books, standing to work","s"],
+    ["m2","Plan movement breaks before long sitting, not as a reward for it","s"],
+    ["m3","Offer seating choices: a wobble cushion, a standing desk or a chair band","s"],
+    ["m4","Offer heavy work: carrying, pushing, wall push-ups, stacking chairs","s"],
+    ["m5","Never take away recess or lunch play as a consequence",""],
+    ["m6","Let them step out of, or do an easier version of, activities with heights, spinning or feet off the ground","m"],
+    ["m7","Allow extra time and a quieter space to change for sport","m"]]},
+  {id:"mouth",title:"Mouth",senses:["oral"],items:[
+    ["o1","Allow a water bottle on the desk",""],
+    ["o2","Allow crunchy or chewy snacks at break times","s"],
+    ["o3","Allow a safe chew tool if they chew clothing, pencils or sleeves","s"],
+    ["o4","Let them eat away from strong food smells","m"],
+    ["o5","No pressure to try or finish foods","m"]]},
+  {id:"routine",title:"Routine and transitions",always:true,items:[
+    ["r1","Give a countdown before changes: five minutes, two minutes, now","m"],
+    ["r2","Tell them ahead about changes: relief teachers, excursions, room swaps","m"],
+    ["r3","Let them move a few minutes early to miss crowded corridors","m"],
+    ["r4","Give them a job to do during transitions","s"],
+    ["r5","Check they have caught the instruction before the class moves on","r"]]},
+  {id:"breaks",title:"Breaks and recovery",always:true,items:[
+    ["b1","Agree on a break card or signal they can use without having to explain","m"],
+    ["b2","Agree on a quiet space they can go to, and for how long","m"],
+    ["b3","After a break, welcome them back without questions","m"],
+    ["b4","Check in at set times, not only when things look hard",""],
+    ["b5","Put the hardest tasks early. Energy drops across the day and the week.",""]]}
+];
+/* Written for a school, or for other stakeholders: family, support workers, a workplace. The wording follows. */
+const sch=()=>K.S.report.for!=="other";
+const nm=()=>K.first()||(sch()?"the student":"the person");
+const Nm=()=>cap(nm());
+const on=()=>FKEYS.filter(f=>K.S.forms[f]&&K.S.forms[f].on);
+const has=v=>v!==""&&v!=null&&!isNaN(+v);
+const dir=v=>+v>0?"more":+v<0?"less":"same";
+const PEERS="most others the same age";
+function TXT(k,d){const N=Nm(),p=K.pron();
+  const T={
+    seeking:{more:`${N} looks for more sensory input than ${PEERS}: more movement, touch, sound or things to look at. Moving, fidgeting and touching are often how ${nm()} stays alert and focused.`,
+      less:`${N} goes looking for less sensory input than ${PEERS}. Calm, familiar activities may suit ${p.him} best.`},
+    avoiding:{more:`${N} moves away from sensory input more than ${PEERS}. Leaving, covering ears, saying no, or sticking closely to routines are ways of keeping input manageable. This is self-protection, not defiance.`,
+      less:`${N} is less likely than ${PEERS} to step away from sensory input, and may stay in busy or loud places without showing a need for a break.`},
+    sensitivity:{more:`${N} notices sensory input more than ${PEERS}. Small sounds, lights, textures or movement nearby are picked up quickly. This can be distracting, and it uses up energy across the day.`,
+      less:`${N} notices small sensory details less than ${PEERS}, and is less easily distracted by them.`},
+    registration:{more:`${N} misses more sensory input than ${PEERS}. A name being called, an instruction given once, or mess on hands and face may not register. This is not ignoring. The input needs to be clearer or stronger to get through.`,
+      less:`${N} misses less sensory input than ${PEERS}, and tends to pick up what is going on nearby.`}};
+  return T[k][d]}
+const ctxOf=fs=>cap(listJoin(fs.map(f=>f==="adult"?(K.first()?"in "+nm()+"'s own report":"in their own report"):FORMS[f].ctx)));
+function quadMeaning(k){const q=K.S.quad[k],fs=on().filter(f=>has(q[f]));if(!fs.length)return"";
+  const by={more:[],less:[],same:[]};fs.forEach(f=>by[dir(q[f])].push(f));
+  const kinds=["more","less","same"].filter(d=>by[d].length);
+  if(kinds.length===1)return kinds[0]==="same"?`About the same as ${PEERS}.`:TXT(k,kinds[0]);
+  return kinds.map(d=>ctxOf(by[d])+": "+(d==="same"?`about the same as ${PEERS}.`:TXT(k,d))).join(" ")}
+function flags(){const any=(k,t)=>on().some(f=>has(K.S.quad[k][f])&&t(+K.S.quad[k][f]));
+  return{m:any("sensitivity",v=>v>0)||any("avoiding",v=>v>0),s:any("seeking",v=>v>0),r:any("registration",v=>v>0)}}
+const senseDiff=k=>on().some(f=>has(K.S.sense[k][f])&&+K.S.sense[k][f]!==0);
+const anySense=()=>SENSES.some(([k])=>on().some(f=>has(K.S.sense[k][f])));
+function suggested(g,tag){const fl=flags(),anyFl=fl.m||fl.s||fl.r;
+  const gOn=g.always||!anySense()?anyFl:g.senses.some(senseDiff);
+  return gOn&&(!tag||fl[tag])}
+const pickedIn=g=>g.items.filter(([id])=>K.S.strat.picked[id]).map(x=>x[1]).concat(items(K.S.strat.custom[g.id]));
+const pickCount=()=>BANK.reduce((n,g)=>n+pickedIn(g).length,0);
+function draft(){const s=K.S,fs=on(),lines=[];
+  const ql=QUADS.map(([k,n])=>{const ds=fs.filter(f=>has(s.quad[k][f])).map(f=>dir(s.quad[k][f])).filter(d=>d!=="same");return ds.length?n.toLowerCase():null}).filter(Boolean);
+  const words=["none","one","two","three","four"];
+  lines.push(ql.length?`${Nm()}'s results differ from ${PEERS} in ${words[ql.length]} of the four sensory patterns: ${listJoin(ql)}.`+(()=>{const sl=SENSES.filter(([k])=>senseDiff(k)).map(x=>x[1].split(":")[0].toLowerCase());return sl.length?` The senses that stand out are ${listJoin(sl)}.`:""})()
+    :`${Nm()}'s sensory patterns are similar to ${PEERS} on the questionnaires used.`);
+  if(fs.includes("child")&&fs.includes("school")){const differ=QUADS.some(([k])=>has(s.quad[k].child)&&has(s.quad[k].school)&&dir(s.quad[k].child)!==dir(s.quad[k].school))
+      ||SENSES.some(([k])=>has(s.sense[k].child)&&has(s.sense[k].school)&&dir(s.sense[k].child)!==dir(s.sense[k].school));
+    if(differ)lines.push("Home and school results differ in places. That is common. Sensory needs change with the setting, the demands and the people.")}
+  lines.push(`These are differences in how ${nm()} takes in the world, not faults to fix. The supports below aim to make ${sch()?"school":"each day"} fit ${nm()} better.`);
+  return lines.join("\n")}
+const prow=()=>({what:"",who:""});
+
+return{
+id:"sensory",name:"Sensory Profile Report",h1:"Sensory profile report",newLabel:"Start a new report",newToast:"New report started",
+exampleNote:"Example report for a fictional student. Your edits save in this browser only.",
+docTitle:()=>"Sensory profile summary",
+docSub:()=>`For ${sch()?"school staff and others who support "+nm():undot(lowLead(str(K.S.report.aud).replace(/^for\s+/i,"")))||"the people who support "+nm()}. Confidential. Share only with consent.`,
+blank(){const q={},se={};QUADS.forEach(([k])=>q[k]={child:"",school:"",adult:"",note:""});SENSES.forEach(([k])=>se[k]={child:"",school:"",note:""});
+  return{client:{firstName:"",preferred:"",surname:"",pronouns:"",dob:""},report:{for:"school",aud:""},school:{name:"",year:"",teacher:""},
+  forms:{child:{on:false,by:"",rel:"",date:""},school:{on:false,by:"",rel:"",date:""},adult:{on:false,by:"",rel:"",date:""}},
+  quad:q,sense:se,beh:{conduct:"",social:"",attention:"",behavioural:""},factors:{f1:"",f2:"",f3:"",f4:""},
+  about:{strengths:""},meaning:{summary:"",see:""},strat:{picked:{},custom:{}},signs:{early:"",help:"",harder:""},
+  plan:{rows:[prow()],review:""},share:{consent:false,by:"",with:""}}},
+templates:{prow},
+normalise(o){if(o.report.for!=="other")o.report.for="school";if(!Array.isArray(o.plan.rows))o.plan.rows=[];if(!o.strat.picked||typeof o.strat.picked!=="object")o.strat.picked={};if(!o.strat.custom||typeof o.strat.custom!=="object")o.strat.custom={}},
+example(){const t=today();return{
+  client:{firstName:"Noah",preferred:"",surname:"Bennett",pronouns:"he / him",dob:addMonths(t,-113)},school:{name:"Example Primary School",year:"Year 4",teacher:"Ms Patel"},
+  forms:{child:{on:true,by:"Sarah Bennett",rel:"mother",date:addDays(t,-14)},school:{on:true,by:"Ms Patel",rel:"class teacher",date:addDays(t,-10)},adult:{on:false,by:"",rel:"",date:""}},
+  quad:{seeking:{child:"1",school:"2",adult:"",note:"Rocks on his chair, taps, and is first up for any errand."},avoiding:{child:"0",school:"1",adult:"",note:"Asks to leave during assembly and music."},
+    sensitivity:{child:"1",school:"2",adult:"",note:"Distracted by the fan, the corridor and other children talking."},registration:{child:"0",school:"0",adult:"",note:""}},
+  sense:{auditory:{child:"1",school:"2",note:"Covers his ears at the bell. Loses instructions when the room is noisy."},visual:{child:"0",school:"0",note:""},
+    touch:{child:"1",school:"1",note:"Dislikes being bumped in lines. Avoids glue and paint."},movement:{child:"1",school:"2",note:"Moves a lot. Focus is better after movement."},
+    body:{child:"0",school:"",note:""},oral:{child:"1",school:"",note:"Chews his collar and pencils."}},
+  beh:{conduct:"0",social:"1",attention:"1",behavioural:"1"},factors:{f1:"1",f2:"1",f3:"1",f4:"0"},
+  about:{strengths:"Curious, kind and quick with facts about animals and space.\nLoves building: Lego, Minecraft and anything with a plan.\nTries hard and wants to do well at school."},
+  meaning:{summary:"Noah's results differ from most others the same age in three of the four sensory patterns: seeking, avoiding and sensitivity. The senses that stand out are sound, touch, movement and the mouth.\nNoah notices more than most children, especially sound, and it wears him out. He also needs more movement than most to stay alert. In a busy classroom these two needs pull against each other: he needs to move, and he needs less noise.\nHome and school results differ in places. That is common. Sensory needs change with the setting, the demands and the people.\nThese are differences in how Noah takes in the world, not faults to fix. The supports below aim to make school fit Noah better.",
+    see:"Fidgeting, rocking or leaving his seat, most often during long listening tasks\nCovering his ears, or asking to leave, when the room gets loud\nMissed instructions in noisy moments\nChewing his collar or pencils when concentrating\nA drop in focus and mood after lunch and late in the week"},
+  strat:{picked:{a1:true,a2:true,a3:true,t2:true,m1:true,m2:true,m5:true,o3:true,r1:true,b1:true},custom:{}},
+  signs:{early:"Hands over his ears, or head down on the desk\nFaster, louder movement\nGoing quiet and not answering",help:"Offer the break card without asking questions\nFewer words, a calm voice and more space\nA job that involves carrying or pushing",harder:"Being asked to explain in the moment\nBeing touched or crowded\nLosing recess"},
+  plan:{rows:[{what:"Trial ear defenders and the break card for four weeks",who:"Ms Patel, with Noah"},{what:"Set up a movement job before literacy and maths",who:"Ms Patel"},{what:"Send home a short note each fortnight on what worked",who:"Ms Patel and Mum"},{what:"Phone review with school at the end of the trial",who:"Estus OT"}],review:addDays(t,35)},
+  share:{consent:true,by:"Sarah Bennett (Noah's mum)",with:"the Example Primary School staff who work with Noah"},meta:{date:t},ot:{ahpra:"OCC0001234567"}}},
+secOf:p=>{const t=p.split(".")[0];return({client:"details",report:"details",school:"details",forms:"forms",quad:"patterns",sense:"senses",beh:"senses",factors:"senses",about:"meaning",meaning:"meaning",strat:"strategies",signs:"overload",plan:"plan",share:"finish"})[t]||null},
+
+sections:[
+{g:"About",id:"details",nav:"Who it's for",title:()=>sch()?"Student and school":"Person and readers",lead:"Who the report is about, and who it goes to.",render:()=>`<div class="form">
+  <div class="grid3">${F("client.firstName","First name")}${F("client.preferred","Preferred name",{ph:"If different"})}${F("client.surname","Surname")}</div>
+  <div class="grid2">${F("client.pronouns","Pronouns",{type:"select",opts:[["","Choose"],"she / her","he / him","they / them"]})}${F("client.dob","Date of birth",{type:"date"})}</div>
+  ${say("name-say")}
+  ${SEGF("report.for","Written for",[["school","A school"],["other","Other stakeholders"]],{keep:true,re:true,hint:"Other stakeholders: family, support workers, a workplace or another provider. The headings change to suit."})}
+  ${sch()?`<div class="grid3">${F("school.name","School")}${F("school.year","Year",{ph:"Year 4"})}${F("school.teacher","Teacher or key contact",{ph:"Ms Patel"})}</div>`
+    :F("report.aud","Who will read it",{ph:"the support workers and family who support Noah",hint:"Finishes the sentence \u201CFor \u2026\u201D at the top of the report. Leave it empty for \u201Cthe people who support them\u201D."})}
+  ${OT()}</div>`},
+{g:"About",id:"forms",nav:"Questionnaires",title:"Questionnaires used",lead:"Tick each form you scored. You enter the classifications from the score summary. This builder holds no test items and no cut scores.",render:()=>`<div class="form"><div class="tools">
+  ${FKEYS.map(f=>{const o=K.S.forms[f],b="forms."+f;return `<div class="tool">${CB(b+".on",FORMS[f].name+(f==="child"?" (caregiver, 3 to 14 years)":f==="school"?" (teacher, 3 to 14 years)":" (self-report, 11 years and up)"),true)}
+    ${o.on?`<div class="grid3">${f==="adult"?"":F(b+".by","Completed by",{ph:FORMS[f].by})}${f==="adult"?"":F(b+".rel","Relationship",{ph:f==="child"?"mother":"class teacher"})}${F(b+".date","Date completed",{type:"date"})}</div>`:""}</div>`}).join("")}
+  </div><p class="hint">Using both the caregiver and teacher forms shows where home and school differ. That difference is often the most useful finding.</p></div>`},
+{g:"Results",id:"patterns",nav:"Sensory patterns",title:"The four sensory patterns",lead:"Pick the classification for each pattern, on each form. The plain-language meaning builds underneath.",render(){const fs=on();
+  if(!fs.length)return `<div class="form"><div class="empty">Tick a questionnaire first.<button type="button" class="add" data-go="forms">Go to questionnaires</button></div></div>`;
+  return `<div class="form">${QUADS.map(([k,n,d,sp,aa])=>`<div class="area"><div class="area-head"><h3 class="ah">${esc(n)}</h3></div>
+    <p class="hint">${esc(d)}. On the form: ${esc(fs.includes("adult")&&fs.length===1?aa:fs.includes("adult")?sp+" or "+aa:sp)}.</p>
+    ${fs.map(f=>`<div class="frow"><span class="fl">${esc(FORMS[f].col)}</span>${SEG(`quad.${k}.${f}`,CLS,{seg:"seg5",aria:n+", "+FORMS[f].col})}</div>`).join("")}
+    ${F(`quad.${k}.note`,"What you see",{ph:"Optional. One line of real examples."})}
+    ${say("qm_"+k)}</div>`).join("")}
+  <p class="hint">Tap a selected classification again to clear it.</p></div>`}},
+{g:"Results",id:"senses",nav:"Senses and behaviour",title:"Sense by sense",lead:"The section scores. Fill what you scored and skip the rest. Only filled rows reach the report.",render(){const fs=on().filter(f=>f!=="adult");
+  if(!fs.length)return `<div class="form"><div class="empty">${on().length?"The Adolescent/Adult Sensory Profile reports the four patterns only, so there is nothing to enter here.":"Tick a questionnaire first."}${on().length?"":`<button type="button" class="add" data-go="forms">Go to questionnaires</button>`}</div></div>`;
+  const bl=BEHAV.filter(b=>fs.includes(b[2]));
+  return `<div class="form">${SENSES.filter(x=>x[3].some(f=>fs.includes(f))).map(([k,n,formal,fl])=>`<div class="area"><div class="area-head"><h3 class="ah">${esc(n.split(":")[0])}</h3></div>
+    <p class="hint">On the form: ${esc(formal)}.</p>
+    ${fs.filter(f=>fl.includes(f)).map(f=>`<div class="frow"><span class="fl">${esc(FORMS[f].col)}</span>${SEG(`sense.${k}.${f}`,CLS,{seg:"seg5",aria:n+", "+FORMS[f].col})}</div>`).join("")}
+    ${F(`sense.${k}.note`,"What you see",{ph:"Optional. One line of real examples."})}</div>`).join("")}
+  ${bl.length?`<div class="area"><div class="area-head"><h3 class="ah">Behaviour linked to sensory processing</h3></div>
+    ${bl.map(([k,n,f])=>`<div class="frow"><span class="fl">${esc(n)}<br><span style="font-weight:500;letter-spacing:0;text-transform:none">${esc(FORMS[f].col)}</span></span>${SEG("beh."+k,CLS,{seg:"seg5",aria:n})}</div>`).join("")}</div>`:""}
+  ${fs.includes("school")?`<div class="area"><div class="area-head"><h3 class="ah">School factors</h3></div><p class="hint">From the School Companion only.</p>
+    ${FACTORS.map(([k,n,d])=>`<div class="frow"><span class="fl">${esc(n)}<br><span style="font-weight:500;letter-spacing:0;text-transform:none">${esc(d)}</span></span>${SEG("factors."+k,CLS,{seg:"seg5",aria:n})}</div>`).join("")}</div>`:""}</div>`}},
+{g:"Meaning",id:"meaning",nav:"What it means",title:"What it means",lead:()=>sch()?"Strengths first. Then your summary, in words a teacher can use tomorrow.":"Strengths first. Then your summary, in words the reader can use tomorrow.",render:()=>`<div class="form">
+  ${F("about.strengths","Strengths and interests",{type:"area",rows:3,ph:"One per line."})}
+  ${F("meaning.summary","Your summary",{type:"area",rows:6,ph:sch()?"What the pattern means for this student at school.":"What the pattern means for this person, day to day."})}
+  <div class="btns"><button type="button" class="add" data-act="draft">Draft from the results</button><span class="hint">A starting point. Edit it so it sounds like ${sch()?"this student":"this person"}.</span></div>
+  ${F("meaning.see",sch()?"What you might see at school":"What you might see",{type:"area",rows:4,ph:"One per line. Real, observable things."})}</div>`},
+{g:"Meaning",id:"strategies",nav:"What helps",title:()=>sch()?"What helps at school":"What helps",lead:()=>sch()?"Pick a short list the teacher will use. Strategies that match the results are tagged. Add your own under each area.":"The bank is written for classrooms. Pick what carries over to this setting, and add your own under each area. Strategies that match the results are tagged.",render:()=>`<div class="form">
+  ${say("st-say")}
+  ${BANK.map(g=>`<div class="fgrp"><div class="fgrp-top"><h3 class="ah" style="flex:none">${esc(g.title)}</h3>${suggested(g)?`<span class="tag mid">Matches the results</span>`:""}</div>
+    <div class="cbm" style="grid-template-columns:1fr">${g.items.map(([id,t,tag])=>CB("strat.picked."+id,t,false,suggested(g,tag)?"Suggested":"")).join("")}</div>
+    ${F("strat.custom."+g.id,"Your own for "+g.title.toLowerCase(),{type:"area",rows:2,ph:"Optional. One per line."})}</div>`).join("")}</div>`},
+{g:"Meaning",id:"overload",nav:"Overload",title:"When it is getting too much",lead:()=>`The early signs, what helps in the moment, and what makes it harder. One per line. Ask ${sch()?"the student":"the person"} and family.`,render:()=>`<div class="form">
+  ${F("signs.early","Early signs",{type:"area",rows:3,ph:"Hands over ears\nGoing quiet"})}
+  ${F("signs.help","What helps in the moment",{type:"area",rows:3,ph:"Fewer words and more space"})}
+  ${F("signs.harder","What makes it harder",{type:"area",rows:3,ph:"Being asked to explain in the moment"})}</div>`},
+{g:"Next",id:"plan",nav:"Who does what",title:"Who does what",lead:"A report changes nothing on its own. Name the next steps and who owns each one.",render:()=>`<div class="form">
+  <div class="rowlist">${K.S.plan.rows.map((r,i)=>`<div class="rowi" data-item="plan.rows.${i}"><span class="rn">${i+1}</span><div class="rf two"><input type="text" id="${K.fid("plan.rows."+i+".what")}" data-path="plan.rows.${i}.what" placeholder="What happens" aria-label="Step ${i+1}" autocomplete="off"><input type="text" id="${K.fid("plan.rows."+i+".who")}" data-path="plan.rows.${i}.who" placeholder="Who" aria-label="Who does step ${i+1}" autocomplete="off"></div><div class="rb">${K.MOVE("plan.rows",i,K.S.plan.rows.length)}<button type="button" class="x" data-act="del" data-path="plan.rows" data-i="${i}">Remove</button></div></div>`).join("")}</div>
+  <button type="button" class="add" data-act="add" data-path="plan.rows" data-tpl="prow">Add a step</button>
+  ${F("plan.review","Review date",{type:"date",hint:"When you will check what worked."})}</div>`},
+{g:"Finish",id:"finish",nav:"Sign-off",title:"Sign-off",lead:"Confirm consent to share, clear the checks and download.",render:()=>`<div class="form">
+  ${CB("share.consent","Consent was given to share this summary")}
+  <div class="grid2">${F("share.by","Who gave consent",{ph:"Sarah Bennett (Noah's mum)"})}${F("share.with","Shared with",{ph:sch()?"the school staff who work with Noah":"the support workers who work with Noah"})}</div>
+  ${F("meta.date","Report date",{type:"date"})}
+  ${FINISH()}</div>`}
+],
+actions:{draft(){const d=draft();if(str(K.S.meaning.summary))K.undoable("Summary replaced",()=>{K.S.meaning.summary=d});else{K.S.meaning.summary=d;K.commit()}}},
+live(){const s=K.S,ns=document.getElementById("name-say");
+  if(ns){const a=ageAt(s.client.dob,str(s.meta.date)||today());ns.innerHTML=K.first()?`The report calls them <b>${esc(nm())}</b>, with ${esc(K.pron().label)}${a!=null?`. Age at report: <b>${a}</b>`:""}.`:"Add the name to see how the report refers to them."}
+  QUADS.forEach(([k])=>{const el=document.getElementById("qm_"+k);if(el)el.textContent=quadMeaning(k)||"Pick a classification to see what the report will say."});
+  const st=document.getElementById("st-say");if(st){const n=pickCount();st.textContent=n?`${plural(n,"strategy","strategies")} picked. Six to ten is about right.`:"None picked yet. Six to ten is about right."}},
+checks(add,need){const s=K.S,fs=on();
+  need("details","client.firstName","First name");need("details","client.dob","Date of birth");need("details","ot.name","Your name");
+  if(!str(s.ot.ahpra))add("details","ot.ahpra","No AHPRA number. It goes under your name in the sign-off.",true);
+  if(sch()&&!str(s.school.name))add("details","school.name","No school named. If this is not for a school, pick Other stakeholders.",true);
+  if(!fs.length)add("forms","forms.child.on","Tick at least one questionnaire");
+  fs.forEach(f=>{const o=s.forms[f];if(f!=="adult"&&!str(o.by))add("forms",`forms.${f}.by`,`${FORMS[f].name}: say who completed it`,true);
+    if(!parseD(o.date))add("forms",`forms.${f}.date`,`${FORMS[f].name}: no date completed`,true);
+    QUADS.forEach(([k,n])=>{if(!has(s.quad[k][f]))add("patterns",`quad.${k}.${f}`,`${n}: no ${FORMS[f].col.toLowerCase()} classification`)})});
+  fs.filter(f=>f!=="adult").forEach(f=>{const miss=SENSES.filter(x=>x[3].includes(f)&&!has(s.sense[x[0]][f]));
+    if(miss.length)add("senses",`sense.${miss[0][0]}.${f}`,`${FORMS[f].col}: ${plural(miss.length,"sense section")} not entered (${listJoin(miss.map(x=>x[1].split(":")[0].toLowerCase()))})`,true)});
+  need("meaning","about.strengths","Strengths and interests");need("meaning","meaning.summary","Your summary");
+  const n=pickCount();if(n<3)add("strategies","strat.picked.a1","Pick at least three strategies");else if(n>12)add("strategies","strat.picked.a1",`${n} strategies picked. A short list gets used.`,true);
+  if(!s.plan.rows.some(r=>str(r.what)))add("plan","plan.rows.0.what","Say who does what next",true);
+  s.plan.rows.forEach((r,i)=>{if(str(r.what)&&!str(r.who))add("plan",`plan.rows.${i}.who`,`Step ${i+1} has no owner`,true)});
+  if(!parseD(s.plan.review))add("plan","plan.review","No review date",true);
+  if(!s.share.consent)add("finish","share.consent","Confirm consent to share");
+  if(s.share.consent&&!str(s.share.with))add("finish","share.with","Say who it is shared with",true);
+  need("finish","meta.date","Report date")},
+
+build(){const s=K.S,B=[],c=s.client,p=K.pron(),fs=on(),sf=fs.filter(f=>f!=="adult");
+  const who=K.full()||K.first(),a=ageAt(c.dob,str(s.meta.date)||today()),info=[];
+  info.push(row(sch()?"Student":"Name",who?[{p:who+(str(c.preferred)&&str(c.preferred)!==str(c.firstName)?` (${str(c.preferred)})`:"")+(str(c.pronouns)?", "+p.label:"")}]:[{gap:"Name"}]));
+  info.push(row("Date of birth",parseD(c.dob)?[{p:fmtD(c.dob)+(a!=null?` (${a} years)`:"")}]:[{gap:"Date of birth"}]));
+  if(sch()&&(str(s.school.name)||str(s.school.year)))info.push(row("School",[str(s.school.name),str(s.school.year)].filter(Boolean).join(", ")));
+  if(sch()&&str(s.school.teacher))info.push(row("Teacher",s.school.teacher));
+  info.push(row("Questionnaires",fs.length?fs.map(f=>{const o=s.forms[f];return{p:FORMS[f].name+(f!=="adult"&&str(o.by)?", completed by "+str(o.by)+(str(o.rel)?" ("+str(o.rel)+")":""):f==="adult"?", self-report":"")+(parseD(o.date)?", "+fmtD(o.date):"")}}):[{gap:"Questionnaires"}]));
+  info.push(row("Written by",str(s.ot.name)?[{p:str(s.ot.name)+", "+(str(s.ot.role)||"Occupational Therapist")+", Estus Health"}]:[{gap:"Occupational therapist"}]));
+  info.push(row("Date",parseD(s.meta.date)?[{p:fmtD(s.meta.date)}]:[{gap:"Report date"}]));
+  B.push({t:"tbl",w:[26,74],rows:info});
+  B.push({t:"h",text:"About this summary",sec:"forms"});
+  B.push({t:"p",text:`The Sensory Profile is a questionnaire. It describes how ${nm()} notices and responds to everyday sensory information, such as sound, light, touch and movement, compared with others the same age.`});
+  B.push({t:"p",text:`It is not a diagnosis, and it is not a test anyone passes or fails. A result of more or less than others is **a difference, not a problem**. It matters when it gets in the way of what ${nm()} wants or needs to do.`});
+  const st=items(s.about.strengths);B.push({t:"h",text:Nm()+" at a glance",sec:"meaning"});if(st.length)B.push({t:"ul",items:st});else B.push({t:"gap",text:"Strengths and interests"});
+  B.push({t:"h",text:"The four sensory patterns",sec:"patterns"});
+  if(!fs.length)B.push({t:"gap",text:"Questionnaires"});
+  else{const fw=fs.length===1?20:fs.length===2?16:14,pw=fs.length===3?16:18,mw=100-pw-fw*fs.length;
+    B.push({t:"tbl",tight:fs.length>2,minw:fs.length>2?640:560,w:[pw].concat(fs.map(()=>fw),[mw]),head:["Pattern"].concat(fs.map(f=>FORMS[f].col),["What it means for "+nm()]),
+      rows:QUADS.map(([k,n,d])=>{const q=s.quad[k],m=quadMeaning(k),mc=[];if(m)mc.push({p:m});if(str(q.note))mc.push({sm:"What we see: "+dot(q.note)});
+        return{label:true,cells:[{c:[{b:n},{sm:d}]}].concat(fs.map(f=>has(q[f])?{c:[{p:+q[f]!==0?"**"+lab(f,q[f])+"**":lab(f,q[f])}],tone:+q[f]!==0?"learn":null}:{c:[{gap:"Result"}]}),[{c:mc}])}})})}
+  if(sf.length){const sr=SENSES.filter(([k,n,fo,fl])=>fl.some(f=>sf.includes(f)&&has(s.sense[k][f]))||str(s.sense[k].note));
+    if(sr.length){B.push({t:"h",text:"Sense by sense",sec:"senses"});
+      const fw=sf.length===1?24:20,pw=22,mw=100-pw-fw*sf.length;
+      B.push({t:"tbl",w:[pw].concat(sf.map(()=>fw),[mw]),head:["Sense"].concat(sf.map(f=>FORMS[f].col),["What we see"]),
+        rows:sr.map(([k,n,fo,fl])=>{const x=s.sense[k];return{label:true,cells:[{c:[{b:n.split(":")[0]}].concat(n.includes(":")?[{sm:cap(n.split(":")[1].trim())}]:[])}].concat(
+          sf.map(f=>!fl.includes(f)?{c:[{sm:"Not on this form"}]}:has(x[f])?{c:[{p:+x[f]!==0?"**"+lab(f,x[f])+"**":lab(f,x[f])}],tone:+x[f]!==0?"learn":null}:{c:[]}),[{c:str(x.note)?[{p:dot(x.note)}]:[]}])}})})}
+    const br=BEHAV.filter(([k,n,f])=>sf.includes(f)&&has(s.beh[k]));
+    if(br.length){B.push({t:"sub",text:"Behaviour linked to sensory processing"});
+      B.push({t:"tbl",w:[40,22,38],head:["Area","Form","Result"],rows:br.map(([k,n,f])=>({label:true,cells:[{c:[{b:n}]},{c:[{p:FORMS[f].col}]},{c:[{p:+s.beh[k]!==0?"**"+lab(f,s.beh[k])+"**":lab(f,s.beh[k])}],tone:+s.beh[k]!==0?"learn":null}]}))})}
+    const fr=sf.includes("school")?FACTORS.filter(([k])=>has(s.factors[k])):[];
+    if(fr.length){B.push({t:"sub",text:"School factors"});
+      B.push({t:"tbl",w:[62,38],head:["Factor","Result"],rows:fr.map(([k,n,d])=>({label:true,cells:[{c:[{b:n},{sm:d}]},{c:[{p:+s.factors[k]!==0?"**"+lab("school",s.factors[k])+"**":lab("school",s.factors[k])}],tone:+s.factors[k]!==0?"learn":null}]}))})}}
+  const cites=Array.from(new Set(fs.map(f=>FORMS[f].cite)));
+  if(cites.length)B.push({t:"fine",text:`Results come from the ${listJoin(cites)}, and are reported as classifications. Full scores are held on file at Estus Health.`});
+  B.push({t:"h",text:sch()?"What this means at school":"What this means day to day",sec:"meaning"});pushParas(B,s.meaning.summary,"Your summary");
+  const see=items(s.meaning.see);if(see.length){B.push({t:"sub",text:"What you might see"});B.push({t:"ul",items:see})}
+  B.push({t:"h",text:sch()?"What helps at school":"What helps",sec:"strategies"});
+  if(!pickCount())B.push({t:"gap",text:"Strategies"});
+  BANK.forEach(g=>{const l=pickedIn(g);if(l.length){B.push({t:"sub",text:g.title});B.push({t:"ul",items:l})}});
+  const e=items(s.signs.early),hp=items(s.signs.help),hd=items(s.signs.harder);
+  if(e.length||hp.length||hd.length){B.push({t:"h",text:"When it is getting too much",sec:"overload"});
+    if(e.length){B.push({t:"sub",text:"Early signs"});B.push({t:"ul",items:e})}
+    if(hp.length){B.push({t:"sub",text:"What helps in the moment"});B.push({t:"ul",items:hp})}
+    if(hd.length){B.push({t:"sub",text:"What makes it harder"});B.push({t:"ul",items:hd})}}
+  const pr=s.plan.rows.filter(r=>str(r.what));
+  if(pr.length||parseD(s.plan.review)){B.push({t:"h",text:"Who does what",sec:"plan"});
+    if(pr.length)B.push({t:"tbl",w:[64,36],head:["What","Who"],rows:pr.map(r=>({cells:[{c:[{p:str(r.what)}]},{c:str(r.who)?[{p:str(r.who)}]:[{gap:"Who"}]}]}))});
+    if(parseD(s.plan.review))B.push({t:"lead",label:"Review",text:longD(s.plan.review)+"."})}
+  B.push({t:"h",text:"Consent and sign-off",sec:"finish"});
+  if(s.share.consent)B.push({t:"p",text:`${str(s.share.by)?cap(str(s.share.by))+" gave consent":"Consent was given"} for this summary to be shared${str(s.share.with)?" with "+str(s.share.with):""}.`});
+  else B.push({t:"gap",text:"Consent to share"});
+  B.push({t:"p",text:"Questions are welcome. A short call often saves a long email."});
+  B.push({t:"sign"});
+  return B}
+}});
+</script>
+</body></html>

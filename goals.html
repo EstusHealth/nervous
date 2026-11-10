@@ -1,0 +1,177 @@
+<!doctype html><html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Goal Plan Builder</title><meta name="robots" content="noindex, nofollow"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 fill=%22%23090909%22/%3E%3Crect x=%224%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23344982%22/%3E%3Crect x=%2210%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232F6F9E%22/%3E%3Crect x=%2216%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232CA5B8%22/%3E%3Crect x=%2222%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23AB5C95%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="kit.css">
+<script src="theme.js"></script></head><body>
+<noscript><p style="padding:24px;font:16px sans-serif">This builder needs JavaScript. Turn it on and reload.</p></noscript>
+<script src="kit.js"></script>
+<script>
+/* Goal plan: SMART goals set with the client at the Flight plan phase. Their words, two to four goals, a baseline
+   and a target, linked to the NDIS plan. The five parts build the goal sentence. Optional COPM and GAS ratings.
+   Engine: kit.js. */
+EstusKit.start(function(K){
+const {esc,str,cap,dot,undot,low1,lowLead,items,paras,plural,parseD,addMonths,daysBetween,longD,today,F,CB,SEGF,say,OT,FINISH,LIST,HEAD,row}=K;
+const AREAS=["Morning routine","Daily routines","Self-care","School and study","Work","Home and cooking","Money","Getting around","Driving","Friends and social life","Play, gaming and hobbies","Sleep and rest","Regulation and energy","Communication","Health and body"];
+const GAS=[["p2","+2","A lot more than expected"],["p1","+1","A little more than expected"],["z","0","The goal"],["m1","-1","A little less than expected"],["m2","-2","A lot less than expected"]];
+const VAGUE=/\b(improve\w*|better|increase\w*|decrease\w*|enhance\w*|develop\w*|work on|manage\w*|understand\w*|appropriate(ly)?|independen(t|tly|ce))\b/i;
+const AFFIRM=[
+  [/\beye contact\b/i,"Eye contact is not a goal. What does the person want to be able to do?"],
+  [/\b(reduce|stop|less|decrease|eliminat\w*|extinguish)\b[^.]*\b(stim\w*|flapping|rocking|fidget\w*)\b|\bquiet hands\b/i,"Stimming helps people regulate. Aim at what they want to do, not at looking typical."],
+  [/\b(sit still|whole body listening)\b/i,"Stillness is not the outcome. What do they want to take part in?"],
+  [/\b(comply|compliance|obey|follow (all )?(adult )?(instructions|directions) (the )?first time)\b/i,"A compliance goal serves other people. Find the goal the person owns."],
+  [/\btolerat\w+\b/i,"Tolerating is not a goal the person owns. What would make it easier, or what do they want to do?"],
+  [/\b(age[- ]appropriate|appropriate behaviou?r|act normal|look normal|fit in)\b/i,"Whose goal is this? Aim at participation, not at looking typical."]
+];
+const goal=()=>({area:"",words:"",why:"",what:"",where:"",measure:"",support:"",by:"",now:"",steps:"",helpers:"",track:"",ndis:"",
+  copm:{on:false,imp:"",perf:"",sat:""},gas:{on:false,start:"-2",p2:"",p1:"",z:"",m1:"",m2:""},custom:""});
+const nm=()=>K.first()||"the client";
+const Nm=()=>cap(nm());
+const I=()=>K.S.plan.voice!=="name";
+const my=()=>I()?"my":nm()+"'s";
+function statement(g){if(str(g.custom))return dot(g.custom);
+  const what=undot(low1(str(g.what).replace(/^(i will|i'll|will|to)\s+/i,"")));if(!what)return"";
+  let t=(parseD(g.by)?"By "+longD(g.by)+", ":"")+(I()?"I will ":Nm()+" will ")+what;
+  if(str(g.where))t+=" "+undot(lowLead(g.where));
+  if(str(g.measure))t+=", "+undot(lowLead(g.measure));
+  if(str(g.support))t+=", "+undot(lowLead(g.support));
+  return t+"."}
+function smart(g){return{S:!!str(g.what)||!!str(g.custom),M:/\d|\b(once|twice|every|each|all|most|half|daily|weekly)\b/i.test(str(g.measure)+" "+str(g.custom)),
+  A:!!str(g.now)&&items(g.steps).length>0,R:!!(str(g.why)||str(g.words)),T:!!parseD(g.by)}}
+const MISS={S:"say what they will do",M:"put a number or a count in the measure",A:"add where they are now and a first step",R:"add why it matters to them",T:"add a date"};
+const ndisList=()=>items(K.S.plan.ndisGoals);
+const gTitle=(g,i)=>str(g.area)||"Goal "+(i+1);
+
+return{
+id:"goals",name:"Goal Plan",h1:"Goal plan",newLabel:"Start a new plan",newToast:"New goal plan started",
+exampleNote:"Example goal plan for a fictional client. Your edits save in this browser only.",
+docTitle:()=>I()?"My goal plan":Nm()+"'s goal plan",
+docSub:()=>[parseD(K.S.plan.date)?"Goals set on "+longD(K.S.plan.date):"",parseD(K.S.plan.review)?"Review on "+longD(K.S.plan.review):""].filter(Boolean).join(" \u00B7 "),
+blank:()=>({client:{firstName:"",preferred:"",surname:"",pronouns:"",ndis:""},plan:{date:today(),review:"",with:"",voice:"i",ndisGoals:""},goals:[goal()],signoff:{agree:false},meta:{date:today()}}),
+templates:{goal},
+normalise(o){if(!Array.isArray(o.goals))o.goals=[];o.goals=o.goals.map(g=>{const b=goal(),x=Object.assign(b,g||{});x.copm=Object.assign(goal().copm,(g&&g.copm)||{});x.gas=Object.assign(goal().gas,(g&&g.gas)||{});return x});
+  if(str(o.plan.date))o.meta.date=o.plan.date},
+example(){const t=today(),w=n=>K.addDays(t,n*7);return{
+  client:{firstName:"Alex",preferred:"",surname:"Rivera",pronouns:"he / him",ndis:""},
+  plan:{date:t,review:addMonths(t,3),with:"Alex and Mum (Dana)",voice:"i",ndisGoals:"Build independence in my daily routines\nManage my emotions and energy day to day"},
+  goals:[
+    Object.assign(goal(),{area:"Morning routine",words:"I want mornings to stop being a fight.",why:"Less yelling before school. I want to walk in calm, not already fried.",
+      what:"get out the door by 8:15",where:"on school days",measure:"4 days out of 5",support:"with one reminder",by:w(10),
+      now:"1 or 2 days out of 5, with four or more reminders.",steps:"Pack my bag the night before\nPut the morning list on my door\nSet two alarms: 7:00 and 7:50\nTry it for two weeks, then check in",
+      helpers:"Mum gives one reminder at 8:00, then leaves it with me.",track:"I tick the chart on the fridge. We look at it each session.",ndis:"Build independence in my daily routines",
+      copm:{on:true,imp:"9",perf:"3",sat:"2"},gas:{on:true,start:"-2",p2:"5 days out of 5, with no reminders",p1:"5 days out of 5, with one reminder",z:"4 days out of 5, with one reminder",m1:"3 days out of 5, with two or three reminders",m2:"1 or 2 days out of 5, with four or more reminders"}}),
+    Object.assign(goal(),{area:"Home and cooking",words:"I want to cook my own dinner sometimes.",why:"I get to choose what I eat, and it is one less job for Mum.",
+      what:"cook two of my own dinners",where:"each week",measure:"for 4 weeks in a row",support:"without help in the kitchen",by:w(12),
+      now:"I make toast and noodles. I have not cooked a full dinner on my own.",steps:"Pick three dinners I like\nCook each one with Mum watching\nCook one on my own each week\nMove to two a week",
+      helpers:"Mum buys the ingredients and stays out of the kitchen unless I ask.",track:"A photo of each dinner goes in our shared album.",ndis:"Build independence in my daily routines"}),
+    Object.assign(goal(),{area:"Regulation and energy",words:"When gaming ends I lose it.",why:"I want to finish a session without wrecking the night.",
+      what:"use my reset plan when gaming ends",where:"on school nights",measure:"4 nights out of 5",support:"with one 10 minute warning",by:w(8),
+      now:"Most school nights end in a meltdown when the console goes off.",steps:"Write my reset plan with my OT\nSet a 10 minute warning timer\nPick my wind-down: shower, snack or music\nLook at how it went after two weeks",
+      helpers:"Dad gives the 10 minute warning once. No extra reminders.",track:"I rate each night 1 to 5 in my notes app.",ndis:"Manage my emotions and energy day to day"})],
+  signoff:{agree:true},meta:{date:t}}},
+secOf:p=>{const t=p.split(".")[0];return t==="goals"?"goals":p.indexOf("plan.ndisGoals")===0?"ndis":t==="signoff"?"finish":"who"},
+onEdit(p,t){if(p==="plan.date")K.S.meta.date=t.value},
+
+sections:[
+{g:"Set up",id:"who",nav:"Client",title:"Client and session",lead:"Who the goals belong to, when they were set, and when you will look at them again.",render:()=>`<div class="form">
+  <div class="grid3">${F("client.firstName","First name")}${F("client.preferred","Preferred name",{ph:"If different"})}${F("client.surname","Surname")}</div>
+  <div class="grid2">${F("client.pronouns","Pronouns",{type:"select",opts:[["","Choose"],"she / her","he / him","they / them"]})}${F("client.ndis","NDIS number",{ph:"Optional",num:true})}</div>
+  <div class="grid2">${F("plan.date","Date the goals were set",{type:"date"})}${F("plan.review","Review date",{type:"date",hint:"Estus checks goals at every quarterly check-in."})}</div>
+  <div class="btns"><button type="button" class="add" data-act="rev3">Set review to 3 months on</button></div>
+  ${F("plan.with","Who was in the session",{ph:"Alex and Mum (Dana)"})}
+  ${SEGF("plan.voice","Write the goals as",[["i","I will\u2026"],["name","Their name will\u2026"]],{keep:true,hint:"\u201CI will\u201D keeps the goals in their voice. Use their name when the plan is mainly for other people."})}
+  ${OT()}</div>`},
+{g:"Set up",id:"ndis",nav:"NDIS plan goals",title:"NDIS plan goals",lead:"Optional. Paste the goals from their NDIS plan, one per line. Each therapy goal can then link to one.",render:()=>`<div class="form">
+  ${F("plan.ndisGoals","Goals in the NDIS plan",{type:"area",rows:4,ph:"Build independence in my daily routines\nManage my emotions and energy day to day"})}
+  <p class="hint">Linking each goal to the plan connects the work to the funding. It makes the review report easier to write.</p></div>`},
+{g:"Goals",id:"goals",nav:"Goals",title:"Goals",lead:"Two to four goals, in their words. Fill the five parts and the sentence writes itself.",render:()=>`<div class="form">
+  ${LIST("goals",(g,i,p,arr)=>{const nl=ndisList();return `${HEAD("goals",i,arr,gTitle(g,i))}
+    <div class="grid2">${F(p+".area","Area of life",{list:AREAS,ph:"Morning routine"})}${nl.length?F(p+".ndis","Links to NDIS plan goal",{type:"select",opts:[["","Not linked"]].concat(nl)}):""}</div>
+    ${F(p+".words","In their words",{type:"area",rows:2,ph:"I want mornings to stop being a fight."})}
+    ${F(p+".why","Why it matters to them",{type:"area",rows:2,ph:"Their reason, not ours. This is the R in SMART."})}
+    <div class="boxed">
+      <div class="grid2">${F(p+".what","What will they do?",{ph:"get out the door by 8:15",hint:"Something you could see or count."})}${F(p+".where","Where or when?",{ph:"on school days"})}</div>
+      <div class="grid3">${F(p+".measure","How much, or how often?",{ph:"4 days out of 5"})}${F(p+".support","With what help?",{ph:"with one reminder"})}${F(p+".by","By when?",{type:"date"})}</div>
+      ${say("gs_"+i,"goal")}
+      <div class="smart" id="sm_${i}"></div>
+    </div>
+    ${F(p+".now","Where they are now",{type:"area",rows:2,ph:"1 or 2 days out of 5, with four or more reminders.",hint:"The baseline. Use the same measure as the goal."})}
+    ${F(p+".steps","Steps to get there",{type:"area",rows:4,ph:"One step per line. Start with the smallest."})}
+    <div class="grid2">${F(p+".helpers","Who helps, and how",{type:"area",rows:2,ph:"Mum gives one reminder at 8:00, then leaves it with me."})}${F(p+".track","How we will track it",{type:"area",rows:2,ph:"I tick the chart on the fridge. We look at it each session."})}</div>
+    <details class="more"${g.copm.on||g.gas.on||str(g.custom)?" open":""}><summary>Ratings and wording (optional)</summary><div>
+      ${CB(p+".copm.on","Add COPM ratings (importance, performance, satisfaction)",true)}
+      ${g.copm.on?`<div class="grid3">${F(p+".copm.imp","Importance, 1 to 10",{num:true})}${F(p+".copm.perf","Performance now, 1 to 10",{num:true})}${F(p+".copm.sat","Satisfaction now, 1 to 10",{num:true})}</div>`:""}
+      ${CB(p+".gas.on","Add a Goal Attainment Scale (GAS)",true)}
+      ${g.gas.on?`${SEGF(p+".gas.start","Where they start",[["-2","-2"],["-1","-1"]],{keep:true,hint:"Use -2 when things could not plausibly be worse than now. Use -1 when they could."})}
+        ${GAS.map(([k,n,l])=>F(p+".gas."+k,n+"  "+l,{ph:k==="z"?"The goal as written: the expected outcome":""})).join("")}`:""}
+      ${F(p+".custom","Write the goal sentence yourself",{type:"area",rows:2,ph:"Optional. Replaces the built sentence above."})}
+    </div></details>`},{add:"Add a goal",tpl:"goal",empty:"No goals yet. Add the first one."})}</div>`},
+{g:"Finish",id:"finish",nav:"Finish",title:"Finish",lead:"The client signs off the goals. That is the gate for the Flight plan phase.",render:()=>`<div class="form">
+  ${CB("signoff.agree","They have read the goals and agree to them")}
+  ${FINISH({hint:"Give them a copy. Bring it back out at every quarterly check-in."})}</div>`}
+],
+actions:{rev3(){const d=str(K.S.plan.date)||today();K.S.plan.review=addMonths(d,3);K.commit()}},
+live(){K.S.goals.forEach((g,i)=>{const s=document.getElementById("gs_"+i);if(s){const t=statement(g);s.textContent=t||"Fill in what they will do, and the goal sentence appears here."}
+  const m=document.getElementById("sm_"+i);if(m){const r=smart(g),miss=Object.keys(MISS).filter(k=>!r[k]);
+    m.innerHTML=Object.keys(MISS).map(k=>`<i class="${r[k]?"on":""}" title="${k}">${k}</i>`).join("")+`<span>${miss.length?"To finish: "+miss.map(k=>MISS[k]).join(", ")+".":"All five parts are in."}</span>`}
+  const t=document.getElementById("it_"+K.fid("goals."+i));if(t)t.textContent=gTitle(g,i)})},
+checks(add,need){const s=K.S;
+  need("who","client.firstName","First name");need("who","plan.date","Date the goals were set");need("who","plan.review","Review date");
+  if(parseD(s.plan.date)&&parseD(s.plan.review)&&daysBetween(s.plan.date,s.plan.review)<=0)add("who","plan.review","Review date is not after the date the goals were set",true);
+  if(!s.goals.length)add("goals","goals","Add a goal");
+  if(s.goals.length>4)add("goals","goals.0.area","More than four goals. Estus aims for two to four, so they are easy to remember.",true);
+  s.goals.forEach((g,i)=>{const b="goals."+i,n="Goal "+(i+1),r=smart(g);
+    if(!r.S)add("goals",b+".what",n+": say what they will do");
+    if(!r.M)add("goals",b+".measure",n+": the measure needs a number or a count");
+    if(!r.T&&!str(g.custom))add("goals",b+".by",n+": no date");
+    if(!r.R)add("goals",b+".why",n+": add why it matters to them");
+    if(!str(g.now))add("goals",b+".now",n+": add where they are now (the baseline)");
+    if(!items(g.steps).length)add("goals",b+".steps",n+": add a first step",true);
+    const txt=str(g.what)+" "+str(g.custom),v=str(g.what).match(VAGUE);
+    if(v)add("goals",b+".what",`${n}: \u201C${v[0]}\u201D is hard to see or count. Say what they will do.`,true);
+    AFFIRM.forEach(([re,msg])=>{if(re.test(txt))add("goals",str(g.custom)&&!re.test(str(g.what))?b+".custom":b+".what",n+": "+msg,true)});
+    if(parseD(g.by)){const d=daysBetween(today(),g.by);if(d<0)add("goals",b+".by",n+": the date has passed",true);else if(d>366)add("goals",b+".by",n+": more than 12 months away. A closer date is easier to track.",true)}
+    if(g.copm.on)[["imp","importance"],["perf","performance"],["sat","satisfaction"]].forEach(([k,l])=>{const x=str(g.copm[k]);
+      if(!x)add("goals",`${b}.copm.${k}`,`${n}: COPM ${l} is empty`);else if(!/^(10|[1-9])$/.test(x))add("goals",`${b}.copm.${k}`,`${n}: COPM ${l} should be a whole number from 1 to 10`,true)});
+    if(g.gas.on){if(!str(g.gas.z))add("goals",b+".gas.z",n+": GAS level 0 (the goal) is empty");
+      GAS.forEach(([k,l])=>{if(k!=="z"&&!str(g.gas[k]))add("goals",`${b}.gas.${k}`,`${n}: GAS level ${l} is empty`,true)})}});
+  if(!s.signoff.agree)add("finish","signoff.agree","Confirm they agreed to the goals")},
+
+build(){const s=K.S,B=[],c=s.client,me=I();
+  const rows=[row("Name",K.full()||K.first(),"Name")];
+  if(str(c.ndis))rows.push(row("NDIS number",c.ndis));
+  rows.push(row("Goals set on",parseD(s.plan.date)?longD(s.plan.date):"","Date"));
+  if(str(s.plan.with))rows.push(row("Who was there",s.plan.with));
+  rows.push(row("We review them on",parseD(s.plan.review)?longD(s.plan.review):"","Review date"));
+  rows.push(row("Occupational therapist",s.ot.name,"Occupational therapist"));
+  B.push({t:"tbl",w:[30,70],rows});
+  const nl=ndisList();
+  if(nl.length){B.push({t:"h",text:cap(my())+" NDIS plan goals",sec:"ndis"});B.push({t:"ol",items:nl})}
+  if(!s.goals.length)B.push({t:"gap",text:"Goals"});
+  s.goals.forEach((g,i)=>{B.push({t:"h",text:"Goal "+(i+1)+(str(g.area)?": "+str(g.area):""),sec:"goals"});
+    const st=statement(g);if(st)B.push({t:"note",tone:"navy",big:true,paras:[st]});else B.push({t:"gap",text:"Goal sentence"});
+    const r=[];
+    if(str(g.words))r.push(row(me?"In my words":"In "+nm()+"'s words",[{p:"\u201C"+str(g.words).replace(/^["\u201C]|["\u201D]$/g,"")+"\u201D"}]));
+    if(str(g.why))r.push(row("Why it matters",g.why));
+    r.push(row(me?"Where I am now":"Where "+nm()+" is now",g.now,"Baseline"));
+    const sp=items(g.steps);r.push(row("Steps to get there",sp.length?sp.map(x=>({li:x})):[{gap:"Steps"}]));
+    if(str(g.helpers))r.push(row("Who helps, and how",g.helpers));
+    if(str(g.track))r.push(row("How we track it",g.track));
+    if(str(g.ndis))r.push(row("NDIS plan goal",g.ndis));
+    if(g.copm.on){const q=k=>str(g.copm[k])||"?";r.push(row("Ratings today",[{p:`How important this is: ${q("imp")} out of 10. How well ${me?"I do":nm()+" does"} it now: ${q("perf")} out of 10. How happy ${me?"I am":nm()+" is"} with that: ${q("sat")} out of 10.`},{sm:"Canadian Occupational Performance Measure (COPM)"}]))}
+    B.push({t:"tbl",w:[30,70],rows:r});
+    if(g.gas.on){B.push({t:"sub",text:"How we will see progress"});
+      B.push({t:"tbl",w:[34,66],head:["Level","What it looks like"],rows:GAS.map(([k,n,l])=>{const start=n===String(g.gas.start);
+        return{label:true,cells:[{c:[{b:n+"  "+l}].concat(start?[{sm:"Where we start"}]:[]),tone:start?"mark":null},{c:str(g.gas[k])?[{p:str(g.gas[k])}]:[{gap:"Level "+n}],tone:start?"mark":null}]}})});
+      B.push({t:"fine",text:"Goal Attainment Scaling (GAS). Level 0 is the goal as written."})}});
+  B.push({t:"h",text:"What happens next",sec:"finish"});
+  B.push({t:"p",text:"We look at these goals together at every check-in, about every three months."});
+  B.push({t:"p",text:"Goals can change. If one stops fitting, tell us and we will rewrite it together."});
+  if(s.signoff.agree)B.push({t:"p",text:`${K.first()?cap(K.first()):"The client"} read these goals and agreed to them${parseD(s.plan.date)?" on "+longD(s.plan.date):""}.`});
+  else B.push({t:"gap",text:"Client sign-off"});
+  B.push({t:"sign",kind:"by"});
+  return B}
+}});
+</script>
+</body></html>
