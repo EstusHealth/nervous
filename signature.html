@@ -56,12 +56,13 @@ h1,h2,h3,p{margin:0}
 fieldset{margin:0;border:1px solid var(--rule);background:var(--surface);padding:16px 18px 18px;display:flex;flex-direction:column;gap:14px;min-width:0}
 legend{font:700 12px var(--cond);letter-spacing:.16em;text-transform:uppercase;color:var(--fg);padding:0 6px;margin-left:-6px;display:flex;gap:8px;align-items:center}
 legend::before{content:"";width:10px;height:10px;background:var(--c,var(--navy))}
-.f-you{--c:var(--navy)}.f-week{--c:var(--teal)}.f-book{--c:var(--plum)}
+.f-you{--c:var(--navy)}.f-week{--c:var(--teal)}.f-book{--c:var(--plum)}.f-work{--c:var(--blue)}.f-leave{--c:var(--warn)}
+legend .opt{font:500 12px var(--body);letter-spacing:0;text-transform:none;color:var(--muted)}
 .row2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 label.fld{display:flex;flex-direction:column;gap:5px;min-width:0}
 .lab{font:600 13px var(--cond);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .lab small{text-transform:none;letter-spacing:0;font-weight:500}
-input[type=text],input[type=email],input[type=url],input[type=tel]{width:100%;font:500 16px var(--body);color:var(--fg);background:var(--bg);border:1px solid var(--rule);padding:9px 11px}
+input[type=text],input[type=email],input[type=url],input[type=tel],input[type=date]{width:100%;font:500 16px var(--body);color:var(--fg);background:var(--bg);border:1px solid var(--rule);padding:9px 11px}
 input:focus{border-color:var(--fg);outline:none}
 input[aria-invalid="true"]{border-color:var(--warn)}
 .err{font-size:13px;color:var(--warn);font-weight:600}
@@ -126,6 +127,36 @@ textarea.off{position:absolute;left:-9999px;top:0;width:1px;height:1px}
       <label class="fld"><span class="lab">Credentials <small>(optional, e.g. AHPRA OCC0001234567)</small></span><input type="text" id="cred"></label>
     </fieldset>
 
+    <fieldset class="f-leave">
+      <legend>Leave <small class="opt">optional</small></legend>
+      <label class="switch"><input type="checkbox" id="showLeave"> I'm going on leave. Put a notice at the top.</label>
+      <div id="leaveBits" style="display:flex;flex-direction:column;gap:14px">
+        <div class="row2">
+          <label class="fld"><span class="lab">First day away</span><input type="date" id="leaveFrom"></label>
+          <label class="fld"><span class="lab">Back on</span><input type="date" id="leaveTo"></label>
+        </div>
+        <span class="err" id="leave-err" hidden></span>
+        <label class="fld"><span class="lab">Leave line</span><input type="text" id="leaveNote"></label>
+        <div class="row2">
+          <label class="fld"><span class="lab">Contact while away <small>(name, optional)</small></span><input type="text" id="coverName"></label>
+          <label class="fld"><span class="lab">Their email <small>(optional)</small></span><input type="email" id="coverEmail"><span class="err" id="cover-err" hidden>Check this email address.</span></label>
+        </div>
+        <p class="hint" style="font-size:14px">Gmail keeps the signature exactly as pasted. When you're back, untick this, copy again and replace it in Gmail.</p>
+      </div>
+    </fieldset>
+
+    <fieldset class="f-work">
+      <legend>Work days <small class="opt">optional</small></legend>
+      <label class="switch"><input type="checkbox" id="showWork"> Show the days I work (handy if you're part-time)</label>
+      <div id="workBits" style="display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <span class="lab">Tap the days you work</span>
+          <div class="days" id="workDays" role="group" aria-label="Work days"></div>
+        </div>
+        <label class="fld"><span class="lab">Work days line</span><input type="text" id="wNote"></label>
+      </div>
+    </fieldset>
+
     <fieldset class="f-week">
       <legend>Your week</legend>
       <label class="switch"><input type="checkbox" id="showWeek"> Show my email hours in the signature</label>
@@ -175,25 +206,45 @@ textarea.off{position:absolute;left:-9999px;top:0;width:1px;height:1px}
 
 <script>
 (function(){
-  var KEY='sig_v1', DAYS=['Mon','Tue','Wed','Thu','Fri'], LIMIT=10000;
+  var KEY='sig_v1', DAYS=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'], WEEK=[0,1,2,3,4], LIMIT=10000;
   var DEF={name:'Liam Fagan',role:'Director and Occupational Therapist',email:'liam.fagan@estushealth.com',phone:'',cred:'',
     showWeek:true,clin:[0,1,2,3],cNote:"Clinical. I'm with clients and not on email.",fNote:'Non-clinical. I reply to email and take consulting calls.',
+    showWork:false,work:[0,1,2,3,4],wNote:'Emails on other days wait until I am back in.',
+    showLeave:false,leaveFrom:'',leaveTo:'',leaveNote:"I'm not checking email while I'm away.",coverName:'',coverEmail:'',
     link:'https://calendar.app.google/fn4iHzvkmoEM9mG89',btn:'Book a Friday consult'};
+  var BOOLS=['showWeek','showWork','showLeave'];
+  function fresh(v){var o=Object.assign({},DEF,v||{});o.clin=(o.clin||[]).slice();o.work=(o.work||[]).slice();return o}
   var S=load();
-  function load(){try{var v=JSON.parse(localStorage.getItem(KEY));if(v)return Object.assign({},DEF,v)}catch(e){}return Object.assign({},DEF)}
+  function load(){try{var v=JSON.parse(localStorage.getItem(KEY));if(v)return fresh(v)}catch(e){}return fresh()}
   function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
   var $=function(id){return document.getElementById(id)};
-  var textIds=['name','role','email','phone','cred','cNote','fNote','link','btn'];
+  var textIds=['name','role','email','phone','cred','cNote','fNote','wNote','leaveFrom','leaveTo','leaveNote','coverName','coverEmail','link','btn'];
 
-  var daysEl=$('days');
-  DAYS.forEach(function(d,i){var b=document.createElement('button');b.type='button';b.className='day';b.textContent=d;b.dataset.i=i;
-    b.addEventListener('click',function(){var k=S.clin.indexOf(i);if(k>-1)S.clin.splice(k,1);else S.clin.push(i);S.clin.sort();save();sync();render()});daysEl.appendChild(b)});
+  // Day buttons. Work days offer Mon to Sun; clinical days only offer the days you work.
+  function dayButtons(el,key){
+    DAYS.forEach(function(d,i){var b=document.createElement('button');b.type='button';b.className='day';b.textContent=d;b.dataset.i=i;
+      b.addEventListener('click',function(){var L=S[key],k=L.indexOf(i);if(k>-1)L.splice(k,1);else L.push(i);L.sort();save();sync();render()});el.appendChild(b)});
+  }
+  var daysEl=$('days'), workEl=$('workDays');
+  dayButtons(workEl,'work'); dayButtons(daysEl,'clin');
+  function worked(){return S.showWork?S.work.slice():WEEK.slice()}
 
-  function fill(){textIds.forEach(function(id){$(id).value=S[id]||''});$('showWeek').checked=!!S.showWeek;sync()}
-  function sync(){[].forEach.call(daysEl.children,function(b){b.setAttribute('aria-pressed',S.clin.indexOf(+b.dataset.i)>-1)});$('weekBits').hidden=!S.showWeek}
+  function fill(){textIds.forEach(function(id){$(id).value=S[id]||''});BOOLS.forEach(function(id){$(id).checked=!!S[id]});sync()}
+  function sync(){
+    var w=worked();
+    [].forEach.call(workEl.children,function(b){b.setAttribute('aria-pressed',S.work.indexOf(+b.dataset.i)>-1)});
+    [].forEach.call(daysEl.children,function(b){var i=+b.dataset.i;b.hidden=w.indexOf(i)<0;b.setAttribute('aria-pressed',S.clin.indexOf(i)>-1)});
+    $('weekBits').hidden=!S.showWeek; $('workBits').hidden=!S.showWork; $('leaveBits').hidden=!S.showLeave;
+  }
   textIds.forEach(function(id){$(id).addEventListener('input',function(){S[id]=this.value;save();render()})});
-  $('showWeek').addEventListener('change',function(){S.showWeek=this.checked;save();sync();render()});
-  $('reset').addEventListener('click',function(){S=Object.assign({},DEF,{clin:DEF.clin.slice()});save();fill();render();say('Back to the example.')});
+  BOOLS.forEach(function(id){$(id).addEventListener('change',function(){S[id]=this.checked;save();sync();render()})});
+  $('reset').addEventListener('click',function(){S=fresh();save();fill();render();say('Back to the example.')});
+
+  // Dates come from <input type=date> as YYYY-MM-DD. Read them as local dates, show as "Mon 24 Nov".
+  var WD=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'], MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  function parseD(v){var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(v||'');return m?new Date(+m[1],m[2]-1,+m[3]):null}
+  function fmtD(d){return WD[d.getDay()]+' '+d.getDate()+' '+MO[d.getMonth()]}
+  function today(){var n=new Date();return new Date(n.getFullYear(),n.getMonth(),n.getDate())}
 
   function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
   // Days as runs: [0,1,2,3] -> "Mon to Thu"; [0,2,4] -> "Mon, Wed and Fri"
@@ -201,16 +252,31 @@ textarea.off{position:absolute;left:-9999px;top:0;width:1px;height:1px}
     if(!list.length)return '';
     var runs=[],st=list[0],pv=list[0];
     for(var i=1;i<=list.length;i++){var c=list[i];if(c===pv+1){pv=c;continue}
-      runs.push(st===pv?DAYS[st]:(pv-st===1?DAYS[st]+' and '+DAYS[pv]:DAYS[st]+' to '+DAYS[pv]));st=pv=c}
+      if(pv-st>=2)runs.push(DAYS[st]+' to '+DAYS[pv]);else for(var j=st;j<=pv;j++)runs.push(DAYS[j]);st=pv=c}
     if(runs.length===1)return runs[0];
     return runs.slice(0,-1).join(', ')+' and '+runs[runs.length-1];
   }
   function okEmail(v){return /^[^\s@]+@estushealth\.com$/i.test(v.trim())}
   function okLink(v){return /^https:\/\/\S+$/i.test(v.trim())}
+  function okAnyEmail(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim())}
+
+  function leaveHtml(){
+    var a=parseD(S.leaveFrom), b=parseD(S.leaveTo), t='On leave';
+    if(a)t+=' from '+fmtD(a);
+    t+='.'; if(b)t+=' Back '+fmtD(b)+'.';
+    var h='<b style="color:#AB5C95">'+t+'</b>';
+    if(S.leaveNote.trim())h+=' '+esc(S.leaveNote.trim());
+    var n=S.coverName.trim(), e=S.coverEmail.trim(), who='';
+    var link=e&&okAnyEmail(e)?'<a href="mailto:'+esc(e)+'" style="color:#2F6F9E;text-decoration:none">'+esc(e)+'</a>':'';
+    if(n&&link)who=esc(n)+' at '+link; else if(n)who=esc(n); else if(link)who=link;
+    if(who)h+='<br>For anything urgent, contact '+who+'.';
+    return h;
+  }
 
   function build(){
     var F="font-family:Arial,Helvetica,sans-serif;", D="font-family:Oswald,'Arial Narrow',Arial,sans-serif;";
     var h='<table cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;'+F+'color:#090909;max-width:520px">';
+    if(S.showLeave)h+='<tr><td style="padding:0 0 14px 0"><table cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse"><tr><td style="padding:10px 12px;border-left:3px solid #AB5C95;background:#F7EEF4;font-size:13px;line-height:1.55;color:#090909">'+leaveHtml()+'</td></tr></table></td></tr>';
     if(S.name.trim())h+='<tr><td style="padding:0 0 2px 0;'+D+'font-size:22px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#090909;line-height:1.1">'+esc(S.name.trim())+'</td></tr>';
     if(S.role.trim())h+='<tr><td style="padding:0 0 '+(S.cred.trim()?'2':'10')+'px 0;font-size:13px;color:#344982;font-weight:bold;line-height:1.3">'+esc(S.role.trim())+'</td></tr>';
     if(S.cred.trim())h+='<tr><td style="padding:0 0 10px 0;font-size:11px;color:#6F6D68;line-height:1.3">'+esc(S.cred.trim())+'</td></tr>';
@@ -224,12 +290,14 @@ textarea.off{position:absolute;left:-9999px;top:0;width:1px;height:1px}
     if(S.phone.trim())bits.push('<a href="tel:'+esc(S.phone.replace(/[^\d+]/g,''))+'" style="color:#2F6F9E;text-decoration:none">'+esc(S.phone.trim())+'</a>');
     bits.push('<a href="https://www.estushealth.com" style="color:#2F6F9E;text-decoration:none">estushealth.com</a>');
     h+='<tr><td style="padding:0 0 12px 0;font-size:13px;line-height:1.5">'+bits.join(' &nbsp;|&nbsp; ')+'</td></tr>';
+    var w=worked(), lines=[];
+    if(S.showWork&&w.length)lines.push('<b style="color:#2F6F9E">I work '+dayText(w)+'.</b>'+(S.wNote.trim()?' '+esc(S.wNote.trim()):''));
     if(S.showWeek){
-      var c=S.clin.slice(), f=[0,1,2,3,4].filter(function(i){return c.indexOf(i)<0}), lines=[];
+      var c=S.clin.filter(function(i){return w.indexOf(i)>-1}), f=w.filter(function(i){return c.indexOf(i)<0});
       if(c.length&&S.cNote.trim())lines.push('<b style="color:#344982">'+dayText(c)+':</b> '+esc(S.cNote.trim()));
       if(f.length&&S.fNote.trim())lines.push('<b style="color:#AB5C95">'+dayText(f)+':</b> '+esc(S.fNote.trim()));
-      if(lines.length)h+='<tr><td style="padding:10px 12px;border-left:3px solid #2CA5B8;background:#F3F6F9;font-size:12px;line-height:1.55;color:#090909">'+lines.join('<br>')+'</td></tr>';
     }
+    if(lines.length)h+='<tr><td style="padding:10px 12px;border-left:3px solid #2CA5B8;background:#F3F6F9;font-size:12px;line-height:1.55;color:#090909">'+lines.join('<br>')+'</td></tr>';
     if(S.link.trim()&&okLink(S.link)&&S.btn.trim()){
       h+='<tr><td style="padding:12px 0 0 0"><table cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse"><tr><td bgcolor="#090909" style="background:#090909;padding:8px 14px"><a href="'+esc(S.link.trim())+'" style="'+F+'font-size:12px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;color:#FFFFFF;text-decoration:none">'+esc(S.btn.trim())+' &rarr;</a></td></tr></table></td></tr>';
     }
@@ -240,6 +308,10 @@ textarea.off{position:absolute;left:-9999px;top:0;width:1px;height:1px}
     var html=build();$('sig').innerHTML=html;
     var e=S.email.trim(), eBad=!!e&&!okEmail(e); $('email').setAttribute('aria-invalid',eBad);$('email-err').hidden=!eBad;
     var l=S.link.trim(), lBad=!!l&&!okLink(l); $('link').setAttribute('aria-invalid',lBad);$('link-err').hidden=!lBad;
+    var ce=S.coverEmail.trim(), cBad=!!ce&&!okAnyEmail(ce); $('coverEmail').setAttribute('aria-invalid',cBad);$('cover-err').hidden=!cBad;
+    var lf=parseD(S.leaveFrom), lt=parseD(S.leaveTo), msg='';
+    if(S.showLeave&&lt){if(lf&&lt<=lf)msg='Your back date is on or before your first day away.';else if(lt<=today())msg="Your back date has passed. Untick leave, copy again and update Gmail."}
+    $('leaveTo').setAttribute('aria-invalid',!!msg);$('leave-err').textContent=msg;$('leave-err').hidden=!msg;
     var n=html.length, sz=$('size'); sz.textContent=n.toLocaleString('en-AU')+' of Gmail’s '+LIMIT.toLocaleString('en-AU')+' characters';
     sz.classList.toggle('over',n>LIMIT);
   }
