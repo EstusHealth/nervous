@@ -1,0 +1,965 @@
+<!doctype html><html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Problem Solving</title><meta name="robots" content="noindex, nofollow"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 fill=%22%23090909%22/%3E%3Crect x=%224%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23344982%22/%3E%3Crect x=%2210%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232F6F9E%22/%3E%3Crect x=%2216%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232CA5B8%22/%3E%3Crect x=%2222%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23AB5C95%22/%3E%3C/svg%3E"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap"><style>
+:root{
+  --g-bg:#F3F2EF;--g-surface:#FBFAF8;--g-sunk:#ECEAE6;--g-fg:#0E1014;--g-muted:#65676E;--g-rule:#D3D1CC;--g-ink:#090909;--g-on-ink:#FBFAF8;
+  --g-navy:#344982;--g-blue:#2F6F9E;--g-teal:#2CA5B8;--g-plum:#AB5C95;--g-coal:#22252B;
+  --g-navy-t:#DDE2EF;--g-blue-t:#DCE8F1;--g-teal-t:#DAF0F3;--g-plum-t:#F1E1EC;--g-coal-t:#DADBDE;
+  --g-good:#2E7D4F;--g-good-t:#DDEFE3;--g-warn:#A86A12;--g-warn-t:#F6E8D2;--g-bad:#B23A3A;--g-bad-t:#F5DEDE;
+  --g-display:"Oswald","Arial Narrow",Impact,sans-serif;--g-cond:"Barlow Semi Condensed","Arial Narrow",sans-serif;--g-body:"Barlow","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --g-bg:#0F1216;--g-surface:#161A20;--g-sunk:#1D222A;--g-fg:#ECEEF1;--g-muted:#9BA1AB;--g-rule:#2C323C;--g-ink:#05070A;--g-on-ink:#ECEEF1;
+  --g-navy:#8299DA;--g-blue:#6FA8D2;--g-teal:#4CC3D4;--g-plum:#D58FC1;--g-coal:#C9CCD2;
+  --g-navy-t:#1E2740;--g-blue-t:#18293A;--g-teal-t:#123238;--g-plum-t:#33202E;--g-coal-t:#2A2E35;
+  --g-good:#5FC38A;--g-good-t:#16301F;--g-warn:#E0A64A;--g-warn-t:#33270F;--g-bad:#EC7B7B;--g-bad-t:#3A1A1A;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --g-bg:#0F1216;--g-surface:#161A20;--g-sunk:#1D222A;--g-fg:#ECEEF1;--g-muted:#9BA1AB;--g-rule:#2C323C;--g-ink:#05070A;--g-on-ink:#ECEEF1;
+  --g-navy:#8299DA;--g-blue:#6FA8D2;--g-teal:#4CC3D4;--g-plum:#D58FC1;--g-coal:#C9CCD2;
+  --g-navy-t:#1E2740;--g-blue-t:#18293A;--g-teal-t:#123238;--g-plum-t:#33202E;--g-coal-t:#2A2E35;
+  --g-good:#5FC38A;--g-good-t:#16301F;--g-warn:#E0A64A;--g-warn-t:#33270F;--g-bad:#EC7B7B;--g-bad-t:#3A1A1A;color-scheme:dark}
+
+:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px)}
+body{margin:0;background:var(--g-bg);color:var(--g-fg);font:400 17px/1.55 var(--g-body)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--g-bg)}
+.ehub{background:#090909;color:#FBFAF8;border-bottom:1px solid #2C323C;position:relative;z-index:6}
+.ehub-in{max-width:1120px;margin:0 auto;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));display:flex;justify-content:space-between;align-items:center;gap:10px 16px;flex-wrap:wrap}
+.ehub a{color:inherit;text-decoration:none}
+.ehub-home{display:flex;align-items:center;gap:12px;min-height:36px}
+.ehub-bands{display:flex;width:56px;height:5px;flex:none}.ehub-bands i{flex:1}
+.ehub-bands i:nth-child(1){background:#344982}.ehub-bands i:nth-child(2){background:#2F6F9E}.ehub-bands i:nth-child(3){background:#2CA5B8}.ehub-bands i:nth-child(4){background:#AB5C95}
+.ehub-wm{font:500 14px/1 "Oswald","Arial Narrow",Impact,sans-serif;letter-spacing:.16em}.ehub-wm b{font-weight:700}
+.ehub-sep{font:600 12px/1 "Barlow Semi Condensed","Arial Narrow",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#AEB5C2;border-left:1px solid #3A3F48;padding-left:12px}
+.ehub-home:hover .ehub-sep{color:#FBFAF8}
+.ehub-r{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ehub-btn{font:600 12px/1 "Barlow Semi Condensed","Arial Narrow",sans-serif;letter-spacing:.1em;text-transform:uppercase;border:1px solid #3A3F48;background:none;color:#FBFAF8;padding:9px 12px;cursor:pointer;min-height:36px;display:inline-flex;align-items:center;gap:8px}
+.ehub-btn:hover{border-color:#FBFAF8}
+.ehub-btn[aria-pressed="true"]{background:#2E7D4F;border-color:#2E7D4F}
+.ehub-btn:focus-visible,.ehub a:focus-visible{outline:2px solid #2CA5B8;outline-offset:2px}
+.ehub-next{background:#FBFAF8!important;color:#090909!important;border-color:#FBFAF8}
+@media (max-width:520px){.ehub-sep{display:none}.ehub-next .ehub-nl{display:none}}
+@media print{.ehub{display:none}}
+:root {
+  --bg: var(--g-bg); --surface: var(--g-surface); --ink: var(--g-fg); --muted: var(--g-muted); --line: var(--g-rule);
+  --zoom: var(--g-warn); --zoom-soft: var(--g-warn-t); --flow: var(--g-blue); --flow-soft: var(--g-blue-t);
+  --iao: var(--g-plum); --iao-soft: var(--g-plum-t); --kit-soft: var(--g-sunk);
+  --good: var(--g-good); --bad: var(--g-bad);
+  --font-display: var(--g-display); --font-body: var(--g-body);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0;
+  background: var(--bg);
+  background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-attachment: fixed;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.55;
+}
+.wrap {
+  max-width: 940px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 40px 64px;
+  display: flex; flex-direction: column; gap: 28px;
+}
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; line-height: 1.1; }
+h1 { font-size: clamp(2.3rem, 6vw, 3.6rem); font-weight: 800; letter-spacing: -0.02em; }
+h2 { font-size: 1.6rem; font-weight: 800; }
+h3 { font-size: 1.15rem; font-weight: 600; }
+p { margin: 0; max-width: 65ch; }
+.eyebrow { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; color: var(--muted); }
+.zoom-t { color: var(--zoom); }
+.flow-t { color: var(--flow); }
+.iao-t { color: var(--iao); }
+.kit-t { color: var(--ink); }
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 24px;
+  display: flex; flex-direction: column; gap: 16px;
+  min-width: 0;
+  scroll-margin-top: 16px;
+}
+.hero { display: flex; flex-direction: column; gap: 14px; padding-block: 8px; }
+.hero p { font-size: 1.15rem; }
+.two-q { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.q { border-radius: 12px; padding: 16px 18px; display: flex; flex-direction: column; gap: 4px; }
+.q.zoom { background: var(--zoom-soft); border-left: 5px solid var(--zoom); }
+.q.flow { background: var(--flow-soft); border-left: 5px solid var(--flow); }
+.q strong { font-family: var(--font-display); font-size: 1.25rem; }
+
+.toc { display: flex; flex-direction: column; gap: 8px; }
+.toc-links { display: flex; flex-wrap: wrap; gap: 6px; }
+.toc a {
+  color: var(--ink); text-decoration: none; font-weight: 700; font-size: 0.88rem;
+  padding: 5px 12px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line);
+}
+.toc a:hover { border-color: var(--ink); }
+.toc a.z { color: var(--zoom); } .toc a.f { color: var(--flow); } .toc a.i { color: var(--iao); }
+
+.explain-head { display: flex; flex-direction: column; gap: 6px; }
+.test { font-weight: 700; padding: 10px 14px; border-radius: 10px; border: 1px dashed var(--line); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  font: inherit; font-size: 0.92rem; font-weight: 700; cursor: pointer;
+  padding: 7px 14px; border-radius: 999px; border: 1px solid var(--line);
+  background: transparent; color: var(--ink);
+}
+.zoom-card .chip[aria-pressed="true"] { background: var(--zoom); border-color: var(--zoom); color: var(--surface); }
+.flow-card .chip[aria-pressed="true"] { background: var(--flow); border-color: var(--flow); color: var(--surface); }
+.iao-card .chip[aria-pressed="true"] { background: var(--iao); border-color: var(--iao); color: var(--surface); }
+.kit .chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--surface); }
+.compare { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.side { border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.side .tag, .box .tag { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.09em; font-weight: 700; color: var(--muted); }
+.zoom-card .side .tag { color: var(--zoom); }
+.flow-card .side .tag { color: var(--flow); }
+.side .arrow { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; }
+.side.dim { background: var(--bg); }
+.side.lit { background: var(--kit-soft); border-color: var(--ink); }
+
+/* pipelines */
+.pipe { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 8px; align-items: stretch; --c: var(--ink); --cs: var(--kit-soft); }
+.iao-card .pipe { --c: var(--iao); --cs: var(--iao-soft); }
+.box { border: 2px solid var(--c); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; gap: 6px; min-width: 0; background: var(--bg); }
+.box.mid { background: var(--cs); }
+.iao-card .box .tag { color: var(--iao); }
+.pipe .arr { align-self: center; justify-self: center; font-family: var(--font-display); font-size: 1.6rem; font-weight: 800; color: var(--c); }
+.fix { padding: 12px 16px; border-radius: 10px; background: var(--kit-soft); }
+.iao-card .fix { background: var(--iao-soft); }
+.rules { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.rule { border-top: 3px solid var(--ink); padding-top: 10px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.iao-card .rule { border-top-color: var(--iao); }
+.rule strong { font-family: var(--font-display); font-size: 1.1rem; }
+.rule span { font-size: 0.95rem; color: var(--muted); }
+.note { color: var(--muted); font-size: 0.95rem; }
+
+/* loop */
+.loop { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.loop .step { padding: 8px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); font-weight: 700; font-size: 0.95rem; }
+.loop .to { color: var(--muted); font-weight: 800; }
+.loop .back { font-family: var(--font-display); font-weight: 800; color: var(--muted); }
+.badge { align-self: flex-start; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 4px 10px; border-radius: 999px; }
+.badge.snow { background: var(--flow-soft); color: var(--flow); }
+.badge.spiral { background: var(--zoom-soft); color: var(--zoom); }
+
+/* finite vs infinite */
+.vs { display: grid; grid-template-columns: minmax(5.5em, auto) 1fr 1fr; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.vs > div { padding: 10px 14px; border-top: 1px solid var(--line); min-width: 0; }
+.vs .h { font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.09em; color: var(--muted); border-top: none; background: var(--bg); }
+.vs .rl { font-weight: 700; }
+.vs .inf { background: var(--kit-soft); }
+.rules.five { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+
+/* bottleneck sim */
+.sim { display: flex; flex-direction: column; gap: 10px; }
+.stage { display: grid; grid-template-columns: 10em 1fr 5.5em; grid-template-areas: "nm tr bt"; gap: 10px; align-items: center; }
+.stage .nm { grid-area: nm; font-weight: 700; font-size: 0.95rem; }
+.track { grid-area: tr; position: relative; height: 30px; background: var(--bg); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.fill { height: 100%; background: var(--flow-soft); border-right: 3px solid var(--flow); display: flex; align-items: center; padding-left: 8px; font-size: 0.85rem; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.stage.bn .fill { background: var(--zoom-soft); border-right-color: var(--zoom); }
+.stage.bn .nm::after { content: " (slowest)"; color: var(--zoom); font-weight: 700; font-size: 0.8rem; }
+.mark { position: absolute; top: -2px; bottom: -2px; width: 0; border-left: 2px dashed var(--ink); }
+.plus { grid-area: bt; font: inherit; font-weight: 700; font-size: 0.85rem; cursor: pointer; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+.plus:disabled { opacity: 0.45; cursor: default; }
+.sim-out { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; padding: 12px 16px; border-radius: 10px; background: var(--kit-soft); }
+.sim-out strong { font-family: var(--font-display); font-size: 1.3rem; font-variant-numeric: tabular-nums; }
+.ghost { font: inherit; font-weight: 700; font-size: 0.9rem; cursor: pointer; padding: 7px 14px; border-radius: 8px; border: 1px solid var(--line); background: transparent; color: var(--ink); }
+.sim-msg { min-height: 1.6em; font-weight: 700; }
+
+/* map */
+.map { display: grid; grid-template-columns: auto 1fr 1fr; grid-template-rows: 1fr 1fr auto; gap: 8px; }
+.axis-y {
+  grid-row: 1 / 3; grid-column: 1;
+  display: flex; flex-direction: column; justify-content: space-between; align-items: center;
+  color: var(--zoom); font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em;
+  writing-mode: vertical-rl; transform: rotate(180deg);
+  padding: 6px 2px; border-right: 3px solid var(--zoom);
+}
+.axis-x {
+  grid-row: 3; grid-column: 2 / 4;
+  display: flex; justify-content: space-between;
+  color: var(--flow); font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em;
+  padding: 6px 4px 0; border-top: 3px solid var(--flow);
+}
+.quad {
+  font: inherit; color: var(--ink); text-align: left; cursor: pointer;
+  background: var(--bg); border: 2px solid var(--line); border-radius: 12px;
+  padding: 14px; display: flex; flex-direction: column; gap: 4px; min-height: 104px;
+}
+.quad .qname { font-family: var(--font-display); font-weight: 800; font-size: 1.3rem; }
+.quad .qsub { font-size: 0.85rem; color: var(--muted); }
+.quad[aria-pressed="true"] { border-color: var(--ink); background: var(--surface); box-shadow: 0 2px 0 var(--ink); }
+.detail { border-top: 1px solid var(--line); padding-top: 16px; display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px; }
+.detail .ex { font-style: italic; }
+.pros { display: flex; flex-direction: column; gap: 6px; font-size: 0.95rem; }
+.pros b { display: inline-block; min-width: 6.5em; }
+
+/* run your own */
+.run-problem { display: flex; flex-direction: column; gap: 6px; }
+label { font-weight: 700; }
+textarea {
+  font: inherit; color: var(--ink); background: var(--bg); width: 100%;
+  border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; resize: vertical; min-height: 3.2em;
+}
+textarea:focus-visible { outline: 3px solid var(--flow); outline-offset: 1px; }
+.run-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.stepper { border: 1px solid var(--line); border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 10px; background: var(--bg); }
+.step-top { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; align-items: baseline; }
+.step-tool { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; }
+.step-count { font-variant-numeric: tabular-nums; color: var(--muted); font-size: 0.9rem; }
+.step-q { font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; }
+.step-hint { color: var(--muted); }
+.step-nav { display: flex; gap: 8px; flex-wrap: wrap; }
+.dots { display: flex; flex-wrap: wrap; gap: 5px; }
+.dots button { width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--muted); font: inherit; font-size: 0.75rem; font-weight: 700; cursor: pointer; padding: 0; font-variant-numeric: tabular-nums; }
+.dots button.filled { background: var(--kit-soft); color: var(--ink); border-color: var(--ink); }
+.dots button[aria-current="step"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+.summary { display: flex; flex-direction: column; gap: 10px; }
+.summary ol { margin: 0; padding-left: 1.3em; display: flex; flex-direction: column; gap: 6px; }
+.summary li span { color: var(--muted); }
+.copy-msg { color: var(--good); font-weight: 700; font-size: 0.9rem; }
+.empty { color: var(--muted); font-style: italic; }
+
+/* game */
+.game-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.score { font-family: var(--font-display); font-weight: 600; font-variant-numeric: tabular-nums; color: var(--muted); }
+.scenario { font-size: 1.25rem; font-weight: 700; max-width: 60ch; }
+.ask { font-weight: 700; }
+.answers { display: flex; flex-wrap: wrap; gap: 10px; }
+.ans { font: inherit; font-weight: 700; cursor: pointer; padding: 11px 20px; border-radius: 10px; border: 2px solid var(--line); background: var(--bg); color: var(--ink); }
+.ans:disabled { cursor: default; opacity: 0.55; }
+.ans.right { border-color: var(--good); opacity: 1; }
+.ans.wrong { border-color: var(--bad); opacity: 1; }
+.feedback { min-height: 1.6em; font-weight: 700; }
+.feedback.ok { color: var(--good); }
+.feedback.no { color: var(--bad); }
+.next, .solid { align-self: flex-start; font: inherit; font-weight: 700; cursor: pointer; padding: 10px 18px; border-radius: 10px; border: none; background: var(--ink); color: var(--surface); }
+.progress { display: flex; flex-wrap: wrap; gap: 6px; }
+.progress span { width: 22px; height: 6px; border-radius: 3px; background: var(--line); }
+.progress span.done-ok { background: var(--good); }
+.progress span.done-no { background: var(--bad); }
+.progress span.now { background: var(--ink); }
+
+.foot { color: var(--muted); font-size: 0.9rem; }
+button:focus-visible, a:focus-visible { outline: 3px solid var(--flow); outline-offset: 2px; }
+
+@media (max-width: 640px) {
+  .two-q, .compare, .detail, .rules, .pipe { grid-template-columns: 1fr; }
+  .pipe .arr { transform: rotate(90deg); }
+  .panel { padding: 18px; }
+  .quad { min-height: 90px; padding: 10px; }
+  .quad .qname { font-size: 1.1rem; }
+  .stage { grid-template-columns: 1fr auto; grid-template-areas: "nm bt" "tr tr"; gap: 6px 10px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .quad, .chip, .ans, .fill, .mark { transition: border-color .15s, background .15s, width .3s, left .3s; }
+}
+</style><script src="theme.js"></script></head><body>
+<nav class="ehub" aria-label="Estus Training Hub" style="margin:0"><div class="ehub-in">
+<a class="ehub-home" href="index.html"><span class="ehub-bands" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="ehub-wm"><b>ESTUS</b> HEALTH</span><span class="ehub-sep">&larr; Training Hub</span></a>
+<div class="ehub-r"><button class="ehub-btn" type="button" id="ehub-done" aria-pressed="false">Mark done</button><a class="ehub-btn ehub-next" href="act.html"><span class="ehub-nl">Next:</span> ACT <span aria-hidden="true">&rarr;</span></a></div>
+</div></nav>
+<script>(function(){var K="hub_done",s="problemsolving",b=document.getElementById("ehub-done");function l(){try{return JSON.parse(localStorage.getItem(K))||{}}catch(e){return {}}}function r(){var on=!!l()[s];b.setAttribute("aria-pressed",on);b.textContent=on?"\u2713 Done":"Mark done"}b.addEventListener("click",function(){var v=l();if(v[s])delete v[s];else v[s]=1;try{localStorage.setItem(K,JSON.stringify(v))}catch(e){}r()});r()})();</script>
+<div class="wrap">
+
+  <header class="hero">
+    <span class="eyebrow">Plain tools for thinking through any problem</span>
+    <h1>Zoom <span class="zoom-t">↕</span> and Flow <span class="flow-t">→</span></h1>
+    <p>Start with the two ideas people mix up most. They answer different questions.</p>
+    <div class="two-q">
+      <div class="q zoom">
+        <span class="eyebrow zoom-t">Zoom: top down vs bottom up</span>
+        <strong>Whole or parts?</strong>
+        <span>Do you start with the big picture or the small pieces?</span>
+      </div>
+      <div class="q flow">
+        <span class="eyebrow flow-t">Flow: upstream vs downstream</span>
+        <strong>Cause or result?</strong>
+        <span>Do you fix where the problem starts or where it lands?</span>
+      </div>
+    </div>
+    <nav class="toc" aria-label="On this page">
+      <span class="eyebrow">On this page</span>
+      <div class="toc-links">
+        <a class="z" href="#zoom">Top down / bottom up</a>
+        <a class="f" href="#flow">Upstream / downstream</a>
+        <a href="#map">The map</a>
+        <a class="i" href="#iao">Input, algorithm, output</a>
+        <a href="#bottleneck">Bottleneck</a>
+        <a href="#loops">Feedback loops</a>
+        <a href="#leadlag">Lead vs lag</a>
+        <a href="#second">Second-order effects</a>
+        <a href="#inversion">Inversion</a>
+        <a href="#environment">Environment</a>
+        <a href="#signal">Signal vs noise</a>
+        <a href="#infinite">Finite vs infinite</a>
+        <a href="#run">Run your own problem</a>
+        <a href="#game">Sort it</a>
+      </div>
+    </nav>
+  </header>
+
+  <section class="panel zoom-card" id="zoom" aria-labelledby="zoom-h">
+    <div class="explain-head">
+      <span class="eyebrow zoom-t">Zoom level</span>
+      <h2 id="zoom-h">Top down vs bottom up</h2>
+      <p><b>Top down:</b> start with the goal, then work out the parts. <b>Bottom up:</b> start with the parts, and let the whole emerge.</p>
+    </div>
+    <div class="test">Quick test: are you starting from the <span class="zoom-t">goal</span> or the <span class="zoom-t">ingredients</span>?</div>
+    <div class="chips" id="zoom-chips" role="group" aria-label="Zoom examples"></div>
+    <div class="compare">
+      <div class="side"><span class="tag">Top down</span><span class="arrow">Goal → parts</span><p id="zoom-a"></p></div>
+      <div class="side"><span class="tag">Bottom up</span><span class="arrow">Parts → goal</span><p id="zoom-b"></p></div>
+    </div>
+  </section>
+
+  <section class="panel flow-card" id="flow" aria-labelledby="flow-h">
+    <div class="explain-head">
+      <span class="eyebrow flow-t">Cause and effect</span>
+      <h2 id="flow-h">Upstream vs downstream</h2>
+      <p><b>Upstream:</b> fix the cause, before the problem happens. <b>Downstream:</b> deal with the result, after it happens.</p>
+    </div>
+    <div class="test">Quick test: are you fixing the <span class="flow-t">cause</span> or cleaning up the <span class="flow-t">result</span>?</div>
+    <div class="chips" id="flow-chips" role="group" aria-label="Flow examples"></div>
+    <div class="compare">
+      <div class="side"><span class="tag">Upstream</span><span class="arrow">Fix the cause</span><p id="flow-a"></p></div>
+      <div class="side"><span class="tag">Downstream</span><span class="arrow">Handle the result</span><p id="flow-b"></p></div>
+    </div>
+  </section>
+
+  <section class="panel" id="map" aria-labelledby="map-h">
+    <div class="explain-head">
+      <span class="eyebrow">Put them together</span>
+      <h2 id="map-h">The map</h2>
+      <p>Every problem sits somewhere on both. Tap a box.</p>
+    </div>
+    <div class="map" id="map-grid">
+      <div class="axis-y" aria-hidden="true"><span>Parts</span><span>Big picture</span></div>
+      <div class="axis-x" aria-hidden="true"><span>← Upstream (cause)</span><span>Downstream (result) →</span></div>
+    </div>
+    <div class="detail" aria-live="polite">
+      <div style="display:flex;flex-direction:column;gap:8px;min-width:0">
+        <h3 id="d-name"></h3>
+        <p id="d-what"></p>
+        <p class="ex" id="d-ex"></p>
+      </div>
+      <div class="pros">
+        <span><b class="flow-t">Good for</b> <span id="d-good"></span></span>
+        <span><b class="zoom-t">Watch out</b> <span id="d-watch"></span></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel iao-card" id="iao" aria-labelledby="iao-h">
+    <div class="explain-head">
+      <span class="eyebrow iao-t">How results get made</span>
+      <h2 id="iao-h">Input → Algorithm → Output</h2>
+      <p><b>Input:</b> what goes in. <b>Algorithm:</b> the steps or rules that work on it. <b>Output:</b> what comes out.</p>
+    </div>
+    <div class="test">Quick test: the result is wrong. Was it what <span class="iao-t">went in</span>, or <span class="iao-t">what happened to it</span>?</div>
+    <div class="chips" id="iao-chips" role="group" aria-label="Input algorithm output examples"></div>
+    <div class="pipe">
+      <div class="box"><span class="tag">Input</span><p id="iao-in"></p></div>
+      <span class="arr" aria-hidden="true">→</span>
+      <div class="box mid"><span class="tag">Algorithm</span><p id="iao-alg"></p></div>
+      <span class="arr" aria-hidden="true">→</span>
+      <div class="box"><span class="tag">Output</span><p id="iao-out"></p></div>
+    </div>
+    <p class="fix" id="iao-fix"></p>
+    <div class="rules">
+      <div class="rule"><strong>You can't change the output directly.</strong><span>Change the input or the algorithm. That's the only lever.</span></div>
+      <div class="rule"><strong>Rubbish in, rubbish out.</strong><span>A great algorithm can't fix bad input.</span></div>
+      <div class="rule"><strong>Same in, same out.</strong><span>Want a different result? Something has to change.</span></div>
+    </div>
+    <p class="note">Links to the rest: input and algorithm are <b class="flow-t">upstream</b>, output is <b class="flow-t">downstream</b>. Backprop works this way too: look at the output error, trace it back, tweak the algorithm.</p>
+  </section>
+
+  <section class="panel kit" id="bottleneck" aria-labelledby="bn-h">
+    <div class="explain-head">
+      <span class="eyebrow">Speed of the whole system</span>
+      <h2 id="bn-h">Bottleneck</h2>
+      <p>The slowest step sets the speed of everything. Speed up any other step and nothing changes.</p>
+    </div>
+    <div class="test">Quick test: where does work <b>pile up and wait</b>?</div>
+    <p class="note">Try it. This clinic can only see as many new clients as its slowest step allows. Speed up a step and watch the output.</p>
+    <div class="sim" id="sim"></div>
+    <div class="sim-out">
+      <span>New clients per week: <strong id="sim-total">8</strong></span>
+      <button class="ghost" id="sim-reset" type="button">Reset</button>
+    </div>
+    <p class="sim-msg" id="sim-msg" aria-live="polite">The dashed line is the real output. Only one bar touches it.</p>
+    <div class="rules">
+      <div class="rule"><strong>Find it.</strong><span>Look for the queue. Work waits in front of the bottleneck.</span></div>
+      <div class="rule"><strong>Feed it.</strong><span>Never let the slowest step sit idle or do work someone else could do.</span></div>
+      <div class="rule"><strong>Find the next one.</strong><span>Fix it and a new slowest step appears. That's normal.</span></div>
+    </div>
+  </section>
+
+  <section class="panel kit" id="loops" aria-labelledby="loops-h">
+    <div class="explain-head">
+      <span class="eyebrow">When the output feeds back in</span>
+      <h2 id="loops-h">Feedback loops</h2>
+      <p>Sometimes the output becomes the next input. Then the system feeds itself. Good loops <b>snowball</b>. Bad loops <b>spiral</b>.</p>
+    </div>
+    <div class="test">Quick test: does the result make the <b>same thing more likely</b> next time?</div>
+    <div class="chips" id="loop-chips" role="group" aria-label="Feedback loop examples"></div>
+    <span class="badge" id="loop-badge"></span>
+    <div class="loop" id="loop-steps"></div>
+    <p class="fix" id="loop-tip"></p>
+  </section>
+
+  <section class="panel kit" id="leadlag" aria-labelledby="ll-h">
+    <div class="explain-head">
+      <span class="eyebrow">What to measure</span>
+      <h2 id="ll-h">Lead vs lag</h2>
+      <p><b>Lag:</b> the result you want. You only see it after. <b>Lead:</b> the thing you can do now that predicts the result.</p>
+    </div>
+    <div class="test">Quick test: can you <b>change it this week</b>? Then it's a lead.</div>
+    <div class="chips" id="ll-chips" role="group" aria-label="Lead and lag examples"></div>
+    <div class="compare">
+      <div class="side dim"><span class="tag">Lag (the result)</span><span class="arrow">Shows up later</span><p id="ll-b"></p></div>
+      <div class="side lit"><span class="tag">Lead (what you control)</span><span class="arrow">Do it now</span><p id="ll-a"></p></div>
+    </div>
+    <p class="note">Track the lead every week. Check the lag every month or quarter. Lead is <b class="flow-t">upstream</b> of lag.</p>
+  </section>
+
+  <section class="panel kit" id="second" aria-labelledby="so-h">
+    <div class="explain-head">
+      <span class="eyebrow">Looking one step further</span>
+      <h2 id="so-h">Second-order effects</h2>
+      <p>Every fix has a first effect you can see. Then it has a second effect that shows up later. Ask: <b>"and then what?"</b></p>
+    </div>
+    <div class="test">Quick test: after the obvious result, <b>what happens next</b>?</div>
+    <div class="chips" id="so-chips" role="group" aria-label="Second-order examples"></div>
+    <div class="pipe">
+      <div class="box"><span class="tag">You do this</span><p id="so-a"></p></div>
+      <span class="arr" aria-hidden="true">→</span>
+      <div class="box"><span class="tag">First effect</span><p id="so-b"></p></div>
+      <span class="arr" aria-hidden="true">→</span>
+      <div class="box mid"><span class="tag">And then what?</span><p id="so-c"></p></div>
+    </div>
+  </section>
+
+  <section class="panel kit" id="inversion" aria-labelledby="inv-h">
+    <div class="explain-head">
+      <span class="eyebrow">Flip the question</span>
+      <h2 id="inv-h">Inversion</h2>
+      <p>Instead of "how do I make this work?", ask <b>"what would guarantee it fails?"</b> Then stop doing those things. Failure is often easier to spot than success.</p>
+    </div>
+    <div class="test">Quick test: can you list <b>three ways to wreck it</b>?</div>
+    <div class="chips" id="inv-chips" role="group" aria-label="Inversion examples"></div>
+    <div class="compare">
+      <div class="side dim"><span class="tag">Forward</span><span class="arrow" id="inv-fq"></span><p id="inv-a"></p></div>
+      <div class="side lit"><span class="tag">Inverted</span><span class="arrow" id="inv-iq"></span><p id="inv-b"></p></div>
+    </div>
+  </section>
+
+  <section class="panel kit" id="environment" aria-labelledby="env-h">
+    <div class="explain-head">
+      <span class="eyebrow">Make the right thing easy</span>
+      <h2 id="env-h">Environment over willpower</h2>
+      <p>Willpower runs out. A good setup keeps working. Change the space so the right action is the easy one.</p>
+    </div>
+    <div class="test">Quick test: are you <b>trying harder</b>, or <b>changing the setup</b>?</div>
+    <div class="chips" id="env-chips" role="group" aria-label="Environment examples"></div>
+    <div class="compare">
+      <div class="side dim"><span class="tag">Willpower</span><span class="arrow">Try harder</span><p id="env-a"></p></div>
+      <div class="side lit"><span class="tag">Environment</span><span class="arrow">Change the setup</span><p id="env-b"></p></div>
+    </div>
+    <p class="note">This is an <b class="iao-t">input</b> change. Same person, different setup, different output.</p>
+  </section>
+
+  <section class="panel kit" id="signal" aria-labelledby="sn-h">
+    <div class="explain-head">
+      <span class="eyebrow">Which feedback matters</span>
+      <h2 id="sn-h">Signal vs noise</h2>
+      <p><b>Signal:</b> a real pattern worth acting on. <b>Noise:</b> random ups and downs. One data point is usually noise. A trend is signal.</p>
+    </div>
+    <div class="test">Quick test: has it happened <b>more than once</b>, from <b>more than one source</b>?</div>
+    <div class="chips" id="sn-chips" role="group" aria-label="Signal and noise examples"></div>
+    <div class="compare">
+      <div class="side dim"><span class="tag">Noise</span><span class="arrow">Notice it, don't react</span><p id="sn-a"></p></div>
+      <div class="side lit"><span class="tag">Signal</span><span class="arrow">Act on it</span><p id="sn-b"></p></div>
+    </div>
+  </section>
+
+  <section class="panel kit" id="infinite" aria-labelledby="fi-h">
+    <div class="explain-head">
+      <span class="eyebrow">Which game are you playing?</span>
+      <h2 id="fi-h">Finite vs infinite games</h2>
+      <p>A <b>finite game</b> has a finish line and a winner. An <b>infinite game</b> has no end. You can't win it. The goal is to keep playing, and keep the game going for others.</p>
+    </div>
+    <div class="test">Quick test: is there a <b>finish line</b>? If not, you're in an infinite game.</div>
+    <div class="vs" role="table" aria-label="Finite and infinite games compared">
+      <div class="h" role="columnheader"></div><div class="h" role="columnheader">Finite game</div><div class="h inf" role="columnheader">Infinite game</div>
+      <div class="rl" role="rowheader">Players</div><div role="cell">Known</div><div class="inf" role="cell">Come and go</div>
+      <div class="rl" role="rowheader">Rules</div><div role="cell">Fixed and agreed</div><div class="inf" role="cell">Change over time</div>
+      <div class="rl" role="rowheader">End</div><div role="cell">Clear finish line</div><div class="inf" role="cell">None</div>
+      <div class="rl" role="rowheader">Goal</div><div role="cell">Win</div><div class="inf" role="cell">Keep playing</div>
+    </div>
+    <p class="note">Business, health, parenting and careers are infinite games. Trouble starts when you play them with a finite mindset: chasing a win in a game that never ends.</p>
+    <div class="chips" id="fi-chips" role="group" aria-label="Finite and infinite examples"></div>
+    <div class="compare">
+      <div class="side dim"><span class="tag">Finite mindset</span><span class="arrow">Win this round</span><p id="fi-a"></p></div>
+      <div class="side lit"><span class="tag">Infinite mindset</span><span class="arrow">Stay in the game</span><p id="fi-b"></p></div>
+    </div>
+    <h3>Five habits of an infinite player</h3>
+    <div class="rules five">
+      <div class="rule"><strong>Just cause</strong><span>A reason to exist bigger than any single win.</span></div>
+      <div class="rule"><strong>Trusting teams</strong><span>People feel safe to say "I made a mistake" or "I need help".</span></div>
+      <div class="rule"><strong>Worthy rival</strong><span>A competitor you learn from, not one you just try to beat.</span></div>
+      <div class="rule"><strong>Flexibility</strong><span>Willing to change the whole plan to serve the cause.</span></div>
+      <div class="rule"><strong>Courage to lead</strong><span>Choosing the long game when the short game pays more today.</span></div>
+    </div>
+    <p class="note">Idea from James Carse's <i>Finite and Infinite Games</i>, made popular by Simon Sinek's <i>The Infinite Game</i>. Ties in with thinking in decades, lead measures and second-order effects.</p>
+  </section>
+
+  <section class="panel kit" id="run" aria-labelledby="run-h">
+    <div class="explain-head">
+      <span class="eyebrow">Use the whole kit</span>
+      <h2 id="run-h">Run your own problem</h2>
+      <p>Write a problem. Go through each tool. Short answers are fine. Skip any that don't fit.</p>
+    </div>
+    <div class="run-problem">
+      <label for="run-problem">The problem</label>
+      <textarea id="run-problem" rows="2" placeholder="e.g. Afternoon sessions keep running late"></textarea>
+      <div class="run-row">
+        <button class="ghost" id="run-example" type="button">Try an example</button>
+        <button class="ghost" id="run-clear" type="button">Start over</button>
+      </div>
+    </div>
+    <div class="stepper">
+      <div class="step-top">
+        <span class="step-tool" id="step-tool"></span>
+        <span class="step-count" id="step-count"></span>
+      </div>
+      <p class="step-q" id="step-q"></p>
+      <p class="step-hint" id="step-hint"></p>
+      <label for="step-a" class="note" style="font-weight:400">Your answer</label>
+      <textarea id="step-a" rows="2"></textarea>
+      <div class="step-nav">
+        <button class="ghost" id="step-back" type="button">Back</button>
+        <button class="solid" id="step-next" type="button">Next</button>
+      </div>
+      <div class="dots" id="step-dots" aria-label="Jump to a step"></div>
+    </div>
+    <div class="summary">
+      <h3>Your notes</h3>
+      <div id="summary-body"></div>
+      <div class="run-row">
+        <button class="ghost" id="copy-notes" type="button">Copy notes</button>
+        <span class="copy-msg" id="copy-msg" aria-live="polite"></span>
+      </div>
+      <textarea id="copy-fallback" rows="6" hidden readonly></textarea>
+    </div>
+  </section>
+
+  <section class="panel" id="game" aria-labelledby="game-h">
+    <div class="game-top">
+      <div class="explain-head">
+        <span class="eyebrow">Practice</span>
+        <h2 id="game-h">Sort it</h2>
+      </div>
+      <span class="score" id="score">0 / 0</span>
+    </div>
+    <p class="note">10 random questions from across the page. A new mix each round.</p>
+    <div class="progress" id="progress" aria-hidden="true"></div>
+    <p class="ask" id="ask"></p>
+    <p class="scenario" id="scenario"></p>
+    <div class="answers" id="answers"></div>
+    <p class="feedback" id="feedback" aria-live="polite"></p>
+    <button class="next" id="next" type="button" hidden>Next</button>
+  </section>
+
+  <p class="foot">Short version: <b class="zoom-t">zoom</b> is how much you look at. <b class="flow-t">Flow</b> is when you step in. <b class="iao-t">Input, algorithm, output</b> is where you pull the lever. The <b>bottleneck</b> tells you which lever matters most.</p>
+</div>
+
+<script>
+function $(id) { return document.getElementById(id); }
+function chips(el, list, onPick) {
+  const host = $(el);
+  list.forEach((ex, i) => {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "chip"; b.textContent = ex.name; b.id = el + "-" + i;
+    b.setAttribute("aria-pressed", i === 0 ? "true" : "false");
+    b.addEventListener("click", () => {
+      host.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", "false"));
+      b.setAttribute("aria-pressed", "true");
+      onPick(ex);
+    });
+    host.appendChild(b);
+  });
+  onPick(list[0]);
+}
+function pair(el, prefix, list) {
+  chips(el, list, ex => { $(prefix + "-a").textContent = ex.a; $(prefix + "-b").textContent = ex.b; });
+}
+
+pair("zoom-chips", "zoom", [
+  { name: "Jigsaw", a: "Look at the picture on the box. Then hunt for the sky pieces.", b: "No box. Join pieces that click and watch the picture appear." },
+  { name: "Bike riding (OT)", a: "Start with the goal: ride the bike. Practise riding and fix what gets in the way.", b: "Start with balance, core strength and motor planning. Trust they add up to riding." },
+  { name: "Learning", a: "Show the real problem first. Then teach the pieces it needs.", b: "Teach the pieces in order. The real problem shows up at the end." },
+  { name: "Business", a: "Start with what clients and referrers need. Pull in whatever helps.", b: "Build each tool and process one by one. See what business they add up to." }
+]);
+pair("flow-chips", "flow", [
+  { name: "River", a: "Stop the factory dumping rubbish in the river.", b: "Pick the rubbish up off the beach." },
+  { name: "School meltdowns", a: "Look at sleep, the morning routine and sensory load before school.", b: "Help the child calm down once the meltdown starts." },
+  { name: "Clinic no-shows", a: "Clear reminders, easy rescheduling, times that suit families.", b: "Chase the missed session fee afterwards." },
+  { name: "Health", a: "Sleep, food and movement.", b: "Treat the illness once it shows up." }
+]);
+chips("iao-chips", [
+  { name: "Cooking", i: "Ingredients.", a: "The recipe and how you cook it.", o: "The meal.", fix: "Meal tastes bad? Check the ingredients first, then the method." },
+  { name: "Morning routine", i: "Sleep, wake-up time, bag packed the night before.", a: "The order of steps on the visual schedule.", o: "Out the door on time and calm.", fix: "Late every day? Fix bedtime (input) or the order of steps (algorithm)." },
+  { name: "Referrals", i: "Who you meet, what you share, how often.", a: "Your follow-up and intake process.", o: "Referrals and new clients.", fix: "Referrals dried up? More contact (input) or smoother follow-up (algorithm)." },
+  { name: "Learning", i: "What you read, watch and hear.", a: "How you process it: notes, practice, mapping it with AI.", o: "What you can actually do.", fix: "Not sticking? Better sources (input) or a better way to process them (algorithm)." },
+  { name: "Training", i: "Food, sleep, training load.", a: "Your body.", o: "Energy, strength, recovery.", fix: "You can't rewrite your body's algorithm much. So change the inputs." }
+], ex => { $("iao-in").textContent = ex.i; $("iao-alg").textContent = ex.a; $("iao-out").textContent = ex.o; $("iao-fix").textContent = ex.fix; });
+
+chips("loop-chips", [
+  { name: "Referrals", kind: "snow", steps: ["Good outcomes", "Happy families", "They tell others", "More referrals", "More practice"], tip: "Feed it: make it easy for happy families and referrers to pass your name on." },
+  { name: "Anxiety and avoidance", kind: "spiral", steps: ["Feels anxious", "Avoids the thing", "Short-term relief", "Thing feels scarier", "More anxious"], tip: "Break it: small, safe steps toward the thing, so the brain learns it's survivable." },
+  { name: "Content", kind: "snow", steps: ["Post something useful", "People ask questions", "Better ideas for posts", "More readers", "More questions"], tip: "Feed it: answer questions publicly and turn them into the next post." },
+  { name: "Staff burnout", kind: "spiral", steps: ["Team stretched", "Someone leaves", "More load on the rest", "Morale drops", "Team more stretched"], tip: "Break it: cut load first, even briefly. Hiring alone is too slow to stop the spin." },
+  { name: "Exercise", kind: "snow", steps: ["Train", "Sleep better", "More energy", "Easier to train"], tip: "Feed it: protect sleep. It powers the whole loop." }
+], ex => {
+  const badge = $("loop-badge");
+  badge.textContent = ex.kind === "snow" ? "Snowball (good loop)" : "Spiral (bad loop)";
+  badge.className = "badge " + (ex.kind === "snow" ? "snow" : "spiral");
+  const host = $("loop-steps"); host.innerHTML = "";
+  ex.steps.forEach((s, i) => {
+    const sp = document.createElement("span"); sp.className = "step"; sp.textContent = s; host.appendChild(sp);
+    const to = document.createElement("span"); to.className = i < ex.steps.length - 1 ? "to" : "back";
+    to.textContent = i < ex.steps.length - 1 ? "→" : "↻ back to start"; host.appendChild(to);
+  });
+  $("loop-tip").textContent = ex.tip;
+});
+
+pair("ll-chips", "ll", [
+  { name: "Clinic growth", b: "New clients this quarter. Revenue.", a: "Referrer catch-ups booked each week. Enquiries answered same day." },
+  { name: "Fitness", b: "Weight, strength, race time.", a: "Training sessions done this week. Hours of sleep." },
+  { name: "School attendance", b: "Days at school this term.", a: "Consistent bedtime. Calm mornings this week." },
+  { name: "Podcast and newsletter", b: "Subscribers and listeners.", a: "Episodes published. Guests booked. Posts shared." }
+]);
+
+chips("so-chips", [
+  { name: "Cut prices", a: "Drop session fees to fill the books.", b: "More bookings.", c: "Clinicians run back-to-back at low rates, burn out, and the clinic attracts price shoppers." },
+  { name: "Screen to stop a meltdown", a: "Hand over a tablet when a meltdown starts.", b: "Calm right now.", c: "The child learns a meltdown gets a screen. Meltdowns can go up." },
+  { name: "Hire fast", a: "Hire quickly to clear the waitlist.", b: "More capacity.", c: "Training load lands on senior staff and culture gets diluted." },
+  { name: "Say yes to everything", a: "Agree to every request.", b: "People are happy with you.", c: "No time left for the work that matters most." }
+], ex => { $("so-a").textContent = ex.a; $("so-b").textContent = ex.b; $("so-c").textContent = ex.c; });
+
+chips("inv-chips", [
+  { name: "Keep new staff", fq: "How do we keep new clinicians?", iq: "What would make them quit in month one?", a: "Vague ideas: good culture, nice perks.", b: "No onboarding, no supervision, full caseload on day one, nobody checks in. Now don't do those." },
+  { name: "A good session", fq: "How do I run a great session?", iq: "How would I guarantee a bad one?", a: "General: be prepared, build rapport.", b: "Arrive late, no plan, ignore what the kid is into, end with no next step." },
+  { name: "Morning routine", fq: "How do we have calm mornings?", iq: "What makes mornings go badly?", a: "Hope everyone gets up on time.", b: "Late bedtime, nothing ready, screens on, five things to find. Remove those." },
+  { name: "Referrals", fq: "How do we get more referrals?", iq: "How would we lose every referrer?", a: "Do more marketing.", b: "Slow replies, no updates on shared clients, long waitlist with no info." }
+], ex => { $("inv-fq").textContent = ex.fq; $("inv-iq").textContent = ex.iq; $("inv-a").textContent = ex.a; $("inv-b").textContent = ex.b; });
+
+pair("env-chips", "env", [
+  { name: "Phone at night", a: "Try not to scroll in bed.", b: "Charge the phone in the kitchen." },
+  { name: "Snacks", a: "Resist the chips.", b: "Don't buy the chips. Fruit on the bench." },
+  { name: "Homework", a: "Just focus.", b: "Clear desk, timer on, phone in another room." },
+  { name: "Case notes", a: "Remember to write notes later.", b: "Template open, 10 minutes blocked after each client." },
+  { name: "Gym", a: "Find the motivation.", b: "Clothes out the night before, bag by the door, session booked." }
+]);
+
+pair("sn-chips", "sn", [
+  { name: "Reviews", a: "One grumpy review after a late session.", b: "Three referrers in a month mention wait times." },
+  { name: "Client progress", a: "One bad day at school.", b: "The same struggle showing up for three weeks running." },
+  { name: "Body weight", a: "Up 1 kg overnight.", b: "The 4-week average keeps rising." },
+  { name: "Social media", a: "One post gets lots of likes.", b: "Enquiries mention the same type of post again and again." }
+]);
+
+pair("fi-chips", "fi", [
+  { name: "Running a clinic", a: "Beat the clinic down the road this quarter. Hit the number at any cost.", b: "Build a practice that's still great in 20 years. Learn from the clinic down the road." },
+  { name: "Team", a: "Squeeze the most billable hours out of everyone this year.", b: "Grow clinicians so they stay, get better, and bring others with them." },
+  { name: "Parenting", a: "Win tonight's bedtime argument.", b: "Raise a kid who can manage their own sleep as an adult." },
+  { name: "Health", a: "Lose 10 kg for the wedding.", b: "Still moving well and lifting at 80." },
+  { name: "Career", a: "Get the title, then coast.", b: "Keep learning and stay useful as the field changes." }
+]);
+
+// map
+const quads = [
+  { name: "Design", sub: "Big picture + cause", what: "Start with the goal. Shape the causes so the result is close to guaranteed.", ex: "You want steady referrals, so you build strong referrer relationships before you need them.", good: "Long-term results.", watch: "Slow to see payoff." },
+  { name: "Steer", sub: "Big picture + result", what: "Start with the goal. Read the results and adjust.", ex: "Check monthly numbers against the plan and change course.", good: "Staying on track.", watch: "You react after it happens." },
+  { name: "Build", sub: "Parts + cause", what: "Start with the parts. Strengthen the inputs early.", ex: "Work on core strength and balance so harder skills come easier later.", good: "Strong foundations.", watch: "Losing sight of why." },
+  { name: "Patch", sub: "Parts + result", what: "Start with the parts. Fix each problem as it shows up.", ex: "Fix each broken link on the website as someone reports it.", good: "Urgent fixes.", watch: "The same problem keeps coming back." }
+];
+const mapGrid = $("map-grid");
+const axisX = mapGrid.querySelector(".axis-x");
+const pos = [[1, 2], [1, 3], [2, 2], [2, 3]];
+quads.forEach((q, i) => {
+  const b = document.createElement("button");
+  b.type = "button"; b.className = "quad"; b.id = "quad-" + i;
+  b.style.gridRow = pos[i][0]; b.style.gridColumn = pos[i][1];
+  b.innerHTML = '<span class="qname"></span><span class="qsub"></span>';
+  b.querySelector(".qname").textContent = q.name;
+  b.querySelector(".qsub").textContent = q.sub;
+  b.addEventListener("click", () => showQuad(i));
+  mapGrid.insertBefore(b, axisX);
+});
+function showQuad(i) {
+  const q = quads[i];
+  mapGrid.querySelectorAll(".quad").forEach((b, j) => b.setAttribute("aria-pressed", j === i ? "true" : "false"));
+  $("d-name").textContent = q.name + ": " + q.sub.toLowerCase();
+  $("d-what").textContent = q.what;
+  $("d-ex").textContent = "Example: " + q.ex;
+  $("d-good").textContent = q.good;
+  $("d-watch").textContent = q.watch;
+}
+showQuad(0);
+
+// bottleneck sim
+const MAX = 30, STEP = 4;
+const startCaps = [20, 8, 12, 15];
+const stageNames = ["Enquiries answered", "Intake calls", "First assessments", "Ongoing session slots"];
+let caps = startCaps.slice();
+const sim = $("sim");
+stageNames.forEach((n, i) => {
+  const row = document.createElement("div"); row.className = "stage"; row.id = "stage-" + i;
+  row.innerHTML = '<span class="nm"></span><div class="track"><div class="fill"></div><div class="mark"></div></div><button class="plus" type="button"></button>';
+  row.querySelector(".nm").textContent = n;
+  const btn = row.querySelector(".plus");
+  btn.textContent = "+" + STEP + " / wk";
+  btn.setAttribute("aria-label", "Speed up " + n);
+  btn.addEventListener("click", () => bump(i));
+  sim.appendChild(row);
+});
+function out() { return Math.min.apply(null, caps); }
+function drawSim() {
+  const o = out();
+  caps.forEach((c, i) => {
+    const row = $("stage-" + i);
+    row.classList.toggle("bn", c === o);
+    const f = row.querySelector(".fill");
+    f.style.width = (c / MAX * 100) + "%";
+    f.textContent = c + " / wk";
+    row.querySelector(".mark").style.left = (o / MAX * 100) + "%";
+    row.querySelector(".plus").disabled = c >= MAX;
+  });
+  $("sim-total").textContent = o;
+}
+function slowestName() {
+  const o = out();
+  return stageNames.filter((_, i) => caps[i] === o).join(" and ").toLowerCase();
+}
+function bump(i) {
+  const before = out();
+  const wasSlowest = caps[i] === before;
+  caps[i] = Math.min(MAX, caps[i] + STEP);
+  const after = out();
+  drawSim();
+  const msg = $("sim-msg");
+  if (after > before) msg.textContent = "That was the bottleneck. Output went from " + before + " to " + after + ". Slowest step now: " + slowestName() + ".";
+  else if (wasSlowest) msg.textContent = "Still " + after + ". Another step is just as slow: " + slowestName() + ".";
+  else msg.textContent = "Output stayed at " + after + ". That wasn't the bottleneck. Work just piles up at " + slowestName() + ".";
+}
+$("sim-reset").addEventListener("click", () => {
+  caps = startCaps.slice(); drawSim();
+  $("sim-msg").textContent = "The dashed line is the real output. Only one bar touches it.";
+});
+drawSim();
+
+// run your own problem
+const runSteps = [
+  { tool: "Zoom", cls: "zoom-t", q: "What's the big-picture goal here?", hint: "Top down: what result do you actually want? Then list the parts that feed it." },
+  { tool: "Flow", cls: "flow-t", q: "Where does this problem start?", hint: "What would an upstream fix look like, before it happens?" },
+  { tool: "Input, algorithm, output", cls: "iao-t", q: "Is it the input or the algorithm?", hint: "Is what goes in the problem, or the steps that work on it?" },
+  { tool: "Bottleneck", cls: "kit-t", q: "What's the one slowest step?", hint: "Where does work pile up and wait?" },
+  { tool: "Feedback loops", cls: "kit-t", q: "Is a loop keeping this going?", hint: "Snowball or spiral? What feeds back in?" },
+  { tool: "Lead vs lag", cls: "kit-t", q: "What could you track weekly?", hint: "Something you control now that predicts the result later." },
+  { tool: "Second-order effects", cls: "kit-t", q: "If you fix it, and then what?", hint: "What might the fix cause a month from now?" },
+  { tool: "Inversion", cls: "kit-t", q: "What would guarantee it gets worse?", hint: "List a few. Are any of them already happening?" },
+  { tool: "Environment", cls: "kit-t", q: "What setup change makes the right thing easy?", hint: "Change the space, not the effort." },
+  { tool: "Signal vs noise", cls: "kit-t", q: "Is this a trend or one bad day?", hint: "More than once? More than one source?" },
+  { tool: "Finite vs infinite", cls: "kit-t", q: "Is this a game you win, or one you keep playing?", hint: "If it never ends, what choice keeps you in the game for the long run?" }
+];
+const KEY = "zoom-flow-run";
+let run = { problem: "", answers: runSteps.map(() => ""), at: 0 };
+try { const saved = JSON.parse(localStorage.getItem(KEY) || "null"); if (saved && Array.isArray(saved.answers) && saved.answers.length === runSteps.length) run = saved; } catch (e) {}
+function save() { try { localStorage.setItem(KEY, JSON.stringify(run)); } catch (e) {} }
+const dots = $("step-dots");
+runSteps.forEach((s, i) => {
+  const b = document.createElement("button");
+  b.type = "button"; b.textContent = i + 1; b.title = s.tool; b.id = "dot-" + i;
+  b.setAttribute("aria-label", "Step " + (i + 1) + ": " + s.tool);
+  b.addEventListener("click", () => { run.at = i; save(); drawRun(); });
+  dots.appendChild(b);
+});
+function drawRun() {
+  const s = runSteps[run.at];
+  $("run-problem").value = run.problem;
+  const tool = $("step-tool"); tool.textContent = s.tool; tool.className = "step-tool " + s.cls;
+  $("step-count").textContent = "Step " + (run.at + 1) + " of " + runSteps.length;
+  $("step-q").textContent = s.q;
+  $("step-hint").textContent = s.hint;
+  $("step-a").value = run.answers[run.at];
+  $("step-back").disabled = run.at === 0;
+  $("step-next").textContent = run.at === runSteps.length - 1 ? "Done" : "Next";
+  dots.querySelectorAll("button").forEach((b, i) => {
+    b.classList.toggle("filled", !!run.answers[i].trim());
+    if (i === run.at) b.setAttribute("aria-current", "step"); else b.removeAttribute("aria-current");
+  });
+  drawSummary();
+}
+function notesText() {
+  let t = "Problem: " + (run.problem.trim() || "(not written yet)") + "\n";
+  runSteps.forEach((s, i) => { if (run.answers[i].trim()) t += "\n" + s.tool + ": " + run.answers[i].trim(); });
+  return t;
+}
+function drawSummary() {
+  const body = $("summary-body"); body.innerHTML = "";
+  const filled = runSteps.map((s, i) => [s, run.answers[i].trim()]).filter(x => x[1]);
+  const p = document.createElement("p");
+  p.innerHTML = "<b>Problem:</b> ";
+  p.appendChild(document.createTextNode(run.problem.trim() || "Not written yet."));
+  body.appendChild(p);
+  if (!filled.length) {
+    const e = document.createElement("p"); e.className = "empty";
+    e.textContent = "Your answers will build up here as you go.";
+    body.appendChild(e); return;
+  }
+  const ol = document.createElement("ol");
+  filled.forEach(([s, a]) => {
+    const li = document.createElement("li");
+    const t = document.createElement("span"); t.textContent = s.tool + ": ";
+    li.appendChild(t); li.appendChild(document.createTextNode(a));
+    ol.appendChild(li);
+  });
+  body.appendChild(ol);
+}
+$("run-problem").addEventListener("input", e => { run.problem = e.target.value; save(); drawSummary(); });
+$("step-a").addEventListener("input", e => {
+  run.answers[run.at] = e.target.value; save();
+  $("dot-" + run.at).classList.toggle("filled", !!e.target.value.trim());
+  drawSummary();
+});
+$("step-back").addEventListener("click", () => { if (run.at > 0) { run.at--; save(); drawRun(); } });
+$("step-next").addEventListener("click", () => {
+  if (run.at < runSteps.length - 1) { run.at++; save(); drawRun(); $("step-a").focus(); }
+  else { $("copy-notes").focus(); }
+});
+$("run-example").addEventListener("click", () => {
+  run = { problem: "Afternoon sessions keep running late", answers: runSteps.map(() => ""), at: 0 };
+  run.answers[0] = "Every session starts and ends on time, without rushing kids.";
+  run.answers[3] = "Notes and parent handover at the end of each session.";
+  save(); drawRun();
+});
+$("run-clear").addEventListener("click", () => {
+  run = { problem: "", answers: runSteps.map(() => ""), at: 0 }; save(); drawRun(); $("run-problem").focus();
+});
+$("copy-notes").addEventListener("click", () => {
+  const text = notesText();
+  const msg = $("copy-msg"); const fb = $("copy-fallback");
+  const fallback = () => { fb.hidden = false; fb.value = text; fb.focus(); fb.select(); msg.textContent = "Selected. Copy it from the box."; };
+  try {
+    navigator.clipboard.writeText(text).then(() => { fb.hidden = true; msg.textContent = "Copied"; }).catch(fallback);
+  } catch (e) { fallback(); }
+});
+drawRun();
+
+// game
+const labels = { top: "Top down", bottom: "Bottom up", up: "Upstream", down: "Downstream", in: "Input", alg: "Algorithm", bn: "The bottleneck", notbn: "Not the bottleneck", snow: "Snowball", spiral: "Spiral", lead: "Lead", lag: "Lag", first: "First-order", second: "Second-order", fwd: "Forward", inv: "Inverted", will: "Willpower", env: "Environment", sig: "Signal", noise: "Noise", fin: "Finite mindset", inf: "Infinite mindset" };
+const kinds = {
+  zoom: { ask: "Top down or bottom up?", opts: ["top", "bottom"], cls: "zoom-t" },
+  flow: { ask: "Upstream or downstream?", opts: ["up", "down"], cls: "flow-t" },
+  iao: { ask: "Input problem or algorithm problem?", opts: ["in", "alg"], cls: "iao-t" },
+  bn: { ask: "Does this fix hit the bottleneck?", opts: ["bn", "notbn"], cls: "kit-t" },
+  loop: { ask: "Snowball or spiral?", opts: ["snow", "spiral"], cls: "kit-t" },
+  ll: { ask: "Lead or lag measure?", opts: ["lead", "lag"], cls: "kit-t" },
+  so: { ask: "First-order or second-order effect?", opts: ["first", "second"], cls: "kit-t" },
+  inv: { ask: "Forward or inverted thinking?", opts: ["fwd", "inv"], cls: "kit-t" },
+  env: { ask: "Willpower or environment?", opts: ["will", "env"], cls: "kit-t" },
+  sn: { ask: "Signal or noise?", opts: ["sig", "noise"], cls: "kit-t" },
+  fi: { ask: "Finite or infinite mindset?", opts: ["fin", "inf"], cls: "kit-t" }
+};
+const pool = [
+  { t: "zoom", s: "A coach shows the team the whole game plan, then drills each play.", a: "top", why: "Goal first, then the parts." },
+  { t: "zoom", s: "A student memorises every bone before ever meeting a patient.", a: "bottom", why: "Parts first. The real use comes later." },
+  { t: "zoom", s: "You read the last chapter of a textbook first to see where it's all going.", a: "top", why: "You grab the big picture before the details." },
+  { t: "zoom", s: "A chef tastes each ingredient, then works out what dish they could make.", a: "bottom", why: "Ingredients first, dish emerges." },
+  { t: "flow", s: "A clinic adds text reminders so fewer clients forget sessions.", a: "up", why: "It stops the problem before it happens." },
+  { t: "flow", s: "A parent calms a child after a meltdown at the shops.", a: "down", why: "It handles the result after it happened." },
+  { t: "flow", s: "The council fixes a pothole after a car gets damaged.", a: "down", why: "The damage already happened." },
+  { t: "flow", s: "A team changes onboarding so new staff stop making the same mistake.", a: "up", why: "Fixes where the mistake starts." },
+  { t: "iao", s: "A great clinician gets poor results because referral forms keep arriving with key details missing.", a: "in", why: "The process is fine. What goes in is missing." },
+  { t: "iao", s: "Clients give great info, but sessions keep running over because there's no set session plan.", a: "alg", why: "Good input, messy steps." },
+  { t: "iao", s: "A student has the right textbook but only rereads it instead of testing themselves.", a: "alg", why: "Right material, weak method." },
+  { t: "bn", s: "Families wait 3 weeks for an intake call, but enquiries get answered the same day. You make enquiry replies even faster.", a: "notbn", why: "The wait is at intake. Faster enquiries just grow the queue." },
+  { t: "bn", s: "Reports pile up waiting for one senior clinician to sign off. You train a second person to sign off.", a: "bn", why: "Work was waiting at sign-off. That's the bottleneck." },
+  { t: "loop", s: "A teen avoids school because of anxiety, falls behind, then feels more anxious about going back.", a: "spiral", why: "The result feeds the problem." },
+  { t: "loop", s: "A clinician posts one helpful tip a week, gets questions, writes better tips, gets more readers.", a: "snow", why: "The result feeds more of the good thing." },
+  { t: "ll", s: "Number of new clients this quarter.", a: "lag", why: "It's the result. You only see it after." },
+  { t: "ll", s: "Number of referrer catch-ups booked this week.", a: "lead", why: "You can do it now, and it predicts new clients." },
+  { t: "so", s: "You discount sessions, and bookings go up.", a: "first", why: "That's the obvious, immediate effect." },
+  { t: "so", s: "You discount sessions, and a few months later clinicians are burnt out from low-fee back-to-backs.", a: "second", why: "That's the 'and then what' effect." },
+  { t: "inv", s: "Asking: what would make a new clinician quit in their first month?", a: "inv", why: "You flipped the question to find failure points." },
+  { t: "inv", s: "Asking: how do we make the best onboarding in Australia?", a: "fwd", why: "Straight at the goal." },
+  { t: "env", s: "Leaving gym clothes next to the bed the night before.", a: "env", why: "The setup does the work, not effort." },
+  { t: "env", s: "Telling yourself you'll be more disciplined about notes this week.", a: "will", why: "Same setup, just trying harder." },
+  { t: "sn", s: "One parent leaves a grumpy review after a session ran late.", a: "noise", why: "One data point. Notice it, don't overhaul everything." },
+  { t: "sn", s: "Three different referrers mention wait times in the same month.", a: "sig", why: "Repeated, from more than one source. Act on it." },
+  { t: "fi", s: "Cutting clinician supervision to hit this quarter's revenue target.", a: "fin", why: "Wins the quarter, weakens the team for years." },
+  { t: "fi", s: "Studying how a rival clinic runs intake so you can improve your own.", a: "inf", why: "The rival is a teacher, not just an enemy." },
+  { t: "fi", s: "Funding rules change, so you rebuild your service model to keep serving the same families.", a: "inf", why: "Flexible on the plan, fixed on the cause." }
+];
+const ROUND = 10;
+let game = [], idx = 0, right = 0, results = [];
+function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function newRound() { game = shuffle(pool.slice()).slice(0, ROUND); idx = 0; right = 0; results = []; }
+const prog = $("progress");
+function renderProgress() {
+  prog.innerHTML = "";
+  game.forEach((_, i) => {
+    const s = document.createElement("span");
+    if (i < results.length) s.className = results[i] ? "done-ok" : "done-no";
+    else if (i === idx) s.className = "now";
+    prog.appendChild(s);
+  });
+  $("score").textContent = right + " / " + results.length;
+}
+function renderQ() {
+  const g = game[idx], k = kinds[g.t];
+  const fb = $("feedback"); fb.textContent = ""; fb.className = "feedback";
+  $("next").hidden = true;
+  const ask = $("ask"); ask.textContent = k.ask; ask.className = "ask " + k.cls;
+  $("scenario").textContent = g.s;
+  const host = $("answers"); host.innerHTML = "";
+  k.opts.forEach(o => {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "ans"; b.textContent = labels[o]; b.id = "ans-" + o;
+    b.addEventListener("click", () => answer(o, b));
+    host.appendChild(b);
+  });
+  renderProgress();
+}
+function answer(o, btn) {
+  const g = game[idx];
+  const ok = o === g.a;
+  results.push(ok); if (ok) right++;
+  document.querySelectorAll(".ans").forEach(b => b.disabled = true);
+  btn.classList.add(ok ? "right" : "wrong");
+  if (!ok) $("ans-" + g.a).classList.add("right");
+  const fb = $("feedback");
+  fb.textContent = (ok ? "Yes. " : "Not quite. It's " + labels[g.a].toLowerCase() + ". ") + g.why;
+  fb.className = "feedback " + (ok ? "ok" : "no");
+  const nx = $("next");
+  idx++;
+  nx.textContent = idx < game.length ? "Next" : "New round (" + right + " / " + game.length + ")";
+  nx.hidden = false;
+  renderProgress();
+}
+$("next").addEventListener("click", () => { if (idx >= game.length) newRound(); renderQ(); });
+newRound(); renderQ();
+</script>
+
+</body></html>
