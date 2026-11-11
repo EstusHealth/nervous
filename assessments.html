@@ -1,0 +1,834 @@
+<!doctype html><html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Assessment Atlas</title><meta name="robots" content="noindex, nofollow"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 fill=%22%23090909%22/%3E%3Crect x=%224%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23344982%22/%3E%3Crect x=%2210%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232F6F9E%22/%3E%3Crect x=%2216%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232CA5B8%22/%3E%3Crect x=%2222%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23AB5C95%22/%3E%3C/svg%3E"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap"><style>
+:root{
+  --g-bg:#F3F2EF;--g-surface:#FBFAF8;--g-sunk:#ECEAE6;--g-fg:#0E1014;--g-muted:#65676E;--g-rule:#D3D1CC;--g-ink:#090909;--g-on-ink:#FBFAF8;
+  --g-navy:#344982;--g-blue:#2F6F9E;--g-teal:#2CA5B8;--g-plum:#AB5C95;
+  --g-navy-t:#DDE2EF;--g-blue-t:#DCE8F1;--g-teal-t:#DAF0F3;--g-plum-t:#F1E1EC;
+  --g-warn:#A86A12;--g-warn-t:#F6E8D2;
+  --sp-track:#DCE4EE;--sp-infield:#E9EDE4;--sp-lane:#FBFAF8;--sp-guide:#BFC3CA;--sp-on-c:#FFFFFF;
+  --g-display:"Oswald","Arial Narrow",Impact,sans-serif;--g-cond:"Barlow Semi Condensed","Arial Narrow",sans-serif;--g-body:"Barlow","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --g-bg:#0F1216;--g-surface:#161A20;--g-sunk:#1D222A;--g-fg:#ECEEF1;--g-muted:#9BA1AB;--g-rule:#2C323C;--g-ink:#05070A;--g-on-ink:#ECEEF1;
+  --g-navy:#8299DA;--g-blue:#6FA8D2;--g-teal:#4CC3D4;--g-plum:#D58FC1;
+  --g-navy-t:#1E2740;--g-blue-t:#18293A;--g-teal-t:#123238;--g-plum-t:#33202E;
+  --g-warn:#E0A64A;--g-warn-t:#33270F;
+  --sp-track:#18222F;--sp-infield:#121A17;--sp-lane:#26324A;--sp-guide:#2C323C;--sp-on-c:#05070A;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --g-bg:#0F1216;--g-surface:#161A20;--g-sunk:#1D222A;--g-fg:#ECEEF1;--g-muted:#9BA1AB;--g-rule:#2C323C;--g-ink:#05070A;--g-on-ink:#ECEEF1;
+  --g-navy:#8299DA;--g-blue:#6FA8D2;--g-teal:#4CC3D4;--g-plum:#D58FC1;
+  --g-navy-t:#1E2740;--g-blue-t:#18293A;--g-teal-t:#123238;--g-plum-t:#33202E;
+  --g-warn:#E0A64A;--g-warn-t:#33270F;
+  --sp-track:#18222F;--sp-infield:#121A17;--sp-lane:#26324A;--sp-guide:#2C323C;--sp-on-c:#05070A;color-scheme:dark}
+
+:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--g-bg);color:var(--g-fg);font:400 17px/1.55 var(--g-body)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--g-bg)}
+[hidden]{display:none!important}
+.g-root h1,.g-root h2,.g-root h3,.g-root h4{text-wrap:balance;margin:0}
+.g-root button{font:inherit;color:inherit}
+.g-root :focus-visible{outline:2px solid var(--g-teal);outline-offset:2px}
+.g-wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.g-eyebrow{font:700 12px var(--g-cond);letter-spacing:.18em;text-transform:uppercase;color:var(--g-muted);margin:0}
+.c-perf{--c:var(--g-teal);--ct:var(--g-teal-t)}
+.c-athlete{--c:var(--g-navy);--ct:var(--g-navy-t)}
+.c-env{--c:var(--g-plum);--ct:var(--g-plum-t)}
+
+/* hero */
+.g-hero{background:var(--g-ink);color:var(--g-on-ink)}
+.g-hero .g-wrap{padding-block:30px 36px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:32px;align-items:end}
+.g-hero .g-eyebrow{color:#AEB5C2}
+.g-hero h1{font:600 clamp(40px,7vw,76px)/.95 var(--g-display);text-transform:uppercase;letter-spacing:.01em;margin:8px 0 14px}
+.g-hero h1 em{font-style:normal;color:#4CC3D4}
+.g-lead{font-size:18px;max-width:56ch;color:#D6DAE2;margin:0}
+.g-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.g-meta span{font:600 12px var(--g-cond);letter-spacing:.12em;text-transform:uppercase;border:1px solid #3A3F48;padding:4px 10px;color:#D6DAE2}
+.g-side{list-style:none;margin:0;padding:0;border:1px solid #2C323C;background:#111419}
+.g-side li{display:grid;grid-template-columns:34px minmax(0,1fr);gap:10px;align-items:baseline;padding:10px 14px;border-top:1px solid #2C323C}
+.g-side li:first-child{border-top:0}
+.g-side .n{font:600 22px var(--g-display);color:var(--h)}
+.g-side b{font:600 15px var(--g-cond);text-transform:uppercase;letter-spacing:.06em;display:block}
+.g-side span.w{font-size:14px;color:#AEB5C2}
+.h-perf{--h:#4CC3D4}.h-athlete{--h:#8299DA}.h-env{--h:#D58FC1}
+
+/* atlas */
+.sp{padding-block:28px 56px}
+.sp-layout{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:40px;align-items:start}
+.sp-mapcol{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);min-width:0;display:flex;flex-direction:column;gap:14px}
+.sp-panelcol{min-width:0}
+@media (max-width:920px){.sp-layout{grid-template-columns:1fr;gap:24px}.sp-mapcol{position:static}}
+
+.sp-bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.sp-seg{display:inline-grid;grid-template-columns:1fr 1fr;border:1px solid var(--g-fg)}
+.sp-seg button{font:600 13px var(--g-cond);letter-spacing:.1em;text-transform:uppercase;padding:10px 18px;background:var(--g-surface);border:0;cursor:pointer;line-height:1;min-height:40px}
+.sp-seg button[aria-pressed="true"]{background:var(--g-ink);color:var(--g-on-ink)}
+:root[data-theme="dark"] .sp-seg button[aria-pressed="true"]{background:var(--g-fg);color:var(--g-bg)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .sp-seg button[aria-pressed="true"]{background:var(--g-fg);color:var(--g-bg)}}
+.sp-note{margin:0;color:var(--g-muted);font-size:15px;flex:1 1 220px;min-width:0}
+
+.sp-map{width:100%;aspect-ratio:1320/1080;max-width:100%}
+.sp-map svg{width:100%;height:100%;display:block;overflow:visible}
+.guide{fill:none;stroke:var(--sp-guide);stroke-width:2;stroke-dasharray:3 9}
+.track{fill:var(--sp-track)}
+.infield{fill:var(--sp-infield)}
+.lane{fill:none;stroke:var(--sp-lane);stroke-width:2.5}
+.arc{fill:none;stroke:var(--c);stroke-width:8}
+.center circle{fill:var(--g-ink)}
+:root[data-theme="dark"] .center circle{fill:#232831}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .center circle{fill:#232831}}
+.center text{fill:#FBFAF8;font-family:var(--g-display);font-weight:600;font-size:25px;letter-spacing:.06em}
+.center .bands rect:nth-child(1){fill:#344982}.center .bands rect:nth-child(2){fill:#2F6F9E}.center .bands rect:nth-child(3){fill:#2CA5B8}.center .bands rect:nth-child(4){fill:#AB5C95}
+.center,.bnode,.onode{cursor:pointer;outline:none}
+.center:focus-visible circle{stroke:var(--g-teal);stroke-width:6}
+.bnode circle{fill:var(--g-surface);stroke:var(--c);stroke-width:4;transition:stroke-width .15s,fill .2s}
+.bnode text{fill:var(--g-fg);font-family:var(--g-display);font-weight:600;font-size:15.5px;letter-spacing:.03em;pointer-events:none}
+.bnode:hover circle,.bnode:focus-visible circle,.bnode.hit circle{stroke-width:8}
+.bnode.on circle{fill:var(--c)}
+.bnode.on text{fill:var(--sp-on-c)}
+.bnode,.onode{transition:opacity .25s}
+.dim{opacity:.3}
+.onode circle{fill:var(--g-surface);stroke:var(--c,var(--g-fg));stroke-width:3}
+.onode.psy circle{fill:var(--g-fg);stroke:var(--g-fg)}
+.onode.spt circle{fill:var(--g-surface);stroke:var(--g-fg);stroke-dasharray:4 3}
+.onode text{fill:var(--g-fg);font-size:19px;font-family:var(--g-body);font-weight:500}
+.onode:hover circle,.onode:focus-visible circle,.onode.hit circle{stroke-width:6}
+.onode:focus-visible text,.onode:hover text{text-decoration:underline}
+.onode.on circle{fill:var(--c,var(--g-fg));stroke-width:6}
+.onode.on text,.onode.hit text{font-weight:700}
+.link{fill:none;stroke:var(--c);stroke-width:2.2;opacity:.26;transition:opacity .25s,stroke-width .25s}
+.link.on{opacity:.95;stroke-width:4}
+.link.dim{opacity:.05}
+.cline{stroke:var(--c);stroke-width:2.2;opacity:.55}
+.pop{animation:pop .38s cubic-bezier(.2,.8,.3,1.2) both;transform-box:fill-box;transform-origin:center}
+@keyframes pop{from{opacity:0;transform:scale(.55)}}
+
+.sp-legend{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:620px){.sp-legend{grid-template-columns:1fr}}
+.lg{min-width:0;border-top:5px solid var(--c);padding-top:8px}
+.lg-name{font:600 17px/1.1 var(--g-display);letter-spacing:.04em;text-transform:uppercase;margin:0}
+.lg-note{margin:2px 0 8px;color:var(--g-muted);font-size:14px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:6px 11px;border-radius:999px;border:1px solid var(--g-rule);background:var(--g-surface);color:var(--g-fg);font:600 13px/1.25 var(--g-cond);letter-spacing:.04em;text-transform:uppercase;cursor:pointer;text-align:left;text-decoration:none;min-height:32px}
+.chip .dot{width:9px;height:9px;border-radius:50%;background:var(--c,var(--g-fg));flex:none}
+.chip.psy .dot{background:var(--g-fg)}
+.chip.spt .dot{background:transparent;border:1.5px dashed var(--g-fg)}
+.chip.hub .dot{border-radius:0;width:12px;height:4px;background:linear-gradient(90deg,#344982 0 25%,#2F6F9E 25% 50%,#2CA5B8 50% 75%,#AB5C95 75%)}
+.chip:hover{border-color:var(--c,var(--g-fg))}
+.chip.on{background:var(--c);border-color:var(--c);color:var(--sp-on-c)}
+.chip.on .dot{background:var(--sp-on-c)}
+.sp-key{margin:0;color:var(--g-muted);font-size:14px}
+
+/* panel */
+.sp-panel{scroll-margin-top:calc(env(safe-area-inset-top,0px) + 12px)}
+.eyebrow{display:flex;align-items:center;gap:8px;font:700 12px var(--g-cond);letter-spacing:.18em;text-transform:uppercase;color:var(--c,var(--g-muted));margin:0 0 6px}
+.eyebrow .dot{width:10px;height:10px;border-radius:50%;background:var(--c,var(--g-fg))}
+.sp-panel h2{font:600 clamp(30px,4.2vw,44px)/1 var(--g-display);text-transform:uppercase;letter-spacing:.01em;margin:0 0 12px}
+.lead{font-size:19px;line-height:1.45;margin:0 0 8px;max-width:60ch}
+.sp-panel section{border-top:1px solid var(--g-rule);padding-top:14px;margin-top:24px}
+.sp-panel h3{font:700 13px var(--g-cond);letter-spacing:.14em;text-transform:uppercase;color:var(--g-muted);margin:0 0 10px}
+.sp-panel p{max-width:65ch;margin:0 0 8px}
+ul.plain{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.th-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 10px}
+.th-head strong{font:600 16px var(--g-cond);text-transform:uppercase;letter-spacing:.05em}
+.who{font:500 13px var(--g-cond);color:var(--g-muted);letter-spacing:.03em}
+.plain p{margin:2px 0 0}
+.concepts li{padding:8px 10px;margin-inline:-10px;transition:background .4s}
+.concepts li.flash{background:var(--ct)}
+.tools{display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin:0;padding:0}
+.tools li{padding:5px 10px;background:var(--g-sunk);font-size:15px}
+.tbl{overflow-x:auto;border:1px solid var(--g-rule);background:var(--g-surface)}
+table{border-collapse:collapse;width:100%;font-size:15px}
+td{padding:9px 12px;border-top:1px solid var(--g-rule);vertical-align:top}
+tr:first-child td{border-top:0}
+td:first-child{font:700 14px var(--g-cond);letter-spacing:.04em;white-space:nowrap;color:var(--c,var(--g-fg));width:1%}
+.sp-panel section.case{background:var(--ct,var(--g-teal-t));border-top:0;border-left:4px solid var(--c,var(--g-teal));padding:14px 16px}
+.case h3{color:var(--c)}
+.case p{margin:0}
+.roots li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;align-items:start}
+.roots .chip{white-space:nowrap}
+.roots p{margin:4px 0 0}
+@media (max-width:520px){.roots li{grid-template-columns:1fr}.roots .chip{justify-self:start;white-space:normal;max-width:100%}}
+.caveat{background:var(--g-warn-t);border-left:4px solid var(--g-warn);padding:10px 14px;font-size:15px;margin-top:14px}
+.scope{background:var(--g-ink);color:var(--g-on-ink);border-left:4px solid #D58FC1;padding:14px 16px}
+.sp-panel section.scope{border-top:0}
+.scope h3{color:#AEB5C2}
+.scope p{color:#D6DAE2}
+.pager{display:flex;justify-content:space-between;gap:10px;margin-top:28px;border-top:2px solid var(--g-fg);padding-top:12px}
+.pager button{background:none;border:0;cursor:pointer;padding:4px 0;text-align:left;min-width:0}
+.pager button:last-child{text-align:right}
+.pager small{display:block;font:700 11px var(--g-cond);letter-spacing:.16em;text-transform:uppercase;color:var(--g-muted)}
+.pager span{font:600 19px var(--g-display);text-transform:uppercase;letter-spacing:.02em}
+.timeline{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.timeline li{display:grid;grid-template-columns:4rem minmax(0,1fr);gap:12px}
+.timeline b{font:600 17px var(--g-display);font-variant-numeric:tabular-nums;color:var(--g-blue)}
+.textlink{background:none;border:0;padding:0;color:var(--g-blue);text-decoration:underline;cursor:pointer}
+.foot{margin-top:40px;color:var(--g-muted);font-size:14px;border-top:1px solid var(--g-rule);padding-top:12px}
+
+@media (max-width:860px){.g-hero .g-wrap{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* Assessment atlas additions. Same track layout: infield = assessment, track = ten domains,
+   outer ring = tools (Map) or our report templates (Reports). Finder swaps the map for a filtered list.
+   Clusters: what they do = teal, how they do it = navy, wellbeing and driving = plum. */
+:root{--g-good:#2E7D4F;--g-good-t:#DDEFE3}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--g-good:#5FC38A;--g-good-t:#16301F}}
+:root[data-theme="dark"]{--g-good:#5FC38A;--g-good-t:#16301F}
+.c-do{--c:var(--g-teal);--ct:var(--g-teal-t)}
+.c-how{--c:var(--g-navy);--ct:var(--g-navy-t)}
+.c-safe{--c:var(--g-plum);--ct:var(--g-plum-t)}
+.h-do{--h:#4CC3D4}.h-how{--h:#8299DA}.h-safe{--h:#D58FC1}
+.sp-seg{grid-template-columns:repeat(3,1fr)}
+.onode.rep circle{fill:var(--g-surface);stroke:var(--g-blue);stroke-width:3.5}
+.onode.rep.on circle,.onode.rep.hit circle{fill:var(--g-blue)}
+.onode.ours text{font-weight:700}
+.full{color:var(--g-muted);margin:-4px 0 12px;max-width:62ch}
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 6px}
+.pill{display:inline-flex;align-items:center;gap:6px;font:600 13px/1.2 var(--g-cond);letter-spacing:.04em;padding:5px 10px;background:var(--g-sunk);color:var(--g-fg)}
+.pill b{font-weight:700;color:var(--g-muted);text-transform:uppercase;font-size:11px;letter-spacing:.12em}
+.pill.t-yes{background:var(--g-good-t);color:var(--g-good)}
+.pill.t-care{background:var(--g-warn-t);color:var(--g-warn)}
+.pill.t-no{background:var(--g-sunk);color:var(--g-muted)}
+.pill.ours{background:var(--g-ink);color:var(--g-on-ink)}
+:root[data-theme="dark"] .pill.ours{background:var(--g-fg);color:var(--g-bg)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .pill.ours{background:var(--g-fg);color:var(--g-bg)}}
+.ttable{width:100%;border-collapse:collapse}
+.ttable td{vertical-align:middle}
+.ttable td:first-child{white-space:normal;width:auto}
+.ttable button{background:none;border:0;padding:0;cursor:pointer;text-align:left;font:700 14px var(--g-cond);letter-spacing:.04em;color:var(--c,var(--g-fg));text-decoration:underline;text-underline-offset:3px}
+.ttable td.sm{font-size:14px;color:var(--g-muted)}
+.ttable td.sm:last-child{white-space:nowrap;width:1%}
+.dot-t{display:inline-block;width:10px;height:10px;border-radius:50%;vertical-align:middle}
+.dot-t.t-yes{background:var(--g-good)}.dot-t.t-care{background:var(--g-warn)}.dot-t.t-no{background:transparent;border:1.5px solid var(--g-muted)}
+ul.ask{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+ul.rules{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+ul.rules li{padding-left:14px;border-left:3px solid var(--g-rule)}
+ul.rules strong{font:600 15px var(--g-cond);text-transform:uppercase;letter-spacing:.05em;display:block}
+.key{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:14px;color:var(--g-muted)}
+.key span{display:inline-flex;align-items:center;gap:6px}
+.chip.rep .dot{border-radius:2px;background:var(--g-blue)}
+
+/* finder */
+.finder{display:flex;flex-direction:column;gap:12px}
+.f-controls{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:end;padding:14px;background:var(--g-surface);border:1px solid var(--g-rule)}
+.f-age{display:flex;flex-direction:column;gap:4px}
+.f-age label{font:700 11px var(--g-cond);letter-spacing:.14em;text-transform:uppercase;color:var(--g-muted)}
+.f-age input{width:7.5rem;min-height:40px;padding:6px 10px;border:1px solid var(--g-rule);background:var(--g-bg);font:500 16px var(--g-body);color:var(--g-fg)}
+.f-tog{display:flex;flex-wrap:wrap;gap:6px}
+.f-tog button{border:1px solid var(--g-rule);background:var(--g-bg);padding:7px 12px;border-radius:999px;cursor:pointer;font:600 13px var(--g-cond);text-transform:uppercase;letter-spacing:.06em;min-height:36px}
+.f-tog button[aria-pressed="true"]{background:var(--g-fg);border-color:var(--g-fg);color:var(--g-bg)}
+.f-count{font:700 12px var(--g-cond);letter-spacing:.14em;text-transform:uppercase;color:var(--g-muted);margin:0}
+.f-group{display:flex;flex-direction:column;gap:6px}
+.f-group h3{font:600 15px var(--g-cond);text-transform:uppercase;letter-spacing:.08em;margin:6px 0 0;display:flex;align-items:center;gap:8px;color:var(--c)}
+.f-group h3 i{width:10px;height:10px;border-radius:50%;background:var(--c)}
+.f-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;align-items:center;width:100%;text-align:left;background:var(--g-surface);border:1px solid var(--g-rule);border-left:4px solid var(--c);padding:9px 12px;cursor:pointer}
+.f-row:hover{border-color:var(--c)}
+.f-row.on{background:var(--ct)}
+.f-row b{font:600 16px var(--g-cond);letter-spacing:.03em;text-transform:uppercase}
+.f-row small{grid-column:1 / -1;color:var(--g-muted);font-size:14px}
+.f-row .dots{display:flex;gap:6px;align-items:center;font:600 12px var(--g-cond);color:var(--g-muted);text-transform:uppercase;letter-spacing:.06em}
+.f-empty{color:var(--g-muted);margin:0}
+</style><script src="theme.js"></script></head><body><style>
+.ehub{background:#090909;color:#FBFAF8;border-bottom:1px solid #2C323C;position:relative;z-index:6}
+.ehub-in{max-width:1120px;margin:0 auto;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));display:flex;justify-content:space-between;align-items:center;gap:10px 16px;flex-wrap:wrap}
+.ehub a{color:inherit;text-decoration:none}
+.ehub-home{display:flex;align-items:center;gap:12px;min-height:36px}
+.ehub-bands{display:flex;width:56px;height:5px;flex:none}.ehub-bands i{flex:1}
+.ehub-bands i:nth-child(1){background:#344982}.ehub-bands i:nth-child(2){background:#2F6F9E}.ehub-bands i:nth-child(3){background:#2CA5B8}.ehub-bands i:nth-child(4){background:#AB5C95}
+.ehub-wm{font:500 14px/1 "Oswald","Arial Narrow",Impact,sans-serif;letter-spacing:.16em}.ehub-wm b{font-weight:700}
+.ehub-sep{font:600 12px/1 "Barlow Semi Condensed","Arial Narrow",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#AEB5C2;border-left:1px solid #3A3F48;padding-left:12px}
+.ehub-home:hover .ehub-sep{color:#FBFAF8}
+.ehub-r{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ehub-btn{font:600 12px/1 "Barlow Semi Condensed","Arial Narrow",sans-serif;letter-spacing:.1em;text-transform:uppercase;border:1px solid #3A3F48;background:none;color:#FBFAF8;padding:9px 12px;cursor:pointer;min-height:36px;display:inline-flex;align-items:center;gap:8px}
+.ehub-btn:hover{border-color:#FBFAF8}
+.ehub-btn[aria-pressed="true"]{background:#2E7D4F;border-color:#2E7D4F}
+.ehub-btn:focus-visible,.ehub a:focus-visible{outline:2px solid #2CA5B8;outline-offset:2px}
+.ehub-next{background:#FBFAF8!important;color:#090909!important;border-color:#FBFAF8}
+@media (max-width:520px){.ehub-sep{display:none}.ehub-next .ehub-nl{display:none}}
+@media print{.ehub{display:none}}
+</style>
+<nav class="ehub" aria-label="Estus Training Hub" style="margin:0"><div class="ehub-in">
+<a class="ehub-home" href="index.html"><span class="ehub-bands" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="ehub-wm"><b>ESTUS</b> HEALTH</span><span class="ehub-sep">&larr; Training Hub</span></a>
+<div class="ehub-r"><button class="ehub-btn" type="button" id="ehub-done" aria-pressed="false">Mark done</button><a class="ehub-btn ehub-next" href="act.html"><span class="ehub-nl">Next:</span> ACT <span aria-hidden="true">&rarr;</span></a></div>
+</div></nav>
+<script>(function(){var K="hub_done",s="assessments",b=document.getElementById("ehub-done");function l(){try{return JSON.parse(localStorage.getItem(K))||{}}catch(e){return {}}}function r(){var on=!!l()[s];b.setAttribute("aria-pressed",on);b.textContent=on?"✓ Done":"Mark done"}b.addEventListener("click",function(){var v=l();if(v[s])delete v[s];else v[s]=1;try{localStorage.setItem(K,JSON.stringify(v))}catch(e){}r()});r()})();</script>
+
+<div class="g-root">
+<header class="g-hero"><div class="g-wrap">
+  <div>
+    <p class="g-eyebrow">Therapy approaches</p>
+    <h1>Assessment <em>atlas</em></h1>
+    <p class="g-lead">Forty assessments across ten domains: what each measures, who fills it in, whether it works by telehealth, and which of our report templates it feeds.</p>
+    <div class="g-meta"><span>40 tools</span><span>10 domains</span><span>6 report templates</span></div>
+  </div>
+  <ul class="g-side" aria-label="Three groups">
+    <li class="h-do"><span class="n">4</span><div><b>What they do</b><span class="w">Function, goals and participation</span></div></li>
+    <li class="h-how"><span class="n">4</span><div><b>How they do it</b><span class="w">Sensory, motor, visual-motor and thinking</span></div></li>
+    <li class="h-safe"><span class="n">2</span><div><b>Wellbeing &amp; driving</b><span class="w">Screens, risk and readiness</span></div></li>
+  </ul>
+</div></header>
+
+<main class="sp"><div class="g-wrap">
+  <div class="sp-layout">
+    <div class="sp-mapcol">
+      <div class="sp-bar">
+        <div class="sp-seg" role="group" aria-label="View">
+          <button type="button" id="v-map" data-view="map" aria-pressed="true">Map</button>
+          <button type="button" id="v-reports" data-view="reports" aria-pressed="false">Reports</button>
+          <button type="button" id="v-finder" data-view="finder" aria-pressed="false">Finder</button>
+        </div>
+        <p class="sp-note" id="viewnote"></p>
+      </div>
+      <div class="sp-map" id="map"></div>
+      <div class="finder" id="finder" hidden>
+        <div class="f-controls">
+          <div class="f-age"><label for="f-age">Client age (years)</label><input id="f-age" type="number" min="0" max="100" inputmode="numeric" placeholder="Any"></div>
+          <div class="f-tog" role="group" aria-label="Filters">
+            <button type="button" id="f-tele" data-f="tele" aria-pressed="false">Works by telehealth</button>
+            <button type="button" id="f-free" data-f="free" aria-pressed="false">Free</button>
+            <button type="button" id="f-ours" data-f="ours" aria-pressed="false">In our templates</button>
+          </div>
+        </div>
+        <p class="f-count" id="f-count"></p>
+        <div id="f-list" class="finder"></div>
+      </div>
+      <div class="sp-legend" id="legend"></div>
+      <p class="sp-key" id="mapkey"></p>
+    </div>
+    <div class="sp-panelcol">
+      <div class="sp-panel" id="panel" aria-live="polite"></div>
+      <p class="foot">Ages, times and editions are a guide, checked November 2026. Check the manual and the publisher's user level before you use a tool.</p>
+    </div>
+  </div>
+</div></main>
+</div>
+
+<script>
+const CLUSTERS = {
+  do:{name:"What they do", note:"Function, goals and participation"},
+  how:{name:"How they do it", note:"Sensory, motor, visual-motor and thinking"},
+  safe:{name:"Wellbeing & driving", note:"Screens, risk and readiness"}
+};
+const HUB = {nervous:"Nervous System", cbt:"CBT", mi:"Motivational Interviewing", load:"Cognitive Load", "problem-solving":"Problem Solving", chaining:"Chaining Plan", planner:"Student Planner", gaming:"Gaming-Informed Therapy", sleep:"Sleep Architecture"};
+const REPORTS = [
+  {id:"fca", href:"fca.html", name:"Functional Capacity Assessment", short:"FCA", what:"Our NDIS report on functional impact across life areas and the supports needed."},
+  {id:"goalplan", href:"goals.html", name:"Goal Plan", short:"Goal Plan", what:"SMART goals set with the client, measured with COPM and GAS."},
+  {id:"summary", href:"summary.html", name:"Therapy Service Summary", short:"Service Summary", what:"Progress, outcome measures and recommendations for funders and families."},
+  {id:"sensoryr", href:"sensory.html", name:"Sensory Profile Report", short:"Sensory Report", what:"Plain-language sensory results for schools, families and other stakeholders."},
+  {id:"ptd", href:"ptd.html", name:"Potential to Drive", short:"Potential to Drive", what:"For learners. Readiness to start lessons, and the goals an instructor can track."},
+  {id:"ftd", href:"ftd.html", name:"Medical Fitness to Drive", short:"Fitness to Drive", what:"For licence holders. Driving ability reported against the Austroads standards."}
+];
+const RANG = {fca:-74, goalplan:-14, summary:32, sensoryr:72, ptd:212, ftd:250};
+
+const DOMAINS = [
+{id:"adaptive", cluster:"do", name:"Adaptive behaviour", lines:["ADAPTIVE","BEHAVIOUR"], icf:"Activity",
+ q:"What does the person usually do day to day, compared with others their age?",
+ ask:["Who knows the person best, and in which settings?","Do you need a broad standard score for funding, or a focused baseline?","Telehealth only? Rating forms and interviews work well remotely."],
+ watch:"Adaptive measures show typical performance, not capacity. Low scores can reflect environment, opportunity or demand.", hub:[]},
+{id:"daily-living", cluster:"do", name:"Daily living & disability", lines:["DAILY","LIVING"], icf:"Activity and participation",
+ q:"How much do health and disability affect everyday life and support needs?",
+ ask:["Adult or child? WHODAS 2.0 and LSP-16 are adult tools.","Self-report, proxy or observation? Use at least two.","Is the referral psychosocial, physical or cognitive?"],
+ watch:"Self-report and observation often disagree. Report both and explain why.", hub:["chaining"]},
+{id:"goals", cluster:"do", name:"Goals & outcomes", lines:["GOALS &","OUTCOMES"], icf:"Participation",
+ q:"What does the person want to change, and did it change?",
+ ask:["Has the client named the goal in their own words?","How will we know it changed in 12 weeks?","Would a visual or card-sort format suit them better?"],
+ watch:"Outcome measures follow the person's goals, not the other way around.", hub:["mi"]},
+{id:"participation", cluster:"do", name:"School & community", lines:["SCHOOL &","COMMUNITY"], icf:"Participation and environment",
+ q:"Where does the person take part, how much, and what in the environment helps or blocks it?",
+ ask:["Is school the main setting?","Who sees the person in that setting?","What do they enjoy now?"],
+ watch:"Low participation is often about access and fit, not skill. Name environmental barriers clearly.", hub:["gaming"]},
+{id:"sensory", cluster:"how", name:"Sensory processing", lines:["SENSORY"], icf:"Body function, in context",
+ q:"How does the person respond to sensory input across settings, and what supports fit?",
+ ask:["Which form fits the age and setting?","Do you need both home and school views?","Can the person self-report?"],
+ watch:"Sensory patterns are differences, not a diagnosis. Lead with supports and environment changes.", hub:["nervous"]},
+{id:"motor", cluster:"how", name:"Motor skills", lines:["MOTOR","SKILLS"], icf:"Body function and activity",
+ q:"How does the person move, and how does that affect daily tasks?",
+ ask:["Is this a screen or a full motor profile?","Can you see them in person?","Is DCD in question? Diagnosis needs history and daily impact, not one test."],
+ watch:"Standard motor tests are in person. By telehealth, screen with a questionnaire first.", hub:["chaining"]},
+{id:"visual-motor", cluster:"how", name:"Visual-motor & handwriting", lines:["VISUAL-","MOTOR"], icf:"Body function and activity",
+ q:"Is the trouble in seeing, planning, moving, or speed?",
+ ask:["Do you have a real writing sample?","Is the question exam access or legibility?","Do you need a test with no drawing demand?"],
+ watch:"A test score rarely tells the whole handwriting story. Pain, fatigue and keyboard options matter.", hub:["planner"]},
+{id:"cognition", cluster:"how", name:"Executive function & cognition", lines:["EXECUTIVE","FUNCTION"], icf:"Body function and activity",
+ q:"How do planning, attention, memory and flexibility show up in real tasks?",
+ ask:["Do you need ratings, a real task, or a screen?","Is this for driving? The screens there are built for it.","Who can rate the person in daily life?"],
+ watch:"EF scores depend on demand. Look at the fit between the person and the setting.", hub:["load","problem-solving"]},
+{id:"wellbeing", cluster:"safe", name:"Wellbeing screens", lines:["WELLBEING","SCREENS"], icf:"Body function (mental)",
+ q:"Is distress affecting function, and does someone need a referral?",
+ ask:["Is a screen within your scope for this client?","What is the referral pathway if scores are high?","Can the client report their emotions easily?"],
+ watch:"Screens flag, they don't diagnose. Have a referral plan before you use one.", hub:["nervous","cbt"]},
+{id:"driving", cluster:"safe", name:"Driving", lines:["DRIVING"], icf:"Activity and participation",
+ q:"Is the person ready, or fit, to drive, and what supports help?",
+ ask:["Learner (potential to drive) or licence holder (fitness to drive)?","Which Austroads standard applies?","Is an on-road test needed?"],
+ watch:"Off-road tests guide the on-road decision. Our driving builders also list Rapid Pace Walk, Clock Drawing, Bells Test and the Intersection Diagram Test.", hub:[]}
+];
+
+const TOOLS = [
+// adaptive
+{id:"vineland3", d:["adaptive"], short:"Vineland-3", name:"Vineland Adaptive Behavior Scales, Third Edition", by:"Sparrow, Cicchetti & Saulnier, 2016", ages:"Birth to 90", min:0, max:90, time:"About 20 to 60 min", format:"Interview or rating forms", who:"Parent or carer interview, or parent and teacher forms", tele:"yes", access:"Purchase",
+ gives:"Standard scores for Communication, Daily Living Skills and Socialization, plus an Adaptive Behavior Composite. A Motor domain for younger children, and an optional maladaptive behaviour section.",
+ good:"NDIS evidence of functional impact across life areas, especially for children.",
+ watch:"Scores show support needs, not worth. Write the maladaptive section in plain, neutral words, or leave it out if it doesn't answer the question.", feeds:["fca","summary"], ours:true},
+{id:"abas3", d:["adaptive"], short:"ABAS-3", name:"Adaptive Behavior Assessment System, Third Edition", by:"Harrison & Oakland, 2015", ages:"Birth to 89", min:0, max:89, time:"About 15 to 20 min", format:"Rating forms", who:"Parent, teacher or carer forms, and an adult self-report form", tele:"yes", access:"Purchase",
+ gives:"Conceptual, Social and Practical domains across 11 skill areas, plus a General Adaptive Composite.",
+ good:"Getting home and school raters quickly. The skill areas map well onto NDIS life areas.",
+ watch:"Raters score what the person does, not what they can do. Check whether a low score is skill, opportunity or demand.", feeds:["fca","summary"], ours:false},
+{id:"pedicat", d:["adaptive"], short:"PEDI-CAT", name:"Pediatric Evaluation of Disability Inventory Computer Adaptive Test", by:"Haley et al., 2012", ages:"Birth to 20", min:0, max:20, time:"10 to 20 min", format:"Computer adaptive questionnaire", who:"Parent or carer online, or a clinician who knows the child well", tele:"yes", access:"Purchase",
+ gives:"Daily Activities, Mobility, Social/Cognitive and Responsibility domains. The software picks each next item, so it is quick.",
+ good:"A fast baseline and re-measure for kids and teens. The Responsibility domain helps when planning for independence.",
+ watch:"US norms. Read scores alongside what the family says about their own routines.", feeds:["summary","fca"], ours:true},
+// daily living
+{id:"whodas", d:["daily-living"], short:"WHODAS 2.0", name:"World Health Organization Disability Assessment Schedule 2.0", by:"World Health Organization, 2010", ages:"Adults", min:18, max:100, time:"36 items about 20 min; 12 items about 5 min", format:"Questionnaire or interview", who:"Self, proxy, or clinician interview", tele:"yes", access:"Free",
+ gives:"Six domains: cognition, mobility, self-care, getting along, life activities and participation. Domain and overall scores for the last 30 days.",
+ good:"Adult NDIS FCAs and psychosocial disability. Links function to the ICF.",
+ watch:"Masking and difficulty naming feelings can lead to under-reporting. Pair self-report with a proxy and your own observation.", feeds:["fca","summary"], ours:true},
+{id:"lsp16", d:["daily-living"], short:"LSP-16", name:"Life Skills Profile, 16 item", by:"Rosen et al., 1989; Buckingham et al., 1998", ages:"Adults", min:18, max:100, time:"About 5 to 10 min", format:"Rating scale", who:"A clinician or carer who knows the person well", tele:"yes", access:"Free",
+ gives:"Withdrawal, Self-care, Compliance and Antisocial subscales. Higher scores mean more difficulty.",
+ good:"Psychosocial disability. Widely used in Australian mental health services, so referrers know it.",
+ watch:"Built for people with severe mental illness, and the subscale names are dated. Write findings as plain support needs.", feeds:["fca"], ours:true},
+{id:"amps", d:["daily-living"], short:"AMPS", name:"Assessment of Motor and Process Skills", by:"Fisher & Jones, 2012", ages:"Children and adults", min:3, max:100, time:"About 30 to 60 min", format:"Observation of real tasks", who:"A calibrated OT watches the person do chosen daily tasks", tele:"no", access:"Training",
+ gives:"Motor and process ability measures from familiar daily tasks. Shows how much effort, efficiency and safety a task takes.",
+ good:"Showing why a task breaks down, not just that it does.",
+ watch:"Needs the AMPS course and rater calibration before use. Pick tasks that matter to the person.", feeds:["fca"], ours:false},
+{id:"lawton", d:["daily-living"], short:"Lawton IADL", name:"Lawton Instrumental Activities of Daily Living Scale", by:"Lawton & Brody, 1969", ages:"Adults, mainly older", min:18, max:100, time:"About 10 min", format:"Questionnaire or interview", who:"Self, carer or clinician", tele:"yes", access:"Free",
+ gives:"Eight household tasks: phone, shopping, food prep, housekeeping, laundry, transport, medications and money.",
+ good:"A quick screen of household independence, including for driving referrals.",
+ watch:"Old and coarse. It misses partial help and the effort a task costs.", feeds:["fca"], ours:false},
+// goals
+{id:"copm", d:["goals"], short:"COPM", name:"Canadian Occupational Performance Measure", by:"Law et al., first published 1990", ages:"Self-report from about 8; parent for younger", min:0, max:100, time:"About 20 to 40 min", format:"Semi-structured interview", who:"The client, or a parent for young children", tele:"yes", access:"Purchase",
+ gives:"The person names their own priority problems in self-care, productivity and leisure, then rates performance and satisfaction from 1 to 10. A change of 2 points or more is usually read as meaningful.",
+ good:"Goals that truly belong to the client. A core outcome measure in our Goal Plan.",
+ watch:"Ratings are self-perception. That is the point, so don't correct them. Offer a visual scale if it helps.", feeds:["goalplan","summary","fca"], ours:true},
+{id:"gas", d:["goals"], short:"GAS", name:"Goal Attainment Scaling", by:"Kiresuk & Sherman, 1968", ages:"Any age", min:0, max:100, time:"30 min or more to set up; minutes to rate", format:"Goal scaling method", who:"Clinician and client together", tele:"yes", access:"Free",
+ gives:"Each goal gets five levels from -2 to +2, with 0 as the expected outcome. Scores across goals combine into a T-score.",
+ good:"Measuring change on personal goals no standard test covers. Pairs well with COPM.",
+ watch:"The scale is only as good as the levels. Make each level observable and evenly spaced, in the client's words.", feeds:["goalplan","summary","fca"], ours:true},
+{id:"cosa", d:["goals"], short:"COSA", name:"Child Occupational Self Assessment, v2.2", by:"Kramer et al., 2014", ages:"About 7 to 17 (6 to 21 by judgement)", min:6, max:21, time:"Varies with format", format:"Self-rating", who:"The child or teen, with symbol forms or a card sort", tele:"care", access:"Purchase",
+ gives:"Kids rate how well they do everyday activities and how important each one is. Built on the Model of Human Occupation.",
+ good:"Giving kids a direct voice in goal setting. The card sort suits kids who find forms hard.",
+ watch:"Some kids give the answer they think you want. Build trust first and check meaning with follow-up questions.", feeds:["goalplan","summary"], ours:false},
+// participation
+{id:"pemcy", d:["participation"], short:"PEM-CY", name:"Participation and Environment Measure for Children and Youth", by:"Coster et al., 2011", ages:"5 to 17", min:5, max:17, time:"About 30 min", format:"Parent questionnaire", who:"Parent or carer", tele:"yes", access:"Purchase",
+ gives:"How often and how involved the child is at home, school and in the community, what the parent wants to change, and what in the environment helps or gets in the way.",
+ good:"Showing the environment as part of the picture, which fits our neuroaffirming approach. YC-PEM covers ages 0 to 5.",
+ watch:"Long for some parents. Split it across sessions if needed.", feeds:["summary","fca"], ours:false},
+{id:"cape", d:["participation"], short:"CAPE / PAC", name:"Children's Assessment of Participation and Enjoyment / Preferences for Activities of Children", by:"King et al., 2004", ages:"6 to 21", min:6, max:21, time:"About 30 to 45 min", format:"Self-report with picture cards", who:"The child or teen, with help if needed", tele:"care", access:"Purchase",
+ gives:"Diversity, intensity, who with, where, and enjoyment across out-of-school activities. PAC adds what they would like to do.",
+ good:"Finding interest-led goals and building on special interests.",
+ watch:"The activity list reflects the early 2000s. Ask about current interests such as gaming and online communities too.", feeds:["summary","goalplan"], ours:false},
+{id:"sfa", d:["participation"], short:"SFA", name:"School Function Assessment", by:"Coster et al., 1998", ages:"Primary school (about 5 to 12)", min:5, max:12, time:"Long; parts can be done separately", format:"Rating scale", who:"Teacher and school staff", tele:"yes", access:"Purchase",
+ gives:"Participation across school settings, the supports the student needs, and how they do school tasks.",
+ good:"School-linked goals and reports.",
+ watch:"US norms from the 1990s. Treat cut-offs as a guide only.", feeds:["summary","goalplan"], ours:true},
+// sensory
+{id:"sp2", d:["sensory"], short:"Sensory Profile 2", name:"Sensory Profile 2", by:"Dunn, 2014", ages:"Birth to 14 (Infant, Toddler, Child, Short and School Companion forms)", min:0, max:14, time:"About 15 to 20 min", format:"Carer and teacher questionnaires", who:"Parent or carer; teacher for the School Companion", tele:"yes", access:"Purchase",
+ gives:"Four patterns (seeking, avoiding, sensitivity and registration), plus sensory system and behaviour sections, compared with peers.",
+ good:"Our Sensory Profile Report for schools and families. Explains behaviour as a response to the environment.",
+ watch:"It describes a pattern, not a disorder. Report it as a difference with practical supports.", feeds:["sensoryr","fca"], ours:true},
+{id:"aasp", d:["sensory"], short:"AASP", name:"Adolescent/Adult Sensory Profile", by:"Brown & Dunn, 2002", ages:"11 and up", min:11, max:100, time:"About 10 to 15 min", format:"Self-report questionnaire", who:"The person themselves", tele:"yes", access:"Purchase",
+ gives:"The same four quadrants from the person's own view: low registration, sensation seeking, sensory sensitivity and sensation avoiding.",
+ good:"Teens and adults, including late-diagnosed clients making sense of their sensory life. Feeds home and workplace adjustments.",
+ watch:"Clients who mask may rate how they think they should respond. Go through it together.", feeds:["sensoryr","fca"], ours:true},
+{id:"spm2", d:["sensory"], short:"SPM-2", name:"Sensory Processing Measure, Second Edition", by:"Parham, Ecker, Kuhaneck, Henry & Glennon, 2021", ages:"4 months to 87 years", min:0, max:87, time:"About 15 to 20 min", format:"Rating forms", who:"Home, school and self forms", tele:"yes", access:"Purchase",
+ gives:"Sensory systems plus praxis and social participation, rated across home, school and community.",
+ good:"Comparing how the same person copes in different settings.",
+ watch:"Shows patterns, not causes. Check the demands of each setting before calling it sensory.", feeds:["sensoryr","fca"], ours:false},
+// motor
+{id:"bot3", d:["motor"], short:"BOT-3", name:"Bruininks-Oseretsky Test of Motor Proficiency, Third Edition", by:"Pearson, 2024", ages:"4 to 25", min:4, max:25, time:"Complete 50 to 90 min; fine or gross motor form 25 to 45 min", format:"Performance test", who:"An OT, in person", tele:"no", access:"Purchase",
+ gives:"Fine and gross motor subtests that roll up into motor composites and an overall motor score.",
+ good:"A detailed motor profile for school-age kids and young adults.",
+ watch:"Long. Breaks, a quiet room and a visual plan help scores reflect skill rather than demand or fatigue.", feeds:["summary","fca"], ours:false},
+{id:"mabc3", d:["motor"], short:"Movement ABC-3", name:"Movement Assessment Battery for Children, Third Edition", by:"Pearson, 2023", ages:"3 to 25 (three age bands)", min:3, max:25, time:"About 30 to 45 min", format:"Performance test plus checklist", who:"An OT gives the test; parent, teacher or self checklist", tele:"no", access:"Purchase",
+ gives:"Manual Dexterity, Aiming and Catching, and Balance and Locomotion. The checklist adds how movement affects everyday life.",
+ good:"A common test in DCD assessment pathways.",
+ watch:"One test score is not a DCD diagnosis. Diagnosis also needs history and impact on daily life.", feeds:["summary","fca"], ours:false},
+{id:"pdms3", d:["motor"], short:"PDMS-3", name:"Peabody Developmental Motor Scales, Third Edition", by:"Pearson, 2023", ages:"Birth to 5", min:0, max:5, time:"60 to 90 min", format:"Performance test", who:"An OT, in person, often over more than one visit", tele:"no", access:"Purchase",
+ gives:"Body control, body transport, object control, hand manipulation and eye-hand coordination, with physical fitness as a supplement.",
+ good:"Early childhood motor baselines.",
+ watch:"Young kids test best in short, playful blocks. Note their state and engagement in the report.", feeds:["summary","fca"], ours:false},
+{id:"dcdq", d:["motor"], short:"DCDQ", name:"Developmental Coordination Disorder Questionnaire (DCDQ'07)", by:"Wilson et al., 2007", ages:"5 to 15", min:5, max:15, time:"About 10 to 15 min", format:"Parent questionnaire", who:"Parent", tele:"yes", access:"Free",
+ gives:"15 items on control during movement, fine motor and handwriting, and general coordination. Flags who needs a full motor test.",
+ good:"A telehealth screen before deciding on an in-person motor test. The Little DCDQ covers ages 3 to 4.",
+ watch:"A screen, not a diagnosis.", feeds:["summary"], ours:false},
+// visual-motor
+{id:"beery", d:["visual-motor"], short:"Beery VMI", name:"Beery-Buktenica Developmental Test of Visual-Motor Integration, Sixth Edition", by:"Beery, Buktenica & Beery, 2010", ages:"2 to 99", min:2, max:99, time:"10 to 15 min; 5 min for each supplemental test", format:"Performance test (copying shapes)", who:"An OT, in person", tele:"no", access:"Purchase",
+ gives:"Visual-motor integration from copying shapes, with Visual Perception and Motor Coordination supplements to pull the parts apart.",
+ good:"A quick check when handwriting or copying is the concern.",
+ watch:"Copying shapes is not handwriting. Pair it with a real writing sample.", feeds:["summary","fca"], ours:false},
+{id:"dtvp3", d:["visual-motor"], short:"DTVP-3", name:"Developmental Test of Visual Perception, Third Edition", by:"Hammill, Pearson & Voress, 2014", ages:"4 to 12", min:4, max:12, time:"About 20 to 40 min", format:"Performance test", who:"An OT, in person", tele:"no", access:"Purchase",
+ gives:"Five subtests giving visual-motor integration, motor-reduced perception and general visual perception composites.",
+ good:"Separating visual perception from motor output. The DTVP-A covers older teens and adults.",
+ watch:"Fatigue and attention affect scores. Note the test conditions.", feeds:["summary"], ours:false},
+{id:"tvps4", d:["visual-motor"], short:"TVPS-4", name:"Test of Visual Perceptual Skills, Fourth Edition", by:"Martin, 2017", ages:"5 to 21", min:5, max:21, time:"About 25 to 30 min", format:"Performance test (pointing answers)", who:"An OT, in person", tele:"no", access:"Purchase",
+ gives:"Motor-free visual perception: discrimination, memory, spatial relations, form constancy, sequential memory, figure-ground and closure.",
+ good:"Measuring visual perception with no drawing demand.",
+ watch:"Pointing makes it accessible, but sitting still for long still matters. Offer breaks.", feeds:["summary"], ours:false},
+{id:"dash", d:["visual-motor"], short:"DASH", name:"Detailed Assessment of Speed of Handwriting (and DASH 17+)", by:"Barnett et al., 2007; 2010", ages:"9 to 16; DASH 17+ for 17 to 25", min:9, max:25, time:"About 30 min", format:"Timed writing tasks", who:"An OT, in person", tele:"no", access:"Purchase",
+ gives:"Handwriting speed across copying, alphabet writing and free writing, plus a fine motor speed task.",
+ good:"Evidence for exam arrangements such as extra time or a laptop.",
+ watch:"Speed is only one part. Comment on legibility, pain and fatigue too.", feeds:["summary"], ours:false},
+// cognition
+{id:"brief2", d:["cognition"], short:"BRIEF-2 family", name:"Behavior Rating Inventory of Executive Function (BRIEF-P, BRIEF-2, BRIEF-A)", by:"Gioia, Isquith, Guy & Kenworthy, 2015 (BRIEF-2)", ages:"BRIEF-P 2 to 5; BRIEF-2 5 to 18; BRIEF-A 18 to 90", min:2, max:90, time:"About 10 to 15 min", format:"Rating forms", who:"Parent, teacher and self (BRIEF-2 self from 11); adult self and informant", tele:"yes", access:"Purchase",
+ gives:"Everyday executive function ratings rolled into regulation indexes and a global composite.",
+ good:"Linking EF to daily routines, school and work.",
+ watch:"Ratings show how the person copes with the EF demands of their setting. A high score can mean a poor fit, not just a skill gap.", feeds:["fca","summary"], ours:false},
+{id:"wcpa", d:["cognition"], short:"WCPA", name:"Weekly Calendar Planning Activity", by:"Toglia, 2015", ages:"12 to 94 (youth and adult versions)", min:12, max:94, time:"10 to 40 min", format:"Performance task", who:"An OT watches the person put appointments into a weekly calendar", tele:"care", access:"Purchase",
+ gives:"Accuracy, strategy use, rule following and self-awareness on a real planning task.",
+ good:"Functional cognition in teens and adults, including autistic adults. Shows which strategies help.",
+ watch:"Watch strategies, not just errors. The after-task interview about awareness is often the most useful part.", feeds:["fca","summary"], ours:false},
+{id:"moca", d:["cognition","driving"], short:"MoCA", name:"Montreal Cognitive Assessment", by:"Nasreddine et al., 2005", ages:"Adults", min:18, max:100, time:"About 10 min", format:"Screening test", who:"A trained, certified clinician", tele:"care", access:"Training",
+ gives:"A 30-point screen of attention, executive function, memory, language, visuospatial skills and orientation.",
+ good:"A quick cognitive screen in driving and adult FCA referrals.",
+ watch:"A screen, not a diagnosis. Education, language and culture affect scores. Use needs MoCA training and certification.", feeds:["ptd","ftd","fca"], ours:true},
+{id:"ace3", d:["cognition","driving"], short:"ACE-III", name:"Addenbrooke's Cognitive Examination III", by:"Hsieh et al., 2013", ages:"Adults", min:18, max:100, time:"About 15 to 20 min", format:"Screening test", who:"Clinician", tele:"care", access:"Free",
+ gives:"A 100-point screen of attention, memory, fluency, language and visuospatial skills.",
+ good:"More detail than the MoCA when cognitive change is the question.",
+ watch:"Built for dementia screening. Interpret with care for younger neurodivergent drivers.", feeds:["ptd","ftd"], ours:true},
+{id:"tmt", d:["cognition","driving"], short:"Trail Making", name:"Trail Making Test, Parts A and B", by:"Reitan, 1958", ages:"Teens and adults", min:16, max:100, time:"About 5 to 10 min", format:"Timed paper test", who:"Clinician, in person", tele:"no", access:"Free",
+ gives:"Part A: visual scanning and speed. Part B adds switching between numbers and letters.",
+ good:"Part B is linked to on-road driving performance in many studies.",
+ watch:"Timed tests penalise slow motor output and test anxiety. Note both.", feeds:["ptd","ftd"], ours:true},
+// wellbeing
+{id:"sdq", d:["wellbeing"], short:"SDQ", name:"Strengths and Difficulties Questionnaire", by:"Goodman, 1997", ages:"2 to 17 (self-report from 11)", min:2, max:17, time:"About 5 to 10 min", format:"Questionnaire", who:"Parent, teacher or self", tele:"yes", access:"Free",
+ gives:"25 items across emotional, conduct, hyperactivity and peer scales, plus a prosocial strengths scale and an impact supplement.",
+ good:"A quick wellbeing snapshot next to function measures.",
+ watch:"Autistic traits can raise peer and emotional scores without a mental health problem. Refer on when concerned.", feeds:["fca"], ours:false},
+{id:"rcads", d:["wellbeing"], short:"RCADS", name:"Revised Child Anxiety and Depression Scale", by:"Chorpita et al., 2000", ages:"8 to 18", min:8, max:18, time:"About 10 to 15 min", format:"Questionnaire", who:"Child and parent versions", tele:"yes", access:"Free",
+ gives:"Separation anxiety, social phobia, generalised anxiety, panic, OCD and low mood scales. A 25-item short version exists.",
+ good:"Tracking anxiety alongside OT goals like routines and participation.",
+ watch:"A screen only. Scores of concern go to the GP or a psychologist.", feeds:["fca"], ours:false},
+{id:"dass21", d:["wellbeing"], short:"DASS-21", name:"Depression Anxiety Stress Scales, 21 item", by:"Lovibond & Lovibond, 1995", ages:"Adults; used with older teens", min:15, max:100, time:"About 5 to 10 min", format:"Self-report", who:"The person themselves", tele:"yes", access:"Free",
+ gives:"Depression, anxiety and stress scales over the past week.",
+ good:"A wellbeing baseline for adult clients, including late-diagnosed adults.",
+ watch:"Masking and difficulty naming feelings can skew self-report. A high score means check in and refer, not diagnose.", feeds:["fca"], ours:false},
+{id:"k10", d:["wellbeing"], short:"K10", name:"Kessler Psychological Distress Scale", by:"Kessler et al., 2002", ages:"Adults", min:18, max:100, time:"About 5 min", format:"Self-report", who:"The person themselves", tele:"yes", access:"Free",
+ gives:"10 items on distress over the past 30 days, scored 10 to 50.",
+ good:"Common in Australian health services, so referrers recognise it.",
+ watch:"A distress screen only.", feeds:["fca"], ours:false},
+{id:"cshq", d:["wellbeing"], short:"CSHQ", name:"Children's Sleep Habits Questionnaire", by:"Owens, Spirito & McGuinn, 2000", ages:"4 to 10", min:4, max:10, time:"About 10 to 15 min", format:"Parent questionnaire", who:"Parent", tele:"yes", access:"Free",
+ gives:"Bedtime resistance, sleep onset, duration, sleep anxiety, night waking, parasomnias, breathing and daytime sleepiness.",
+ good:"A baseline for the Sleep Architecture hinge.", hub:"sleep",
+ watch:"Breathing items of concern go to the GP.", feeds:["summary"], ours:false},
+// driving
+{id:"austroads", d:["driving"], short:"Austroads AFTD", name:"Assessing Fitness to Drive (Austroads and the National Transport Commission)", by:"Current edition", ages:"Licence holders and learners", min:16, max:100, time:"Reference standard", format:"National medical standards", who:"The treating doctor applies it; the OT reports function against it", tele:"na", access:"Free",
+ gives:"National medical standards for private and commercial licences, including vision, cognition, neurological and psychiatric conditions.",
+ good:"Framing every driving recommendation.",
+ watch:"The licensing authority makes the licence decision. Our role is functional evidence.", feeds:["ftd","ptd"], ours:true},
+{id:"otdora", d:["driving"], short:"OT-DORA", name:"Occupational Therapy Driver Off-Road Assessment Battery", by:"Unsworth et al., 2011", ages:"Adult drivers", min:17, max:100, time:"Varies with tests chosen", format:"Test battery", who:"A driver-trained OT, in person", tele:"no", access:"Purchase",
+ gives:"Sensory (vision and proprioception), physical (balance, strength, brake reaction) and cognitive-perceptual (road law, maze, cognitive screen) tests, plus interview, medical history and medications.",
+ good:"A structured off-road battery before an on-road test.",
+ watch:"Off-road results guide the on-road assessment. They don't replace it.", feeds:["ftd","ptd"], ours:true},
+{id:"drivesafe", d:["driving"], short:"DriveSafe", name:"DriveSafe DriveAware", by:"Kay, Bundy & Clemson, 2009", ages:"Adult drivers", min:17, max:100, time:"Short", format:"Tablet test plus awareness questionnaire", who:"An OT, in person", tele:"no", access:"Purchase",
+ gives:"DriveSafe tests awareness of the driving scene from intersection images. DriveAware compares the driver's self-rating with the OT's rating.",
+ good:"An Australian tool. Shows insight into driving ability.",
+ watch:"Built and normed mainly with older and cognitively impaired drivers. Interpret with care for learners.", feeds:["ftd","ptd"], ours:true},
+{id:"maze", d:["driving"], short:"Snellgrove Maze", name:"Snellgrove Maze Test", by:"Snellgrove, 2005", ages:"Adult drivers", min:17, max:100, time:"A few minutes", format:"Timed paper maze", who:"An OT, in person", tele:"no", access:"Varies",
+ gives:"Planning and visual search under time pressure.",
+ good:"A brief planning screen inside a driving battery.",
+ watch:"One short timed task. Never use it alone.", feeds:["ftd","ptd"], ours:true},
+{id:"hpt", d:["driving"], short:"Hazard Perception", name:"Hazard Perception Test", by:"State licensing authority", ages:"Learners and drivers", min:16, max:100, time:"Short video test", format:"Video clips on a computer", who:"The driver", tele:"care", access:"Free",
+ gives:"Responses to developing hazards in video clips. Part of the licence pathway in Australian states.",
+ good:"Learner drivers, including autistic teens on our driving pathway.",
+ watch:"Processing speed and test anxiety affect scores. Practice versions reduce novelty.", feeds:["ptd"], ours:true},
+{id:"onroad", d:["driving"], short:"On-road test", name:"On-road driving assessment", by:"Driver-trained OT with a driving instructor", ages:"Learners and drivers", min:16, max:100, time:"About 45 to 60 min", format:"Observed drive in a dual-control car", who:"A driver-trained OT and a driving instructor", tele:"no", access:"Training",
+ gives:"Real driving across set routes and demands. The gold standard for fitness to drive.",
+ good:"The final evidence behind a fitness to drive recommendation.",
+ watch:"Plan for sensory load, clear instructions, and a familiar start where possible, so novelty stress doesn't drive the result.", feeds:["ftd"], ours:false}
+];
+
+const DBY = Object.fromEntries(DOMAINS.map(d=>[d.id,d]));
+const TBY = Object.fromEntries(TOOLS.map(t=>[t.id,t]));
+const RBY = Object.fromEntries(REPORTS.map(r=>[r.id,r]));
+const toolsIn = id => TOOLS.filter(t=>t.d.includes(id));
+const reportsFor = id => REPORTS.filter(r=>toolsIn(id).some(t=>t.feeds.includes(r.id)));
+const TELE = {yes:["t-yes","Telehealth: works"], care:["t-care","Telehealth: with care"], no:["t-no","In person"], na:["t-no","Reference standard"]};
+
+const state = {view:"map", sel:{type:"about", id:"about"}, f:{age:"", tele:false, free:false, ours:false}};
+const R_IN=196, R_OUT_T=304, R_B=250, R_N=55, R_RING=405;
+const angB = i => i*36 - 90;
+const P = (a,r)=>{const t=a*Math.PI/180;return [+(r*Math.cos(t)).toFixed(1), +(r*Math.sin(t)).toFixed(1)];};
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const reduced = () => { try { return matchMedia("(prefers-reduced-motion: reduce)").matches; } catch(e){ return false; } };
+
+function wrap(text, max){
+  const words = text.split(" "); const out=[]; let line="";
+  words.forEach(w=>{ if((line+" "+w).trim().length>max && line){ out.push(line); line=w; } else line=(line+" "+w).trim(); });
+  if(line) out.push(line); return out;
+}
+function outerLabel(a, r, lines){
+  const t=a*Math.PI/180, c=Math.cos(t), s=Math.sin(t), lh=21;
+  const anchor = c>0.28 ? "start" : c<-0.28 ? "end" : "middle";
+  const [x,y] = P(a, r + (anchor==="middle"?18:20));
+  let y0;
+  if(anchor==="middle" && s<0) y0 = y - (lines.length-1)*lh - 6;
+  else if(anchor==="middle") y0 = y + 14;
+  else y0 = y - (lines.length-1)*lh/2 + 6;
+  return `<text x="${x}" y="${y0.toFixed(1)}" text-anchor="${anchor}">${lines.map((l,i)=>`<tspan x="${x}" dy="${i?lh:0}">${esc(l)}</tspan>`).join("")}</text>`;
+}
+function arcPath(a0,a1,r){
+  const [x0,y0]=P(a0,r),[x1,y1]=P(a1,r);
+  return `M${x0} ${y0} A${r} ${r} 0 ${(a1-a0)>180?1:0} 1 ${x1} ${y1}`;
+}
+function fanAngles(n, ab){ const step = n>6 ? 13 : 15; return Array.from({length:n},(_,j)=>ab + (j-(n-1)/2)*step); }
+const fanR = (n,j) => n>6 && j%2 ? R_RING+44 : R_RING;
+
+function activeDomain(){
+  const {sel} = state;
+  if(sel.type==="domain") return sel.id;
+  if(sel.type==="tool") return state.fromDomain && TBY[sel.id].d.includes(state.fromDomain) ? state.fromDomain : TBY[sel.id].d[0];
+  return null;
+}
+
+function svgMarkup(){
+  const {view, sel} = state;
+  const selD = activeDomain();
+  const selT = sel.type==="tool" ? sel.id : null;
+  const selR = sel.type==="report" ? sel.id : null;
+  let s = `<circle r="${R_RING}" class="guide"/>`;
+  s += `<circle r="${R_OUT_T}" class="track"/><circle r="${R_IN}" class="infield"/>`;
+  [R_IN, 223, 277, R_OUT_T].forEach(r=>{ s += `<circle r="${r}" class="lane"/>`; });
+  Object.keys(CLUSTERS).forEach(k=>{
+    const idx = DOMAINS.map((d,i)=>d.cluster===k?i:-1).filter(i=>i>=0);
+    s += `<path class="arc c-${k}" d="${arcPath(angB(idx[0])-14, angB(idx[idx.length-1])+14, R_IN-14)}"/>`;
+  });
+
+  if(view==="reports"){
+    DOMAINS.forEach((d,i)=>{
+      const ab = angB(i);
+      reportsFor(d.id).forEach(r=>{
+        const ri = REPORTS.indexOf(r), ap = RANG[r.id], lane = 318 + ri*9;
+        const dd = ((ap-ab+540)%360)-180, sweep = dd>0?1:0;
+        const [x0,y0]=P(ab,R_B+R_N),[x1,y1]=P(ab,lane),[x2,y2]=P(ap,lane),[x3,y3]=P(ap,R_RING-14);
+        let cls = "link";
+        if(selT) cls += (TBY[selT].d.includes(d.id) && TBY[selT].feeds.includes(r.id)) ? " on" : " dim";
+        else if(selD) cls += selD===d.id ? " on" : " dim";
+        else if(selR) cls += selR===r.id ? " on" : " dim";
+        s += `<path class="${cls} c-${d.cluster}" d="M${x0} ${y0} L${x1} ${y1} A${lane} ${lane} 0 0 ${sweep} ${x2} ${y2} L${x3} ${y3}"/>`;
+      });
+    });
+  }
+  if(view==="map" && selD){
+    const i = DOMAINS.findIndex(d=>d.id===selD), d = DOMAINS[i], list = toolsIn(selD), angs = fanAngles(list.length, angB(i));
+    list.forEach((t,j)=>{
+      const [x0,y0]=P(angB(i),R_B+R_N),[x1,y1]=P(angs[j],fanR(list.length,j)-11);
+      s += `<line class="cline c-${d.cluster}" x1="${x0}" y1="${y0}" x2="${x1}" y2="${y1}"/>`;
+    });
+  }
+
+  s += `<g class="center" data-kind="center" data-id="about" tabindex="0" role="button" aria-label="How we pick an assessment">
+    <circle r="114"/>
+    <text text-anchor="middle"><tspan x="0" y="-16">ASSESSMENT</tspan><tspan x="0" dy="29">ATLAS</tspan></text>
+    <g class="bands"><rect x="-44" y="36" width="22" height="6"/><rect x="-22" y="36" width="22" height="6"/><rect x="0" y="36" width="22" height="6"/><rect x="22" y="36" width="22" height="6"/></g></g>`;
+
+  DOMAINS.forEach((d,i)=>{
+    const [x,y]=P(angB(i),R_B);
+    let cls = `bnode c-${d.cluster}`;
+    if(selD){ cls += selD===d.id ? " on" : " dim"; }
+    else if(selR && view==="reports"){ cls += reportsFor(d.id).some(r=>r.id===selR) ? " hit" : " dim"; }
+    const lh=18, y0 = y - (d.lines.length-1)*lh/2 + 5.5;
+    s += `<g class="${cls}" data-kind="domain" data-id="${d.id}" tabindex="0" role="button" aria-label="${esc(d.name)}">
+      <circle cx="${x}" cy="${y}" r="${R_N}"/>
+      <text text-anchor="middle">${d.lines.map((l,k)=>`<tspan x="${x}" ${k?`dy="${lh}"`:`y="${y0}"`}>${esc(l)}</tspan>`).join("")}</text></g>`;
+  });
+
+  if(view==="map" && selD){
+    const i = DOMAINS.findIndex(d=>d.id===selD), d = DOMAINS[i], list = toolsIn(selD), angs = fanAngles(list.length, angB(i));
+    list.forEach((t,j)=>{
+      const rr = fanR(list.length,j), [x,y]=P(angs[j],rr);
+      const anim = reduced() ? "" : ` pop" style="animation-delay:${j*40}ms`;
+      s += `<g class="onode c-${d.cluster}${t.ours?" ours":""}${selT===t.id?" on":""}${anim}" data-kind="tool" data-id="${t.id}" tabindex="0" role="button" aria-label="${esc(t.short)}">
+        <circle cx="${x}" cy="${y}" r="10"/>${outerLabel(angs[j],rr,wrap(t.short,list.length>6?11:15))}</g>`;
+    });
+  }
+  if(view==="reports"){
+    const hitR = selT ? TBY[selT].feeds : selD ? reportsFor(selD).map(r=>r.id) : null;
+    REPORTS.forEach(r=>{
+      const a = RANG[r.id], [x,y]=P(a,R_RING);
+      let cls = "onode rep";
+      if(selR) cls += selR===r.id ? " on" : " dim";
+      else if(hitR) cls += hitR.includes(r.id) ? " hit" : " dim";
+      s += `<g class="${cls}" data-kind="report" data-id="${r.id}" tabindex="0" role="button" aria-label="${esc(r.name)}">
+        <circle cx="${x}" cy="${y}" r="12"/>${outerLabel(a,R_RING,wrap(r.short,12))}</g>`;
+    });
+  }
+  return `<svg viewBox="-660 -540 1320 1080" role="group" aria-label="Map of assessment domains">${s}</svg>`;
+}
+
+const chipDomain = (d,on) => `<button type="button" class="chip c-${d.cluster}${on?" on":""}" data-go="${d.id}"><span class="dot"></span>${esc(d.name)}</button>`;
+const chipReport = r => `<a class="chip rep" href="${r.href}"><span class="dot"></span>${esc(r.name)} <span aria-hidden="true">&rarr;</span></a>`;
+const chipHub = slug => `<a class="chip hub" href="${slug}.html"><span class="dot"></span>${esc(HUB[slug])} <span aria-hidden="true">&rarr;</span></a>`;
+const teleDot = t => `<span class="dot-t ${TELE[t.tele][0]}" title="${TELE[t.tele][1]}"></span>`;
+
+function legendMarkup(){
+  const selD = activeDomain();
+  return Object.entries(CLUSTERS).map(([k,c])=>`<div class="lg c-${k}">
+    <p class="lg-name">${esc(c.name)}</p><p class="lg-note">${esc(c.note)}</p>
+    <div class="chips">${DOMAINS.filter(d=>d.cluster===k).map(d=>chipDomain(d, selD===d.id)).join("")}</div></div>`).join("");
+}
+
+function toolTable(list){
+  return `<div class="tbl"><table class="ttable"><tbody>${list.map(t=>`<tr><td><button type="button" data-go="${t.id}">${esc(t.short)}</button>${t.ours?` <span class="pill ours" style="padding:2px 6px;font-size:11px">Ours</span>`:""}</td><td class="sm">${esc(t.ages)}</td><td class="sm">${teleDot(t)}</td></tr>`).join("")}</tbody></table></div>`;
+}
+const teleKey = `<p class="key"><span><i class="dot-t t-yes"></i>Works by telehealth</span><span><i class="dot-t t-care"></i>With care</span><span><i class="dot-t t-no"></i>In person</span></p>`;
+
+function aboutMarkup(){
+  return `<article>
+  <p class="eyebrow">Start here</p>
+  <h2>How we pick an assessment</h2>
+  <p class="lead">Start with the question, not the test. Then pick the fewest tools that answer it well.</p>
+  <section><h3>Our rules</h3><ul class="rules">
+    <li><strong>Start with the question</strong>What does the funder, school or doctor need to know? Write it down before you choose.</li>
+    <li><strong>Occupation first</strong>Begin top-down with the person's goals and an interview. Test components only when they explain the problem.</li>
+    <li><strong>Three views</strong>Combine self-report, someone who knows the person, and your own observation.</li>
+    <li><strong>Fit the format</strong>Questionnaires and interviews work by telehealth. Standard motor and visual-motor tests need an in-person visit.</li>
+    <li><strong>Write it neuroaffirming</strong>Scores describe support needs and fit with the environment, not worth. No functioning labels.</li>
+    <li><strong>Check the manual</strong>Editions, ages and publisher user levels change. Confirm before you use a tool.</li>
+  </ul></section>
+  <section><h3>Ten domains</h3>
+    ${Object.entries(CLUSTERS).map(([k,c])=>`<p style="margin:10px 0 6px"><strong>${esc(c.name)}.</strong> <span style="color:var(--g-muted)">${esc(c.note)}.</span></p><div class="chips">${DOMAINS.filter(d=>d.cluster===k).map(d=>chipDomain(d,false)).join("")}</div>`).join("")}
+  </section>
+  <section><h3>Three ways in</h3>
+    <p><strong>Map</strong> fans out the tools in a domain. <strong>Reports</strong> shows which domains feed each of our report templates. <strong>Finder</strong> filters every tool by client age, telehealth, cost and whether our templates already use it.</p>
+    <p><button type="button" class="textlink" data-view-jump="finder">Open the Finder</button></p>
+  </section>
+  <section><h3>Telehealth key</h3>${teleKey}</section>
+  </article>`;
+}
+
+function domainMarkup(d){
+  const i = DOMAINS.indexOf(d), prev = DOMAINS[(i+9)%10], next = DOMAINS[(i+1)%10];
+  const list = toolsIn(d.id);
+  return `<article class="c-${d.cluster}">
+  <p class="eyebrow"><span class="dot"></span>${esc(CLUSTERS[d.cluster].name)} · ICF: ${esc(d.icf)}</p>
+  <h2>${esc(d.name)}</h2>
+  <p class="lead">${esc(d.q)}</p>
+  <section><h3>Ask first</h3><ul class="ask">${d.ask.map(a=>`<li>${esc(a)}</li>`).join("")}</ul></section>
+  <section><h3>Tools (${list.length})</h3>${toolTable(list)}${teleKey}</section>
+  <section><h3>Watch for</h3><p class="caveat" style="margin:0">${esc(d.watch)}</p></section>
+  <section><h3>Feeds our templates</h3><div class="chips">${reportsFor(d.id).map(chipReport).join("")}</div></section>
+  ${d.hub.length?`<section><h3>On the hub</h3><div class="chips">${d.hub.map(chipHub).join("")}</div></section>`:""}
+  <nav class="pager" aria-label="Domains">
+    <button type="button" data-go="${prev.id}"><small>Previous</small><span>${esc(prev.name)}</span></button>
+    <button type="button" data-go="${next.id}"><small>Next</small><span>${esc(next.name)}</span></button>
+  </nav></article>`;
+}
+
+function toolMarkup(t){
+  const dId = activeDomain(), d = DBY[dId], list = toolsIn(dId), i = list.indexOf(t);
+  const prev = list[(i+list.length-1)%list.length], next = list[(i+1)%list.length];
+  const tl = TELE[t.tele];
+  const others = t.d.filter(x=>x!==dId).map(x=>DBY[x]);
+  return `<article class="c-${d.cluster}">
+  <p class="eyebrow"><span class="dot"></span><button type="button" class="textlink" style="color:inherit;font:inherit;letter-spacing:inherit;text-transform:inherit" data-go="${d.id}">${esc(d.name)}</button></p>
+  <h2>${esc(t.short)}</h2>
+  <p class="full">${esc(t.name)} · ${esc(t.by)}</p>
+  <div class="pills">
+    <span class="pill"><b>Ages</b>${esc(t.ages)}</span>
+    <span class="pill"><b>Time</b>${esc(t.time)}</span>
+    <span class="pill"><b>Format</b>${esc(t.format)}</span>
+    <span class="pill ${tl[0]}">${tl[1]}</span>
+    <span class="pill"><b>Access</b>${esc(t.access)}</span>
+    ${t.ours?`<span class="pill ours">In our templates</span>`:""}
+  </div>
+  <section><h3>What it gives you</h3><p>${esc(t.gives)}</p></section>
+  <section><h3>Who fills it in</h3><p>${esc(t.who)}</p></section>
+  <section class="case"><h3>Good for</h3><p>${esc(t.good)}</p></section>
+  <section><h3>Watch for</h3><p class="caveat" style="margin:0">${esc(t.watch)}</p></section>
+  <section><h3>Feeds our templates</h3><div class="chips">${t.feeds.map(id=>chipReport(RBY[id])).join("")}${t.hub?chipHub(t.hub):""}</div></section>
+  ${others.length?`<section><h3>Also used in</h3><div class="chips">${others.map(o=>chipDomain(o,false)).join("")}</div></section>`:""}
+  ${list.length>1?`<nav class="pager" aria-label="Tools in ${esc(d.name)}">
+    <button type="button" data-go="${prev.id}"><small>Previous</small><span>${esc(prev.short)}</span></button>
+    <button type="button" data-go="${next.id}"><small>Next</small><span>${esc(next.short)}</span></button>
+  </nav>`:""}</article>`;
+}
+
+function reportMarkup(r){
+  const doms = DOMAINS.filter(d=>reportsFor(d.id).some(x=>x.id===r.id));
+  const tools = TOOLS.filter(t=>t.feeds.includes(r.id));
+  return `<article>
+  <p class="eyebrow">Report template</p>
+  <h2>${esc(r.name)}</h2>
+  <p class="lead">${esc(r.what)}</p>
+  <p><a class="chip rep" href="${r.href}"><span class="dot"></span>Open the builder <span aria-hidden="true">&rarr;</span></a></p>
+  <section><h3>Domains that feed it (${doms.length})</h3><div class="chips">${doms.map(d=>chipDomain(d,false)).join("")}</div></section>
+  <section><h3>Tools (${tools.length})</h3>${toolTable(tools)}${teleKey}</section>
+  <p style="margin-top:22px"><button type="button" class="textlink" data-go="about">Back to how we pick</button></p>
+  </article>`;
+}
+
+function finderMarkup(){
+  const f = state.f, age = f.age===""?null:+f.age;
+  const hits = TOOLS.filter(t=>(age==null||(age>=t.min&&age<=t.max)) && (!f.tele||t.tele==="yes") && (!f.free||t.access==="Free") && (!f.ours||t.ours));
+  document.getElementById("f-count").textContent = `${hits.length} of ${TOOLS.length} tools`;
+  if(!hits.length) return `<p class="f-empty">No tools match. Clear a filter or change the age.</p>`;
+  const selT = state.sel.type==="tool" ? state.sel.id : null;
+  return DOMAINS.map(d=>{
+    const rows = hits.filter(t=>t.d[0]===d.id);
+    if(!rows.length) return "";
+    return `<div class="f-group c-${d.cluster}"><h3><i></i>${esc(d.name)}</h3>${rows.map(t=>`<button type="button" class="f-row${selT===t.id?" on":""}" data-go="${t.id}"><b>${esc(t.short)}</b><span class="dots">${teleDot(t)}${esc(t.access)}</span><small>${esc(t.ages)} · ${esc(t.time)}</small></button>`).join("")}</div>`;
+  }).join("");
+}
+
+const mapEl = document.getElementById("map"), finderEl = document.getElementById("finder"), listEl = document.getElementById("f-list"),
+      panelEl = document.getElementById("panel"), legendEl = document.getElementById("legend"), noteEl = document.getElementById("viewnote"), keyEl = document.getElementById("mapkey");
+const NOTES = {
+  map:"Domains on the track. Pick one to fan out its tools. Bold tools are already in our templates.",
+  reports:"Which domains feed each of our report templates. Pick a domain or a report to trace the links.",
+  finder:"Filter every tool by client age, telehealth, cost and our templates."
+};
+
+function render(){
+  const {sel, view} = state;
+  const finder = view==="finder";
+  mapEl.hidden = finder; finderEl.hidden = !finder; legendEl.hidden = finder; keyEl.hidden = finder;
+  if(finder) listEl.innerHTML = finderMarkup(); else { mapEl.innerHTML = svgMarkup(); legendEl.innerHTML = legendMarkup(); }
+  keyEl.textContent = view==="map" ? "Infield: assessment. Track: ten domains. Outer ring: the tools in the chosen domain." : "Infield: assessment. Track: ten domains. Outer ring: our six report templates. Blue nodes open the report panel.";
+  panelEl.innerHTML = sel.type==="domain" ? domainMarkup(DBY[sel.id]) : sel.type==="tool" ? toolMarkup(TBY[sel.id]) : sel.type==="report" ? reportMarkup(RBY[sel.id]) : aboutMarkup();
+  document.querySelectorAll(".sp-seg button").forEach(b=>b.setAttribute("aria-pressed", String(b.dataset.view===view)));
+  document.querySelectorAll(".f-tog button").forEach(b=>b.setAttribute("aria-pressed", String(!!state.f[b.dataset.f])));
+  noteEl.textContent = NOTES[view];
+}
+
+let userAction = false;
+function apply(id){
+  if(DBY[id]){ state.sel = {type:"domain", id}; state.fromDomain = id; }
+  else if(TBY[id]){ state.sel = {type:"tool", id}; if(!TBY[id].d.includes(state.fromDomain)) state.fromDomain = TBY[id].d[0]; }
+  else if(RBY[id]){ state.sel = {type:"report", id}; if(state.view==="map") state.view = "reports"; }
+  else state.sel = {type:"about", id:"about"};
+  render();
+  if(userAction){
+    userAction = false;
+    const behavior = reduced() ? "auto" : "smooth";
+    if(matchMedia("(max-width: 920px)").matches || panelEl.getBoundingClientRect().top < 0) panelEl.scrollIntoView({behavior, block:"start"});
+  }
+}
+function go(id){
+  userAction = true;
+  let cur = ""; try { cur = location.hash.slice(1); } catch(e){}
+  if(cur !== id){ try { location.hash = id; return; } catch(e){} }
+  apply(id);
+}
+window.addEventListener("hashchange", ()=>{ let h=""; try{h=location.hash.slice(1);}catch(e){} apply(h); });
+
+mapEl.addEventListener("click", e=>{ const el = e.target.closest("[data-kind]"); if(el) go(el.dataset.id); });
+mapEl.addEventListener("keydown", e=>{
+  if(e.key!=="Enter" && e.key!==" ") return;
+  const el = e.target.closest("[data-kind]"); if(!el) return;
+  e.preventDefault(); go(el.dataset.id);
+  requestAnimationFrame(()=>{ const again = mapEl.querySelector(`[data-id="${CSS.escape(el.dataset.id)}"]`); if(again) again.focus({preventScroll:true}); });
+});
+document.addEventListener("click", e=>{
+  const g = e.target.closest("[data-go]");
+  if(g){ go(g.dataset.go); return; }
+  const v = e.target.closest("[data-view],[data-view-jump]");
+  if(v){ state.view = v.dataset.view || v.dataset.viewJump; render(); return; }
+  const f = e.target.closest("[data-f]");
+  if(f){ state.f[f.dataset.f] = !state.f[f.dataset.f]; render(); }
+});
+document.getElementById("f-age").addEventListener("input", e=>{ state.f.age = e.target.value.trim(); listEl.innerHTML = finderMarkup(); });
+
+(function init(){
+  let h=""; try{ h = location.hash.slice(1); }catch(e){}
+  if(RBY[h]) state.view = "reports";
+  apply(h);
+})();
+</script>
+</body></html>
