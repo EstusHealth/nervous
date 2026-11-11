@@ -9,7 +9,7 @@ Estus Health's internal staff training intranet. A landing page plus one page pe
 | Team | `check` |
 | Small Hinges | `hinges`, `sleep`, `morning`, `energy`, `load`, `transition`, `shutdown` |
 | Therapy approaches | `neuroaffirming` (Neuroaffirming Practice, the Estus way), `ot-models` (OT Models and Frames), `act` (plus `act-game`), `cbt`, `beliefs` (Core Beliefs), `mi`, `gaming`, `nervous`, `problem-solving`, `sport-psych` (Sport Psychology map), `assessments` (Assessment Atlas), `executive-function` (Executive Function map) |
-| Growth | `reels`, `must-be-nice`, `meta` (Meta Ads System, from Brandon Willington's course), `copy`, `gp` |
+| Growth | `reels`, `must-be-nice`, `reels-studio` (Reels Studio, making Reels and Shorts with Claude), `meta` (Meta Ads System, from Brandon Willington's course), `copy`, `gp` |
 | Templates: reports | `fca`, `ptd` (Potential to Drive), `ftd` (Medical Fitness to Drive), `summary` (Therapy Service Summary), `sensory` (Sensory Profile Report for schools and stakeholders) |
 | Templates: handouts | `goals` (Goal Plan, SMART goals), `chaining` (forward or backward chaining plan), `prompts` (Prompt Hierarchy Guide for support workers), `planner` (Student Planner) |
 | Templates: admin | `signature` (Gmail email signature) |
@@ -39,6 +39,10 @@ Progress ticks and tool drafts save in each person's own browser only.
 ## Must Be Nice series
 
 `must-be-nice.html` is the home of the "Must be nice" content series. Every card in its bank is a full post: the line, the kind cause, what keeps it hard (the inversion), the small hinge and a shot idea. The post maker turns a card into a text walk, a talk to camera script, an anti-recipe or a five slide carousel, and saves the text overlay (1080 x 1920, clear background) or the slides (1080 x 1350) as PNG files. Add cards to the `BANK` array near the top of the script. Stars, posted ticks and cards written in the worksheet save in each person's browser only.
+
+## Reels Studio
+
+`reels-studio.html` is the playbook for making Reels and Shorts with Claude from one phone clip. It covers the workflow, what Claude can and won't do, five formats (text walk, deadpan stare, tab chaos, moodboard flip, night clock) with a prompt for each, a transition library with looping demos, the four end screens and the CTA ladder, a reading pace calculator, a prompt builder with fix-it prompts, specs and safe zones, shooting, sound, our rules and a pre-post checklist. Formats sit in `FMTS`, transitions in `TR`, end screens in `ENDS`, builder hooks in `BH` and checklist items in `CK`, all near the top of the script. Example stills live in `img/reels/`. Builder choices and ticks save in each person's browser only.
 
 ## Message templates
 
