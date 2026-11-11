@@ -114,6 +114,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .chip.spt .dot{background:transparent;border:1.5px dashed var(--g-fg)}
 .chip.hub .dot{border-radius:0;width:12px;height:4px;background:linear-gradient(90deg,#344982 0 25%,#2F6F9E 25% 50%,#2CA5B8 50% 75%,#AB5C95 75%)}
 .chip:hover{border-color:var(--c,var(--g-fg))}
+.g-root button.chip{font:600 13px/1.25 var(--g-cond);letter-spacing:.04em}
 .chip.on{background:var(--c);border-color:var(--c);color:var(--sp-on-c)}
 .chip.on .dot{background:var(--sp-on-c)}
 .sp-key{margin:0;color:var(--g-muted);font-size:14px}
@@ -247,7 +248,7 @@ ul.rules strong{font:600 15px var(--g-cond);text-transform:uppercase;letter-spac
 </style>
 <nav class="ehub" aria-label="Estus Training Hub" style="margin:0"><div class="ehub-in">
 <a class="ehub-home" href="index.html"><span class="ehub-bands" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="ehub-wm"><b>ESTUS</b> HEALTH</span><span class="ehub-sep">&larr; Training Hub</span></a>
-<div class="ehub-r"><button class="ehub-btn" type="button" id="ehub-done" aria-pressed="false">Mark done</button><a class="ehub-btn ehub-next" href="act.html"><span class="ehub-nl">Next:</span> ACT <span aria-hidden="true">&rarr;</span></a></div>
+<div class="ehub-r"><button class="ehub-btn" type="button" id="ehub-done" aria-pressed="false">Mark done</button><a class="ehub-btn ehub-next" href="executive-function.html"><span class="ehub-nl">Next:</span> Executive Function <span aria-hidden="true">&rarr;</span></a></div>
 </div></nav>
 <script>(function(){var K="hub_done",s="assessments",b=document.getElementById("ehub-done");function l(){try{return JSON.parse(localStorage.getItem(K))||{}}catch(e){return {}}}function r(){var on=!!l()[s];b.setAttribute("aria-pressed",on);b.textContent=on?"✓ Done":"Mark done"}b.addEventListener("click",function(){var v=l();if(v[s])delete v[s];else v[s]=1;try{localStorage.setItem(K,JSON.stringify(v))}catch(e){}r()});r()})();</script>
 
