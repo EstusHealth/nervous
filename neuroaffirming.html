@@ -1,0 +1,807 @@
+<!doctype html><html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Neuroaffirming Practice</title><meta name="robots" content="noindex, nofollow"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 fill=%22%23090909%22/%3E%3Crect x=%224%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23344982%22/%3E%3Crect x=%2210%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232F6F9E%22/%3E%3Crect x=%2216%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232CA5B8%22/%3E%3Crect x=%2222%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23AB5C95%22/%3E%3C/svg%3E"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap"><style>
+:root{
+  --g-bg:#F3F2EF;--g-surface:#FBFAF8;--g-sunk:#ECEAE6;--g-fg:#0E1014;--g-muted:#65676E;--g-rule:#D3D1CC;--g-ink:#090909;--g-on-ink:#FBFAF8;
+  --g-navy:#344982;--g-blue:#2F6F9E;--g-teal:#2CA5B8;--g-plum:#AB5C95;
+  --g-navy-t:#DDE2EF;--g-blue-t:#DCE8F1;--g-teal-t:#DAF0F3;--g-plum-t:#F1E1EC;
+  --g-warn:#A86A12;--g-warn-t:#F6E8D2;
+  --sp-track:#DCE4EE;--sp-infield:#E9EDE4;--sp-lane:#FBFAF8;--sp-guide:#BFC3CA;--sp-on-c:#FFFFFF;
+  --g-display:"Oswald","Arial Narrow",Impact,sans-serif;--g-cond:"Barlow Semi Condensed","Arial Narrow",sans-serif;--g-body:"Barlow","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --g-bg:#0F1216;--g-surface:#161A20;--g-sunk:#1D222A;--g-fg:#ECEEF1;--g-muted:#9BA1AB;--g-rule:#2C323C;--g-ink:#05070A;--g-on-ink:#ECEEF1;
+  --g-navy:#8299DA;--g-blue:#6FA8D2;--g-teal:#4CC3D4;--g-plum:#D58FC1;
+  --g-navy-t:#1E2740;--g-blue-t:#18293A;--g-teal-t:#123238;--g-plum-t:#33202E;
+  --g-warn:#E0A64A;--g-warn-t:#33270F;
+  --sp-track:#18222F;--sp-infield:#121A17;--sp-lane:#26324A;--sp-guide:#2C323C;--sp-on-c:#05070A;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --g-bg:#0F1216;--g-surface:#161A20;--g-sunk:#1D222A;--g-fg:#ECEEF1;--g-muted:#9BA1AB;--g-rule:#2C323C;--g-ink:#05070A;--g-on-ink:#ECEEF1;
+  --g-navy:#8299DA;--g-blue:#6FA8D2;--g-teal:#4CC3D4;--g-plum:#D58FC1;
+  --g-navy-t:#1E2740;--g-blue-t:#18293A;--g-teal-t:#123238;--g-plum-t:#33202E;
+  --g-warn:#E0A64A;--g-warn-t:#33270F;
+  --sp-track:#18222F;--sp-infield:#121A17;--sp-lane:#26324A;--sp-guide:#2C323C;--sp-on-c:#05070A;color-scheme:dark}
+
+:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--g-bg);color:var(--g-fg);font:400 17px/1.55 var(--g-body)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--g-bg)}
+[hidden]{display:none!important}
+.g-root h1,.g-root h2,.g-root h3,.g-root h4{text-wrap:balance;margin:0}
+.g-root button{font:inherit;color:inherit}
+.g-root :focus-visible{outline:2px solid var(--g-teal);outline-offset:2px}
+.g-wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.g-eyebrow{font:700 12px var(--g-cond);letter-spacing:.18em;text-transform:uppercase;color:var(--g-muted);margin:0}
+.c-perf{--c:var(--g-teal);--ct:var(--g-teal-t)}
+.c-athlete{--c:var(--g-navy);--ct:var(--g-navy-t)}
+.c-env{--c:var(--g-plum);--ct:var(--g-plum-t)}
+
+/* hero */
+.g-hero{background:var(--g-ink);color:var(--g-on-ink)}
+.g-hero .g-wrap{padding-block:30px 36px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:32px;align-items:end}
+.g-hero .g-eyebrow{color:#AEB5C2}
+.g-hero h1{font:600 clamp(40px,7vw,76px)/.95 var(--g-display);text-transform:uppercase;letter-spacing:.01em;margin:8px 0 14px}
+.g-hero h1 em{font-style:normal;color:#4CC3D4}
+.g-lead{font-size:18px;max-width:56ch;color:#D6DAE2;margin:0}
+.g-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.g-meta span{font:600 12px var(--g-cond);letter-spacing:.12em;text-transform:uppercase;border:1px solid #3A3F48;padding:4px 10px;color:#D6DAE2}
+.g-side{list-style:none;margin:0;padding:0;border:1px solid #2C323C;background:#111419}
+.g-side li{display:grid;grid-template-columns:34px minmax(0,1fr);gap:10px;align-items:baseline;padding:10px 14px;border-top:1px solid #2C323C}
+.g-side li:first-child{border-top:0}
+.g-side .n{font:600 22px var(--g-display);color:var(--h)}
+.g-side b{font:600 15px var(--g-cond);text-transform:uppercase;letter-spacing:.06em;display:block}
+.g-side span.w{font-size:14px;color:#AEB5C2}
+.h-perf{--h:#4CC3D4}.h-athlete{--h:#8299DA}.h-env{--h:#D58FC1}
+
+/* atlas */
+.sp{padding-block:28px 56px}
+.sp-layout{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:40px;align-items:start}
+.sp-mapcol{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);min-width:0;display:flex;flex-direction:column;gap:14px}
+.sp-panelcol{min-width:0}
+@media (max-width:920px){.sp-layout{grid-template-columns:1fr;gap:24px}.sp-mapcol{position:static}}
+
+.sp-bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.sp-seg{display:inline-grid;grid-template-columns:1fr 1fr;border:1px solid var(--g-fg)}
+.sp-seg button{font:600 13px var(--g-cond);letter-spacing:.1em;text-transform:uppercase;padding:10px 18px;background:var(--g-surface);border:0;cursor:pointer;line-height:1;min-height:40px}
+.sp-seg button[aria-pressed="true"]{background:var(--g-ink);color:var(--g-on-ink)}
+:root[data-theme="dark"] .sp-seg button[aria-pressed="true"]{background:var(--g-fg);color:var(--g-bg)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .sp-seg button[aria-pressed="true"]{background:var(--g-fg);color:var(--g-bg)}}
+.sp-note{margin:0;color:var(--g-muted);font-size:15px;flex:1 1 220px;min-width:0}
+
+.sp-map{width:100%;aspect-ratio:1320/1080;max-width:100%}
+.sp-map svg{width:100%;height:100%;display:block;overflow:visible}
+.guide{fill:none;stroke:var(--sp-guide);stroke-width:2;stroke-dasharray:3 9}
+.track{fill:var(--sp-track)}
+.infield{fill:var(--sp-infield)}
+.lane{fill:none;stroke:var(--sp-lane);stroke-width:2.5}
+.arc{fill:none;stroke:var(--c);stroke-width:8}
+.center circle{fill:var(--g-ink)}
+:root[data-theme="dark"] .center circle{fill:#232831}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .center circle{fill:#232831}}
+.center text{fill:#FBFAF8;font-family:var(--g-display);font-weight:600;font-size:25px;letter-spacing:.06em}
+.center .bands rect:nth-child(1){fill:#344982}.center .bands rect:nth-child(2){fill:#2F6F9E}.center .bands rect:nth-child(3){fill:#2CA5B8}.center .bands rect:nth-child(4){fill:#AB5C95}
+.center,.bnode,.onode{cursor:pointer;outline:none}
+.center:focus-visible circle{stroke:var(--g-teal);stroke-width:6}
+.bnode circle{fill:var(--g-surface);stroke:var(--c);stroke-width:4;transition:stroke-width .15s,fill .2s}
+.bnode text{fill:var(--g-fg);font-family:var(--g-display);font-weight:600;font-size:15.5px;letter-spacing:.03em;pointer-events:none}
+.bnode:hover circle,.bnode:focus-visible circle,.bnode.hit circle{stroke-width:8}
+.bnode.on circle{fill:var(--c)}
+.bnode.on text{fill:var(--sp-on-c)}
+.bnode,.onode{transition:opacity .25s}
+.dim{opacity:.3}
+.onode circle{fill:var(--g-surface);stroke:var(--c,var(--g-fg));stroke-width:3}
+.onode.psy circle{fill:var(--g-fg);stroke:var(--g-fg)}
+.onode.spt circle{fill:var(--g-surface);stroke:var(--g-fg);stroke-dasharray:4 3}
+.onode text{fill:var(--g-fg);font-size:19px;font-family:var(--g-body);font-weight:500}
+.onode:hover circle,.onode:focus-visible circle,.onode.hit circle{stroke-width:6}
+.onode:focus-visible text,.onode:hover text{text-decoration:underline}
+.onode.on circle{fill:var(--c,var(--g-fg));stroke-width:6}
+.onode.on text,.onode.hit text{font-weight:700}
+.link{fill:none;stroke:var(--c);stroke-width:2.2;opacity:.26;transition:opacity .25s,stroke-width .25s}
+.link.on{opacity:.95;stroke-width:4}
+.link.dim{opacity:.05}
+.cline{stroke:var(--c);stroke-width:2.2;opacity:.55}
+.pop{animation:pop .38s cubic-bezier(.2,.8,.3,1.2) both;transform-box:fill-box;transform-origin:center}
+@keyframes pop{from{opacity:0;transform:scale(.55)}}
+
+.sp-legend{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:620px){.sp-legend{grid-template-columns:1fr}}
+.lg{min-width:0;border-top:5px solid var(--c);padding-top:8px}
+.lg-name{font:600 17px/1.1 var(--g-display);letter-spacing:.04em;text-transform:uppercase;margin:0}
+.lg-note{margin:2px 0 8px;color:var(--g-muted);font-size:14px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:6px 11px;border-radius:999px;border:1px solid var(--g-rule);background:var(--g-surface);color:var(--g-fg);font:600 13px/1.25 var(--g-cond);letter-spacing:.04em;text-transform:uppercase;cursor:pointer;text-align:left;text-decoration:none;min-height:32px}
+.chip .dot{width:9px;height:9px;border-radius:50%;background:var(--c,var(--g-fg));flex:none}
+.chip.psy .dot{background:var(--g-fg)}
+.chip.spt .dot{background:transparent;border:1.5px dashed var(--g-fg)}
+.chip.hub .dot{border-radius:0;width:12px;height:4px;background:linear-gradient(90deg,#344982 0 25%,#2F6F9E 25% 50%,#2CA5B8 50% 75%,#AB5C95 75%)}
+.chip:hover{border-color:var(--c,var(--g-fg))}
+.g-root button.chip{font:600 13px/1.25 var(--g-cond);letter-spacing:.04em}
+.chip.on{background:var(--c);border-color:var(--c);color:var(--sp-on-c)}
+.chip.on .dot{background:var(--sp-on-c)}
+.sp-key{margin:0;color:var(--g-muted);font-size:14px}
+
+/* panel */
+.sp-panel{scroll-margin-top:calc(env(safe-area-inset-top,0px) + 12px)}
+.eyebrow{display:flex;align-items:center;gap:8px;font:700 12px var(--g-cond);letter-spacing:.18em;text-transform:uppercase;color:var(--c,var(--g-muted));margin:0 0 6px}
+.eyebrow .dot{width:10px;height:10px;border-radius:50%;background:var(--c,var(--g-fg))}
+.sp-panel h2{font:600 clamp(30px,4.2vw,44px)/1 var(--g-display);text-transform:uppercase;letter-spacing:.01em;margin:0 0 12px}
+.lead{font-size:19px;line-height:1.45;margin:0 0 8px;max-width:60ch}
+.sp-panel section{border-top:1px solid var(--g-rule);padding-top:14px;margin-top:24px}
+.sp-panel h3{font:700 13px var(--g-cond);letter-spacing:.14em;text-transform:uppercase;color:var(--g-muted);margin:0 0 10px}
+.sp-panel p{max-width:65ch;margin:0 0 8px}
+ul.plain{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.th-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 10px}
+.th-head strong{font:600 16px var(--g-cond);text-transform:uppercase;letter-spacing:.05em}
+.who{font:500 13px var(--g-cond);color:var(--g-muted);letter-spacing:.03em}
+.plain p{margin:2px 0 0}
+.concepts li{padding:8px 10px;margin-inline:-10px;transition:background .4s}
+.concepts li.flash{background:var(--ct)}
+.tools{display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin:0;padding:0}
+.tools li{padding:5px 10px;background:var(--g-sunk);font-size:15px}
+.tbl{overflow-x:auto;border:1px solid var(--g-rule);background:var(--g-surface)}
+table{border-collapse:collapse;width:100%;font-size:15px}
+td{padding:9px 12px;border-top:1px solid var(--g-rule);vertical-align:top}
+tr:first-child td{border-top:0}
+td:first-child{font:700 14px var(--g-cond);letter-spacing:.04em;white-space:nowrap;color:var(--c,var(--g-fg));width:1%}
+.sp-panel section.case{background:var(--ct,var(--g-teal-t));border-top:0;border-left:4px solid var(--c,var(--g-teal));padding:14px 16px}
+.case h3{color:var(--c)}
+.case p{margin:0}
+.roots li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;align-items:start}
+.roots .chip{white-space:nowrap}
+.roots p{margin:4px 0 0}
+@media (max-width:520px){.roots li{grid-template-columns:1fr}.roots .chip{justify-self:start;white-space:normal;max-width:100%}}
+.caveat{background:var(--g-warn-t);border-left:4px solid var(--g-warn);padding:10px 14px;font-size:15px;margin-top:14px}
+.scope{background:var(--g-ink);color:var(--g-on-ink);border-left:4px solid #D58FC1;padding:14px 16px}
+.sp-panel section.scope{border-top:0}
+.scope h3{color:#AEB5C2}
+.scope p{color:#D6DAE2}
+.pager{display:flex;justify-content:space-between;gap:10px;margin-top:28px;border-top:2px solid var(--g-fg);padding-top:12px}
+.pager button{background:none;border:0;cursor:pointer;padding:4px 0;text-align:left;min-width:0}
+.pager button:last-child{text-align:right}
+.pager small{display:block;font:700 11px var(--g-cond);letter-spacing:.16em;text-transform:uppercase;color:var(--g-muted)}
+.pager span{font:600 19px var(--g-display);text-transform:uppercase;letter-spacing:.02em}
+.timeline{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.timeline li{display:grid;grid-template-columns:4rem minmax(0,1fr);gap:12px}
+.timeline b{font:600 17px var(--g-display);font-variant-numeric:tabular-nums;color:var(--g-blue)}
+.textlink{background:none;border:0;padding:0;color:var(--g-blue);text-decoration:underline;cursor:pointer}
+.foot{margin-top:40px;color:var(--g-muted);font-size:14px;border-top:1px solid var(--g-rule);padding-top:12px}
+
+@media (max-width:860px){.g-hero .g-wrap{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* Neuroaffirming practice atlas. Same track layout: infield = the Estus way, track = 13 nodes,
+   outer ring = concepts (Map) or the frameworks behind them (Context). Language swaps the map for our
+   wording guide. Clusters: neurotypes = teal, big ideas = navy, the Estus way = plum. */
+:root{--g-good:#2E7D4F;--g-good-t:#DDEFE3;--g-bad:#B23A3A;--g-bad-t:#F5DEDE}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--g-good:#5FC38A;--g-good-t:#16301F;--g-bad:#EC7B7B;--g-bad-t:#3A1A1A}}
+:root[data-theme="dark"]{--g-good:#5FC38A;--g-good-t:#16301F;--g-bad:#EC7B7B;--g-bad-t:#3A1A1A}
+.c-types{--c:var(--g-teal);--ct:var(--g-teal-t)}
+.c-ideas{--c:var(--g-navy);--ct:var(--g-navy-t)}
+.c-way{--c:var(--g-plum);--ct:var(--g-plum-t)}
+.h-types{--h:#4CC3D4}.h-ideas{--h:#8299DA}.h-way{--h:#D58FC1}
+.sp-seg{grid-template-columns:repeat(3,1fr)}
+.bnode text{font-size:14.5px}
+.onode.con circle{fill:var(--g-bad-t);stroke:var(--g-bad);stroke-width:3}
+.chip.con .dot{background:transparent;border:2px solid var(--g-bad)}
+.dd{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.dd > div{background:var(--g-surface);border:1px solid var(--g-rule);border-top:4px solid var(--k);padding:12px 14px;min-width:0}
+.dd .yes{--k:var(--g-good)}.dd .no{--k:var(--g-bad)}
+.dd h4{font:700 13px var(--g-cond);letter-spacing:.14em;text-transform:uppercase;color:var(--k);margin:0 0 6px}
+.dd ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px;font-size:16px}
+@media (max-width:620px){.dd{grid-template-columns:1fr}}
+.sp-panel .note{background:var(--g-warn-t);border-left:4px solid var(--g-warn);padding:10px 14px;font-size:15px;margin:0}
+.cmp{width:100%;border-collapse:collapse;font-size:15px}
+.cmp th,.cmp td{text-align:left;vertical-align:top;padding:9px 12px;border-top:1px solid var(--g-rule)}
+.cmp th{font:700 12px var(--g-cond);letter-spacing:.12em;text-transform:uppercase;color:var(--g-muted);background:var(--g-sunk);border-top:0}
+.cmp td:first-child{font:700 14px var(--g-cond);letter-spacing:.04em;white-space:normal;color:var(--g-fg);width:24%}
+.cmp td.old{color:var(--g-muted)}
+.commit{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--g-rule);border:1px solid var(--g-rule)}
+.commit li{background:var(--g-surface);padding:12px 14px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.commit strong{font:600 17px/1.15 var(--g-display);text-transform:uppercase;letter-spacing:.03em}
+.commit span{font-size:15px;color:var(--g-muted)}
+.commit button{align-self:flex-start;margin-top:2px}
+@media (max-width:620px){.commit{grid-template-columns:1fr}}
+/* language guide */
+.finder{display:flex;flex-direction:column;gap:12px}
+.f-controls{display:flex;flex-direction:column;gap:10px;padding:14px;background:var(--g-surface);border:1px solid var(--g-rule)}
+.f-lab{font:700 11px var(--g-cond);letter-spacing:.14em;text-transform:uppercase;color:var(--g-muted);margin:0 0 4px}
+.f-tog{display:flex;flex-wrap:wrap;gap:6px}
+.f-tog button{border:1px solid var(--g-rule);background:var(--g-bg);padding:7px 12px;border-radius:999px;cursor:pointer;font:600 13px var(--g-cond);text-transform:uppercase;letter-spacing:.06em;min-height:36px}
+.f-tog button[aria-pressed="true"]{background:var(--g-fg);border-color:var(--g-fg);color:var(--g-bg)}
+.f-count{font:700 12px var(--g-cond);letter-spacing:.14em;text-transform:uppercase;color:var(--g-muted);margin:0}
+.lrow{background:var(--g-surface);border:1px solid var(--g-rule);padding:12px 14px;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1.2fr);gap:6px 12px;align-items:start}
+.lrow .was{color:var(--g-muted);text-decoration:line-through;text-decoration-color:var(--g-bad);text-decoration-thickness:2px}
+.lrow .arr{font:600 18px/1.3 var(--g-display);color:var(--g-muted)}
+.lrow .say{font-weight:600}
+.lrow .why{grid-column:1 / -1;font-size:14px;color:var(--g-muted);display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
+.lrow .flag{font:700 11px/1 var(--g-cond);letter-spacing:.1em;text-transform:uppercase;padding:4px 7px;background:var(--g-ink);color:var(--g-on-ink)}
+:root[data-theme="dark"] .lrow .flag{background:var(--g-fg);color:var(--g-bg)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .lrow .flag{background:var(--g-fg);color:var(--g-bg)}}
+@media (max-width:520px){.lrow{grid-template-columns:1fr}.lrow .arr{display:none}}
+.f-group{display:flex;flex-direction:column;gap:6px}
+.f-group h3{font:600 16px var(--g-cond);text-transform:uppercase;letter-spacing:.08em;margin:6px 0 0}
+</style><script src="theme.js"></script></head><body><style>
+.ehub{background:#090909;color:#FBFAF8;border-bottom:1px solid #2C323C;position:relative;z-index:6}
+.ehub-in{max-width:1120px;margin:0 auto;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));display:flex;justify-content:space-between;align-items:center;gap:10px 16px;flex-wrap:wrap}
+.ehub a{color:inherit;text-decoration:none}
+.ehub-home{display:flex;align-items:center;gap:12px;min-height:36px}
+.ehub-bands{display:flex;width:56px;height:5px;flex:none}.ehub-bands i{flex:1}
+.ehub-bands i:nth-child(1){background:#344982}.ehub-bands i:nth-child(2){background:#2F6F9E}.ehub-bands i:nth-child(3){background:#2CA5B8}.ehub-bands i:nth-child(4){background:#AB5C95}
+.ehub-wm{font:500 14px/1 "Oswald","Arial Narrow",Impact,sans-serif;letter-spacing:.16em}.ehub-wm b{font-weight:700}
+.ehub-sep{font:600 12px/1 "Barlow Semi Condensed","Arial Narrow",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#AEB5C2;border-left:1px solid #3A3F48;padding-left:12px}
+.ehub-home:hover .ehub-sep{color:#FBFAF8}
+.ehub-r{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ehub-btn{font:600 12px/1 "Barlow Semi Condensed","Arial Narrow",sans-serif;letter-spacing:.1em;text-transform:uppercase;border:1px solid #3A3F48;background:none;color:#FBFAF8;padding:9px 12px;cursor:pointer;min-height:36px;display:inline-flex;align-items:center;gap:8px}
+.ehub-btn:hover{border-color:#FBFAF8}
+.ehub-btn[aria-pressed="true"]{background:#2E7D4F;border-color:#2E7D4F}
+.ehub-btn:focus-visible,.ehub a:focus-visible{outline:2px solid #2CA5B8;outline-offset:2px}
+.ehub-next{background:#FBFAF8!important;color:#090909!important;border-color:#FBFAF8}
+@media (max-width:520px){.ehub-sep{display:none}.ehub-next .ehub-nl{display:none}}
+@media print{.ehub{display:none}}
+</style>
+<nav class="ehub" aria-label="Estus Training Hub" style="margin:0"><div class="ehub-in">
+<a class="ehub-home" href="index.html"><span class="ehub-bands" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="ehub-wm"><b>ESTUS</b> HEALTH</span><span class="ehub-sep">&larr; Training Hub</span></a>
+<div class="ehub-r"><button class="ehub-btn" type="button" id="ehub-done" aria-pressed="false">Mark done</button><a class="ehub-btn ehub-next" href="act.html"><span class="ehub-nl">Next:</span> ACT <span aria-hidden="true">&rarr;</span></a></div>
+</div></nav>
+<script>(function(){var K="hub_done",s="neuroaffirming",b=document.getElementById("ehub-done");function l(){try{return JSON.parse(localStorage.getItem(K))||{}}catch(e){return {}}}function r(){var on=!!l()[s];b.setAttribute("aria-pressed",on);b.textContent=on?"✓ Done":"Mark done"}b.addEventListener("click",function(){var v=l();if(v[s])delete v[s];else v[s]=1;try{localStorage.setItem(K,JSON.stringify(v))}catch(e){}r()});r()})();</script>
+
+<div class="g-root">
+<header class="g-hero"><div class="g-wrap">
+  <div>
+    <p class="g-eyebrow">The Estus way</p>
+    <h1>Neuroaffirming <em>practice</em></h1>
+    <p class="g-lead">Who we work with, the ideas that changed how we see them, and how that shows up in every session, goal and report.</p>
+    <div class="g-meta"><span>5 neurotypes</span><span>4 big ideas</span><span>12 frameworks</span><span>Language guide</span></div>
+  </div>
+  <ul class="g-side" aria-label="Three groups">
+    <li class="h-types"><span class="n">5</span><div><b>Neurotypes</b><span class="w">Who we work with</span></div></li>
+    <li class="h-ideas"><span class="n">4</span><div><b>Big ideas</b><span class="w">Concepts that change how we see</span></div></li>
+    <li class="h-way"><span class="n">4</span><div><b>The Estus way</b><span class="w">How it shows up in our work</span></div></li>
+  </ul>
+</div></header>
+
+<main class="sp"><div class="g-wrap">
+  <div class="sp-layout">
+    <div class="sp-mapcol">
+      <div class="sp-bar">
+        <div class="sp-seg" role="group" aria-label="View">
+          <button type="button" id="v-map" data-view="map" aria-pressed="true">Map</button>
+          <button type="button" id="v-context" data-view="context" aria-pressed="false">Context</button>
+          <button type="button" id="v-language" data-view="language" aria-pressed="false">Language</button>
+        </div>
+        <p class="sp-note" id="viewnote"></p>
+      </div>
+      <div class="sp-map" id="map"></div>
+      <div class="finder" id="finder" hidden>
+        <div class="f-controls">
+          <div><p class="f-lab">Topic</p><div class="f-tog" role="group" aria-label="Topic" id="f-topics"></div></div>
+          <div><p class="f-lab">Show</p><div class="f-tog" role="group" aria-label="Report checks">
+            <button type="button" id="f-flag" data-flag="1" aria-pressed="false">Flagged by our report checks</button>
+          </div></div>
+        </div>
+        <p class="f-count" id="f-count"></p>
+        <div id="f-list" class="finder"></div>
+      </div>
+      <div class="sp-legend" id="legend"></div>
+      <p class="sp-key" id="mapkey"></p>
+    </div>
+    <div class="sp-panelcol">
+      <div class="sp-panel" id="panel" aria-live="polite"></div>
+      <p class="foot">References are anchor papers to start from. Where research is thin or debated, the page says so.</p>
+    </div>
+  </div>
+</div></main>
+</div>
+
+<script>
+const CLUSTERS = {
+  types:{name:"Neurotypes", note:"Who we work with"},
+  ideas:{name:"Big ideas", note:"Concepts that change how we see"},
+  way:{name:"The Estus way", note:"How it shows up in our work"}
+};
+const HUB = {gaming:"Gaming-Informed Therapy", nervous:"Nervous System", "executive-function":"Executive Function", energy:"Energy Management", mi:"Motivational Interviewing", chaining:"Chaining Plan", assessments:"Assessment Atlas", planner:"Student Planner", transition:"Transition Scaffolding", beliefs:"Core Beliefs", calendar:"Calendar Management", summary:"Therapy Service Summary", fca:"Functional Capacity Assessment", goals:"Goal Plan", load:"Cognitive Load"};
+
+const PARENTS = [
+  {id:"medical", group:"con", name:"Medical model", short:"Medical model", by:"The older default", what:"Disability as a problem inside the person, to be fixed, cured or normalised by professionals.", gives:"What we move away from. Diagnosis still matters: it opens doors to support and self-understanding. We use it as a door, not a verdict."},
+  {id:"social", group:"psy", name:"Social model of disability", short:"Social model", by:"UPIAS, 1976; Oliver, 1983", what:"People are disabled by barriers in society, not by their impairment alone.", gives:"Our first question: what in this environment is disabling this person?"},
+  {id:"neurodiversity", group:"psy", name:"Neurodiversity paradigm", short:"Neurodiversity", by:"Singer, 1998; Walker, 2014", what:"Variation in human brains is natural diversity. There is no single 'normal' brain to measure against.", gives:"Difference, not deficit. Neurotypes as identities and communities."},
+  {id:"icf", group:"psy", name:"ICF biopsychosocial model", short:"ICF", by:"World Health Organization, 2001", what:"Function comes from body, activity, participation, environment and personal factors working together.", gives:"A shared language for NDIS reports that keeps the environment in view."},
+  {id:"justice", group:"psy", name:"Disability justice", short:"Disability justice", by:"Sins Invalid, 2015", what:"Centres intersectionality, leadership by those most affected, and access as collective work.", gives:"Looking at culture, gender, race and money alongside disability."},
+  {id:"crpd", group:"psy", name:"UN Convention on the Rights of Persons with Disabilities", short:"UN CRPD", by:"United Nations, 2006; ratified by Australia 2008", what:"Disabled people's rights to autonomy, participation, inclusive education and work.", gives:"A rights frame for goals, consent and inclusion."},
+  {id:"occjustice", group:"psy", name:"Occupational justice", short:"Occupational justice", by:"Townsend & Wilcock, 2004", what:"Everyone has the right to do what's meaningful to them. Barriers to that are injustices.", gives:"OT's own reason to change environments, not just people."},
+  {id:"sdt", group:"psy", name:"Self-determination theory", short:"Self-determination", by:"Deci & Ryan, 1985", what:"Autonomy, competence and relatedness drive motivation and wellbeing.", gives:"Why choice and control matter so much, especially for demand avoidant profiles."},
+  {id:"coproduction", group:"app", name:"Co-production and lived experience", short:"Lived experience", by:"Charlton, 1998; Fletcher-Watson et al., 2019", what:"'Nothing about us without us.' Neurodivergent people shape the research and services that affect them.", gives:"We read autistic-led and ADHD-led work, and neurodivergent clients and staff shape how we practise."},
+  {id:"trauma", group:"app", name:"Trauma-informed care", short:"Trauma-informed", by:"SAMHSA, 2014", what:"Safety, trustworthiness, choice, collaboration and empowerment, with awareness of past harm.", gives:"Assent, choice and repair in every session. Many clients carry harm from compliance-based therapy."},
+  {id:"guidance", group:"app", name:"Australian guidance", short:"Australian guidance", by:"Autism CRC National Guideline, 2022; National Autism Strategy 2025 to 2031", what:"The National Guideline sets principles for supporting autistic children: partnership with families, individualised supports and children's rights. The Strategy (released January 2025) covers social and economic inclusion, services and supports, and health.", gives:"The national standard our practice should meet or beat."},
+  {id:"strengths", group:"app", name:"Strengths-based practice", short:"Strengths-based", by:"Saleebey, 1992", what:"Start from a person's strengths, interests and resources, not their problems.", gives:"Strengths first in every report, and interests as the engine for goals."}
+];
+
+const BRANCHES = [
+{id:"autism", cluster:"types", name:"Autism", lines:["AUTISM"], hub:["gaming","nervous"],
+ summary:"A neurotype with differences in social communication and sensory processing, and a pull toward depth, routine and predictability. Lifelong, and part of who many people are.",
+ ideas:[
+  ["Diagnosis","DSM-5-TR (APA, 2022)","Social communication differences plus restricted or repetitive behaviours and interests, including sensory differences. Support levels 1 to 3 describe support needs at assessment, not a fixed type."],
+  ["Double empathy","Milton, 2012","Communication breakdowns between autistic and non-autistic people run both ways."],
+  ["Monotropism","Murray, Lesser & Lawson, 2005","Attention gathers into a few deep interests. Explains focus, inertia and switching costs."],
+  ["Language","Bury et al., 2020","In an Australian survey many autistic adults preferred 'autistic', but preferences varied. Ask."]
+ ],
+ concepts:[["Sensory differences","More or less sensitive to sound, light, touch, taste and body signals."],["Deep interests","Focused passions that bring joy, skill and calm."],["Stimming","Movement and sound that regulate and express. Not a target unless it causes harm."],["Predictability","Knowing what's coming lowers load."],["Communication styles","Speech, typing, AAC and gesture are all communication."],["Late diagnosis","Many adults, especially women, are identified late."]],
+ do:["Ask how they describe themselves and use it","Lower sensory load before the session","Treat stimming, info-dumping and routine as regulation and connection","Offer AAC, typing or written options"],
+ dont:["Goals for eye contact, quiet hands or 'appropriate' play","Read flat affect as not caring","Use functioning labels"],
+ practice:"A 9-year-old won't join group games at school. We look at noise, rules and unclear roles before any 'social skills'. Then we build from his train interest: a lunchtime club he leads.",
+ roots:[["neurodiversity","Autism as natural variation and identity."],["social","Barriers in school, work and services."],["guidance","The Autism CRC National Guideline for children."],["coproduction","Autistic-led research and advocacy."]]
+},
+{id:"adhd", cluster:"types", name:"ADHD", lines:["ADHD"], hub:["executive-function","energy"],
+ summary:"A neurotype affecting how attention, activity, impulses and emotions are regulated, often with interest-driven focus and lots of energy.",
+ ideas:[
+  ["Diagnosis","DSM-5-TR (APA, 2022)","Inattentive, hyperactive-impulsive or combined presentations, present before 12 and across settings. The picture changes over life."],
+  ["Australian guideline","AADPA, 2022","The Australian clinical practice guideline covers assessment, medication and non-medication supports across the lifespan."],
+  ["Self-regulation","Barkley, 1997; 2012","A difference in self-regulation across time. Support works best at the point of performance."],
+  ["Emotional intensity","Barkley, 2015","Big, fast emotion is part of ADHD for many people, not a separate problem."]
+ ],
+ concepts:[["Interest-driven attention","Focus follows interest, novelty and urgency."],["Time blindness","A weaker internal sense of time passing."],["Emotional intensity","Fast, big feelings."],["Hyperfocus","Deep focus that's hard to break."],["Rejection sensitivity","A popular term for intense pain at perceived rejection. Not a formal diagnosis, but widely recognised."],["Movement","Moving often helps thinking."]],
+ do:["Put time, steps and memory outside the head","Use interest and novelty as the engine","Build movement into sessions","Treat medication as the person's choice with their doctor"],
+ dont:["Read lateness or lost things as not caring","Call it lazy or unmotivated","Give medication advice: it's outside our scope"],
+ practice:"A teen's sport, school and part-time job keep colliding. We set up one calendar with alerts, a launch pad by the door, and a Sunday 15-minute review with a parent as body double.",
+ roots:[["neurodiversity","ADHD as a neurotype, not a moral failing."],["sdt","Autonomy and interest fuel motivation."],["strengths","Energy, creativity and interest as assets."],["icf","Function in context for reports."]]
+},
+{id:"pda", cluster:"types", name:"PDA", lines:["PDA"], hub:["gaming","mi"],
+ summary:"A profile, usually seen as part of autism, where everyday demands trigger high anxiety and a strong need for control. Many in the community prefer 'persistent drive for autonomy'.",
+ ideas:[
+  ["Origin","Newson, Le Maréchal & David, 2003","First described by Elizabeth Newson in the 1980s as 'pathological demand avoidance'."],
+  ["Status","Not in DSM-5-TR or ICD-11","Not a separate diagnosis. Research is limited and debated, including whether it is a profile of autism or an anxiety response. Clinicians may describe a 'demand avoidant profile'."],
+  ["Autonomy","Deci & Ryan, 1985","When autonomy feels threatened, demands feel like danger. Support autonomy and the threat drops."],
+  ["Declarative language","Murphy, 2020","Comments that share information ('I notice the bus leaves soon') carry less demand than questions and instructions."]
+ ],
+ concepts:[["Demand load","Every request, question, expectation and even praise adds up."],["Anxiety-driven avoidance","Avoidance protects against feeling out of control."],["Need for control","Control lowers the threat."],["Declarative language","Sharing, wondering and noticing instead of asking."],["Low-demand approach","Drop demands first, rebuild trust, then add slowly."],["Collaboration","Plans made together, with real choice."]],
+ do:["Reduce demands first, then build","Use declarative language and genuine choice","Make rules and plans together","Help families protect the relationship"],
+ dont:["Reward and consequence charts","Read avoidance as defiance or manipulation","Push through refusal"],
+ practice:"A 12-year-old refuses all school. We drop demands at home, rebuild trust through gaming together, and use 'I wonder' language to co-design a tiny, optional first step back.",
+ note:"In reports, use 'demand avoidant profile' or the family's preferred term. Only name PDA where a qualified diagnostician has described it.",
+ roots:[["sdt","Autonomy as a core need."],["trauma","Choice, safety and collaboration."],["neurodiversity","A way of being, not a behaviour problem."],["coproduction","PDA families and adults shaped the reframe."]]
+},
+{id:"dyspraxia", cluster:"types", name:"Dyspraxia", lines:["DYSPRAXIA"], hub:["chaining","assessments"],
+ summary:"Differences in planning, learning and coordinating movement that affect everyday tasks. Called developmental coordination disorder (DCD) in diagnosis.",
+ ideas:[
+  ["Diagnosis","DSM-5-TR (APA, 2022)","Motor skills well below what's expected for age and opportunity, affecting daily life, starting early, and not explained by another condition."],
+  ["International recommendations","Blank et al., 2019","Diagnose with history, a standard motor test and impact on daily life. Use task-oriented approaches."],
+  ["Task-oriented approaches","Polatajko & Mandich, 2004","CO-OP and other task-based approaches beat drilling underlying processes for real-life skills."],
+  ["Co-occurrence","Blank et al., 2019","Often co-occurs with ADHD and other neurotypes. Look at the whole picture."]
+ ],
+ concepts:[["Motor planning","Working out how to do a new movement."],["Fatigue","Coordinating movement takes more effort, so tiredness builds faster."],["Tools and methods","Keyboards, grips and slip-on shoes change the task."],["Organisation","Sequencing and keeping track of things can be harder too."],["Sport and PE","Where confidence often takes its biggest hits."],["Adult dyspraxia","It doesn't end at 18."]],
+ do:["Work on the tasks the person wants, in real settings","Change the tool or method first","Grade PE and sport for joy, not just skill","Plan for fatigue"],
+ dont:["Endless handwriting drills when a keyboard would do","Treat clumsiness as carelessness","Forget adults"],
+ practice:"A Year 4 student hates writing and avoids sport. We trial a laptop for longer work, use CO-OP on the one skill he chose (riding a bike), and coach the PE teacher on graded games.",
+ roots:[["icf","Function and participation, not just motor scores."],["social","Changing tools and tasks removes barriers."],["occjustice","The right to play, sport and school."]]
+},
+{id:"dyslexia", cluster:"types", name:"Dyslexia", lines:["DYSLEXIA"], hub:["planner","assessments"],
+ summary:"A learning difference affecting accurate, fluent word reading and spelling, despite good teaching. Often runs in families.",
+ ideas:[
+  ["Diagnosis","DSM-5-TR (APA, 2022)","Specific learning disorder with impairment in reading. 'Dyslexia' is the common term."],
+  ["Phonological basis","Snowling, 2019","For most people the core difficulty is linking speech sounds to letters."],
+  ["Assistive technology","Practice consensus","Text-to-speech, speech-to-text and audiobooks give access to learning while reading develops."],
+  ["Strengths","Evidence mixed","Popular books describe dyslexic strengths. Research on specific strengths is mixed, so focus on the person's own."]
+ ],
+ concepts:[["Phonological processing","Hearing and handling the sounds in words."],["Reading fatigue","Effortful reading wears people out."],["Assistive tech","Tools that open up text."],["Written expression","Ideas outrun spelling and writing speed."],["Self-esteem","Years of struggling can be read as 'not smart'."],["Exam adjustments","Extra time, a reader or a laptop."]],
+ do:["Know our role: access, organisation, fatigue and wellbeing","Set up assistive tech and teach it","Back exam and classroom adjustments with evidence","Give information in audio, visual and written forms"],
+ dont:["Make reading the price of learning","Equate reading with intelligence","Diagnose: that sits with psychologists and other qualified assessors"],
+ practice:"A Year 10 student is exhausted after school. We set up text-to-speech, a planner for assignments, and handwriting speed evidence for exam rest breaks and a laptop.",
+ roots:[["social","Text-only learning is the barrier."],["icf","Function and participation at school."],["crpd","The right to inclusive education."],["strengths","Starting from what the person does well."]]
+},
+{id:"monotropism", cluster:"ideas", name:"Monotropism", lines:["MONO-","TROPISM"], hub:["executive-function","transition"],
+ summary:"An autistic-led theory of attention. Monotropic minds pull attention into a few deep channels. Polytropic minds spread it across many.",
+ ideas:[
+  ["The theory","Murray, Lesser & Lawson, 2005","Attention is limited. Monotropic people focus it deeply, which explains intense interests, missing peripheral information and hard transitions."],
+  ["Flow","McDonnell & Milton, 2014","Repetitive behaviour and deep focus can be read as flow states, not symptoms."],
+  ["Measuring it","Garau et al., 2023","A self-report Monotropism Questionnaire has been developed and is being tested."]
+ ],
+ concepts:[["Attention tunnels","Deep channels of focus."],["Inertia","Hard to start, stop or change."],["Flow states","Absorbed, satisfying focus."],["Switch cost","Leaving a tunnel takes energy."],["Missing the periphery","What's outside the tunnel gets missed."],["Info-dumping","Sharing an interest as a way to connect."]],
+ do:["Join the tunnel before trying to shift it","Give warning and a bridge between activities","Use interests as the way in","Let deep focus finish where you can"],
+ dont:["Yank attention out mid-task","Treat interests as rewards to withhold","Call interests obsessions"],
+ practice:"A teen can't leave Minecraft for dinner. We agree a save-point routine, a 10-minute warning from inside the game, and dinner talk about what she built.",
+ roots:[["coproduction","Developed by autistic thinkers."],["neurodiversity","A different attention style, not a broken one."],["strengths","Depth and expertise as assets."]]
+},
+{id:"double-empathy", cluster:"ideas", name:"Double empathy", lines:["DOUBLE","EMPATHY"], hub:["beliefs"],
+ summary:"Communication problems between autistic and non-autistic people come from a mismatch on both sides, not a deficit in the autistic person.",
+ ideas:[
+  ["The problem","Milton, 2012","Different ways of experiencing the world make mutual understanding hard in both directions."],
+  ["Information transfer","Crompton et al., 2020","Information passed between autistic people was as accurate as between non-autistic people. Mixed chains lost more."],
+  ["First impressions","Sasson et al., 2017","Non-autistic observers form less favourable first impressions of autistic people within seconds, which shapes social outcomes."]
+ ],
+ concepts:[["Mutual misunderstanding","Both sides misread each other."],["Neurotype matching","Communication often flows easier within neurotypes."],["Both sides adjust","The burden is shared."],["Snap judgements","Fast first impressions carry bias."],["Community","Neurodivergent peers and spaces."],["Direct communication","Saying what you mean, literally."]],
+ do:["Teach both sides: peers, teachers, families and ourselves","Match communication style: direct, literal, written","Connect clients with neurodivergent peers and community","Ask what they meant before deciding"],
+ dont:["Social skills training that teaches one side to perform","Treat directness as rudeness","Assume no eye contact means no listening"],
+ practice:"A teacher says a student is 'rude' for correcting her. We explain directness, agree a way to raise corrections, and run a short class session on communication styles.",
+ roots:[["social","Social barriers sit on both sides."],["coproduction","An autistic scholar's theory."],["neurodiversity","Different, valid ways to communicate."]]
+},
+{id:"masking", cluster:"ideas", name:"Masking", lines:["MASKING"], hub:["energy","calendar"],
+ summary:"Hiding or compensating for neurodivergent traits to fit in or stay safe. It can work in the moment and cost a lot over time.",
+ ideas:[
+  ["Camouflaging model","Hull et al., 2017","Three parts: masking (hiding), compensation (workarounds) and assimilation (blending in)."],
+  ["Measuring it","Hull et al., 2019","The Camouflaging Autistic Traits Questionnaire (CAT-Q) measures it in adults."],
+  ["Costs","Hull et al., 2017; Cassidy et al., 2018","Camouflaging is linked with exhaustion, anxiety, poorer mental health and a lost sense of self."],
+  ["Late diagnosis","Lai et al., 2017","Camouflaging is one reason many people, especially women, are identified late."]
+ ],
+ concepts:[["Masking","Hiding traits like stimming or interests."],["Compensation","Scripts and workarounds for social demands."],["Assimilation","Blending in at a cost."],["Social exhaustion","The crash after a day of performing."],["Late diagnosis","Masking can hide needs for decades."],["Safe unmasking","Dropping the mask where it's safe."]],
+ do:["Make sessions a place where masking isn't needed","Ask what a day cost, not just how it went","Pair self-report with observation and others who know them","Support gradual, safe unmasking if the person wants it"],
+ dont:["Set goals that teach masking","Take calm presentation as proof things are fine","Push unmasking where it isn't safe"],
+ practice:"A late-diagnosed executive presents well but crashes every weekend. We map what masking costs her across the week, build recovery into the calendar, and find one setting where she can drop the mask.",
+ roots:[["coproduction","Named and described by autistic adults."],["trauma","Masking as a safety strategy."],["neurodiversity","The cost of being pushed toward one 'normal'."]]
+},
+{id:"burnout", cluster:"ideas", name:"Burnout", lines:["BURNOUT"], hub:["energy","nervous"],
+ summary:"Long-term exhaustion, loss of skills and lower tolerance to sensory input, from life demands that outstrip support over time.",
+ ideas:[
+  ["Definition","Raymaker et al., 2020","Chronic exhaustion, loss of skills and reduced tolerance to stimulus, from build-up of stress and barriers to support. Distinct from work burnout and depression."],
+  ["Causes","Raymaker et al., 2020","Masking, life changes, sensory and social load, and not being able to rest or get support."],
+  ["Recovery","Raymaker et al., 2020; Higgins et al., 2021","Time, fewer demands, rest, unmasking, sensory relief and being understood."],
+  ["Depression overlap","Raymaker et al., 2020","It can look like depression and they can co-occur. Screen for both and refer when concerned."]
+ ],
+ concepts:[["Exhaustion","Deep, long-lasting tiredness."],["Skill loss","Losing skills the person had, like speech or self-care."],["Sensory intolerance","Less tolerance for noise, light and touch."],["Demand load","Expectations piling up without recovery."],["Recovery time","Weeks to months, not a weekend."],["Early signs","Each person's warning pattern."]],
+ do:["Cut demands and protect rest first","Map early warning signs with the person","Make recovery the goal during burnout","Screen for depression and refer if concerned"],
+ dont:["Push skill-building during burnout","Read skill loss as regression or not trying","Treat it as ordinary work stress"],
+ practice:"A Year 11 student stops talking at home and can't manage self-care after a school change. We pause therapy goals, negotiate reduced school hours, and build a sensory recovery plan with the family.",
+ roots:[["social","Mismatch between demands and support."],["trauma","Safety and recovery first."],["coproduction","Defined with autistic adults."],["icf","Changes in function across life areas."]]
+},
+{id:"language", cluster:"way", name:"Our language", lines:["LANGUAGE"], hub:["summary","fca"],
+ summary:"Words shape how people are seen and treated. Our default is respectful, specific and the person's own.",
+ ideas:[
+  ["Identity-first by default","Kenny et al., 2016; Bury et al., 2020","Many autistic adults prefer 'autistic person'. Preferences vary, so we ask and use the person's choice."],
+  ["Avoiding ableist language","Bottema-Beutel et al., 2021","Terms like 'severe', 'deficit', 'high-functioning' and 'special needs' carry harm. Use neutral, specific words."],
+  ["Our report checks","Estus report builders","The builders flag functioning labels, 'suffers from', 'non-compliant', 'tantrum', 'attention-seeking' and more."]
+ ],
+ concepts:[["Identity-first","'Autistic person' as our default."],["Their choice","Mirror the person's own words."],["Support needs","Not functioning levels."],["Observation","What you saw, not a guess at intent."],["Plain language","Readable by the person and family."],["Strengths first","Lead with what works."]],
+ do:["Ask and mirror the person's terms","Describe what you saw and what helped","Name support needs, not functioning levels","Write as if the person will read it, because they might"],
+ dont:["Functioning labels","'Suffers from' as default framing","Guessing intent: manipulative, attention-seeking, defiant"],
+ practice:"A referral says 'low-functioning, non-compliant with tasks'. Our report says: 'Needs support with most daily tasks. Did not take part when tasks were spoken only; took part with visual steps.'",
+ roots:[["neurodiversity","Language that treats difference as valid."],["coproduction","Community language preferences."],["social","Words that locate the barrier correctly."]]
+},
+{id:"consent", cluster:"way", name:"Goals & consent", lines:["GOALS &","CONSENT"], hub:["goals","assessments"],
+ summary:"Goals belong to the person. Therapy happens with assent, choice and the right to say no.",
+ ideas:[
+  ["Client-chosen goals","Law et al. (COPM)","The person names what matters. For young kids, family goals that serve the child, never compliance for its own sake."],
+  ["Assent","SAMHSA, 2014","Watch for 'no' in words, behaviour and body. Stopping is a valid outcome."],
+  ["Affirming OT","Dallman, Williams & Villa, 2022","Goals and interventions should affirm neurodivergent ways of being rather than normalise them."],
+  ["Rights","UN CRPD, 2006","Autonomy and participation are rights, including for children, in line with age and maturity."]
+ ],
+ concepts:[["Assent","Ongoing agreement, shown many ways."],["Choice","Real options, including how and when."],["Meaningful goals","Goals the person cares about."],["Presume competence","Assume understanding; give access to communicate."],["Family partnership","Working with families, centred on the child."],["Right to refuse","No is an answer."]],
+ do:["Write goals about participation, comfort and independence the person wants","Check assent through the session, not just at the start","Offer real choices, including how and when","Presume competence and give access to communication"],
+ dont:["Compliance goals: sitting still, eye contact, 'tolerate'","Withhold interests or regulation tools as rewards","Keep going through clear distress"],
+ practice:"A parent wants her son to 'stop flapping'. We explore the worry (teasing at school), reframe the goal to 'feels safe being himself at school', and work on the environment and peer understanding.",
+ roots:[["crpd","Autonomy and participation as rights."],["trauma","Choice, safety and collaboration."],["sdt","Autonomy drives motivation."],["guidance","Partnership and children's rights."]]
+},
+{id:"environment", cluster:"way", name:"Environment first", lines:["ENVIRON-","MENT FIRST"], hub:["load","executive-function"],
+ summary:"Change the space, demands and supports before asking the person to change. The social model, applied.",
+ ideas:[
+  ["Social model","UPIAS, 1976; Oliver, 1983","Disability comes from barriers. Remove the barrier and the disability shrinks."],
+  ["PEO fit","Law et al., 1996","Occupational performance comes from the fit between person, environment and occupation."],
+  ["Reasonable adjustments","Disability Discrimination Act 1992 (Cth)","Schools and workplaces must make reasonable adjustments. Our evidence helps them do it well."]
+ ],
+ concepts:[["Sensory environment","Noise, light, crowding and smell."],["Predictability","Clear, visual, consistent."],["Demand load","How much is being asked at once."],["Adjustments","Specific changes with a reason."],["Universal design","Supports that help everyone."],["Fit","Person, task and setting matched."]],
+ do:["Audit sensory, social and demand load first","Recommend specific adjustments with reasons","Use universal design so supports help everyone","Measure fit, not just skill"],
+ dont:["Train tolerance of a hostile environment","Recommend generic adjustments","Forget the load on the family"],
+ practice:"An autistic graduate is struggling in an open-plan office. We recommend a quiet desk, written instructions, flexible start times and headphones, with a short brief for the manager.",
+ roots:[["social","The barrier is in the environment."],["occjustice","Access to meaningful occupation."],["icf","Environment as a factor in function."],["justice","Access as shared work."]]
+},
+{id:"interests", cluster:"way", name:"Interests & identity", lines:["INTERESTS","& IDENTITY"], hub:["gaming","beliefs"],
+ summary:"Interests are an engine for learning and connection. A neurodivergent identity is something to build, not fix.",
+ ideas:[
+  ["Interests and wellbeing","Grove et al., 2018","Autistic adults' special interests are linked with higher subjective wellbeing."],
+  ["Positive identity","Cooper, Smith & Russell, 2017","A positive autistic identity and community connection are linked with better wellbeing."],
+  ["Strengths-based practice","Saleebey, 1992","Start from what the person brings."]
+ ],
+ concepts:[["Deep interests","The way in, not a bribe."],["Community","Peers who get it."],["Role models","Neurodivergent adults, including on our team."],["Self-understanding","Knowing your own brain."],["Strengths","Named, used and written down."],["Pride","Identity, not shame."]],
+ do:["Build goals through interests","Help clients understand their own brain","Connect with neurodivergent community and mentors","Share neurodivergent role models"],
+ dont:["Use interests only as a reward","Treat diagnosis talk as bad news","Make 'normal' the goal"],
+ practice:"A newly diagnosed 14-year-old feels 'broken'. We explore what autism means for her, connect her with an autistic-led teen group, and use her art in her goal of getting to school.",
+ roots:[["strengths","Interests and strengths first."],["neurodiversity","Identity and community."],["coproduction","Learning from neurodivergent adults."]]
+}
+];
+
+const LANG = [
+ {t:"people", was:"Person with autism", say:"Autistic person, or their own preference", why:"Many autistic adults prefer identity-first language. Ask, then mirror."},
+ {t:"people", was:"High-functioning, low-functioning", say:"Describe support needs: 'needs support with meals and travel'", why:"Labels hide both needs and strengths.", flag:true},
+ {t:"people", was:"Mild or severe autism", say:"Higher or lower support needs, in named areas", why:"Support needs vary by setting and day."},
+ {t:"people", was:"Suffers from ADHD", say:"Has ADHD, is ADHD", why:"Neutral, not tragic.", flag:true},
+ {t:"people", was:"Special needs", say:"Name the need: 'needs written instructions'", why:"Specific is useful; vague is othering.", flag:true},
+ {t:"people", was:"Wheelchair-bound", say:"Uses a wheelchair", why:"A wheelchair is freedom, not a cage.", flag:true},
+ {t:"people", was:"Normal kids", say:"Non-autistic, neurotypical, or name the comparison", why:"Compared with what? Name it.", flag:true},
+ {t:"people", was:"At risk of autism", say:"Likely to be autistic", why:"Autism isn't a hazard.", },
+ {t:"behaviour", was:"Tantrum", say:"Meltdown or distress, and what led to it", why:"Meltdowns are stress responses, not tactics.", flag:true},
+ {t:"behaviour", was:"Attention-seeking", say:"Connection-seeking, or what they were after", why:"Needing connection is a need.", flag:true},
+ {t:"behaviour", was:"Manipulative", say:"Describe what happened", why:"It guesses at intent.", flag:true},
+ {t:"behaviour", was:"Non-compliant, defiant", say:"Describe what got in the way", why:"Look for the barrier: demand, sensory, anxiety.", flag:true},
+ {t:"behaviour", was:"Lazy, unmotivated", say:"Name the barrier: energy, starting, interest", why:"EF and energy, not character.", flag:true},
+ {t:"behaviour", was:"Obsession, fixation", say:"Deep or focused interest", why:"Interests are joy and skill."},
+ {t:"behaviour", was:"Self-stimulatory behaviour to reduce", say:"Stimming, which helps them regulate", why:"Only a concern if it causes harm."},
+ {t:"behaviour", was:"Challenging behaviour", say:"Distress, with what happened before and what it told us", why:"Behaviour is communication."},
+ {t:"goals", was:"Increase eye contact", say:"Shows listening in a way that suits them", why:"Eye contact can be painful and isn't needed to listen."},
+ {t:"goals", was:"Tolerate the classroom", say:"Takes part in class with adjustments that fit", why:"Change the room, not just the child."},
+ {t:"goals", was:"Reduce stimming", say:"Has safe ways to stim and regulate", why:"Regulation is a right."},
+ {t:"goals", was:"Comply with instructions", say:"Gets ready for school independently using a visual routine", why:"Goals about independence the person wants."},
+ {t:"goals", was:"Age-appropriate play", say:"Plays in ways they enjoy, with peers who share interests", why:"Play is theirs."},
+ {t:"goals", was:"Improve social skills", say:"Connects with peers who share interests, and both sides understand each other's styles", why:"Double empathy: both sides adjust."},
+ {t:"reports", was:"Deficits in social communication", say:"Differences in social communication; needs support with...", why:"Describe the difference and the support."},
+ {t:"reports", was:"Obviously, clearly", say:"Give the observation", why:"Show, don't assert.", flag:true},
+ {t:"reports", was:"Refused the task", say:"Did not take part when..., took part when...", why:"Conditions tell the reader what works."},
+ {t:"reports", was:"Lacks insight", say:"Noticed..., and was not yet aware of...", why:"Specific and kinder."}
+];
+const TOPICS = [["people","Talking about people"],["behaviour","Behaviour"],["goals","Goals"],["reports","Reports"]];
+
+const COMMIT = [
+ ["Difference, not deficit","We describe how a brain works, not what it lacks.","neurodiversity"],
+ ["Environment first","Change the setup before asking the person to change.","environment"],
+ ["Their goals, their consent","Goals they want, assent all the way through.","consent"],
+ ["Their words","Identity-first by default, their preference always.","language"],
+ ["Interests are the engine","Learning and connection start with what they love.","interests"],
+ ["Both sides adjust","Communication gaps run both ways.","double-empathy"],
+ ["Regulate before you teach","No learning happens in a storm.","burnout"],
+ ["Lived experience leads","We learn from neurodivergent people first.","coproduction"]
+];
+
+const BY = Object.fromEntries(BRANCHES.map(b=>[b.id,b]));
+const PBY = Object.fromEntries(PARENTS.map(p=>[p.id,p]));
+const PIDX = Object.fromEntries(PARENTS.map((p,i)=>[p.id,i]));
+const N = BRANCHES.length, STEP = 360/N;
+
+const state = {view:"map", sel:{type:"about", id:"about"}, focus:null, f:{topic:null, flag:false}};
+const R_IN=196, R_OUT_T=304, R_B=250, R_N=52, R_RING=405;
+const angB = i => i*STEP - 90;
+const angP = i => -100 + i*(360/PARENTS.length);
+const P = (a,r)=>{const t=a*Math.PI/180;return [+(r*Math.cos(t)).toFixed(1), +(r*Math.sin(t)).toFixed(1)];};
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const reduced = () => { try { return matchMedia("(prefers-reduced-motion: reduce)").matches; } catch(e){ return false; } };
+
+function wrap(text, max){
+  const words = text.split(" "); const out=[]; let line="";
+  words.forEach(w=>{ if((line+" "+w).trim().length>max && line){ out.push(line); line=w; } else line=(line+" "+w).trim(); });
+  if(line) out.push(line); return out;
+}
+function outerLabel(a, r, lines){
+  const t=a*Math.PI/180, c=Math.cos(t), s=Math.sin(t), lh=21;
+  const anchor = c>0.28 ? "start" : c<-0.28 ? "end" : "middle";
+  const [x,y] = P(a, r + (anchor==="middle"?18:20));
+  let y0;
+  if(anchor==="middle" && s<0) y0 = y - (lines.length-1)*lh - 6;
+  else if(anchor==="middle") y0 = y + 14;
+  else y0 = y - (lines.length-1)*lh/2 + 6;
+  return `<text x="${x}" y="${y0.toFixed(1)}" text-anchor="${anchor}">${lines.map((l,i)=>`<tspan x="${x}" dy="${i?lh:0}">${esc(l)}</tspan>`).join("")}</text>`;
+}
+function arcPath(a0,a1,r){
+  const [x0,y0]=P(a0,r),[x1,y1]=P(a1,r);
+  return `M${x0} ${y0} A${r} ${r} 0 ${(a1-a0)>180?1:0} 1 ${x1} ${y1}`;
+}
+const pClass = p => p.group==="con" ? "con" : p.group==="psy" ? "psy" : "spt";
+
+function svgMarkup(){
+  const {view, sel, focus} = state;
+  const selB = sel.type==="branch" ? sel.id : null;
+  const selP = sel.type==="parent" ? sel.id : null;
+  let s = `<circle r="${R_RING}" class="guide"/>`;
+  s += `<circle r="${R_OUT_T}" class="track"/><circle r="${R_IN}" class="infield"/>`;
+  [R_IN, 223, 277, R_OUT_T].forEach(r=>{ s += `<circle r="${r}" class="lane"/>`; });
+  Object.keys(CLUSTERS).forEach(k=>{
+    const idx = BRANCHES.map((b,i)=>b.cluster===k?i:-1).filter(i=>i>=0);
+    s += `<path class="arc c-${k}" d="${arcPath(angB(idx[0])-11, angB(idx[idx.length-1])+11, R_IN-14)}"/>`;
+  });
+  if(view==="context"){
+    BRANCHES.forEach((b,i)=>{
+      const ab = angB(i);
+      b.roots.forEach(([pid])=>{
+        const pi = PIDX[pid], ap = angP(pi), lane = 318 + pi*5.8;
+        const d = ((ap-ab+540)%360)-180, sweep = d>0?1:0;
+        const [x0,y0]=P(ab,R_B+R_N),[x1,y1]=P(ab,lane),[x2,y2]=P(ap,lane),[x3,y3]=P(ap,R_RING-13);
+        let cls = "link";
+        if(selB) cls += selB===b.id ? " on" : " dim";
+        else if(selP) cls += selP===pid ? " on" : " dim";
+        s += `<path class="${cls} c-${b.cluster}" d="M${x0} ${y0} L${x1} ${y1} A${lane} ${lane} 0 0 ${sweep} ${x2} ${y2} L${x3} ${y3}"/>`;
+      });
+    });
+  }
+  if(view==="map" && selB){
+    const i = BRANCHES.findIndex(b=>b.id===selB), b = BRANCHES[i], ab = angB(i), n = b.concepts.length;
+    b.concepts.forEach((c,j)=>{
+      const a = ab + (j-(n-1)/2)*15;
+      const [x0,y0]=P(ab,R_B+R_N),[x1,y1]=P(a,R_RING-11);
+      s += `<line class="cline c-${b.cluster}" x1="${x0}" y1="${y0}" x2="${x1}" y2="${y1}"/>`;
+    });
+  }
+  s += `<g class="center" data-kind="center" data-id="about" tabindex="0" role="button" aria-label="The Estus way">
+    <circle r="114"/>
+    <text text-anchor="middle"><tspan x="0" y="-30">THE</tspan><tspan x="0" dy="29">ESTUS</tspan><tspan x="0" dy="29">WAY</tspan></text>
+    <g class="bands"><rect x="-44" y="40" width="22" height="6"/><rect x="-22" y="40" width="22" height="6"/><rect x="0" y="40" width="22" height="6"/><rect x="22" y="40" width="22" height="6"/></g></g>`;
+  BRANCHES.forEach((b,i)=>{
+    const [x,y]=P(angB(i),R_B);
+    let cls = `bnode c-${b.cluster}`;
+    if(selB){ cls += selB===b.id ? " on" : " dim"; }
+    else if(selP && view==="context"){ cls += b.roots.some(r=>r[0]===selP) ? " hit" : " dim"; }
+    const lh=17, y0 = y - (b.lines.length-1)*lh/2 + 5;
+    s += `<g class="${cls}" data-kind="branch" data-id="${b.id}" tabindex="0" role="button" aria-label="${esc(b.name)}">
+      <circle cx="${x}" cy="${y}" r="${R_N}"/>
+      <text text-anchor="middle">${b.lines.map((l,k)=>`<tspan x="${x}" ${k?`dy="${lh}"`:`y="${y0}"`}>${esc(l)}</tspan>`).join("")}</text></g>`;
+  });
+  if(view==="map" && selB){
+    const i = BRANCHES.findIndex(b=>b.id===selB), b = BRANCHES[i], ab = angB(i), n = b.concepts.length;
+    b.concepts.forEach((c,j)=>{
+      const a = ab + (j-(n-1)/2)*15, [x,y]=P(a,R_RING);
+      const anim = reduced() ? "" : ` pop" style="animation-delay:${j*45}ms`;
+      s += `<g class="onode c-${b.cluster}${focus===j?" on":""}${anim}" data-kind="concept" data-id="${b.id}:${j}" tabindex="0" role="button" aria-label="${esc(c[0])}">
+        <circle cx="${x}" cy="${y}" r="10"/>${outerLabel(a,R_RING,wrap(c[0],15))}</g>`;
+    });
+  }
+  if(view==="context"){
+    const roots = selB ? BY[selB].roots.map(r=>r[0]) : null;
+    PARENTS.forEach((p,i)=>{
+      const a = angP(i), [x,y]=P(a,R_RING);
+      let cls = `onode ${pClass(p)}`;
+      if(selP){ cls += selP===p.id ? " on" : " dim"; }
+      else if(roots){ cls += roots.includes(p.id) ? " hit" : " dim"; }
+      s += `<g class="${cls}" data-kind="parent" data-id="${p.id}" tabindex="0" role="button" aria-label="${esc(p.name)}">
+        <circle cx="${x}" cy="${y}" r="11"/>${outerLabel(a,R_RING,wrap(p.short,13))}</g>`;
+    });
+  }
+  return `<svg viewBox="-660 -540 1320 1080" role="group" aria-label="Map of neuroaffirming practice">${s}</svg>`;
+}
+
+const chipBranch = (b,on) => `<button type="button" class="chip c-${b.cluster}${on?" on":""}" data-go="${b.id}"><span class="dot"></span>${esc(b.name)}</button>`;
+const chipParent = p => `<button type="button" class="chip ${pClass(p)}" data-go="${p.id}"><span class="dot"></span>${esc(p.name)}</button>`;
+const chipHub = slug => `<a class="chip hub" href="${slug}.html"><span class="dot"></span>${esc(HUB[slug])} <span aria-hidden="true">&rarr;</span></a>`;
+const ddMarkup = b => `<div class="dd"><div class="yes"><h4>We do</h4><ul>${b.do.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div><div class="no"><h4>We don't</h4><ul>${b.dont.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div></div>`;
+
+function legendMarkup(){
+  const selB = state.sel.type==="branch" ? state.sel.id : null;
+  return Object.entries(CLUSTERS).map(([k,c])=>`<div class="lg c-${k}">
+    <p class="lg-name">${esc(c.name)}</p><p class="lg-note">${esc(c.note)}</p>
+    <div class="chips">${BRANCHES.filter(b=>b.cluster===k).map(b=>chipBranch(b, selB===b.id)).join("")}</div></div>`).join("");
+}
+
+function aboutMarkup(){
+  return `<article>
+  <p class="eyebrow">Start here</p>
+  <h2>The Estus way</h2>
+  <p class="lead">We work with neurodivergent people, not on them. Our job is a better fit between the person and their world, on goals they choose.</p>
+  <section><h3>Eight commitments</h3><ul class="commit">${COMMIT.map(c=>`<li><strong>${esc(c[0])}</strong><span>${esc(c[1])}</span><button type="button" class="textlink" data-go="${c[2]}">${BY[c[2]]?esc(BY[c[2]].name):esc(PBY[c[2]].short)} &rarr;</button></li>`).join("")}</ul></section>
+  <section><h3>Two ways of seeing</h3>
+    <div class="tbl"><table class="cmp"><thead><tr><th>Question</th><th>Medical model</th><th>How we work</th></tr></thead><tbody>
+      <tr><td>Where is the problem?</td><td class="old">Inside the person</td><td>In the fit between person and environment</td></tr>
+      <tr><td>What's the goal?</td><td class="old">Reduce symptoms, look typical</td><td>Participation, wellbeing and the person's own goals</td></tr>
+      <tr><td>Who's the expert?</td><td class="old">The professional</td><td>The person, with us as a partner</td></tr>
+      <tr><td>What does success look like?</td><td class="old">Fewer differences</td><td>Less distress, more doing what matters</td></tr>
+      <tr><td>How do we talk?</td><td class="old">Deficits, severity, functioning levels</td><td>Differences, support needs, strengths</td></tr>
+    </tbody></table></div>
+    <p style="margin-top:10px"><button type="button" class="textlink" data-go="social">See the social model</button> · <button type="button" class="textlink" data-go="medical">and the medical model</button></p>
+  </section>
+  <section><h3>Our scope</h3><p>We don't diagnose. We describe function, strengths and support needs, refer for diagnosis, and work alongside psychologists, GPs and psychiatrists. Medication is a matter for the person and their doctor.</p></section>
+  <section><h3>Australian guidance</h3><p>The Autism CRC National Guideline (2022) sets principles for supporting autistic children and families: partnership, individualised supports and children's rights. The National Autism Strategy 2025 to 2031 covers social and economic inclusion, services and health.</p></section>
+  <section><h3>How to use this</h3><p>Tap any node for its deep dive and our do and don't list. <strong>Context</strong> shows the frameworks behind each one. <strong>Language</strong> is our wording guide, matched to the checks in our report builders.</p>
+  <p><button type="button" class="textlink" data-view-jump="language">Open the language guide</button></p></section>
+  </article>`;
+}
+
+function branchMarkup(b){
+  const i = BRANCHES.indexOf(b);
+  const prev = BRANCHES[(i+N-1)%N], next = BRANCHES[(i+1)%N];
+  return `<article class="c-${b.cluster}">
+  <p class="eyebrow"><span class="dot"></span>${esc(CLUSTERS[b.cluster].name)}</p>
+  <h2>${esc(b.name)}</h2>
+  <p class="lead">${esc(b.summary)}</p>
+  <section><h3>How we work</h3>${ddMarkup(b)}</section>
+  ${b.note?`<section><h3>In reports</h3><p class="note">${esc(b.note)}</p></section>`:""}
+  <section><h3>Key ideas</h3><ul class="plain">
+    ${b.ideas.map(t=>`<li><div class="th-head"><strong>${esc(t[0])}</strong><span class="who">${esc(t[1])}</span></div><p>${esc(t[2])}</p></li>`).join("")}
+  </ul></section>
+  <section><h3>Core concepts</h3><ul class="plain concepts">
+    ${b.concepts.map((c,j)=>`<li id="concept-${j}" class="${state.focus===j?"flash":""}"><strong>${esc(c[0])}.</strong> ${esc(c[1])}</li>`).join("")}
+  </ul></section>
+  <section class="case"><h3>In practice</h3><p>${esc(b.practice)}</p></section>
+  <section><h3>Where it comes from</h3>
+    <ul class="plain roots">${b.roots.map(([pid,note])=>`<li>${chipParent(PBY[pid])}<p>${esc(note)}</p></li>`).join("")}</ul>
+  </section>
+  ${b.hub.length?`<section><h3>On the hub</h3><div class="chips">${b.hub.map(chipHub).join("")}</div></section>`:""}
+  <nav class="pager" aria-label="Map nodes">
+    <button type="button" data-go="${prev.id}"><small>Previous</small><span>${esc(prev.name)}</span></button>
+    <button type="button" data-go="${next.id}"><small>Next</small><span>${esc(next.name)}</span></button>
+  </nav></article>`;
+}
+
+function parentMarkup(p){
+  const users = BRANCHES.filter(b=>b.roots.some(r=>r[0]===p.id));
+  const kind = p.group==="con" ? "What we move away from" : p.group==="psy" ? "Model" : "Practice framework";
+  return `<article>
+  <p class="eyebrow">${esc(kind)} · ${esc(p.by)}</p>
+  <h2>${esc(p.name)}</h2>
+  <p class="lead">${esc(p.what)}</p>
+  <section><h3>What it means for us</h3><p style="margin:0">${esc(p.gives)}</p></section>
+  ${users.length?`<section><h3>Shapes (${users.length})</h3><ul class="plain roots">${users.map(b=>`<li>${chipBranch(b,false)}<p>${esc(b.roots.find(r=>r[0]===p.id)[1])}</p></li>`).join("")}</ul></section>`:""}
+  <p style="margin-top:22px"><button type="button" class="textlink" data-go="about">Back to the Estus way</button></p>
+  </article>`;
+}
+
+function langMarkup(){
+  const {topic, flag} = state.f;
+  const hits = LANG.filter(l=>(!topic||l.t===topic) && (!flag||l.flag));
+  document.getElementById("f-count").textContent = `${hits.length} of ${LANG.length} phrases`;
+  return TOPICS.map(([id,name])=>{
+    const rows = hits.filter(l=>l.t===id);
+    if(!rows.length) return "";
+    return `<div class="f-group"><h3>${esc(name)}</h3>${rows.map(l=>`<div class="lrow"><span class="was">${esc(l.was)}</span><span class="arr" aria-hidden="true">&rarr;</span><span class="say"><span class="sr" style="position:absolute;left:-9999px">We say: </span>${esc(l.say)}</span><span class="why">${esc(l.why)}${l.flag?` <span class="flag">Flagged by our report checks</span>`:""}</span></div>`).join("")}</div>`;
+  }).join("");
+}
+
+const mapEl = document.getElementById("map"), finderEl = document.getElementById("finder"), listEl = document.getElementById("f-list"),
+      panelEl = document.getElementById("panel"), legendEl = document.getElementById("legend"), noteEl = document.getElementById("viewnote"), keyEl = document.getElementById("mapkey");
+document.getElementById("f-topics").innerHTML = TOPICS.map(([id,name])=>`<button type="button" data-topic="${id}" aria-pressed="false">${esc(name)}</button>`).join("");
+const NOTES = {
+  map:"Neurotypes, big ideas and the Estus way. Pick a node to fan out its concepts.",
+  context:"The frameworks behind each node. The red one is the medical model we move away from.",
+  language:"Instead of, we say. Matched to the wording checks in our report builders."
+};
+
+function render(){
+  const {sel, view} = state;
+  const lang = view==="language";
+  mapEl.hidden = lang; finderEl.hidden = !lang; legendEl.hidden = lang; keyEl.hidden = lang;
+  if(lang) listEl.innerHTML = langMarkup(); else { mapEl.innerHTML = svgMarkup(); legendEl.innerHTML = legendMarkup(); }
+  keyEl.textContent = view==="map" ? "Infield: the Estus way. Track: thirteen nodes in three groups. Outer ring: core concepts for the chosen node." : "Outer ring: twelve frameworks. Solid dots are models, dashed dots are practice frameworks, red is the medical model.";
+  panelEl.innerHTML = sel.type==="branch" ? branchMarkup(BY[sel.id]) : sel.type==="parent" ? parentMarkup(PBY[sel.id]) : aboutMarkup();
+  document.querySelectorAll(".sp-seg button").forEach(b=>b.setAttribute("aria-pressed", String(b.dataset.view===view)));
+  document.querySelectorAll("[data-topic]").forEach(b=>b.setAttribute("aria-pressed", String(state.f.topic===b.dataset.topic)));
+  document.getElementById("f-flag").setAttribute("aria-pressed", String(state.f.flag));
+  noteEl.textContent = NOTES[view];
+}
+
+let userAction = false, keepFocus = false;
+function apply(id){
+  const prevId = state.sel.id;
+  if(BY[id]) state.sel = {type:"branch", id};
+  else if(PBY[id]){ state.sel = {type:"parent", id}; state.view = "context"; }
+  else state.sel = {type:"about", id:"about"};
+  if(state.sel.id !== prevId && !keepFocus) state.focus = null;
+  keepFocus = false;
+  render();
+  if(userAction){
+    userAction = false;
+    const behavior = reduced() ? "auto" : "smooth";
+    if(state.focus!=null && state.sel.type==="branch"){
+      const li = document.getElementById("concept-"+state.focus);
+      if(li) li.scrollIntoView({behavior, block:"center"});
+    } else if(matchMedia("(max-width: 920px)").matches || panelEl.getBoundingClientRect().top < 0){
+      panelEl.scrollIntoView({behavior, block:"start"});
+    }
+  }
+}
+function go(id){
+  userAction = true;
+  let cur = ""; try { cur = location.hash.slice(1); } catch(e){}
+  if(cur !== id){ try { location.hash = id; return; } catch(e){} }
+  apply(id);
+}
+window.addEventListener("hashchange", ()=>{ let h=""; try{h=location.hash.slice(1);}catch(e){} apply(h); });
+
+function activate(el){
+  const kind = el.dataset.kind, id = el.dataset.id;
+  if(kind==="center") go("about");
+  else if(kind==="concept"){ const [bid, j] = id.split(":"); state.focus = +j; keepFocus = true; go(bid); }
+  else go(id);
+}
+mapEl.addEventListener("click", e=>{ const el = e.target.closest("[data-kind]"); if(el) activate(el); });
+mapEl.addEventListener("keydown", e=>{
+  if(e.key!=="Enter" && e.key!==" ") return;
+  const el = e.target.closest("[data-kind]"); if(!el) return;
+  e.preventDefault(); activate(el);
+  requestAnimationFrame(()=>{ const again = mapEl.querySelector(`[data-id="${CSS.escape(el.dataset.id)}"]`); if(again) again.focus({preventScroll:true}); });
+});
+document.addEventListener("click", e=>{
+  const g = e.target.closest("[data-go]");
+  if(g){ go(g.dataset.go); return; }
+  const v = e.target.closest("[data-view],[data-view-jump]");
+  if(v){ state.view = v.dataset.view || v.dataset.viewJump; render(); return; }
+  const t = e.target.closest("[data-topic]");
+  if(t){ state.f.topic = state.f.topic===t.dataset.topic ? null : t.dataset.topic; render(); return; }
+  if(e.target.closest("[data-flag]")){ state.f.flag = !state.f.flag; render(); }
+});
+
+(function init(){
+  let h=""; try{ h = location.hash.slice(1); }catch(e){}
+  if(PBY[h]) state.view = "context";
+  apply(h);
+})();
+</script>
+</body></html>

@@ -370,6 +370,16 @@ footer .wordmark{color:var(--fg)}
         <div class="area a-approach" data-area>
           <div class="area-h"><h3>Therapy approaches</h3><p>The frameworks behind how we work</p></div>
           <div class="cards">
+            <article class="card a-approach" data-slug="neuroaffirming" data-roles="clinician lead ops marketing driving">
+              <div class="meta"><span class="pill">The Estus way</span></div>
+              <div class="body">
+                <h4><a href="neuroaffirming.html">Neuroaffirming Practice</a></h4>
+                <p class="d">Autism, ADHD, PDA, dyspraxia and dyslexia, the ideas that reshaped how we see them, and how the Estus way shows up in every session, goal and report.</p>
+                <ul class="inside"><li>Eight commitments</li><li>Do and don't</li><li>Frameworks in context</li><li>Language guide</li></ul>
+                <div class="who"><span>Everyone</span></div>
+              </div>
+              <div class="foot"><button class="done" type="button" data-done="neuroaffirming" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="neuroaffirming.html">Open <span aria-hidden="true">&rarr;</span></a></div>
+            </article>
             <article class="card a-approach" data-slug="act" data-roles="clinician">
               <div class="meta"><span class="pill">Approach</span></div>
               <div class="body">
@@ -659,7 +669,7 @@ footer .wordmark{color:var(--fg)}
 
 <script>
 (function(){
-  var KEY='hub_done', slugs=['playbook','journey','welcome','nurture','check','reels','mustbenice','copy','gp','hinges','sleep','morning','energy','load','transition','shutdown','act','cbt','beliefs','mi','gaming','nervous','problemsolving','sportpsych','assessments','ef','culture','accelerator','calendar'];
+  var KEY='hub_done', slugs=['playbook','journey','welcome','nurture','check','reels','mustbenice','copy','gp','hinges','sleep','morning','energy','load','transition','shutdown','neuroaffirming','act','cbt','beliefs','mi','gaming','nervous','problemsolving','sportpsych','assessments','ef','culture','accelerator','calendar'];
   function load(){try{return JSON.parse(localStorage.getItem(KEY))||{}}catch(e){return {}}}
   function save(v){try{localStorage.setItem(KEY,JSON.stringify(v))}catch(e){}}
   var state=load();
