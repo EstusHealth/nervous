@@ -8,7 +8,7 @@ Estus Health's internal staff training intranet. A landing page plus one page pe
 | Client pathway | `journey`, `welcome`, `nurture` |
 | Team | `check` |
 | Small Hinges | `hinges`, `sleep`, `morning`, `energy`, `load`, `transition`, `shutdown` |
-| Therapy approaches | `act` (plus `act-game`), `cbt`, `beliefs` (Core Beliefs), `mi`, `gaming`, `nervous`, `problem-solving` |
+| Therapy approaches | `act` (plus `act-game`), `cbt`, `beliefs` (Core Beliefs), `mi`, `gaming`, `nervous`, `problem-solving`, `sport-psych` (Sport Psychology map) |
 | Growth | `reels`, `must-be-nice`, `copy`, `gp` |
 | Templates: reports | `fca`, `ptd` (Potential to Drive), `ftd` (Medical Fitness to Drive), `summary` (Therapy Service Summary), `sensory` (Sensory Profile Report for schools and stakeholders) |
 | Templates: handouts | `goals` (Goal Plan, SMART goals), `chaining` (forward or backward chaining plan), `prompts` (Prompt Hierarchy Guide for support workers), `planner` (Student Planner) |
