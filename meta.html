@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Estus Meta Ads System</title>
+<script src="theme.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap">
+<style>
+/* Layout: hub strip, ink masthead with Estus bands, sticky section rail, one column of tools. Funnel stages own a colour: ad navy, page blue, booking teal, nurture plum, call coal */
+:root{
+  --bg:#F3F2EF;--surface:#FBFAF8;--sunk:#ECEAE6;--fg:#0E1014;--muted:#65676E;--rule:#D3D1CC;--ink:#090909;--on-ink:#FBFAF8;
+  --navy:#344982;--blue:#2F6F9E;--teal:#2CA5B8;--plum:#AB5C95;--slate:#6F6D68;--coal:#22252B;
+  --navy-t:#DDE2EF;--blue-t:#DCE8F1;--teal-t:#DAF0F3;--plum-t:#F1E1EC;--slate-t:#E7E5E1;--coal-t:#DADBDE;
+  --good:#2E7D4F;--good-t:#DDEFE3;--warn:#A86A12;--warn-t:#F6E8D2;--bad:#B23A3A;--bad-t:#F5DEDE;
+  --display:"Oswald","Arial Narrow",Impact,sans-serif;--cond:"Barlow Semi Condensed","Arial Narrow",sans-serif;--body:"Barlow","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0F1216;--surface:#161A20;--sunk:#1D222A;--fg:#ECEEF1;--muted:#9BA1AB;--rule:#2C323C;--ink:#05070A;--on-ink:#ECEEF1;
+  --navy:#8299DA;--blue:#6FA8D2;--teal:#4CC3D4;--plum:#D58FC1;--slate:#A3A19B;--coal:#C9CCD2;
+  --navy-t:#1E2740;--blue-t:#18293A;--teal-t:#123238;--plum-t:#33202E;--slate-t:#25262A;--coal-t:#2A2E35;
+  --good:#5FC38A;--good-t:#16301F;--warn:#E0A64A;--warn-t:#33270F;--bad:#EC7B7B;--bad-t:#3A1A1A;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1216;--surface:#161A20;--sunk:#1D222A;--fg:#ECEEF1;--muted:#9BA1AB;--rule:#2C323C;--ink:#05070A;--on-ink:#ECEEF1;
+  --navy:#8299DA;--blue:#6FA8D2;--teal:#4CC3D4;--plum:#D58FC1;--slate:#A3A19B;--coal:#C9CCD2;
+  --navy-t:#1E2740;--blue-t:#18293A;--teal-t:#123238;--plum-t:#33202E;--slate-t:#25262A;--coal-t:#2A2E35;
+  --good:#5FC38A;--good-t:#16301F;--warn:#E0A64A;--warn-t:#33270F;--bad:#EC7B7B;--bad-t:#3A1A1A;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 56px)}
+body{background:var(--bg);color:var(--fg);font:400 16px/1.55 var(--body);margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--ink)}
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{text-wrap:balance}
+p{margin:0}
+a{color:var(--blue)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+[hidden]{display:none!important}
+
+/* hub strip */
+.ehub{background:#090909;color:#FBFAF8;border-bottom:1px solid #2C323C;position:relative;z-index:6;padding-top:env(safe-area-inset-top,0px)}
+.ehub-in{max-width:1040px;margin:0 auto;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));display:flex;justify-content:space-between;align-items:center;gap:10px 16px;flex-wrap:wrap}
+.ehub a{color:inherit;text-decoration:none}
+.ehub-home{display:flex;align-items:center;gap:12px;min-height:36px}
+.ehub-bands{display:flex;width:56px;height:5px;flex:none}.ehub-bands i{flex:1}
+.ehub-bands i:nth-child(1){background:#344982}.ehub-bands i:nth-child(2){background:#2F6F9E}.ehub-bands i:nth-child(3){background:#2CA5B8}.ehub-bands i:nth-child(4){background:#AB5C95}
+.ehub-wm{font:500 14px/1 var(--display);letter-spacing:.16em}.ehub-wm b{font-weight:700}
+.ehub-sep{font:600 12px/1 var(--cond);letter-spacing:.16em;text-transform:uppercase;color:#AEB5C2;border-left:1px solid #3A3F48;padding-left:12px}
+.ehub-home:hover .ehub-sep{color:#FBFAF8}
+.ehub-r{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ehub-btn{font:600 12px/1 var(--cond);letter-spacing:.1em;text-transform:uppercase;border:1px solid #3A3F48;background:none;color:#FBFAF8;padding:9px 12px;cursor:pointer;min-height:36px;display:inline-flex;align-items:center;gap:8px}
+.ehub-btn:hover{border-color:#FBFAF8}
+.ehub-btn[aria-pressed="true"]{background:#2E7D4F;border-color:#2E7D4F}
+.ehub-next{background:#FBFAF8!important;color:#090909!important;border-color:#FBFAF8}
+@media (max-width:520px){.ehub-sep{display:none}.ehub-next .ehub-nl{display:none}}
+
+/* masthead */
+.mast{background:var(--ink);color:var(--on-ink)}
+.mast .wrap{padding-block:36px 34px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:36px;align-items:end}
+.eyebrow{font:700 12px var(--cond);letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+.mast .eyebrow{color:#AEB5C2}
+.mast h1{font:600 clamp(42px,8vw,92px)/.92 var(--display);text-transform:uppercase;margin:0 0 16px;letter-spacing:.005em}
+.mast h1 em{font-style:normal;color:#2CA5B8}
+.mast .lead{font-size:18px;color:#D6DAE2;max-width:56ch}
+.mast .src{margin-top:14px;font-size:14px;color:#AEB5C2}
+.cs{border:1px solid #2C323C;background:#111419}
+.cs-h{padding:10px 14px;border-bottom:1px solid #2C323C;font:700 12px var(--cond);letter-spacing:.16em;text-transform:uppercase;color:#AEB5C2;display:flex;justify-content:space-between}
+.cs-row{display:grid;grid-template-columns:40px 1fr;gap:10px;padding:12px 14px;border-bottom:1px solid #22262D;align-items:start}
+.cs-row:last-child{border-bottom:0}
+.cs-row b{font:600 30px/1 var(--display);color:var(--c)}
+.cs-row span{font:600 16px/1.2 var(--cond);text-transform:uppercase;letter-spacing:.05em;color:#FBFAF8}
+.cs .c-call{--c:#C9CCD2}
+.cs-row small{display:block;font:400 14px/1.35 var(--body);color:#AEB5C2;text-transform:none;letter-spacing:0;margin-top:2px}
+
+/* rail */
+.rail{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--rule)}
+.rail .wrap{display:flex;gap:4px;overflow-x:auto;padding-block:8px;scrollbar-width:none}
+.rail .wrap::-webkit-scrollbar{display:none}
+.rail a{font:600 13px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--fg);text-decoration:none;padding:7px 10px;white-space:nowrap;border-radius:4px}
+.rail a:hover{background:var(--sunk)}
+.rail a.on{background:var(--ink);color:var(--on-ink)}
+
+section.s{padding-block:46px;border-bottom:1px solid var(--rule)}
+.s-head{display:flex;flex-direction:column;gap:6px;margin-bottom:22px;max-width:72ch}
+.s-head .num{font:600 13px var(--cond);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.s-head h2{font:600 clamp(26px,4vw,34px)/1.05 var(--display);text-transform:uppercase;letter-spacing:.02em;margin:0}
+.s-head p{color:var(--muted)}
+h3{font:700 15px var(--cond);text-transform:uppercase;letter-spacing:.1em;margin:30px 0 12px}
+.muted{color:var(--muted)}
+.small{font-size:14px}
+
+/* stage colours */
+.c-ad{--c:var(--navy);--ct:var(--navy-t)}.c-page{--c:var(--blue);--ct:var(--blue-t)}.c-book{--c:var(--teal);--ct:var(--teal-t)}
+.c-nur{--c:var(--plum);--ct:var(--plum-t)}.c-call{--c:var(--coal);--ct:var(--coal-t)}.c-profit{--c:var(--good);--ct:var(--good-t)}
+
+/* buttons, fields */
+.btn{border:1px solid var(--rule);background:var(--surface);padding:8px 14px;cursor:pointer;font:600 13px var(--cond);text-transform:uppercase;letter-spacing:.08em;min-height:38px;display:inline-flex;align-items:center;gap:8px}
+.btn:hover{border-color:var(--fg)}
+.btn.dark{background:var(--ink);color:var(--on-ink);border-color:var(--ink)}
+.btn.dark:hover{background:var(--blue);border-color:var(--blue)}
+.btn.sm{min-height:32px;padding:5px 10px;font-size:12px}
+.field{display:flex;flex-direction:column;gap:5px;min-width:0}
+.field label,.lbl{font:700 12px var(--cond);text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+input[type=text],input[type=number],textarea,select{background:var(--surface);border:1px solid var(--rule);padding:9px 11px;width:100%;border-radius:0;min-height:40px}
+textarea{resize:vertical;min-height:84px;line-height:1.45}
+input:focus,textarea:focus,select:focus{border-color:var(--fg);outline:none}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--rule);background:var(--surface);padding:6px 12px;border-radius:999px;cursor:pointer;font:600 13px var(--cond);text-transform:uppercase;letter-spacing:.06em;min-height:34px}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--on-ink);border-color:var(--ink)}
+.panel{background:var(--surface);border:1px solid var(--rule);padding:18px 20px}
+.note{padding:14px 16px;background:var(--plum-t);border-left:4px solid var(--plum);font-size:15px}
+.note.blue{background:var(--blue-t);border-color:var(--blue)}
+.note.warn{background:var(--warn-t);border-color:var(--warn)}
+.note b{font-weight:600}
+.copied{font:600 12px var(--cond);text-transform:uppercase;letter-spacing:.08em;color:var(--good)}
+
+/* 1 funnel */
+.funnel{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));border:1px solid var(--rule);background:var(--surface)}
+.funnel button{border:0;border-left:1px solid var(--rule);background:none;text-align:left;padding:14px 14px 16px;cursor:pointer;display:flex;flex-direction:column;gap:6px;border-top:5px solid var(--c);min-width:0}
+.funnel button:first-child{border-left:0}
+.funnel button:hover{background:var(--sunk)}
+.funnel button[aria-selected="true"]{background:var(--ct)}
+.funnel .n{font:600 28px/1 var(--display);color:var(--c)}
+.funnel b{font:600 16px/1.15 var(--cond);text-transform:uppercase;letter-spacing:.04em}
+.funnel small{font-size:13px;color:var(--muted);line-height:1.3}
+.stage{margin-top:14px;background:var(--surface);border:1px solid var(--rule);border-top:4px solid var(--c);padding:20px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.stage .sells{font:600 22px/1.15 var(--display);text-transform:uppercase;color:var(--c);margin-top:2px}
+.stage ul{margin:4px 0 0;padding-left:18px}
+.stage li{margin-bottom:4px}
+.bench{font:600 34px/1 var(--display);font-variant-numeric:tabular-nums;margin-top:4px}
+
+/* 2 calculator */
+.calc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:20px;align-items:start}
+.inputs{display:flex;flex-direction:column;gap:14px}
+.irow{display:grid;grid-template-columns:minmax(0,1fr) 92px;gap:10px;align-items:end}
+.irow .field label{display:flex;justify-content:space-between;gap:8px}
+.irow .field label span{font-weight:600;letter-spacing:.04em;text-transform:none;font-family:var(--body);font-size:12px}
+input[type=range]{width:100%;accent-color:var(--c,var(--navy));min-height:28px}
+.irow input[type=number]{text-align:right;font-variant-numeric:tabular-nums}
+.flow{display:flex;flex-direction:column}
+.flow .fr{display:grid;grid-template-columns:8px minmax(0,1fr) auto auto;gap:12px;align-items:center;padding:9px 12px;border-bottom:1px solid var(--rule);background:var(--surface)}
+.flow .fr:first-child{border-top:1px solid var(--rule)}
+.flow .fr i{align-self:stretch;background:var(--c)}
+.flow .fr .k{font:600 15px var(--cond);text-transform:uppercase;letter-spacing:.04em}
+.flow .fr .v{font:600 20px var(--display);font-variant-numeric:tabular-nums;text-align:right}
+.flow .fr .u{font-size:13px;color:var(--muted);min-width:118px;text-align:right;font-variant-numeric:tabular-nums}
+.big3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:14px}
+.big3 div{background:var(--surface);padding:12px 14px}
+.big3 b{display:block;font:600 30px/1.05 var(--display);font-variant-numeric:tabular-nums}
+.levers{margin-top:14px;display:flex;flex-direction:column;gap:6px}
+.lever{display:grid;grid-template-columns:minmax(0,170px) minmax(0,1fr) auto;gap:10px;align-items:center;font-size:14px}
+.lever .bar{height:12px;background:var(--sunk);position:relative}
+.lever .bar i{position:absolute;inset:0 auto 0 0;background:var(--c)}
+.lever .plus{font:600 14px var(--cond);font-variant-numeric:tabular-nums;min-width:70px;text-align:right}
+
+/* 3 lenses */
+.lenses{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.lenses button{border:1px solid var(--rule);background:var(--surface);padding:12px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:4px;min-height:92px}
+.lenses button:hover{border-color:var(--fg)}
+.lenses button[aria-selected="true"]{background:var(--ink);color:var(--on-ink);border-color:var(--ink)}
+.lenses .n{font:600 22px/1 var(--display);color:var(--teal)}
+.lenses b{font:600 15px/1.15 var(--cond);text-transform:uppercase;letter-spacing:.03em}
+.lens-card{margin-top:12px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr) minmax(0,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.lens-card > div{background:var(--surface);padding:16px 18px}
+.lens-card h4{margin:0 0 6px;font:600 24px/1.1 var(--display);text-transform:uppercase}
+.lens-card .us{background:var(--teal-t)}
+
+/* 4 hooks */
+.ladder{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.rung{background:var(--surface);border:1px solid var(--rule);padding:16px;display:flex;flex-direction:column;gap:10px}
+.rung .tag{font:700 12px var(--cond);text-transform:uppercase;letter-spacing:.12em}
+.rung q{font:500 18px/1.35 var(--body);quotes:none}
+.rung .what{font-size:14px;color:var(--muted);border-top:1px dashed var(--rule);padding-top:8px}
+.scale{display:flex;height:10px;margin-top:2px}
+.scale i{flex:1;background:var(--sunk);margin-right:2px}
+.scale i.on{background:var(--navy)}
+.checker{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;margin-top:6px}
+.checks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.checks li{display:grid;grid-template-columns:62px 1fr;gap:10px;padding:9px 12px;background:var(--surface);border:1px solid var(--rule);font-size:14px;align-items:start}
+.checks .st{font:700 11px var(--cond);text-transform:uppercase;letter-spacing:.1em;padding:3px 6px;text-align:center}
+.st.ok{background:var(--good-t);color:var(--good)}.st.warn{background:var(--warn-t);color:var(--warn)}.st.bad{background:var(--bad-t);color:var(--bad)}.st.info{background:var(--sunk);color:var(--muted)}
+.meter{display:flex;gap:16px;flex-wrap:wrap;font:600 13px var(--cond);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-top:8px}
+.meter b{color:var(--fg);font-variant-numeric:tabular-nums}
+
+/* 5 board */
+.board{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.col{background:var(--surface);border:1px solid var(--rule);border-top:4px solid var(--c);display:flex;flex-direction:column;min-width:0}
+.col-h{padding:12px 14px 6px}
+.col-h b{font:600 18px var(--display);text-transform:uppercase;color:var(--c)}
+.col-h p{font-size:13px;color:var(--muted)}
+.items{list-style:none;margin:0;padding:6px 10px;display:flex;flex-direction:column;gap:6px;flex:1}
+.items li{background:var(--bg);padding:8px 10px;font-size:14px;display:grid;grid-template-columns:1fr auto;gap:6px;align-items:start}
+.items li .acts{display:flex;gap:4px}
+.items li button{border:1px solid var(--rule);background:var(--surface);font:600 11px var(--cond);text-transform:uppercase;letter-spacing:.06em;padding:3px 6px;cursor:pointer}
+.items li button:hover{border-color:var(--fg)}
+.items li.ex > span:first-child::after{content:" (example)";color:var(--muted);font-size:12px}
+.add{display:flex;gap:6px;padding:10px;border-top:1px solid var(--rule)}
+.add input{min-height:36px;padding:6px 9px}
+.prompt{margin-top:10px;font-size:14px;color:var(--muted)}
+.builder{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;margin-top:4px}
+.bform{display:flex;flex-direction:column;gap:12px}
+.script{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column}
+.script .part{padding:14px 16px;border-bottom:1px solid var(--rule);border-left:4px solid var(--c)}
+.script .part:last-of-type{border-bottom:0}
+.script .part p{white-space:pre-wrap}
+.script .foot{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 16px;border-top:1px solid var(--rule);background:var(--sunk);flex-wrap:wrap}
+.count{font:600 13px var(--cond);text-transform:uppercase;letter-spacing:.08em}
+.count b{font:600 22px var(--display);font-variant-numeric:tabular-nums}
+.saved{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:6px}
+.saved li{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;background:var(--surface);border:1px solid var(--rule);padding:8px 12px;font-size:14px}
+.saved li b{font:600 13px var(--cond);text-transform:uppercase;letter-spacing:.06em;color:var(--navy)}
+.saved li button{border:0;background:none;cursor:pointer;color:var(--muted);font:600 12px var(--cond);text-transform:uppercase}
+
+/* 5b must be nice */
+.mb-map{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.mb-map div{background:var(--surface);padding:14px;display:flex;flex-direction:column;gap:6px}
+.mb-map .beat{font:600 18px var(--display);text-transform:uppercase;color:var(--c)}
+.mb-map .arrow{font:700 11px var(--cond);text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
+.mb-map p{font-size:14px}
+.mb-map b{font-weight:600}
+.mb{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:18px;margin-top:14px;align-items:start}
+.mb-list{list-style:none;margin:0;display:flex;flex-direction:column;gap:4px;max-height:560px;overflow-y:auto;border:1px solid var(--rule);background:var(--surface);padding:6px}
+.mb-list button{width:100%;text-align:left;border:0;border-left:4px solid var(--c);background:var(--bg);padding:8px 10px;cursor:pointer;font-size:14px;line-height:1.3}
+.mb-list button small{display:block;font:700 11px var(--cond);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-top:3px}
+.mb-list button:hover{background:var(--sunk)}
+.mb-list button[aria-selected="true"]{background:var(--ink);color:var(--on-ink)}
+.mb-list button[aria-selected="true"] small{color:#AEB5C2}
+.mb-cmp{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:12px}
+.mb-org{background:var(--ink);color:var(--on-ink);padding:18px;display:flex;flex-direction:column;gap:10px;min-height:260px}
+.mb-org .ov{font:600 clamp(20px,2.6vw,26px)/1.15 var(--display);text-transform:uppercase;margin:auto 0}
+.mb-org .lbl{color:#AEB5C2}
+.mb-org .shot{font-size:13px;color:#AEB5C2;border-top:1px solid #2C323C;padding-top:8px}
+.mb-ad{background:var(--surface);border:1px solid var(--rule);border-top:4px solid var(--navy);display:flex;flex-direction:column}
+.mb-ad .pt{padding:12px 16px;border-bottom:1px solid var(--rule)}
+.mb-ad .pt p{white-space:pre-wrap;font-size:15px}
+.mb-ad .acts{display:flex;gap:6px;flex-wrap:wrap;padding:10px 16px;background:var(--sunk);align-items:center}
+.ro1{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:12px}
+.ro1 div{background:var(--surface);padding:10px 12px;font-size:13px}
+.ro1 b{display:block;font:700 11px var(--cond);text-transform:uppercase;letter-spacing:.1em;color:var(--teal);margin-bottom:2px}
+.ladder3{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;counter-reset:l}
+.ladder3 li{counter-increment:l;background:var(--surface);border:1px solid var(--rule);padding:12px 14px;font-size:14px;display:flex;flex-direction:column;gap:4px}
+.ladder3 li::before{content:counter(l);font:600 24px/1 var(--display);color:var(--plum)}
+.ladder3 b{font:600 15px var(--cond);text-transform:uppercase;letter-spacing:.04em}
+
+/* 6 landing page */
+.lp{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:20px;align-items:start}
+.phone{border:1px solid var(--rule);background:var(--surface);padding:10px;display:flex;flex-direction:column;gap:5px;position:relative}
+.phone button{border:1px solid var(--rule);background:var(--bg);text-align:left;padding:7px 10px;cursor:pointer;font:600 13px var(--cond);text-transform:uppercase;letter-spacing:.04em;display:flex;gap:8px;align-items:center}
+.phone button span{font:600 12px var(--display);color:var(--muted);width:18px}
+.phone button.h1{font-size:16px;padding:12px 10px}
+.phone button.vid{min-height:58px;background:var(--sunk)}
+.phone button.form{border:2px solid var(--blue)}
+.phone button[aria-selected="true"]{background:var(--ink);color:var(--on-ink);border-color:var(--ink)}
+.phone button[aria-selected="true"] span{color:#AEB5C2}
+.fold{border-top:2px dashed var(--bad);margin:4px 0;position:relative}
+.fold::after{content:"The fold: 100% see above, few scroll far";position:absolute;right:0;top:-9px;background:var(--surface);padding:0 6px;font:700 10px var(--cond);text-transform:uppercase;letter-spacing:.08em;color:var(--bad)}
+.lp-detail{background:var(--surface);border:1px solid var(--rule);border-top:4px solid var(--blue);padding:18px 20px;display:flex;flex-direction:column;gap:12px}
+.lp-detail h4{margin:0;font:600 24px var(--display);text-transform:uppercase}
+.ex{background:var(--blue-t);padding:10px 12px;font-size:15px}
+.hl{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
+.hl-out{grid-column:1/-1;background:var(--ink);color:var(--on-ink);padding:18px 20px}
+.hl-out .h{font:600 clamp(22px,3.4vw,32px)/1.1 var(--display);text-transform:uppercase}
+.hl-out .sub{color:#C9CFDA;margin-top:6px}
+.formq{list-style:none;margin:0;padding:0;counter-reset:q;display:flex;flex-direction:column;gap:6px}
+.formq li{counter-increment:q;display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:10px;align-items:start;background:var(--surface);border:1px solid var(--rule);padding:10px 12px;font-size:14px}
+.formq li::before{content:counter(q);font:600 20px/1 var(--display);color:var(--blue)}
+.formq li b{display:block;font-size:15px}
+.formq .ty{font:700 11px var(--cond);text-transform:uppercase;letter-spacing:.08em;padding:3px 6px;background:var(--sunk);color:var(--muted);white-space:nowrap}
+.audit{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.audit label{display:grid;grid-template-columns:22px 1fr;gap:8px;align-items:start;background:var(--surface);border:1px solid var(--rule);padding:9px 12px;font-size:14px;cursor:pointer}
+.audit input{width:18px;height:18px;margin:1px 0 0;accent-color:var(--good)}
+.score{display:flex;align-items:center;gap:14px;margin-top:12px;flex-wrap:wrap}
+.score b{font:600 34px/1 var(--display);font-variant-numeric:tabular-nums}
+.score .sbar{flex:1;min-width:160px;height:10px;background:var(--sunk);position:relative}
+.score .sbar i{position:absolute;inset:0 auto 0 0;background:var(--good)}
+.vsl{display:grid;grid-template-columns:22% 34% 30% 14%;border:1px solid var(--rule)}
+.vsl button{border:0;border-left:1px solid var(--surface);background:var(--ct);border-top:5px solid var(--c);text-align:left;padding:10px;cursor:pointer;min-width:0}
+.vsl button:first-child{border-left:0}
+.vsl button b{display:block;font:600 14px var(--cond);text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vsl button small{font-size:12px;color:var(--muted)}
+.vsl button[aria-selected="true"]{background:var(--c);color:var(--surface)}
+.vsl button[aria-selected="true"] small{color:var(--surface)}
+.vsl-card{margin-top:12px;background:var(--surface);border:1px solid var(--rule);border-top:4px solid var(--c);padding:16px 18px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
+.retention{margin-top:14px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:18px;align-items:center}
+.retention svg{width:100%;height:auto;display:block}
+
+/* 7 nurture */
+.tl{display:flex;flex-direction:column}
+.tl .step{display:grid;grid-template-columns:120px minmax(0,1fr);gap:16px}
+.tl .when{text-align:right;padding-top:16px;font:700 13px/1.25 var(--cond);text-transform:uppercase;letter-spacing:.06em}
+.tl .when small{display:block;font-weight:500;color:var(--muted);text-transform:none;letter-spacing:0}
+.tl .body{border-left:2px solid var(--rule);padding:12px 0 22px 20px;position:relative;display:flex;flex-direction:column;gap:8px;min-width:0}
+.tl .body::before{content:"";position:absolute;left:-7px;top:18px;width:12px;height:12px;border-radius:50%;background:var(--surface);border:2px solid var(--plum)}
+.tl .ch{display:flex;gap:6px;flex-wrap:wrap}
+.tl .ch span{font:700 11px var(--cond);text-transform:uppercase;letter-spacing:.08em;padding:3px 7px;border:1.5px solid var(--plum);color:var(--plum)}
+.tl .msg{background:var(--surface);border:1px solid var(--rule);padding:12px 14px;font-size:15px;white-space:pre-wrap}
+.tl .why{font-size:14px;color:var(--muted)}
+.tl .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+
+/* 8 campaign */
+.groups{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.grp{background:var(--surface);border:1px solid var(--rule);border-top:4px solid var(--navy)}
+.grp h4{margin:0;padding:12px 14px 4px;font:600 18px var(--display);text-transform:uppercase;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.grp h4 small{font:600 13px var(--cond);color:var(--muted);font-variant-numeric:tabular-nums}
+.grp ul{list-style:none;margin:0;padding:6px 10px 12px;display:flex;flex-direction:column;gap:4px}
+.grp label{display:grid;grid-template-columns:22px 1fr;gap:8px;font-size:14px;padding:6px 4px;cursor:pointer;align-items:start}
+.grp label input{width:18px;height:18px;margin:1px 0 0;accent-color:var(--good)}
+.grp label em{display:block;font-style:normal;color:var(--muted);font-size:13px}
+.grp label.done-row > span{text-decoration:line-through;text-decoration-color:var(--muted)}
+.structure{margin-top:16px;max-width:460px}
+.tree{font:500 14px/1.6 var(--body);background:var(--surface);border:1px solid var(--rule);padding:14px 18px}
+.tree div{padding-left:calc(var(--d,0) * 20px)}
+.tree b{font:600 13px var(--cond);text-transform:uppercase;letter-spacing:.06em;color:var(--navy)}
+
+/* 9 optimise */
+.diag{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:20px;align-items:start}
+.dg-in{display:flex;flex-direction:column;gap:10px}
+.dg-row{display:grid;grid-template-columns:minmax(0,1fr) 100px 92px;gap:10px;align-items:center;font-size:14px}
+.dg-row .nm{font:600 15px var(--cond);text-transform:uppercase;letter-spacing:.04em}
+.dg-row .nm small{display:block;font:400 12px var(--body);text-transform:none;letter-spacing:0;color:var(--muted)}
+.dg-row .st{font:700 11px var(--cond);text-transform:uppercase;letter-spacing:.08em;padding:4px 6px;text-align:center}
+.dg-out{background:var(--surface);border:1px solid var(--rule);border-top:4px solid var(--c,var(--navy));padding:18px 20px;display:flex;flex-direction:column;gap:10px}
+.dg-out h4{margin:0;font:600 24px/1.1 var(--display);text-transform:uppercase}
+.dg-out ol{margin:0;padding-left:20px}
+.dg-out li{margin-bottom:5px}
+.killer{display:grid;grid-template-columns:repeat(4,minmax(0,1fr)) auto;gap:10px;align-items:end}
+.verdict{margin-top:12px;padding:14px 16px;border-left:4px solid var(--muted);background:var(--surface);font-size:15px}
+.verdict b{font:600 18px var(--display);text-transform:uppercase;display:block}
+.verdict.kill{border-color:var(--bad)}.verdict.kill b{color:var(--bad)}
+.verdict.leave{border-color:var(--good)}.verdict.leave b{color:var(--good)}
+.verdict.watch{border-color:var(--warn)}.verdict.watch b{color:var(--warn)}
+.game{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
+.scen{background:var(--surface);border:1px solid var(--rule);padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.scen .q{font-size:15px}
+.scen .q b{font:600 13px var(--cond);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);display:block}
+.abc{display:flex;gap:6px;flex-wrap:wrap}
+.abc button{flex:1;min-width:92px;border:1px solid var(--rule);background:var(--bg);padding:8px;cursor:pointer;font:600 13px var(--cond);text-transform:uppercase;letter-spacing:.04em}
+.abc button:hover{border-color:var(--fg)}
+.abc button.right{background:var(--good);color:#fff;border-color:var(--good)}
+.abc button.wrong{background:var(--bad-t);color:var(--bad);border-color:var(--bad)}
+.scen .ans{font-size:14px;border-top:1px dashed var(--rule);padding-top:8px}
+.routine{list-style:none;margin:0;padding:0;counter-reset:r;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.routine li{counter-increment:r;display:grid;grid-template-columns:30px 1fr;gap:8px;background:var(--surface);border:1px solid var(--rule);padding:10px 12px;font-size:14px}
+.routine li::before{content:counter(r);font:600 20px/1 var(--display);color:var(--navy)}
+
+/* 10 sales */
+.calls{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.calls div{background:var(--surface);padding:14px;display:flex;flex-direction:column;gap:6px}
+.calls b{font:600 13px var(--cond);text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.calls h4{margin:0;font:600 19px/1.1 var(--display);text-transform:uppercase}
+.calls p{font-size:14px}
+.calls q{font-style:italic;font-size:14px;color:var(--muted);quotes:none}
+.twocol{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;margin-top:14px}
+
+/* 11 rules */
+.rules{display:flex;flex-direction:column;border:1px solid var(--rule);background:var(--surface)}
+.rules .r{display:grid;grid-template-columns:minmax(0,180px) minmax(0,1fr) minmax(0,1fr);gap:16px;padding:14px 16px;border-bottom:1px solid var(--rule);font-size:15px}
+.rules .r:last-child{border-bottom:0}
+.rules .r b{font:600 16px var(--cond);text-transform:uppercase;letter-spacing:.04em}
+.rules .r .bw{color:var(--muted)}
+.rules .r .bw::before{content:"Brandon";display:none;font:700 11px var(--cond);text-transform:uppercase;letter-spacing:.12em;margin-bottom:2px}
+.rules .r .us::before{content:"Estus";display:none;font:700 11px var(--cond);text-transform:uppercase;letter-spacing:.12em;margin-bottom:2px;color:var(--teal)}
+.rules .r.h{background:var(--sunk);font:700 12px var(--cond);text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+
+/* 12 quiz */
+.quiz{background:var(--surface);border:1px solid var(--rule);padding:20px;display:flex;flex-direction:column;gap:14px}
+.quiz .qn{font:600 13px var(--cond);text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.quiz .qt{font:600 22px/1.25 var(--body)}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opts button{text-align:left;border:1px solid var(--rule);background:var(--bg);padding:12px 14px;cursor:pointer;font-size:15px}
+.opts button:hover:not(:disabled){border-color:var(--fg)}
+.opts button.right{background:var(--good-t);border-color:var(--good)}
+.opts button.wrong{background:var(--bad-t);border-color:var(--bad)}
+.opts button:disabled{cursor:default}
+.qfb{font-size:15px;padding:12px 14px;background:var(--sunk)}
+.qfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.dots{display:flex;gap:4px}
+.dots i{width:22px;height:6px;background:var(--sunk)}
+.dots i.r{background:var(--good)}.dots i.w{background:var(--bad)}
+
+footer .wrap{padding-block:24px 56px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:14px}
+
+@media (max-width:900px){
+  .mast .wrap{grid-template-columns:1fr}
+  .funnel{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .funnel button:nth-child(4){border-left:0}
+  .funnel button:nth-child(n+4){border-top-width:5px;box-shadow:inset 0 1px 0 var(--rule)}
+  .stage,.lens-card,.vsl-card{grid-template-columns:1fr}
+  .calc,.checker,.builder,.lp,.diag,.game,.twocol,.retention{grid-template-columns:1fr}
+  .lenses{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ladder,.board{grid-template-columns:1fr}
+  .mb,.mb-cmp{grid-template-columns:1fr}
+  .mb-map,.ladder3{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ro1{grid-template-columns:1fr 1fr}
+  .mb-list{max-height:300px}
+  .groups,.audit,.routine{grid-template-columns:1fr}
+  .calls{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .rules .r{grid-template-columns:1fr;gap:6px}
+  .rules .r.h{display:none}
+  .rules .r .bw::before,.rules .r .us::before{display:block}
+  .killer{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hl{grid-template-columns:1fr}
+}
+@media (max-width:520px){
+  .funnel{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .funnel button:nth-child(odd){border-left:0}
+  .funnel button:nth-child(4){border-left:1px solid var(--rule)}
+  .calls{grid-template-columns:1fr}
+  .tl .step{grid-template-columns:1fr;gap:0}
+  .tl .when{text-align:left;padding-top:10px}
+  .flow .fr .u{min-width:0}
+  .big3 b{font-size:24px}
+  .vsl{grid-template-columns:1fr 1fr}
+  .vsl button:nth-child(3){border-left:0}
+  .lever{grid-template-columns:110px minmax(0,1fr) auto}
+}
+@media print{.ehub,.rail{display:none}}
+</style>
+</head>
+<body>
+
+<nav class="ehub" aria-label="Estus Training Hub"><div class="ehub-in">
+<a class="ehub-home" href="index.html"><span class="ehub-bands" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="ehub-wm"><b>ESTUS</b> HEALTH</span><span class="ehub-sep">&larr; Training Hub</span></a>
+<div class="ehub-r"><button class="ehub-btn" type="button" id="ehub-done" aria-pressed="false">Mark done</button><a class="ehub-btn ehub-next" href="copy.html"><span class="ehub-nl">Next:</span> Geometry Puzzle Copy <span aria-hidden="true">&rarr;</span></a></div>
+</div></nav>
+
+<header class="mast">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">Growth &middot; Interactive course</p>
+      <h1>Meta ads <em>system</em></h1>
+      <p class="lead">Brandon Willington's 12-hour course on Meta lead generation, cut down to what we use. Ad, landing page, follow-up, call. Each step has one job and one number. Work out which step is leaking, fix that one, then spend more.</p>
+      <p class="src">Source: Brandon Willington's free YouTube course (he runs WithYou). Rebuilt for Ahpra advertising rules, NDIS families and neuroaffirming language.</p>
+    </div>
+    <div class="cs" aria-label="The three Cs">
+      <div class="cs-h"><span>The three Cs</span><span>Every lead</span></div>
+      <div class="cs-row c-ad"><b>1</b><div><span>Clicks</span><small>The right people tap the ad.</small></div></div>
+      <div class="cs-row c-page"><b>2</b><div><span>Conversions</span><small>The page turns curious into a booked call.</small></div></div>
+      <div class="cs-row c-call"><b>3</b><div><span>Conversations</span><small>The welcome call turns interest into a start.</small></div></div>
+    </div>
+  </div>
+</header>
+
+<nav class="rail" aria-label="Sections"><div class="wrap" id="rail">
+  <a href="#system">System</a><a href="#maths">Maths</a><a href="#lenses">10 lenses</a><a href="#hooks">Hooks</a><a href="#ideas">Ad ideas</a><a href="#mbn">Must be nice</a><a href="#page">Landing page</a><a href="#show">Show rate</a><a href="#build">Campaign</a><a href="#optimise">Optimise</a><a href="#call">The call</a><a href="#rules">Our rules</a><a href="#practice">Practice</a>
+</div></nav>
+
+<main>
+
+<!-- 1 SYSTEM -->
+<section class="s" id="system"><div class="wrap">
+  <div class="s-head"><span class="num">01 &middot; The system</span><h2>Only ever sell the next step</h2>
+  <p>The ad isn't there to sell OT. It sells the click. The page sells starting the form. Tap a step to see its job, its number and what moves it.</p></div>
+  <div class="funnel" role="tablist" id="funnel"></div>
+  <div class="stage" id="stage"></div>
+</div></section>
+
+<!-- 2 MATHS -->
+<section class="s" id="maths"><div class="wrap">
+  <div class="s-head"><span class="num">02 &middot; The maths</span><h2>Count the cards</h2>
+  <p>Meta tells you most of the numbers. Every number that matters has a % or a $. Change one step and everything after it moves. The defaults are examples only. Put in our real numbers.</p></div>
+  <div class="calc">
+    <div class="inputs" id="calcIn"></div>
+    <div>
+      <div class="flow" id="calcFlow"></div>
+      <div class="big3" id="calcBig"></div>
+      <h3>Biggest lever: move each step to the top of its healthy range</h3>
+      <div class="levers" id="levers"></div>
+      <p class="small muted" style="margin-top:10px">Same budget, more clients. Whichever bar is longest is the step to work on first.</p>
+    </div>
+  </div>
+  <div class="note blue" style="margin-top:20px"><b>The scoreboard is profit, not return on ad spend.</b> Spending more pushes ads to colder people, so cost per client rises. That's fine while total profit still goes up. Brandon: 2.5x on a big budget beats 20x on a tiny one. When the numbers are healthy, the easiest win is often to raise the budget, not to keep tinkering.</div>
+</div></section>
+
+<!-- 3 LENSES -->
+<section class="s" id="lenses"><div class="wrap">
+  <div class="s-head"><span class="num">03 &middot; Principles</span><h2>Ten lenses to diagnose any ad</h2>
+  <p>Look at an ad, a page or a message through each lens. Most problems show up in one of them.</p></div>
+  <div class="lenses" role="tablist" id="lensBtns"></div>
+  <div class="lens-card" id="lensCard"></div>
+  <h3>The Rule of One</h3>
+  <p style="max-width:70ch">From copywriter Michael Masterson. Every ad has <b>one idea, one story, one promise, one emotion, one call to action</b>. No Frankenstein ads. When an ad wins, pull it apart with the same five questions and make more in that direction.</p>
+</div></section>
+
+<!-- 4 HOOKS -->
+<section class="s" id="hooks"><div class="wrap">
+  <div class="s-head"><span class="num">04 &middot; Hooks</span><h2>Curious vs committed</h2>
+  <p>The first line of text and the first 3 seconds of video do about 80% of the work. Half of viewers are gone by 1.8 seconds. A hook has three jobs: <b>spark curiosity</b>, <b>use committed language</b> so they know it's a service, and <b>filter out the wrong clicks</b>. Brandon calls curious language the most common beginner mistake.</p></div>
+  <div class="ladder" id="ladder"></div>
+  <p class="small muted" style="margin-top:10px">His example: "This is how guys are losing stubborn belly fat" became "This is how the guys I coach are losing stubborn belly fat despite busy 9 to 5s". Fewer clicks, about 4x the conversion, cheaper leads.</p>
+  <h3>Hook checker</h3>
+  <div class="checker">
+    <div class="field">
+      <label for="hookIn">Paste a hook (first line or first sentence of the video)</label>
+      <textarea id="hookIn" rows="4">If mornings with your teen fall apart before 8am, you're not alone. It's one of the most common things the families we see in OT ask for help with.</textarea>
+      <div class="meter" id="hookMeter"></div>
+      <div class="chips" style="margin-top:6px"><span class="lbl" style="align-self:center">Try:</span>
+        <button class="chip" type="button" data-try="Struggling with your child's behaviour? Click to learn more!">Curious</button>
+        <button class="chip" type="button" data-try="Our proven program fixes meltdowns in 6 weeks, guaranteed. Only 3 spots left!">Breaks rules</button>
+        <button class="chip" type="button" data-try="The families we work with often come to us when homework turns into a two-hour standoff. If your child's NDIS plan is self or plan-managed, our OTs can help by telehealth.">Committed</button>
+      </div>
+    </div>
+    <ul class="checks" id="hookChecks" aria-live="polite"></ul>
+  </div>
+</div></section>
+
+<!-- 5 IDEAS -->
+<section class="s" id="ideas"><div class="wrap">
+  <div class="s-head"><span class="num">05 &middot; Ad ideas</span><h2>One whiteboard, fifty ads</h2>
+  <p>Since Meta's Andromeda update (mid 2025) the creative does the targeting. Meta reads what you say and show, then finds the people. It rewards lots of genuinely different ads. Start with <b>at least 12</b> and run them for a month. Every point on this board is an ad.</p></div>
+  <div class="board" id="board"></div>
+  <p class="prompt">Unpack each point with two questions: <b>"Why?"</b> and <b>"Then what happens?"</b> Write the real moment ("shoes off at the door, again, at 8:20"), not the label. If one family said it, a thousand thought it. Nik and Nam hear these on every welcome call, so they're the best source.</p>
+  <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap"><button class="btn sm" type="button" id="boardCopy">Copy board</button><button class="btn sm" type="button" id="boardReset">Reset to examples</button><span class="copied" id="boardCopied" hidden>Copied</span></div>
+
+  <h3 id="builderH">Rule of One ad builder</h3>
+  <div class="builder">
+    <div class="bform">
+      <div class="field"><label for="bIdea">One idea (a point from the board)</label><input type="text" id="bIdea" placeholder="e.g. mornings fall apart before school"></div>
+      <div class="field"><label for="bAud">Who it's for (the filter)</label>
+        <select id="bAud"><option value="parents of autistic and ADHD kids">Parents of autistic and ADHD kids</option><option value="parents of autistic and ADHD teens">Parents of teens</option><option value="adults">Adults</option><option value="late-diagnosed adults">Late-diagnosed adults</option><option value="families on self or plan-managed NDIS plans">Self or plan-managed NDIS families</option></select></div>
+      <div class="field"><label for="bStory">One story (narrate their moment, never a client's)</label><textarea id="bStory" rows="3" placeholder="It's 7:45. One shoe on. The bus is in ten minutes and everyone's voice is getting louder..."></textarea></div>
+      <div class="field"><label for="bPromise">One promise (what we work on, not a result we guarantee)</label><input type="text" id="bPromise" placeholder="e.g. a morning routine built around how their brain works"></div>
+      <div class="field"><label>One emotion</label><div class="chips" id="bEmo"></div></div>
+      <div class="field"><label for="bCta">One call to action</label><select id="bCta"><option>Tap Learn more to see how our OT works.</option><option>Tap Learn more to see if we're the right fit.</option><option>Tap Learn more to start a few quick questions.</option></select></div>
+    </div>
+    <div>
+      <div class="script" id="script"></div>
+      <ul class="saved" id="savedAds"></ul>
+    </div>
+  </div>
+</div></section>
+
+<!-- 5b MUST BE NICE -->
+<section class="s" id="mbn"><div class="wrap">
+  <div class="s-head"><span class="num">06 &middot; Must be nice</span><h2>Post it free, then pay for the winners</h2>
+  <p>Our <a href="must-be-nice.html">Must be nice</a> series already does what Brandon asks for: it names the exact moment people live with. Use the reels as free tests. When one gets shared and saved, you've struck oil. Re-film it as an ad with committed language and a call to action. Don't just boost the reel: organic words are written to go wide, ads need to say it's our OT.</p></div>
+
+  <div class="mb-map">
+    <div class="c-ad"><span class="beat">1 The line</span><span class="arrow">Brandon: the hook</span><p>"Must be nice to..." is their internal monologue said out loud. <b>Meet them where they're at.</b> It stops the right person because it's oddly specific.</p></div>
+    <div class="c-page"><span class="beat">2 The turn</span><span class="arrow">Brandon: set expectations</span><p>"It's not that it's easy for them. Their setup fits their brain." Answers the story they tell themselves (<b>"it's my fault"</b>) before it costs us the click.</p></div>
+    <div class="c-nur"><span class="beat">3 The flip</span><span class="arrow">Brandon: away from + tried before</span><p>Inversion: what would guarantee it stays hard? That list is the board's <b>away from</b> column and our FAQ objections.</p></div>
+    <div class="c-book"><span class="beat">4 The hinge</span><span class="arrow">Brandon: one promise</span><p>One small change. In an ad it becomes the <b>one promise</b>: what we'd work on, never a guaranteed result.</p></div>
+  </div>
+
+  <h3>Pick a card, see both versions</h3>
+  <div class="chips" id="mbWho" role="group" aria-label="Filter cards by who"></div>
+  <div class="mb">
+    <ul class="mb-list" id="mbList" aria-label="Must be nice cards"></ul>
+    <div>
+      <div class="mb-cmp">
+        <div class="mb-org" id="mbOrg"></div>
+        <div class="mb-ad" id="mbAd"></div>
+      </div>
+      <div class="ro1" id="mbRo1"></div>
+    </div>
+  </div>
+
+  <h3>The pipeline</h3>
+  <ol class="ladder3">
+    <li><b>Post the reel</b><span>Text walk or talk to camera, from the Must be nice bank. Organic, no budget.</span></li>
+    <li><b>Read the signal</b><span>After a week, sort by shares, saves and watch-through. Those beat likes. Comments asking "how?" are gold.</span></li>
+    <li><b>Re-film as an ad</b><span>Same idea, committed hook ("parents we work with in OT..."), cause, hinge, call to action. Use the ad version here.</span></li>
+    <li><b>Dig near it</b><span>A winning line means the challenge is the well. Film three more cards from the same challenge or Small Hinge.</span></li>
+  </ol>
+  <div class="note warn" style="margin-top:14px"><b>Meta's personal attributes rule.</b> Ads can't say or imply someone has a condition ("Do you have ADHD?", "your autism", "struggling with anxiety?"). Reels get more leeway than ads. Must be nice lines describe a moment, not a diagnosis, and the ad versions here say "the adults we see", never "you have". The hook checker now flags this too.</div>
+</div></section>
+
+<!-- 6 LANDING PAGE -->
+<section class="s" id="page"><div class="wrap">
+  <div class="s-head"><span class="num">07 &middot; Landing page</span><h2>One page, one job</h2>
+  <p>A website is a library. A landing page is one book. No menu, no blog, one action. People skim the headline, ignore the long video, see the form, then scroll fast to talk themselves into or out of it. Order sections from biggest idea to smallest detail. Tap a block.</p></div>
+  <div class="lp">
+    <div class="phone" role="tablist" id="phone"></div>
+    <div class="lp-detail" id="lpDetail"></div>
+  </div>
+
+  <h3>Headline builder: result + feeling</h3>
+  <div class="hl">
+    <div class="field"><label for="hlRes">The result (chase it downstream: "then what?")</label><input type="text" id="hlRes" value="Mornings that work for your child's brain"></div>
+    <div class="field"><label for="hlFeel">The feeling</label><input type="text" id="hlFeel" value="so you can leave the house calm"></div>
+    <div class="field" style="grid-column:1/-1"><label for="hlSub">Subheadline: how, in one sentence</label><input type="text" id="hlSub" value="Telehealth OT for autistic and ADHD kids and teens, with routines built around them, not around 'just try harder'."></div>
+    <div class="hl-out"><div class="h" id="hlH"></div><p class="sub" id="hlS"></p></div>
+  </div>
+  <p class="small muted" style="margin-top:8px">Write the clumsy version first, then remix it. Brandon's warning: a tax accountant's "Stress less, sleep well" read like a mattress ad. The result has to be clear. Results beat feelings in his split tests, but you need both.</p>
+
+  <h3>The form: easy first, contact details last</h3>
+  <ol class="formq" id="formq"></ol>
+  <div class="note warn" style="margin-top:12px"><b>Pixel rule.</b> Only tell Meta a lead happened when the answers qualify. If unsuitable leads count as leads, Meta finds more of them (Brandon's ad account filled with rappers when "music producers" was too vague). And never send diagnosis or health details to Meta: page-level events only.</div>
+
+  <h3>The video (VSL): most important first</h3>
+  <div class="vsl" role="tablist" id="vsl"></div>
+  <div class="vsl-card" id="vslCard"></div>
+  <div class="retention">
+    <svg viewBox="0 0 320 140" role="img" aria-label="Viewer retention falls to about half by 30 seconds and keeps falling">
+      <line x1="30" y1="10" x2="30" y2="118" stroke="currentColor" opacity=".3"/><line x1="30" y1="118" x2="312" y2="118" stroke="currentColor" opacity=".3"/>
+      <path d="M30 14 C 45 40, 55 62, 70 66 S 140 92, 200 102 S 290 110, 312 112" fill="none" stroke="#AB5C95" stroke-width="3"/>
+      <line x1="70" y1="10" x2="70" y2="118" stroke="#B23A3A" stroke-dasharray="4 4"/>
+      <text x="74" y="22" font-size="11" fill="currentColor" font-family="Barlow Semi Condensed,sans-serif">~50% gone by 30s</text>
+      <text x="30" y="134" font-size="10" fill="currentColor" opacity=".7" font-family="Barlow,sans-serif">0:00</text><text x="286" y="134" font-size="10" fill="currentColor" opacity=".7" font-family="Barlow,sans-serif">end</text>
+    </svg>
+    <p class="small">Spend the effort on the first 30 seconds. Don't script the rest word for word: people can tell. Any video beats none, even a 30-second "Hi, I'm Nik, I'll be on your welcome call". It goes on the page, again on the booked page, and in the follow-up emails.</p>
+  </div>
+
+  <h3>Page audit</h3>
+  <ul class="audit" id="audit"></ul>
+  <div class="score"><b id="auditN">0/0</b><div class="sbar"><i id="auditBar" style="width:0"></i></div><button class="btn sm" type="button" id="auditReset">Clear</button></div>
+</div></section>
+
+<!-- 7 SHOW -->
+<section class="s" id="show"><div class="wrap">
+  <div class="s-head"><span class="num">08 &middot; Show rate</span><h2>Keep the excitement up until the call</h2>
+  <p>They booked because they want information, but the call might be days away. With no contact, excitement drops and doubts fill the gap with the worst story. So send answers before they ask, and get them to reply. Aim for a 70% show rate. The full speed-to-lead sequence lives in the <a href="nurture.html">Nurture Trainer</a>.</p></div>
+  <div class="tl" id="seq"></div>
+</div></section>
+
+<!-- 8 BUILD -->
+<section class="s" id="build"><div class="wrap">
+  <div class="s-head"><span class="num">09 &middot; Campaign</span><h2>The Ads Manager checklist</h2>
+  <p>Brandon's settings as of April 2026. Meta changes the screens often, so names may differ. Rule of thumb: if Ads Manager is pushing you hard to switch something on, switch it off. Ticks save in this browser.</p></div>
+  <div class="groups" id="groups"></div>
+  <div class="structure">
+    <div class="tree" aria-label="Campaign structure">
+      <div><b>Campaign</b> Leads &middot; ad set budgets</div>
+      <div style="--d:1"><b>Ad set</b> Cold, Advantage+ &middot; ~80% of budget</div>
+      <div style="--d:2">Ad 1 &middot; mornings</div><div style="--d:2">Ad 2 &middot; after-school crash</div><div style="--d:2">Ads 3 to 12+ &middot; one idea each</div>
+      <div style="--d:1"><b>Ad set</b> Warm, engagers &middot; ~20%</div>
+      <div style="--d:2">"Who are these people?" ads</div>
+    </div>
+  </div>
+  <p class="small muted" style="margin-top:10px">Turn ads on only once tracking works. If Meta gets leads but can't see them, it thinks the first people it tried didn't work and wanders off to worse ones.</p>
+</div></section>
+
+<!-- 9 OPTIMISE -->
+<section class="s" id="optimise"><div class="wrap">
+  <div class="s-head"><span class="num">10 &middot; Optimise</span><h2>Find the leak, fix one thing</h2>
+  <p>Judge on the last 30 days, not today. Day to day is noise (school holidays, petrol prices, Meta news). Give a change at least 7 days or about $1,000 of spend. Steps further down the funnel get fewer events, so they need longer.</p></div>
+  <div class="diag">
+    <div class="dg-in" id="dgIn"></div>
+    <div class="dg-out" id="dgOut"></div>
+  </div>
+
+  <h3>Kill or leave? (one ad)</h3>
+  <div class="killer">
+    <div class="field"><label for="kSpend">Ad spend $</label><input type="number" id="kSpend" value="400" min="0"></div>
+    <div class="field"><label for="kRes">Results (leads)</label><input type="number" id="kRes" value="1" min="0"></div>
+    <div class="field"><label for="kAvg">Account avg $ per result</label><input type="number" id="kAvg" value="250" min="1"></div>
+    <div class="field"><label for="kCtr">Link CTR %</label><input type="number" id="kCtr" value="1.2" step="0.1" min="0"></div>
+    <div class="field"><label for="kFreq">Frequency</label><input type="number" id="kFreq" value="1.6" step="0.1" min="0"></div>
+  </div>
+  <div class="verdict" id="kOut"></div>
+
+  <h3>Problem-solve, hold, or let it rip?</h3>
+  <div class="game" id="game"></div>
+
+  <h3>The weekly review</h3>
+  <ol class="routine">
+    <li>Set the date range to the last 30 days. View: performance and clicks (cost per result, link CTR, CPM).</li>
+    <li>Find ad sets whose cost per result is well above the average.</li>
+    <li>Open them. Sort ads by amount spent, highest first.</li>
+    <li>Kill big spenders that one more lead still wouldn't rescue. Leave low-spend ads alone.</li>
+    <li>Check frequency. Cold above about 2 means people are tiring of it: ease the budget or add new ads.</li>
+    <li>Take the winners apart with the Rule of One. Film more in the same direction (dig near the oil well).</li>
+    <li>Rising cost per result across the board means the ads are tired. Same idea, new words, new video.</li>
+    <li>Happy with cost per booked call? Raise the budget and watch profit, not ROAS.</li>
+  </ol>
+</div></section>
+
+<!-- 10 CALL -->
+<section class="s" id="call"><div class="wrap">
+  <div class="s-head"><span class="num">11 &middot; The call</span><h2>Therapist, not consultant</h2>
+  <p>Brandon's biggest fix for a low close rate: stop teaching on the call. When we explain everything we know, people nod, feel confused, and a confused mind doesn't decide. Be the doctor who asks questions, not the pharmacist who hands out answers. We already run the call with CLOSER in the <a href="welcome.html">Welcome Call Playbook</a>. Here's his shape for comparison.</p></div>
+  <div class="calls" id="calls"></div>
+  <div class="twocol">
+    <div class="panel"><p class="lbl">Objections in three moves</p>
+      <ol style="margin:8px 0 0;padding-left:20px">
+        <li><b>Meet them where they are.</b> Lower your energy. "Totally fair, we've covered a lot. What's on your mind?"</li>
+        <li><b>Isolate it.</b> "Is there anything else?" until you have the full list.</li>
+        <li><b>Talk about that one thing only.</b> Feelings need a feelings answer, not more facts. Don't win the argument and lose the family.</li>
+      </ol>
+      <p class="small muted" style="margin-top:10px">"Send me information" = drop the page link in the call chat before it ends, so it's open on their screen. Need to ask a partner? Book the follow-up then and there: "today or tomorrow? morning or afternoon?"</p>
+    </div>
+    <div class="panel"><p class="lbl">Track it by hand, daily</p>
+      <p style="margin-top:8px">One shared sheet: calls booked, calls attended, starts. Typed in by hand each day, not automated, so you notice a zero today. Know your show rate and start rate for the month within about 3%. Brandon's team found mornings close best and Friday afternoons worst. Watch for "drift": a little off-process each day adds up to a very different call a month later.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- 11 RULES -->
+<section class="s" id="rules"><div class="wrap">
+  <div class="s-head"><span class="num">12 &middot; Our rules</span><h2>What we keep, what we drop</h2>
+  <p>Brandon sells to business owners. We're an Ahpra-regulated health practice working with families and NDIS participants. The system holds. Some tactics don't.</p></div>
+  <div class="rules" id="rulesT"></div>
+</div></section>
+
+<!-- 12 PRACTICE -->
+<section class="s" id="practice"><div class="wrap">
+  <div class="s-head"><span class="num">13 &middot; Practice</span><h2>What would you do?</h2><p>Eight quick questions. Your score isn't saved.</p></div>
+  <div class="quiz" id="quiz" aria-live="polite"></div>
+</div></section>
+
+</main>
+
+<footer><div class="wrap"><span><b style="font-family:var(--display);letter-spacing:.14em;color:var(--fg)">ESTUS</b> HEALTH &middot; Training Hub &middot; Growth</span><span>Ticks and ad drafts save in this browser only.</span></div></footer>
+
+<script>
+(function(){
+"use strict";
+function $(id){return document.getElementById(id)}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function load(k,d){try{var v=JSON.parse(localStorage.getItem(k));return v==null?d:v}catch(e){return d}}
+function save(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+function fmt(n,dp){if(!isFinite(n))return "-";return n.toLocaleString("en-AU",{maximumFractionDigits:dp||0,minimumFractionDigits:dp||0})}
+function money(n){if(!isFinite(n))return "-";return "$"+fmt(n,n<100?2:0)}
+function copy(text,flag){
+  function show(){if(flag){flag.hidden=false;setTimeout(function(){flag.hidden=true},1600)}}
+  try{navigator.clipboard.writeText(text).then(show,function(){fallback()})}catch(e){fallback()}
+  function fallback(){var t=document.createElement("textarea");t.value=text;document.body.appendChild(t);t.select();try{document.execCommand("copy");show()}catch(e){}document.body.removeChild(t)}
+}
+
+/* hub done */
+(function(){var K="hub_done",s="metaads",b=$("ehub-done");function r(){var on=!!load(K,{})[s];b.setAttribute("aria-pressed",on);b.textContent=on?"✓ Done":"Mark done"}
+b.addEventListener("click",function(){var v=load(K,{});if(v[s])delete v[s];else v[s]=1;save(K,v);r()});r()})();
+
+/* rail highlight */
+(function(){var links=[].slice.call(document.querySelectorAll("#rail a"));var secs=links.map(function(a){return document.querySelector(a.getAttribute("href"))});
+if(!("IntersectionObserver" in window))return;
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var i=secs.indexOf(e.target);links.forEach(function(l,j){l.classList.toggle("on",i===j)});var a=links[i];if(a&&a.scrollIntoView){var r=$("rail");r.scrollTo({left:a.offsetLeft-40,behavior:"smooth"})}}})},{rootMargin:"-45% 0px -50% 0px"});
+secs.forEach(function(s){if(s)io.observe(s)})})();
+
+/* 1 funnel */
+var STAGES=[
+ {k:"ad",cls:"c-ad",name:"Ad",short:"Stops the right person",sells:"The click, from the right person",bench:"1 to 2%",bl:"Link click-through rate",
+  levers:["First line uses committed language: it's OT, for families like theirs","Filters out the wrong clicks (age group, funding type, telehealth)","12+ genuinely different ideas, not one ad with new hooks","Video over images: more trust, better leads"],
+  us:"Lead with a moment a parent recognises. Under 1% means they don't care about the message. Over 2% is suspicious: probably curious clicks that won't convert."},
+ {k:"page",cls:"c-page",name:"Form page",short:"Our referral form",sells:"Starting the form",bench:"5 to 10%",bl:"Of clicks complete it",
+  levers:["Headline = result + feeling, not 'what we do'","Form embedded near the top, never behind a button","Multiple choice first, contact details last","Line above the form feels like starting a process","Images and FAQs instead of walls of text"],
+  us:"For us this is the referral form. Nine times out of ten, Brandon says this page is the bottleneck for beginners."},
+ {k:"book",cls:"c-book",name:"Booking",short:"Welcome call link",sells:"Booking the call",bench:"30 to 50%",bl:"Of form-fillers book",
+  levers:["Open availability; remove buffers that hide slots","Bookable from tomorrow to about 5 days out","'Last step' and a progress bar. Never 'Thank you', which closes the loop","Nothing else on the page but the calendar"],
+  us:"The welcome call with Nik (assessments and ongoing) or Nam (ongoing). Same-day bookings skip the prep and show less often."},
+ {k:"nur",cls:"c-nur",name:"Follow-up",short:"Emails and texts",sells:"Showing up",bench:"70 to 75%",bl:"Show rate",
+  levers:["Booked page repeats the video: 'watch to see how we work'","Ask for replies ('Reply YES to confirm')","Answer the worries before the call","A text 15 minutes before (one member doubled show rate)"],
+  us:"Everything here is framed as help to them, never homework for us."},
+ {k:"call",cls:"c-call",name:"Welcome call",short:"15 minutes",sells:"Starting with us",bench:"30 to 45%",bl:"Start rate of calls held",
+  levers:["Ask, don't teach. Therapist, not consultant","Get them to say the problem in their words","Recap it back in 30 seconds","Two good options: Tuesday or Thursday?","Onboard straight away"],
+  us:"Run it with CLOSER. If every call is a yes, Brandon would say raise your prices; for us, it means the ads could reach further."},
+ {k:"profit",cls:"c-profit",name:"Profit",short:"The real score",sells:"More profit, not prettier ratios",bench:"Net profit",bl:"Bottom of the P&L",
+  levers:["Return on ad spend is a vanity number on its own","More spend reaches colder people: ratios fall, profit can still rise","If it's working, raise the budget before building new funnels","Coast and fix when more spend stops adding profit"],
+  us:"Our north star is non-Liam revenue. Ads feed clinician caseloads, so watch billing, not cost per lead."}
+];
+(function(){var f=$("funnel"),st=$("stage");
+STAGES.forEach(function(s,i){var b=document.createElement("button");b.type="button";b.className=s.cls;b.setAttribute("role","tab");b.innerHTML='<span class="n">'+(i+1)+'</span><b>'+s.name+'</b><small>'+s.short+'</small>';b.addEventListener("click",function(){pick(i)});f.appendChild(b)});
+function pick(i){var s=STAGES[i];[].forEach.call(f.children,function(b,j){b.setAttribute("aria-selected",i===j)});st.className="stage "+s.cls;
+st.innerHTML='<div><p class="lbl">Its only job</p><p class="sells">'+s.sells+'</p><p class="lbl" style="margin-top:14px">Healthy range</p><p class="bench">'+s.bench+'</p><p class="small muted">'+s.bl+'</p></div><div><p class="lbl">What moves it</p><ul>'+s.levers.map(function(l){return "<li>"+l+"</li>"}).join("")+'</ul></div><div><p class="lbl">For Estus</p><p>'+s.us+'</p></div>'}
+pick(0)})();
+
+/* 2 calculator */
+var CALC=[
+ {k:"bud",l:"Daily budget",u:"$",min:10,max:1000,step:5,v:200,c:"c-ad",hint:"Brandon: $30 to $50 a day to start"},
+ {k:"cpm",l:"CPM (cost per 1,000 views)",u:"$",min:5,max:150,step:1,v:35,c:"c-ad",hint:"Consumer ads ~$30 to $40"},
+ {k:"ctr",l:"Link CTR",u:"%",min:0.2,max:4,step:0.1,v:1,c:"c-ad",hint:"Healthy 1 to 2%",top:2},
+ {k:"opt",l:"Form completion",u:"%",min:1,max:25,step:0.5,v:6,c:"c-page",hint:"Healthy 5 to 10%",top:10},
+ {k:"book",l:"Book a call",u:"%",min:5,max:90,step:1,v:35,c:"c-book",hint:"Healthy 30 to 50%",top:50},
+ {k:"show",l:"Show up",u:"%",min:20,max:100,step:1,v:60,c:"c-nur",hint:"Aim for 70 to 75%",top:75},
+ {k:"close",l:"Start with us",u:"%",min:5,max:90,step:1,v:35,c:"c-call",hint:"Healthy 30 to 45%",top:45},
+ {k:"val",l:"Billing per new client (example)",u:"$",min:200,max:20000,step:100,v:2400,c:"c-profit",hint:"Use our real first-6-months average"}
+];
+var cv=load("metaads_calc",{});
+(function(){var box=$("calcIn");
+CALC.forEach(function(c){if(cv[c.k]!=null)c.v=cv[c.k];var r=document.createElement("div");r.className="irow "+c.c;
+r.innerHTML='<div class="field"><label for="r_'+c.k+'">'+c.l+'<span>'+c.hint+'</span></label><input type="range" id="r_'+c.k+'" min="'+c.min+'" max="'+c.max+'" step="'+c.step+'" value="'+c.v+'"></div><input type="number" aria-label="'+c.l+'" id="n_'+c.k+'" min="'+c.min+'" step="'+c.step+'" value="'+c.v+'">';
+box.appendChild(r);var rg=r.querySelector("input[type=range]"),nb=r.querySelector("input[type=number]");
+rg.addEventListener("input",function(){c.v=+rg.value;nb.value=rg.value;calc()});nb.addEventListener("input",function(){var v=parseFloat(nb.value);if(isFinite(v)&&v>=0){c.v=v;rg.value=v;calc()}})});
+var rs=document.createElement("button");rs.type="button";rs.className="btn sm";rs.textContent="Reset examples";rs.style.alignSelf="flex-start";rs.addEventListener("click",function(){save("metaads_calc",{});location.hash="maths";location.reload()});box.appendChild(rs);
+calc()})();
+function model(v){var D=30.4,spend=v.bud*D,imp=spend/v.cpm*1000,clk=imp*v.ctr/100,leads=clk*v.opt/100,bk=leads*v.book/100,sh=bk*v.show/100,cl=sh*v.close/100;
+return {spend:spend,imp:imp,clk:clk,cpc:spend/clk,leads:leads,cpl:spend/leads,bk:bk,cpb:spend/bk,sh:sh,cl:cl,cpa:spend/cl,rev:cl*v.val}}
+function vals(){var v={};CALC.forEach(function(c){v[c.k]=c.v});return v}
+function calc(){var v=vals();var o={};CALC.forEach(function(c){o[c.k]=c.v});save("metaads_calc",o);var m=model(v);
+var rows=[["c-ad","Spend a month",money(m.spend),""],["c-ad","Views (impressions)",fmt(m.imp),""],["c-ad","Clicks",fmt(m.clk),money(m.cpc)+" per click"],["c-page","Forms completed",fmt(m.leads,1),money(m.cpl)+" per lead"],["c-book","Calls booked",fmt(m.bk,1),money(m.cpb)+" per booking"],["c-nur","Calls held",fmt(m.sh,1),money(m.spend/m.sh)+" per call"],["c-call","New clients",fmt(m.cl,1),money(m.cpa)+" per client"]];
+$("calcFlow").innerHTML=rows.map(function(r){return '<div class="fr '+r[0]+'"><i></i><span class="k">'+r[1]+'</span><span class="v">'+r[2]+'</span><span class="u">'+r[3]+'</span></div>'}).join("");
+var roas=m.rev/m.spend;
+$("calcBig").innerHTML='<div><p class="lbl">Billing generated</p><b>'+money(m.rev)+'</b></div><div><p class="lbl">Return on ad spend</p><b>'+fmt(roas,1)+'x</b></div><div><p class="lbl">Billing minus ads</p><b style="color:'+(m.rev-m.spend>=0?"var(--good)":"var(--bad)")+'">'+money(m.rev-m.spend)+'</b></div>';
+var base=m.cl,list=[];CALC.forEach(function(c){if(!c.top)return;var v2=vals();v2[c.k]=Math.max(c.v,c.top);var m2=model(v2);list.push({c:c,add:m2.cl-base})});
+var mx=Math.max.apply(null,list.map(function(x){return x.add}))||1;
+$("levers").innerHTML=list.map(function(x){var w=Math.max(0,x.add)/mx*100;return '<div class="lever '+x.c.c+'"><span>'+x.c.l+' &rarr; '+x.c.top+'%</span><span class="bar"><i style="width:'+w+'%"></i></span><span class="plus">'+(x.add>0.05?"+"+fmt(x.add,1)+" clients":"at top")+'</span></div>'}).join("")}
+
+/* 3 lenses */
+var LENSES=[
+ ["Art vs science","Inside the rules, make anything. Then measure it with a number.","His 'stuffed up' ad turned out to be the best performer. Another was him getting a haircut, saying nothing, with workshop dates on screen.","Your opinion of an ad is a sample size of one. Brandon is wrong about which ad will win 'like 99% of the time'. Let a few thousand people vote."],
+ ["Dials, not switches","Nothing simply works or doesn't. Every step is a dial you turn up or down.","A business-internet client's ads drew people thinking it was a phone hotspot. Making the ads deliberately jargon-heavy cut clicks but lifted conversions. Cost per lead fell.","Don't say 'Meta doesn't work for us'. Say which step is off. Check the last 30 days, and first check the ads are actually on."],
+ ["Meet them where they're at","Say back what's already in their head at that moment.","Ads talk about them, not you: don't introduce yourself in the first second. Nurture emails answer what they're worrying about after booking.","Name the scene: the after-school crash, the school-shoe standoff. Not 'evidence-based occupational therapy services'."],
+ ["Set expectations","People are only disappointed when reality misses what they expected.","Calling it a 'free consult' brought people wanting free advice who never bought. 'Application call' made it clear.","Say exactly what the welcome call is: 15 minutes, to see if we're the right fit. Not a session, not free therapy."],
+ ["Hearts and minds","People decide on feeling and justify with logic. Map it: the thing, the result, the feeling.","A tax accountant's headline 'Stress less, sleep well' sounded like a mattress. Clear result plus a feeling wins.","Thing: telehealth OT. Result: a routine that fits your child. Feeling: leaving the house calm."],
+ ["Build your argument","Marketing is debating at scale. List every reason they'd say no, then answer each one somewhere.","His objections: 'not tech savvy', 'you swear too much', 'the testimonials are fake'. An ad listing the worst things about his workshop was a top performer.","Answer the quiet doubts: 'Will this make my kid mask more?' 'Does telehealth work for a 7-year-old?' 'Is this covered by NDIS?'"],
+ ["Only sell the next step","Each step sells only the next one. Small yeses stack up.","Cialdini's study: people who first signed a safe-driving petition later agreed to a big ugly lawn sign. Agreeing to an identity first changes behaviour.","Ads end with 'Learn more', not 'Book now'. A reply of 'YES' to a confirmation text makes showing up more likely."],
+ ["Curious vs committed","Every word sits on a scale from curious (0) to committed (10). Match the ad to the page.","'How guys are losing belly fat' to 'How the guys I coach...' cut clicks, quadrupled conversion.","Add 'the families we work with', 'in our OT sessions', 'our OTs'. Curious clicks look great and then don't fill in the form."],
+ ["Resistance","Physical: clicks, keystrokes, scrolls. Psychological: thought, trust, commitment.","A form behind a button can halve conversions. Swapping text blocks for images doubled his. A real photo of the team as the background doubled another page.","Embed the referral form. Multiple choice over typing. Real photos of Nik, Nam and our space, never stock."],
+ ["Chase problems upstream","A bad number is often caused one step earlier. Like accounting, results lag.","Low form completion? Check the ad's first line before the page. Calls full of the wrong expectations? Check what the page promised.","If families arrive thinking it's a free session, fix the ad and page wording, not the call."]
+];
+(function(){var b=$("lensBtns"),card=$("lensCard");LENSES.forEach(function(l,i){var x=document.createElement("button");x.type="button";x.setAttribute("role","tab");x.innerHTML='<span class="n">'+(i+1)+'</span><b>'+l[0]+'</b>';x.addEventListener("click",function(){pick(i)});b.appendChild(x)});
+function pick(i){var l=LENSES[i];[].forEach.call(b.children,function(x,j){x.setAttribute("aria-selected",i===j)});card.innerHTML='<div><h4>'+(i+1)+'. '+l[0]+'</h4><p>'+l[1]+'</p></div><div><p class="lbl">Brandon\'s example</p><p>'+l[2]+'</p></div><div class="us"><p class="lbl">For Estus</p><p>'+l[3]+'</p></div>'}pick(0)})();
+
+/* 4 ladder + checker */
+(function(){var R=[
+ {t:"Curious",n:3,q:"Mornings falling apart?",w:"Lots of clicks. Could be a sleep app, a parenting course, a coffee ad. Most people who click won't fill in an OT form."},
+ {t:"Committed",n:6,q:"The families we see in OT often start with mornings that fall apart before 8am.",w:"'Families we see in OT' says it's a service. Fewer clicks, far more of them fill in the form."},
+ {t:"Committed + filtered",n:8,q:"The families we see in OT often start with mornings that fall apart before 8am. If your teen's NDIS plan is self or plan-managed, our OTs can work on this by telehealth.",w:"Now it also filters: teens, the funding types we take, telehealth. The wrong clicks keep scrolling, so we don't pay for them."}];
+$("ladder").innerHTML=R.map(function(r){var s="";for(var i=0;i<10;i++)s+='<i class="'+(i<r.n?"on":"")+'"></i>';return '<div class="rung"><span class="tag">'+r.t+'</span><div class="scale" aria-label="'+r.n+' out of 10 committed">'+s+'</div><q>'+r.q+'</q><p class="what">'+r.w+'</p></div>'}).join("")})();
+var HK={
+ committed:/\b(famil(y|ies) we (see|work with|support)|our (ot|ots|clinicians?|clients|families|sessions|therapists?|team)|in (our )?ot\b|occupational therap|ot sessions?|telehealth|our (program|service))/i,
+ audience:/\b(teen|teens|teenager|kids?|child|children|son|daughter|year[- ]olds?|primary|high school|adults?|parents?|autistic|adhd|late[- ]diagnosed)\b/i,
+ filter:/\b(ndis|plan[- ]managed|self[- ]managed|private(ly)?|telehealth|australia|perth)\b/i,
+ ahpra:/\b(guarantee[ds]?|cure[sd]?|proven|best|#1|number one|100%|miracle|testimonial|life[- ]changing|changed (our|my) li(fe|ves)|results? (in|within) \d|in \d+ (weeks?|days?)|money back)\b/i,
+ scarcity:/\b(only \d+ (spots?|places?)|spots? left|places? left|ends? (today|friday|soon)|last chance|hurry)\b/i,
+ free:/\bfree\b/i,
+ deficit:/\b(fix(es|ed)?|normal|suffer(s|ing)?|high[- ]functioning|low[- ]functioning|overcome autism|beat autism|bad behaviou?r|naughty)\b/i,
+ attr:/\b(do you have|are you|you'?re|you are|your|living with|struggling with|diagnosed with)\b[^.?!]{0,30}\b(adhd|add|autis\w*|asd|neurodivergen\w*|anxiety|depress\w*|disabilit\w*|dyslexi\w*|ocd|pda)\b/i,
+ vague:/\b(click (here|below) to learn more|learn more!|struggling\?)/i
+};
+function checkHook(){var t=$("hookIn").value.trim(),out=[];var words=t?t.split(/\s+/).length:0;var first=(t.split(/[.?!](\s|$)/)[0]||"");var fw=first?first.split(/\s+/).length:0;
+function add(st,txt){out.push('<li><span class="st '+st+'">'+({ok:"Good",warn:"Check",bad:"Fix",info:"Note"})[st]+'</span><span>'+txt+'</span></li>')}
+if(!t){$("hookChecks").innerHTML='<li><span class="st info">Note</span><span>Paste a hook to check it.</span></li>';$("hookMeter").innerHTML="";return}
+HK.committed.test(t)?add("ok","Committed language: it's clear this is our OT service."):add("bad","Curious, not committed. Add 'the families we see in OT', 'our OTs' or 'in our sessions' so people expect a form, not an article.");
+HK.audience.test(t)?add("ok","Names who it's for, so the right people stop."):add("warn","Doesn't say who it's for. Name the age group or who you're talking to.");
+HK.filter.test(t)?add("ok","Filters: funding, telehealth or place. Fewer wrong clicks."):add("warn","No filter. Consider 'self or plan-managed NDIS' or 'by telehealth' so the wrong people keep scrolling.");
+if(HK.ahpra.test(t))add("bad","Ahpra risk: promise, superlative or testimonial-style wording. Describe what we work on, never guaranteed results.");
+if(HK.scarcity.test(t))add("bad","Pressure or scarcity wording. Only state real availability.");
+if(HK.free.test(t))add("warn","'Free' sets a freebie expectation (lens 4). If it's the welcome call, say what it is: a 15 minute call to check fit.");
+if(HK.attr.test(t))add("bad","Meta personal attributes rule: ads can't say or imply the viewer has a condition. Describe the moment, or say 'the adults we see', not 'your ADHD'.");
+if(HK.deficit.test(t))add("bad","Not neuroaffirming. Avoid 'fix', 'normal', 'suffers', functioning labels. Describe the moment and the support.");
+if(HK.vague.test(t))add("warn","Generic line. The hook should name a moment, not ask a vague question.");
+fw>25?add("warn","First sentence is "+fw+" words. Most people see only the first line before 'See more'. Get to the point sooner."):add("ok","First sentence is "+fw+" words: short enough to land before 'See more'.");
+$("hookChecks").innerHTML=out.join("");
+$("hookMeter").innerHTML='<span>Words <b>'+words+'</b></span><span>Spoken <b>~'+Math.max(1,Math.round(words/3))+'s</b></span><span>First sentence <b>'+fw+'</b> words</span>'}
+$("hookIn").addEventListener("input",checkHook);
+[].forEach.call(document.querySelectorAll("[data-try]"),function(b){b.addEventListener("click",function(){$("hookIn").value=b.getAttribute("data-try");checkHook()})});
+checkHook();
+
+/* 5 board */
+var BOARD_DEF={
+ to:["A morning routine that works without shouting","My teen doing more on their own","Support that fits how my kid's brain works","Less worry about school"],
+ away:["The after-school crash and meltdown","School refusal mornings","Being told to 'just be firmer'","Burning out as a parent"],
+ tried:["Reward charts that worked for a week","Parenting courses and podcasts","A long waitlist with no help meanwhile","Therapy that tried to make them act less autistic"]
+};
+var COLS=[{k:"to",t:"Towards",p:"What they want. Ask: why? then what?",c:"c-book"},{k:"away",t:"Away from",p:"What they want to stop. Past, now, future.",c:"c-nur"},{k:"tried",t:"Tried before",p:"So they don't put us in the same bucket.",c:"c-ad"}];
+var board=load("metaads_board",null);
+function defBoard(){var b={};COLS.forEach(function(c){b[c.k]=BOARD_DEF[c.k].map(function(t){return {t:t,ex:1}})});return b}
+if(!board)board=defBoard();
+function renderBoard(){var el=$("board");el.innerHTML="";COLS.forEach(function(c){var col=document.createElement("div");col.className="col "+c.c;
+col.innerHTML='<div class="col-h"><b>'+c.t+'</b><p>'+c.p+'</p></div><ul class="items"></ul><form class="add"><input type="text" aria-label="Add to '+c.t+'" placeholder="Add what families say"><button class="btn sm" type="submit">Add</button></form>';
+var ul=col.querySelector("ul");board[c.k].forEach(function(it,i){var li=document.createElement("li");if(it.ex)li.className="ex";li.innerHTML='<span>'+esc(it.t)+'</span><span class="acts"><button type="button" data-a="ad">Ad</button><button type="button" data-a="x" aria-label="Remove">&times;</button></span>';
+li.querySelector('[data-a="ad"]').addEventListener("click",function(){useIdea(it.t,c.k)});li.querySelector('[data-a="x"]').addEventListener("click",function(){board[c.k].splice(i,1);save("metaads_board",board);renderBoard()});ul.appendChild(li)});
+col.querySelector("form").addEventListener("submit",function(e){e.preventDefault();var inp=col.querySelector("input");var v=inp.value.trim();if(!v)return;board[c.k].push({t:v});save("metaads_board",board);renderBoard()});
+el.appendChild(col)})}
+renderBoard();
+$("boardReset").addEventListener("click",function(){board=defBoard();save("metaads_board",board);renderBoard()});
+$("boardCopy").addEventListener("click",function(){var s=COLS.map(function(c){return c.t.toUpperCase()+"\n"+board[c.k].map(function(i){return "- "+i.t}).join("\n")}).join("\n\n");copy(s,$("boardCopied"))});
+
+/* builder */
+var EMO=["Relief","Calm","Hope","Frustration","Worry","Pride"];var emo=load("metaads_emo","Relief");
+(function(){var b=$("bEmo");EMO.forEach(function(e){var x=document.createElement("button");x.type="button";x.className="chip";x.textContent=e;x.setAttribute("aria-pressed",e===emo);x.addEventListener("click",function(){emo=e;save("metaads_emo",e);[].forEach.call(b.children,function(y){y.setAttribute("aria-pressed",y===x)});script()});b.appendChild(x)})})();
+var draft=load("metaads_draft",{});["bIdea","bAud","bStory","bPromise","bCta"].forEach(function(id){if(draft[id]!=null)$(id).value=draft[id];$(id).addEventListener("input",function(){draft[id]=$(id).value;save("metaads_draft",draft);script()})});
+function useIdea(t,kind){$("bIdea").value=t;draft.bIdea=t;save("metaads_draft",draft);script();var h=$("builderH");if(h.scrollIntoView)h.scrollIntoView({behavior:"smooth",block:"start"});$("bIdea").focus({preventScroll:true})}
+function lc(s){return s?s.charAt(0).toLowerCase()+s.slice(1):s}
+function build(){var idea=$("bIdea").value.trim()||"[one idea from the board]",aud=$("bAud").value,story=$("bStory").value.trim(),prom=$("bPromise").value.trim()||"[what we work on together]",cta=$("bCta").value;
+var hook="The "+aud.replace(/^parents of /,"families of ")+" we work with in OT often come to us with this: "+lc(idea).replace(/\.$/,"")+".";
+if(/adults/.test(aud))hook="A lot of the "+aud+" we see in OT come to us with this: "+lc(idea).replace(/\.$/,"")+".";
+var filt=/NDIS/.test(aud)?"":" If your plan is self or plan-managed NDIS, or you're paying privately, we work by telehealth anywhere in Australia.";
+var body=(story?story+"\n\n":"[Tell their moment in 2 or 3 sentences. A typical morning, a typical afternoon. Never a real client.]\n\n")+"In our sessions we work on "+lc(prom).replace(/\.$/,"")+"."+filt;
+var headline=prom.length<48?prom.charAt(0).toUpperCase()+prom.slice(1):"OT that fits how they think";
+return {hook:hook,body:body,cta:cta,headline:headline,idea:idea}}
+function script(){var a=build();$("script").innerHTML=
+'<div class="part c-ad"><p class="lbl">1 &middot; Stop the right person scrolling</p><p>'+esc(a.hook)+'</p></div>'+
+'<div class="part c-page"><p class="lbl">2 &middot; Prove the point (~30 seconds, unscripted)</p><p>'+esc(a.body)+'</p><p class="small muted" style="margin-top:6px">Stuck? Ask yourself "how does that work?" and answer out loud.</p></div>'+
+'<div class="part c-call"><p class="lbl">3 &middot; Land it</p><p>'+esc(a.cta)+'</p></div>'+
+'<div class="part c-nur"><p class="lbl">Ad copy &middot; emotion: '+esc(emo)+'</p><p><b>Headline:</b> '+esc(a.headline)+'\n<b>Button:</b> Learn more</p></div>'+
+'<div class="foot"><span class="count">Ads drafted <b id="adN">'+saved.length+'</b> / 12</span><span style="display:flex;gap:6px;align-items:center"><span class="copied" id="scCopied" hidden>Copied</span><button class="btn sm" type="button" id="scCopy">Copy</button><button class="btn sm dark" type="button" id="scSave">Save ad</button></span></div>';
+$("scCopy").addEventListener("click",function(){copy(txt(a),$("scCopied"))});
+$("scSave").addEventListener("click",function(){saved.push({idea:a.idea,text:txt(a)});save("metaads_saved",saved);renderSaved();script()})}
+function txt(a){return "IDEA: "+a.idea+"\nEMOTION: "+emo+"\n\nHOOK\n"+a.hook+"\n\nBODY\n"+a.body+"\n\nCTA\n"+a.cta+"\n\nHEADLINE: "+a.headline+"\nBUTTON: Learn more"}
+var saved=load("metaads_saved",[]);
+function renderSaved(){var ul=$("savedAds");ul.innerHTML=saved.map(function(s,i){return '<li><b>Ad '+(i+1)+'</b><span>'+esc(s.idea)+'</span><span><button type="button" data-c="'+i+'">Copy</button> <button type="button" data-d="'+i+'">Delete</button></span></li>'}).join("");
+[].forEach.call(ul.querySelectorAll("[data-c]"),function(b){b.addEventListener("click",function(){copy(saved[+b.getAttribute("data-c")].text);b.textContent="Copied"})});
+[].forEach.call(ul.querySelectorAll("[data-d]"),function(b){b.addEventListener("click",function(){saved.splice(+b.getAttribute("data-d"),1);save("metaads_saved",saved);renderSaved();var n=$("adN");if(n)n.textContent=saved.length})})}
+renderSaved();script();
+
+/* 5b must be nice */
+var MBN=[{"id":"sl1","a":"adults","r":"sleep","k":"sleep","l":"to fall asleep when you're tired.","t":"Must be nice to fall asleep when you're tired. Instead of replaying every conversation since 2009.","c":"Bed is often the first quiet minute of the day, so that's when the brain starts sorting.","b":"a 1am bedtime","g":["Keep the whole day loud, so bed is the first quiet minute","Take the phone to bed to drown the thoughts out","Try really hard to fall asleep"],"h":"Give the thoughts an earlier slot. Ten minutes with a notepad after dinner, so bed isn't their first turn.","s":"Phone glow in a dark room, clock says 11:47pm"},{"id":"sl2","a":"adults","r":"sleep","k":"sleep","l":"when 11pm isn't when your brain decides to start.","t":"Must be nice when 11pm is bedtime. Not when your brain clocks on.","c":"Lots of neurodivergent people run on a later body clock than school and work allow.","b":"a second wind at 11pm","g":["Bright lights and screens right up to bed","Sleep till noon on the weekend","Save the fun stuff for late at night"],"h":"Fix the wake-up time first, not the bedtime. Same time each day, daylight early.","s":"Wide awake, face lit by a laptop"},{"id":"sl3","a":"adults","r":"sleep","k":"sleep","l":"when “one more episode” is actually one.","t":"Must be nice when “one more episode” means one. Not four.","c":"Late night can be the only time that feels like yours, so your brain guards it.","b":"four more episodes","g":["Have no time to yourself before 10pm","Let autoplay make the call","Lean on willpower at your most tired"],"h":"Book your own time earlier in the evening, so you're not taking it out of sleep.","s":"Remote in hand, face lit by the TV"},{"id":"sl4","a":"adults","r":"sleep","k":"sleep","l":"to wake up and not need an hour to boot up.","t":"Must be nice to wake up and just be awake. Mine takes an hour to load.","c":"A slow start is often a body clock running late, not a lack of effort.","b":"a brutal morning","g":["Set six alarms and snooze five","Wake at a different time every day","Keep the room dark until you leave"],"h":"One alarm, across the room. Open the curtains before you do anything else.","s":"Hand slaps a phone alarm, three times"},{"id":"sl5","a":"parents","r":"sleep","k":"sleep","l":"when bedtime takes 20 minutes, not 2 hours.","c":"For lots of kids, sleep isn't the hard part. Going from full speed to stopped is.","b":"a two hour bedtime","g":["Go straight from screens to lights out","Change the order every night","Start when everyone is already overtired"],"h":"Same three steps, same order, every night. Put them on a card your kid can see.","s":"Parent sitting on the hallway floor outside a bedroom door"},{"id":"mo1","a":"parents","r":"change","k":"morning","l":"when “shoes on” takes one ask.","t":"Must be nice when “shoes on” takes one ask. Not eleven.","c":"By the time shoes come up, your kid has often used up their fuel for instructions.","b":"eleven asks for shoes","g":["Call every instruction out from another room","Make shoes the last step, when time is tightest","Add a new instruction before the last one lands"],"h":"Move shoes earlier in the morning, and swap the words for a picture by the door.","s":"Parent point of view: shoes by the door, clock on the wall"},{"id":"mo2","a":"parents","r":"over","k":"morning","l":"to have a school morning with no tears. Theirs or yours.","c":"Mornings stack a lot of decisions into the part of the day with the least fuel.","b":"a rough school morning","g":["Leave every choice for 7am","Find the uniform and pack the bag on the day","Run the tightest timeline you can"],"h":"Move three decisions to the night before: clothes, bag, breakfast.","s":"School bag by the door, parent breathing out"},{"id":"mo3","a":"adults","r":"memory","k":"morning","l":"to know where your keys are. Every day.","t":"Must be nice to know where your keys are. Every day. Without a search party.","c":"For some brains, out of sight really is out of mind. That's working memory, not carelessness.","b":"a daily key hunt","g":["Put them down wherever you happen to be","Have no set spot","Trust yourself to remember"],"h":"One hook at eye level by the door. Keys live there and nowhere else.","s":"Lifting couch cushions, patting pockets"},{"id":"mo4","a":"adults","r":"memory","k":"morning","l":"to leave the house on the first try.","t":"Must be nice to leave the house once. Not three times. Phone. Wallet. Lunch.","c":"Leaving means holding a list in your head while doing something else.","b":"three trips back inside","g":["Keep the list in your head","Pack while you walk out the door","Keep the things in three different rooms"],"h":"A launch pad by the door, and a three word check you say out loud.","s":"Front door closes, opens, closes, opens"},{"id":"mo5","a":"parents","r":"sensory","k":"morning","l":"when the socks don't have to be exactly right.","c":"The seam is real. Some kids feel it all day, the way you'd feel a stone in your shoe.","b":"a sock standoff at 8:15","g":["Buy whatever is on special","Say “you can't even feel it”","Find out at 8:15"],"h":"Find the socks that work, buy ten pairs, and stop buying the others.","s":"One sock on, one sock held up to the light"},{"id":"en1","a":"adults","r":"energy","k":"energy","l":"to feel the same at 2pm as at 10am.","t":"Must be nice to feel the same at 2pm as you did at 10am.","c":"That crash isn't a character flaw. It's how the energy got spent before lunch.","b":"a 2pm crash","g":["Stack every hard thing back to back","Skip the break because you're on a roll","Run on coffee and no lunch"],"h":"Put one real break before the crash, not after it. Book it like a meeting.","s":"Sharp at the desk, hard cut to flat on the couch"},{"id":"en2","a":"adults","r":"energy","k":"energy","l":"to get home with something left in the tank.","c":"Holding it together all day costs fuel. The bill arrives at the front door.","b":"an empty tank by 5pm","g":["Keep the work face on all day, no breaks","Go straight from the car into dinner and questions","Call it “just tired” and push through"],"h":"Ten minutes in between. Car, quiet, nothing asked of you, before you walk in.","s":"Slumped in the driver's seat, engine off"},{"id":"en3","a":"adults","r":"energy","k":"energy","l":"when a weekend actually refills the tank.","t":"Must be nice when a weekend refills the tank. Mine barely covers the debt.","c":"If the week takes more than rest gives back, two days was never going to cover it.","b":"a Monday that feels like a Friday","g":["Spend the whole week in the red","Fill the weekend with catching up","Count chores as rest"],"h":"Don't wait for the weekend. One small top-up mid week, same day each time.","s":"Sunday night, staring at the ceiling"},{"id":"en4","a":"adults","r":"energy","k":"energy","l":"to say yes to Saturday and not pay for it on Sunday.","c":"Time with people can be great and still cost a lot. Both are true.","b":"a Sunday written off","g":["Say yes to the whole thing","Have no way to leave","Book something for Sunday as well"],"h":"Say yes with an end time, and keep Sunday morning empty on purpose.","s":"Party clothes on Saturday, blanket on Sunday"},{"id":"en5","a":"adults","r":"energy","k":"energy","l":"to rest without feeling like you wasted the day.","c":"If rest only counts once the list is done, it never comes. The list is never done.","b":"rest that doesn't feel like rest","g":["Rest only when everything is finished","Scroll and call it a break","Feel guilty the whole way through"],"h":"Put rest in the plan first, as a thing you do, not a thing you earn.","s":"On the couch, eyes flicking to the washing basket"},{"id":"cl1","a":"clin","r":"energy","k":"energy","l":"to be great at the job and not exhausted by everything around it.","c":"The work is often fine. It's the open plan, the small talk and the switching that cost the most.","b":"burnout in a job you're good at","g":["Blame the work itself","Push through the noise","Try to fix everything at once"],"h":"Find the single biggest drain around the work, and change that one first.","s":"Calm at the desk, flinch when the office gets loud"},{"id":"lo1","a":"adults","r":"over","k":"load","l":"to only have one tab open.","t":"Must be nice to have one tab open. In your browser and in your head.","c":"Holding everything in your head is a job of its own. It uses the space you need for doing things.","b":"47 tabs open in your head","g":["Keep it all in your head","Write it down in five different places","Add to the list and never clear it"],"h":"One place to dump it all, once a day. Your head is for thinking, not storage.","s":"A screen full of tabs"},{"id":"lo2","a":"adults","r":"start","k":"load","l":"to just open the email and reply.","t":"Must be nice to open an email and just reply. Not think about it for nine days first.","c":"Starting is its own skill. The email isn't hard. Getting in is.","b":"a nine day reply","g":["Wait until you can write the perfect answer","Open it, read it, mark it unread","Let it get heavier every day"],"h":"Lower the bar to get in. Two sentences, sent today, good enough.","s":"Blinking cursor, clock jumps 20 minutes"},{"id":"lo3","a":"adults","r":"start","k":"load","l":"to start a task just because it's due.","t":"Must be nice to start a task because it's due. Not because it's 11pm and on fire.","c":"Some brains start on interest and urgency, not importance. “Due” isn't a starter motor.","b":"an 11pm panic","g":["Wait until you feel ready","Keep the task big and vague","Take away every deadline but the last one"],"h":"Shrink the first step until it's almost silly. Open the file. Name it. Stop.","s":"Laptop closed at 3pm, open at 11pm"},{"id":"lo4","a":"adults","r":"memory","k":"load","l":"when a planner makes it past Wednesday.","c":"Most planners are built for a brain that remembers to open the planner.","b":"a planner graveyard","g":["Buy a new system every month","Keep it shut in a drawer","Make it take 20 minutes a day"],"h":"Put the plan where your eyes already go. One page on the wall, three things.","s":"A stack of half-used planners"},{"id":"lo5","a":"adults","r":"memory","k":"load","l":"to remember why you walked into the room.","c":"Working memory drops things at doorways. Everyone's does. Some drop more.","b":"standing in a room with no idea why","g":["Carry three jobs at once","Check your phone on the way","Keep the job silent in your head"],"h":"Say the job out loud as you walk. It holds better in your ears than in your head.","s":"Stops mid-hallway, turns around, turns back"},{"id":"lo6","a":"adults","r":"over","k":"load","l":"to cook dinner without making 40 tiny decisions first.","c":"Dinner isn't one job. It's forty small ones, right when the day's fuel has run out.","b":"a 5pm standoff with the fridge","g":["Decide what's for dinner at 5pm","Shop with no list","Start from a blank page every night"],"h":"Decide once, not daily. Five dinners on a list on the fridge, repeated on purpose.","s":"Fridge door open, long stare"},{"id":"lo7","a":"clin","r":"start","k":"load","l":"to write your notes the same day as the session.","c":"Notes sit at the end of the day, when the tank is lowest and nothing is pushing you to start.","b":"a Friday full of Monday's notes","g":["Save them all for the end of the day","Aim for perfect","Book sessions back to back with no gap"],"h":"Five minutes straight after each session, before the next thing. Good enough beats late.","s":"Laptop open at 9pm, a long empty list"},{"id":"tr1","a":"parents","r":"change","k":"transition","l":"when “screen off” doesn't start a war.","t":"Must be nice when “screen off” is two words. Not a declaration of war.","c":"The blow-up usually isn't about the screen. It's about stopping fast, with no warning.","b":"a screen time war","g":["Call time with no warning","Stop them halfway through a level","Follow it with something boring"],"h":"Agree on the stopping point before they start. End of a round, not end of a clock.","s":"Tablet on the table, timer beside it"},{"id":"tr2","a":"adults","r":"change","k":"transition","l":"to switch tasks without losing 40 minutes.","t":"Must be nice to switch tasks like changing a channel. Mine is more like turning a ship.","c":"Switching means stopping one thing, holding it, and starting another. That's three jobs.","b":"a lost afternoon","g":["Jump the second someone asks","Leave no note about where you were","Stack meetings with no gaps"],"h":"Write one line before you switch: where I was, what's next. Then go.","s":"Head turns between two screens, slower each time"},{"id":"tr3","a":"adults","r":"change","k":"transition","l":"when a change of plan is just a change of plan.","t":"Must be nice when a change of plan is just a change of plan. Not the end of the whole day.","c":"For some brains the plan is what makes the day feel safe. Change the plan and that goes too.","b":"a day wrecked by one change","g":["Spring the change with no notice","Say “it's not a big deal”","Have no backup plan"],"h":"Build plan B into plan A. “If this changes, we do that.”","s":"Phone buzzes: “Slight change of plans”. Long stare"},{"id":"tr4","a":"parents","r":"memory","k":"transition","l":"when “five more minutes” means five minutes.","c":"Time doesn't feel the same length to every brain. Five minutes can honestly feel like one.","b":"a five more minutes that lasts an hour","g":["Call out times from another room","Use “soon” and “in a bit”","Get louder each time"],"h":"Make time something they can see. A timer that shrinks, not a number you say.","s":"Parent in a doorway, the game still going"},{"id":"sh1","a":"adults","r":"energy","k":"shutdown","l":"to switch off when you pull into the driveway.","t":"Must be nice to pull into the driveway and actually be home.","c":"Without a clear end to the work day, your brain never gets told it's over.","b":"work in your head at 9pm","g":["Check email on the couch","Finish the day halfway through a task","Have no last step"],"h":"Give the day a last step. Write tomorrow's first job, shut the laptop, say “done”.","s":"Parked in the driveway, still on a call"},{"id":"sh2","a":"parents","r":"feel","k":"shutdown","l":"when school pickup isn't the hardest part of the day.","c":"Lots of kids hold it together all day, then let go with the person who feels safest. That's you.","b":"a meltdown in the car park","g":["Ask about their day the second they get in","Go straight to the next activity","Expect the school version of them"],"h":"No questions for the first ten minutes. Snack, quiet, the same every day.","s":"Car door shuts, parent glances in the mirror"},{"id":"sh3","a":"clin","r":"energy","k":"shutdown","l":"to run a team and still have words left at dinner.","c":"Talking, deciding and reading faces all day uses the same fuel you need at home.","b":"a silent dinner","g":["Meetings back to back, no gaps","Take calls on the drive home","Walk in the door mid-thought"],"h":"A ten minute gap with no words in it, between work and home.","s":"Lanyard off, long breath out at the front door"},{"id":"se1","a":"adults","r":"sensory","l":"when the tag on your shirt is just a tag.","c":"Some nervous systems turn the volume up on touch. The tag is real, and it's loud.","b":"a whole day thinking about a shirt","g":["Buy for the look, not the feel","Push through, it's only a tag","Keep the clothes that almost work"],"h":"Cut the tags out, and buy three of the shirt that works.","s":"Hand reaching for the back of a collar, again"},{"id":"se2","a":"adults","r":"sensory","l":"to not hear the fridge humming.","t":"Must be nice to not hear the fridge. Or the lights. Or the neighbour's clock.","c":"Some brains don't filter background sound out. It all comes in at the same volume.","b":"a quiet room that wears you out","g":["Sit in the loudest spot","Skip the earplugs because they look odd","Save quiet for when you're already fried"],"h":"Pick the quietest seat first, and keep earplugs where your keys are.","s":"Wincing in a quiet kitchen"},{"id":"se3","a":"adults","r":"sensory","l":"to go to the shops without the lights winning.","c":"Bright lights, noise, crowds and choices all at once is a lot of input for any nervous system.","b":"a shop you need a lie down after","g":["Go at the busiest time","Go with no list","Stay until every job is done"],"h":"Go at the quiet hour, with a list in aisle order, and leave when the list is done.","s":"Squinting under supermarket lights, trolley left behind"},{"id":"se4","a":"parents","r":"sensory","l":"when the texture isn't the whole meal.","c":"For some people, how food feels is as loud as how it tastes. That's sensory, not fussy.","b":"a dinner table standoff","g":["Hide foods inside other foods","Push for “just one bite”","Mix everything together on one plate"],"h":"A safe food on every plate, and new foods on the side with no pressure.","s":"A plate with everything carefully not touching"},{"id":"se5","a":"parents","r":"sensory","l":"when a birthday party is just a party.","c":"Parties are loud, crowded and full of unwritten rules, with sugar on top.","b":"tears at the cake","g":["Arrive when it's in full swing","Stay until the very end","Have no quiet spot"],"h":"Arrive early before it gets loud, find the quiet spot, and leave while it's still going well.","s":"Balloon on a gate, parent taking a breath"},{"id":"so1","a":"adults","r":"social","l":"to make a phone call without writing a script first.","c":"Phone calls take away faces and thinking time. A script puts some of that back.","b":"a call you put off for a month","g":["Wing it","Call when you're already drained","Treat the script as cheating"],"h":"Use the script. Three lines: who I am, what I need, how I end it.","s":"Notes app open with “Hi, my name is” typed out"},{"id":"so2","a":"adults","r":"feel","l":"to hear “can we chat later?” and not replay the last 6 months.","c":"A vague message leaves a gap, and some brains fill gaps with the worst case.","b":"an afternoon of dread","g":["Leave it vague","Wait and wonder","Reread old messages for clues"],"h":"Ask for one line of context. “Sure. What's it about, so I can prepare?”","s":"Phone buzzes, face drops"},{"id":"so3","a":"adults","r":"social","l":"to leave the party when you're tired, not 2 hours after.","c":"There's no script for leaving, so staying feels easier than working out how to go.","b":"two extra hours standing near the door","g":["Turn up with no exit plan","Get a lift with someone who stays late","Wait for a natural gap"],"h":"Pick your leaving time before you arrive, and tell one person.","s":"Standing near the door, holding a jacket"},{"id":"so4","a":"adults","r":"social","l":"when “you seem fine” is actually true.","t":"Must be nice when “you seem fine” is true. And not a full-time job.","c":"Looking fine can take a lot of work. The work is real even when nobody sees it.","b":"a full-time job nobody pays you for","g":["Keep the act up in every room","Have nowhere to drop it","Treat “you seem fine” as the goal"],"h":"Pick one place, or one person, where you don't perform. Start there.","s":"Smile in the hallway, face drops as the door shuts"},{"id":"so5","a":"adults","r":"social","l":"to not need a rule for what everyone else just knows.","c":"Lots of social rules are never said out loud. Some people absorb them. Some have to work them out.","b":"guessing wrong, again","g":["Guess and hope","Never ask","Decide you're the problem"],"h":"Ask for the rule out loud. “What's expected here?” is a fair question.","s":"Watching what everyone else does before sitting down"},{"id":"so6","a":"adults","r":"social","l":"when a group chat isn't a full-time job.","c":"A group chat is a room where everyone talks at once and nothing ever ends.","b":"214 unread messages","g":["Leave every notification on","Reply to everything, straight away","Read it all to catch up"],"h":"Mute it, and check it once a day at a set time.","s":"Phone face down, buzzing across the table"},{"id":"so7","a":"adults","r":"social","l":"to work out who you are before 35.","c":"Lots of adults spent decades building workarounds for a brain nobody explained to them.","b":"another year of “what's wrong with me?”","g":["Keep comparing yourself to people with a different brain","Keep the workarounds a secret","Call your needs “being difficult”"],"h":"Start from what already works for you, and build out from there.","s":"Looking at an old school photo"},{"id":"ad1","a":"adults","r":"start","l":"when the dishes are just dishes, not a mountain.","c":"A job with no clear start or end looks bigger than it is. Brains avoid big.","b":"a sink you can't look at","g":["Wait until you can do the lot","Leave no clear spot to start","Make it all or nothing"],"h":"Five minutes, one song, then stop on purpose. Started is the goal, not finished.","s":"Sink shot from below, like a mountain"},{"id":"ad2","a":"adults","r":"start","l":"to book a GP appointment without a pep talk.","c":"“Book the GP” is three jobs in a coat: find the number, pick a time, make the call.","b":"a three month wait to make a two minute call","g":["Keep it as one big job on the list","Make a phone call the only way in","Wait until it's urgent"],"h":"Split it in three and do only the first today. Find the booking link. Stop.","s":"Thumb hovering over the call button"},{"id":"ad3","a":"adults","r":"start","l":"when washing goes from basket to drawer.","t":"Must be nice when washing goes basket to drawer. Mine lives on the chair now.","c":"Putting away is the boring last 10 percent, with nothing pushing you to finish.","b":"a chair that is now a wardrobe","g":["Fold it all properly or not at all","Keep the drawers in another room","Wait until there's time for the lot"],"h":"Skip the fold. One open tub per person, clean clothes go straight in.","s":"The chair. Everyone has the chair"},{"id":"ad4","a":"adults","r":"memory","l":"to pay a bill the day it arrives.","c":"“Later” has no time on it. For some brains, things are either now or not now.","b":"a late fee","g":["Open it later","Trust yourself to remember","Leave it in an inbox with 400 others"],"h":"Automate what you can. For the rest, pay it before you close the email.","s":"Overdue notice stuck to the fridge"},{"id":"ga1","a":"teens","r":"start","l":"when homework gets the same focus as the game.","c":"That focus is real. Games give a clear goal, instant feedback and a reason to keep going. Homework mostly doesn't.","b":"a blank worksheet at 9pm","g":["Make it one long sitting","Keep the goal vague","Save the feedback for next week"],"h":"Borrow the game's rules. Short levels, a score you can see, a clear finish.","s":"Huge build on screen, then a blank worksheet"},{"id":"ga2","a":"teens","r":"feel","l":"to lose a round and just queue again.","c":"Losing hits some nervous systems hard and fast. The feeling is real, even when the game isn't.","b":"a thrown controller","g":["Play tired and hungry","Talk it through mid-meltdown","Ban the game straight after"],"h":"Plan for the loss before the match. One reset move between rounds, practised while calm.","s":"Controller dropped on the couch"},{"id":"ga3","a":"teens","r":"social","l":"to make friends without a game in common.","c":"Doing something side by side is how lots of kids connect. It's easier than face to face.","b":"a lonely lunchtime","g":["Take the game away to force “real” friends","Push eye contact and small talk","Only count friends they see in person"],"h":"Start with the game. It's a real bridge, not a second prize.","s":"Two headsets, two rooms, one laugh"},{"id":"dr1","a":"driving","r":"start","l":"to just book the L's test.","c":"Booking makes it real. For lots of teens the worry isn't the test. It's everything after it.","b":"an L's handbook gathering dust","g":["Ask about it every week","Compare them to their mates","Make the whole licence the goal"],"h":"Make step one tiny. Sit in the driver's seat, engine off, in the driveway.","s":"L's handbook under a pile on a desk"},{"id":"dr2","a":"driving","r":"feel","l":"to learn to drive with nobody gripping the door handle.","c":"It's hard to learn anything while watching someone else's fear.","b":"a silent, shaky drive home","g":["Teach in peak hour","Give directions at the last second","Gasp"],"h":"A quiet car park, one instruction at a time, said early.","s":"Passenger hand white on the door handle"},{"id":"dr3","a":"driving","r":"over","l":"when a roundabout is just a roundabout.","c":"A roundabout is a lot of fast decisions at once: gap, speed, lane, indicator.","b":"a roundabout you drive ten minutes to avoid","g":["Start with the busy one","Talk the whole way through it","Do it once and move on"],"h":"Walk it first. Then drive the same quiet roundabout ten times in a row.","s":"Busy roundabout, then a quiet one"},{"id":"dr4","a":"driving","r":"change","l":"to drive somewhere new without checking Street View first.","c":"Knowing what's coming frees up attention for the driving. Checking first is a strategy, not a flaw.","b":"a missed turn and a spiral","g":["Wing it","Take “you'll be fine” as a plan","Lean on last second directions"],"h":"Keep checking. Add the car park and the way out to what you look up.","s":"On the couch, phone showing a street view of a car park"},{"id":"nd1","a":"ndis","r":"over","l":"to know what your plan actually pays for.","c":"Plans are written in a language nobody speaks at home.","b":"a plan nobody opens","g":["Leave it in the portal","Nod along in the meeting","Wait for the review to ask"],"h":"Ask your OT to turn one goal into one thing you'd see on a Tuesday.","s":"OT holding a blank plan page"},{"id":"nd2","a":"ndis","r":"feel","l":"when the plan review isn't the scariest meeting of the year.","c":"It's a big meeting about your life, with a short clock and a lot riding on it.","b":"walking out thinking “I forgot to say”","g":["Go in with nothing written down","Describe your best day","Try to remember it all on the spot"],"h":"Write down three real examples from this month before you go. Real days beat general words.","s":"Calendar with one date circled three times"}];
+(function(){
+var WHO={all:"All",adults:"Adults",parents:"Parents",teens:"Teens",driving:"Driving",ndis:"NDIS",clin:"Clinicians and execs"};
+var WC={adults:"var(--navy)",parents:"var(--blue)",teens:"var(--plum)",driving:"var(--coal)",ndis:"var(--slate)",clin:"var(--teal)"};
+var CH={start:"Starting and finishing",memory:"Time and memory",over:"Overload",sensory:"Sensory",energy:"Energy",sleep:"Sleep",social:"Social and masking",change:"Switching and change",feel:"Big feelings"};
+var HG={sleep:"Sleep Architecture",morning:"Morning Architecture",energy:"Energy Management",load:"Cognitive Load Reduction",transition:"Transition Scaffolding",shutdown:"Shutdown Ritual"};
+var SAY={adults:"A lot of the adults we see in OT say this",parents:"Parents we work with in OT say this a lot",teens:"Parents of the teens we see in OT say this a lot",driving:"Learners in our driving OT program say this a lot",ndis:"Families we help through NDIS say this a lot",clin:"Clinicians and execs we see in OT say this a lot"};
+var AUD={adults:"adults",parents:"parents of autistic and ADHD kids",teens:"parents of autistic and ADHD teens",driving:"adults",ndis:"families on self or plan-managed NDIS plans",clin:"adults"};
+var who=load("metaads_mbwho","all"),cur=null;
+function line(c){return "Must be nice "+c.l.replace(/[.]$/,"")}
+function dot(s){s=String(s).trim();return /[.!?”"]$/.test(s)?s:s+"."}
+function lc1(s){return s.charAt(0).toLowerCase()+s.slice(1)}
+function adv(c){var hook=SAY[c.a]+': "'+line(c)+'."';
+var flip=c.g&&c.g.length?"What usually keeps it hard: "+c.g.map(lc1).join("; ")+".":"";
+var body=dot(c.c)+(flip?"\n\n"+flip:"")+"\n\nOne small thing we'd try first: "+lc1(c.h);
+var filt=c.a==="ndis"?"Telehealth OT across Australia.":"Telehealth OT across Australia. Self or plan-managed NDIS, or private.";
+return {hook:hook,body:dot(body)+"\n\n"+filt,cta:"Tap Learn more to see how our OT works.",head:(c.k?HG[c.k]:CH[c.r])}}
+var wb=$("mbWho");Object.keys(WHO).forEach(function(k){var b=document.createElement("button");b.type="button";b.className="chip";b.textContent=WHO[k]+(k==="all"?"":" "+MBN.filter(function(c){return c.a===k}).length);b.setAttribute("aria-pressed",k===who);b.addEventListener("click",function(){who=k;save("metaads_mbwho",k);[].forEach.call(wb.children,function(x){x.setAttribute("aria-pressed",x===b)});list()});wb.appendChild(b)});
+function list(){var ul=$("mbList");ul.innerHTML="";var L=MBN.filter(function(c){return who==="all"||c.a===who});
+L.forEach(function(c){var li=document.createElement("li");var b=document.createElement("button");b.type="button";b.style.setProperty("--c",WC[c.a]);b.innerHTML=esc(line(c))+'<small>'+WHO[c.a]+' &middot; '+(c.k?HG[c.k]:CH[c.r])+'</small>';b.addEventListener("click",function(){show(c)});b.dataset.id=c.id;li.appendChild(b);ul.appendChild(li)});
+if(!cur||L.indexOf(cur)<0)cur=L[0];show(cur)}
+function show(c){cur=c;[].forEach.call($("mbList").querySelectorAll("button"),function(b){b.setAttribute("aria-selected",b.dataset.id===c.id)});var a=adv(c);
+$("mbOrg").innerHTML='<p class="lbl">Organic reel &middot; text walk</p><p class="ov">'+esc(c.t||dot(line(c)))+'</p><p class="shot">Shot: '+esc(c.s||"")+'</p>';
+$("mbAd").innerHTML='<div class="pt"><p class="lbl">Ad &middot; 1 stop the right person</p><p>'+esc(a.hook)+'</p></div><div class="pt"><p class="lbl">2 prove the point</p><p>'+esc(a.body)+'</p></div><div class="pt"><p class="lbl">3 land it</p><p>'+esc(a.cta)+'</p></div><div class="acts"><button class="btn sm dark" type="button" id="mbSend">Send to ad builder</button><button class="btn sm" type="button" id="mbBoard">Add to board</button><button class="btn sm" type="button" id="mbCopy">Copy</button><span class="copied" id="mbCopied" hidden>Done</span></div>';
+$("mbRo1").innerHTML='<div><b>Idea</b>'+esc(CH[c.r]||"")+'</div><div><b>Story</b>'+esc(c.s||c.c)+'</div><div><b>Promise</b>'+esc(c.k?HG[c.k]+" hinge":"One small change")+'</div><div><b>Emotion</b>Recognition, then relief</div><div><b>Call to action</b>Learn more</div>';
+$("mbCopy").addEventListener("click",function(){copy(a.hook+"\n\n"+a.body+"\n\n"+a.cta+"\n\nHEADLINE: "+a.head,$("mbCopied"))});
+$("mbBoard").addEventListener("click",function(){board.away.push({t:line(c)});save("metaads_board",board);renderBoard();var f=$("mbCopied");f.textContent="Added to Away from";f.hidden=false;setTimeout(function(){f.hidden=true;f.textContent="Done"},1600)});
+$("mbSend").addEventListener("click",function(){$("bAud").value=AUD[c.a];draft.bAud=AUD[c.a];$("bStory").value=dot(c.s||"")+" "+dot(c.c);draft.bStory=$("bStory").value;var pr="the one small change that unlocks "+(CH[c.r]||"this").toLowerCase()+", starting with: "+lc1(c.h).replace(/[.]$/,"");$("bPromise").value=pr;draft.bPromise=pr;useIdea(line(c),"away")})}
+list()})();
+
+/* 6 landing page */
+var LP=[
+ {t:"Who it's for",cls:"",d:"One short line at the very top naming the audience. People look for their tribe first.",e:"For parents of autistic and ADHD kids and teens. Telehealth OT, anywhere in Australia."},
+ {t:"Headline",cls:"h1",d:"Result + feeling. Everyone reads it, and it frames the rest of the page. Brandon's first fix on almost every page he reviews. Use the builder below.",e:"Mornings that work for your child's brain, so you can leave the house calm."},
+ {t:"Subheadline",cls:"",d:"One or two sentences on how. A bit more detail than the headline, still big picture.",e:"Telehealth OT with routines built around your child, not around 'just try harder'."},
+ {t:"Video",cls:"vid",d:"Autoplays muted, so burn in captions. Most people watch about 30 seconds, so the big idea goes first. A looping thumbnail of a lively moment lifts plays.",e:"30 seconds of Nik: who we help, what a session looks like, what happens next."},
+ {t:"Line above the form",cls:"",d:"Make it feel like starting a process, not 'Contact us'. Changing just this line has doubled some pages' conversion.",e:"Next step: answer a few questions so we can match you with the right OT."},
+ {t:"The form",cls:"form",d:"Embedded right here, above or just below the fold. Never behind an 'Apply' button that opens another page: that one extra click can halve conversions.",e:"Question 1 is multiple choice: 'Which sounds most like your home right now?'"},
+ {t:"How it works",cls:"",d:"Two 'slides' with images: what happens and what they get. Images beat text blocks. Load sales-call answers into the page so the call has less to explain.",e:"1. A welcome call to check fit. 2. Sessions by video, with a plan you can use at home."},
+ {t:"FAQs (lots, early)",cls:"",d:"Moving FAQs higher has lifted conversion nearly every time Brandon tested it. Four kinds: first questions, follow-ups, expectations (time, what changes), objections from welcome calls.",e:"'Does telehealth work for a 7-year-old?' 'Can NDIS fund this?' 'Will this make my child mask more?'"},
+ {t:"Who this is for",cls:"",d:"Lets people confirm 'this is for me'. On his webinars, 85 to 90% of questions were 'does this work for my business?'.",e:"Kids, teens, late-diagnosed adults. Self and plan-managed NDIS, or private."},
+ {t:"Proof we can use",cls:"",d:"Brandon fills this with testimonials. We can't (Ahpra). Use what builds trust honestly: real team photos, qualifications, podcast and webinar clips, how sessions work.",e:"Meet the team, a Performance Lab clip, photos of our actual space."},
+ {t:"Meet the clinicians",cls:"",d:"Prospects are wondering 'who is this person?'. A real photo and a short bio, with credentials framed as what they mean for the family.",e:"'Nik runs our assessments, so you get one clinician from first call to report.'"}
+];
+(function(){var ph=$("phone"),d=$("lpDetail");LP.forEach(function(s,i){var b=document.createElement("button");b.type="button";b.setAttribute("role","tab");b.className=s.cls;b.innerHTML='<span>'+(i+1)+'</span>'+s.t;b.addEventListener("click",function(){pick(i)});ph.appendChild(b);if(i===5){var f=document.createElement("div");f.className="fold";f.setAttribute("aria-hidden","true");ph.appendChild(f)}});
+function pick(i){var s=LP[i];[].forEach.call(ph.querySelectorAll("button"),function(b,j){b.setAttribute("aria-selected",i===j)});d.innerHTML='<p class="lbl">Block '+(i+1)+' of '+LP.length+'</p><h4>'+s.t+'</h4><p>'+s.d+'</p><div class="ex"><p class="lbl">Estus example</p><p>'+s.e+'</p></div>'+(i===0?'<p class="small muted">No menu, no links away. One page, one action.</p>':"")}pick(1)})();
+function hl(){$("hlH").textContent=($("hlRes").value.trim()+" "+$("hlFeel").value.trim()).trim()||"Your headline";$("hlS").textContent=$("hlSub").value}
+["hlRes","hlFeel","hlSub"].forEach(function(id){$(id).addEventListener("input",hl)});hl();
+var FORMQ=[
+ ["Which sounds most like your home right now?","Four options from the board (towards and away from). Everyone sees themselves in one. It's an easy first yes.","Multiple choice"],
+ ["Who is the support for?","Child, teen, or adult. Routes to the right clinician and the right follow-up emails.","Multiple choice"],
+ ["How will sessions be funded?","Self-managed NDIS, plan-managed NDIS, private. Agency-managed NDIS or Medicare goes to a kind 'here's what we can and can't do' page, with no lead sent to Meta.","Qualifier"],
+ ["What would you like help with first?","Assessment or ongoing therapy. Assessments go to Nik; ongoing to Nik or Nam.","Multiple choice"],
+ ["What are you hoping to work on together?","Brandon's 'fit' question. Industry Set found people focused on building skills showed up and started; people chasing a dream outcome didn't. Use answers to shape follow-up, not to shut families out.","Multiple choice"],
+ ["Full name","One field, not first and last.","Contact"],
+ ["Email","Easier to give than a phone number, so it comes first.","Contact"],
+ ["Mobile","Last. By now they've said yes several times.","Contact"]
+];
+$("formq").innerHTML=FORMQ.map(function(q){return '<li><div><b>'+q[0]+'</b><span class="muted">'+q[1]+'</span></div><span class="ty">'+q[2]+'</span></li>'}).join("");
+var VSL=[
+ {t:"First 30 seconds",s:"Meet them where they're at",c:"c-ad",a:"Stack two or three moments they'll recognise and one thing they want. Say who it's for. Show proof we're allowed to show: the team at work, real sessions (with consent), not testimonials.",b:"'If you're a parent of an autistic or ADHD kid and every morning feels like a negotiation...' This is the only part worth scripting closely."},
+ {t:"Story arc",s:"Two pillars, each with a why",c:"c-page",a:"Split what we do into two pillars. Before each, say why it beats what they've tried. Pillar one creates a 'good problem' that pillar two solves. Then sum up: 'two things: firstly... secondly...'.",b:"Why: charts and courses give generic tips. Pillar 1: we work out what's behind the hard moments. Good problem: a plan needs adjusting as life changes. Pillar 2: ongoing sessions to tune it."},
+ {t:"Questions",s:"FAQ tail, as Q&A",c:"c-book",a:"Have someone off camera ask the common questions. People who watch this far have one question left. Results phrased as what families often tell us, never numbers or promises.",b:"'Does telehealth work for younger kids?' 'How long are sessions?' 'Can my partner join?' 'What if my child won't talk on camera?'"},
+ {t:"Close",s:"Feelings, then next step",c:"c-call",a:"Back to emotion before the ask. 'If you want X, Y and Z, answer the questions below. If we look like a fit, you can book a welcome call on the next page.'",b:"No price in the video: it changes, and value comes first. Show it on the call."}
+];
+(function(){var v=$("vsl"),card=$("vslCard");VSL.forEach(function(s,i){var b=document.createElement("button");b.type="button";b.className=s.c;b.setAttribute("role","tab");b.innerHTML='<b>'+s.t+'</b><small>'+s.s+'</small>';b.addEventListener("click",function(){pick(i)});v.appendChild(b)});
+function pick(i){var s=VSL[i];[].forEach.call(v.children,function(b,j){b.setAttribute("aria-selected",i===j)});card.className="vsl-card "+s.c;card.innerHTML='<div><p class="lbl">'+s.t+'</p><p>'+s.a+'</p></div><div><p class="lbl">For Estus</p><p>'+s.b+'</p></div>'}pick(0)})();
+var AUDIT=["Headline states a result and a feeling, not just what we do","One line above the headline says who it's for","No menu or links away from the page","Video autoplays muted with captions burnt in","Form is embedded near the top, not behind a button","Line above the form feels like starting a process","First question is multiple choice, not contact details","Contact details are the last questions","No open text boxes unless we truly need them","FAQs cover first questions, follow-ups, expectations, objections","FAQs sit high, not buried at the bottom","Images replace text blocks wherever they can","Real photos of real people, no stock","No testimonials, reviews, guarantees or promised results","Wording matches the ad that sent them (same idea, same words)","Lead event fires only on qualifying answers"];
+var aud=load("metaads_audit",{});
+(function(){var ul=$("audit");AUDIT.forEach(function(a,i){var li=document.createElement("li");li.innerHTML='<label><input type="checkbox"'+(aud[i]?" checked":"")+'><span>'+a+'</span></label>';li.querySelector("input").addEventListener("change",function(e){if(e.target.checked)aud[i]=1;else delete aud[i];save("metaads_audit",aud);score()});ul.appendChild(li)});score()})();
+function score(){var n=Object.keys(aud).length;$("auditN").textContent=n+"/"+AUDIT.length;$("auditBar").style.width=(n/AUDIT.length*100)+"%"}
+$("auditReset").addEventListener("click",function(){aud={};save("metaads_audit",aud);[].forEach.call(document.querySelectorAll("#audit input"),function(i){i.checked=false});score()});
+
+/* 7 sequence */
+var SEQ=[
+ {w:"On booking",s:"Booked page",ch:["Page"],m:"You're booked in. Watch the short video below to see how our OT sessions work, so the call can be all about your family.",y:"Same page as the form, top swapped. Never 'Thank you, you're done': people close the tab. Now they've committed, more will actually watch."},
+ {w:"Straight away",s:"",ch:["Text"],m:"Hi [Name], it's [Clinician] from Estus Health. Can you reply YES to confirm your welcome call on [day] at [time]?",y:"A written 'yes' is a small commitment to showing up. Replies are the single best show-rate lever in the course."},
+ {w:"1 minute later",s:"",ch:["Text"],m:"What will really help is watching this short video before we chat: [link]. It covers how sessions work, so we can spend the call on [child's name or 'you'], not on us. A thumbs up once you've seen it would be great.",y:"Framed as help to them, never 'homework'. Asks for a second reply."},
+ {w:"Same day",s:"2 or 3 emails",ch:["Email"],m:"1. How telehealth OT works (and what if they won't sit still?)\n2. What a first session looks like\n3. Your questions: NDIS, cost, times, who joins",y:"Brandon sends four emails in 24 hours and gets 58% opens. People booked because they want information. Thread them under one subject so it's one conversation."},
+ {w:"Confirmation email",s:"",ch:["Email"],m:"What we'll cover: a few questions about your [child/family], what you'd like to change, and whether we're the right fit. No pressure. If anyone else helps make decisions, bring them along so you don't have to pass everything on.",y:"Agenda removes 'is this a sales pitch?'. The partner line is framed as a benefit to them."},
+ {w:"2 days before",s:"",ch:["Text"],m:"Looking forward to meeting you on [day]. Is there anything you'd like me to know about [child] before we talk?",y:"Another reply, and context for the clinician."},
+ {w:"1 day before",s:"",ch:["Text","Email"],m:"See you tomorrow at [time]. Here's the link: [link]. If the time stops working, just reply and we'll move it.",y:"Our version of Brandon's 'no-show' message. Warm, not a warning."},
+ {w:"15 minutes before",s:"",ch:["Text"],m:"See you in 15 minutes: [link]",y:"One member added only this text and doubled his show rate."}
+];
+$("seq").innerHTML=SEQ.map(function(s,i){return '<div class="step"><div class="when">'+s.w+(s.s?'<small>'+s.s+'</small>':"")+'</div><div class="body"><div class="ch">'+s.ch.map(function(c){return "<span>"+c+"</span>"}).join("")+'</div><div class="msg">'+esc(s.m)+'</div><p class="why">'+s.y+'</p><div class="row"><button class="btn sm" type="button" data-sq="'+i+'">Copy</button><span class="copied" id="sqc'+i+'" hidden>Copied</span></div></div></div>'}).join("");
+[].forEach.call(document.querySelectorAll("[data-sq]"),function(b){b.addEventListener("click",function(){var i=+b.getAttribute("data-sq");copy(SEQ[i].m,$("sqc"+i))})});
+
+/* 8 groups */
+var GROUPS=[
+ {t:"Before launch",i:[["Meta pixel (dataset) installed in the page head","Events Manager, Connect data, Web, set up manually"],["Lead event fires when a qualifying form is submitted","Not on every submit"],["Schedule event fires on booking confirmation",""],["No health details in URLs, form fields sent to Meta, or events","Page steps only"],["Test a full run-through and see events arrive","Turn ads on only after this works"]]},
+ {t:"Campaign",i:[["Objective: Leads","Never awareness, traffic or engagement"],["Name ends with the goal, e.g. 'Estus parents_schedules'",""],["Ad set budgets, not campaign budget","Brandon switched in April 2026: more control, steadier bookings"],["Special ad category / A/B test: off unless required",""]]},
+ {t:"Ad set",i:[["Conversion location: Website","Not instant forms (more leads, worse ones)"],["Optimise for Schedules; fall back to Leads if it won't spend","Meta finds exactly the behaviour you ask for"],["No cost per result goal, no value rules, no dynamic creative",""],["Advantage+ audience on, with suggestions","The creative is the targeting now"],["Location: Australia; switch off 'reach people beyond location'",""],["Age suggestion: median parent age, plus or minus one band","Don't widen for outliers"],["Placements: Advantage+, excluding Audience Network",""]]},
+ {t:"Each ad",i:[["Browser add-ons: None","Stops Meta swapping in an instant form or call button"],["Primary text matches the video's one idea",""],["Headline: a short version of the hook",""],["Button: Learn more","Only sell the next step"],["All creative enhancements and 'optimise text per person' off","Plus translations, related media, video effects"],["Name it 'Ad 3: after-school crash'","So winners show their idea"],["Duplicate with original setup, not recommendations",""]]},
+ {t:"Warm ad set",i:[["About 20% of budget",""],["Audiences: Instagram and Facebook engagers 365 days, website 180 days",""],["Turn off Advantage+ and suggestions here",""],["Ads that answer 'who are these people?': team, space, how sessions run",""]]},
+ {t:"Creative pipeline",i:[["At least 12 genuinely different ads","Different idea, words and look, not just new hooks"],["Batch-film in one sitting, standing and moving","Active body, active mind"],["Run a month before judging",""],["Video first; images to test ideas cheaply",""]]}
+];
+var gs=load("metaads_build",{});
+(function(){var el=$("groups");GROUPS.forEach(function(g,gi){var d=document.createElement("div");d.className="grp";var lis=g.i.map(function(it,ii){var k=gi+"_"+ii;return '<li><label class="'+(gs[k]?"done-row":"")+'"><input type="checkbox" data-k="'+k+'"'+(gs[k]?" checked":"")+'><span>'+it[0]+(it[1]?"<em>"+it[1]+"</em>":"")+'</span></label></li>'}).join("");
+d.innerHTML='<h4>'+g.t+'<small id="gc'+gi+'"></small></h4><ul>'+lis+'</ul>';el.appendChild(d);
+[].forEach.call(d.querySelectorAll("input"),function(c){c.addEventListener("change",function(){var k=c.getAttribute("data-k");if(c.checked)gs[k]=1;else delete gs[k];c.parentNode.classList.toggle("done-row",c.checked);save("metaads_build",gs);gcount()})})});gcount()})();
+function gcount(){GROUPS.forEach(function(g,gi){var n=g.i.filter(function(_,ii){return gs[gi+"_"+ii]}).length;$("gc"+gi).textContent=n+"/"+g.i.length})}
+
+/* 9 diagnostic */
+var DG=[
+ {k:"ctr",n:"Link CTR",s:"clicks / views",lo:1,hi:2,v:0.7,c:"c-ad",fix:["They don't care about the message. Rewrite the first line and first 3 seconds.","Go back to the whiteboard: test new towards, away-from and tried-before ideas.","Dig near winners: same idea, new words.","Check the ad isn't showing to the wrong people (location, age suggestion)."],high:"Above 2% usually means curious clicks. Add committed language and filters to the hook, accept fewer clicks, and watch form completion rise."},
+ {k:"opt",n:"Form completion",s:"forms / clicks",lo:5,hi:10,v:6,c:"c-page",fix:["Headline first: swap the result for a clearer, further-downstream one.","Line above the form: make it feel like starting a process.","Physical resistance: check drop-off per question; turn typing into multiple choice; move the form up.","Psychological: add a 'how it works' section with images so people get it without the video.","Chase upstream: sort ads by spend and read their first lines. Curious hooks bring clicks that won't fill in forms."]},
+ {k:"book",n:"Booking rate",s:"bookings / forms",lo:30,hi:50,v:35,c:"c-book",fix:["Open up availability; remove buffers hiding slots.","Allow bookings from tomorrow to about 5 days out.","Booking page says 'Last step'. Remove anything that isn't the calendar.","Does the line above the form make a calendar make sense next? ('Get your plan' implies a PDF.)","Test optimising for Leads vs Schedules."]},
+ {k:"show",n:"Show rate",s:"held / booked",lo:70,hi:75,v:60,c:"c-nur",fix:["Booked page: same video, 'watch to see how we work'.","Ask for replies in every text.","Add a text 15 minutes before.","Put the objections you hear on calls into the follow-up emails.","Chase upstream: what did the page and ad lead them to expect?"]},
+ {k:"close",n:"Start rate",s:"starts / held",lo:30,hi:45,v:35,c:"c-call",fix:["Listen to recordings: are we teaching instead of asking? Fixing that alone can double it.","Deeper discovery: two or three 'why?' and 'then what?' follow-ups.","Check-in questions through the explanation, not an 8-minute monologue.","Only then look at lead quality: compare words used by families who started vs didn't, and change the ads."],high:"Consistently above 60%? Brandon would raise prices. For us: the ads can reach further, or caseloads are ready to grow."}
+];
+var dv=load("metaads_dg",{});
+(function(){var box=$("dgIn");DG.forEach(function(d){if(dv[d.k]!=null)d.v=dv[d.k];var r=document.createElement("div");r.className="dg-row "+d.c;r.innerHTML='<span class="nm">'+d.n+'<small>'+d.s+' &middot; healthy '+d.lo+' to '+d.hi+'%</small></span><input type="number" step="0.1" min="0" aria-label="'+d.n+' percent" value="'+d.v+'"><span class="st" id="dgs_'+d.k+'"></span>';
+r.querySelector("input").addEventListener("input",function(e){var v=parseFloat(e.target.value);d.v=isFinite(v)?v:0;dv[d.k]=d.v;save("metaads_dg",dv);diag()});box.appendChild(r)});
+var p=document.createElement("p");p.className="small muted";p.textContent="Put in your last 30 days. It flags the first step that's off, because fixing earlier steps multiplies through everything after.";box.appendChild(p);diag()})();
+function diag(){var first=null,high=null;DG.forEach(function(d){var s=$("dgs_"+d.k),st="ok",tx="In range";if(d.v<d.lo){st="bad";tx="Low"}else if(d.v>d.hi){st=d.high?"warn":"ok";tx=d.high?"High":"Strong"}s.className="st "+st;s.textContent=tx;if(st==="bad"&&!first)first=d;if(st==="warn"&&!high)high=d});
+var o=$("dgOut");if(first){o.className="dg-out "+first.c;o.innerHTML='<p class="lbl">Fix this first</p><h4>'+first.n+' is '+first.v+'%</h4><p>Healthy is '+first.lo+' to '+first.hi+'%. Work through these in order, one change at a time, and give each a week:</p><ol>'+first.fix.map(function(f){return "<li>"+f+"</li>"}).join("")+'</ol>'+(high?'<p class="small muted">Also: '+high.high+'</p>':"")}
+else if(high){o.className="dg-out "+high.c;o.innerHTML='<p class="lbl">Worth a look</p><h4>'+high.n+' is high</h4><p>'+high.high+'</p>'}
+else{o.className="dg-out c-profit";o.innerHTML='<p class="lbl">Everything in range</p><h4>Let it rip</h4><p>Stop tinkering. Raise the budget in steps and watch total profit. Brandon\'s warning about the "cautious calculator": with good numbers, the easiest win is more spend, not another 1%.</p>'}}
+
+/* kill or leave */
+function kill(){var sp=+$("kSpend").value||0,r=+$("kRes").value||0,avg=+$("kAvg").value||1,ctr=+$("kCtr").value||0,fq=+$("kFreq").value||0,v,c,t;
+var cur=r?sp/r:Infinity,next=sp/(r+1);
+if(sp<avg*1.5&&r===0){c="leave";v="Leave it";t="It has spent $"+fmt(sp)+", less than 1.5x your average cost per result. It hasn't had a fair chance. Low-spend 'pocket' ads often end up cheap."}
+else if(r===0){c="kill";v="Kill it";t="$"+fmt(sp)+" spent and no results, when the average is $"+fmt(avg)+". It should have got at least one by now."}
+else if(cur<=avg*1.15){c="leave";v="Leave it";t="$"+fmt(cur)+" per result is at or near your $"+fmt(avg)+" average. It's working."}
+else if(next<=avg*1.1){c="watch";v="Hold a little longer";t="$"+fmt(cur)+" per result looks bad, but one more result drops it to $"+fmt(next)+". With one or two results, a single extra lead can halve the number."}
+else{c="kill";v="Kill it";t="Even with one more result it would be $"+fmt(next)+" per result vs a $"+fmt(avg)+" average. Spend that money on the ads doing the work."}
+var ex=[];if(ctr>2&&cur>avg)ex.push("High link CTR but expensive results: a curious ad. Clicks without commitment.");if(ctr>0&&ctr<0.6)ex.push("Very low link CTR: the message isn't landing.");if(fq>2)ex.push("Frequency above 2 on a cold audience: people are seeing it too often. Ease the budget or add fresh ads.");
+var o=$("kOut");o.className="verdict "+c;o.innerHTML="<b>"+v+"</b>"+t+(ex.length?'<p class="small muted" style="margin-top:6px">'+ex.join(" ")+"</p>":"")}
+["kSpend","kRes","kAvg","kCtr","kFreq"].forEach(function(id){$(id).addEventListener("input",kill)});kill();
+
+/* game */
+var GAME=[
+ {q:"3 days in. $90 spent. No leads yet.",a:1,e:"Hold. 72 hours at $30 a day is nothing. The ads are still being spread out. Check they're actually on, then wait."},
+ {q:"1 week. $210 spent. A few forms, no starts yet.",a:1,e:"Hold. Leads are coming and the system is learning. Starts take as long as our call and onboarding cycle."},
+ {q:"1 month. $900 spent. Leads coming, but billing barely covers the ads.",a:0,e:"Problem-solve. 30 days is a fair sample. Run the diagnostic: which step is furthest below range? (If the trend is clearly rising, holding is fine.)"},
+ {q:"Month 2. $1,000 spent, $10,000 billed.",a:2,e:"Let it rip. Don't build a new funnel or obsess over 1%. Raise the budget and watch profit."},
+ {q:"Month 3. $3,000 spent, $24,000 billed (8x, down from 10x).",a:2,e:"Let it rip. The ratio fell but profit grew from $9,000 to $21,000. That's the point."},
+ {q:"Month 4 is December. $5,000 spent, $20,000 billed. Profit dipped.",a:1,e:"Hold. Profit fell, so don't push spend. But it's December: zoom out to the quarter, which is still strong, and look to January."}
+];
+(function(){var el=$("game"),L=["Problem-solve","Hold","Let it rip"];GAME.forEach(function(g,i){var d=document.createElement("div");d.className="scen";d.innerHTML='<p class="q"><b>Scenario '+(i+1)+'</b>'+g.q+'</p><div class="abc">'+L.map(function(l,j){return '<button type="button" data-j="'+j+'">'+l+'</button>'}).join("")+'</div><p class="ans" hidden></p>';
+[].forEach.call(d.querySelectorAll("button"),function(b){b.addEventListener("click",function(){var j=+b.getAttribute("data-j");[].forEach.call(d.querySelectorAll("button"),function(x){x.classList.remove("right","wrong")});b.classList.add(j===g.a?"right":"wrong");if(j!==g.a)d.querySelectorAll("button")[g.a].classList.add("right");var a=d.querySelector(".ans");a.hidden=false;a.textContent=(j===g.a?"Yes. ":"Not quite. ")+g.e})});el.appendChild(d)})})();
+
+/* 10 calls */
+var CALLS=[
+ ["1","Their story","Meet them where they are.","Tell me a bit about what's going on and what made you reach out."],
+ ["2","Set the agenda","So they don't wonder when cost comes up.","I'll ask a few questions, then if it fits I'll explain how we'd work together and the costs."],
+ ["3","Discovery","Where are you, where do you want to be, what are you avoiding, what have you tried?","Ask 'why?' or 'then what?' two or three times. Get them to say it, not you."],
+ ["4","Recap","30 seconds, the important bits only.","So mornings are the hardest part, you've tried charts, and you want him leaving calm. Have I got that right?"],
+ ["5","Explain, with check-ins","Only the parts that match what they said.","Does that make sense? Can you see that working at your place?"],
+ ["6","This or that","Two good options.","Would Tuesdays with Nik or Thursdays with Nam suit better?"],
+ ["7","Next steps on the call","Easiest first: details, then agreement, then booking.","Book the first session before the call ends."],
+ ["8","Onboard now","Poor onboarding causes second thoughts.","One clear next thing to do, one channel to reach us."]
+];
+$("calls").innerHTML=CALLS.map(function(c){return '<div><b>Step '+c[0]+'</b><h4>'+c[1]+'</h4><p>'+c[2]+'</p><q>'+c[3]+'</q></div>'}).join("");
+
+/* 11 rules */
+var RULES=[
+ ["Testimonials","Everywhere: screenshots, video, embedded Google reviews, happy customers in the comments, a montage of them.","None in ads, landing pages or emails (Ahpra). Hide clinical testimonials in comments on our ads. Build trust with team, process, education and podcast clips."],
+ ["Promises","'Create content that overwhelms you with leads.' One member ran 'get shredded or your money back'.","Describe what we work on and how. Never promise change or a timeframe. 'Families often tell us...' only for general experience, never outcomes."],
+ ["Urgency","'24 spots left', workshop dates, discounts for paying upfront.","Real availability only. No upfront discounts (NDIS pricing, Ahpra). Use 'this or that' on times and clinicians instead."],
+ ["Red-flag filtering","A 'red flag' question that blocks people from booking. Deletes bookings when people don't reply or complain about emails.","Fit questions route families kindly and shape follow-up. No reply gets a gentle check-in, never a cancelled booking."],
+ ["The 'no dicks' policy","Thank-you page warns annoying applicants get deleted. Lifted his show rate from 60% to 75%.","Keep the idea (identity before ask), lose the threat: 'Life with kids is busy. If the time stops working, reply and we'll move it.'"],
+ ["Emotion and tone","Pissed-off, swearing, negative ads often win for business owners.","Name the real hard moments with warmth. Never mock, shame or pathologise kids or parents. No 'fix', 'normal', 'suffers'."],
+ ["Data","Customer lists uploaded to Meta; pixel on everything; retarget anyone.","Pixel events for page steps only. No client lists uploaded. No diagnosis or health details sent to Meta."],
+ ["Instant lead forms","'More leads, terrible quality.' Low effort, no page to explain anything.","Our ads currently feed lead forms into the Leadgen sheet. Test a landing page plus referral form against them and compare starts, not leads."],
+ ["Agencies","Keep ads in-house. An agency manager juggles 15 to 25 clients and replies slowly.","Britt runs Meta in-house. Clinicians feed her the words families use on welcome calls."]
+];
+$("rulesT").innerHTML='<div class="r h"><span>Topic</span><span>Brandon</span><span>Estus</span></div>'+RULES.map(function(r){return '<div class="r"><b>'+r[0]+'</b><span class="bw">'+r[1]+'</span><span class="us">'+r[2]+'</span></div>'}).join("");
+
+/* 12 quiz */
+var QZ=[
+ {q:"Link CTR is 2.8% but hardly anyone fills in the form. What's most likely?",o:["The landing page is broken","The hook is curious, not committed, so the wrong people click","The budget is too low","Meta is showing the ad to too few people"],a:1,e:"Above 2% is suspicious. People clicked out of curiosity and the page didn't match what they expected. Add committed language and filters to the hook."},
+ {q:"Which hook is most committed?",o:["Is your child struggling?","5 tips for calmer mornings","The families we see in OT often start with mornings that fall apart","Want to learn more about autism?"],a:2,e:"'The families we see in OT' tells people it's a service, so the ones who click expect a form."},
+ {q:"Where should name, email and phone go on the form?",o:["First, so we don't lose them","In the middle","Last","On a separate page after a button"],a:2,e:"Contact details are high commitment. Easy multiple-choice questions first; moving contact details last quadrupled one member's conversion."},
+ {q:"The booking page headline should say:",o:["Thank you, you're all done!","Congratulations!","Last step: book your welcome call","Please read our policies"],a:2,e:"'Thank you' closes the loop and people leave. 'Last step' keeps it open."},
+ {q:"An ad has spent $300 with 1 lead. The account average is $250 per lead. You should:",o:["Kill it now","Hold: one more lead brings it to $150","Double its budget","Change the video"],a:1,e:"With one result, a single extra lead halves the cost. Give it a fair run."},
+ {q:"Since Andromeda, the best way to reach the right parents is:",o:["Narrow interest targeting","Lots of different ads whose words and visuals say who they're for","One great ad with many hook versions","Lookalike audiences of clients"],a:1,e:"The creative is the targeting now. Meta reads what you say and show. And we don't upload client lists."},
+ {q:"On the welcome call a parent says 'I need to think about it'. First move?",o:["List all the benefits again","Offer a discount","Slow down: 'Totally fair. What's on your mind?'","Send a long email after the call"],a:2,e:"Meet them where they are, then isolate the real concern. Feelings need a feelings answer."},
+ {q:"Which can go on our landing page?",o:["A parent's video saying OT changed their child's life","Embedded 5-star Google reviews","Real photos of our clinicians and how a session runs","'Results guaranteed in 6 weeks'"],a:2,e:"Testimonials, reviews and guarantees are out under Ahpra rules. Honest proof is people and process."}
+];
+var qi=0,score2=0,res=[];
+function quiz(){var el=$("quiz");if(qi>=QZ.length){el.innerHTML='<p class="qn">Done</p><p class="qt">You got '+score2+' of '+QZ.length+'.</p><p>'+(score2>=7?"Strong. You know the system.":score2>=5?"Good. Revisit the sections you missed.":"Worth another read of Hooks, Landing page and Optimise.")+'</p><div><button class="btn dark" type="button" id="qAgain">Try again</button></div>';$("qAgain").addEventListener("click",function(){qi=0;score2=0;res=[];quiz()});return}
+var Q=QZ[qi];el.innerHTML='<p class="qn">Question '+(qi+1)+' of '+QZ.length+'</p><p class="qt">'+Q.q+'</p><div class="opts">'+Q.o.map(function(o,j){return '<button type="button" data-j="'+j+'">'+o+'</button>'}).join("")+'</div><p class="qfb" hidden></p><div class="qfoot"><div class="dots">'+QZ.map(function(_,j){return '<i class="'+(res[j]===1?"r":res[j]===0?"w":"")+'"></i>'}).join("")+'</div><button class="btn dark" type="button" id="qNext" hidden>Next &rarr;</button></div>';
+[].forEach.call(el.querySelectorAll(".opts button"),function(b){b.addEventListener("click",function(){var j=+b.getAttribute("data-j"),ok=j===Q.a;res[qi]=ok?1:0;if(ok)score2++;[].forEach.call(el.querySelectorAll(".opts button"),function(x,k){x.disabled=true;if(k===Q.a)x.classList.add("right")});if(!ok)b.classList.add("wrong");var f=el.querySelector(".qfb");f.hidden=false;f.textContent=(ok?"Right. ":"Not quite. ")+Q.e;var n=$("qNext");n.hidden=false;n.focus();n.addEventListener("click",function(){qi++;quiz()})})})}
+quiz();
+})();
+</script>
+</body>
+</html>
