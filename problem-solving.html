@@ -203,6 +203,9 @@ p { margin: 0; max-width: 65ch; }
 input[type="range"] { width: 100%; accent-color: var(--ink); }
 
 /* rule of 100 */
+.ov-calc { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.ov-calc label { display: flex; flex-direction: column; gap: 6px; font-weight: 700; font-size: 0.9rem; }
+@media (max-width: 640px) { .ov-calc { grid-template-columns: 1fr; } }
 .r100-top { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; }
 .r100-count { display: flex; align-items: baseline; gap: 6px; }
 .r100-count strong { font-family: var(--font-display); font-size: 2.6rem; line-height: 1; font-variant-numeric: tabular-nums; }
@@ -381,6 +384,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--flow); outline-
       <div class="group"><div class="group-h"><b>Think ahead</b><span>Before you commit</span></div>
         <a class="icard" href="#second"><b>Second-order effects</b><span>And then what?</span></a>
         <a class="icard" href="#inversion"><b>Inversion</b><span>What would guarantee failure?</span></a>
+        <a class="icard" href="#outside"><b>Inside vs outside view</b><span>What is this like?</span></a>
         <a class="icard" href="#infinite"><b>Finite vs infinite</b><span>Is there a finish line?</span></a>
       </div>
       <div class="group"><div class="group-h"><b>Make it doable</b><span>Turn it into action</span></div>
@@ -612,6 +616,32 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--flow); outline-
       <div class="side dim"><span class="tag">Forward</span><span class="arrow" id="inv-fq"></span><p id="inv-a"></p></div>
       <div class="side lit"><span class="tag">Inverted</span><span class="arrow" id="inv-iq"></span><p id="inv-b"></p></div>
     </div>
+  </section>
+
+  <section class="panel kit" id="outside" aria-labelledby="ov-h">
+    <div class="explain-head">
+      <span class="eyebrow">Analogous thinking</span>
+      <h2 id="ov-h">Inside vs outside view</h2>
+      <p>The <b>inside view</b> looks only at your case: your plan, your client, your effort. It's almost always too hopeful. The <b>outside view</b> asks <b>"what is this like?"</b> Find similar cases, see how they usually went, start there, then adjust for what's truly different.</p>
+    </div>
+    <div class="test">Quick test: can you name <b>three similar cases</b> and how they turned out?</div>
+    <div class="chips" id="ov-chips" role="group" aria-label="Inside and outside view examples"></div>
+    <div class="compare">
+      <div class="side dim"><span class="tag">Inside view</span><span class="arrow">Just this case</span><p id="ov-a"></p></div>
+      <div class="side lit"><span class="tag">Outside view</span><span class="arrow" id="ov-like"></span><p id="ov-b"></p></div>
+    </div>
+    <p class="fix"><b>Adjust:</b> <span id="ov-fix"></span></p>
+    <h3>Start outside, then nudge</h3>
+    <p class="note">Put in your gut guess and what similar cases usually took. Any unit works: hours, weeks, dollars.</p>
+    <div class="ov-calc">
+      <label>Your gut guess<input class="txt" id="ov-gut" type="number" min="0" step="any" inputmode="decimal" value="2"></label>
+      <label>Similar cases usually took<input class="txt" id="ov-base" type="number" min="0" step="any" inputmode="decimal" value="5"></label>
+    </div>
+    <div class="run-row"><span class="step-count">How different is your case, really?</span>
+      <div class="seg" role="group" aria-label="How different is your case"><button type="button" id="ov-d0" aria-pressed="true">Barely</button><button type="button" id="ov-d1" aria-pressed="false">Somewhat</button><button type="button" id="ov-d2" aria-pressed="false">Very</button></div>
+    </div>
+    <p class="fix" id="ov-msg" aria-live="polite"></p>
+    <p class="note">Analogies also lend you fixes. Once you know what this is like, ask how others solved it.</p>
   </section>
 
   <section class="panel kit" id="infinite" aria-labelledby="fi-h">
@@ -849,6 +879,34 @@ chips("inv-chips", [
   { name: "Morning routine", fq: "How do we have calm mornings?", iq: "What makes mornings go badly?", a: "Hope everyone gets up on time.", b: "Late bedtime, nothing ready, screens on, five things to find. Remove those." },
   { name: "Referrals", fq: "How do we get more referrals?", iq: "How would we lose every referrer?", a: "Do more marketing.", b: "Slow replies, no updates on shared clients, long waitlist with no info." }
 ], ex => { $("inv-fq").textContent = ex.fq; $("inv-iq").textContent = ex.iq; $("inv-a").textContent = ex.a; $("inv-b").textContent = ex.b; });
+
+chips("ov-chips", [
+  { name: "New clinician", a: "They're sharp. Full caseload in 6 weeks.", like: "Every new grad onboarded", b: "Most new grads take 4 to 6 months to reach a full caseload.", fix: "Strong supervision might shave a little off. Plan for about 4 months, not 6 weeks." },
+  { name: "Writing a report", a: "I know this client well. 2 hours, tops.", like: "Your last 10 reports", b: "They averaged 5 hours once edits and sign-off were counted.", fix: "Book 4 to 5 hours. Knowing the client helps, but the edits still happen." },
+  { name: "Morning routine goal", a: "He's keen. Independent in 2 weeks.", like: "Other teens' routines", b: "Usually 6 to 10 weeks, with a wobble or two along the way.", fix: "Tell the family 6 to 8 weeks and warn them a dip is normal." },
+  { name: "Clinic fitout", a: "Builder says done by February.", like: "Other clinic fitouts", b: "Most run 1 to 3 months late and over budget.", fix: "Plan a soft launch with a buffer month and some spare cash." },
+  { name: "First ad campaign", a: "These ads will fill the books this month.", like: "Other small clinics' first ads", b: "Most need a few months of testing before leads are steady.", fix: "Budget for 3 months of testing before you judge it." }
+], ex => { $("ov-a").textContent = ex.a; $("ov-like").textContent = "Like: " + ex.like; $("ov-b").textContent = ex.b; $("ov-fix").textContent = ex.fix; });
+
+const ovW = [0.2, 0.35, 0.5];
+let ovD = 0;
+function fmtN(n) { return n >= 10 ? String(Math.round(n)) : String(Math.round(n * 10) / 10); }
+function drawOv() {
+  const g = parseFloat($("ov-gut").value), b = parseFloat($("ov-base").value), m = $("ov-msg");
+  if (!(g >= 0) || !(b > 0)) { m.textContent = "Put a number in both boxes."; return; }
+  const plan = b + (g - b) * ovW[ovD];
+  let t = "Plan for about " + fmtN(plan) + ". ";
+  if (g < b) t += "Your gut is " + Math.round((1 - g / b) * 100) + "% under what usually happens. That gap is the planning fallacy.";
+  else if (g > b) t += "Your gut is above the usual. Fine to be careful, but check you're not padding out of worry.";
+  else t += "Your gut matches the usual. Good sign.";
+  m.textContent = t;
+}
+[0, 1, 2].forEach(i => $("ov-d" + i).addEventListener("click", () => {
+  ovD = i; [0, 1, 2].forEach(j => $("ov-d" + j).setAttribute("aria-pressed", j === i ? "true" : "false")); drawOv();
+}));
+$("ov-gut").addEventListener("input", drawOv);
+$("ov-base").addEventListener("input", drawOv);
+drawOv();
 
 pair("env-chips", "env", [
   { name: "Phone at night", a: "Try not to scroll in bed.", b: "Charge the phone in the kitchen." },
@@ -1148,6 +1206,7 @@ const runSteps = [
   { tool: "Rule of 100", cls: "kit-t", q: "What one action will you do 100 times?", hint: "Pick something you can count. Don't judge it until you hit 100." },
   { tool: "Second-order effects", cls: "kit-t", q: "If you fix it, and then what?", hint: "What might the fix cause a month from now?" },
   { tool: "Inversion", cls: "kit-t", q: "What would guarantee it gets worse?", hint: "List a few. Are any of them already happening?" },
+  { tool: "Inside vs outside view", cls: "kit-t", q: "What is this like, and how did those go?", hint: "Name three similar cases. Start from how they usually went, then adjust for what's truly different." },
   { tool: "Finite vs infinite", cls: "kit-t", q: "Is this a game you win, or one you keep playing?", hint: "If it never ends, what choice keeps you in the game for the long run?" },
   { tool: "Task analysis", cls: "kit-t", q: "What are the steps, and which one breaks?", hint: "Write it so a stranger could follow it." },
   { tool: "Just-right challenge", cls: "kit-t", q: "Is that step too easy, just right or too hard?", hint: "How could you grade it up or down?" },
@@ -1155,7 +1214,15 @@ const runSteps = [
 ];
 const KEY = "zoom-flow-run";
 let run = { problem: "", answers: runSteps.map(() => ""), at: 0 };
-try { const saved = JSON.parse(localStorage.getItem(KEY) || "null"); if (saved && Array.isArray(saved.answers) && saved.answers.length === runSteps.length) run = saved; } catch (e) {}
+try {
+  const saved = JSON.parse(localStorage.getItem(KEY) || "null");
+  if (saved && Array.isArray(saved.answers)) {
+    // older saves predate the inside vs outside view step; slot a blank answer in
+    const ovAt = runSteps.findIndex(s => s.tool === "Inside vs outside view");
+    if (saved.answers.length === runSteps.length - 1) { saved.answers.splice(ovAt, 0, ""); if (saved.at >= ovAt) saved.at++; }
+    if (saved.answers.length === runSteps.length) run = saved;
+  }
+} catch (e) {}
 function save() { try { localStorage.setItem(KEY, JSON.stringify(run)); } catch (e) {} }
 const dots = $("step-dots");
 runSteps.forEach((s, i) => {
@@ -1238,7 +1305,7 @@ $("copy-notes").addEventListener("click", () => {
 drawRun();
 
 // game
-const labels = { top: "Top down", bottom: "Bottom up", up: "Upstream", down: "Downstream", in: "Input", alg: "Algorithm", bn: "The bottleneck", notbn: "Not the bottleneck", snow: "Snowball", spiral: "Spiral", lead: "Lead", lag: "Lag", first: "First-order", second: "Second-order", fwd: "Forward", inv: "Inverted", will: "Willpower", env: "Environment", sig: "Signal", noise: "Noise", fin: "Finite mindset", inf: "Infinite mindset", fwd2: "Forward chaining", back: "Backward chaining", easy: "Too easy", right: "Just right", hard: "Too hard", keep: "Keep going", judge: "Judge it now", linger: "Likely to linger", fixed: "Likely to get fixed" };
+const labels = { top: "Top down", bottom: "Bottom up", up: "Upstream", down: "Downstream", in: "Input", alg: "Algorithm", bn: "The bottleneck", notbn: "Not the bottleneck", snow: "Snowball", spiral: "Spiral", lead: "Lead", lag: "Lag", first: "First-order", second: "Second-order", fwd: "Forward", inv: "Inverted", will: "Willpower", env: "Environment", sig: "Signal", noise: "Noise", fin: "Finite mindset", inf: "Infinite mindset", fwd2: "Forward chaining", back: "Backward chaining", easy: "Too easy", right: "Just right", hard: "Too hard", keep: "Keep going", judge: "Judge it now", linger: "Likely to linger", fixed: "Likely to get fixed", insd: "Inside view", outs: "Outside view" };
 const kinds = {
   zoom: { ask: "Top down or bottom up?", opts: ["top", "bottom"], cls: "zoom-t" },
   flow: { ask: "Upstream or downstream?", opts: ["up", "down"], cls: "flow-t" },
@@ -1254,7 +1321,8 @@ const kinds = {
   ch: { ask: "Forward or backward chaining?", opts: ["fwd2", "back"], cls: "kit-t" },
   jr: { ask: "Too easy, just right or too hard?", opts: ["easy", "right", "hard"], cls: "kit-t" },
   r1: { ask: "Judge it now, or keep going?", opts: ["keep", "judge"], cls: "kit-t" },
-  rb: { ask: "Likely to linger, or likely to get fixed?", opts: ["linger", "fixed"], cls: "kit-t" }
+  rb: { ask: "Likely to linger, or likely to get fixed?", opts: ["linger", "fixed"], cls: "kit-t" },
+  ov: { ask: "Inside view or outside view?", opts: ["insd", "outs"], cls: "kit-t" }
 };
 const pool = [
   { t: "zoom", s: "A coach shows the team the whole game plan, then drills each play.", a: "top", why: "Goal first, then the parts." },
@@ -1294,7 +1362,10 @@ const pool = [
   { t: "r1", s: "You've posted 100 short videos, tracked enquiries, and none came from video.", a: "judge", why: "You've done the reps. Now the data means something." },
   { t: "rb", s: "The intake form is a bit clunky. Everyone just works around it.", a: "linger", why: "Mildly bad never hits the trigger. It can last for years." },
   { t: "rb", s: "The booking system crashes and nobody can book for a day.", a: "fixed", why: "Bad enough to trigger action straight away." },
-  { t: "rb", s: "A teen is 'fine' at school but comes home drained every single day.", a: "linger", why: "A mild, constant cost is easy to miss. Worth a closer look." }
+  { t: "rb", s: "A teen is 'fine' at school but comes home drained every single day.", a: "linger", why: "A mild, constant cost is easy to miss. Worth a closer look." },
+  { t: "ov", s: "You book 2 hours for a report because you know this client really well.", a: "insd", why: "Built only from this case. Your past reports would tell a different story." },
+  { t: "ov", s: "Before quoting a timeline, you check how long your last 10 similar reports took.", a: "outs", why: "You started from what usually happens." },
+  { t: "ov", s: "You ask three other clinic owners how late their fitouts ran before setting an opening date.", a: "outs", why: "Similar cases first, then your plan." }
 ];
 const ROUND = 10;
 let game = [], idx = 0, right = 0, results = [];
