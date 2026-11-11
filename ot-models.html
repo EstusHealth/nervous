@@ -1,0 +1,703 @@
+<!doctype html><html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>OT Models and Frames</title><meta name="robots" content="noindex, nofollow"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 fill=%22%23090909%22/%3E%3Crect x=%224%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23344982%22/%3E%3Crect x=%2210%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232F6F9E%22/%3E%3Crect x=%2216%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232CA5B8%22/%3E%3Crect x=%2222%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23AB5C95%22/%3E%3C/svg%3E"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap"><style>
+:root{
+  --g-bg:#F3F2EF;--g-surface:#FBFAF8;--g-sunk:#ECEAE6;--g-fg:#0E1014;--g-muted:#65676E;--g-rule:#D3D1CC;--g-ink:#090909;--g-on-ink:#FBFAF8;
+  --g-navy:#344982;--g-blue:#2F6F9E;--g-teal:#2CA5B8;--g-plum:#AB5C95;
+  --g-navy-t:#DDE2EF;--g-blue-t:#DCE8F1;--g-teal-t:#DAF0F3;--g-plum-t:#F1E1EC;
+  --g-warn:#A86A12;--g-warn-t:#F6E8D2;
+  --sp-track:#DCE4EE;--sp-infield:#E9EDE4;--sp-lane:#FBFAF8;--sp-guide:#BFC3CA;--sp-on-c:#FFFFFF;
+  --g-display:"Oswald","Arial Narrow",Impact,sans-serif;--g-cond:"Barlow Semi Condensed","Arial Narrow",sans-serif;--g-body:"Barlow","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --g-bg:#0F1216;--g-surface:#161A20;--g-sunk:#1D222A;--g-fg:#ECEEF1;--g-muted:#9BA1AB;--g-rule:#2C323C;--g-ink:#05070A;--g-on-ink:#ECEEF1;
+  --g-navy:#8299DA;--g-blue:#6FA8D2;--g-teal:#4CC3D4;--g-plum:#D58FC1;
+  --g-navy-t:#1E2740;--g-blue-t:#18293A;--g-teal-t:#123238;--g-plum-t:#33202E;
+  --g-warn:#E0A64A;--g-warn-t:#33270F;
+  --sp-track:#18222F;--sp-infield:#121A17;--sp-lane:#26324A;--sp-guide:#2C323C;--sp-on-c:#05070A;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --g-bg:#0F1216;--g-surface:#161A20;--g-sunk:#1D222A;--g-fg:#ECEEF1;--g-muted:#9BA1AB;--g-rule:#2C323C;--g-ink:#05070A;--g-on-ink:#ECEEF1;
+  --g-navy:#8299DA;--g-blue:#6FA8D2;--g-teal:#4CC3D4;--g-plum:#D58FC1;
+  --g-navy-t:#1E2740;--g-blue-t:#18293A;--g-teal-t:#123238;--g-plum-t:#33202E;
+  --g-warn:#E0A64A;--g-warn-t:#33270F;
+  --sp-track:#18222F;--sp-infield:#121A17;--sp-lane:#26324A;--sp-guide:#2C323C;--sp-on-c:#05070A;color-scheme:dark}
+
+:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--g-bg);color:var(--g-fg);font:400 17px/1.55 var(--g-body)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--g-bg)}
+[hidden]{display:none!important}
+.g-root h1,.g-root h2,.g-root h3,.g-root h4{text-wrap:balance;margin:0}
+.g-root button{font:inherit;color:inherit}
+.g-root :focus-visible{outline:2px solid var(--g-teal);outline-offset:2px}
+.g-wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.g-eyebrow{font:700 12px var(--g-cond);letter-spacing:.18em;text-transform:uppercase;color:var(--g-muted);margin:0}
+.c-perf{--c:var(--g-teal);--ct:var(--g-teal-t)}
+.c-athlete{--c:var(--g-navy);--ct:var(--g-navy-t)}
+.c-env{--c:var(--g-plum);--ct:var(--g-plum-t)}
+
+/* hero */
+.g-hero{background:var(--g-ink);color:var(--g-on-ink)}
+.g-hero .g-wrap{padding-block:30px 36px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:32px;align-items:end}
+.g-hero .g-eyebrow{color:#AEB5C2}
+.g-hero h1{font:600 clamp(40px,7vw,76px)/.95 var(--g-display);text-transform:uppercase;letter-spacing:.01em;margin:8px 0 14px}
+.g-hero h1 em{font-style:normal;color:#4CC3D4}
+.g-lead{font-size:18px;max-width:56ch;color:#D6DAE2;margin:0}
+.g-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.g-meta span{font:600 12px var(--g-cond);letter-spacing:.12em;text-transform:uppercase;border:1px solid #3A3F48;padding:4px 10px;color:#D6DAE2}
+.g-side{list-style:none;margin:0;padding:0;border:1px solid #2C323C;background:#111419}
+.g-side li{display:grid;grid-template-columns:34px minmax(0,1fr);gap:10px;align-items:baseline;padding:10px 14px;border-top:1px solid #2C323C}
+.g-side li:first-child{border-top:0}
+.g-side .n{font:600 22px var(--g-display);color:var(--h)}
+.g-side b{font:600 15px var(--g-cond);text-transform:uppercase;letter-spacing:.06em;display:block}
+.g-side span.w{font-size:14px;color:#AEB5C2}
+.h-perf{--h:#4CC3D4}.h-athlete{--h:#8299DA}.h-env{--h:#D58FC1}
+
+/* atlas */
+.sp{padding-block:28px 56px}
+.sp-layout{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:40px;align-items:start}
+.sp-mapcol{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);min-width:0;display:flex;flex-direction:column;gap:14px}
+.sp-panelcol{min-width:0}
+@media (max-width:920px){.sp-layout{grid-template-columns:1fr;gap:24px}.sp-mapcol{position:static}}
+
+.sp-bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.sp-seg{display:inline-grid;grid-template-columns:1fr 1fr;border:1px solid var(--g-fg)}
+.sp-seg button{font:600 13px var(--g-cond);letter-spacing:.1em;text-transform:uppercase;padding:10px 18px;background:var(--g-surface);border:0;cursor:pointer;line-height:1;min-height:40px}
+.sp-seg button[aria-pressed="true"]{background:var(--g-ink);color:var(--g-on-ink)}
+:root[data-theme="dark"] .sp-seg button[aria-pressed="true"]{background:var(--g-fg);color:var(--g-bg)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .sp-seg button[aria-pressed="true"]{background:var(--g-fg);color:var(--g-bg)}}
+.sp-note{margin:0;color:var(--g-muted);font-size:15px;flex:1 1 220px;min-width:0}
+
+.sp-map{width:100%;aspect-ratio:1320/1080;max-width:100%}
+.sp-map svg{width:100%;height:100%;display:block;overflow:visible}
+.guide{fill:none;stroke:var(--sp-guide);stroke-width:2;stroke-dasharray:3 9}
+.track{fill:var(--sp-track)}
+.infield{fill:var(--sp-infield)}
+.lane{fill:none;stroke:var(--sp-lane);stroke-width:2.5}
+.arc{fill:none;stroke:var(--c);stroke-width:8}
+.center circle{fill:var(--g-ink)}
+:root[data-theme="dark"] .center circle{fill:#232831}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .center circle{fill:#232831}}
+.center text{fill:#FBFAF8;font-family:var(--g-display);font-weight:600;font-size:25px;letter-spacing:.06em}
+.center .bands rect:nth-child(1){fill:#344982}.center .bands rect:nth-child(2){fill:#2F6F9E}.center .bands rect:nth-child(3){fill:#2CA5B8}.center .bands rect:nth-child(4){fill:#AB5C95}
+.center,.bnode,.onode{cursor:pointer;outline:none}
+.center:focus-visible circle{stroke:var(--g-teal);stroke-width:6}
+.bnode circle{fill:var(--g-surface);stroke:var(--c);stroke-width:4;transition:stroke-width .15s,fill .2s}
+.bnode text{fill:var(--g-fg);font-family:var(--g-display);font-weight:600;font-size:15.5px;letter-spacing:.03em;pointer-events:none}
+.bnode:hover circle,.bnode:focus-visible circle,.bnode.hit circle{stroke-width:8}
+.bnode.on circle{fill:var(--c)}
+.bnode.on text{fill:var(--sp-on-c)}
+.bnode,.onode{transition:opacity .25s}
+.dim{opacity:.3}
+.onode circle{fill:var(--g-surface);stroke:var(--c,var(--g-fg));stroke-width:3}
+.onode.psy circle{fill:var(--g-fg);stroke:var(--g-fg)}
+.onode.spt circle{fill:var(--g-surface);stroke:var(--g-fg);stroke-dasharray:4 3}
+.onode text{fill:var(--g-fg);font-size:19px;font-family:var(--g-body);font-weight:500}
+.onode:hover circle,.onode:focus-visible circle,.onode.hit circle{stroke-width:6}
+.onode:focus-visible text,.onode:hover text{text-decoration:underline}
+.onode.on circle{fill:var(--c,var(--g-fg));stroke-width:6}
+.onode.on text,.onode.hit text{font-weight:700}
+.link{fill:none;stroke:var(--c);stroke-width:2.2;opacity:.26;transition:opacity .25s,stroke-width .25s}
+.link.on{opacity:.95;stroke-width:4}
+.link.dim{opacity:.05}
+.cline{stroke:var(--c);stroke-width:2.2;opacity:.55}
+.pop{animation:pop .38s cubic-bezier(.2,.8,.3,1.2) both;transform-box:fill-box;transform-origin:center}
+@keyframes pop{from{opacity:0;transform:scale(.55)}}
+
+.sp-legend{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:620px){.sp-legend{grid-template-columns:1fr}}
+.lg{min-width:0;border-top:5px solid var(--c);padding-top:8px}
+.lg-name{font:600 17px/1.1 var(--g-display);letter-spacing:.04em;text-transform:uppercase;margin:0}
+.lg-note{margin:2px 0 8px;color:var(--g-muted);font-size:14px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:6px 11px;border-radius:999px;border:1px solid var(--g-rule);background:var(--g-surface);color:var(--g-fg);font:600 13px/1.25 var(--g-cond);letter-spacing:.04em;text-transform:uppercase;cursor:pointer;text-align:left;text-decoration:none;min-height:32px}
+.chip .dot{width:9px;height:9px;border-radius:50%;background:var(--c,var(--g-fg));flex:none}
+.chip.psy .dot{background:var(--g-fg)}
+.chip.spt .dot{background:transparent;border:1.5px dashed var(--g-fg)}
+.chip.hub .dot{border-radius:0;width:12px;height:4px;background:linear-gradient(90deg,#344982 0 25%,#2F6F9E 25% 50%,#2CA5B8 50% 75%,#AB5C95 75%)}
+.chip:hover{border-color:var(--c,var(--g-fg))}
+.g-root button.chip{font:600 13px/1.25 var(--g-cond);letter-spacing:.04em}
+.chip.on{background:var(--c);border-color:var(--c);color:var(--sp-on-c)}
+.chip.on .dot{background:var(--sp-on-c)}
+.sp-key{margin:0;color:var(--g-muted);font-size:14px}
+
+/* panel */
+.sp-panel{scroll-margin-top:calc(env(safe-area-inset-top,0px) + 12px)}
+.eyebrow{display:flex;align-items:center;gap:8px;font:700 12px var(--g-cond);letter-spacing:.18em;text-transform:uppercase;color:var(--c,var(--g-muted));margin:0 0 6px}
+.eyebrow .dot{width:10px;height:10px;border-radius:50%;background:var(--c,var(--g-fg))}
+.sp-panel h2{font:600 clamp(30px,4.2vw,44px)/1 var(--g-display);text-transform:uppercase;letter-spacing:.01em;margin:0 0 12px}
+.lead{font-size:19px;line-height:1.45;margin:0 0 8px;max-width:60ch}
+.sp-panel section{border-top:1px solid var(--g-rule);padding-top:14px;margin-top:24px}
+.sp-panel h3{font:700 13px var(--g-cond);letter-spacing:.14em;text-transform:uppercase;color:var(--g-muted);margin:0 0 10px}
+.sp-panel p{max-width:65ch;margin:0 0 8px}
+ul.plain{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.th-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 10px}
+.th-head strong{font:600 16px var(--g-cond);text-transform:uppercase;letter-spacing:.05em}
+.who{font:500 13px var(--g-cond);color:var(--g-muted);letter-spacing:.03em}
+.plain p{margin:2px 0 0}
+.concepts li{padding:8px 10px;margin-inline:-10px;transition:background .4s}
+.concepts li.flash{background:var(--ct)}
+.tools{display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin:0;padding:0}
+.tools li{padding:5px 10px;background:var(--g-sunk);font-size:15px}
+.tbl{overflow-x:auto;border:1px solid var(--g-rule);background:var(--g-surface)}
+table{border-collapse:collapse;width:100%;font-size:15px}
+td{padding:9px 12px;border-top:1px solid var(--g-rule);vertical-align:top}
+tr:first-child td{border-top:0}
+td:first-child{font:700 14px var(--g-cond);letter-spacing:.04em;white-space:nowrap;color:var(--c,var(--g-fg));width:1%}
+.sp-panel section.case{background:var(--ct,var(--g-teal-t));border-top:0;border-left:4px solid var(--c,var(--g-teal));padding:14px 16px}
+.case h3{color:var(--c)}
+.case p{margin:0}
+.roots li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;align-items:start}
+.roots .chip{white-space:nowrap}
+.roots p{margin:4px 0 0}
+@media (max-width:520px){.roots li{grid-template-columns:1fr}.roots .chip{justify-self:start;white-space:normal;max-width:100%}}
+.caveat{background:var(--g-warn-t);border-left:4px solid var(--g-warn);padding:10px 14px;font-size:15px;margin-top:14px}
+.scope{background:var(--g-ink);color:var(--g-on-ink);border-left:4px solid #D58FC1;padding:14px 16px}
+.sp-panel section.scope{border-top:0}
+.scope h3{color:#AEB5C2}
+.scope p{color:#D6DAE2}
+.pager{display:flex;justify-content:space-between;gap:10px;margin-top:28px;border-top:2px solid var(--g-fg);padding-top:12px}
+.pager button{background:none;border:0;cursor:pointer;padding:4px 0;text-align:left;min-width:0}
+.pager button:last-child{text-align:right}
+.pager small{display:block;font:700 11px var(--g-cond);letter-spacing:.16em;text-transform:uppercase;color:var(--g-muted)}
+.pager span{font:600 19px var(--g-display);text-transform:uppercase;letter-spacing:.02em}
+.timeline{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.timeline li{display:grid;grid-template-columns:4rem minmax(0,1fr);gap:12px}
+.timeline b{font:600 17px var(--g-display);font-variant-numeric:tabular-nums;color:var(--g-blue)}
+.textlink{background:none;border:0;padding:0;color:var(--g-blue);text-decoration:underline;cursor:pointer}
+.foot{margin-top:40px;color:var(--g-muted);font-size:14px;border-top:1px solid var(--g-rule);padding-top:12px}
+
+@media (max-width:860px){.g-hero .g-wrap{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* OT models and frames of reference. Same track layout: infield = occupation, track = 13 nodes,
+   outer ring = key parts (Map) or the theories each borrows from (Context). Choose swaps the map for
+   starting questions. Clusters: models = teal, frames = navy, process = plum. */
+:root{--g-good:#2E7D4F;--g-good-t:#DDEFE3}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--g-good:#5FC38A;--g-good-t:#16301F}}
+:root[data-theme="dark"]{--g-good:#5FC38A;--g-good-t:#16301F}
+.c-models{--c:var(--g-teal);--ct:var(--g-teal-t)}
+.c-frames{--c:var(--g-navy);--ct:var(--g-navy-t)}
+.c-process{--c:var(--g-plum);--ct:var(--g-plum-t)}
+.h-models{--h:#4CC3D4}.h-frames{--h:#8299DA}.h-process{--h:#D58FC1}
+.sp-seg{grid-template-columns:repeat(3,1fr)}
+.bnode text{font-size:14px}
+.onode.occ circle{fill:var(--g-plum);stroke:var(--g-plum)}
+.chip.occ .dot{background:var(--g-plum)}
+.chip.ass .dot{border-radius:2px;background:var(--g-blue)}
+.full{color:var(--g-muted);margin:-4px 0 12px;max-width:62ch}
+.dd{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.dd > div{background:var(--g-surface);border:1px solid var(--g-rule);border-top:4px solid var(--k);padding:12px 14px;min-width:0}
+.dd .yes{--k:var(--g-good)}.dd .no{--k:var(--g-warn)}
+.dd h4{font:700 13px var(--g-cond);letter-spacing:.14em;text-transform:uppercase;color:var(--k);margin:0 0 6px}
+.dd ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px;font-size:16px}
+@media (max-width:620px){.dd{grid-template-columns:1fr}}
+.evid{background:var(--g-blue-t);border-left:4px solid var(--g-blue);padding:10px 14px;font-size:15px;margin:0}
+.lens{background:var(--g-ink);color:var(--g-on-ink);border-left:4px solid #D58FC1;padding:14px 16px}
+.sp-panel section.lens{border-top:0}
+.lens h3{color:#AEB5C2}
+.lens p{color:#D6DAE2;margin:0}
+.ladder{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--g-rule);border:1px solid var(--g-rule)}
+.ladder li{background:var(--g-surface);padding:12px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.ladder b{font:600 28px/1 var(--g-display);color:var(--g-blue)}
+.ladder strong{font:600 15px var(--g-cond);text-transform:uppercase;letter-spacing:.06em}
+.ladder span{font-size:14px;color:var(--g-muted)}
+@media (max-width:620px){.ladder{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.cmp{width:100%;border-collapse:collapse;font-size:15px}
+.cmp th,.cmp td{text-align:left;vertical-align:top;padding:9px 12px;border-top:1px solid var(--g-rule)}
+.cmp th{font:700 12px var(--g-cond);letter-spacing:.12em;text-transform:uppercase;color:var(--g-muted);background:var(--g-sunk);border-top:0}
+.cmp td:first-child{font-weight:600;white-space:normal;color:var(--g-fg);width:34%}
+.mlinks{display:flex;flex-wrap:wrap;gap:6px}
+/* choose */
+.finder{display:flex;flex-direction:column;gap:10px}
+.qcard{background:var(--g-surface);border:1px solid var(--g-rule);border-left:4px solid var(--g-blue);padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.qcard h3{font:600 19px/1.15 var(--g-display);text-transform:uppercase;letter-spacing:.02em;margin:0}
+.qcard p{margin:0;color:var(--g-muted);font-size:15px}
+.qcard .lab{font:700 11px var(--g-cond);letter-spacing:.14em;text-transform:uppercase;color:var(--g-muted);margin:2px 0 -2px}
+</style><script src="theme.js"></script></head><body><style>
+.ehub{background:#090909;color:#FBFAF8;border-bottom:1px solid #2C323C;position:relative;z-index:6}
+.ehub-in{max-width:1120px;margin:0 auto;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));display:flex;justify-content:space-between;align-items:center;gap:10px 16px;flex-wrap:wrap}
+.ehub a{color:inherit;text-decoration:none}
+.ehub-home{display:flex;align-items:center;gap:12px;min-height:36px}
+.ehub-bands{display:flex;width:56px;height:5px;flex:none}.ehub-bands i{flex:1}
+.ehub-bands i:nth-child(1){background:#344982}.ehub-bands i:nth-child(2){background:#2F6F9E}.ehub-bands i:nth-child(3){background:#2CA5B8}.ehub-bands i:nth-child(4){background:#AB5C95}
+.ehub-wm{font:500 14px/1 "Oswald","Arial Narrow",Impact,sans-serif;letter-spacing:.16em}.ehub-wm b{font-weight:700}
+.ehub-sep{font:600 12px/1 "Barlow Semi Condensed","Arial Narrow",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#AEB5C2;border-left:1px solid #3A3F48;padding-left:12px}
+.ehub-home:hover .ehub-sep{color:#FBFAF8}
+.ehub-r{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ehub-btn{font:600 12px/1 "Barlow Semi Condensed","Arial Narrow",sans-serif;letter-spacing:.1em;text-transform:uppercase;border:1px solid #3A3F48;background:none;color:#FBFAF8;padding:9px 12px;cursor:pointer;min-height:36px;display:inline-flex;align-items:center;gap:8px}
+.ehub-btn:hover{border-color:#FBFAF8}
+.ehub-btn[aria-pressed="true"]{background:#2E7D4F;border-color:#2E7D4F}
+.ehub-btn:focus-visible,.ehub a:focus-visible{outline:2px solid #2CA5B8;outline-offset:2px}
+.ehub-next{background:#FBFAF8!important;color:#090909!important;border-color:#FBFAF8}
+@media (max-width:520px){.ehub-sep{display:none}.ehub-next .ehub-nl{display:none}}
+@media print{.ehub{display:none}}
+</style>
+<nav class="ehub" aria-label="Estus Training Hub" style="margin:0"><div class="ehub-in">
+<a class="ehub-home" href="index.html"><span class="ehub-bands" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="ehub-wm"><b>ESTUS</b> HEALTH</span><span class="ehub-sep">&larr; Training Hub</span></a>
+<div class="ehub-r"><button class="ehub-btn" type="button" id="ehub-done" aria-pressed="false">Mark done</button><a class="ehub-btn ehub-next" href="act.html"><span class="ehub-nl">Next:</span> ACT <span aria-hidden="true">&rarr;</span></a></div>
+</div></nav>
+<script>(function(){var K="hub_done",s="otmodels",b=document.getElementById("ehub-done");function l(){try{return JSON.parse(localStorage.getItem(K))||{}}catch(e){return {}}}function r(){var on=!!l()[s];b.setAttribute("aria-pressed",on);b.textContent=on?"✓ Done":"Mark done"}b.addEventListener("click",function(){var v=l();if(v[s])delete v[s];else v[s]=1;try{localStorage.setItem(K,JSON.stringify(v))}catch(e){}r()});r()})();</script>
+
+<div class="g-root">
+<header class="g-hero"><div class="g-wrap">
+  <div>
+    <p class="g-eyebrow">Therapy approaches</p>
+    <h1>Models <em>&amp; frames</em></h1>
+    <p class="g-lead">The theory under OT, mapped. Which model explains the whole picture, which frame of reference guides the how, and where each one borrowed its ideas.</p>
+    <div class="g-meta"><span>4 models</span><span>6 frames of reference</span><span>3 process frameworks</span><span>11 starting questions</span></div>
+  </div>
+  <ul class="g-side" aria-label="Three groups">
+    <li class="h-models"><span class="n">4</span><div><b>Occupation-based models</b><span class="w">The whole picture: person, occupation, environment</span></div></li>
+    <li class="h-frames"><span class="n">6</span><div><b>Frames of reference</b><span class="w">The how, for one area of function</span></div></li>
+    <li class="h-process"><span class="n">3</span><div><b>Process frameworks</b><span class="w">How an episode of care runs</span></div></li>
+  </ul>
+</div></header>
+
+<main class="sp"><div class="g-wrap">
+  <div class="sp-layout">
+    <div class="sp-mapcol">
+      <div class="sp-bar">
+        <div class="sp-seg" role="group" aria-label="View">
+          <button type="button" id="v-map" data-view="map" aria-pressed="true">Map</button>
+          <button type="button" id="v-context" data-view="context" aria-pressed="false">Context</button>
+          <button type="button" id="v-choose" data-view="choose" aria-pressed="false">Choose</button>
+        </div>
+        <p class="sp-note" id="viewnote"></p>
+      </div>
+      <div class="sp-map" id="map"></div>
+      <div class="finder" id="finder" hidden></div>
+      <div class="sp-legend" id="legend"></div>
+      <p class="sp-key" id="mapkey"></p>
+    </div>
+    <div class="sp-panelcol">
+      <div class="sp-panel" id="panel" aria-live="polite"></div>
+      <p class="foot">References are anchor texts to start from. Model editions change; check the current text before you teach from it.</p>
+    </div>
+  </div>
+</div></main>
+</div>
+
+<script>
+const CLUSTERS = {
+  models:{name:"Occupation-based models", note:"The whole picture"},
+  frames:{name:"Frames of reference", note:"The how, for one area"},
+  process:{name:"Process frameworks", note:"How care runs, start to end"}
+};
+const HUB = {gaming:"Gaming-Informed Therapy", morning:"Morning Architecture", goals:"Goal Plan", load:"Cognitive Load", "executive-function":"Executive Function", beliefs:"Core Beliefs", nervous:"Nervous System", chaining:"Chaining Plan", prompts:"Prompt Hierarchy Guide", cbt:"CBT", act:"ACT", "problem-solving":"Problem Solving", fca:"Functional Capacity Assessment", journey:"Client Journey", welcome:"Welcome Call", neuroaffirming:"Neuroaffirming Practice"};
+const ASSESS = {cosa:"COSA", copm:"COPM", gas:"GAS", pemcy:"PEM-CY", sfa:"SFA", sp2:"Sensory Profile 2", spm2:"SPM-2", aasp:"AASP", bot3:"BOT-3", mabc3:"Movement ABC-3", dcdq:"DCDQ", otdora:"OT-DORA", wcpa:"WCPA", brief2:"BRIEF-2", rcads:"RCADS", dass21:"DASS-21", pedicat:"PEDI-CAT", vineland3:"Vineland-3", whodas:"WHODAS 2.0", amps:"AMPS"};
+
+const PARENTS = [
+  {id:"occsci", group:"occ", name:"Occupational science", short:"Occupational science", by:"Yerxa et al., 1989", what:"The study of people as occupational beings: what they do, why, and how doing links to health.", gives:"OT's home discipline. The core idea under every model here: occupation matters to health and identity."},
+  {id:"clientcentred", group:"psy", name:"Client-centred practice", short:"Client-centred", by:"Rogers, 1951; Law, Baptiste & Mills, 1995", what:"The person is the expert on their life. The therapist's job is partnership, respect and shared power.", gives:"COPM, client-led goals and the partnership in every process framework."},
+  {id:"systems", group:"spt", name:"General systems theory", short:"Systems theory", by:"von Bertalanffy, 1968", what:"Living things are open systems that take in, process and act, with feedback, and the whole is more than its parts.", gives:"MOHO's picture of a person as a dynamic system shaped by doing."},
+  {id:"ecology", group:"psy", name:"Ecological models", short:"Ecological models", by:"Gibson, 1979; Bronfenbrenner, 1979; Dunn, Brown & McGuigan, 1994", what:"Behaviour can't be understood apart from its environment. Settings offer and limit possibilities for action.", gives:"PEO fit, environment as a lever for change, and the Ecology of Human Performance."},
+  {id:"eastern", group:"spt", name:"East Asian worldviews", short:"East Asian worldviews", by:"Iwama, 2006", what:"A collectivist view where the self is inseparable from nature, family and community.", gives:"Kawa's river and a critique of Western, individualist assumptions in OT."},
+  {id:"icf", group:"spt", name:"ICF", short:"ICF", by:"World Health Organization, 2001", what:"Body functions, activities, participation, environment and personal factors in one classification.", gives:"Shared language between OT frameworks, funders and other professions."},
+  {id:"neuro", group:"spt", name:"Neuroscience", short:"Neuroscience", by:"Ayres, 1972; later neuroscience", what:"How the nervous system takes in, organises and uses information to act and learn.", gives:"Sensory integration, and the brain basis of cognitive approaches."},
+  {id:"motorsci", group:"spt", name:"Motor learning and control", short:"Motor science", by:"Bernstein, 1967; Schmidt, 1975; Thelen & Smith, 1994", what:"How movement is controlled and how skills are learned, from schema theory to dynamic systems.", gives:"Practice schedules, feedback and task-oriented approaches."},
+  {id:"cogpsych", group:"psy", name:"Cognitive psychology", short:"Cognitive psychology", by:"Meichenbaum, 1977; Flavell, 1979", what:"How people think, learn strategies and monitor their own thinking (metacognition).", gives:"CO-OP's self-instruction and the strategy focus of Toglia's approach."},
+  {id:"learning", group:"psy", name:"Learning theory", short:"Learning theory", by:"Skinner, 1953; Bandura, 1977", what:"Behaviour is learned through consequences, cues and watching others.", gives:"Task analysis, chaining, prompting and shaping, and the behavioural side of CBT."},
+  {id:"cbttheory", group:"psy", name:"Cognitive therapy and ACT", short:"Cognitive therapy", by:"Beck, 1976; Hayes, Strosahl & Wilson, 1999", what:"Thoughts, feelings and actions interact. Third-wave approaches add acceptance and values.", gives:"The cognitive-behavioural frame used in OT."},
+  {id:"kinesiology", group:"spt", name:"Kinesiology and biomechanics", short:"Kinesiology", by:"Physical rehabilitation tradition", what:"How bodies move: joints, muscles, forces and endurance.", gives:"The biomechanical frame and its measures of range, strength and endurance."}
+];
+
+const BRANCHES = [
+{id:"moho", cluster:"models", name:"MOHO", lines:["MOHO"], full:"Model of Human Occupation", by:"Kielhofner, from 1980; Taylor, 2017 (5th ed.)", assess:["cosa"], hub:["gaming","morning"],
+ summary:"Why and how people choose, organise and do their occupations. Strong on motivation, routines and roles.",
+ concepts:[["Volition","Personal causation, values and interests: what drives choice."],["Habituation","Habits and roles that organise the day."],["Performance capacity","Physical and mental abilities, and how doing feels."],["Environment","Spaces, objects, people and expectations."],["Occupational identity","Who you are, and want to be, as a doer."],["Occupational competence","Living out that identity day to day."]],
+ use:["Motivation or engagement is the question","Routines and roles have fallen apart","You want a rich story for the report"],
+ limits:["Lots of terms to learn","Light on sensory and motor detail"],
+ evidence:"A large body of research and many MOHO tools: MOHOST, OSA, COSA, OPHI-II and the Role Checklist.",
+ lens:"Volition puts interests and values at the centre. Read low volition as a mismatch with the environment before reading it as low motivation.",
+ practice:"A teen in burnout has dropped school and sport. MOHO frames it: interests intact, habits gone, roles lost. We rebuild one habit and one role (moderator on our Minecraft server) before school.",
+ roots:[["systems","The person as an open, dynamic system."],["occsci","Occupation shapes identity and health."]]},
+{id:"cmop", cluster:"models", name:"CMOP-E", lines:["CMOP-E"], full:"Canadian Model of Occupational Performance and Engagement", by:"Townsend & Polatajko, 2007", assess:["copm","gas"], hub:["goals"],
+ summary:"Person, occupation and environment, with spirituality at the core and engagement as the aim. The home of the COPM.",
+ concepts:[["Spirituality","The core of the person: meaning and drive."],["Person","Physical, affective and cognitive."],["Occupation","Self-care, productivity and leisure."],["Environment","Physical, institutional, cultural and social."],["Engagement","Being involved, not just performing."],["CanMOP","The 2022 Canadian Model of Occupational Participation (Egan & Restall), centred on relationships and context."]],
+ use:["You need goals the client sets (COPM)","Families want a simple whole-picture model","Reports need occupation areas"],
+ limits:["Light on how to treat: pair it with a frame","Three occupation categories can feel narrow"],
+ evidence:"Widely used and taught. The COPM has strong evidence as an outcome measure.",
+ lens:"Client-centred by design. The COPM lets the person name the problem, which is the heart of neuroaffirming goals.",
+ practice:"A late-diagnosed adult names three COPM priorities: cooking, getting back to work, and gaming with friends. CMOP-E helps us see where the environment, not skill, is the barrier.",
+ roots:[["clientcentred","Partnership and client-led goals."],["ecology","Environment as part of performance."],["occsci","Occupation and engagement."]]},
+{id:"peo", cluster:"models", name:"PEO", lines:["PEO"], full:"Person-Environment-Occupation Model", by:"Law et al., 1996", assess:["pemcy","sfa"], hub:["load","executive-function"],
+ summary:"Performance comes from the fit between person, environment and occupation. Improve the fit by changing any of the three.",
+ concepts:[["Person","Skills, experience and identity."],["Environment","Physical, social, cultural, institutional."],["Occupation","The tasks and activities that make it up."],["Fit","The overlap where performance happens."],["Change over time","Fit shifts across the day and the lifespan."],["PEOP","A related model that adds performance (Baum, Christiansen & Bass, 2015)."]],
+ use:["Explaining to families and schools why environment changes work","School and workplace adjustments","A quick, visual formulation"],
+ limits:["Little on motivation or meaning","Needs a frame for intervention detail"],
+ evidence:"A widely used model with good face validity. Its strength is clinical reasoning and communication.",
+ lens:"The plainest version of the social model in OT language. Change the setting or the task before asking the person to change.",
+ practice:"An autistic graduate is struggling in an open-plan office. PEO shows a fit problem. We change the environment (quiet desk) and the occupation (written briefs), not the person.",
+ roots:[["ecology","Behaviour in context."],["occsci","Occupation as the unit of analysis."]]},
+{id:"kawa", cluster:"models", name:"Kawa", lines:["KAWA"], full:"Kawa (River) Model", by:"Iwama, 2006", assess:[], hub:["beliefs","neuroaffirming"],
+ summary:"Life as a river. Flow is wellbeing. Rocks, walls and driftwood shape it. A culturally responsive model from a collectivist, East Asian view.",
+ concepts:[["Water","Life flow and wellbeing."],["River walls and floor","The environment, especially social context."],["Rocks","Problems and circumstances that block flow."],["Driftwood","Personal traits and resources, which can help or jam."],["Spaces","Where flow still happens. Where OT starts."],["Collective self","The person within family and community."]],
+ use:["Families from collectivist cultures","Clients who think visually or find forms hard","Building rapport and the client's own story"],
+ limits:["Not a measure: pair it with outcome tools","The metaphor needs adapting for some people"],
+ evidence:"Mostly qualitative and case-based research. Valued for cultural safety and engagement.",
+ lens:"The client draws and names their own river. It centres their meaning, culture and community, and starts from where things still flow.",
+ practice:"A family feels judged by 'independence' goals. Drawing a river together shows the grandparents as walls that support flow, and goals shift to family routines.",
+ roots:[["eastern","A collectivist view of self."],["clientcentred","The client's own story and terms."]]},
+{id:"biomech", cluster:"frames", name:"Biomechanical", lines:["BIOMECH-","ANICAL"], full:"Biomechanical frame of reference", by:"Physical rehabilitation tradition", assess:["otdora","bot3"], hub:[],
+ summary:"Movement capacity: range, strength, endurance and posture. Restore the body, or compensate for it.",
+ concepts:[["Range of motion","How far joints move."],["Strength","Force for the task."],["Endurance","Keeping going without pain or fatigue."],["Posture and seating","Support that frees the hands and attention."],["Hypermobility","Joint laxity and fatigue, often reported alongside autism, ADHD and dyspraxia."],["Compensation","Equipment and technique when capacity won't change."]],
+ use:["Physical capacity limits occupation","Seating, posture and handwriting comfort","Physical sections of FCAs and driving reports"],
+ limits:["Bottom-up: can lose sight of the occupation","Little for sensory, thinking or emotional barriers"],
+ evidence:"Strong measurement tradition. Best when tied to a functional goal.",
+ lens:"Keep it tied to what the person wants to do. Strength for its own sake isn't a goal.",
+ practice:"A hypermobile 10-year-old's hand aches after writing. We adjust seating and grip, add rest breaks and a laptop for long tasks, then a short strength routine she chose.",
+ roots:[["kinesiology","Joints, muscles and forces."],["icf","Body functions and structures."]]},
+{id:"si", cluster:"frames", name:"Sensory integration", lines:["SENSORY","INTEGRATION"], full:"Ayres Sensory Integration", by:"Ayres, 1972; Parham et al., 2007", assess:["sp2","spm2","aasp"], hub:["nervous"],
+ summary:"How the brain takes in, organises and uses sensory information for action and participation. Clinic-based therapy uses active, playful sensory-motor challenges.",
+ concepts:[["Sensory modulation","Matching responses to the strength of input."],["Praxis","Ideas, planning and doing new actions."],["Vestibular and proprioception","Movement, balance and body-position senses."],["Just-right challenge","Hard enough to grow, easy enough to succeed."],["Fidelity","ASI has a fidelity measure. Much 'sensory therapy' doesn't meet it."],["Sensory diet","Planned sensory activities across the day."]],
+ use:["Sensory differences block participation","Praxis and motor planning concerns","A sensory-informed home and school plan"],
+ limits:["Sensory processing disorder is not a DSM diagnosis","Isolated techniques like weighted vests and brushing have weak evidence","Clinic-based ASI needs space, equipment and training"],
+ evidence:"Reviews rate ASI delivered with fidelity as evidence-based for autistic children's individual goals (Schoen et al., 2019). Isolated sensory techniques have weak evidence.",
+ lens:"Sensory differences are part of how a person experiences the world. The aim is comfort and participation, not 'normal' responses. Adjust the environment first.",
+ practice:"A 6-year-old avoids playground equipment and messy play. We set up graded, child-led movement play, coach parents on her sensory pattern, and adjust classroom seating and noise.",
+ roots:[["neuro","How the nervous system organises sensation."]]},
+{id:"motor", cluster:"frames", name:"Motor learning", lines:["MOTOR","LEARNING"], full:"Motor learning and task-oriented approaches, including CO-OP", by:"Schmidt, 1975; Polatajko & Mandich, 2004", assess:["dcdq","mabc3","bot3"], hub:["chaining"],
+ summary:"Skills are learned by practising the real task with good feedback and variety. Includes CO-OP and other task-oriented approaches.",
+ concepts:[["Practice schedules","Varied, spaced practice carries over better."],["Feedback","Less and later feedback builds independence."],["Transfer","Using a skill in new tasks and places."],["Dynamic systems","Movement emerges from person, task and environment."],["CO-OP","Goal, Plan, Do, Check on chosen skills."],["Task-oriented","Practise the task, not underlying processes."]],
+ use:["Learning a specific motor skill: bike, laces, handwriting","Dyspraxia and DCD","Building driving skill"],
+ limits:["Needs a clear, chosen task","Less useful where sensory or emotional barriers lead"],
+ evidence:"Task-oriented approaches, including CO-OP, are recommended for DCD over process-oriented ones (Blank et al., 2019).",
+ lens:"The person chooses the skill. Joy and confidence count as outcomes, not just accuracy.",
+ practice:"A dyspraxic teen wants to ride to school. With CO-OP she sets the goal, finds her own plan for starting off, practises on the real route and checks what worked.",
+ roots:[["motorsci","Schema theory and dynamic systems."],["cogpsych","Self-instruction in CO-OP."]]},
+{id:"cognitive", cluster:"frames", name:"Cognitive", lines:["COGNITIVE"], full:"Dynamic Interactional Model and Multicontext approach", by:"Toglia, 2005; 2018", assess:["wcpa","brief2"], hub:["executive-function","problem-solving"],
+ summary:"Thinking shows in real tasks and is shaped by person, task and context. Build awareness and strategies that carry across settings.",
+ concepts:[["Awareness","Knowing how you're going, during and after."],["Strategy use","Picking tools that fit the task."],["Transfer","Using strategies in new places."],["Remediate or adapt","Train the skill, or change the task."],["Functional cognition","Thinking in everyday tasks."],["Metacognition","Thinking about your thinking."]],
+ use:["Planning and EF difficulties","After brain injury or concussion","Adults whose systems break down under load"],
+ limits:["Needs some awareness to build on","Slower than simply adapting the task"],
+ evidence:"Strategy-based approaches support functional cognition. Drill-based brain training shows little transfer (Melby-Lervåg & Hulme, 2013).",
+ lens:"Strategies the person picks, built on their strengths, not drills to fix a deficit. Often the best move is changing the task.",
+ practice:"An ADHD uni student misses deadlines. The WCPA shows her strategies. We build two she likes (one calendar, a Sunday review) and test them across subjects.",
+ roots:[["cogpsych","Metacognition and strategy learning."],["neuro","The brain basis of cognition."]]},
+{id:"cbt", cluster:"frames", name:"Cognitive-behavioural", lines:["COGNITIVE-","BEHAVIOURAL"], full:"Cognitive-behavioural frame, including ACT", by:"Beck, 1976; Hayes, Strosahl & Wilson, 1999", assess:["rcads","dass21"], hub:["cbt","act","beliefs"],
+ summary:"Thoughts, feelings, body and actions affect each other. OT works mostly on the action side: experiments, graded steps and routines.",
+ concepts:[["The cycle","Thoughts, feelings, body, actions."],["Behavioural experiments","Testing a belief by doing."],["Graded exposure","Small, chosen steps toward what's feared."],["Activity scheduling","Planning doing to lift mood and energy."],["Values","What matters, from ACT."],["Defusion","Stepping back from thoughts."]],
+ use:["Anxiety blocks participation","Avoidance has become the habit","Values and goals need clarifying"],
+ limits:["Talk-heavy versions don't suit everyone","Not a substitute for psychology when mental health is the main concern"],
+ evidence:"Strong evidence for anxiety and depression. Adapted versions for autistic young people also show benefit.",
+ lens:"Adapt it: visual, concrete, interest-based. Don't treat autistic thinking styles as distortions to correct.",
+ practice:"An anxious 11-year-old avoids the school canteen. We build a ladder of small steps she picks, test her prediction on step one, and pair it with a quiet lunch option.",
+ roots:[["cbttheory","Beck's cognitive model and ACT."],["learning","Exposure and reinforcement."]]},
+{id:"acquisitional", cluster:"frames", name:"Acquisitional", lines:["ACQUISI-","TIONAL"], full:"Acquisitional and behavioural frame", by:"Skinner, 1953; Mosey, 1986", assess:["pedicat","vineland3"], hub:["chaining","prompts"],
+ summary:"Skills are learned through practice, cues and consequences. Task analysis, chaining, prompting and shaping.",
+ concepts:[["Task analysis","Breaking a task into steps."],["Chaining","Teaching steps forward or backward."],["Prompt hierarchy","The least help that works."],["Shaping","Building toward a skill in small steps."],["Reinforcement","What makes doing it again likely."],["Fading","Removing help as skill grows."]],
+ use:["Teaching steps of a daily task the person wants","Routines with visual supports","Training support workers"],
+ limits:["Can drift into compliance goals","Ignores why a behaviour happens when used alone"],
+ evidence:"Chaining and prompting are well supported for teaching daily living steps. Compliance-focused behavioural programs are widely criticised by autistic people.",
+ lens:"Use the techniques, not the compliance. Goals the person wants, with assent, fast fading, and never withholding interests or regulation.",
+ practice:"A teen wants to make his own lunch. We task-analyse it with him, use backward chaining with a visual card, and fade prompts over four weeks.",
+ roots:[["learning","Behavioural learning principles."]]},
+{id:"otpf", cluster:"process", name:"OTPF-4", lines:["OTPF-4"], full:"Occupational Therapy Practice Framework, 4th edition", by:"AOTA, 2020", assess:["whodas"], hub:["fca"],
+ summary:"A shared language for OT's domain and process. Domain: occupations, contexts, performance patterns, performance skills, client factors. Process: evaluation, intervention, outcomes.",
+ concepts:[["Occupations","What people do."],["Contexts","Environmental and personal factors."],["Performance patterns","Habits, routines, roles and rituals."],["Performance skills","Motor, process and social interaction skills."],["Client factors","Values, beliefs, body functions and structures."],["Occupational profile","The person's story and priorities, first."]],
+ use:["Organising an assessment or report","Shared language with US-trained colleagues and texts","The occupational profile as a first-session guide"],
+ limits:["Describes, doesn't explain","US-centred terms"],
+ evidence:"A practice framework rather than a testable theory. Aligns with the ICF and is widely used in teaching.",
+ lens:"Start with the occupational profile. The person's story, interests and priorities come before any testing.",
+ practice:"A new clinician structures her first FCA: occupational profile, then performance skills and contexts, then outcomes linked to goals.",
+ roots:[["icf","Shared classification language."],["occsci","Occupation as OT's domain."]]},
+{id:"cppf", cluster:"process", name:"CPPF", lines:["CPPF"], full:"Canadian Practice Process Framework", by:"Polatajko, Craik, Davis & Townsend, 2007", assess:["copm"], hub:["journey","welcome"],
+ summary:"Eight action points from first contact to exit, set inside the wider practice context and the therapist's frame of reference.",
+ concepts:[["Enter and initiate","First contact and the reason for referral."],["Set the stage","Trust, values, priorities and consent."],["Assess and evaluate","Gathering the picture."],["Agree and plan","Shared objectives and a plan."],["Implement and monitor","Doing, checking and changing."],["Evaluate and conclude","Outcomes, then a planned exit."]],
+ use:["Mapping the whole client journey","Training new clinicians on the process","Checking you haven't skipped a step"],
+ limits:["Linear on paper, messy in real life"],
+ evidence:"A process framework, not a theory. Newer Canadian guidance adds a relationship-focused process framework (COTIPP; Egan & Restall, 2022).",
+ lens:"'Set the stage' is where trust, sensory comfort and consent get built. Don't rush it.",
+ practice:"Our Client Journey maps onto CPPF: welcome call (enter), first session (set the stage), assessment, Goal Plan, therapy, reviews, and a planned exit.",
+ roots:[["clientcentred","Partnership through the whole process."],["occsci","Occupation as the focus of each step."]]},
+{id:"otipm", cluster:"process", name:"OTIPM", lines:["OTIPM"], full:"Occupational Therapy Intervention Process Model", by:"Fisher, 2009; Fisher & Marterella, 2019", assess:["amps"], hub:["fca"],
+ summary:"A top-down, occupation-centred process. Understand the client's context, watch them do real tasks, then choose how to intervene.",
+ concepts:[["Top-down","Start from occupation, not impairment."],["Performance analysis","Watch the real task to see where it breaks down."],["Four intervention types","Compensatory, educational, restorative and acquisitional."],["Occupation-centred","Occupation as the means and the end."],["Client-centred reasoning","Decisions made with the client."],["AMPS","The observation tool that fits OTIPM."]],
+ use:["Daily living reports where observation matters","Choosing between compensate, teach or restore","Keeping therapy occupation-based"],
+ limits:["Observation takes time","Full use needs AMPS training"],
+ evidence:"A process model rather than a tested theory. Built around observation tools like the AMPS.",
+ lens:"Watching the real task in the real place shows what actually helps, instead of guessing from a test.",
+ practice:"For an FCA we watch the client make a meal at home, see that planning (not motor skill) is the breakdown, and recommend a routine card over skill training.",
+ roots:[["occsci","Occupation-centred practice."],["clientcentred","Shared reasoning with the client."]]}
+];
+
+const QUESTIONS = [
+ {q:"Why have they stopped doing things they used to?", tip:"Look at interests, habits and roles before skill.", nodes:["moho","cmop"], assess:["cosa","copm"], hub:["gaming"]},
+ {q:"Is it them, the task, or the setting?", tip:"Change the setting or the task first.", nodes:["peo","cmop"], assess:["pemcy","sfa"], hub:["load"]},
+ {q:"What does the person want to work on?", tip:"Let them name it, then measure it.", nodes:["cmop","kawa"], assess:["copm","gas"], hub:["goals"]},
+ {q:"Do 'independence' goals fit this family's culture?", tip:"Ask what flow looks like for them.", nodes:["kawa","cmop"], assess:["copm"], hub:["neuroaffirming"]},
+ {q:"Are sensory differences getting in the way?", tip:"Adjust the environment first, then build a plan.", nodes:["si","peo"], assess:["sp2","spm2","aasp"], hub:["nervous"]},
+ {q:"Do they need to learn a movement skill?", tip:"Practise the real task they chose.", nodes:["motor","biomech"], assess:["dcdq","mabc3","bot3"], hub:["chaining"]},
+ {q:"Is pain, strength, range or posture the limit?", tip:"Tie every body goal to an occupation.", nodes:["biomech","otipm"], assess:["otdora"], hub:[]},
+ {q:"Is planning, memory or attention the limit?", tip:"Watch a real task, then build strategies or change the task.", nodes:["cognitive","otipm"], assess:["wcpa","brief2"], hub:["executive-function"]},
+ {q:"Is anxiety or avoidance driving it?", tip:"Small chosen steps, plus a lower-demand setting.", nodes:["cbt","moho"], assess:["rcads","dass21"], hub:["cbt","act"]},
+ {q:"Do they need to learn the steps of a daily task?", tip:"Chain the steps they want, and fade help fast.", nodes:["acquisitional","motor"], assess:["pedicat","vineland3"], hub:["chaining","prompts"]},
+ {q:"How should I structure the whole episode of care?", tip:"Map it from first contact to a planned exit.", nodes:["cppf","otpf","otipm"], assess:["copm","whodas"], hub:["journey"]}
+];
+
+const BY = Object.fromEntries(BRANCHES.map(b=>[b.id,b]));
+const PBY = Object.fromEntries(PARENTS.map(p=>[p.id,p]));
+const PIDX = Object.fromEntries(PARENTS.map((p,i)=>[p.id,i]));
+const N = BRANCHES.length, STEP = 360/N;
+
+const state = {view:"map", sel:{type:"about", id:"about"}, focus:null};
+const R_IN=196, R_OUT_T=304, R_B=250, R_N=52, R_RING=405;
+const angB = i => i*STEP - 90;
+const angP = i => -100 + i*(360/PARENTS.length);
+const P = (a,r)=>{const t=a*Math.PI/180;return [+(r*Math.cos(t)).toFixed(1), +(r*Math.sin(t)).toFixed(1)];};
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const reduced = () => { try { return matchMedia("(prefers-reduced-motion: reduce)").matches; } catch(e){ return false; } };
+
+function wrap(text, max){
+  const words = text.split(" "); const out=[]; let line="";
+  words.forEach(w=>{ if((line+" "+w).trim().length>max && line){ out.push(line); line=w; } else line=(line+" "+w).trim(); });
+  if(line) out.push(line); return out;
+}
+function outerLabel(a, r, lines){
+  const t=a*Math.PI/180, c=Math.cos(t), s=Math.sin(t), lh=21;
+  const anchor = c>0.28 ? "start" : c<-0.28 ? "end" : "middle";
+  const [x,y] = P(a, r + (anchor==="middle"?18:20));
+  let y0;
+  if(anchor==="middle" && s<0) y0 = y - (lines.length-1)*lh - 6;
+  else if(anchor==="middle") y0 = y + 14;
+  else y0 = y - (lines.length-1)*lh/2 + 6;
+  return `<text x="${x}" y="${y0.toFixed(1)}" text-anchor="${anchor}">${lines.map((l,i)=>`<tspan x="${x}" dy="${i?lh:0}">${esc(l)}</tspan>`).join("")}</text>`;
+}
+function arcPath(a0,a1,r){
+  const [x0,y0]=P(a0,r),[x1,y1]=P(a1,r);
+  return `M${x0} ${y0} A${r} ${r} 0 ${(a1-a0)>180?1:0} 1 ${x1} ${y1}`;
+}
+const pClass = p => p.group;
+
+function svgMarkup(){
+  const {view, sel, focus} = state;
+  const selB = sel.type==="branch" ? sel.id : null;
+  const selP = sel.type==="parent" ? sel.id : null;
+  let s = `<circle r="${R_RING}" class="guide"/>`;
+  s += `<circle r="${R_OUT_T}" class="track"/><circle r="${R_IN}" class="infield"/>`;
+  [R_IN, 223, 277, R_OUT_T].forEach(r=>{ s += `<circle r="${r}" class="lane"/>`; });
+  Object.keys(CLUSTERS).forEach(k=>{
+    const idx = BRANCHES.map((b,i)=>b.cluster===k?i:-1).filter(i=>i>=0);
+    s += `<path class="arc c-${k}" d="${arcPath(angB(idx[0])-11, angB(idx[idx.length-1])+11, R_IN-14)}"/>`;
+  });
+  if(view==="context"){
+    BRANCHES.forEach((b,i)=>{
+      const ab = angB(i);
+      b.roots.forEach(([pid])=>{
+        const pi = PIDX[pid], ap = angP(pi), lane = 318 + pi*5.8;
+        const d = ((ap-ab+540)%360)-180, sweep = d>0?1:0;
+        const [x0,y0]=P(ab,R_B+R_N),[x1,y1]=P(ab,lane),[x2,y2]=P(ap,lane),[x3,y3]=P(ap,R_RING-13);
+        let cls = "link";
+        if(selB) cls += selB===b.id ? " on" : " dim";
+        else if(selP) cls += selP===pid ? " on" : " dim";
+        s += `<path class="${cls} c-${b.cluster}" d="M${x0} ${y0} L${x1} ${y1} A${lane} ${lane} 0 0 ${sweep} ${x2} ${y2} L${x3} ${y3}"/>`;
+      });
+    });
+  }
+  if(view==="map" && selB){
+    const i = BRANCHES.findIndex(b=>b.id===selB), b = BRANCHES[i], ab = angB(i), n = b.concepts.length;
+    b.concepts.forEach((c,j)=>{
+      const a = ab + (j-(n-1)/2)*15;
+      const [x0,y0]=P(ab,R_B+R_N),[x1,y1]=P(a,R_RING-11);
+      s += `<line class="cline c-${b.cluster}" x1="${x0}" y1="${y0}" x2="${x1}" y2="${y1}"/>`;
+    });
+  }
+  s += `<g class="center" data-kind="center" data-id="about" tabindex="0" role="button" aria-label="How models and frames fit together">
+    <circle r="114"/>
+    <text text-anchor="middle"><tspan x="0" y="-8">OCCUPATION</tspan></text>
+    <g class="bands"><rect x="-44" y="20" width="22" height="6"/><rect x="-22" y="20" width="22" height="6"/><rect x="0" y="20" width="22" height="6"/><rect x="22" y="20" width="22" height="6"/></g></g>`;
+  BRANCHES.forEach((b,i)=>{
+    const [x,y]=P(angB(i),R_B);
+    let cls = `bnode c-${b.cluster}`;
+    if(selB){ cls += selB===b.id ? " on" : " dim"; }
+    else if(selP && view==="context"){ cls += b.roots.some(r=>r[0]===selP) ? " hit" : " dim"; }
+    const lh=17, y0 = y - (b.lines.length-1)*lh/2 + 5;
+    s += `<g class="${cls}" data-kind="branch" data-id="${b.id}" tabindex="0" role="button" aria-label="${esc(b.full)}">
+      <circle cx="${x}" cy="${y}" r="${R_N}"/>
+      <text text-anchor="middle">${b.lines.map((l,k)=>`<tspan x="${x}" ${k?`dy="${lh}"`:`y="${y0}"`}>${esc(l)}</tspan>`).join("")}</text></g>`;
+  });
+  if(view==="map" && selB){
+    const i = BRANCHES.findIndex(b=>b.id===selB), b = BRANCHES[i], ab = angB(i), n = b.concepts.length;
+    b.concepts.forEach((c,j)=>{
+      const a = ab + (j-(n-1)/2)*15, [x,y]=P(a,R_RING);
+      const anim = reduced() ? "" : ` pop" style="animation-delay:${j*45}ms`;
+      s += `<g class="onode c-${b.cluster}${focus===j?" on":""}${anim}" data-kind="concept" data-id="${b.id}:${j}" tabindex="0" role="button" aria-label="${esc(c[0])}">
+        <circle cx="${x}" cy="${y}" r="10"/>${outerLabel(a,R_RING,wrap(c[0],15))}</g>`;
+    });
+  }
+  if(view==="context"){
+    const roots = selB ? BY[selB].roots.map(r=>r[0]) : null;
+    PARENTS.forEach((p,i)=>{
+      const a = angP(i), [x,y]=P(a,R_RING);
+      let cls = `onode ${pClass(p)}`;
+      if(selP){ cls += selP===p.id ? " on" : " dim"; }
+      else if(roots){ cls += roots.includes(p.id) ? " hit" : " dim"; }
+      s += `<g class="${cls}" data-kind="parent" data-id="${p.id}" tabindex="0" role="button" aria-label="${esc(p.name)}">
+        <circle cx="${x}" cy="${y}" r="11"/>${outerLabel(a,R_RING,wrap(p.short,13))}</g>`;
+    });
+  }
+  return `<svg viewBox="-660 -540 1320 1080" role="group" aria-label="Map of OT models and frames of reference">${s}</svg>`;
+}
+
+const chipBranch = (b,on) => `<button type="button" class="chip c-${b.cluster}${on?" on":""}" data-go="${b.id}"><span class="dot"></span>${esc(b.name)}</button>`;
+const chipParent = p => `<button type="button" class="chip ${pClass(p)}" data-go="${p.id}"><span class="dot"></span>${esc(p.name)}</button>`;
+const chipHub = slug => `<a class="chip hub" href="${slug}.html"><span class="dot"></span>${esc(HUB[slug])} <span aria-hidden="true">&rarr;</span></a>`;
+const chipAssess = id => `<a class="chip ass" href="assessments.html#${id}"><span class="dot"></span>${esc(ASSESS[id])} <span aria-hidden="true">&rarr;</span></a>`;
+
+function legendMarkup(){
+  const selB = state.sel.type==="branch" ? state.sel.id : null;
+  return Object.entries(CLUSTERS).map(([k,c])=>`<div class="lg c-${k}">
+    <p class="lg-name">${esc(c.name)}</p><p class="lg-note">${esc(c.note)}</p>
+    <div class="chips">${BRANCHES.filter(b=>b.cluster===k).map(b=>chipBranch(b, selB===b.id)).join("")}</div></div>`).join("");
+}
+
+function aboutMarkup(){
+  return `<article>
+  <p class="eyebrow">Start here</p>
+  <h2>How it fits together</h2>
+  <p class="lead">A model explains the whole picture. A frame of reference explains one area and guides the how. A process framework keeps the episode of care on track.</p>
+  <section><h3>From big idea to technique</h3>
+    <ol class="ladder">
+      <li><b>1</b><strong>Paradigm</strong><span>Occupation matters to health and identity.</span></li>
+      <li><b>2</b><strong>Model</strong><span>The whole person, occupation and environment.</span></li>
+      <li><b>3</b><strong>Frame of reference</strong><span>Theory for one area of function, and how to change it.</span></li>
+      <li><b>4</b><strong>Technique</strong><span>CO-OP, chaining, graded exposure, a sensory plan.</span></li>
+    </ol>
+  </section>
+  <section><h3>Top-down first</h3>
+    <p>Start with the person's occupations and goals (top-down), then drop to body functions and skills (bottom-up) only where they explain the problem. It keeps therapy about the life the person wants.</p>
+  </section>
+  <section><h3>Pair them</h3>
+    <p>Most good formulations use one model for the whole picture, one or two frames for the how, and a measure that fits.</p>
+    <div class="tbl"><table class="cmp"><thead><tr><th>Question</th><th>Model</th><th>Frame</th><th>Measure</th></tr></thead><tbody>
+      <tr><td>Teen has stopped going to school</td><td>MOHO</td><td>Cognitive-behavioural</td><td>COSA, GAS</td></tr>
+      <tr><td>Child can't cope with class</td><td>PEO</td><td>Sensory integration</td><td>Sensory Profile 2, PEM-CY</td></tr>
+      <tr><td>Adult can't keep up at work</td><td>CMOP-E</td><td>Cognitive</td><td>COPM, WCPA</td></tr>
+      <tr><td>Child wants to ride a bike</td><td>CMOP-E</td><td>Motor learning (CO-OP)</td><td>COPM, GAS</td></tr>
+    </tbody></table></div>
+    <p style="margin-top:10px"><button type="button" class="textlink" data-view-jump="choose">Start from a clinical question</button></p>
+  </section>
+  <section><h3>In our templates</h3><p>The Goal Plan uses COPM and GAS from the CMOP-E family. The FCA uses WHODAS 2.0 and the ICF's language. The driving reports use OT-DORA, which mixes biomechanical, sensory and cognitive tests.</p></section>
+  <section class="lens"><h3>Through a neuroaffirming lens</h3><p>Every model and frame here can be used to normalise people or to support them. We pick the version that puts the person's goals first, changes the environment before the person, and treats difference as difference.</p></section>
+  <section><h3>How to use this</h3><p>Tap a node for its deep dive. <strong>Context</strong> shows the theories each one borrowed from. <strong>Choose</strong> starts from the question in front of you.</p></section>
+  </article>`;
+}
+
+function branchMarkup(b){
+  const i = BRANCHES.indexOf(b);
+  const prev = BRANCHES[(i+N-1)%N], next = BRANCHES[(i+1)%N];
+  return `<article class="c-${b.cluster}">
+  <p class="eyebrow"><span class="dot"></span>${esc(CLUSTERS[b.cluster].name)}</p>
+  <h2>${esc(b.name)}</h2>
+  <p class="full">${esc(b.full)} · ${esc(b.by)}</p>
+  <p class="lead">${esc(b.summary)}</p>
+  <section><h3>When to reach for it</h3><div class="dd"><div class="yes"><h4>Use it when</h4><ul>${b.use.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div><div class="no"><h4>Watch for</h4><ul>${b.limits.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div></div></section>
+  <section><h3>Key parts</h3><ul class="plain concepts">
+    ${b.concepts.map((c,j)=>`<li id="concept-${j}" class="${state.focus===j?"flash":""}"><strong>${esc(c[0])}.</strong> ${esc(c[1])}</li>`).join("")}
+  </ul></section>
+  <section><h3>Evidence</h3><p class="evid">${esc(b.evidence)}</p></section>
+  <section class="lens"><h3>Neuroaffirming lens</h3><p>${esc(b.lens)}</p></section>
+  <section class="case"><h3>In practice</h3><p>${esc(b.practice)}</p></section>
+  ${b.assess.length?`<section><h3>Measures that fit</h3><div class="mlinks">${b.assess.map(chipAssess).join("")}</div></section>`:""}
+  <section><h3>Where it comes from</h3>
+    <ul class="plain roots">${b.roots.map(([pid,note])=>`<li>${chipParent(PBY[pid])}<p>${esc(note)}</p></li>`).join("")}</ul>
+  </section>
+  ${b.hub.length?`<section><h3>On the hub</h3><div class="chips">${b.hub.map(chipHub).join("")}</div></section>`:""}
+  <nav class="pager" aria-label="Models and frames">
+    <button type="button" data-go="${prev.id}"><small>Previous</small><span>${esc(prev.name)}</span></button>
+    <button type="button" data-go="${next.id}"><small>Next</small><span>${esc(next.name)}</span></button>
+  </nav></article>`;
+}
+
+function parentMarkup(p){
+  const users = BRANCHES.filter(b=>b.roots.some(r=>r[0]===p.id));
+  const kind = p.group==="occ" ? "OT's own discipline" : p.group==="psy" ? "From psychology" : "From other sciences";
+  return `<article>
+  <p class="eyebrow">${esc(kind)} · ${esc(p.by)}</p>
+  <h2>${esc(p.name)}</h2>
+  <p class="lead">${esc(p.what)}</p>
+  <section><h3>What OT took from it</h3><p style="margin:0">${esc(p.gives)}</p></section>
+  <section><h3>Shapes (${users.length})</h3><ul class="plain roots">${users.map(b=>`<li>${chipBranch(b,false)}<p>${esc(b.roots.find(r=>r[0]===p.id)[1])}</p></li>`).join("")}</ul></section>
+  <p style="margin-top:22px"><button type="button" class="textlink" data-go="about">Back to how it fits together</button></p>
+  </article>`;
+}
+
+function chooseMarkup(){
+  return QUESTIONS.map(q=>`<div class="qcard"><h3>${esc(q.q)}</h3><p>${esc(q.tip)}</p>
+    <p class="lab">Reach for</p><div class="chips">${q.nodes.map(id=>chipBranch(BY[id],false)).join("")}</div>
+    <p class="lab">Measure with</p><div class="chips">${q.assess.map(chipAssess).join("")}</div>
+    ${q.hub.length?`<p class="lab">On the hub</p><div class="chips">${q.hub.map(chipHub).join("")}</div>`:""}</div>`).join("");
+}
+
+const mapEl = document.getElementById("map"), finderEl = document.getElementById("finder"),
+      panelEl = document.getElementById("panel"), legendEl = document.getElementById("legend"), noteEl = document.getElementById("viewnote"), keyEl = document.getElementById("mapkey");
+const NOTES = {
+  map:"Models, frames and process frameworks on the track. Pick one to fan out its key parts.",
+  context:"Where each one borrowed its ideas. Plum is OT's own discipline, solid is psychology, dashed is other sciences.",
+  choose:"Start from the question in front of you."
+};
+
+function render(){
+  const {sel, view} = state;
+  const ch = view==="choose";
+  mapEl.hidden = ch; finderEl.hidden = !ch; legendEl.hidden = ch; keyEl.hidden = ch;
+  if(ch) finderEl.innerHTML = chooseMarkup(); else { mapEl.innerHTML = svgMarkup(); legendEl.innerHTML = legendMarkup(); }
+  keyEl.textContent = view==="map" ? "Infield: occupation. Track: four models, six frames of reference and three process frameworks. Outer ring: key parts of the chosen one." : "Outer ring: twelve source theories. Plum is occupational science, solid dots are psychology, dashed dots are other sciences.";
+  panelEl.innerHTML = sel.type==="branch" ? branchMarkup(BY[sel.id]) : sel.type==="parent" ? parentMarkup(PBY[sel.id]) : aboutMarkup();
+  document.querySelectorAll(".sp-seg button").forEach(b=>b.setAttribute("aria-pressed", String(b.dataset.view===view)));
+  noteEl.textContent = NOTES[view];
+}
+
+let userAction = false, keepFocus = false;
+function apply(id){
+  const prevId = state.sel.id;
+  if(BY[id]) state.sel = {type:"branch", id};
+  else if(PBY[id]){ state.sel = {type:"parent", id}; state.view = "context"; }
+  else state.sel = {type:"about", id:"about"};
+  if(state.sel.id !== prevId && !keepFocus) state.focus = null;
+  keepFocus = false;
+  render();
+  if(userAction){
+    userAction = false;
+    const behavior = reduced() ? "auto" : "smooth";
+    if(state.focus!=null && state.sel.type==="branch"){
+      const li = document.getElementById("concept-"+state.focus);
+      if(li) li.scrollIntoView({behavior, block:"center"});
+    } else if(matchMedia("(max-width: 920px)").matches || panelEl.getBoundingClientRect().top < 0){
+      panelEl.scrollIntoView({behavior, block:"start"});
+    }
+  }
+}
+function go(id){
+  userAction = true;
+  let cur = ""; try { cur = location.hash.slice(1); } catch(e){}
+  if(cur !== id){ try { location.hash = id; return; } catch(e){} }
+  apply(id);
+}
+window.addEventListener("hashchange", ()=>{ let h=""; try{h=location.hash.slice(1);}catch(e){} apply(h); });
+
+function activate(el){
+  const kind = el.dataset.kind, id = el.dataset.id;
+  if(kind==="center") go("about");
+  else if(kind==="concept"){ const [bid, j] = id.split(":"); state.focus = +j; keepFocus = true; go(bid); }
+  else go(id);
+}
+mapEl.addEventListener("click", e=>{ const el = e.target.closest("[data-kind]"); if(el) activate(el); });
+mapEl.addEventListener("keydown", e=>{
+  if(e.key!=="Enter" && e.key!==" ") return;
+  const el = e.target.closest("[data-kind]"); if(!el) return;
+  e.preventDefault(); activate(el);
+  requestAnimationFrame(()=>{ const again = mapEl.querySelector(`[data-id="${CSS.escape(el.dataset.id)}"]`); if(again) again.focus({preventScroll:true}); });
+});
+document.addEventListener("click", e=>{
+  const g = e.target.closest("[data-go]");
+  if(g){ go(g.dataset.go); return; }
+  const v = e.target.closest("[data-view],[data-view-jump]");
+  if(v){ state.view = v.dataset.view || v.dataset.viewJump; render(); }
+});
+
+(function init(){
+  let h=""; try{ h = location.hash.slice(1); }catch(e){}
+  if(PBY[h]) state.view = "context";
+  apply(h);
+})();
+</script>
+</body></html>

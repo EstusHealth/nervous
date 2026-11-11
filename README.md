@@ -8,7 +8,7 @@ Estus Health's internal staff training intranet. A landing page plus one page pe
 | Client pathway | `journey`, `welcome`, `nurture` |
 | Team | `check` |
 | Small Hinges | `hinges`, `sleep`, `morning`, `energy`, `load`, `transition`, `shutdown` |
-| Therapy approaches | `neuroaffirming` (Neuroaffirming Practice, the Estus way), `act` (plus `act-game`), `cbt`, `beliefs` (Core Beliefs), `mi`, `gaming`, `nervous`, `problem-solving`, `sport-psych` (Sport Psychology map), `assessments` (Assessment Atlas), `executive-function` (Executive Function map) |
+| Therapy approaches | `neuroaffirming` (Neuroaffirming Practice, the Estus way), `ot-models` (OT Models and Frames), `act` (plus `act-game`), `cbt`, `beliefs` (Core Beliefs), `mi`, `gaming`, `nervous`, `problem-solving`, `sport-psych` (Sport Psychology map), `assessments` (Assessment Atlas), `executive-function` (Executive Function map) |
 | Growth | `reels`, `must-be-nice`, `copy`, `gp` |
 | Templates: reports | `fca`, `ptd` (Potential to Drive), `ftd` (Medical Fitness to Drive), `summary` (Therapy Service Summary), `sensory` (Sensory Profile Report for schools and stakeholders) |
 | Templates: handouts | `goals` (Goal Plan, SMART goals), `chaining` (forward or backward chaining plan), `prompts` (Prompt Hierarchy Guide for support workers), `planner` (Student Planner) |
@@ -19,6 +19,10 @@ Progress ticks and tool drafts save in each person's own browser only.
 ## Assessment Atlas
 
 `assessments.html` maps 40 assessments across 10 domains. Tools sit in the `TOOLS` array near the top of the script: ages (`min` and `max` in years drive the Finder), time, telehealth fit (`yes`, `care`, `no`), access, and `feeds`, the report templates each tool supports. `ours: true` marks tools already named in our builders. Add a tool by adding one object; the map, Reports view and Finder pick it up.
+
+## OT Models and Frames
+
+`ot-models.html` maps four occupation-based models, six frames of reference and three process frameworks, the 12 theories they draw on, and 11 starting questions (`QUESTIONS` array) that point to a model, a frame, measures on the Assessment Atlas and hub pages.
 
 ## Neuroaffirming Practice
 
