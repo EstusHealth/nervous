@@ -499,7 +499,7 @@ footer .wrap{padding-block:24px 56px;display:flex;justify-content:space-between;
     <div class="inputs">
       <div class="field"><label for="bFmt">Format</label><select id="bFmt"></select></div>
       <div class="field"><label for="bHook">Hook</label><select id="bHook"></select></div>
-      <div class="field" id="bOwnF" hidden><label for="bOwn">Your hook</label><input type="text" id="bOwn" placeholder="Must be nice to..."></div>
+      <div class="field" id="bOwnF" hidden><label for="bOwn">Your hook</label><input type="text" id="bOwn" placeholder="Must be nice to..."><p class="small" id="bHookWarn" hidden style="color:#B3261E;margin:6px 0 0">Make it one complete sentence. Join the twist with a comma, “not” or “instead of”.</p></div>
       <div class="field"><label for="bCta">CTA</label><select id="bCta"></select></div>
       <div class="field"><label for="bEnd">End screen</label><select id="bEnd"></select></div>
       <div class="field"><label for="bLen">Length</label><select id="bLen"><option value="short">Short, 12 to 16 seconds</option><option value="std" selected>Standard, 15 to 20 seconds</option><option value="long">Long, 20 to 30 seconds, more scenes</option></select></div>
@@ -525,7 +525,7 @@ footer .wrap{padding-block:24px 56px;display:flex;justify-content:space-between;
       <div class="z" style="left:0;right:0;bottom:0;height:19.8%">Bottom 380 px: caption, name, audio</div>
       <div class="z" style="right:0;top:13%;bottom:19.8%;width:13.9%;writing-mode:vertical-rl">Right 150 px: buttons</div>
       <div class="ok" style="left:4%;top:14%;right:15%;bottom:21%">Safe area</div>
-      <div class="txt" style="top:58%">MUST BE NICE</div><div class="txt" style="top:63%">Hook on the shirt, not the face</div>
+      <div class="txt" style="top:58%">One-sentence hook on the shirt, not the face</div>
     </div>
     <div>
       <table class="tbl">
@@ -585,6 +585,7 @@ footer .wrap{padding-block:24px 56px;display:flex;justify-content:space-between;
   <div class="rl">
     <div class="r h"><span>Topic</span><span>Do</span><span>Don't</span></div>
     <div class="r"><b>The moment</b><span class="yes">Name a moment everyone recognises: keys, 3am, the group chat.</span><span class="no">Name a condition, or ask "do you have ADHD?" (Meta personal attributes rule).</span></div>
+    <div class="r"><b>The hook</b><span class="yes">One complete sentence, on screen from frame one, one block, one size, one colour. "Parents we work with often say it must be nice when..." all in the same sentence.</span><span class="no">"Must be nice" alone with the rest in another colour, a hook split into beats, or a small lead-in line above it.</span></div>
     <div class="r"><b>Tone</b><span class="yes">Deadpan, warm, a bit funny. Laugh with, never at.</span><span class="no">Mock, shame or pathologise anyone. No "fix", "normal", "suffers".</span></div>
     <div class="r"><b>Claims</b><span class="yes">Say what we work on and how. "One area, one session."</span><span class="no">Promise outcomes or timeframes. No testimonials or reviews (Ahpra).</span></div>
     <div class="r"><b>Pictures</b><span class="yes">Our footage and pictures Claude draws.</span><span class="no">Pinterest, Google Images, other people's posts, stock with a watermark.</span></div>
@@ -640,31 +641,31 @@ secs.forEach(function(s){if(s)io.observe(s)})})();
 
 /* 3 formats */
 var FMTS=[
- {k:"walk",cls:"c1",name:"Text walk",tag:"12 to 16 seconds · simplest",pics:[["walk.jpg","Beats stack up"],["end-paper.jpg","Paper end screen"]],
-  what:"Silent deadpan walk. The hook is on screen from frame one, two more beats land on cue, then a hard cut to the end screen.",
+ {k:"walk",cls:"c1",name:"Text walk",tag:"12 to 16 seconds · simplest",pics:[["walk.jpg","Hook on the shirt"],["end-paper.jpg","Paper end screen"]],
+  what:"Silent deadpan walk. The whole hook sits on screen from frame one as one complete sentence, one block, then a hard cut to the end screen.",
   best:"Any card with a text walk version: keys, washing, the GP booking, the parcel return.",
-  beats:[["0s","Hook on screen from frame one"],["3s","Second beat pops in"],["8s","Punchline lands on a head turn"],["11s","Hard cut to end screen, hold 3s+"]],
-  prompt:"Edit the attached clip into an Instagram Reel, Must Be Nice text walk. Hook: \"Must be nice to know where your keys are.\" Then \"Every day.\" Then \"Without a search party.\" on my head turn. Brand fonts and colours, text over my shirt, inside the safe zone. Hard cut to the paper Must be nice / Could be you end screen. Hold every line long enough to read. Give me the MP4 and the caption from the card."},
- {k:"stare",cls:"c2",name:"Deadpan stare",tag:"12 to 14 seconds · two beats",pics:[["stare.jpg","The face is the joke"],["end-navy.jpg","Navy Book a chat"]],
-  what:"Two beats over the flattest look in the clip. The second beat lands as you lean in. Best with a punchy end screen.",
+  beats:[["0s","Whole hook on screen, one sentence, one block"],["8s","Small nod on a head turn"],["11s","Hard cut to end screen, hold 3s+"]],
+  prompt:"Edit the attached clip into an Instagram Reel, Must Be Nice text walk. Hook: \"Must be nice to know where your keys are every day without a search party.\" Put the whole hook on screen as one complete sentence, in one block, one size, one colour, from the first frame. Never split it into beats, and never put \"Must be nice\" in a different colour or size from the rest. Brand fonts and colours, text over my shirt, inside the safe zone. Hard cut to the paper Must be nice / Could be you end screen. Hold every line long enough to read. Give me the MP4 and the caption from the card."},
+ {k:"stare",cls:"c2",name:"Deadpan stare",tag:"12 to 14 seconds · one line",pics:[["stare.jpg","The face is the joke"],["end-navy.jpg","Navy Book a chat"]],
+  what:"One complete sentence over the flattest look in the clip, then you lean in and hold. Best with a punchy end screen.",
   best:"Masking and energy cards: \"you seem fine\", \"acting normal all day\", \"weekend refills the tank\".",
-  beats:[["0s","Hook over a steady stare"],["4s","Cut to the lean in, punchline pops"],["7s","Hard cut to navy end screen"],["10s","CTA pulses, finger taps it"]],
-  prompt:"Edit the attached clip into a Reel, Must Be Nice deadpan stare. Hook: \"Must be nice when 'you seem fine' is actually true.\" Second beat \"And not a full-time job.\" landing as I lean into the camera. Use the steadiest stare for the hook. Navy end screen with a Book a chat with an Estus OT button, trust chips and a tap. About 13 seconds. MP4 and caption, please."},
+  beats:[["0s","Whole hook over a steady stare, one block"],["4s","Cut to the lean in, hold the look"],["7s","Hard cut to navy end screen"],["10s","CTA pulses, finger taps it"]],
+  prompt:"Edit the attached clip into a Reel, Must Be Nice deadpan stare. Hook: \"Must be nice when 'you seem fine' is true and not a full-time job.\" Put the whole hook on screen as one complete sentence, in one block, one size, one colour, from the first frame. Never split it into beats, and never put \"Must be nice\" in a different colour or size from the rest. Use the steadiest stare for the hook, then cut to me leaning into the camera. Navy end screen with a Book a chat with an Estus OT button, trust chips and a tap. About 13 seconds. MP4 and caption, please."},
  {k:"tabs",cls:"c3",name:"Tab chaos",tag:"15 seconds · motion graphics",pics:[["tabs.jpg","Thought tabs pile up"],["tabs-dialog.jpg","Close all 99+ tabs?"]],
   what:"Browser tabs multiply across the top while thought tabs pop up around your head. The screen shakes, a Close all dialog gets tapped, everything is sucked shut and the last tab becomes estushealth.com and the end screen.",
   best:"Overload and memory cards: one tab open, inbox, group chat, \"why did I walk in here\".",
   beats:[["0s","Hook, one tab open"],["0.6 to 6.6s","Tabs and thoughts pile up, shake builds"],["6.6s","Close all dialog, finger taps it"],["8.2s","Address bar types estushealth.com, page becomes end screen"]],
-  prompt:"Edit the attached clip into a Reel with motion graphics. Hook: \"Must be nice to only have one tab open. In your browser. And in your head.\" Make browser tabs multiply across the top and thought tabs pop up around my head (relatable, kind, a few nods to other Must Be Nice cards), building shake and sound. Then a Close all 99+ tabs? dialog gets tapped, everything closes, estushealth.com types into the address bar and the page becomes the navy Book a chat end screen. Original sound effects. MP4 and caption."},
+  prompt:"Edit the attached clip into a Reel with motion graphics. Hook: \"Must be nice to have one tab open, in your browser and in your head.\" Put the whole hook on screen as one complete sentence, in one block, one size, one colour, from the first frame. Never split it into beats, and never put \"Must be nice\" in a different colour or size from the rest. Make browser tabs multiply across the top and thought tabs pop up around my head (relatable, kind, a few nods to other Must Be Nice cards), building shake and sound. Then a Close all 99+ tabs? dialog gets tapped, everything closes, estushealth.com types into the address bar and the page becomes the navy Book a chat end screen. Original sound effects. MP4 and caption."},
  {k:"mood",cls:"c4",name:"Moodboard flip",tag:"18 seconds · drawn pictures",pics:[["mood-nice.jpg","Their moodboard: Nice"],["mood-mine.jpg","Mine: the real versions"]],
-  what:"Six pinned cards with original drawings drop in: the nice version of daily life. \"Their moodboard.\" gets struck through, \"Mine.\" lands and each card flips to the real version. Cards fall away, the turn line plays over a stare, then the end screen.",
+  what:"Six pinned cards with original drawings drop in: the nice version of daily life. the hook gets struck through, \"Mine.\" lands and each card flips to the real version. Cards fall away, the turn line plays over a stare, then the end screen.",
   best:"Round-ups across a theme: home admin, sensory, school mornings, driving, energy across the week.",
-  beats:[["0s","Hook: Must be nice. Their moodboard."],["1 to 3.5s","Six pins drop in, tagged Nice"],["4.6s","Strike, Mine. lands, cards flip one by one"],["9s","Pins fall away, turn line, end screen"]],
-  prompt:"Edit the attached clip into a moodboard Reel. Hook: \"Must be nice. Their moodboard.\" Draw six original illustrated pins in our palette (no images from the web): the nice version of [keys, dishes, tabs, inbox, socks, 5pm energy]. Strike the hook, land \"Mine.\" and flip each pin to the real version with a funny, kind caption. Then the pins fall away, \"It's not easier for them. Their setup fits their brain.\" over my stare, and the navy end screen. Sound effects for drops and flips."},
+  beats:[["0s","Hook: Must be nice to live the life on their moodboard."],["1 to 3.5s","Six pins drop in, tagged Nice"],["4.6s","Strike, Mine. lands, cards flip one by one"],["9s","Pins fall away, turn line, end screen"]],
+  prompt:"Edit the attached clip into a moodboard Reel. Hook: \"Must be nice to live the life on their moodboard.\" Put the whole hook on screen as one complete sentence, in one block, one size, one colour, from the first frame. Never split it into beats, and never put \"Must be nice\" in a different colour or size from the rest. Draw six original illustrated pins in our palette (no images from the web): the nice version of [keys, dishes, tabs, inbox, socks, 5pm energy]. Strike the hook, land \"Mine.\" and flip each pin to the real version with a funny, kind caption. Then the pins fall away, \"It's not easier for them. Their setup fits their brain.\" over my stare, and the navy end screen. Sound effects for drops and flips."},
  {k:"night",cls:"c5",name:"Night clock",tag:"20 to 28 seconds · transitions",pics:[["night-card.jpg","Bar wipe to a time card"],["night-payoff.jpg","3:16 AM payoff"]],
   what:"Time keeps jumping. Each jump is a title card with its own transition: brand bar wipe, whip pan, glitch, then an iris into the end screen. The footage gets darker and bluer each hour while thought cards replay the day.",
   best:"Anything across time: sleep, the 2pm crash, the weekend tank, Sunday night, one more episode.",
-  beats:[["0s","10:30 PM, hook, clock ticking"],["3.2s","Bar wipe to 11:47 card, then a replaying thought"],["9.6s","Whip to 1:52, two new worries"],["16s","Glitch to 3:16, stacked punchline, iris to the Small Hinge end screen"]],
-  prompt:"Edit the attached clip into a Reel that runs across one night. Hook: \"Must be nice to fall asleep when you're tired.\" Jump the time with title cards (10:30 PM, 11:47, 1:52, 3:16), each with a different transition: brand colour bar wipe, whip pan, glitch, then an iris into the end screen. Darken and cool the footage each hour, punch in on each cut, add thought cards replaying old conversations, a ticking clock and sound effects. Punchline: \"Instead of replaying every conversation since 2009.\" End screen names Sleep Architecture, one of our Small Hinges, with Book a chat. Hold every card long enough to read."}
+  beats:[["0s","10:30 PM, hook, clock ticking"],["3.2s","Bar wipe to 11:47 card, then a replaying thought"],["9.6s","Whip to 1:52, two new worries"],["16s","Glitch to 3:16, thought cards stack up, iris to the Small Hinge end screen"]],
+  prompt:"Edit the attached clip into a Reel that runs across one night. Hook: \"Must be nice to fall asleep when you're tired instead of replaying every conversation since 2009.\" Put the whole hook on screen as one complete sentence, in one block, one size, one colour, from the first frame. Never split it into beats, and never put \"Must be nice\" in a different colour or size from the rest. Jump the time with title cards (10:30 PM, 11:47, 1:52, 3:16), each with a different transition: brand colour bar wipe, whip pan, glitch, then an iris into the end screen. Darken and cool the footage each hour, punch in on each cut, add thought cards replaying old conversations, a ticking clock and sound effects. At 3:16 the thought cards stack up. End screen names Sleep Architecture, one of our Small Hinges, with Book a chat. Hold every card long enough to read."}
 ];
 var fsel=load("rs_fmt","walk");
 function drawF(){
@@ -688,7 +689,7 @@ var TR=[
  ["d-flip","Card flip",'<span class="pinx"><i></i><i></i></span><span class="pinx"><i></i><i></i></span><span class="pinx"><i></i><i></i></span>',"Each card turns over to show the other side, one after another.","Nice vs real, before vs after, theirs vs mine.","0.4s each, 0.35s apart"],
  ["d-suck","Suck-in close",'<span class="ch" style="left:12%;top:40%;width:70px;--dx:30px"></span><span class="ch" style="left:55%;top:52%;width:60px;--dx:-40px;animation-delay:.05s"></span><span class="ch" style="left:20%;top:72%;width:80px;--dx:20px;animation-delay:.1s"></span><span class="ch" style="left:60%;top:30%;width:50px;--dx:-20px;animation-delay:.15s"></span>',"Everything on screen shrinks into one bar and disappears.","The relief moment: close all, mute, done.","0.6s, staggered"],
  ["d-punch","Punch-in cut",'',"Cut to the same shot, closer, a little cooler.","Every cut. Adds energy and shows time passing.","Instant, 10 to 30% zoom"],
- ["d-pop","Text pop",'<span>Must be nice</span><span>to fall asleep</span><span>Since 2009.</span>',"Text boxes scale up with a small overshoot.","Every text beat and punchline.","0.3s"]
+ ["d-pop","Text pop",'<span>Must be nice to fall asleep when you\'re tired.</span>',"Text boxes scale up with a small overshoot.","Every text beat and punchline.","0.3s"]
 ];
 $("trans").innerHTML=TR.map(function(t){return '<div class="tr"><div class="stagebox '+t[0]+'" aria-hidden="true"><div class="ftg"></div><div class="lay">'+t[2]+'</div></div><div class="tb"><h4>'+t[1]+'</h4><p>'+t[3]+'</p><p class="when"><b>Use for:</b> '+t[4]+'</p><span class="tm">'+t[5]+'</span></div></div>'}).join("");
 /* fix layering: some demos put the card outside .lay */
@@ -714,18 +715,18 @@ $("paceIn").addEventListener("input",pace);pace();
 /* 7 builder */
 var BF=[["walk","Text walk"],["stare","Deadpan stare"],["tabs","Tab chaos (motion graphics)"],["mood","Moodboard flip (drawn pictures)"],["night","Night clock (transitions)"],["surprise","Surprise me, go all out"]];
 var BH=[
- ["Must be nice to know where your keys are. Every day. Without a search party.","keys"],
- ["Must be nice when \"you seem fine\" is actually true. And not a full-time job.","seem fine"],
- ["Must be nice to only have one tab open. In your browser. And in your head.","one tab"],
- ["Must be nice to fall asleep when you're tired. Instead of replaying every conversation since 2009.","sleep"],
+ ["Must be nice to know where your keys are every day without a search party.","keys"],
+ ["Must be nice when \"you seem fine\" is true and not a full-time job.","seem fine"],
+ ["Must be nice to have one tab open, in your browser and in your head.","one tab"],
+ ["Must be nice to fall asleep when you're tired instead of replaying every conversation since 2009.","sleep"],
  ["Must be nice to feel the same at 2pm as you did at 10am.","2pm"],
- ["Must be nice when a weekend refills the tank. Mine barely covers the debt.","weekend"],
- ["Must be nice to open an email and just reply. Not think about it for nine days first.","email"],
+ ["Must be nice when a weekend refills the tank instead of barely covering the debt.","weekend"],
+ ["Must be nice to open an email and just reply instead of thinking about it for nine days first.","email"],
  ["Must be nice when the dishes are just dishes, not a mountain.","dishes"],
  ["Must be nice to book a GP appointment without a pep talk.","GP"],
  ["Must be nice when a group chat isn't a full-time job.","group chat"],
- ["Must be nice when \"shoes on\" takes one ask.","shoes on"],
- ["Must be nice when \"one more episode\" means one. Not four.","one more episode"],
+ ["Must be nice when \"shoes on\" takes one ask, not eleven.","shoes on"],
+ ["Must be nice when \"one more episode\" means one and not four.","one more episode"],
  ["__own","Write my own"]
 ];
 var BC=[["book","Book a chat with an Estus OT. Link in bio."],["hinge","Name the matching Small Hinge, then Book a chat."],["follow","Follow for the next one."],["link","Link in bio, with the turn line."]];
@@ -737,8 +738,8 @@ opts("bFmt",BF,B.f);
 $("bHook").innerHTML=BH.map(function(o){return '<option value="'+esc(o[0])+'"'+(o[0]===B.h?" selected":"")+'>'+esc(o[0]==="__own"?o[1]:o[1].charAt(0).toUpperCase()+o[1].slice(1)+": "+o[0].replace(/^Must be nice /,"..."))+'</option>'}).join("");
 opts("bCta",BC,B.c);opts("bEnd",BE,B.e);$("bLen").value=B.l;$("bOwn").value=B.own||"";
 $("bX").innerHTML=BX.map(function(o){return '<label><input type="checkbox" data-x="'+o[0]+'"'+(B.x&&B.x[o[0]]?" checked":"")+'><span>'+esc(o[1])+'</span></label>'}).join("");
-var FTXT={walk:"a Must Be Nice text walk: silent deadpan walk, hook on screen from the first frame, two more beats popping in on cue, then a hard cut to the end screen",
- stare:"a Must Be Nice deadpan stare: the hook over my steadiest stare, the second beat landing as I lean into the camera",
+var FTXT={walk:"a Must Be Nice text walk: silent deadpan walk, the whole hook on screen from the first frame as one block, then a hard cut to the end screen",
+ stare:"a Must Be Nice deadpan stare: the whole hook over my steadiest stare, then a cut to me leaning into the camera",
  tabs:"a motion graphics Reel: things pile up around my head (tabs, notifications or whatever fits the hook), the shake builds, then a relief moment closes it all and leads into the end screen",
  mood:"a moodboard flip: original illustrated pins in our palette drop in showing the nice version, then flip one by one to the real version with kind, funny captions",
  night:"a multi-scene Reel with title cards between cuts, each using a different transition (brand bar wipe, whip pan, glitch, iris into the end screen), footage punched in and graded a little differently each scene",
@@ -755,6 +756,7 @@ function buildP(){
   var hook=B.h==="__own"?(B.own.trim()||"Must be nice to [your line]."):B.h;
   var p="Edit the attached clip into an Instagram Reel for our Must Be Nice series.\n\n"+
    "Hook: \""+hook+"\"\n"+
+   "Put the whole hook on screen as one complete sentence, in one block, one size, one colour, from the first frame. Never split it into beats, and never put \"Must be nice\" in a different colour or size from the rest.\n"+
    "Format: "+FTXT[B.f]+".\n"+
    "Length: about "+LTXT[B.l]+".\n"+
    "CTA: "+CTXT[B.c]+"\n"+
@@ -763,6 +765,7 @@ function buildP(){
   var xs=Object.keys(B.x).map(function(k){return XTXT[k]}).filter(Boolean);
   if(xs.length)p+="\n\n"+xs.join("\n");
   p+="\n\nGive me the MP4 and the caption.";
+  var hw=$("bHookWarn");if(hw){var bad=/^must be nice[\s.!]*$/i.test(hook.trim())||/[.!?]["”']?\s+["“]?[A-Z0-9]/.test(hook.trim());hw.hidden=!bad}
   $("bOut").textContent=p;return p}
 ["bFmt","bHook","bCta","bEnd","bLen"].forEach(function(id){$(id).addEventListener("change",buildP)});
 $("bOwn").addEventListener("input",buildP);$("bX").addEventListener("change",buildP);
