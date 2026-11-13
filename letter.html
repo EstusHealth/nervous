@@ -8,225 +8,49 @@
 <noscript><p style="padding:24px;font:16px sans-serif">This builder needs JavaScript. Turn it on and reload.</p></noscript>
 <script src="kit.js"></script>
 <script>
-/* Letter of support: a short, evidence-based letter backing one request. NDIS plan reviews and change of
-   circumstances, funding for a specific support, NDIS access, school or exam adjustments, workplace or study
-   adjustments, housing. Engine: kit.js.
-   The shape: who I am and how I know them, what is hard and why, what I recommend and why, what happens without it. */
+/* Letter of support: a clean letter on Estus letterhead. Details at the top, your text, your signature.
+   Engine: kit.js. */
 EstusKit.start(function(K){
-const {esc,str,num,cap,dot,lowLead,items,paras,plural,listJoin,parseD,daysBetween,fmtD,longD,today,addMonths,ageAt,F,CB,say,OT,FINISH,LIST,HEAD,row,pushParas}=K;
-const MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
-const monthY=v=>{const d=parseD(v);return d?MONTHS[d.getMonth()]+" "+d.getFullYear():""};
-const PURPOSE=[["review","NDIS plan review or change of circumstances"],["support","NDIS funding for a specific support"],["access","NDIS access request"],["school","School or exam adjustments"],["work","Workplace or study adjustments"],["housing","Housing or tenancy"],["other","Other"]];
-const REQ_PH={review:"a review of their NDIS plan, as their support needs have changed",support:"funding for a support worker to build independent travel",access:"access to the NDIS",
-  school:"adjustments to their exams and assessments",work:"adjustments to their duties and workspace",housing:"a ground floor unit close to public transport",other:"what they are asking for"};
-const MODES=["Telehealth","Home","School","Community","Clinic"];
-const SOURCES=["Direct observation","Standardised assessment","Interview with them","Family or carer report","School or work reports","Other reports reviewed"];
-const AREAS=["Self-care and home routines","Community access and travel","School or study","Work","Social and relationships","Emotional regulation","Sensory processing","Safety","Communication"];
-const area=()=>({area:"",hard:"",needs:""});
-const rec=()=>({support:"",amount:"",why:""});
-const nm=()=>K.first()||"the person";
-const P=()=>K.S.req.purpose;
-const isNdis=()=>["review","support","access"].includes(P());
-const hasPlan=()=>isNdis()&&P()!=="access"&&K.S.plan.managed!=="Private (not NDIS)";
-const on=(o,list)=>list.filter(m=>o[m]).concat(Object.keys(o).filter(m=>!list.includes(m)&&o[m]));
-const art=w=>/^[aeiou]/i.test(w)?"an":"a";
+const {esc,str,paras,parseD,fmtD,longD,today,addMonths,ageAt,F,say,OT,FINISH,row,pushParas}=K;
 function dear(){const t=K.S.to;return str(t.dear)?"Dear "+str(t.dear)+",":str(t.name)?"Dear "+str(t.name)+",":"To whom it may concern,"}
-function openLine(){const r=str(K.S.req.text).replace(/^(for|of)\s+/i,"").replace(/[.\s]+$/,"");
-  return r?`I am writing in support of ${nm()}'s request for ${lowLead(r)}.`:""}
-function introLine(){const s=K.S,role=(str(s.ot.role)||"Occupational Therapist").toLowerCase(),since=monthY(s.inv.since),n=num(s.inv.sessions);
-  let t=`I am ${art(role)} ${role} at Estus Health, a neuroaffirming occupational therapy practice based in Perth.`;
-  if(since)t+=` I have worked with ${nm()} since ${since}${n?", across "+plural(n,"session"):""}.`;
-  else if(n)t+=` I have worked with ${nm()} across ${plural(n,"session")}.`;
-  return t}
-const H={impact:{school:"Impact at school",work:"Impact at work or study",housing:"Impact on daily living at home"},
-  recs:{school:"Adjustments I recommend",work:"Adjustments I recommend"}};
-const hImpact=()=>H.impact[P()]||"Impact on daily life";
-const hRecs=()=>H.recs[P()]||"What I recommend";
 
 return{
 id:"letter",name:"Letter of Support",h1:"Letter of support",newLabel:"Start a new letter",newToast:"New letter started",
 exampleNote:"Example letter for a fictional person. Your edits save in this browser only.",
 docTitle:()=>"Letter of Support",
-docSub:()=>"Occupational therapy. Confidential. Not to be released in part or in full without consent.",
-blank:()=>({client:{firstName:"",preferred:"",surname:"",pronouns:"",dob:"",ndis:""},plan:{managed:""},
-  to:{name:"",role:"",org:"",address:"",dear:""},
-  req:{purpose:"review",text:""},
-  inv:{since:"",sessions:"",modes:{},with:"",sources:{},assess:""},
-  about:{strengths:"",background:"",diagnosis:""},
-  impact:{changes:"",areas:[area()]},
-  recs:{rows:[rec()],ndis:"",risk:"",crit:{}},
-  signoff:{consent:false,by:"",enc:""}}),
-templates:{area,rec},
-normalise(o){if(!Array.isArray(o.impact.areas))o.impact.areas=[];if(!Array.isArray(o.recs.rows))o.recs.rows=[];
-  ["inv.modes","inv.sources","recs.crit"].forEach(p=>{const [a,b]=p.split(".");if(!o[a][b]||typeof o[a][b]!=="object")o[a][b]={}})},
+docSub:()=>"Occupational therapy. Confidential.",
+blank:()=>({client:{firstName:"",preferred:"",surname:"",dob:"",ndis:""},to:{name:"",org:"",dear:""},body:{text:""}}),
 example(){const t=today();return{
-  client:{firstName:"Noah",preferred:"",surname:"Patel",pronouns:"he / him",dob:addMonths(t,-207),ndis:"430000001"},plan:{managed:"Plan managed"},
-  to:{name:"",role:"Planner",org:"National Disability Insurance Agency (NDIA)",address:"",dear:"Planner"},
-  req:{purpose:"review",text:"a review of his NDIS plan, as his support needs have changed since it was made"},
-  inv:{since:addMonths(t,-14),sessions:"31",modes:{Telehealth:true,Community:true},with:"Noah, his dad (Raj) and, for one session, his Year 12 coordinator",
-    sources:{"Direct observation":true,"Standardised assessment":true,"Interview with them":true,"Family or carer report":true,"School or work reports":true},
-    assess:"Canadian Occupational Performance Measure (COPM)\nAdolescent/Adult Sensory Profile\nVineland-3, parent and caregiver form"},
-  about:{strengths:"Calm and precise when he knows the plan.\nDeep interest in cars and mechanics. Finished a Certificate II in Automotive at school.\nHonest about what he needs, and good at saying when something is too much.",
-    background:"Noah is 17 and lives with his dad and older sister. He finishes Year 12 this term.\nHe came to Estus for help with daily routines, managing his energy across the week, and getting around the community on his own.",
-    diagnosis:"Autism (level 2), as documented by his paediatrician. Anxiety, as documented by his GP."},
-  impact:{changes:"Noah finishes school this term. He has a supported traineeship with a local mechanic starting in February, three days a week.\nAt school, staff structured his day, gave him a quiet space and told him about changes in advance. None of that carries over to work. His current plan was written for a school year and does not fund supports for work or travel.",
-    areas:[
-    {area:"Self-care and home routines",hard:"Noah completes his morning routine with a written checklist, but needs two or three reminders from his dad to start. On days after a shutdown he skips meals unless prompted.",needs:"A routine he can run without his dad, using phone alarms and a visual checklist, built and practised in OT."},
-    {area:"Community access and travel",hard:"Noah has not yet caught public transport on his own. Crowds, noise and changes to services lead to shutdowns. His dad drives him everywhere, which will not be possible around work hours.",needs:"Travel training for the route to his traineeship: plan it, practise it with a support worker, then fade the support."},
-    {area:"Work",hard:"Noah's energy drops sharply after four or five hours in a busy setting. An unexpected change to his day can lead to a shutdown that lasts the rest of the day.",needs:"An energy plan for work days, adjustments agreed with his employer, and regular check-ins while he settles."}]},
-  recs:{rows:[
-    {support:"Occupational therapy (capacity building)",amount:"40 hours over 12 months",why:"To build his morning and work-day routines, plan and practise his route to work, and agree adjustments with his employer. This is a small increase on his current plan, which he has used well."},
-    {support:"Support worker for travel training",amount:"6 hours a week for 6 months, then review",why:"To practise the route to work with him until he can travel on his own. OT sets the steps and trains the support worker, so support fades as his skills grow."},
-    {support:"Noise-cancelling headphones (low cost assistive technology)",amount:"One pair, about $400",why:"Noise on public transport and in the workshop is a known trigger for shutdowns. Trialled in sessions, where they helped him stay regulated for longer."}],
-    ndis:"These supports relate directly to Noah's autism and the support needs described above. They build his independence, so that over time he needs less paid support.\nOccupational therapy and graded travel training are established ways to build independent travel and daily routines. His dad gives a lot of informal support now, but cannot drive him to and from work. These supports are not the role of his school, which he is leaving, or of his employer.",
-    risk:"Without these supports, Noah is unlikely to be able to get to his traineeship on his own. He is at risk of losing the placement in its first months, and of becoming isolated at home once school ends. That would also add to the load on his dad, who works full time.",
-    crit:{link:true,goals:true,value:true,effective:true,informal:true,best:true}},
-  signoff:{consent:true,by:"Noah and his dad",enc:"Therapy Service Summary\nCOPM results"},meta:{date:t},ot:{ahpra:"OCC0001234567"}}},
-secOf:p=>{const t=p.split(".")[0];return({client:"person",plan:"person",to:"request",req:"request",inv:"involve",about:"about",impact:"impact",recs:"recs",signoff:"finish"})[t]||null},
-
+  client:{firstName:"Noah",preferred:"",surname:"Patel",dob:addMonths(t,-207),ndis:"430000001"},
+  to:{name:"NDIA Planner",org:"National Disability Insurance Agency",dear:"Planner"},
+  body:{text:"I am writing in support of Noah's request for a review of his NDIS plan. I am an occupational therapist at Estus Health and have worked with Noah since September 2025, across 31 sessions.\nNoah finishes Year 12 this term and starts a supported traineeship in February, three days a week. His current plan was written for a school year and does not fund supports for work or travel.\nNoah has not yet caught public transport on his own. Crowds, noise and changes to services lead to shutdowns, and his dad, who drives him now, cannot do so around work hours. His energy also drops sharply after four or five hours in a busy setting.\nI recommend 40 hours of occupational therapy over 12 months, and 6 hours a week of support worker time for travel training for 6 months, then review. Together these will build his routines and independent travel to work, so paid support can fade over time.\nWithout these supports, Noah is at real risk of losing his traineeship in its first months."},
+  meta:{date:t},ot:{ahpra:"OCC0001234567"}}},
+secOf:p=>{const t=p.split(".")[0];return({client:"details",to:"details",body:"letter"})[t]||null},
 sections:[
-{g:"Letter",id:"person",nav:"Person",title:"Who the letter is about",lead:"Their details, their funding, and who is writing.",render:()=>`<div class="form">
-  <div class="grid3">${F("client.firstName","First name")}${F("client.preferred","Preferred name",{ph:"If different"})}${F("client.surname","Surname")}</div>
-  <div class="grid3">${F("client.pronouns","Pronouns",{type:"select",opts:[["","Choose"],"she / her","he / him","they / them"]})}${F("client.dob","Date of birth",{type:"date"})}${F("client.ndis","NDIS number",{ph:"9 digits, if they have one",num:true})}</div>
-  ${F("plan.managed","Funding",{type:"select",opts:[["","Choose"],"Plan managed","Self managed","Private (not NDIS)"]})}
-  ${say("name-say")}
+{g:"Letter",id:"details",nav:"Details",title:"Details",lead:"Who it is about, who it goes to, and the date.",render:()=>`<div class="form">
+  <div class="grid3">${F("client.firstName","First name")}${F("client.surname","Surname")}${F("client.dob","Date of birth",{type:"date"})}</div>
+  <div class="grid3">${F("client.ndis","NDIS number",{ph:"Optional",num:true})}${F("to.name","To",{ph:"NDIA Planner"})}${F("to.org","Organisation",{ph:"Optional"})}</div>
+  <div class="grid2">${F("to.dear","Greeting",{ph:"Planner",hint:"Fills “Dear …”. Empty uses the To name, or “To whom it may concern”."})}${F("meta.date","Date",{type:"date"})}</div>
   ${OT()}</div>`},
-{g:"Letter",id:"request",nav:"Request",title:"The request",lead:"One letter backs one request. Say what it is in a single line, then who reads it.",render:()=>`<div class="form">
-  ${F("req.purpose","What the letter is for",{type:"select",opts:PURPOSE,re:true})}
-  ${F("req.text","The request",{ph:REQ_PH[P()]||REQ_PH.other,hint:"Finishes the sentence “I am writing in support of [name]'s request for …”."})}
-  <div class="sub">Who it goes to</div>
-  <div class="grid3">${F("to.name","Name",{ph:"Optional"})}${F("to.role","Role",{ph:isNdis()?"Planner":P()==="school"?"Year coordinator":"Optional"})}${F("to.org","Organisation",{ph:isNdis()?"National Disability Insurance Agency (NDIA)":"Optional"})}</div>
-  ${F("to.address","Address",{type:"area",rows:2,ph:"Optional. One line each."})}
-  ${F("to.dear","Greeting",{ph:"Ms Okafor",hint:"Fills “Dear …”. Leave empty to use their name, or “To whom it may concern” if there is no name."})}
-  ${say("req-say")}</div>`},
-{g:"Evidence",id:"involve",nav:"My involvement",title:"How you know them",lead:"The reader weighs your opinion by how well you know the person. Show it.",render:()=>`<div class="form">
-  <div class="grid2">${F("inv.since","Working together since",{type:"date"})}${F("inv.sessions","Sessions so far",{num:true,ph:"31"})}</div>
-  <div class="fld"><span class="lbl">How sessions ran</span><div class="cbm">${MODES.map(m=>CB("inv.modes."+m,m)).join("")}</div></div>
-  ${F("inv.with","Who took part",{ph:"Noah, his dad and, for one session, his Year 12 coordinator"})}
-  <div class="fld"><span class="lbl">Information this letter draws on</span><div class="cbm">${SOURCES.map(m=>CB("inv.sources."+m,m)).join("")}</div></div>
-  ${F("inv.assess","Assessments used",{type:"area",rows:3,ph:"One per line. Full name first time, short name in brackets."})}
-  ${say("inv-say")}</div>`},
-{g:"Evidence",id:"about",nav:"About them",title:"Strengths and background",lead:"Strengths come first at Estus. Keep the background to what the reader needs for this request.",render:()=>`<div class="form">
-  ${F("about.strengths","Strengths and interests",{type:"area",rows:3,ph:"One per line."})}
-  ${F("about.background","Background",{type:"area",rows:3,ph:"Age, who they live with, school or work, and why they came to OT."})}
-  ${F("about.diagnosis","Diagnoses, as documented",{ph:"Autism (level 2), as documented by his paediatrician.",hint:"Say who documented it. Do not diagnose here."})}</div>`},
-{g:"Evidence",id:"impact",nav:"Impact",title:()=>hImpact(),lead:"What is hard, in observable terms, and the support it calls for. One entry per area of life.",render:()=>`<div class="form">
-  ${F("impact.changes",P()==="review"?"What has changed":"What has changed (optional)",{type:"area",rows:3,ph:"New school, leaving school, a move, a new diagnosis, a carer who can no longer help. Leave empty if nothing has.",hint:P()==="review"?"A plan review turns on this. Say what changed and when.":""})}
-  ${LIST("impact.areas",(a,i,p,arr)=>`${HEAD("impact.areas",i,arr,str(a.area)||"Area "+(i+1))}
-    ${F(p+".area","Area of life",{list:AREAS,ph:"Community access and travel"})}
-    ${F(p+".hard","What is hard",{type:"area",rows:3,ph:"What you saw or measured, how often, and what happens. Numbers beat adjectives."})}
-    ${F(p+".needs","Support needed",{type:"area",rows:2,ph:"What would help, and who would give it."})}`,{add:"Add an area",tpl:"area",empty:"No areas yet. Add the first one."})}</div>`},
-{g:"Ask",id:"recs",nav:"Recommendations",title:()=>hRecs(),lead:"Every recommendation needs a reason that points back to the impact above.",render:()=>`<div class="form">
-  ${LIST("recs.rows",(r,i,p,arr)=>`${HEAD("recs.rows",i,arr,str(r.support)||"Recommendation "+(i+1))}
-    <div class="grid2">${F(p+".support","Support or adjustment",{ph:isNdis()?"Occupational therapy (capacity building)":"Extra working time in exams"})}${F(p+".amount","Amount (optional)",{ph:isNdis()?"40 hours over 12 months":"10 minutes per hour"})}</div>
-    ${F(p+".why","Why",{type:"area",rows:3,ph:"What it is for, which need it meets, and why this amount."})}`,{add:"Add a recommendation",tpl:"rec",empty:"No recommendations yet."})}
-  ${isNdis()?`<div class="sub">NDIS funding criteria</div>
-  ${F("recs.ndis","How this meets the criteria",{type:"area",rows:4,ph:"Plain words. Link to disability, value for money, evidence it works, informal supports, and why the NDIS rather than health, school or work."})}
-  <div class="fld"><span class="lbl">Your own check. Have you covered</span><div class="cbm">
-    ${CB("recs.crit.link","The link to their disability")}${CB("recs.crit.goals","Their plan goals")}${CB("recs.crit.value","Value for money")}
-    ${CB("recs.crit.effective","Evidence it works")}${CB("recs.crit.informal","What family and community already give")}${CB("recs.crit.best","Why the NDIS, not another system")}</div>
-    <span class="hint">These ticks are for you. They do not print.</span></div>`:""}
-  ${F("recs.risk","If this is not in place",{type:"area",rows:3,ph:"What is likely to happen, to them and to the people around them."})}</div>`},
-{g:"Finish",id:"finish",nav:"Sign-off",title:"Sign-off",lead:"Consent, anything you are attaching, then download.",render:()=>`<div class="form">
-  ${CB("signoff.consent","Consent was given for this letter to be shared")}
-  ${F("signoff.by","Who gave consent",{ph:"Noah and his dad"})}
-  ${F("signoff.enc","Enclosed",{type:"area",rows:2,ph:"Optional. One per line. Reports or results you are attaching."})}
-  ${F("meta.date","Letter date",{type:"date"})}
+{g:"Letter",id:"letter",nav:"Letter",title:"Letter",lead:"Write it as you would in Word. Each new line is a new paragraph. **Bold** works.",render:()=>`<div class="form">
+  ${say("dear-say")}
+  ${F("body.text","Letter",{type:"area",rows:16,ph:"What they are asking for and how you know them.\nWhat is hard, with examples.\nWhat you recommend and why.\nWhat happens without it."})}
   ${FINISH()}</div>`}
 ],
-live(){const s=K.S,c=s.client;
-  const ns=document.getElementById("name-say");if(ns){const a=ageAt(c.dob,str(s.meta.date)||today());
-    ns.innerHTML=K.first()?`The letter calls them <b>${esc(nm())}</b>, with ${esc(K.pron().label)}${a!=null?`. Age at the letter date: <b>${a}</b>`:""}.`:"Add the name to see how the letter refers to them."}
-  const rs=document.getElementById("req-say");if(rs){const o=openLine();rs.innerHTML=`<b>${esc(dear())}</b><br>${o?esc(o):"Add the request to see the opening line."}`}
-  const is=document.getElementById("inv-say");if(is){const d=daysBetween(s.inv.since,str(s.meta.date)||today());
-    is.textContent=d!=null&&d>=0?`${introLine()} That is about ${plural(Math.max(1,Math.round(d/30.4)),"month")}.`:introLine()}
-  s.impact.areas.forEach((a,i)=>{const el=document.getElementById("it_"+K.fid("impact.areas."+i));if(el)el.textContent=str(a.area)||"Area "+(i+1)});
-  s.recs.rows.forEach((r,i)=>{const el=document.getElementById("it_"+K.fid("recs.rows."+i));if(el)el.textContent=str(r.support)||"Recommendation "+(i+1)})},
-checks(add,need){const s=K.S;
-  need("person","client.firstName","First name");need("person","client.surname","Surname");need("person","client.pronouns","Pronouns");
-  if(!str(s.client.dob))add("person","client.dob","No date of birth. Most readers need it to match the letter to the person.",true);
-  if(hasPlan()){need("person","client.ndis","NDIS number")}
-  if(str(s.client.ndis)&&str(s.client.ndis).replace(/\s/g,"").length!==9)add("person","client.ndis","NDIS numbers have 9 digits",true);
-  need("person","ot.name","Your name");need("person","ot.ahpra","AHPRA number");
-  need("request","req.text","The request");
-  if(str(s.req.text).length>220)add("request","req.text","The request is long. Keep it to one line and put the detail in Recommendations.",true);
-  if(!str(s.to.name)&&!str(s.to.role)&&!str(s.to.org))add("request","to.org","No recipient. A named reader is more likely to act than “To whom it may concern”.",true);
-  if(!str(s.inv.since))add("involve","inv.since","Say how long you have worked with them",true);
-  if(!on(s.inv.modes,MODES).length)add("involve","inv.modes.Telehealth","Tick how sessions ran",true);
-  if(!on(s.inv.sources,SOURCES).length)add("involve","inv.sources.Direct observation","Tick the information the letter draws on",true);
-  if(s.inv.sources["Standardised assessment"]&&!items(s.inv.assess).length)add("involve","inv.assess","You ticked standardised assessment. Name the assessments.",true);
-  need("about","about.strengths","Strengths and interests");
-  if(!str(s.about.background))add("about","about.background","Add a short background",true);
-  if(P()==="review"&&!str(s.impact.changes))add("impact","impact.changes","Say what has changed. A plan review turns on it.");
-  if(!s.impact.areas.length)add("impact","impact.areas","Add at least one area of impact");
-  s.impact.areas.forEach((a,i)=>{const b="impact.areas."+i,n=str(a.area)||"Area "+(i+1);
-    if(!str(a.area))add("impact",b+".area",`Area ${i+1}: name the area of life`);
-    if(!str(a.hard))add("impact",b+".hard",n+": say what is hard");
-    else if(!/\d|\b(once|twice|one|two|three|four|five|six|daily|every|most|week|weeks|each|always|never|times|hours|minutes|days)\b/i.test(a.hard))add("impact",b+".hard",n+": no frequency or number. How often, how long, how many?",true);
-    if(!str(a.needs))add("impact",b+".needs",n+": say what support it needs",true)});
-  const rows=s.recs.rows.filter(r=>str(r.support)||str(r.amount)||str(r.why));
-  if(!rows.length)add("recs","recs.rows","Add at least one recommendation");
-  s.recs.rows.forEach((r,i)=>{const b="recs.rows."+i,n=str(r.support)||"Recommendation "+(i+1);
-    if(!str(r.support))add("recs",b+".support",`Recommendation ${i+1}: name the support`);
-    if(!str(r.why))add("recs",b+".why",n+": say why. Every recommendation needs a reason.");
-    if(isNdis()&&!str(r.amount))add("recs",b+".amount",n+": no amount. Planners fund amounts, not ideas.",true)});
-  if(isNdis()){if(!str(s.recs.ndis))add("recs","recs.ndis","Say how the request meets the NDIS funding criteria",true);
-    [["link","the link to their disability"],["goals","their plan goals"],["value","value for money"],["effective","evidence it works"],["informal","informal supports"],["best","why the NDIS, not another system"]]
-      .forEach(([k,l])=>{if(!s.recs.crit[k])add("recs","recs.crit."+k,"Not yet ticked: "+l,true)})}
-  if(!str(s.recs.risk))add("recs","recs.risk","Say what is likely to happen without it",true);
-  if(!s.signoff.consent)add("finish","signoff.consent","Confirm consent");
-  need("finish","meta.date","Letter date")},
-
-build(){const s=K.S,B=[],c=s.client,t=s.to;
-  const toLine=[str(t.name),str(t.role)].filter(Boolean).join(", "),info=[];
-  if(toLine)info.push(row("To",toLine));if(str(t.org))info.push(row("Organisation",t.org));
-  if(str(t.address))info.push(row("Address",[{p:paras(t.address).join(", ")}]));
-  const nameLine=K.full()?K.full()+(str(c.preferred)&&str(c.preferred)!==str(c.firstName)?` (${str(c.preferred)})`:""):"";
-  info.push(row("Regarding",nameLine?[{p:nameLine}]:[{gap:"Name"}]));
-  const a=ageAt(c.dob,str(s.meta.date)||today());
-  if(parseD(c.dob))info.push(row("Date of birth",fmtD(c.dob)+(a!=null?` (${a} years)`:"")));
-  if(hasPlan()||str(c.ndis))info.push(row("NDIS number",c.ndis,"NDIS number"));
-  info.push(row("Date",parseD(s.meta.date)?[{p:longD(s.meta.date)}]:[{gap:"Letter date"}]));
+live(){const d=document.getElementById("dear-say");if(d)d.textContent=dear()},
+checks(add,need){
+  need("details","client.firstName","First name");need("details","client.surname","Surname");
+  need("details","meta.date","Date");need("details","ot.name","Your name");need("details","ot.ahpra","AHPRA number");
+  need("letter","body.text","The letter")},
+build(){const s=K.S,B=[],c=s.client,t=s.to,info=[];
+  const to=[str(t.name),str(t.org)].filter(Boolean).join(", ");if(to)info.push(row("To",to));
+  info.push(row("Regarding",K.full()?[{p:K.full()}]:[{gap:"Name"}]));
+  if(parseD(c.dob))info.push(row("Date of birth",fmtD(c.dob)));
+  if(str(c.ndis))info.push(row("NDIS number",c.ndis));
+  info.push(row("Date",parseD(s.meta.date)?[{p:longD(s.meta.date)}]:[{gap:"Date"}]));
   B.push({t:"tbl",w:[30,70],rows:info});
   B.push({t:"p",text:dear()});
-  const o=openLine();if(o)B.push({t:"p",text:o});else B.push({t:"gap",text:"The request"});
-  B.push({t:"p",text:introLine()});
-  B.push({t:"h",text:"My involvement",sec:"involve"});
-  const ir=[],md=on(s.inv.modes,MODES),src=on(s.inv.sources,SOURCES);
-  if(parseD(s.inv.since))ir.push(row("Working together since",longD(s.inv.since)));
-  if(num(s.inv.sessions))ir.push(row("Sessions",plural(num(s.inv.sessions),"session")+(parseD(s.meta.date)?" to "+longD(s.meta.date):"")));
-  if(md.length)ir.push(row("How sessions ran",listJoin(md)));
-  if(str(s.inv.with))ir.push(row("Who took part",s.inv.with));
-  if(src.length)ir.push(row("Information used",listJoin(src.map((x,i)=>i?x.charAt(0).toLowerCase()+x.slice(1):x))));
-  if(ir.length)B.push({t:"tbl",w:[30,70],rows:ir});
-  const as=items(s.inv.assess);if(as.length){B.push({t:"sub",text:"Assessments used"});B.push({t:"ul",items:as})}
-  B.push({t:"h",text:"About "+nm(),sec:"about"});
-  B.push({t:"sub",text:"Strengths and interests"});const st=items(s.about.strengths);if(st.length)B.push({t:"ul",items:st});else B.push({t:"gap",text:"Strengths and interests"});
-  if(str(s.about.background)){B.push({t:"sub",text:"Background"});pushParas(B,s.about.background)}
-  if(str(s.about.diagnosis))B.push({t:"lead",label:"Diagnoses",text:dot(s.about.diagnosis)});
-  if(str(s.impact.changes)){B.push({t:"h",text:"What has changed",sec:"impact"});pushParas(B,s.impact.changes)}
-  B.push({t:"h",text:hImpact(),sec:"impact"});
-  const ar=s.impact.areas.filter(x=>str(x.area)||str(x.hard)||str(x.needs));
-  if(!ar.length)B.push({t:"gap",text:"Impact"});
-  else ar.forEach((x,i)=>{const r=[{kind:"group",text:str(x.area)||"Area "+(i+1)}];
-    r.push(row("What is hard",x.hard,"What is hard"));if(str(x.needs))r.push(row("Support needed",x.needs));
-    B.push({t:"tbl",w:[30,70],rows:r})});
-  B.push({t:"h",text:hRecs(),sec:"recs"});
-  const rr=s.recs.rows.filter(r=>str(r.support)||str(r.amount)||str(r.why));
-  if(!rr.length)B.push({t:"gap",text:"Recommendations"});
-  else{const amt=rr.some(r=>str(r.amount)),cell=(v,gl)=>str(v)?paras(v).map(x=>({p:x})):[{gap:gl}];
-    const rows=rr.map(r=>{const cs=[{c:cell(r.support,"Support")}];if(amt)cs.push({c:str(r.amount)?[{p:str(r.amount)}]:[]});cs.push({c:cell(r.why,"Why")});return{label:true,cells:cs}});
-    B.push({t:"tbl",num:true,w:amt?[28,20,52]:[30,70],head:amt?["Support","Amount","Why"]:["Support","Why"],rows})}
-  if(isNdis()&&str(s.recs.ndis)){B.push({t:"sub",text:"How this meets the NDIS funding criteria"});pushParas(B,s.recs.ndis)}
-  if(str(s.recs.risk)){B.push({t:"sub",text:"If this is not in place"});pushParas(B,s.recs.risk)}
-  B.push({t:"h",text:"In closing",sec:"finish"});
-  const ask=isNdis()?"I strongly support this request and recommend the supports above.":"I strongly support this request and recommend the adjustments above.";
-  B.push({t:"p",text:ask+" This letter reflects my clinical opinion, based on my work with "+nm()+" and the information listed above."});
-  if(s.signoff.consent)B.push({t:"p",text:`${str(s.signoff.by)?cap(str(s.signoff.by))+" gave consent":"Consent was given"} for this letter to be shared.`});
-  else B.push({t:"gap",text:"Consent"});
-  const ct=[str(s.ot.phone),str(s.ot.email)||K.ESTUS.email].filter(Boolean);
-  B.push({t:"p",text:`Please contact me on ${ct.join(" or ")} if you need anything further.`});
-  const en=items(s.signoff.enc);if(en.length){B.push({t:"sub",text:"Enclosed"});B.push({t:"ul",items:en})}
+  pushParas(B,s.body.text,"The letter");
   B.push({t:"sign"});
   return B}
 }});

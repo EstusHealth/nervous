@@ -68,7 +68,7 @@ Change a fact once: the hourly fee and the booking, referral form and what-to-ex
 - `chaining.html` covers forward chaining, backward chaining and the whole task. The **+** on the Forward or backward page moves the learner on one step.
 - `planner.html` takes any day in the week and runs from that Monday.
 - `prompts.html` is general education on purpose. It never sets prompt levels for one person. That belongs in the person's support plan.
-- `letter.html` backs one request per letter: NDIS plan review, a specific support, NDIS access, school or exam adjustments, work or study adjustments, or housing. NDIS purposes add a funding criteria paragraph and a self-check that does not print.
+- `letter.html` is a plain letter on Estus letterhead: details, your text, your signature.
 - The default hourly rate for new recommendation rows is `RATE` at the top of the script in `summary.html`.
 
 To add a template: copy the smallest page (`prompts.html`), change the definition, add the page to `PAGES` at the top of `kit.js`, then add a card in `index.html` and a line here.
