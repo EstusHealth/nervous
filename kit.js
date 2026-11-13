@@ -1,5 +1,5 @@
 /* Estus Training Hub: template kit. One engine for the client and stakeholder templates:
-   summary, sensory, goals, chaining, prompts, planner. Styles live in kit.css.
+   summary, sensory, letter, goals, chaining, prompts, planner. Styles live in kit.css.
 
    A page is a small shell that calls EstusKit.start(function (K) { return definition }).
    The definition gives the sections (forms), the checks and build(), which returns the document as a list of
@@ -14,7 +14,7 @@
 "use strict";
 const JSZIP_URL="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js";
 const FONTS_URL="drive-fonts.js";
-const PAGES={summary:"summary.html",sensory:"sensory.html",goals:"goals.html",chaining:"chaining.html",prompts:"prompts.html",planner:"planner.html"};
+const PAGES={summary:"summary.html",sensory:"sensory.html",letter:"letter.html",goals:"goals.html",chaining:"chaining.html",prompts:"prompts.html",planner:"planner.html"};
 const ME_KEY="estus-kit-me-v1",DRIVE_ME="estus-drive-assessor-v1";
 const ESTUS={email:"hello@estushealth.com",web:"www.estushealth.com"};
 

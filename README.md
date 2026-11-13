@@ -10,7 +10,7 @@ Estus Health's internal staff training intranet. A landing page plus one page pe
 | Small Hinges | `hinges`, `sleep`, `morning`, `energy`, `load`, `transition`, `shutdown` |
 | Therapy approaches | `neuroaffirming` (Neuroaffirming Practice, the Estus way), `ot-models` (OT Models and Frames), `act` (plus `act-game`), `cbt`, `beliefs` (Core Beliefs), `mi`, `gaming`, `nervous`, `problem-solving`, `sport-psych` (Sport Psychology map), `assessments` (Assessment Atlas), `executive-function` (Executive Function map) |
 | Growth | `reels`, `must-be-nice`, `reels-studio` (Reels Studio, making Reels and Shorts with Claude), `meta` (Meta Ads System, from Brandon Willington's course), `copy`, `gp` |
-| Templates: reports | `fca`, `ptd` (Potential to Drive), `ftd` (Medical Fitness to Drive), `summary` (Therapy Service Summary), `sensory` (Sensory Profile Report for schools and stakeholders) |
+| Templates: reports | `fca`, `ptd` (Potential to Drive), `ftd` (Medical Fitness to Drive), `summary` (Therapy Service Summary), `sensory` (Sensory Profile Report for schools and stakeholders), `letter` (Letter of Support) |
 | Templates: handouts | `goals` (Goal Plan, SMART goals), `chaining` (forward or backward chaining plan), `prompts` (Prompt Hierarchy Guide for support workers), `planner` (Student Planner) |
 | Templates: admin | `signature` (Gmail email signature) |
 
@@ -56,7 +56,7 @@ Change a fact once: the hourly fee and the booking, referral form and what-to-ex
 
 ## Template kit
 
-`summary.html`, `sensory.html`, `goals.html`, `chaining.html`, `prompts.html` and `planner.html` share one engine, `kit.js`, and one stylesheet, `kit.css`. Each page is a small shell: it loads the engine, then hands it a definition with the sections (forms), the checks, a worked example and `build()`, which returns the document as a list of blocks. The engine draws the page, saves the draft in the browser, shows the A4 preview, prints it (Ctrl+P or **File, Print or save as PDF** prints the document only) and turns the same blocks into a branded Word file. Word export loads JSZip and `drive-fonts.js` the first time it is used.
+`summary.html`, `sensory.html`, `letter.html`, `goals.html`, `chaining.html`, `prompts.html` and `planner.html` share one engine, `kit.js`, and one stylesheet, `kit.css`. Each page is a small shell: it loads the engine, then hands it a definition with the sections (forms), the checks, a worked example and `build()`, which returns the document as a list of blocks. The engine draws the page, saves the draft in the browser, shows the A4 preview, prints it (Ctrl+P or **File, Print or save as PDF** prints the document only) and turns the same blocks into a branded Word file. Word export loads JSZip and `drive-fonts.js` the first time it is used.
 
 - A clinician's own name, AHPRA number, phone and email are typed once and fill in on every kit template (`estus-kit-me-v1`). If empty, they are read from the driving builders.
 - Draft files (`.json`) open in any kit page and switch to the right template.
@@ -68,6 +68,7 @@ Change a fact once: the hourly fee and the booking, referral form and what-to-ex
 - `chaining.html` covers forward chaining, backward chaining and the whole task. The **+** on the Forward or backward page moves the learner on one step.
 - `planner.html` takes any day in the week and runs from that Monday.
 - `prompts.html` is general education on purpose. It never sets prompt levels for one person. That belongs in the person's support plan.
+- `letter.html` backs one request per letter: NDIS plan review, a specific support, NDIS access, school or exam adjustments, work or study adjustments, or housing. NDIS purposes add a funding criteria paragraph and a self-check that does not print.
 - The default hourly rate for new recommendation rows is `RATE` at the top of the script in `summary.html`.
 
 To add a template: copy the smallest page (`prompts.html`), change the definition, add the page to `PAGES` at the top of `kit.js`, then add a card in `index.html` and a line here.
