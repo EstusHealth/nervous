@@ -4,7 +4,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@500;600;700&family=Press+Start+2P&family=VT323&display=swap">
 <style>
 /* Layout: Estus Training Hub shell. Ink hero, sticky fight bar, one centred stage card at a time, then a themed quiz. */
 :root{
@@ -213,6 +213,47 @@ details.cheat summary{cursor:pointer;font:600 15px var(--g-cond);letter-spacing:
   .wx{position:static;animation:none}
   .walker,.meter i,.th,.prog i{transition:none}
 }
+/* RPG console: a deliberate single dark look, same in both themes */
+.console{max-width:860px;margin:0 auto;background:#0b0d12;border:3px solid #2a2f3a;border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:10px;box-shadow:0 8px 0 #05070a;color:#f4f1ea}
+.console:focus{outline:none}
+.console:focus-visible{outline:3px solid var(--g-teal);outline-offset:3px}
+.screen{position:relative;border:3px solid #000;border-radius:6px;overflow:hidden;background:#06070a;line-height:0}
+#cv{display:block;width:100%;height:auto;image-rendering:pixelated;image-rendering:crisp-edges;cursor:pointer}
+.dlg{background:#0b0d12;border:4px double #f4f1ea;border-radius:4px;padding:12px 14px;min-height:170px;display:flex;flex-direction:column;gap:8px}
+.dlg-top{display:flex;gap:8px;align-items:center;flex-wrap:wrap;min-height:16px}
+.dlg-name{font:11px/1.4 "Press Start 2P",monospace;color:#f2c14e;letter-spacing:.04em}
+.dlg-name.tw{color:#5fc38a}.dlg-name.aw{color:#e0a64a}.dlg-name.mv{color:#ff8a8f}.dlg-name.ob{color:#9aa3b2}
+.dlg-skill{font:8px/1.4 "Press Start 2P",monospace;color:#0b0d12;background:#f2c14e;padding:4px 6px}
+.dlg-text{font:27px/1.15 "VT323",monospace;margin:0;min-height:2.3em;color:#f4f1ea}
+.dlg-ch{display:flex;flex-direction:column;gap:4px}
+.dlg-ch button:not(.pbtn){text-align:left;background:none;border:0;color:#f4f1ea;font:25px/1.1 "VT323",monospace;padding:6px 8px 6px 28px;position:relative;cursor:pointer;border-radius:2px}
+.dlg-ch button.on,.dlg-ch button:not(.pbtn):hover{background:#1d2230}
+.dlg-ch button.on::before{content:"\25B6";position:absolute;left:8px;color:#f2c14e;font-size:18px;top:8px}
+.dlg-row{display:flex;gap:10px;flex-wrap:wrap}
+.dlg-in{display:flex;flex-direction:column;gap:6px}
+.dlg-in label{font:9px/1.4 "Press Start 2P",monospace;color:#f2c14e}
+.dlg-in .inrow{display:flex;gap:8px}
+.rg .dlg-in input{font:24px "VT323",monospace;background:#161a22;color:#f4f1ea;border:2px solid #f4f1ea;padding:6px 8px;flex:1;min-width:0}
+.dlg-err{font:20px "VT323",monospace;color:#e0a64a}
+.rg .pbtn{font:10px/1 "Press Start 2P",monospace;background:#f4f1ea;color:#0b0d12;border:0;padding:12px 14px;cursor:pointer;box-shadow:0 3px 0 #8a8f99;min-height:42px}
+.rg .pbtn:active{transform:translateY(2px);box-shadow:0 1px 0 #8a8f99}
+.rg .pbtn.alt{background:none;color:#f4f1ea;border:2px solid #4a505c;box-shadow:none}
+.pbtn:focus-visible,.dlg-ch button:focus-visible,.dlg-in input:focus-visible{outline:3px solid #4CC3D4;outline-offset:2px}
+.dlg-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:auto;font:20px/1.1 "VT323",monospace;color:#9aa3b2}
+.rg .dlg-next{background:none;border:0;color:#f2c14e;font:12px "Press Start 2P",monospace;cursor:pointer;padding:6px;animation:rgblink 1s steps(2) infinite}
+@keyframes rgblink{50%{opacity:.2}}
+.pad{display:none;justify-content:space-between;align-items:center;padding:4px 6px 2px;user-select:none;-webkit-user-select:none;touch-action:none}
+@media (pointer:coarse){.pad{display:flex}}
+.dpad{display:grid;grid-template-columns:repeat(3,54px);grid-template-rows:repeat(3,54px)}
+.rg .dpad button{background:#2a2f3a;border:0;color:#f4f1ea;font:13px "Press Start 2P",monospace;touch-action:none;-webkit-tap-highlight-color:transparent}
+.dpad button.down{background:#4a505c}
+.dpad .u{grid-area:1/2;border-radius:8px 8px 0 0}.dpad .l{grid-area:2/1;border-radius:8px 0 0 8px}.dpad .r{grid-area:2/3;border-radius:0 8px 8px 0}.dpad .d{grid-area:3/2;border-radius:0 0 8px 8px}.dpad i{grid-area:2/2;background:#2a2f3a}
+.rg .abtn{width:78px;height:78px;border-radius:50%;background:#c9524b;border:0;color:#fff;font:16px "Press Start 2P",monospace;box-shadow:0 5px 0 #7d2a26;touch-action:none;-webkit-tap-highlight-color:transparent}
+.rg .abtn:active{transform:translateY(3px);box-shadow:0 2px 0 #7d2a26}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+#stage{margin-top:24px}
+@media (max-width:600px){.console{padding:8px;border-radius:10px}.dlg{padding:10px;min-height:190px}.dlg-text{font-size:24px}.dlg-ch button:not(.pbtn){font-size:22px}}
+@media (prefers-reduced-motion:reduce){.dlg-next{animation:none}}
 </style>
 <!--/ART-->
 <script src="theme.js"></script></head><body>
@@ -247,7 +288,7 @@ details.cheat summary{cursor:pointer;font:600 15px var(--g-cond);letter-spacing:
   <div>
     <p class="eyebrow">An ACT game · UFC 94 · Las Vegas · 31 January 2009</p>
     <h1>Rematch With <em>Fear</em></h1>
-    <p class="lead">Georges St-Pierre (GSP) was one of the greatest fighters ever. He also said he was scared before every single fight. He fought anyway. This game shows you how, one skill at a time.</p>
+    <p class="lead">Georges St-Pierre (GSP) was one of the greatest fighters ever. He also said he was scared before every single fight. He fought anyway. In this game you walk his path, from the locker room to the cage and back to the gym, and learn the six ACT skills on the way.</p>
     <div class="big-idea"><b>ACT in one line</b><p>You don't have to get rid of fear to do what matters. You can bring it with you.</p></div>
   </div>
   <div class="pairs" aria-label="The six ACT skills">
@@ -259,7 +300,18 @@ details.cheat summary{cursor:pointer;font:600 15px var(--g-cond);letter-spacing:
 
 <div class="bar" aria-label="Fight progress"><div class="g-wrap"><div class="track" id="track"></div><div class="tally" id="tally" aria-live="polite"></div></div></div>
 
-<section class="sec" id="fight"><div class="g-wrap"><div class="stage" id="stage"></div></div></section>
+<section class="sec" id="fight"><div class="g-wrap">
+<div class="console" id="console" tabindex="0" aria-label="Rematch With Fear game. Arrow keys or WASD to walk, Space to talk.">
+  <div class="screen"><canvas id="cv" width="1280" height="704" aria-hidden="true"></canvas></div>
+  <div class="dlg" id="dlg"><div class="dlg-top"><span class="dlg-name" id="dlgName"></span><span class="dlg-skill" id="dlgSkill" hidden></span></div>
+    <p class="dlg-text" id="dlgText" aria-hidden="true"></p><p class="sr" id="dlgSr" aria-live="polite"></p>
+    <div class="dlg-ch" id="dlgCh"></div>
+    <form class="dlg-in" id="dlgIn" hidden novalidate><label for="dlgInput" id="dlgLabel"></label><div class="inrow"><input id="dlgInput" autocomplete="off"><button class="pbtn" type="submit">OK</button></div><span class="dlg-err" id="dlgErr" hidden>Write one small step first.</span></form>
+    <div class="dlg-foot"><span id="dlgHint"></span><button class="dlg-next" id="dlgNext" type="button" aria-label="Next" hidden>&#9660;</button></div></div>
+  <div class="pad" id="pad"><div class="dpad"><button class="u" data-k="u" aria-label="Up">&#9650;</button><button class="l" data-k="l" aria-label="Left">&#9664;</button><i></i><button class="r" data-k="r" aria-label="Right">&#9654;</button><button class="d" data-k="d" aria-label="Down">&#9660;</button></div><button class="abtn" id="padA" aria-label="A: talk or next">A</button></div>
+</div>
+<div class="stage" id="stage" hidden></div>
+</div></section>
 
 <section class="sec" id="quiz"><div class="g-wrap">
   <div class="qhead"><p class="eyebrow">Quiz · 18 questions</p><h2 class="h2">Try it on your own life</h2><p>Pick a world you know. Every question happens there. Three questions for each of the six skills.</p></div>
@@ -296,229 +348,465 @@ var SK = {
 };
 var ORDER = ["room","unhook","here","sky","why","step"];
 
-/* ---------- the fight ---------- */
-var VALUES = ["Being brave","Family","Being healthy","Learning","Freedom","Being kind","Doing my best","Adventure","Helping others","Being honest","Creativity","Respect"];
+/* ---------- the RPG ---------- */
+var STAGES=[
+  {id:"locker",label:"Locker room",short:"Lock",sk:"room"},
+  {id:"tunnel",label:"The tunnel",short:"Tunl",sk:"unhook"},
+  {id:"r2",label:"Round 2",short:"R2",sk:"here"},
+  {id:"corner",label:"The corner",short:"Crnr",sk:"sky"},
+  {id:"r4",label:"Round 4",short:"R4",sk:"why"},
+  {id:"gym",label:"The gym",short:"Gym",sk:"step"}
+];
+var LIFE=[
+  "Like nerves before a job interview. You notice them, let them sit there, and walk in anyway.",
+  "Your mind says “I'll never get this right.” You notice it: “There's that thought again.” Then you keep working.",
+  "Halfway through a chat with a friend, you start planning dinner. You notice, and come back to what they're saying.",
+  "Think sky and weather. Thoughts and feelings are the weather. They come and go. You're the sky. A storm never hurts the sky.",
+  "Say you care about being a good parent. That's why you get up for the 3am feed, even when you're wrecked.",
+  "Say you care about your health. You don't run a marathon tomorrow. You go for a 15-minute walk today."
+];
+var VALUES=["FAMILY","COURAGE","HEALTH","FREEDOM","LEARNING","KINDNESS","HONESTY","ADVENTURE"];
 
-var STAGES = [
-  {id:"walk", label:"Walkout", sk:"room",
-   life:"You feel sick with nerves before a job interview. You notice the nerves, let them sit there, and walk in anyway.",
-   fight:"Early in his career, GSP cried before fights and promised himself each one would be his last. The fear never fully left. He learned to walk out with it.",
-   tryTitle:"Two dials. One you control. One you don't.",
-   choice:{prompt:"The walkout music starts. Your heart is pounding. What do you do?", opts:[
-     {t:"Wait in the tunnel until the fear goes away.", ok:false, fb:"Fear doesn't leave on cue. Waiting to feel ready can mean never walking."},
-     {t:"Let your heart pound, and start walking.", ok:true, fb:"That's making room. The fear walks with you, but you're the one walking."},
-     {t:"Tell yourself “I'm not scared” over and over.", ok:false, fb:"Pushing a feeling away usually makes it louder. You saw that with the fear dial."}]}},
-  {id:"r1", label:"Round 1", sk:"unhook",
-   life:"Your mind says “I'll never get this right.” You notice it: “There's that thought again.” Then you keep working.",
-   fight:"Round 1 was close. Penn blocked GSP's takedown and hit him with a clean one-two.",
-   tryTitle:"These thoughts are shouting at you. Tap each one to unhook from it.",
-   choice:{prompt:"You just got hit. Your mind says: “You're losing this round.” What do you do?", opts:[
-     {t:"Argue back: “No I'm not, I'm winning!”", ok:false, fb:"Arguing with a thought keeps you fighting your mind instead of your opponent."},
-     {t:"Notice it. “Thanks, mind.” Then back to the game plan.", ok:true, fb:"You heard the thought and kept going. It's along for the ride, but it's not driving."},
-     {t:"Believe it. Cover up and wait for the bell.", ok:false, fb:"Now the thought is calling the shots."}]}},
-  {id:"r2", label:"Round 2", sk:"here",
-   life:"Halfway through a chat with a friend, you start planning dinner. You notice, and come back to what they're saying.",
-   fight:"In round 2, GSP took over. He kept his jab in Penn's face and kept going for takedowns.",
-   tryTitle:"Your mind keeps wandering. Tap only what's happening right now, in the cage.",
-   choice:{prompt:"Penn is pinned against the fence. Your mind starts writing your victory speech. What do you do?", opts:[
-     {t:"Keep working on the speech. It's going to be a good one.", ok:false, fb:"That's the future. The takedown is happening now."},
-     {t:"Replay the punch you took in round 1.", ok:false, fb:"That's the past. You can't fight it again."},
-     {t:"Feel your feet on the canvas. Find the angle. Take the shot.", ok:true, fb:"Your attention went where the work is: right here."}]}},
-  {id:"r3", label:"Round 3", sk:"sky",
-   life:"After a mistake at work, your mind says “I'm useless.” You step back: “I'm someone having a rough day. That's not all of me.”",
-   fight:"Between rounds, officials pulled up GSP's corner for rubbing Vaseline on his back, and had him toweled down. Noise and controversy, with one minute to reset.",
-   meta:"Picture the sky and the weather. Thoughts and feelings are the weather. They come and go. You're the sky. A storm never hurts the sky.",
-   tryTitle:"Your head is full of weather. Tap the button to step back.",
-   choice:{prompt:"The bell for round 3 is close. Your head is full of noise. What do you take back out there?", opts:[
-     {t:"“I notice anger and noise. I'm the one noticing it.” Back to the plan.", ok:true, fb:"You stepped back from the storm. You didn't need it to stop."},
-     {t:"“This is a disaster. Everyone thinks I'm a cheat.”", ok:false, fb:"That's a story stuck to who you are. It's heavier than the gloves."},
-     {t:"Spend the minute arguing with the officials.", ok:false, fb:"Fighting what you can't control uses up the minute you can control."}]}},
-  {id:"r4", label:"Round 4", sk:"why",
-   life:"You care about being a good parent. That's why you get up for the 3am feed, even when you're wrecked.",
-   fight:"GSP has said he never enjoyed fighting itself. What kept him going was what it stood for: the love of winning, and the freedom fighting gave him.",
-   tryTitle:"Pick up to three things that matter to you.",
-   choice:{prompt:"Round 4. Your lungs are burning. Your mind says: “Just survive this.” What do you do?", opts:[
-     {t:"Coast. Don't do anything that could go wrong.", ok:false, fb:"That's moving away from discomfort, not toward anything."},
-     {t:"__WHY__", ok:true, fb:"Tired, scared, and still moving toward what matters. That's what a why is for."},
-     {t:"Stare at the clock and count down the seconds.", ok:false, fb:"The time passes either way. Spend it on something that matters."}]}},
-  {id:"after", label:"After", sk:"step",
-   life:"You care about your health. You don't run a marathon tomorrow. You go for a 15-minute walk today.",
-   fight:"After round 4, Penn's corner stopped the fight. GSP kept his title. The judges had him ahead 40-35, 40-34 and 40-34.",
-   tryTitle:"The belt is won in the cage. The real fight is your week. Write one small step.",
-   choice:{prompt:"A week later your mind says: “Train when you feel motivated.” What do you do?", opts:[
-     {t:"Wait until the motivation shows up.", ok:false, fb:"Motivation comes and goes like weather. Action can come first."},
-     {t:"Book your next session now, motivated or not.", ok:true, fb:"Small, specific, and done. That's taking the step."},
-     {t:"Plan to train twice a day, every day, from Monday.", ok:false, fb:"Too big to keep. Small and steady beats big and short-lived."}]}}
+var T=16,SC=4,MW=20,MH=11,VW=20,VH=11;
+var cv=$("#cv"),cx=cv.getContext("2d"),cam={x:0,y:0};
+var touch=window.matchMedia&&matchMedia("(pointer: coarse)").matches;
+var PAL={ink:"#0b0d12",white:"#f4f1ea",gold:"#f2c14e",red:"#d8434b",skin:"#e8b48a",skin2:"#c98d63",hair:"#2b1d14",
+  wall:"#262a33",wall2:"#30353f",wallLine:"#1d2027",fearA:"#120a1a",fearB:"#2f1d45",fearC:"#4a2f6b"};
+var CROWD=["#c9524b","#e0b24b","#4b8bc9","#57a773","#b36bc4","#d98c4a","#e7e2d6"];
+var KEY={},P={x:0,y:0,dir:"down",fr:0,ft:0,mv:false},G,D={q:[],i:0,done:null,typing:false,full:"",shown:0,sel:0};
+var onScreen=true,lastT=0;
+
+function newGame(){return {mode:"title",room:-1,picks:{},values:[],plan:{a:"",f:""},f:{fearScale:1.5},fear:false,trail:[],ents:[],t:0,banner:null,toast:null,fade:null,sky:false,idleKey:""}}
+
+/* ---------- drawing helpers ---------- */
+function R(x,y,w,h,c){cx.fillStyle=c;cx.fillRect(Math.round(x),Math.round(y),w,h)}
+function txt(s,x,y,o){o=o||{};cx.font=(o.sz||8)+"px "+(o.p?"'Press Start 2P'":"VT323")+",monospace";cx.textAlign=o.al||"center";cx.textBaseline="middle";
+  if(o.ol!==false){cx.fillStyle=o.olc||PAL.ink;var w=o.ow||0.75;[[-w,0],[w,0],[0,-w],[0,w],[-w,-w],[w,w],[-w,w],[w,-w]].forEach(function(d){cx.fillText(s,x+d[0],y+d[1])})}
+  cx.fillStyle=o.c||PAL.white;cx.fillText(s,x,y)}
+function tw(s,sz,p){cx.font=sz+"px "+(p?"'Press Start 2P'":"VT323")+",monospace";return cx.measureText(s).width}
+function hash(x,y){var h=(x*374761393+y*668265263)^(x*y*2246822519);h=(h^(h>>>13))*1274126177;return ((h^(h>>>16))>>>0)}
+
+function person(x,y,o){
+  var f=o.fr?1:0,d=o.dir||"down";
+  R(x+3,y+14,10,2,"rgba(0,0,0,.3)");
+  R(x+5,y+11,2,4-f,o.leg);R(x+9,y+11,2,3+f,o.leg);
+  R(x+4,y+9,8,3,o.bottom);
+  R(x+4,y+5,8,5,o.top);if(o.top2)R(x+4,y+8,8,1,o.top2);
+  R(x+2,y+6,2,4,o.arm);R(x+12,y+6,2,4,o.arm);
+  if(o.glove){R(x+1,y+9,3,3,o.glove);R(x+12,y+9,3,3,o.glove)}
+  R(x+5,y,6,6,o.skin);
+  if(d==="up")R(x+5,y,6,5,o.hair);else R(x+5,y,6,2,o.hair);
+  if(d==="left")R(x+5,y,2,4,o.hair);if(d==="right")R(x+9,y,2,4,o.hair);
+  if(d==="down"){R(x+6,y+3,1,1,PAL.ink);R(x+9,y+3,1,1,PAL.ink)}
+  if(d==="left")R(x+6,y+3,1,1,PAL.ink);if(d==="right")R(x+9,y+3,1,1,PAL.ink);
+  if(o.cap){R(x+4,y-1,8,2,o.cap);if(d==="down")R(x+5,y+1,6,1,o.cap);if(d==="left")R(x+3,y+1,3,1,o.cap);if(d==="right")R(x+10,y+1,3,1,o.cap)}
+  if(o.towel){R(x+10,y+4,3,5,PAL.white);R(x+10,y+8,3,1,"#cfc9ba")}
+  if(o.band)R(x+5,y+1,6,1,o.band);
+}
+function you(x,y,dir,fr){person(x,y,{dir:dir,fr:fr,skin:PAL.skin,hair:PAL.hair,top:PAL.skin,arm:PAL.skin,leg:PAL.skin,bottom:"#2f6fd1",glove:PAL.red,band:dir==="up"?null:"#f2c14e"})}
+function sal(x,y,dir){person(x,y,{dir:dir,fr:0,skin:PAL.skin2,hair:"#b9bec8",top:"#e9e4d8",top2:"#cfc9ba",arm:"#e9e4d8",leg:"#2a2f3a",bottom:"#2a2f3a",cap:"#2e6b4f",towel:true})}
+function blob(cxp,by,s,t,look){
+  var r=Math.max(4,Math.round(6*s)),cy=by-r-2;
+  R(cxp-r,by-1,r*2,2,"rgba(0,0,0,.35)");
+  for(var dy=-r;dy<=r;dy++){var hw=Math.round(Math.sqrt(r*r-dy*dy)+(dy>0?Math.sin(t*5+dy)*0.6:0));
+    R(cxp-hw-1,cy+dy,hw*2+2,1,PAL.fearA);R(cxp-hw,cy+dy,hw*2,1,dy<-r/2?PAL.fearC:PAL.fearB)}
+  for(var k=-2;k<=2;k++){var wob=Math.round(Math.sin(t*6+k*1.7)*1.2);R(cxp+k*Math.round(r/2.6)-1,cy+r-1+Math.abs(wob),2,2,PAL.fearB)}
+  var e=Math.max(2,Math.round(s*1.6)),ex=Math.round(r*0.4),ey=cy-Math.round(r*0.15),lx=look||0;
+  var blink=(Math.floor(t*10)%37===0);
+  if(!blink){R(cxp-ex-e,ey,e+1,e+1,PAL.white);R(cxp+ex-1,ey,e+1,e+1,PAL.white);
+    R(cxp-ex-e+(lx>0?e-1:0),ey+e-1,1,1,PAL.ink);R(cxp+ex-1+(lx>0?e:0),ey+e-1,1,1,PAL.ink)}
+  else{R(cxp-ex-e,ey+e,e+1,1,PAL.white);R(cxp+ex-1,ey+e,e+1,1,PAL.white)}
+}
+function cloud(x,y,label,o){o=o||{};var s=o.s||1,sz=(o.sz||7)*s,w=Math.ceil(tw(label,sz))+10*s,h=11*s;
+  var c=o.c||"#eef3f8",e=o.e||"#9aa3b2";
+  R(x-w/2+2,y-h/2,w-4,h,e);R(x-w/2,y-h/2+2,w,h-4,e);
+  R(x-w/2+3,y-h/2+1,w-6,h-2,c);R(x-w/2+1,y-h/2+3,w-2,h-6,c);
+  txt(label,x,y+0.5,{sz:sz,c:o.tc||PAL.ink,ol:false});return w}
+
+/* ---------- tiles ---------- */
+var SOLID="#LBw=PKgbtE";
+function tile(ch,x,y,st,t){
+  var X=x*T,Y=y*T,h=hash(x,y);
+  function floor(){
+    if(st==="wood"){R(X,Y,T,T,"#6b5641");for(var i=0;i<4;i++)R(X,Y+i*4+3,T,1,"#5a4735");R(X+(h%12),Y+((h>>4)%4)*4+1,2,1,"#7b6550")}
+    else if(st==="concrete"){R(X,Y,T,T,"#3a3e48");R(X,Y,T,1,"#33363f");R(X,Y,1,T,"#33363f");if(h%5===0)R(X+(h%13),Y+((h>>3)%13),2,2,"#444955")}
+    else if(st==="rubber"){R(X,Y,T,T,"#39424c");R(X,Y,T,1,"#323a43");R(X,Y,1,T,"#323a43");R(X+(h%14),Y+((h>>3)%14),1,1,"#4d5866");R(X+((h>>6)%14),Y+((h>>9)%14),1,1,"#4d5866")}
+    else{R(X,Y,T,T,"#4a4f5c");R(X,Y,T,1,"#434855")}
+  }
+  switch(ch){
+  case "#":R(X,Y,T,T,PAL.wall);for(var r=0;r<4;r++){R(X,Y+r*4,T,1,PAL.wallLine);R(X+((r%2)?4:12),Y+r*4,1,4,PAL.wallLine)}R(X,Y,T,1,PAL.wall2);break;
+  case "E":R(X,Y,T,T,"#06070a");break;
+  case ".":floor();break;
+  case "L":R(X,Y,T,T,"#3d6f8f");R(X,Y,1,T,"#2c536c");R(X+1,Y+1,14,1,"#5b93b5");for(var v=0;v<3;v++)R(X+4,Y+3+v*2,8,1,"#2c536c");R(X+12,Y+9,2,3,"#cfd6de");break;
+  case "B":floor();R(X,Y+5,T,6,"#9b7646");R(X,Y+5,T,1,"#b58d58");R(X+2,Y+11,2,4,"#5a4532");R(X+12,Y+11,2,4,"#5a4532");break;
+  case "P":R(X,Y,T,T,PAL.wall);R(X+1,Y+1,14,14,"#11131a");R(X+2,Y+2,12,12,(x%2)?"#c9524b":"#3f7fd1");R(X+2,Y+10,12,4,"#11131a");
+    txt((x%2)?"94":"UFC",X+8,Y+6,{sz:7,ol:false,c:PAL.white});break;
+  case "K":R(X,Y,T,T,PAL.wall);R(X+1,Y+1,14,14,"#8a6a3c");R(X+2,Y+2,12,12,"#b58d58");for(var gx=0;gx<3;gx++)R(X+2+gx*4,Y+2,1,12,"#8a6a3c");R(X+2,Y+7,12,1,"#8a6a3c");
+    if(G&&G.f.planDone&&(x%2===1))R(X+3,Y+3,5,4,"#f2c14e");break;
+  case "w":R(X,Y,T,T,"#14161c");for(var k=0;k<2;k++){var hx=X+2+k*8+(h>>(k*3))%3,b=Math.round(Math.sin(t*6+h%7+k)*0.8+((h>>5)%2)),col=CROWD[(h>>(k*4))%CROWD.length];R(hx,Y+7-b,5,5,col);R(hx+1,Y+3-b,3,3,"#d9a77f")}break;
+  case "=":R(X,Y,T,T,"#1c1f26");for(var c=0;c<T;c+=4){R(X+c,Y+((c/4)%2?4:0),1,T-4,"#4a505c")}R(X,Y,T,2,"#7a8190");break;
+  case "c":R(X,Y,T,T,"#d6d0c2");R(X,Y,T,1,"#cdc6b6");R(X,Y,1,T,"#cdc6b6");break;
+  case "G":if(G&&G.f.open){R(X,Y,T,T,"#2a2f3a");if(Math.floor(t*3)%2)txt(">",X+8,Y+8,{sz:10,c:PAL.gold,p:false})}else{R(X,Y,T,T,"#1c1f26");R(X,Y,T,2,"#c9524b");R(X+3,Y+6,10,5,"#7a8190")}break;
+  case "D":if(st==="concrete"){R(X,Y,T,T,"#f6e7b0");R(X,Y,4,T,"#e6c66a")}else{R(X,Y,T,T,"#7a4f2e");R(X+2,Y,12,T,"#8f5e37");R(X+3,Y+8,2,2,PAL.gold)}break;
+  case "S":R(X,Y,T,T,"#7c8796");R(X,Y,T,1,"#9aa3b2");R(X,Y+8,T,1,"#6c7584");break;
+  case "^":for(var s2=0;s2<4;s2++)R(X,Y+s2*4,T,4,s2%2?"#6c7584":"#9aa3b2");break;
+  case "t":floor();R(X+4,Y+5,8,4,"#2a2f3a");R(X+4,Y+5,8,1,"#4a505c");R(X+5,Y+9,1,5,"#7a8190");R(X+10,Y+9,1,5,"#7a8190");break;
+  case "g":floor();R(X+1,Y+4,14,2,"#7a8190");R(X+1,Y+2,3,6,"#1c1f26");R(X+12,Y+2,3,6,"#1c1f26");R(X+3,Y+10,10,2,"#7a8190");R(X+2,Y+9,2,4,"#1c1f26");R(X+12,Y+9,2,4,"#1c1f26");break;
+  case "b":floor();R(X+7,Y,2,3,"#7a8190");R(X+4,Y+2,8,12,"#a63a3a");R(X+4,Y+2,2,12,"#c9524b");R(X+4,Y+6,8,1,"#7d2a26");break;
+  }
+}
+
+/* ---------- rooms ---------- */
+function E(k,tx,ty,o){o=o||{};o.k=k;o.x=tx*T+(o.ox||0);o.y=ty*T+(o.oy||0);o.w=o.w||16;o.h=o.h||16;return o}
+function poster(tx,ty,pages,w){return E("sign",tx,ty,{w:w||32,reach:12,talk:function(){say(pages)}})}
+function learn(i,extra){var k=SK[STAGES[i].sk];return [
+  {n:"SAL",sk:i,t:"Skill "+(i+1)+" of 6: "+k.name.toUpperCase()+"."},{n:"SAL",sk:i,t:k.one},{n:"SAL",sk:i,t:LIFE[i]}].concat(extra||[])}
+function salE(tx,ty,talk,o){o=o||{};o.solid=true;o.reach=o.reach||12;o.talk=talk;return E("sal",tx,ty,o)}
+var CAGE=["wwwwwwwwPPPPwwwwwwww","www==============www","ww=cccccccccccccc=ww","w=cccccccccccccccc=w","w=cccccccccccccccc=w","w=ccccccccccccccccGG","w=cccccccccccccccc=w","w=cccccccccccccccc=w","ww=cccccccccccccc=ww","www==============www","wwwwwwwwwwwwwwwwwwww"];
+
+var ROOMS=[
+ {title:"THE LOCKER ROOM",st:"wood",start:[2,8],
+  map:["#######PP###########","#LLLLL.....LLLLLLLL#","#..................#","#..................#","#....BBBBBB........#","#..................D","#..................D","#....BBBBBB........#","#..................#","#..................#","####################"],
+  intro:[{n:"SAL",t:"There you are. Fight night."},{n:"SAL",t:"I'm Sal. Forty years as a cutman. I've seen every kind of fear walk through this room."},
+    {n:"SAL",t:"Tonight you learn six moves. Not punches. Moves for your head. They come from something called ACT."},
+    {n:"SAL",t:"One big idea: you don't have to get rid of fear to do what matters. You can bring it with you."},
+    {n:"SAL",t:"@CONTROLS"},{n:"SAL",t:"Come and talk to me when you're ready. Read the poster on the wall if you like."}],
+  build:function(){return [
+    salE(12,3,function(){var f=G.f;
+      if(!f.t0){f.t0=1;say(learn(0,[{n:"SAL",t:"See that thing by the door? That's your Fear. It always turns up on fight night. Go and deal with it."}]))}
+      else if(!f.fearDone)say([{n:"SAL",t:"Fear's still blocking the door. Go and talk to it."}]);
+      else say([{n:"SAL",t:"Go on. The tunnel's through that door. I'll meet you there."}])}),
+    poster(7,0,[{n:"POSTER",t:"UFC 94. Las Vegas. 31 January 2009. Georges St-Pierre vs BJ Penn, the rematch."},{n:"POSTER",t:"Early in his career, GSP cried before fights and swore each one would be his last. The fear never fully left. He walked out anyway."}]),
+    E("fear",18,5,{h:32,solid:function(){return !G.f.fearDone},hidden:function(){return G.f.fearDone},reach:14,talk:function(){
+      if(!G.f.t0){say([{n:"FEAR",t:"STAY HERE. YOU'RE NOT READY."},{n:"",t:"(Maybe talk to Sal first.)"}]);return}
+      say([{n:"FEAR",t:"STAY HERE. YOU'RE NOT READY."}],function(){
+      ask(0,"Fear is blocking the door. What do you do?",[
+        {t:"Shove it out of the way.",ok:false,fb:"Fear doubles in size. Pushing a feeling away usually makes it bigger.",fx:function(){G.f.fearScale=Math.min(2.6,G.f.fearScale+0.5)}},
+        {t:"Sit on the bench and wait for it to leave.",ok:false,fb:"You wait. And wait. Fear doesn't leave on cue. Waiting to feel ready can mean never walking."},
+        {t:"Say: “OK. You can come too.”",ok:true,fb:"Fear shrinks to the size of a shadow and falls in behind you. It's still there. But now you're the one walking."}
+      ],function(){G.f.fearDone=1;G.fear=true;G.trail=[];learned(0)})})}})]},
+  obj:function(){var f=G.f;return !f.t0?"Talk to Sal.":!f.fearDone?"Deal with the Fear blocking the door.":"Head out the door."}},
+
+ {title:"THE TUNNEL",st:"concrete",start:[1,5],
+  map:["####################","####################","####################","#####PP#############","E..................D","E..................D","E..................D","####################","####################","####################","####################"],
+  intro:[{n:"",t:"The tunnel. Somewhere at the far end, the crowd is roaring."},{n:"FEAR",t:"(right behind you) ...still here."},{n:"SAL",t:"Course it is. Come here a sec."}],
+  build:function(){var B=[["NOT MADE FOR THIS","I'm not made for this"],["HE'LL EMBARRASS ME","he's going to embarrass me"],["THEY'LL SEE I'M A FRAUD","everyone will see I'm a fraud"]];
+    var list=[salE(3,4,function(){var f=G.f;
+      if(!f.t1){f.t1=1;say(learn(1,[{n:"SAL",t:"Your mind's parked some big thoughts in this tunnel. Walk up to one and press the button."}]))}
+      else if((f.unhooked||0)<3)say([{n:"SAL",t:"Those thoughts won't move by themselves. Go and face them."}]);
+      else say([{n:"SAL",t:"Hear that crowd? Through the light. Go."}])}),
+      poster(5,3,[{n:"POSTER",t:"GSP and Penn first fought in 2006. GSP won on a split decision."},{n:"POSTER",t:"Round 1 of the rematch was close. Penn blocked a takedown and landed a clean one-two."}])];
+    [7,12,16].forEach(function(x,i){list.push(E("thought",x,4,{h:48,i:i,label:B[i][0],full:B[i][1],
+      solid:function(){return !this.done},reach:14,talk:function(){var me=this;
+        if(me.done)return;
+        if(!G.f.t1){say([{n:"THOUGHT",t:B[i][0]+"!"},{n:"",t:"(Sal might know what to do with these.)"}]);return}
+        function unhook(){me.done=true;G.f.unhooked=(G.f.unhooked||0)+1;if(G.f.unhooked===1)learned(1)}
+        if(G.picks.tunnel===undefined||!G.f.firstUnhook){
+          say([{n:"THOUGHT",t:B[i][0]+"!"}],function(){ask(1,"A thought is blocking the tunnel: “"+B[i][1].charAt(0).toUpperCase()+B[i][1].slice(1)+".” What do you do?",[
+            {t:"Argue with it: “No it's not true!”",ok:false,fb:"The thought shouts back louder. Now you're fighting your mind, not your opponent."},
+            {t:"Believe it and turn back.",ok:false,fb:"Now the thought is driving. Turn around and try again."},
+            {t:"Notice it: “I'm having the thought that "+B[i][1]+".”",ok:true,fb:"The words shrink into a little sign on the wall. Still there. Not in charge."}],
+            function(){G.f.firstUnhook=1;unhook()})})}
+        else say([{n:"THOUGHT",t:B[i][0]+"!"},{n:"YOU",t:"I notice I'm having the thought that "+B[i][1]+"."},{n:"",t:"It shrinks out of the way. Same words. Less grip."}],unhook)}}))});
+    return list},
+  obj:function(){var f=G.f,u=f.unhooked||0;return !f.t1?"Talk to Sal.":u<3?"Thoughts are blocking the tunnel ("+u+" of 3 unhooked). Walk up to one and talk to it.":"Walk toward the light."}},
+
+ {title:"ROUND 2",st:"cage",start:[3,6],map:CAGE,
+  intro:[{n:"",t:"ROUND 2. The cage door slams behind you."},{n:"SAL",t:"Over here! At the fence!"}],
+  build:function(){
+    var list=[salE(0,4,function(){var f=G.f;
+      if(!f.t2){f.t2=1;say(learn(2,[{n:"SAL",t:"Your mind's drifting all over this cage. Walk over and grab the three things that are actually here, right now. Dodge the rest."}]))}
+      else if((f.now||0)<3)say([{n:"SAL",t:"Grab the three things that are here now. The sparkly ones. Ignore the drifting stuff."}]);
+      else if(!f.open)ask(2,"He's pinned against the fence. Your mind starts writing your victory speech. What do you do?",[
+        {t:"Keep working on the speech. It's going to be a good one.",ok:false,fb:"That's the future. The takedown is happening now."},
+        {t:"Replay the punch you took in round 1.",ok:false,fb:"That's the past. You can't fight it again."},
+        {t:"Feel your feet. Find the angle. Take the shot.",ok:true,fb:"Your attention went where the work is: right here."}],
+        function(){G.f.open=1;learned(2);toast("DING DING. End of the round. The gate's open. Head to your corner.")});
+      else say([{n:"SAL",t:"Gate's open. Corner. Now."}])},{reach:30}),
+      poster(8,0,[{n:"BIG SCREEN",t:"In round 2, GSP took over. He kept his jab in Penn's face and kept going for takedowns."}],64)];
+    [["YOUR FEET",5,3],["YOUR BREATH",14,7],["HIS LEAD HAND",10,5]].forEach(function(s){list.push(E("spark",s[1],s[2],{label:s[0],hidden:function(){return !G.f.t2||this.got}}))});
+    [["TOMORROW'S HEADLINES",4,22],["YOUR LAST LOSS",6,-28],["THE POST-FIGHT INTERVIEW",8,18]].forEach(function(d,i){list.push(E("drift",8,d[1],{label:d[0],vx:d[2],cd:0,w:60,h:12,oy:2,hidden:function(){return !G.f.t2||G.f.open}}))});
+    return list},
+  update:function(dt){var f=G.f;G.ents.forEach(function(e){
+    if(e.k==="drift"&&!e.hidden()){e.x+=e.vx*dt;if(e.x<3*T||e.x>15*T){e.vx*=-1;e.x=Math.max(3*T,Math.min(15*T,e.x))}
+      if(hitP(e.x-e.w/2+8,e.y,e.w,e.h)&&G.t>e.cd){e.cd=G.t+2;toast("“"+e.label.charAt(0)+e.label.slice(1).toLowerCase()+"”. That's not in the cage. Come back.")}}
+    if(e.k==="spark"&&!e.hidden()&&hitP(e.x+3,e.y+3,10,10)){e.got=true;f.now=(f.now||0)+1;
+      toast(f.now<3?"Here now: "+e.label.toLowerCase()+". "+(3-f.now)+" more.":"All three. That's what's in the cage right now. Sal's waving you over.")}})},
+  obj:function(){var f=G.f,n=f.now||0;return !f.t2?"Talk to Sal at the fence.":n<3?"Grab what's here right now ("+n+" of 3). Dodge the drifting thoughts.":!f.open?"Go back to Sal.":"Exit through the gate to your corner."}},
+
+ {title:"THE CORNER",st:"plain",start:[2,8],
+  map:["##########PP########","#SSSSSSSSSSSSSSSSSS#","#SSSSSSSSSSSSSSSSSS#","#######^^###########","#..................#","#..................#","#.......t..........#","#..................#","#..................G","#..................#","####################"],
+  intro:[{n:"",t:"Back in your corner. One minute to reset."},{n:"",t:"Your head is loud. A storm rolls through the room: anger, noise, doubt."}],
+  build:function(){
+    var list=[salE(10,6,function(){var f=G.f;
+      if(!f.t3){f.t3=1;say(learn(3,[{n:"SAL",t:"Climb those stairs and look down at the storm."}]))}
+      else if(!f.sky)say([{n:"SAL",t:"Up the stairs. Go on. Look down."}]);
+      else if(!f.open)ask(3,"The bell for round 3 is close. Your head is still full of noise. What do you take back out there?",[
+        {t:"“I notice anger and noise. I'm the one noticing it.” Back to the plan.",ok:true,fb:"You stepped back from the storm. You didn't need it to stop."},
+        {t:"“This is a disaster. Everyone thinks I'm a cheat.”",ok:false,fb:"That's a story stuck to who you are. It's heavier than the gloves."},
+        {t:"Spend the minute arguing with the officials.",ok:false,fb:"Fighting what you can't control uses up the minute you can control."}],
+        function(){G.f.open=1;learned(3);toast("Bell's about to go. Gate's open.")});
+      else say([{n:"SAL",t:"Out you go. Round 3, then 4."}])}),
+      poster(10,0,[{n:"POSTER",t:"Between rounds, officials pulled up GSP's corner for rubbing Vaseline on his back, and had him toweled down."},{n:"POSTER",t:"Noise and controversy, with one minute to reset."}])];
+    ["ANGER","THIS ISN'T FAIR","EMBARRASSMENT","CROWD NOISE","WHAT WILL PEOPLE SAY?"].forEach(function(l,i){list.push(E("storm",(i*4)%19,4,{label:l,oy:i*14+4,vx:10+(i%3)*5}))});
+    return list},
+  update:function(dt){G.ents.forEach(function(e){if(e.k==="storm"){e.x+=e.vx*dt;if(e.x>MW*T+50)e.x=-50}});
+    var ty=Math.floor((P.y+14)/T);G.sky=ty<=2;
+    if(G.mode==="play"&&G.sky&&G.f.t3&&!G.f.sky){G.f.sky=1;say([{n:"",t:"You climb up and look down at your corner."},
+      {n:"",t:"From up here the storm looks small. Anger. Noise. “This isn't fair.” Just weather, passing through."},
+      {n:"SAL",t:"(shouting up) See? You're the sky. The weather's real. It's just not you."},{n:"",t:"Head back down to Sal."}])}},
+  obj:function(){var f=G.f;return !f.t3?"Talk to Sal by the stool.":!f.sky?"Climb the stairs and look down.":!f.open?"Go back down to Sal.":"Exit through the gate."}},
+
+ {title:"ROUND 4",st:"cage",start:[3,6],map:CAGE,
+  intro:[{n:"",t:"ROUND 4. Your lungs are burning. Your arms feel like sandbags."},{n:"SAL",t:"Fence! Now!"}],
+  build:function(){
+    var list=[salE(0,4,function(){var f=G.f;
+      if(!f.t4){f.t4=1;say(learn(4,[{n:"SAL",t:"The crowd's holding up banners. Walk onto up to three that matter to you. Walk on one again to drop it. Then come back."}]))}
+      else if(!G.values.length)say([{n:"SAL",t:"Pick at least one banner. What matters to you?"}]);
+      else if(!f.open)ask(4,"Your lungs are burning. Your mind says: “Just survive this.” What do you do?",[
+        {t:"Coast. Don't do anything that could go wrong.",ok:false,fb:"That's moving away from discomfort, not toward anything."},
+        {t:"@WHY",ok:true,fb:"Tired, scared, and still moving toward what matters. That's what a why is for."},
+        {t:"Stare at the clock and count down the seconds.",ok:false,fb:"The time passes either way. Spend it on something that matters."}],
+        function(){G.f.open=1;learned(4);toast("Penn's corner stops the fight. You did it. Gate's open.")});
+      else say([{n:"SAL",t:"It's over, kid. Out the gate."}])},{reach:30}),
+      poster(8,0,[{n:"BIG SCREEN",t:"GSP has said he never enjoyed fighting itself."},{n:"BIG SCREEN",t:"What kept him going was what it stood for: the love of winning, and the freedom fighting gave him."}],64)];
+    [[4,3],[8,3],[12,3],[15,4],[4,7],[8,7],[12,7],[15,6]].forEach(function(p,i){list.push(E("banner",p[0],p[1],{label:VALUES[i],hidden:function(){return !G.f.t4}}))});
+    return list},
+  update:function(){var on=null;G.ents.forEach(function(e){if(e.k==="banner"&&!e.hidden()&&hitP(e.x+3,e.y+4,10,10))on=e});
+    if(on&&G.f.onB!==on.label){G.f.onB=on.label;var v=on.label,i=G.values.indexOf(v);
+      if(i>-1){G.values.splice(i,1);toast("Dropped "+v.toLowerCase()+".")}
+      else if(G.values.length>=3)toast("Three is plenty. Walk on one you've picked to drop it.");
+      else{G.values.push(v);toast("In your corner: "+G.values.map(function(x){return x.toLowerCase()}).join(", ")+".")}}
+    if(!on)G.f.onB=null},
+  obj:function(){var f=G.f;return !f.t4?"Talk to Sal at the fence.":!G.values.length?"Walk onto up to three banners that matter to you.":!f.open?"Go back to Sal ("+G.values.length+" of 3 picked).":"Exit through the gate."}},
+
+ {title:"ONE WEEK LATER",st:"rubber",start:[2,5],
+  map:["####PP#####KK#######","#..................#","#.gg.......gg......#","#..................#","#.........b.....b..#","#..................G","#..................#","#..................#","#..gg..............#","#..................#","####################"],
+  intro:[{n:"",t:"ONE WEEK LATER. The gym. Quiet."},{n:"FEAR",t:"(yawns) Morning."},{n:"",t:"Fear tagged along. Like always."}],
+  build:function(){return [
+    salE(8,6,function(){var f=G.f;
+      if(!f.t5){f.t5=1;say(learn(5,[{n:"SAL",t:"The belt gets won in the cage. The real fight is your week. Go write one small step on the calendar board."}]))}
+      else if(!f.planDone)say([{n:"SAL",t:"Calendar board's on the back wall. One small step."}]);
+      else if(!f.open)ask(5,"A week later your mind says: “Train when you feel motivated.” What do you do?",[
+        {t:"Wait until the motivation shows up.",ok:false,fb:"Motivation comes and goes like weather. Action can come first."},
+        {t:"Book your next session now, motivated or not.",ok:true,fb:"Small, specific, and done. That's taking the step."},
+        {t:"Plan to train twice a day, every day, from Monday.",ok:false,fb:"Too big to keep. Small and steady beats big and short-lived."}],
+        function(){G.f.open=1;learned(5);say([{n:"SAL",t:"That's all six. Fear came with you the whole way. It just never got to pick your moves."},{n:"SAL",t:"Door's open. Walk out when you're ready."}])});
+      else say([{n:"SAL",t:"Go on. Same time next week."}])}),
+    poster(4,0,[{n:"POSTER",t:"After round 4, Penn's corner stopped the fight. GSP kept his title."},{n:"POSTER",t:"The judges had him ahead 40-35, 40-34 and 40-34."}]),
+    E("sign",11,0,{w:32,reach:12,talk:function(){
+      if(!G.f.t5){say([{n:"BOARD",t:"A calendar board. Next week is blank."},{n:"",t:"(Talk to Sal first.)"}]);return}
+      say([{n:"BOARD",t:"Write one small step for this week.",input:{k:"a",label:"This week I will",ph:"e.g. go for one 15-minute walk",req:true}},
+        {n:"BOARD",t:"What thought or feeling might show up? (Optional.)",input:{k:"f",label:"When this shows up",ph:"e.g. “I'm too tired”",req:false}},
+        {n:"",t:"@PLAN"}],function(){G.f.planDone=1})}})]},
+  obj:function(){var f=G.f;return !f.t5?"Talk to Sal.":!f.planDone?"Write one small step on the calendar board.":!f.open?"Go back to Sal.":"Walk out the door."}}
 ];
 
-function freshGame(){return {i:-1, sub:0, picks:{}, values:[], will:2, plan:{a:"",v:"",f:""}}}
-var G = freshGame(), timers = [];
+/* ---------- dialogue ---------- */
+function expand(t){
+  if(t==="@CONTROLS")return touch?"Use the pad to walk. Tap A to talk, read and choose.":"Walk with the arrow keys or WASD. Press SPACE to talk, read and choose.";
+  if(t==="@PLAN")return "You pin it to Monday: “This week I will "+(G.plan.a||"take one small step")+(G.plan.f?". When “"+G.plan.f.replace(/^["“]|["”]$/g,"")+"” shows up":". When fear shows up")+", I'll make room for it and do it anyway.”";
+  return t}
+function optLabel(o){return o.t==="@WHY"?"Take one more step toward "+whyText()+".":o.t}
 function whyText(){var v=G.values.map(function(x){return x.toLowerCase()});if(!v.length)return "what matters to you";if(v.length===1)return v[0];return v.slice(0,-1).join(", ")+" and "+v[v.length-1]}
-function optText(o){return o.t==="__WHY__"?"Take one more step toward "+whyText()+".":o.t}
+function say(pages,done){G.mode="dialog";D.q=pages;D.i=0;D.done=done||null;showPage()}
+function showPage(){var p=D.q[D.i];D.full=expand(p.t);D.shown=reduce?D.full.length:0;D.typing=!reduce;D.sel=0;
+  var nm=$("#dlgName");nm.textContent=p.n||"";nm.className="dlg-name"+(p.tone?" "+p.tone:"");
+  var sk=$("#dlgSkill");if(p.sk!==undefined){var k=SK[STAGES[p.sk].sk];sk.textContent="SKILL "+(p.sk+1)+" · ACT: "+k.act.toUpperCase();sk.hidden=false}else sk.hidden=true;
+  $("#dlgSr").textContent=(p.n?p.n+": ":"")+D.full;
+  $("#dlgText").textContent=D.full.slice(0,Math.floor(D.shown));
+  $("#dlgCh").innerHTML="";$("#dlgIn").hidden=true;$("#dlgNext").hidden=true;
+  $("#dlgHint").textContent="";
+  if(!D.typing)afterType()}
+function afterType(){var p=D.q[D.i];D.typing=false;$("#dlgText").textContent=D.full;
+  if(p.ch){$("#dlgCh").innerHTML=p.ch.map(function(c,i){return '<button type="button" class="'+(i===D.sel?"on":"")+'" data-i="'+i+'">'+esc(c.t)+'</button>'}).join("");
+    $$("#dlgCh button").forEach(function(b){b.addEventListener("click",function(){D.sel=+b.dataset.i;pick()});b.addEventListener("mousemove",function(){if(D.sel!==+b.dataset.i){D.sel=+b.dataset.i;hiSel()}})});
+    $("#dlgHint").textContent=touch?"Tap a move.":"↑ ↓ to choose · SPACE to pick"}
+  else if(p.input){var f=$("#dlgIn");f.hidden=false;$("#dlgLabel").textContent=p.input.label;var inp=$("#dlgInput");inp.placeholder=p.input.ph;inp.value=G.plan[p.input.k]||"";$("#dlgErr").hidden=true;setTimeout(function(){inp.focus()},30)}
+  else{$("#dlgNext").hidden=false;$("#dlgHint").textContent=touch?"Tap A":"SPACE"}}
+function hiSel(){$$("#dlgCh button").forEach(function(b,i){b.classList.toggle("on",i===D.sel)})}
+function advance(){if(G.mode!=="dialog")return;var p=D.q[D.i];if(D.typing){D.shown=D.full.length;afterType();return}
+  if(p.ch){pick();return}if(p.input)return;nextPage()}
+function nextPage(){D.i++;if(D.i>=D.q.length){var d=D.done;D.done=null;G.mode="play";G.idleKey="";$("#console").focus({preventScroll:true});if(d)d()}else showPage()}
+function pick(){var p=D.q[D.i];var c=p.ch[D.sel];if(!c)return;c.f()}
+$("#dlgIn").addEventListener("submit",function(e){e.preventDefault();var p=D.q[D.i];if(!p||!p.input)return;var v=$("#dlgInput").value.trim();
+  if(p.input.req&&!v){$("#dlgErr").hidden=false;return}G.plan[p.input.k]=v;$("#dlgInput").blur();nextPage()});
+$("#dlgNext").addEventListener("click",advance);
 
-function renderBar(){
-  $("#track").innerHTML = STAGES.map(function(s,i){
-    var p=G.picks[s.id], cls=(i===G.i?" on":"")+(p===true?" tw":p===false?" aw":"");
-    return '<div class="tk'+cls+'"'+(i===G.i?' aria-current="step"':'')+'><i></i><b><span class="l">'+s.label+'</span><span class="s">'+(s.label==="Walkout"?"Walk":s.label.replace("Round ","R"))+'</span></b></div>';
-  }).join("");
-  var t=0,a=0;Object.keys(G.picks).forEach(function(k){G.picks[k]?t++:a++});
-  $("#tally").innerHTML='<span class="t">Towards '+t+'</span><span class="a">Away '+a+'</span>';
+function ask(i,prompt,opts,onT,retry){var key=STAGES[i].id;
+  say([{n:"YOUR MOVE",tone:"mv",t:(retry?"Try another move. ":"")+prompt,ch:opts.map(function(o){return {t:optLabel(o),f:function(){
+    if(G.picks[key]===undefined){G.picks[key]=o.ok;renderBar()}
+    if(o.fx)o.fx();
+    say([{n:o.ok?"TOWARDS MOVE":"AWAY MOVE",tone:o.ok?"tw":"aw",t:o.fb}],function(){if(o.ok)onT();else ask(i,prompt,opts,onT,true)})}}})}])}
+function learned(i){G.banner={a:"SKILL LEARNED",b:SK[STAGES[i].sk].name.toUpperCase(),t:0,gold:true}}
+function toast(s){G.toast={s:s,t:0};$("#dlgSr").textContent=s}
+
+/* ---------- world ---------- */
+function map(){return ROOMS[G.room].map}
+function solidAt(px,py){var tx=Math.floor(px/T),ty=Math.floor(py/T);if(tx<0||ty<0||tx>=MW||ty>=MH)return true;var ch=map()[ty][tx];
+  if(ch==="G")return !G.f.open;return SOLID.indexOf(ch)>-1}
+function isSolid(e){return typeof e.solid==="function"?e.solid.call(e):!!e.solid}
+function blocked(x,y){var hx=x+4,hy=y+11,hw=8,hh=5;
+  if(solidAt(hx,hy)||solidAt(hx+hw-0.01,hy)||solidAt(hx,hy+hh-0.01)||solidAt(hx+hw-0.01,hy+hh-0.01))return true;
+  for(var i=0;i<G.ents.length;i++){var e=G.ents[i];if(isSolid(e)&&hx<e.x+e.w&&hx+hw>e.x&&hy<e.y+e.h&&hy+hh>e.y)return true}return false}
+function hitP(x,y,w,h){var hx=P.x+4,hy=P.y+8,hw=8,hh=8;return hx<x+w&&hx+hw>x&&hy<y+h&&hy+hh>y}
+function hiddenE(e){return e.hidden&&e.hidden.call(e)}
+function nearest(){var px=P.x+8,py=P.y+12,best=null,bd=1e9;G.ents.forEach(function(e){if(!e.talk||hiddenE(e)||e.done)return;
+  var dx=Math.max(e.x-px,0,px-(e.x+e.w)),dy=Math.max(e.y-py,0,py-(e.y+e.h)),d=Math.sqrt(dx*dx+dy*dy);if(d<=(e.reach||12)&&d<bd){bd=d;best=e}});return best}
+function nameOf(e){return e.k==="sal"?"Sal":e.k==="fear"?"Fear":e.k==="thought"?"the thought":e.k==="sign"?(G.room===5&&e.x>8*T?"the calendar board":(G.room===2||G.room===4)?"the big screen":"the poster"):"it"}
+
+function enter(i){G.room=i;G.f={fearScale:G.f.fearScale};G.f.fearScale=1.5;var Rm=ROOMS[i];G.ents=Rm.build();P.x=Rm.start[0]*T;P.y=Rm.start[1]*T-6;P.dir="right";
+  G.trail=[];for(var k=0;k<20;k++)G.trail.push({x:P.x-12,y:P.y});G.banner={a:Rm.title,b:"SKILL "+(i+1)+" · "+SK[STAGES[i].sk].name.toUpperCase(),t:0};G.toast=null;G.sky=false;renderBar()}
+function go(i){G.mode="fade";G.fade={t:0,to:i,done:false}}
+function action(){if(G.mode==="dialog"){advance();return}if(G.mode!=="play")return;var e=nearest();if(e){faceTo(e);e.talk.call(e)}}
+function faceTo(e){var dx=e.x+e.w/2-(P.x+8),dy=e.y+e.h/2-(P.y+12);P.dir=Math.abs(dx)>Math.abs(dy)?(dx>0?"right":"left"):(dy>0?"down":"up")}
+
+function update(dt){G.t+=dt;
+  if(G.banner){G.banner.t+=dt;if(G.banner.t>2.8)G.banner=null}
+  if(G.toast){G.toast.t+=dt;if(G.toast.t>3.4)G.toast=null}
+  if(G.mode==="fade"){var F=G.fade;F.t+=dt;if(F.t>=0.35&&!F.done){F.done=true;if(F.to>=ROOMS.length){finish();return}enter(F.to)}
+    if(F.t>=0.7){G.fade=null;G.mode="play";var Rm=ROOMS[G.room];if(Rm.intro)say(Rm.intro)}return}
+  if(G.mode==="dialog"&&D.typing){D.shown+=dt*55;if(D.shown>=D.full.length)afterType();else $("#dlgText").textContent=D.full.slice(0,Math.floor(D.shown))}
+  if(G.room<0||G.mode==="end"||G.mode==="title")return;
+  var Rm=ROOMS[G.room];
+  if(G.mode==="play"){
+    var dx=(KEY.r?1:0)-(KEY.l?1:0),dy=(KEY.d?1:0)-(KEY.u?1:0);P.mv=!!(dx||dy);
+    if(P.mv){var sp=74*dt*(dx&&dy?0.7071:1);if(dx){P.dir=dx>0?"right":"left"}else P.dir=dy>0?"down":"up";
+      var nx=P.x+dx*sp;if(!blocked(nx,P.y))P.x=nx;var ny=P.y+dy*sp;if(!blocked(P.x,ny))P.y=ny;
+      P.ft+=dt;if(P.ft>0.14){P.ft=0;P.fr^=1}
+      var last=G.trail[G.trail.length-1];if(!last||Math.abs(last.x-P.x)+Math.abs(last.y-P.y)>1.2){G.trail.push({x:P.x,y:P.y});if(G.trail.length>40)G.trail.shift()}}
+    else P.fr=0;
+    var tx=Math.floor((P.x+8)/T),ty=Math.floor((P.y+14)/T),ch=map()[ty]&&map()[ty][tx];
+    if(ch==="D"&&!(G.room===1&&tx===0))go(G.room+1);
+    if(ch==="G"&&G.f.open)go(G.room+1);
+    idle()}
+  if(Rm.update)Rm.update(dt)}
+
+/* ---------- render ---------- */
+function layout(){var w=$("#console").clientWidth||760,n=w<620;var nw=n?12:20,nh=n?9:11;if(nw!==VW||nh!==VH||!cv.width){VW=nw;VH=nh;cv.width=VW*T*SC;cv.height=VH*T*SC}}
+function draw(){cx.setTransform(1,0,0,1,0,0);cx.imageSmoothingEnabled=false;R(0,0,cv.width,cv.height,"#06070a");cx.setTransform(SC,0,0,SC,0,0);
+  if(G.mode==="title"){drawTitle();return}if(G.mode==="end"){drawEnd();return}
+  var Rm=ROOMS[G.room];
+  cam.x=Math.max(0,Math.min(MW*T-VW*T,P.x+8-VW*T/2));cam.y=Math.max(0,Math.min(MH*T-VH*T,P.y+8-VH*T/2));
+  cx.save();cx.translate(-Math.round(cam.x),-Math.round(cam.y));
+  for(var y=0;y<MH;y++)for(var x=0;x<MW;x++)tile(Rm.map[y][x],x,y,Rm.st,G.t);
+  if(Rm.st==="cage"){txt("REMATCH",10*T,6*T,{sz:16,p:true,c:"rgba(120,110,95,.18)",ol:false})}
+  if(Rm.st==="concrete"){var gr=cx.createLinearGradient(14*T,0,20*T,0);gr.addColorStop(0,"rgba(246,231,176,0)");gr.addColorStop(1,"rgba(246,231,176,.35)");cx.fillStyle=gr;cx.fillRect(14*T,4*T,6*T,3*T)}
+  if(G.room===3&&G.sky){cx.fillStyle="rgba(158,201,232,.22)";cx.fillRect(T,4*T,18*T,6*T)}
+  var list=G.ents.filter(function(e){return !hiddenE(e)}).map(function(e){return {y:e.y+e.h,d:function(){drawE(e)}}});
+  list.push({y:P.y+16,d:function(){you(P.x,P.y,P.dir,P.mv?P.fr:0)}});
+  if(G.fear&&G.trail.length){var tr=G.trail[Math.max(0,G.trail.length-16)];list.push({y:tr.y+15,d:function(){blob(tr.x+8,tr.y+16,0.85,G.t,P.x>tr.x?1:-1)}})}
+  list.sort(function(a,b){return a.y-b.y}).forEach(function(o){o.d()});
+  G.ents.forEach(function(e){if(!hiddenE(e)&&(e.k==="storm"))drawStorm(e)});
+  if(G.mode==="play"){var n=nearest();if(n){var bx=n.x+n.w/2,by=(n.k==="thought"?n.y+n.h/2:n.y-6)+Math.sin(G.t*6);R(bx-4,by-5,9,9,PAL.white);R(bx-3,by-6,7,1,PAL.white);R(bx-1,by+4,3,2,PAL.white);txt("!",bx+0.5,by,{sz:7,c:PAL.ink,ol:false,p:true})}}
+  cx.restore();
+  var W=VW*T,H=VH*T;
+  if(G.banner){var b=G.banner,a=Math.min(1,b.t*4,(2.8-b.t)*3);cx.globalAlpha=Math.max(0,a);R(0,H/2-18,W,36,"rgba(6,7,10,.85)");R(0,H/2-18,W,1,b.gold?PAL.gold:PAL.white);R(0,H/2+17,W,1,b.gold?PAL.gold:PAL.white);
+    txt(b.a,W/2,H/2-6,{sz:VW<20?6:8,p:true,c:b.gold?PAL.gold:PAL.white});txt(b.b,W/2,H/2+8,{sz:VW<20?4:5,p:true,c:b.gold?PAL.white:PAL.gold});cx.globalAlpha=1}
+  if(G.toast){var tt=G.toast,a2=Math.min(1,tt.t*5,(3.4-tt.t)*3);cx.globalAlpha=Math.max(0,a2);var lines=wrap(tt.s,W-16,8);var bh=lines.length*8+6;R(4,H-bh-4,W-8,bh,"rgba(6,7,10,.88)");R(4,H-bh-4,W-8,1,PAL.gold);
+    lines.forEach(function(l,i){txt(l,W/2,H-bh+1+i*8,{sz:8,c:PAL.white,ol:false})});cx.globalAlpha=1}
+  if(G.fade){var ft=G.fade.t,al=ft<0.35?ft/0.35:1-(ft-0.35)/0.35;R(0,0,W,H,"rgba(6,7,10,"+Math.max(0,Math.min(1,al))+")")}
 }
-
-function subs(n){
-  return '<div class="subs" aria-label="Steps">'+["Learn","Try it","Your move"].map(function(x,i){
-    return '<span class="'+(i===n?"on":i<n?"dn":"")+'">'+(i+1)+" "+x+'</span>'}).join("")+'</div>';
+function wrap(s,maxw,sz){var words=s.split(" "),out=[],cur="";words.forEach(function(w){var t2=cur?cur+" "+w:w;if(tw(t2,sz)>maxw&&cur){out.push(cur);cur=w}else cur=t2});if(cur)out.push(cur);return out}
+function drawE(e){var t=G.t;
+  if(e.k==="sal"){var dx=P.x-e.x,dy=P.y-e.y;sal(e.x,e.y-2,Math.abs(dx)>Math.abs(dy)?(dx>0?"right":"left"):(dy>0?"down":"up"))}
+  else if(e.k==="fear"){blob(e.x+8,e.y+e.h,G.f.fearScale,t,P.x>e.x?1:-1)}
+  else if(e.k==="thought"){if(e.done){R(e.x+3,e.y-10,10,6,"#7a8190");R(e.x+4,e.y-9,8,4,"#cfd6de");return}
+    var j=Math.round(Math.sin(t*9+e.i)*0.6);
+    R(e.x+1+j,e.y,14,e.h,"#5a1d22");R(e.x+3+j,e.y+2,10,e.h-4,"#8f2b33");for(var z=0;z<e.h;z+=6)R(e.x+1+j,e.y+z,3,2,"#c9524b");
+    var ly=e.i===1?e.y+e.h+7:e.y-7;txt(e.label,e.x+8,ly,{sz:8,c:"#ff8a8f"})}
+  else if(e.k==="spark"){var b=Math.sin(t*4+e.x)*1.5,cxp=e.x+8,cyp=e.y+8+b;
+    R(cxp-1,cyp-5,2,10,PAL.gold);R(cxp-5,cyp-1,10,2,PAL.gold);R(cxp-2,cyp-2,4,4,"#fff6c9");if(Math.floor(t*4)%2)R(cxp+4,cyp-5,1,1,PAL.white);
+    txt(e.label,cxp,e.y-3+b,{sz:7,c:PAL.gold})}
+  else if(e.k==="drift"){cloud(e.x+8,e.y+6,e.label,{sz:7,c:"#e9e4f0",e:"#8d84a6",tc:"#3b2452"})}
+  else if(e.k==="banner"){var sel=G.values.indexOf(e.label)>-1,i=VALUES.indexOf(e.label),col=CROWD[i%6];
+    R(e.x+3,e.y,1,16,"#9aa3b2");R(e.x+4,e.y+1,9,8,sel?PAL.gold:col);R(e.x+4,e.y+9,9,1,"rgba(0,0,0,.3)");
+    if(sel){R(e.x+2,e.y-1,13,1,PAL.gold);R(e.x+14,e.y,1,10,PAL.gold)}
+    txt(e.label,e.x+8,e.y-4,{sz:7,c:sel?PAL.gold:PAL.white})}
 }
+function drawStorm(e){var small=G.sky,s=small?0.8:1;cloud(e.x,e.y+(small?4:0),e.label,{s:s,sz:7,c:small?"#dfe7ef":"#5b6270",e:small?"#9aa3b2":"#2a2f3a",tc:small?"#3a4150":"#eef3f8"})}
+function drawTitle(){var W=VW*T,H=VH*T,t=G.t;
+  for(var x=0;x<VW;x++){tile("w",x,0,"",t);tile("w",x,1,"",t)}
+  for(var y=2;y<VH;y++)for(var x2=0;x2<VW;x2++)tile(y===2?"=":"c",x2,y,"",t);
+  var big=VW<20?9:13;txt("REMATCH",W/2,H*0.36,{sz:big,p:true,c:PAL.white,ow:1});txt("WITH FEAR",W/2,H*0.36+big+6,{sz:big,p:true,c:"#ff6b73",ow:1});
+  you(W/2-24,H*0.72,"right",Math.floor(t*3)%2);blob(W/2+16,H*0.72+16,1.2,t,-1);
+  if(Math.floor(t*2)%2)txt("PRESS START",W/2,H-10,{sz:VW<20?5:6,p:true,c:PAL.gold})}
+function drawEnd(){var W=VW*T,H=VH*T,t=G.t,n=towards();
+  for(var x=0;x<VW;x++)for(var y=0;y<VH;y++)tile(y<2?"w":"c",x,y,"",t);
+  txt("FIGHT OVER",W/2,H*0.3,{sz:VW<20?8:11,p:true,c:PAL.gold,ow:1});
+  txt(n+" OF 6 TOWARDS MOVES",W/2,H*0.3+16,{sz:VW<20?4:6,p:true,c:PAL.white});
+  you(W/2-28,H*0.58,"right",0);sal(W/2-8,H*0.58,"down");blob(W/2+22,H*0.58+16,0.9,t,-1);
+  txt(n>=4?"Fear came along. It never picked your moves.":"Fear picked a few. Run it back.",W/2,H-14,{sz:8,c:PAL.white})}
+function towards(){var n=0;STAGES.forEach(function(s){if(G.picks[s.id])n++});return n}
 
-function viewIntro(){
-  return '<div class="card"><p class="eyebrow">How it works</p><h2 class="h2">Six stages. Six skills.</h2>'+
-  '<p>The fight has six stages: the walkout, four rounds, and the week after. Each stage teaches one ACT skill.</p>'+
-  '<ol class="how"><li><b>Learn</b><span>What the skill is, in plain words.</span></li><li><b>Try it</b><span>A quick hands-on moment.</span></li><li><b>Your move</b><span>Fear shows up. You choose what to do.</span></li></ol>'+
-  '<div class="legend"><div class="tw"><b>Towards move</b>Takes you closer to what matters, even with fear along.</div><div class="aw"><b>Away move</b>Gets rid of the fear for now, but takes you off course.</div></div>'+
-  '<p>Away moves aren\'t “wrong”. Everyone makes them. The game is about noticing which way you\'re heading.</p>'+
-  '<div class="row"><button class="btn p" id="start">Start the walkout</button><button class="link" id="toquiz">Skip to the quiz</button></div></div>';
-}
+/* ---------- idle panel ---------- */
+function idle(){var Rm=ROOMS[G.room],n=nearest(),key=Rm.obj()+"|"+(n?nameOf(n):"");if(key===G.idleKey)return;G.idleKey=key;
+  var nm=$("#dlgName");nm.textContent="OBJECTIVE";nm.className="dlg-name ob";$("#dlgSkill").hidden=true;
+  $("#dlgText").textContent="▶ "+Rm.obj();$("#dlgCh").innerHTML="";$("#dlgIn").hidden=true;$("#dlgNext").hidden=true;
+  $("#dlgHint").textContent=n?(touch?"Tap A to talk to "+nameOf(n)+".":"Press SPACE to talk to "+nameOf(n)+"."):(touch?"Pad to walk · A to talk":"Arrows or WASD to walk · SPACE to talk")}
 
-function viewLearn(s){
-  var k=SK[s.sk];
-  return '<div class="card '+k.c+'">'+subs(0)+
-  '<div><p class="eyebrow">'+s.label+' · Skill '+(G.i+1)+' of 6 · '+k.pair+'</p><h2 class="skill" tabindex="-1">'+k.name+'</h2><p class="actname">ACT name: '+k.act+'</p></div>'+
-  '<p class="one">'+k.one+'</p>'+
-  '<div class="ex"><div><b>In everyday life</b><p>'+s.life+'</p></div><div><b>In the fight</b><p>'+s.fight+'</p></div></div>'+
-  (s.meta?'<p class="meta">'+s.meta+'</p>':'')+
-  '<div class="row"><button class="btn p" id="go">Try it</button></div></div>';
-}
+/* ---------- flow ---------- */
+function title(){G=newGame();G.mode="title";renderBar();$("#stage").innerHTML="";$("#stage").hidden=true;
+  var nm=$("#dlgName");nm.textContent="REMATCH WITH FEAR";nm.className="dlg-name";$("#dlgSkill").hidden=true;
+  $("#dlgText").textContent="Fight night. Your toughest opponent is already in the locker room. Walk around, talk to people, and choose your moves. Six skills. About 10 minutes.";
+  $("#dlgIn").hidden=true;$("#dlgNext").hidden=true;$("#dlgHint").textContent="";
+  $("#dlgCh").innerHTML='<div class="dlg-row"><button type="button" class="pbtn" id="startBtn">START</button><button type="button" class="pbtn alt" id="quizBtn">SKIP TO THE QUIZ</button></div>';
+  $("#startBtn").onclick=startGame;$("#quizBtn").onclick=gotoQuiz}
+function startGame(){G.mode="play";G.room=0;$("#console").focus({preventScroll:true});enter(0);G.mode="play";say(ROOMS[0].intro)}
+function finish(){G.mode="end";G.fade=null;G.room=STAGES.length;renderBar();
+  var nm=$("#dlgName");nm.textContent="FIGHT OVER";nm.className="dlg-name";$("#dlgSkill").hidden=true;
+  $("#dlgText").textContent="You made "+towards()+" of 6 towards moves. Your scorecard is below.";$("#dlgHint").textContent="";$("#dlgNext").hidden=true;
+  $("#dlgCh").innerHTML='<div class="dlg-row"><button type="button" class="pbtn" id="cardBtn">SEE SCORECARD</button><button type="button" class="pbtn alt" id="againBtn">PLAY AGAIN</button></div>';
+  $("#cardBtn").onclick=function(){$("#stage").scrollIntoView({behavior:reduce?"auto":"smooth",block:"start"});var f=$("#stage .final");if(f)f.focus({preventScroll:true})};
+  $("#againBtn").onclick=function(){title();startGame()};
+  var st=$("#stage");st.hidden=false;st.innerHTML=viewEnd();wireEnd()}
 
-function tryBody(s){
-  switch(s.id){
-  case "walk": return '<div class="dials"><div class="dial fear"><div class="dial-h"><span>Fear</span><b id="fv">8</b></div><div class="meter"><i id="fb"></i></div><button class="btn" id="push">Push the fear away</button><small>You don\'t control this one.</small></div>'+
-    '<div class="dial will"><div class="dial-h"><label for="will">Willing</label><b id="wv">'+G.will+'</b></div><input type="range" id="will" min="0" max="10" step="1" value="'+G.will+'"><small>How willing are you to walk with the fear? You control this one. Drag it.</small></div></div>'+
-    '<div class="walk" aria-hidden="true"><span>Tunnel</span><div class="path"><div class="walker" id="walker"></div></div><span class="cage">CAGE</span></div>';
-  case "r1": return '<div class="thoughts">'+["He's going to embarrass me","I'm not made for this","Everyone will see I'm a fraud"].map(function(t){return '<button class="th" data-t="'+esc(t)+'">'+esc(t)+'</button>'}).join("")+'</div>';
-  case "r2": var it=[["Your feet on the canvas",1],["Tomorrow's headlines",0],["Your breathing",1],["The fight you lost years ago",0],["Penn's lead hand",1],["Your post-fight interview",0]];
-    return '<div class="chips">'+it.map(function(x){return '<button class="chip" data-a="'+x[1]+'">'+x[0]+'</button>'}).join("")+'</div>';
-  case "r3": var wx=["Anger","This isn't fair","Embarrassment","Crowd noise","What will people say?","Adrenaline"];
-    return '<div class="sky" id="sky">'+wx.map(function(w,i){return '<span class="wx" style="--y:'+(12+(i%3)*50)+'px;--d:-'+(i*3.4).toFixed(1)+'s;--s:'+(11+(i%3)*2)+'s">'+esc(w)+'</span>'}).join("")+'<p class="skycap" id="skycap" hidden>You\'re the sky. This is just weather. It passes.</p></div><div class="row"><button class="btn" id="back">Step back</button></div>';
-  case "r4": return '<div class="chips">'+VALUES.map(function(v){return '<button class="chip" aria-pressed="'+(G.values.indexOf(v)>-1)+'" data-v="'+v+'">'+v+'</button>'}).join("")+'</div>';
-  case "after": return '<div class="form"><div class="fld"><label for="pa">This week I will</label><input id="pa" placeholder="e.g. go for one 15-minute walk" value="'+esc(G.plan.a)+'"></div>'+
-    '<div class="fld"><label for="pv">Because I care about</label><input id="pv" placeholder="e.g. my health" value="'+esc(G.plan.v||(G.values.length?whyText():""))+'"></div>'+
-    '<div class="fld"><label for="pf">When this feeling or thought shows up</label><input id="pf" placeholder="e.g. “I\'m too tired”" value="'+esc(G.plan.f)+'"></div>'+
-    '<p>…I\'ll make room for it and do it anyway.</p></div>';
-  }
-}
+function renderBar(){var cur=G?G.room:-1;
+  $("#track").innerHTML=STAGES.map(function(s,i){var p=G&&G.picks[s.id],cls=(i===cur?" on":"")+(p===true?" tw":p===false?" aw":"");
+    return '<div class="tk'+cls+'"'+(i===cur?' aria-current="step"':'')+'><i></i><b><span class="l">'+s.label+'</span><span class="s">'+s.short+'</span></b></div>'}).join("");
+  var t=0,a=0;if(G)Object.keys(G.picks).forEach(function(k){G.picks[k]?t++:a++});
+  $("#tally").innerHTML='<span class="t">Towards '+t+'</span><span class="a">Away '+a+'</span>'}
 
-function viewTry(s){
-  var k=SK[s.sk];
-  return '<div class="card '+k.c+'">'+subs(1)+'<div><p class="eyebrow">'+s.label+' · '+k.name+'</p><h2 class="h2" tabindex="-1">Try it</h2></div>'+
-  '<p class="ins">'+s.tryTitle+'</p>'+tryBody(s)+'<p class="msg" id="msg" aria-live="polite"></p>'+
-  '<div class="row"><button class="btn p" id="go" disabled>Make your move</button></div></div>';
-}
-
-function viewChoose(s){
-  var k=SK[s.sk];
-  return '<div class="card '+k.c+'">'+subs(2)+'<div><p class="eyebrow">'+s.label+' · '+k.name+'</p><h2 class="h2" tabindex="-1">Your move</h2></div>'+
-  '<p class="prompt">'+s.choice.prompt+'</p><div class="opts">'+s.choice.opts.map(function(o,i){
-    return '<button class="opt" data-i="'+i+'"><span>'+esc(optText(o))+'</span><span class="tag"></span></button>'}).join("")+'</div>'+
-  '<div class="fb" id="cfb" hidden aria-live="polite"></div>'+
-  '<div class="row"><button class="btn p" id="go" hidden>'+(G.i===STAGES.length-1?"See your scorecard":"Next: "+STAGES[G.i+1].label)+'</button></div></div>';
-}
-
-function viewEnd(){
-  var t=0;ORDER.forEach(function(k,i){if(G.picks[STAGES[i].id])t++});
-  var verdict = t===6?"A clean sweep. Fear was there the whole fight. It just never got to choose your moves.":
-    t>=4?"Strong fight. A couple of away moves, which is normal. Notice them, then turn back.":
-    "Fear took a few stages this time. That's useful to know, not a verdict. Run it back.";
-  var plan = G.plan.a?"This week I will "+G.plan.a+", because I care about "+(G.plan.v||"what matters")+". When "+(G.plan.f||"fear")+" shows up, I'll make room for it and do it anyway.":"";
-  return '<div class="card"><p class="eyebrow">Scorecard</p><p class="final" tabindex="-1"><span>'+t+'</span> of 6 towards moves</p><p>'+verdict+'</p>'+
+function viewEnd(){var t=towards();
+  var verdict=t===6?"A clean sweep. Fear was there the whole fight. It just never got to choose your moves.":t>=4?"Strong fight. A couple of away moves, which is normal. Notice them, then turn back.":"Fear took a few stages this time. That's useful to know, not a verdict. Run it back.";
+  var plan=G.plan.a?"This week I will "+G.plan.a+", because I care about "+whyText()+". When "+(G.plan.f?"“"+G.plan.f.replace(/^["“]|["”]$/g,"")+"”":"fear")+" shows up, I'll make room for it and do it anyway.":"";
+  return '<div class="card"><p class="eyebrow">Scorecard</p><p class="final" tabindex="-1"><span>'+t+'</span> of 6 towards moves</p><p>'+verdict+' Your first choice at each stage is what counts.</p>'+
   '<ul class="sklist">'+STAGES.map(function(s){var k=SK[s.sk],ok=G.picks[s.id];
-    return '<li class="'+k.c+'"><span class="sw"></span><div><b>'+k.name+'</b><span>'+k.act+' · '+k.one+'</span></div><em class="'+(ok?"tw":"aw")+'">'+(ok?"Towards":"Away")+'</em></li>'}).join("")+'</ul>'+
+    return '<li class="'+k.c+'"><span class="sw"></span><div><b>'+k.name+'</b><span>'+s.label+' · '+k.act+' · '+k.one+'</span></div><em class="'+(ok?"tw":"aw")+'">'+(ok?"Towards":"Away")+'</em></li>'}).join("")+'</ul>'+
   (plan?'<div><p class="lbl" style="margin-bottom:8px">Your next fight</p><p class="pledge" id="pledge">'+esc(plan)+'</p><div class="row" style="margin-top:10px"><button class="btn" id="copy">Copy my step</button><span class="msg" id="cmsg" aria-live="polite"></span></div></div>':'')+
-  '<div class="row"><button class="btn p" id="toquiz">Take the quiz</button><button class="btn" id="again">Play again</button></div></div>';
-}
-
-function wireTry(s){
-  var go=$("#go"), msg=$("#msg");
-  function ready(t){go.disabled=false;if(t){msg.textContent=t;msg.className="msg good"}}
-  function say(t){msg.textContent=t;msg.className="msg"}
-  if(s.id==="walk"){
-    var spike=false, grabs=0;
-    function setF(v){var a=$("#fv"),b=$("#fb");if(!a||!b)return;a.textContent=Math.round(v);b.style.width=(v*10)+"%"}
-    setF(8);
-    if(!reduce)timers.push(setInterval(function(){if(!spike)setF(7+Math.random()*2)},900));
-    $("#push").onclick=function(){grabs++;spike=true;setF(10);say(grabs>1?"Still pushing? Fear isn't the dial you control. Try the other one.":"Pushing it away made it bigger. That's the trap.");setTimeout(function(){spike=false;setF(8)},1300)};
-    function upd(){var w=G.will;$("#wv").textContent=w;$("#walker").style.setProperty("--p",w/10);
-      if(w>=8)ready("Fear is still about 8. You're at the cage anyway. That's making room.");
-      else{go.disabled=true;say(w<4?"Stuck in the tunnel, waiting to feel ready.":"Halfway. Still waiting for the fear to leave first?")}}
-    $("#will").addEventListener("input",function(e){G.will=+e.target.value;upd()});upd();
-  }
-  if(s.id==="r1"){
-    var n=0;
-    $$(".th").forEach(function(b){b.addEventListener("click",function(){
-      if(b.classList.contains("off"))return;
-      b.classList.add("off");b.innerHTML='<em>I notice I\'m having the thought:</em> “'+esc(b.dataset.t)+'”';n++;
-      if(n<3)say("Same words. Less grip. Keep going.");else ready("The thoughts are still there. They're just not in charge.");
-    })});
-  }
-  if(s.id==="r2"){
-    var m=0;
-    $$(".chip").forEach(function(b){b.addEventListener("click",function(){
-      if(b.dataset.a==="1"){if(b.classList.contains("yes"))return;b.classList.add("yes");m++;
-        if(m<3)say("Yes, that's here now. "+(3-m)+" more.");else ready("All three. That's what's in the cage right now.");}
-      else{b.classList.add("no");say("That's not in the cage. Notice it, and come back.");setTimeout(function(){b.classList.remove("no")},800)}
-    })});
-  }
-  if(s.id==="r3"){
-    $("#back").onclick=function(){var w=$("#sky").classList.toggle("wide");$("#skycap").hidden=!w;$("#back").textContent=w?"Zoom back in":"Step back";
-      if(w)ready("Same weather. But now you can see it's not you.")};
-  }
-  if(s.id==="r4"){
-    function upd(){if(G.values.length)ready("In your corner: "+G.values.join(", ")+".");else{go.disabled=true;say("")}}
-    $$(".chip").forEach(function(b){b.addEventListener("click",function(){
-      var v=b.dataset.v,on=G.values.indexOf(v)>-1;
-      if(!on&&G.values.length>=3){say("Three is plenty. Tap one to drop it first.");return}
-      G.values=on?G.values.filter(function(x){return x!==v}):G.values.concat(v);b.setAttribute("aria-pressed",String(!on));upd();
-    })});upd();
-  }
-  if(s.id==="after"){
-    function upd(){G.plan={a:$("#pa").value.trim(),v:$("#pv").value.trim(),f:$("#pf").value.trim()};
-      if(G.plan.a)ready("Small and specific. Good.");else{go.disabled=true;say("Write one small step to continue.")}}
-    ["pa","pv","pf"].forEach(function(id){$("#"+id).addEventListener("input",upd)});upd();
-  }
-  go.onclick=function(){G.sub=2;render(true)};
-}
-
-function wireChoose(s){
-  $$(".opt").forEach(function(b){b.addEventListener("click",function(){
-    if(G.picks[s.id]!==undefined)return;
-    var o=s.choice.opts[+b.dataset.i];G.picks[s.id]=o.ok;
-    $$(".opt").forEach(function(x,j){x.disabled=true;var oj=s.choice.opts[j];
-      if(x===b){x.classList.add(o.ok?"tw":"aw");x.querySelector(".tag").textContent=o.ok?"Towards":"Away"}
-      else if(oj.ok){x.classList.add("tw");x.querySelector(".tag").textContent="Towards"}
-      else x.classList.add("dim")});
-    var f=$("#cfb");f.innerHTML='<span class="v '+(o.ok?"tw":"aw")+'">'+(o.ok?"Towards move":"Away move")+'</span><span>'+o.fb+'</span>'+(o.ok?"":'<small>The towards move is marked in green.</small>');f.hidden=false;
-    var go=$("#go");go.hidden=false;go.onclick=function(){G.i++;G.sub=0;render(true)};go.focus();
-    renderBar();
-  })});
-}
-
-function render(focus){
-  timers.forEach(clearInterval);timers=[];
-  var st=$("#stage");
-  if(G.i<0){st.innerHTML=viewIntro();$("#start").onclick=function(){G.i=0;G.sub=0;render(true)};$("#toquiz").onclick=gotoQuiz}
-  else if(G.i>=STAGES.length){st.innerHTML=viewEnd();
-    $("#again").onclick=function(){G=freshGame();G.i=0;render(true)};$("#toquiz").onclick=gotoQuiz;
-    var c=$("#copy");if(c)c.onclick=function(){var t=$("#pledge").textContent;
-      function ok(){$("#cmsg").textContent="Copied."}
-      function fb(){var r=document.createRange();r.selectNodeContents($("#pledge"));var s=getSelection();s.removeAllRanges();s.addRange(r);$("#cmsg").textContent="Selected. Copy it with your keyboard."}
-      try{navigator.clipboard.writeText(t).then(ok,fb)}catch(e){fb()}}}
-  else{var s=STAGES[G.i];
-    if(G.sub===0){st.innerHTML=viewLearn(s);$("#go").onclick=function(){G.sub=1;render(true)}}
-    else if(G.sub===1){st.innerHTML=viewTry(s);wireTry(s)}
-    else{st.innerHTML=viewChoose(s);wireChoose(s)}}
-  renderBar();
-  if(focus){$("#fight").scrollIntoView({behavior:reduce?"auto":"smooth",block:"start"});var h=$("#stage [tabindex='-1']");if(h)h.focus({preventScroll:true})}
-}
+  '<div class="row"><button class="btn p" id="toquiz">Take the quiz</button><button class="btn" id="again">Play again</button></div></div>'}
+function wireEnd(){$("#toquiz").onclick=gotoQuiz;$("#again").onclick=function(){title();startGame();$("#fight").scrollIntoView({behavior:reduce?"auto":"smooth",block:"start"})};
+  var c=$("#copy");if(c)c.onclick=function(){var t=$("#pledge").textContent;function ok(){$("#cmsg").textContent="Copied."}
+    function fb(){var r=document.createRange();r.selectNodeContents($("#pledge"));var s=getSelection();s.removeAllRanges();s.addRange(r);$("#cmsg").textContent="Selected. Copy it with your keyboard."}
+    try{navigator.clipboard.writeText(t).then(ok,fb)}catch(e){fb()}}}
 function gotoQuiz(){$("#quiz").scrollIntoView({behavior:reduce?"auto":"smooth",block:"start"});var b=$("#qz button");if(b)b.focus({preventScroll:true})}
+
+/* ---------- input ---------- */
+var KM={ArrowUp:"u",KeyW:"u",ArrowDown:"d",KeyS:"d",ArrowLeft:"l",KeyA:"l",ArrowRight:"r",KeyD:"r"};
+function gameKeys(e){if(!G||G.mode==="title"||G.mode==="end")return false;var tg=e.target;if(tg&&(tg.tagName==="INPUT"||tg.tagName==="TEXTAREA"||tg.tagName==="SELECT"))return false;
+  if(tg!==document.body&&!$("#console").contains(tg))return false;return onScreen}
+document.addEventListener("keydown",function(e){if(!gameKeys(e))return;var k=KM[e.code];
+  if(G.mode==="dialog"){var p=D.q[D.i];
+    if(p&&p.ch&&!D.typing&&(k==="u"||k==="d")){D.sel=(D.sel+(k==="d"?1:-1)+p.ch.length)%p.ch.length;hiSel();e.preventDefault();return}
+    if(e.code==="Space"||e.code==="Enter"||e.code==="KeyZ"||e.code==="KeyE"){if(e.repeat){e.preventDefault();return}advance();e.preventDefault();return}
+    if(k)e.preventDefault();return}
+  if(k){KEY[k]=true;e.preventDefault()}
+  if(e.code==="Space"||e.code==="Enter"||e.code==="KeyZ"||e.code==="KeyE"){if(!e.repeat)action();e.preventDefault()}});
+document.addEventListener("keyup",function(e){var k=KM[e.code];if(k)KEY[k]=false});
+window.addEventListener("blur",function(){KEY={}});
+$$("#pad [data-k]").forEach(function(b){var k=b.dataset.k;
+  function on(e){e.preventDefault();KEY[k]=true;b.classList.add("down")}function off(){KEY[k]=false;b.classList.remove("down")}
+  b.addEventListener("pointerdown",on);b.addEventListener("pointerup",off);b.addEventListener("pointerleave",off);b.addEventListener("pointercancel",off)});
+$("#padA").addEventListener("pointerdown",function(e){e.preventDefault();action()});
+$("#console").addEventListener("click",function(e){if(e.target===cv&&G.mode==="dialog")advance()});
+
+/* ---------- loop ---------- */
+function loop(ts){var dt=Math.min(0.05,((ts-lastT)/1000)||0);lastT=ts;update(dt);if(onScreen)draw();requestAnimationFrame(loop)}
+function boot(){layout();title();
+  if("IntersectionObserver" in window)new IntersectionObserver(function(es){onScreen=es[0].isIntersecting;if(!onScreen)KEY={}}).observe($("#console"));
+  window.addEventListener("resize",layout);
+  if(document.fonts&&document.fonts.load){document.fonts.load("8px 'Press Start 2P'");document.fonts.load("8px VT323")}
+  requestAnimationFrame(loop)}
 
 /* ---------- quiz: themes ---------- */
 var THEMES = {
@@ -700,7 +988,7 @@ function qzResults(){
   var f=$("#qz .final");if(f)f.focus({preventScroll:true});
 }
 
-render(false);
+boot();
 qzPick();
 })();
 </script>
