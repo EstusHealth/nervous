@@ -1,0 +1,499 @@
+<!doctype html><html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>GM Mode</title><meta name="robots" content="noindex, nofollow"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 fill=%22%23090909%22/%3E%3Crect x=%224%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23344982%22/%3E%3Crect x=%2210%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232F6F9E%22/%3E%3Crect x=%2216%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232CA5B8%22/%3E%3Crect x=%2222%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23AB5C95%22/%3E%3C/svg%3E"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap"><style>
+:root{
+  --g-bg:#F3F2EF;--g-surface:#FBFAF8;--g-sunk:#ECEAE6;--g-fg:#0E1014;--g-muted:#65676E;--g-rule:#D3D1CC;--g-ink:#090909;--g-on-ink:#FBFAF8;
+  --g-navy:#344982;--g-blue:#2F6F9E;--g-teal:#2CA5B8;--g-plum:#AB5C95;--g-coal:#22252B;
+  --g-navy-t:#DDE2EF;--g-blue-t:#DCE8F1;--g-teal-t:#DAF0F3;--g-plum-t:#F1E1EC;--g-coal-t:#DADBDE;
+  --g-good:#2E7D4F;--g-good-t:#DDEFE3;--g-warn:#A86A12;--g-warn-t:#F6E8D2;--g-bad:#B23A3A;--g-bad-t:#F5DEDE;
+  --g-display:"Oswald","Arial Narrow",Impact,sans-serif;--g-cond:"Barlow Semi Condensed","Arial Narrow",sans-serif;--g-body:"Barlow","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --g-bg:#0F1216;--g-surface:#161A20;--g-sunk:#1D222A;--g-fg:#ECEEF1;--g-muted:#9BA1AB;--g-rule:#2C323C;--g-ink:#05070A;--g-on-ink:#ECEEF1;
+  --g-navy:#8299DA;--g-blue:#6FA8D2;--g-teal:#4CC3D4;--g-plum:#D58FC1;--g-coal:#C9CCD2;
+  --g-navy-t:#1E2740;--g-blue-t:#18293A;--g-teal-t:#123238;--g-plum-t:#33202E;--g-coal-t:#2A2E35;
+  --g-good:#5FC38A;--g-good-t:#16301F;--g-warn:#E0A64A;--g-warn-t:#33270F;--g-bad:#EC7B7B;--g-bad-t:#3A1A1A;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --g-bg:#0F1216;--g-surface:#161A20;--g-sunk:#1D222A;--g-fg:#ECEEF1;--g-muted:#9BA1AB;--g-rule:#2C323C;--g-ink:#05070A;--g-on-ink:#ECEEF1;
+  --g-navy:#8299DA;--g-blue:#6FA8D2;--g-teal:#4CC3D4;--g-plum:#D58FC1;--g-coal:#C9CCD2;
+  --g-navy-t:#1E2740;--g-blue-t:#18293A;--g-teal-t:#123238;--g-plum-t:#33202E;--g-coal-t:#2A2E35;
+  --g-good:#5FC38A;--g-good-t:#16301F;--g-warn:#E0A64A;--g-warn-t:#33270F;--g-bad:#EC7B7B;--g-bad-t:#3A1A1A;color-scheme:dark}
+
+:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px)}
+body{margin:0;background:var(--g-bg);color:var(--g-fg);font:400 17px/1.55 var(--g-body)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--g-bg)}
+[hidden]{display:none!important}
+img{max-width:100%}
+
+.g-wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.g-root h1,.g-root h2,.g-root h3,.g-root h4{text-wrap:balance;margin:0}
+.g-root p{margin:0}
+.g-root a{color:var(--g-blue)}
+.g-root button,.g-root input,.g-root textarea,.g-root select{font:inherit;color:inherit}
+.g-root :focus-visible{outline:2px solid var(--g-teal);outline-offset:2px}
+.g-eyebrow{font:700 12px var(--g-cond);letter-spacing:.18em;text-transform:uppercase;color:var(--g-muted)}
+.g-navy{--c:var(--g-navy);--ct:var(--g-navy-t)}.g-blue{--c:var(--g-blue);--ct:var(--g-blue-t)}.g-teal{--c:var(--g-teal);--ct:var(--g-teal-t)}.g-plum{--c:var(--g-plum);--ct:var(--g-plum-t)}.g-coal{--c:var(--g-coal);--ct:var(--g-coal-t)}
+.g-hero{background:var(--g-ink);color:var(--g-on-ink)}
+.g-hero .g-wrap{padding-block:30px 36px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:32px;align-items:end}
+.g-hero .g-eyebrow{color:#AEB5C2}
+.g-hero h1{font:600 clamp(40px,7vw,76px)/.95 var(--g-display);text-transform:uppercase;letter-spacing:.01em;margin:8px 0 14px}
+.g-hero h1 em{font-style:normal;color:var(--hc,#4CC3D4)}
+.g-hero .g-lead{font-size:18px;max-width:56ch;color:#D6DAE2}
+.g-hero .g-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.g-hero .g-meta span{font:600 12px var(--g-cond);letter-spacing:.12em;text-transform:uppercase;border:1px solid #3A3F48;padding:4px 10px;color:#D6DAE2}
+.g-side{list-style:none;margin:0;padding:0;border:1px solid #2C323C;background:#111419}
+.g-side li{display:grid;grid-template-columns:34px minmax(0,1fr);gap:10px;align-items:baseline;padding:10px 14px;border-top:1px solid #2C323C}
+.g-side li:first-child{border-top:0}
+.g-side .n{font:600 20px var(--g-display);color:var(--h,#4CC3D4)}
+.g-side b{font:600 15px var(--g-cond);text-transform:uppercase;letter-spacing:.06em;display:block}
+.g-side span.w{font-size:14px;color:#AEB5C2}
+.g-rail{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--g-bg);border-bottom:1px solid var(--g-rule)}
+.g-rail .g-wrap{display:flex;gap:4px;overflow-x:auto;padding-block:8px;scrollbar-width:none}
+.g-rail a{font:600 13px var(--g-cond);letter-spacing:.08em;text-transform:uppercase;color:var(--g-fg);text-decoration:none;padding:6px 10px;white-space:nowrap;border-radius:3px}
+.g-rail a:hover{background:var(--g-sunk)}
+.g-s{padding-block:44px;border-bottom:1px solid var(--g-rule)}
+.g-head{display:flex;flex-direction:column;gap:6px;margin-bottom:22px;max-width:68ch}
+.g-head h2{font:600 clamp(26px,4vw,34px)/1.05 var(--g-display);text-transform:uppercase;letter-spacing:.02em}
+.g-head p{color:var(--g-muted)}
+.g-blocks{display:flex;flex-direction:column;gap:22px}
+.g-sub{font:700 15px var(--g-cond);text-transform:uppercase;letter-spacing:.1em}
+/* cards */
+.g-cards{display:grid;grid-template-columns:repeat(var(--cols,3),minmax(0,1fr));gap:16px}
+.g-card{background:var(--g-surface);border:1px solid var(--g-rule);border-top:5px solid var(--c,var(--g-rule));padding:18px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.g-card .tag{font:700 11px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;color:var(--c,var(--g-muted))}
+.g-card h3{font:600 21px/1.15 var(--g-display);text-transform:uppercase;letter-spacing:.02em}
+.g-card p{font-size:16px}
+.g-card ul{margin:0;padding-left:18px;font-size:15px;display:flex;flex-direction:column;gap:4px}
+.g-card .foot{font-size:14px;color:var(--g-muted);border-top:1px dashed var(--g-rule);padding-top:8px;margin-top:auto}
+.g-card .foot b{color:var(--g-fg)}
+.g-card a.more{font:600 13px var(--g-cond);text-transform:uppercase;letter-spacing:.1em;text-decoration:none;margin-top:auto}
+/* strip of big terms */
+.g-terms{display:grid;grid-template-columns:repeat(var(--cols,4),minmax(0,1fr));gap:1px;background:var(--g-rule);border:1px solid var(--g-rule)}
+.g-terms div{background:var(--g-surface);padding:16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.g-terms .L{font:600 34px/1 var(--g-display);color:var(--c,var(--g-blue))}
+.g-terms b{font:600 15px var(--g-cond);text-transform:uppercase;letter-spacing:.05em}
+.g-terms span{font-size:15px}
+.g-terms q{font-size:15px;color:var(--g-muted);quotes:"\201C" "\201D"}
+/* table */
+.g-tbl{overflow-x:auto;border:1px solid var(--g-rule);background:var(--g-surface)}
+.g-tbl table{border-collapse:collapse;width:100%;min-width:620px;font-size:15px}
+.g-tbl th,.g-tbl td{text-align:left;vertical-align:top;padding:12px 14px;border-top:1px solid var(--g-rule)}
+.g-tbl th{font:700 12px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;color:var(--g-muted);background:var(--g-sunk);border-top:0}
+.g-tbl td:first-child{font-weight:600}
+/* steps */
+.g-steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border:1px solid var(--g-rule);background:var(--g-surface)}
+.g-step{display:grid;grid-template-columns:170px minmax(0,1fr) minmax(0,1fr);gap:20px;padding:18px;border-top:1px solid var(--g-rule);align-items:start}
+.g-step:first-child{border-top:0}
+.g-step .when{border-left:5px solid var(--c);padding-left:10px;display:flex;flex-direction:column}
+.g-step .when b{font:600 21px/1.1 var(--g-display);text-transform:uppercase}
+.g-step .when small{font:600 13px var(--g-cond);color:var(--g-muted);letter-spacing:.06em;text-transform:uppercase}
+.g-step .lbl{font:700 12px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;color:var(--g-muted);margin-bottom:4px}
+.g-step .say{background:var(--ct);padding:10px 12px;font-weight:600}
+/* flow */
+.g-flow{display:grid;grid-template-columns:repeat(var(--n,5),minmax(0,1fr));gap:12px}
+.g-node{background:var(--g-surface);border:1px solid var(--g-rule);border-top:4px solid var(--c);padding:12px;display:flex;flex-direction:column;gap:4px;position:relative;min-width:0}
+.g-node b{font:600 16px var(--g-cond);text-transform:uppercase;letter-spacing:.05em}
+.g-node span{font-size:14px;color:var(--g-muted)}
+.g-node + .g-node::before{content:"";position:absolute;left:-12px;top:26px;width:12px;border-top:2px solid var(--g-muted)}
+.g-loopnote{font:600 13px var(--g-cond);text-transform:uppercase;letter-spacing:.08em;color:var(--g-muted);display:flex;gap:10px;align-items:center}
+.g-loopnote i{flex:1;border-top:2px dashed var(--g-muted)}
+/* callout */
+.g-call{padding:14px 16px;background:var(--ct,var(--g-teal-t));border-left:4px solid var(--c,var(--g-teal));max-width:78ch}
+.g-call ul{margin:6px 0 0;padding-left:20px}
+.g-call.warn{--c:var(--g-warn);--ct:var(--g-warn-t)}
+.g-call.ink{background:var(--g-ink);color:var(--g-on-ink);border-left-color:#D58FC1}
+/* do dont */
+.g-dd{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.g-dd ul{list-style:none;margin:0;padding:0;background:var(--g-surface);border:1px solid var(--g-rule)}
+.g-dd li{padding:12px 16px;border-top:1px solid var(--g-rule);font-size:16px}
+.g-dd li:first-child{border-top:0}
+.g-dd li b{display:block;font:600 15px var(--g-cond);text-transform:uppercase;letter-spacing:.05em}
+.g-dd h3{font:700 14px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px}
+.g-dd .yes h3{color:var(--g-good)}.g-dd .no h3{color:var(--g-bad)}
+/* pairs */
+.g-pair{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);border:1px solid var(--g-rule);background:var(--g-surface)}
+.g-pair > div{padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.g-pair .weak p{color:var(--g-muted)}
+.g-pair .strong{background:var(--g-good-t)}
+.g-pair .t{font:700 11px var(--g-cond);text-transform:uppercase;letter-spacing:.12em}
+.g-pair .weak .t{color:var(--g-bad)}.g-pair .strong .t{color:var(--g-good)}
+.g-pair .arrow{display:grid;place-items:center;padding:0 10px;font:600 22px var(--g-display);color:var(--g-muted);background:var(--g-sunk)}
+/* checklist */
+.g-check{border:1px solid var(--g-fg);background:var(--g-surface)}
+.g-check h4{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:6px 10px 6px 14px;background:var(--ct,var(--g-sunk));box-shadow:inset 5px 0 0 var(--c,var(--g-fg));border-bottom:1px solid var(--g-fg);font:700 14px var(--g-cond);text-transform:uppercase;letter-spacing:.08em}
+.g-check h4 small{font:500 12px var(--g-cond);color:var(--g-muted);font-variant-numeric:tabular-nums}
+.g-grp{padding:6px 10px 8px;display:flex;flex-direction:column}
+.g-grp + .g-grp{border-top:1px solid var(--g-rule)}
+.g-lbl{font:700 11px var(--g-cond);text-transform:uppercase;letter-spacing:.14em;color:var(--g-muted);margin:2px 0}
+.g-row{display:flex;align-items:baseline;gap:6px;padding:3px 4px;border-radius:2px;cursor:pointer;font:600 14px/1.4 var(--g-cond);text-transform:uppercase;letter-spacing:.02em;position:relative}
+.g-row:hover{background:var(--g-sunk)}
+.g-row input{position:absolute;opacity:0;pointer-events:none}
+.g-row .item{white-space:nowrap}
+.g-row .dots{flex:1;min-width:12px;border-bottom:1.5px dotted var(--g-muted);transform:translateY(-4px)}
+.g-row .resp{text-align:right}
+.g-row .bx{width:14px;height:14px;border:1.5px solid var(--g-muted);flex:none;transform:translateY(2px);display:grid;place-items:center;font-size:11px;line-height:1}
+.g-row:has(input:checked) .item,.g-row:has(input:checked) .resp{color:var(--g-muted)}
+.g-row:has(input:checked) .bx{background:var(--c,var(--g-teal));border-color:var(--c,var(--g-teal));color:var(--g-surface)}
+.g-row:has(input:checked) .bx::after{content:"\2713"}
+.g-row:has(input:focus-visible){outline:2px solid var(--c,var(--g-teal))}
+.g-checkfoot{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 10px 7px 14px;border-top:1px solid var(--g-fg);background:var(--g-sunk);font:700 13px var(--g-cond);text-transform:uppercase;letter-spacing:.04em}
+.g-checks{display:grid;grid-template-columns:repeat(var(--cols,2),minmax(0,1fr));gap:18px;align-items:start}
+/* buttons */
+.g-btn{border:1px solid var(--g-rule);background:var(--g-surface);color:var(--g-fg);padding:9px 14px;cursor:pointer;font:600 13px var(--g-cond);text-transform:uppercase;letter-spacing:.08em;min-height:40px}
+.g-btn:hover{border-color:var(--g-fg)}
+.g-btn.primary{background:var(--g-ink);color:var(--g-on-ink);border-color:var(--g-ink)}
+.g-btn.sm{min-height:30px;padding:4px 10px;font-size:12px}
+.g-chip{border:1px solid var(--g-rule);background:var(--g-surface);padding:7px 12px;border-radius:999px;cursor:pointer;font:600 13px var(--g-cond);text-transform:uppercase;letter-spacing:.06em;min-height:36px}
+.g-chip[aria-pressed="true"]{background:var(--c,var(--g-fg));border-color:var(--c,var(--g-fg));color:var(--g-surface)}
+/* quiz */
+.g-quiz{background:var(--g-surface);border:1px solid var(--g-rule);padding:20px;display:flex;flex-direction:column;gap:14px}
+.g-quiz .qh{display:flex;justify-content:space-between;gap:10px;font:700 12px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;color:var(--g-muted)}
+.g-quiz .said{font:500 20px/1.35 var(--g-body);padding-left:14px;border-left:4px solid var(--c,var(--g-plum))}
+.g-quiz .opts{display:flex;flex-direction:column;gap:8px}
+.g-quiz .opts button{text-align:left;background:var(--g-bg);border:1.5px solid var(--g-rule);padding:12px 14px;cursor:pointer;font-size:16px;line-height:1.4}
+.g-quiz .opts button:hover:not(:disabled){border-color:var(--g-fg)}
+.g-quiz .opts button.right{border-color:var(--g-good);background:var(--g-good-t)}
+.g-quiz .opts button.wrong{border-color:var(--g-bad);background:var(--g-bad-t)}
+.g-quiz .opts button:disabled{cursor:default}
+.g-quiz .fb{font-size:16px;padding:12px 14px;background:var(--g-sunk)}
+.g-quiz .fb b{font:700 13px var(--g-cond);text-transform:uppercase;letter-spacing:.1em;display:block}
+.g-quiz .qn{display:flex;justify-content:flex-end}
+/* tool shell */
+.g-tool{background:var(--g-surface);border:1px solid var(--g-rule);padding:20px;display:flex;flex-direction:column;gap:14px}
+.g-fld{display:flex;flex-direction:column;gap:4px;min-width:0}
+.g-fld label{font:700 12px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;color:var(--g-muted)}
+.g-fld input,.g-fld textarea,.g-fld select{width:100%;border:1px solid var(--g-rule);background:var(--g-bg);padding:9px 10px;border-radius:2px;font-size:16px}
+.g-fld textarea{min-height:70px;resize:vertical}
+.g-out{background:var(--ct,var(--g-teal-t));border-left:4px solid var(--c,var(--g-teal));padding:14px 16px;font-size:17px}
+.g-out b{font:700 12px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;display:block;color:var(--c,var(--g-teal))}
+.g-row2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.g-range label{display:flex;justify-content:space-between;font:600 14px var(--g-cond);text-transform:uppercase;letter-spacing:.04em}
+.g-range input{width:100%;accent-color:var(--c,var(--g-plum))}
+.g-msg{font:600 13px var(--g-cond);text-transform:uppercase;letter-spacing:.08em;color:var(--g-good);min-height:1em}
+/* related */
+.g-rel{display:flex;flex-wrap:wrap;gap:8px}
+.g-rel a{display:inline-flex;flex-direction:column;gap:2px;padding:10px 14px;border:1px solid var(--g-rule);background:var(--g-surface);text-decoration:none;color:var(--g-fg);border-left:4px solid var(--c,var(--g-teal));min-width:180px}
+.g-rel a b{font:600 15px var(--g-cond);text-transform:uppercase;letter-spacing:.05em}
+.g-rel a span{font-size:13px;color:var(--g-muted)}
+.g-rel a:hover{background:var(--g-sunk)}
+.g-foot{padding-block:28px 48px;color:var(--g-muted);font-size:14px}
+.g-foot ul{margin:6px 0 0;padding-left:18px}
+@media (max-width:860px){
+  .g-hero .g-wrap,.g-dd,.g-row2{grid-template-columns:1fr}
+  .g-cards{grid-template-columns:repeat(min(var(--cols,3),2),minmax(0,1fr))}
+  .g-terms{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .g-step{grid-template-columns:1fr;gap:10px}
+  .g-flow{grid-template-columns:1fr}
+  .g-node + .g-node::before{left:24px;top:-12px;width:0;height:12px;border-top:0;border-left:2px solid var(--g-muted)}
+  .g-checks{grid-template-columns:1fr}
+  .g-pair{grid-template-columns:1fr}.g-pair .arrow{transform:rotate(90deg);padding:4px}
+}
+@media (max-width:520px){
+  .g-cards,.g-terms{grid-template-columns:1fr}
+  .g-row .item{white-space:normal}
+}
+
+/* GM Mode additions */
+.gm-good{--c:var(--g-good);--ct:var(--g-good-t)}
+.gm-seats{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.gm-seat{background:var(--g-surface);border:1px solid var(--g-rule);padding:18px;min-width:0}
+.gm-seat .t{font:700 13px var(--g-cond);text-transform:uppercase;letter-spacing:.14em;margin-bottom:8px}
+.gm-seat ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+.gm-seat.player{color:var(--g-muted)}
+.gm-seat.player .t{color:var(--g-muted)}
+.gm-seat.gm{border-color:var(--g-plum);box-shadow:inset 5px 0 0 var(--g-plum)}
+.gm-seat.gm .t{color:var(--g-plum)}
+.gm-q{font-weight:600;border-left:3px solid var(--c);padding-left:10px;margin-top:auto!important}
+.gm-steps{display:flex;flex-wrap:wrap;gap:6px}
+.gm-steps span{font:700 12px var(--g-cond);text-transform:uppercase;letter-spacing:.1em;padding:5px 10px;border:1px solid var(--g-rule);background:var(--g-bg)}
+.row-btns{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.gm-chips{display:flex;flex-wrap:wrap;gap:6px}
+.gm-lbl{font:700 12px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;color:var(--g-muted);margin-bottom:8px!important}
+.pv-rows{display:flex;flex-direction:column;gap:10px}
+.pv-row{display:grid;grid-template-columns:110px minmax(0,1.3fr) auto 110px 110px;gap:10px;align-items:end;padding:12px;background:var(--g-bg);border:1px solid var(--g-rule);border-left:5px solid var(--vc)}
+.pv-row .vn{font:600 18px var(--g-display);text-transform:uppercase;color:var(--vc);align-self:center}
+.pv-days{display:flex;gap:3px;flex-wrap:wrap}
+.pv-days button{width:34px;height:38px;border:1px solid var(--g-rule);background:var(--g-surface);cursor:pointer;font:600 12px var(--g-cond);text-transform:uppercase}
+.pv-days button[aria-pressed="true"]{background:var(--vc);border-color:var(--vc);color:var(--g-surface)}
+.pv-sum{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:baseline;font:600 15px var(--g-cond);text-transform:uppercase;letter-spacing:.05em}
+.pv-sum b{font:600 30px var(--g-display);font-variant-numeric:tabular-nums}
+.pv-sum .pv-v{color:var(--vc)}
+.pv-weekbox{overflow-x:auto;border:1px solid var(--g-rule)}
+.pv-week{display:grid;grid-template-columns:repeat(7,minmax(88px,1fr));min-width:640px;background:var(--g-rule);gap:1px}
+.pv-day{background:var(--g-bg);padding:8px;display:flex;flex-direction:column;gap:6px;min-height:120px}
+.pv-day h5{margin:0;font:700 12px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;color:var(--g-muted)}
+.pv-blk{border-left:4px solid var(--vc);background:var(--g-surface);padding:5px 7px;font-size:13px;line-height:1.3}
+.pv-blk b{display:block;font:600 13px var(--g-cond);text-transform:uppercase;letter-spacing:.03em}
+.pv-blk span{color:var(--g-muted);font-variant-numeric:tabular-nums}
+.pv-open{font-size:13px;color:var(--g-muted)}
+#pv_text{white-space:pre-wrap;background:var(--g-bg);border:1px solid var(--g-rule);padding:10px;font-size:14px;margin:0}
+.reps{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));gap:4px}
+.reps button{aspect-ratio:1;max-width:100%;border:1px solid var(--g-rule);background:var(--g-bg);cursor:pointer;font:600 12px var(--g-cond);color:var(--g-muted);padding:0}
+.reps button.d{background:var(--g-good);border-color:var(--g-good);color:var(--g-surface)}
+.reps button.m{background:var(--g-warn-t);border-color:var(--g-warn);color:var(--g-warn)}
+.hb-msg{font-size:16px;margin-top:8px!important;min-height:1.5em}
+@media (max-width:860px){
+  .gm-seats{grid-template-columns:1fr}
+  .pv-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .pv-row .vn,.pv-row .g-fld.nm,.pv-row .pv-dw{grid-column:1/-1}
+}
+@media (max-width:520px){.reps{grid-template-columns:repeat(7,minmax(0,1fr))}}
+</style><script src="theme.js"></script></head><body><style>
+.ehub{background:#090909;color:#FBFAF8;border-bottom:1px solid #2C323C;position:relative;z-index:6}
+.ehub-in{max-width:1120px;margin:0 auto;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));display:flex;justify-content:space-between;align-items:center;gap:10px 16px;flex-wrap:wrap}
+.ehub a{color:inherit;text-decoration:none}
+.ehub-home{display:flex;align-items:center;gap:12px;min-height:36px}
+.ehub-bands{display:flex;width:56px;height:5px;flex:none}.ehub-bands i{flex:1}
+.ehub-bands i:nth-child(1){background:#344982}.ehub-bands i:nth-child(2){background:#2F6F9E}.ehub-bands i:nth-child(3){background:#2CA5B8}.ehub-bands i:nth-child(4){background:#AB5C95}
+.ehub-wm{font:500 14px/1 "Oswald","Arial Narrow",Impact,sans-serif;letter-spacing:.16em}.ehub-wm b{font-weight:700}
+.ehub-sep{font:600 12px/1 "Barlow Semi Condensed","Arial Narrow",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#AEB5C2;border-left:1px solid #3A3F48;padding-left:12px}
+.ehub-home:hover .ehub-sep{color:#FBFAF8}
+.ehub-r{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ehub-btn{font:600 12px/1 "Barlow Semi Condensed","Arial Narrow",sans-serif;letter-spacing:.1em;text-transform:uppercase;border:1px solid #3A3F48;background:none;color:#FBFAF8;padding:9px 12px;cursor:pointer;min-height:36px;display:inline-flex;align-items:center;gap:8px}
+.ehub-btn:hover{border-color:#FBFAF8}
+.ehub-btn[aria-pressed="true"]{background:#2E7D4F;border-color:#2E7D4F}
+.ehub-btn:focus-visible,.ehub a:focus-visible{outline:2px solid #2CA5B8;outline-offset:2px}
+.ehub-next{background:#FBFAF8!important;color:#090909!important;border-color:#FBFAF8}
+@media (max-width:520px){.ehub-sep{display:none}.ehub-next .ehub-nl{display:none}}
+@media print{.ehub{display:none}}
+</style>
+<nav class="ehub" aria-label="Estus Training Hub" style="margin:0"><div class="ehub-in">
+<a class="ehub-home" href="index.html"><span class="ehub-bands" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="ehub-wm"><b>ESTUS</b> HEALTH</span><span class="ehub-sep">&larr; Training Hub</span></a>
+<div class="ehub-r"><button class="ehub-btn" type="button" id="ehub-done" aria-pressed="false">Mark done</button><a class="ehub-btn ehub-next" href="calendar.html"><span class="ehub-nl">Next:</span> Calendar <span aria-hidden="true">&rarr;</span></a></div>
+</div></nav>
+<script>(function(){var K="hub_done",s="gm",b=document.getElementById("ehub-done");function l(){try{return JSON.parse(localStorage.getItem(K))||{}}catch(e){return {}}}function r(){var on=!!l()[s];b.setAttribute("aria-pressed",on);b.textContent=on?"\u2713 Done":"Mark done"}b.addEventListener("click",function(){var v=l();if(v[s])delete v[s];else v[s]=1;try{localStorage.setItem(K,JSON.stringify(v))}catch(e){}r()});r()})();</script>
+<div class="g-root"><header class="g-hero"><div class="g-wrap"><div><p class="g-eyebrow">ACT for clinicians · The director's box</p><h1>Run it like the <em>GM</em></h1><p class="g-lead">In session you're the player. You take the hits and make the plays. GM Mode is stepping up to the box for 60 seconds. You see the whole field, read the scouting report, and call plays from the team's mission, not from the panic.</p><div class="g-meta"><span>ACT, made simple</span><span>Master calendar</span><span>Habits</span></div></div><ol class="g-side"><li style="--h:#D58FC1"><span class="n">1</span><p><b>Step up to the box</b><span class="w">See the whole field</span></p></li><li style="--h:#6FA8D2"><span class="n">2</span><p><b>Read the report</b><span class="w">What story is scouting telling me?</span></p></li><li style="--h:#C9CCD2"><span class="n">3</span><p><b>Check the mission</b><span class="w">What does this team stand for?</span></p></li><li style="--h:#5FC38A"><span class="n">4</span><p><b>Call the play</b><span class="w">One small step, booked in the calendar</span></p></li></ol></div></header>
+<nav class="g-rail" aria-label="Sections"><div class="g-wrap"><a href="#seat">Player or GM</a><a href="#office">Front office</a><a href="#reset">60-second reset</a><a href="#schedule">The schedule</a><a href="#reps">Habits</a><a href="#film">Film review</a><a href="#practice">Practice</a></div></nav>
+
+<section class="g-s" id="seat"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Two seats</p><h2>Player or GM?</h2><p>You're still the clinician. GM Mode is a seat you can step into whenever the week starts running you.</p></div><div class="g-blocks">
+<div class="gm-seats"><div class="gm-seat player"><p class="t">Player seat</p><ul><li>Reacts to every hit as it lands</li><li>Every worry feels like an order</li><li>Says yes to every request</li><li>The calendar fills from the outside in</li><li>Habits run on motivation</li></ul></div><div class="gm-seat gm"><p class="t">GM seat</p><ul><li>Sees the whole season, not just this play</li><li>Worries are reports to read</li><li>Decides from the mission</li><li>The calendar is built from values first</li><li>Habits run on the schedule</li></ul></div></div>
+<div class="g-call g-plum"><strong>This is ACT.</strong> Stepping up to the box is self-as-context: you're the one noticing, not the noise. The rest of the page is the other five skills, given a job in the front office.</div>
+</div></div></section>
+
+<section class="g-s" id="office"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">The six ACT skills</p><h2>Your front office</h2><p>Every department has a job. The GM listens to all of them and lets none of them run the team.</p></div><div class="g-blocks"><div class="g-cards" style="--cols:3">
+<article class="g-card g-blue"><span class="tag">Unhook · Defusion</span><h3>Scouting</h3><p>Threat detection. Its job is to spot danger, so it always finds some.</p><p class="gm-q">“What story are they telling me?”</p></article>
+<article class="g-card g-navy"><span class="tag">Make room · Acceptance</span><h3>Medical staff</h3><p>Your body and feelings. Tight chest, dread, fatigue. Real data, not a reason to sit out.</p><p class="gm-q">“What's on the injury report, and can we play with it?”</p></article>
+<article class="g-card g-teal"><span class="tag">Come back · Present moment</span><h3>Sideline</h3><p>This play, this client, this note. Not last week's loss or next quarter's numbers.</p><p class="gm-q">“What's the next play?”</p></article>
+<article class="g-card g-plum"><span class="tag">Step back · Self-as-context</span><h3>The GM box</h3><p>Up high, glass in front. You see the field and every department at once.</p><p class="gm-q">“What does the whole field look like?”</p></article>
+<article class="g-card g-coal"><span class="tag">Know your why · Values</span><h3>Franchise mission</h3><p>What the team stands for. A direction you keep choosing, not a trophy you win once.</p><p class="gm-q">“What does this team stand for?”</p></article>
+<article class="g-card gm-good"><span class="tag">Take the step · Committed action</span><h3>The schedule</h3><p>Where the mission becomes real. If it matters, it's booked. Then you show up.</p><p class="gm-q">“What's booked, and did we show up?”</p></article>
+</div></div></div></section>
+
+<section class="g-s" id="reset"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Try it</p><h2>The 60-second GM reset</h2><p>Use it when scouting is loud: between clients, at 2am, before a hard email. It opens with an example.</p></div><div class="g-blocks"><div class="g-tool g-blue">
+<div class="gm-steps"><span>1 Step up</span><span>2 Read the report</span><span>3 Check the mission</span><span>4 Call the play</span></div>
+<div class="g-fld"><label for="rs_w">Scouting report: what's the worry?</label><input id="rs_w" value="A clinician is going to resign and the whole thing falls over"></div>
+<div class="g-fld"><label for="rs_s">Name the story in a few words</label><input id="rs_s" value="it all falls over"></div>
+<div class="g-fld"><label for="rs_a">Is there a play this week?</label><select id="rs_a"><option value="y" selected>Yes, there's something I can do</option><option value="n">No, it's noise right now</option></select></div>
+<div class="g-row2"><div class="g-fld"><label for="rs_v">The mission it serves</label><input id="rs_v" value="building a team people want to stay in"></div><div class="g-fld" id="rs_pw"><label for="rs_p">The play</label><input id="rs_p" value="book a 30-minute check-in with each clinician"></div></div>
+<div class="g-fld" id="rs_ww"><label for="rs_when">When, on the master calendar</label><input id="rs_when" value="Tuesday 9am"></div>
+<div class="g-out" id="rs_out"></div>
+<div class="row-btns"><button class="g-btn sm" type="button" data-copy="rs_out">Copy</button><span class="g-msg"></span></div>
+</div></div></div></section>
+
+<section class="g-s" id="schedule"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Values on the calendar</p><h2>The schedule is the strategy</h2><p>The master calendar already puts anchors in first. GM Mode adds the why: every protected block is a value you can see. If it's not on the master calendar, it doesn't exist.</p></div><div class="g-blocks">
+<div class="g-terms" style="--cols:3"><div class="g-coal"><b>Book it like a client</b><span>Same respect, same notice to move it. You wouldn't cancel a client for an email.</span></div><div class="g-teal"><b>Move it, don't delete it</b><span>If a block gets bumped, rebook it the same week.</span></div><div class="g-navy"><b>Rest is a value block</b><span>Recovery protects every other value. Book it first.</span></div></div>
+<div class="g-tool g-coal">
+<p style="font-size:16px">Pick up to three values. Give each one a protected block. It opens with an example week.</p>
+<div id="pv_chips" class="gm-chips"></div>
+<div id="pv_rows" class="pv-rows"></div>
+<div class="pv-sum" id="pv_sum"></div>
+<div class="pv-weekbox"><div class="pv-week" id="pv_week"></div></div>
+<div class="row-btns"><button class="g-btn sm" type="button" id="pv_copy">Copy for the master calendar</button><button class="g-btn sm" type="button" id="pv_reset">Load example</button><span class="g-msg" id="pv_msg"></span></div>
+<pre id="pv_text" hidden></pre>
+</div>
+<div class="g-call warn"><strong>Protected doesn't mean rigid.</strong> For ADHD or PDA profiles, loose blocks and choices often hold better than strict times. Same rules we use with clients on the <a href="calendar.html">Calendar</a> page.</div>
+</div></div></section>
+
+<section class="g-s" id="reps"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Committed action</p><h2>Habits are reps, not moods</h2><p>Committed action means doing the small thing again and again. A habit is what that looks like after enough reps. Four rules.</p></div><div class="g-blocks">
+<div class="g-flow" style="--n:4"><div class="g-node g-teal"><b>Tiny</b><span>Two minutes to start. Small enough to do on a bad day.</span></div><div class="g-node g-blue"><b>Anchored</b><span>After something that already happens. Your transition prompt is the cue.</span></div><div class="g-node g-coal"><b>Booked</b><span>On the master calendar, with a time. Not "sometime".</span></div><div class="g-node gm-good"><b>Reviewed</b><span>Checked every week in film review. Adjust, don't judge.</span></div></div>
+<div class="g-call g-teal"><strong>Never miss twice.</strong> Missing once is normal. The rep after a miss is the one that counts.</div>
+<div class="g-tool gm-good">
+<div class="g-row2"><div class="g-fld"><label for="hb_v">Because I care about</label><input id="hb_v" value="getting better at my craft"></div><div class="g-fld"><label for="hb_h">The habit</label><input id="hb_h" value="a weekly film review"></div></div>
+<div class="g-row2"><div class="g-fld"><label for="hb_t">The tiny version</label><input id="hb_t" value="open the master calendar and look at next week"></div><div class="g-fld"><label for="hb_c">The cue (after...)</label><input id="hb_c" value="my last client on Friday"></div></div>
+<div class="g-fld"><label for="hb_s">Booked on the master calendar</label><input id="hb_s" value="Friday 3:30pm, 15 minutes"></div>
+<div class="g-out" id="hb_out"></div>
+<div><p class="gm-lbl">Rep tracker · tap a day: done, missed, clear</p><div class="reps" id="hb_reps"></div><p class="hb-msg" id="hb_msg" aria-live="polite"></p></div>
+<div class="row-btns"><button class="g-btn sm" type="button" data-copy="hb_out">Copy habit</button><button class="g-btn sm" type="button" id="hb_clear">Clear tracker</button><span class="g-msg"></span></div>
+</div>
+</div></div></section>
+
+<section class="g-s" id="film"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Every Friday</p><h2>Film review</h2><p>Your weekly reset, run as a GM. Fifteen minutes. Look at the tape, not at yourself.</p></div><div class="g-blocks"><div class="g-checks" style="--cols:2">
+<div class="g-check g-coal"><h4>Last week's tape <small data-count></small></h4><div class="g-grp">
+<label class="g-row"><input type="checkbox"><span class="bx"></span><span class="item">Blocks that held</span><span class="dots"></span><span class="resp">Counted</span></label>
+<label class="g-row"><input type="checkbox"><span class="bx"></span><span class="item">Blocks that got bumped</span><span class="dots"></span><span class="resp">By what?</span></label>
+<label class="g-row"><input type="checkbox"><span class="bx"></span><span class="item">Scouting's top story</span><span class="dots"></span><span class="resp">Named</span></label>
+<label class="g-row"><input type="checkbox"><span class="bx"></span><span class="item">Away moves on repeat</span><span class="dots"></span><span class="resp">Spotted</span></label>
+</div><div class="g-checkfoot"><span>Look back</span><button class="g-btn sm" type="button" data-clear>Clear</button></div></div>
+<div class="g-check gm-good"><h4>Next week's game plan <small data-count></small></h4><div class="g-grp">
+<label class="g-row"><input type="checkbox"><span class="bx"></span><span class="item">Value blocks</span><span class="dots"></span><span class="resp">Booked first</span></label>
+<label class="g-row"><input type="checkbox"><span class="bx"></span><span class="item">Bumped blocks</span><span class="dots"></span><span class="resp">Rebooked</span></label>
+<label class="g-row"><input type="checkbox"><span class="bx"></span><span class="item">Habit reps</span><span class="dots"></span><span class="resp">On the calendar</span></label>
+<label class="g-row"><input type="checkbox"><span class="bx"></span><span class="item">One adjustment</span><span class="dots"></span><span class="resp">Made</span></label>
+</div><div class="g-checkfoot"><span>Plan ahead</span><button class="g-btn sm" type="button" data-clear>Clear</button></div></div>
+</div></div></div></section>
+
+<section class="g-s" id="practice"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Active recall</p><h2>Practice</h2></div><div class="g-blocks"><div class="g-quiz g-blue" data-q="[{&quot;s&quot;: &quot;Scouting says: \&quot;You are going to lose your best clinician.\&quot; What does the GM do?&quot;, &quot;o&quot;: [[&quot;Argue with it until the worry goes away.&quot;, 0, &quot;Arguing keeps you in the player seat, taking hits.&quot;], [&quot;Name it: \&quot;That is the losing-people story.\&quot; Then ask if there is a play this week.&quot;, 1, &quot;Read the report, name the story, decide from the mission.&quot;], [&quot;Restructure the whole business tonight.&quot;, 0, &quot;That is scouting running the team.&quot;]]}, {&quot;s&quot;: &quot;Which of these is a protected block built from a value?&quot;, &quot;o&quot;: [[&quot;Whatever time is left after clients.&quot;, 0, &quot;That is the calendar filling from the outside in.&quot;], [&quot;Gym, Monday, Wednesday and Friday at 6am, because health matters.&quot;, 1, &quot;A value, a time, and it is booked.&quot;], [&quot;Train when I feel like it.&quot;, 0, &quot;That runs on mood, not on the schedule.&quot;]]}, {&quot;s&quot;: &quot;A client asks for your protected Wednesday afternoon. What fits GM Mode?&quot;, &quot;o&quot;: [[&quot;Give it up. It is only your time.&quot;, 0, &quot;Your block is a booking too. Treat it like one.&quot;], [&quot;Offer another time, the way you would for any booked slot.&quot;, 1, &quot;Book it like a client: same respect.&quot;], [&quot;Cancel the block for the rest of the month.&quot;, 0, &quot;Move it, don&#x27;t delete it.&quot;]]}, {&quot;s&quot;: &quot;What is the best way to start a new habit?&quot;, &quot;o&quot;: [[&quot;An hour a day, every day, from Monday.&quot;, 0, &quot;Too big to keep on a bad week.&quot;], [&quot;Two minutes, after something that already happens, booked in the calendar.&quot;, 1, &quot;Tiny, anchored, booked.&quot;], [&quot;Wait until motivation shows up.&quot;, 0, &quot;Motivation is weather. The schedule is the climate.&quot;]]}, {&quot;s&quot;: &quot;You missed your film review last week. What now?&quot;, &quot;o&quot;: [[&quot;Drop it. Clearly not your thing.&quot;, 0, &quot;One miss is normal. It is not a verdict.&quot;], [&quot;Never miss twice: do a five-minute version this Friday.&quot;, 1, &quot;The rep after a miss is the one that counts.&quot;], [&quot;Do a double session to make up for it.&quot;, 0, &quot;Making it bigger makes the next miss more likely.&quot;]]}]"><div class="qh"><span class="pos"></span><span class="sc"></span></div><p class="said"></p><div class="opts"></div><div class="fb" hidden></div><div class="qn"><button class="g-btn primary nx" type="button" disabled>Next</button></div></div></div></div></section>
+<!--HUBREL-->
+<section class="g-s" id="more"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Keep going</p><h2>Related</h2></div><div class="g-blocks"><div class="g-rel"><a class="g-blue" href="act.html"><b>ACT</b><span>The six processes</span></a><a class="g-plum" href="act-game.html"><b>Rematch With Fear</b><span>The ACT game and quiz</span></a><a class="g-teal" href="calendar.html"><b>Calendar management</b><span>The master calendar</span></a><a class="g-navy" href="culture.html"><b>Estus Culture</b><span>Lifestyle first</span></a></div></div></div></section>
+<!--/HUBREL-->
+<footer class="g-foot"><div class="g-wrap"><p>GM Mode · ACT for clinicians. A self-management tool, not therapy. Further reading: Russ Harris, <em>ACT Made Simple</em>; James Clear, <em>Atomic Habits</em>.</p></div></footer></div>
+<script>
+(function(){
+  // checklists
+  document.querySelectorAll('.g-check').forEach(function(box){
+    var ins=[].slice.call(box.querySelectorAll('input[type=checkbox]')),c=box.querySelector('[data-count]');
+    function up(){if(c)c.textContent=ins.filter(function(x){return x.checked}).length+' of '+ins.length}
+    ins.forEach(function(i){i.addEventListener('change',up)});
+    var clr=box.querySelector('[data-clear]');if(clr)clr.addEventListener('click',function(){ins.forEach(function(i){i.checked=false});up()});
+    up();
+  });
+  // toggle chips
+  document.querySelectorAll('[data-chips]').forEach(function(g){
+    var multi=g.getAttribute('data-chips')==='multi';
+    g.querySelectorAll('.g-chip').forEach(function(b){b.addEventListener('click',function(){
+      var on=b.getAttribute('aria-pressed')!=='true';
+      if(!multi)g.querySelectorAll('.g-chip').forEach(function(x){x.setAttribute('aria-pressed','false')});
+      b.setAttribute('aria-pressed',on);g.dispatchEvent(new Event('chips'));
+    })});
+  });
+  // quizzes
+  document.querySelectorAll('.g-quiz').forEach(function(el){
+    var Q=JSON.parse(el.getAttribute('data-q')),qi=0,score=0;
+    var pos=el.querySelector('.pos'),sc=el.querySelector('.sc'),said=el.querySelector('.said'),opts=el.querySelector('.opts'),fb=el.querySelector('.fb'),nx=el.querySelector('.nx');
+    function show(){
+      var q=Q[qi];pos.textContent=(qi+1)+' of '+Q.length;sc.textContent='Score '+score;said.textContent=q.s;fb.hidden=true;nx.disabled=true;
+      nx.textContent=qi===Q.length-1?'See score':'Next';opts.innerHTML='';
+      q.o.forEach(function(o){var b=document.createElement('button');b.type='button';b.textContent=o[0];
+        b.addEventListener('click',function(){
+          opts.querySelectorAll('button').forEach(function(x,i){x.disabled=true;if(q.o[i][1])x.classList.add('right')});
+          if(o[1])score++;else b.classList.add('wrong');sc.textContent='Score '+score;
+          fb.innerHTML='';var t=document.createElement('b');t.textContent=o[1]?(q.ok||'Nice.'):'Not quite.';fb.appendChild(t);fb.appendChild(document.createTextNode(o[2]));fb.hidden=false;nx.disabled=false;nx.focus();
+        });opts.appendChild(b);});
+    }
+    nx.addEventListener('click',function(){
+      if(nx.dataset.done){delete nx.dataset.done;qi=0;score=0;show();return}
+      if(qi<Q.length-1){qi++;show();return}
+      said.textContent='You scored '+score+' of '+Q.length+'.';opts.innerHTML='';
+      fb.innerHTML='<b>Lock it in.</b>Run the ones you missed out loud with a colleague, three clean reps each.';fb.hidden=false;pos.textContent='Done';nx.textContent='Start again';nx.dataset.done=1;
+    });
+    show();
+  });
+  // copy buttons
+  document.querySelectorAll('[data-copy]').forEach(function(b){b.addEventListener('click',function(){
+    var src=document.getElementById(b.getAttribute('data-copy')),t=src.value!==undefined?src.value:src.innerText,m=b.parentNode.querySelector('.g-msg');
+    function ok(){if(m){m.textContent='Copied';setTimeout(function(){m.textContent=''},2500)}}
+    function fail(){if(src.select){src.focus();src.select()}if(m)m.textContent='Selected. Copy with your keyboard.'}
+    try{navigator.clipboard.writeText(t).then(ok,fail)}catch(e){fail()}
+  })});
+})();
+</script><script>(function(){
+"use strict";
+function $(id){return document.getElementById(id)}
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function load(k,d){try{var v=JSON.parse(localStorage.getItem(k));return v==null?d:v}catch(e){return d}}
+function save(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+function trim(s){return s.trim().replace(/[.!]+$/,"")}
+
+/* ---------- 60-second reset ---------- */
+function reset(){
+  var w=trim($("rs_w").value)||"...",s=trim($("rs_s").value).replace(/^["“']|["”']$/g,"")||"worry",yes=$("rs_a").value==="y";
+  var v=trim($("rs_v").value)||"what matters",p=trim($("rs_p").value),when=trim($("rs_when").value);
+  $("rs_pw").hidden=!yes;$("rs_ww").hidden=!yes;
+  var h='<b>The GM call</b>Scouting reports: “'+esc(w)+'.”<br>That\'s the “'+esc(s)+'” story. Report noted.<br>';
+  h+= yes ? 'Mission: '+esc(v)+'.<br>The play: '+esc(p||"one small step")+(when?', '+esc(when):'')+'. It goes on the master calendar now.'
+          : 'No play this week. Thank scouting, and back to the next play on the field.';
+  $("rs_out").innerHTML=h;
+}
+["rs_w","rs_s","rs_a","rs_v","rs_p","rs_when"].forEach(function(id){$(id).addEventListener("input",reset);$(id).addEventListener("change",reset)});
+reset();
+
+/* ---------- values to protected blocks ---------- */
+var VALS=["Health","Family","Rest","Partner","Friends","Learning","Craft","Creativity","Fun","Community","Adventure","Faith"];
+var COLS=["var(--g-navy)","var(--g-teal)","var(--g-plum)"];
+var DAYS=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+var MINS=[15,30,45,60,90,120,180,240];
+function example(){return [
+  {v:"Health",name:"Gym",days:[0,2,4],start:"06:00",mins:60},
+  {v:"Family",name:"Dinner, phones away",days:[0,1,2,3],start:"18:00",mins:60},
+  {v:"Rest",name:"Lunch away from the screen",days:[0,1,2,3,4],start:"12:30",mins:45}]}
+var PV=load("gm_values",null);if(!Array.isArray(PV))PV=example();
+
+function fmt(t){var a=(t||"00:00").split(":"),h=+a[0],m=+a[1],ap=h>=12?"pm":"am";h=h%12||12;return h+(m?":"+(m<10?"0":"")+m:"")+ap}
+function hrs(x){return Math.round(x*10)/10}
+function col(i){return COLS[i%COLS.length]}
+
+function chips(){
+  $("pv_chips").innerHTML=VALS.map(function(v){var on=PV.some(function(b){return b.v===v});
+    return '<button class="g-chip g-coal" type="button" aria-pressed="'+on+'" data-v="'+v+'">'+v+'</button>'}).join("");
+  Array.prototype.forEach.call($("pv_chips").querySelectorAll("button"),function(b){b.addEventListener("click",function(){
+    var v=b.dataset.v,i=PV.findIndex(function(x){return x.v===v});
+    if(i>-1)PV.splice(i,1);
+    else{if(PV.length>=3){$("pv_msg").textContent="Three is plenty. Drop one first.";return}PV.push({v:v,name:"",days:[],start:"07:00",mins:30})}
+    $("pv_msg").textContent="";save("gm_values",PV);chips();rows();draw();
+  })});
+}
+function rows(){
+  $("pv_rows").innerHTML=PV.length?PV.map(function(b,i){
+    return '<div class="pv-row" style="--vc:'+col(i)+'"><span class="vn">'+esc(b.v)+'</span>'+
+    '<div class="g-fld nm"><label for="pv_n'+i+'">Protected block</label><input id="pv_n'+i+'" data-i="'+i+'" data-k="name" placeholder="e.g. Gym" value="'+esc(b.name)+'"></div>'+
+    '<div class="g-fld pv-dw"><label>Days</label><div class="pv-days">'+DAYS.map(function(d,j){return '<button type="button" data-i="'+i+'" data-d="'+j+'" aria-pressed="'+(b.days.indexOf(j)>-1)+'" aria-label="'+d+'">'+d.charAt(0)+'</button>'}).join("")+'</div></div>'+
+    '<div class="g-fld"><label for="pv_t'+i+'">Start</label><input type="time" id="pv_t'+i+'" data-i="'+i+'" data-k="start" value="'+esc(b.start)+'"></div>'+
+    '<div class="g-fld"><label for="pv_m'+i+'">Length</label><select id="pv_m'+i+'" data-i="'+i+'" data-k="mins">'+MINS.map(function(m){return '<option value="'+m+'"'+(m===b.mins?" selected":"")+'>'+(m<60?m+" min":hrs(m/60)+" h")+'</option>'}).join("")+'</select></div></div>'
+  }).join(""):'<p class="pv-open">Pick a value above to give it a protected block.</p>';
+  Array.prototype.forEach.call($("pv_rows").querySelectorAll("[data-k]"),function(el){
+    function up(){var b=PV[+el.dataset.i];b[el.dataset.k]=el.dataset.k==="mins"?+el.value:el.value;save("gm_values",PV);draw()}
+    el.addEventListener("input",up);el.addEventListener("change",up)});
+  Array.prototype.forEach.call($("pv_rows").querySelectorAll("[data-d]"),function(btn){btn.addEventListener("click",function(){
+    var b=PV[+btn.dataset.i],d=+btn.dataset.d,k=b.days.indexOf(d);
+    if(k>-1)b.days.splice(k,1);else{b.days.push(d);b.days.sort()}
+    btn.setAttribute("aria-pressed",String(k===-1));save("gm_values",PV);draw()})});
+}
+function draw(){
+  var tot=0;
+  var parts=PV.map(function(b,i){var h=b.days.length*b.mins/60;tot+=h;return '<span class="pv-v" style="--vc:'+col(i)+'">'+esc(b.v)+' '+hrs(h)+'h</span>'});
+  $("pv_sum").innerHTML='<span><b>'+hrs(tot)+'</b> hours a week protected</span>'+parts.join("");
+  $("pv_week").innerHTML=DAYS.map(function(d,j){
+    var list=[];PV.forEach(function(b,i){if(b.days.indexOf(j)>-1)list.push({b:b,i:i})});
+    list.sort(function(a,c){return a.b.start<c.b.start?-1:1});
+    return '<div class="pv-day"><h5>'+d+'</h5>'+(list.length?list.map(function(x){
+      return '<div class="pv-blk" style="--vc:'+col(x.i)+'"><b>'+esc(x.b.name||x.b.v)+'</b><span>'+fmt(x.b.start)+' · '+(x.b.mins<60?x.b.mins+"m":hrs(x.b.mins/60)+"h")+'</span></div>'}).join(""):'<span class="pv-open">Open</span>')+'</div>'
+  }).join("");
+}
+function asText(){
+  return "MASTER CALENDAR: PROTECTED BLOCKS\n"+PV.map(function(b){
+    return b.v+": "+(b.name||"(name it)")+" | "+(b.days.length?b.days.map(function(d){return DAYS[d]}).join(", "):"(pick days)")+" | "+fmt(b.start)+" | "+b.mins+" min"}).join("\n");
+}
+$("pv_copy").addEventListener("click",function(){
+  var t=asText(),pre=$("pv_text");
+  function ok(){pre.hidden=true;$("pv_msg").textContent="Copied"}
+  function fb(){pre.textContent=t;pre.hidden=false;var r=document.createRange();r.selectNodeContents(pre);var s=getSelection();s.removeAllRanges();s.addRange(r);$("pv_msg").textContent="Selected. Copy it with your keyboard."}
+  try{navigator.clipboard.writeText(t).then(ok,fb)}catch(e){fb()}
+});
+$("pv_reset").addEventListener("click",function(){PV=example();save("gm_values",PV);$("pv_msg").textContent="";chips();rows();draw()});
+chips();rows();draw();
+
+/* ---------- habit builder ---------- */
+function habit(){
+  var v=trim($("hb_v").value),h=trim($("hb_h").value),t=trim($("hb_t").value),c=trim($("hb_c").value),s=trim($("hb_s").value);
+  $("hb_out").innerHTML='<b>The habit</b>After '+esc(c||"...")+', I\'ll '+esc(t||"...")+'.<br>Booked: '+esc(s||"pick a time")+'.<br>Building toward '+esc(h||"the habit")+', because I care about '+esc(v||"what matters")+'.';
+}
+["hb_v","hb_h","hb_t","hb_c","hb_s"].forEach(function(id){$(id).addEventListener("input",habit)});habit();
+
+var R=load("gm_reps",null);if(!Array.isArray(R)||R.length!==14)R=[1,1,0,0,0,0,0,0,0,0,0,0,0,0];
+function reps(){
+  $("hb_reps").innerHTML=R.map(function(x,i){
+    return '<button type="button" data-i="'+i+'" class="'+(x===1?"d":x===2?"m":"")+'" aria-label="Day '+(i+1)+': '+(x===1?"done":x===2?"missed":"not marked")+'">'+(i+1)+'</button>'}).join("");
+  Array.prototype.forEach.call($("hb_reps").querySelectorAll("button"),function(b){b.addEventListener("click",function(){var i=+b.dataset.i;R[i]=(R[i]+1)%3;save("gm_reps",R);reps()})});
+  var done=R.filter(function(x){return x===1}).length,last=-1;
+  for(var i=R.length-1;i>=0;i--){if(R[i]){last=i;break}}
+  var m;
+  if(last<0)m="Tap a day after you do the rep.";
+  else if(R[last]===2&&last>0&&R[last-1]===2)m="Missed twice. No drama. Make the tiny version even smaller, and go again.";
+  else if(R[last]===2)m="Missed one. Never miss twice: the next rep is the one that counts.";
+  else m=done+(done===1?" rep":" reps")+" done. That's committed action.";
+  $("hb_msg").textContent=m;
+}
+$("hb_clear").addEventListener("click",function(){R=R.map(function(){return 0});save("gm_reps",R);reps()});
+reps();
+})();
+</script></body></html>
