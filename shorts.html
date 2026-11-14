@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shorts Prompt Maker · Estus Training Hub</title>
+<meta name="robots" content="noindex, nofollow">
+<script src="theme.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:wght@400;500;600&family=Barlow+Semi+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style id="appstyle">
+:root{
+  /* Layout: builder controls on the left, sticky prompt on the right; stacked with a bottom copy bar on phones. */
+  --bg:#F3F2EF;--surface:#FBFAF8;--sunk:#ECEAE6;--ink:#0E1014;--muted:#65676E;--line:#D3D1CC;
+  --accent:#344982;--accent-ink:#FBFAF8;--hi:#F1E1EC;--hi-ink:#5E2A4F;--danger:#B23A3A;--ok:#2E7D4F;
+  --display:"Oswald","Arial Narrow",Impact,sans-serif;
+  --body:"Barlow","Segoe UI",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --r:10px;color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0F1216;--surface:#161A20;--sunk:#1D222A;--ink:#ECEEF1;--muted:#9BA1AB;--line:#2C323C;
+  --accent:#8299DA;--accent-ink:#0F1216;--hi:#33202E;--hi-ink:#F0C6E3;--danger:#EC7B7B;--ok:#5FC38A;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1216;--surface:#161A20;--sunk:#1D222A;--ink:#ECEEF1;--muted:#9BA1AB;--line:#2C323C;
+  --accent:#8299DA;--accent-ink:#0F1216;--hi:#33202E;--hi-ink:#F0C6E3;--danger:#EC7B7B;--ok:#5FC38A;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 var(--body);-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3{font-family:var(--display);line-height:1.15;text-wrap:balance;margin:0}
+.wrap{max-width:1240px;margin:0 auto;padding:0 16px}
+.vh{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.top{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+.top-in{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;padding-top:12px}
+.mark{display:flex;align-items:center;gap:12px;flex:1 1 auto;min-width:0;color:var(--ink)}
+.mark svg{flex:none}
+h1{font-size:20px;font-weight:800;letter-spacing:-.01em}
+.tag{font-size:13px;color:var(--muted);margin:0}
+.status{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.status.shared::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--ok);margin-right:6px;vertical-align:1px}
+.tabs{display:flex;gap:2px;overflow-x:auto;width:100%}
+.tabs a{padding:10px 12px;color:var(--muted);text-decoration:none;font-weight:600;font-size:14px;border-bottom:3px solid transparent;white-space:nowrap}
+.tabs a:hover{color:var(--ink)}
+.tabs a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--accent)}
+.cnt{font:500 11px var(--mono);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:1px 6px;margin-left:4px;font-variant-numeric:tabular-nums}
+main{padding:20px 16px 120px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:8px 14px;font-weight:600;font-size:14px;line-height:1.2;color:var(--ink);text-decoration:none;cursor:pointer}
+.btn:hover{border-color:var(--muted)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.ghost{background:transparent}
+.btn.danger{color:var(--danger);border-color:currentColor;background:transparent}
+.btn:disabled{opacity:.45;cursor:default}
+.btn[aria-pressed="true"]{background:var(--hi);color:var(--hi-ink);border-color:var(--hi-ink)}
+.icon{border:1px solid var(--line);background:var(--surface);border-radius:6px;width:30px;height:30px;display:inline-grid;place-items:center;font-size:15px;padding:0;cursor:pointer;color:var(--ink)}
+.icon:disabled{opacity:.35;cursor:default}
+
+label.f{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
+input:not([type=file]):not([type=checkbox]),select,textarea{width:100%;border:1px solid var(--line);background:var(--sunk);border-radius:8px;padding:8px 10px;font-size:15px;font-weight:400;color:var(--ink)}
+textarea{resize:vertical;line-height:1.45}
+
+.build{display:grid;gap:20px}
+.controls{display:grid;gap:16px;min-width:0}
+.sec{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:grid;gap:18px;min-width:0}
+.sec>*,.group{min-width:0}
+.sec-h{display:flex;align-items:baseline;gap:10px;border-bottom:1px solid var(--line);padding-bottom:10px}
+.sec-h .n{font:500 12px var(--mono);color:var(--accent)}
+.sec-h h2{font-size:17px;font-weight:700}
+.g-title{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:8px;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.hint{text-transform:none;letter-spacing:0;font-weight:400}
+.g-title a{margin-left:auto;text-transform:none;letter-spacing:0;color:var(--accent);font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:var(--sunk);border-radius:999px;padding:6px 12px;font-size:14px;cursor:pointer;line-height:1.3;color:var(--ink)}
+.chip:hover{border-color:var(--muted)}
+.chip[aria-pressed="true"]{background:var(--hi);color:var(--hi-ink);border-color:var(--hi-ink);font-weight:600}
+.g-detail{margin:8px 0 0;font-size:13px;color:var(--muted);max-width:68ch;white-space:pre-line}
+.g-detail:empty{display:none}
+
+.out{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);display:flex;flex-direction:column;min-width:0}
+.out-h{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line)}
+.out-h h2{font-size:17px}
+.wc{margin-left:auto;font:12px var(--mono);color:var(--muted);font-variant-numeric:tabular-nums}
+#prompt{margin:0;padding:16px;font:13px/1.6 var(--mono);white-space:pre-wrap;word-break:break-word;overflow:auto;flex:1;background:var(--sunk);min-height:200px}
+.out-a{display:flex;flex-wrap:wrap;gap:8px;padding:12px 16px;border-top:1px solid var(--line)}
+.mobilebar{position:fixed;left:0;right:0;bottom:0;display:flex;gap:8px;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:var(--surface);border-top:1px solid var(--line);z-index:15}
+.mobilebar .btn{flex:1}
+@media (min-width:980px){
+  .build{grid-template-columns:minmax(0,1fr) 440px;align-items:start}
+  .out{position:sticky;top:112px;max-height:calc(100vh - 130px)}
+  .mobilebar{display:none}
+}
+
+.strip{display:grid;grid-auto-flow:column;grid-auto-columns:96px;gap:8px;overflow-x:auto;padding:2px 2px 8px}
+.sthumb{position:relative;border:2px solid transparent;border-radius:10px;padding:2px;background:none;text-align:left;display:grid;gap:4px;align-content:start;cursor:pointer;color:var(--ink)}
+.sthumb:hover{border-color:var(--line)}
+.sthumb[aria-pressed="true"]{border-color:#AB5C95}
+.slabel{font-size:12px;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;padding:0 2px 2px}
+.badge{position:absolute;top:8px;left:8px;background:#AB5C95;color:#fff;font:600 12px/1 var(--mono);border-radius:999px;min-width:22px;height:22px;display:grid;place-items:center;z-index:2;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.th{position:relative;display:block;aspect-ratio:9/16;border-radius:8px;overflow:hidden;background:var(--sunk);border:1px solid var(--line)}
+.th img{width:100%;height:100%;object-fit:cover;display:block}
+.ph{background:linear-gradient(165deg,hsl(var(--h) 40% 62%),hsl(calc(var(--h) + 35) 45% 32%));color:#fff;border-color:transparent}
+.phl{position:absolute;left:8px;bottom:8px;right:8px;font:700 11px/1.2 var(--display);text-transform:uppercase;letter-spacing:.05em}
+.ex{position:absolute;top:6px;right:6px;font-size:10px;font-weight:600;background:rgba(0,0,0,.55);color:#fff;padding:2px 6px;border-radius:4px}
+.th.mini{width:34px;flex:none;border-radius:5px}
+.th.mini .ex,.th.mini .phl{display:none}
+.picked{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:6px}
+.picked li{display:flex;align-items:center;gap:10px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--sunk)}
+.num{font:600 12px var(--mono);min-width:18px;text-align:center;color:var(--muted)}
+.pname{flex:1;min-width:0;font-size:14px;line-height:1.3}
+.pbtns{display:flex;gap:4px}
+.empty{font-size:13px;color:var(--muted);margin:8px 0 0}
+.startbar{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 16px}
+
+.page-h{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;margin-bottom:16px}
+.page-h h2{font-size:26px;font-weight:800;letter-spacing:-.01em}
+.page-h p{margin:0;color:var(--muted);font-size:14px;flex-basis:100%;max-width:68ch;order:3}
+.page-h .btn{margin-left:auto}
+.filters{display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:16px}
+@media (min-width:640px){.filters{grid-template-columns:2fr 1fr 1fr 1fr}}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column}
+.card-media{border:0;padding:0;background:none;display:block;cursor:pointer;width:100%}
+.card-media .th{border-radius:0;border:0;aspect-ratio:4/5}
+.card-b{padding:10px 12px;display:grid;gap:6px;flex:1;align-content:start}
+.card h3{font:600 14px/1.3 var(--body)}
+.meta{font-size:12px;color:var(--muted);margin:0}
+.tags{display:flex;flex-wrap:wrap;gap:4px}
+.tags span{font-size:11px;background:var(--sunk);border:1px solid var(--line);border-radius:4px;padding:1px 6px;color:var(--muted)}
+.card-a{display:flex;flex-wrap:wrap;gap:6px;padding:0 12px 12px}
+.card-a .btn{flex:1 1 auto;padding:6px 8px;font-size:13px;white-space:nowrap}
+
+.rec-list{display:grid;gap:10px}
+.rec{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:var(--r);padding:14px 16px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.rec>div:first-child{flex:1 1 260px;min-width:0;display:grid;gap:4px}
+.rec h3{font-size:16px}
+.rec-btns{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;margin-bottom:10px}
+.panel summary{cursor:pointer;font:700 16px var(--display);display:flex;gap:10px;align-items:baseline}
+.panel summary span{font:400 13px var(--body);color:var(--muted)}
+.panel h3{font-size:16px;margin-bottom:4px}
+.sub{margin:0 0 10px;font-size:13px;color:var(--muted);max-width:68ch}
+.rows{display:grid;gap:8px;margin:12px 0}
+.lrow{display:grid;grid-template-columns:1fr auto;gap:6px;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--sunk)}
+.lrow textarea{grid-column:1/-1}
+@media (min-width:760px){.lrow{grid-template-columns:220px 1fr auto;align-items:start}.lrow textarea{grid-column:auto}}
+.lrow input,.lrow textarea{background:var(--surface)}
+.row-btns{display:flex;gap:8px;flex-wrap:wrap}
+.savebar{position:fixed;left:0;right:0;bottom:0;background:var(--ink);color:var(--bg);display:none;align-items:center;gap:12px;padding:12px 16px calc(12px + env(safe-area-inset-bottom));z-index:25}
+.savebar.show{display:flex}
+.savebar span{flex:1}
+
+.overlay{position:fixed;inset:0;background:rgba(8,12,16,.6);z-index:50;display:grid;place-items:center;padding:16px;overflow:auto}
+.modal{background:var(--surface);color:var(--ink);border-radius:14px;width:min(640px,100%);padding:18px;display:grid;gap:14px;border:1px solid var(--line)}
+.modal h2{font-size:20px}
+.drop{display:flex;gap:14px;align-items:center;border:2px dashed var(--line);border-radius:10px;padding:12px}
+.drop.over{border-color:var(--accent)}
+.drop-prev{width:84px;flex:none}
+.drop-text{display:grid;gap:6px;font-size:13px;color:var(--muted)}
+.drop-text strong{color:var(--ink);font-size:14px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.form-grid .wide{grid-column:1/-1}
+@media (max-width:520px){.form-grid{grid-template-columns:1fr}}
+.err{color:var(--danger);font-size:13px;margin:0}
+.err:empty{display:none}
+.modal-a{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.grow{flex:1}
+.json{font:12px/1.5 var(--mono);min-height:240px}
+.toast{position:fixed;left:50%;bottom:84px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;font-size:14px;z-index:60;max-width:calc(100% - 32px);box-shadow:0 4px 18px rgba(0,0,0,.25)}
+@media (prefers-reduced-motion:no-preference){.chip,.btn,.sthumb{transition:background-color .12s,border-color .12s}}
+.pills{display:flex;gap:6px;flex-wrap:wrap}
+.pill{display:inline-block;font-size:11px;font-weight:600;border-radius:999px;padding:2px 8px;border:1px solid currentColor;line-height:1.4}
+.pill.ok{color:var(--ok)}
+.pill.warn{color:var(--danger)}
+.chips.sm .chip{padding:4px 10px;font-size:13px}
+.fname{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:var(--sunk);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.fname code{font:13px var(--mono);word-break:break-all;flex:1;min-width:0}
+.guide{display:grid;gap:12px;max-width:920px}
+.guide .panel{margin:0}
+.steps{margin:0;padding-left:22px;display:grid;gap:12px;max-width:72ch}
+.steps b{display:block}
+.steps code,.sub code{font:12px var(--mono);background:var(--sunk);padding:1px 5px;border-radius:4px}
+.tax{width:100%;border-collapse:collapse;font-size:14px}
+.tax th,.tax td{text-align:left;padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
+.tax th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600}
+.tax td:first-child{white-space:nowrap}
+.tax code{font:12px var(--mono);background:var(--sunk);padding:1px 5px;border-radius:4px}
+.tblwrap{overflow-x:auto}
+.req{color:var(--danger);text-transform:none;letter-spacing:0;font-weight:600}
+.missing{font-size:12px;color:var(--danger);margin:0}
+.qrow{display:flex;gap:10px;align-items:center;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--sunk)}
+.qrow .pname{display:grid;gap:2px}
+.modal .g-title{margin-bottom:6px}
+
+.ehub{background:#090909;color:#FBFAF8;border-bottom:1px solid #2C323C;position:relative;z-index:21;padding-top:env(safe-area-inset-top,0px)}
+.ehub-in{max-width:1240px;margin:0 auto;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;gap:10px 16px;flex-wrap:wrap}
+.ehub a{color:inherit;text-decoration:none}
+.ehub-home{display:flex;align-items:center;gap:12px;min-height:36px}
+.ehub-bands{display:flex;width:56px;height:5px;flex:none}.ehub-bands i{flex:1}
+.ehub-bands i:nth-child(1){background:#344982}.ehub-bands i:nth-child(2){background:#2F6F9E}.ehub-bands i:nth-child(3){background:#2CA5B8}.ehub-bands i:nth-child(4){background:#AB5C95}
+.ehub-wm{font:500 14px/1 var(--display);letter-spacing:.16em}.ehub-wm b{font-weight:700}
+.ehub-sep{font:600 12px/1 "Barlow Semi Condensed","Arial Narrow",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#AEB5C2;border-left:1px solid #3A3F48;padding-left:12px}
+.ehub-home:hover .ehub-sep{color:#FBFAF8}
+.ehub-r{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ehub-btn{font:600 12px/1 "Barlow Semi Condensed","Arial Narrow",sans-serif;letter-spacing:.1em;text-transform:uppercase;border:1px solid #3A3F48;background:none;color:#FBFAF8;padding:9px 12px;cursor:pointer;min-height:36px;display:inline-flex;align-items:center;gap:8px}
+.ehub-btn:hover{border-color:#FBFAF8}
+.ehub-btn[aria-pressed="true"]{background:#2E7D4F;border-color:#2E7D4F}
+@media (max-width:520px){.ehub-sep{display:none}}
+</style>
+</head>
+<body>
+<nav class="ehub" aria-label="Estus Training Hub"><div class="ehub-in">
+<a class="ehub-home" href="index.html"><span class="ehub-bands" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="ehub-wm"><b>ESTUS</b> HEALTH</span><span class="ehub-sep">&larr; Training Hub</span></a>
+<div class="ehub-r"><button class="ehub-btn" type="button" id="ehub-done" aria-pressed="false">Mark done</button></div>
+</div></nav>
+<div id="app"></div>
+<script>(function(){var K="hub_done",s="shortsmaker",b=document.getElementById("ehub-done");function ld(){try{return JSON.parse(localStorage.getItem(K))||{}}catch(e){return {}}}function sv(v){try{localStorage.setItem(K,JSON.stringify(v))}catch(e){}}function r(){var on=!!ld()[s];b.setAttribute("aria-pressed",on);b.textContent=on?"\u2713 Done":"Mark done"}b.addEventListener("click",function(){var v=ld();if(v[s])delete v[s];else v[s]=1;sv(v);r()});r()})();</script>
+<script type="application/json" id="state">{"version":1,"savedAt":1794632929774,"groups":{"brand":[{"id":"estus","label":"Estus Health","detail":"a neuroaffirming occupational therapy practice based in Perth, offering telehealth Australia-wide to NDIS (plan-managed and self-managed) and private-paying clients. Instagram: @estushealth. Website: www.estushealth.com."},{"id":"dots","label":"Driving on the Spectrum","detail":"the Estus Health driving OT service in WA for autistic and ADHD young people aged about 17 to 25, offering Potential to Drive and Medical Fitness to Drive assessments."},{"id":"plp","label":"Performance Lab: Protocols","detail":"a clinician-facing brand from Liam Fagan with a podcast, newsletter and community of practice for OTs and allied health clinicians."},{"id":"sots","label":"Study on the Spectrum","detail":"study and school support from Estus Health for stressed parents of neurodivergent kids of all ages: study spaces, routines, handwriting, posture and getting started."}],"format":[{"id":"mustbenice","label":"Must be nice series","detail":"Inversion format. Open on a \"Must be nice\" line about something that looks effortless for other families, reveal the hidden skill underneath it, then give one practical Small Hinges step."},{"id":"talking","label":"Talking head + B-roll","detail":"Liam Fagan to camera, cutting to B-roll every few seconds so each point has a picture."},{"id":"faceless","label":"Faceless B-roll + voiceover","detail":"No one on camera. B-roll carries the visuals while a voiceover carries the message."},{"id":"clip","label":"Podcast or webinar clip","detail":"A 60 to 120 second cut from a longer recording, reframed with a new hook, captions and B-roll cutaways."},{"id":"myth","label":"Myth vs fact","detail":"State a common belief, correct it with what OT actually sees, then give one thing to try instead."},{"id":"steps","label":"Three-step how-to","detail":"Teach one small thing completely in three steps a parent could try tonight."},{"id":"pov","label":"POV / day in the life","detail":"A first-person look at one moment in the day, shot as if through the viewer's eyes."},{"id":"textonly","label":"On-screen text story","detail":"No voice. Short text blocks over B-roll tell the story and read fine with the sound off."},{"id":"reply","label":"Reply to a comment","detail":"Answers a common question plainly. Paraphrase the question so no one is identifiable."},{"id":"ad","label":"Direct-response video ad","detail":"Built for Meta ads: the problem in the first 2 seconds, the shift, the offer, one clear action."}],"purpose":[{"id":"awareness","label":"Awareness and reach","detail":"Optimise for shares, sends and saves. Soft or no CTA."},{"id":"leads","label":"Leads (Meta lead form)","detail":"Drive lead form fills. Name one specific pain, show the way through, then one clear action."},{"id":"referrers","label":"Referral partners","detail":"Speak to support coordinators and plan managers: what we do, who it suits and how easy referring is."},{"id":"webinar","label":"Webinar sign-ups","detail":"Sell the one thing they will walk away with, plus the date and how to register."},{"id":"recruit","label":"Recruitment (Estus Accelerator)","detail":"Show what it is like to grow as an OT at Estus: mentoring, pathways and culture. Speak to students and early-career OTs."},{"id":"community","label":"Community and retention","detail":"For current families: the Minecraft server, Discord and Estus culture. Warm, inside-the-tent tone."},{"id":"gp","label":"GP education","detail":"Help GPs know when to refer for a driving assessment. Clinical, brief and respectful of their time."},{"id":"authority","label":"Authority with clinicians","detail":"Share a clinical idea or framework other clinicians will save and discuss."}],"audience":[{"id":"p-autism","label":"Parents of autistic kids and teens","detail":""},{"id":"p-adhd","label":"Parents of ADHD kids","detail":""},{"id":"adults","label":"Late-diagnosed adults and professionals","detail":""},{"id":"young","label":"Autistic and ADHD young people 17 to 25","detail":""},{"id":"coords","label":"Support coordinators and plan managers","detail":""},{"id":"gps","label":"GPs","detail":""},{"id":"students","label":"OT students and early-career OTs","detail":""},{"id":"clinicians","label":"Allied health clinicians","detail":""}],"topic":[{"id":"sleep","label":"Sleep Architecture","detail":"Small Hinges: wind-down, the sleep environment and the hour before bed."},{"id":"morning","label":"Morning Architecture","detail":"Small Hinges: getting up and out the door with less friction."},{"id":"energy","label":"Energy Management","detail":"Small Hinges: spotting and pacing energy across the day."},{"id":"load","label":"Cognitive Load Reduction","detail":"Small Hinges: cutting the number of decisions and steps in daily tasks."},{"id":"transitions","label":"Transition Scaffolding","detail":"Small Hinges: moving between activities, especially off screens."},{"id":"shutdown","label":"Shutdown Ritual","detail":"Small Hinges: closing the day and recovering after school or work."},{"id":"gaming","label":"Gaming-informed therapy","detail":"Using Minecraft and games as a real therapy context for social skills, regulation and participation."},{"id":"driving","label":"Learning to drive","detail":"Readiness, anxiety and the path to a licence for neurodivergent young people."},{"id":"study","label":"Study and homework","detail":"Study spaces, routines and getting started on schoolwork."},{"id":"custom","label":"My own topic","detail":"Use the topic specifics below."}],"platform":[{"id":"reel","label":"Instagram Reel","detail":"9:16 at 1080x1920. Keep text in the centre safe zone, clear of the bottom fifth and the right-hand buttons."},{"id":"tiktok","label":"TikTok","detail":"9:16 at 1080x1920. Keep text clear of the bottom caption area and the right-hand buttons."},{"id":"shorts","label":"YouTube Shorts","detail":"9:16 at 1080x1920. Write a searchable title as well."},{"id":"feed45","label":"Meta feed ad 4:5","detail":"1080x1350. Must work muted, and the first frame does the work."},{"id":"story","label":"Instagram Story","detail":"9:16 in 15-second segments, with a sticker or link step."}],"length":[{"id":"l15","label":"15 sec","detail":""},{"id":"l30","label":"30 sec","detail":""},{"id":"l45","label":"45 sec","detail":""},{"id":"l60","label":"60 sec","detail":""},{"id":"l90","label":"90 sec","detail":""},{"id":"l120","label":"2 min","detail":""}],"hook":[{"id":"mbn","label":"Must be nice","detail":"An inversion line such as \"Must be nice when your kid just gets dressed and leaves.\" Written as one complete sentence."},{"id":"parents","label":"Parents often say","detail":"Starts with \"Parents often say...\" inside the same sentence, at full hook size."},{"id":"question","label":"Direct question","detail":"A question the viewer answers yes to in their head."},{"id":"contrarian","label":"Contrarian","detail":"Flips common advice, e.g. \"Most morning routines fail because they start the night before.\""},{"id":"number","label":"Specific number","detail":"Leads with a concrete number or time, e.g. \"Three minutes is all this takes.\""},{"id":"mistake","label":"Mistake callout","detail":"Names a common mistake kindly, without blaming the parent."},{"id":"pov","label":"POV","detail":"Starts with \"POV:\" and drops the viewer into a familiar moment."}],"captions":[{"id":"karaoke","label":"Word-by-word highlight","detail":"Each spoken word highlights as it is said, 1 to 3 words on screen at a time."},{"id":"phrase","label":"Phrase blocks","detail":"2 to 4 word blocks, one at a time, timed to speech."},{"id":"full","label":"Full-line subtitles","detail":"One line of subtitles at a time, about 32 characters max."},{"id":"keywords","label":"Keywords only","detail":"Only the key words pop on screen; the rest is voice."},{"id":"none","label":"No captions, text cards","detail":"No running captions; short text cards between shots."}],"textstyle":[{"id":"brand","label":"Estus brand style","detail":"Use the current Estus brand colours and type from the brand template."},{"id":"contrast","label":"High contrast","detail":"Bold white text with a soft black outline or shadow, readable on any footage."},{"id":"boxed","label":"Boxed text","detail":"Each text block sits on a solid rounded box."},{"id":"minimal","label":"Minimal","detail":"Small, clean text with lots of space around it."}],"cta":[{"id":"comment","label":"Comment a keyword","detail":"Ask viewers to comment one word to get a guide or checklist."},{"id":"form","label":"Tap the lead form","detail":"Send them to the Meta lead form."},{"id":"bio","label":"Link in bio","detail":"Point to the link in bio."},{"id":"save","label":"Save this","detail":"Ask them to save it for later."},{"id":"share","label":"Send to a parent","detail":"Ask them to send it to a parent who needs it."},{"id":"referral","label":"Referral form","detail":"Point to the referral form at www.estushealth.com."},{"id":"register","label":"Register for the webinar","detail":"Point to webinar registration."}],"pacing":[{"id":"fast","label":"Fast","detail":"Cut every 1 to 2 seconds."},{"id":"medium","label":"Medium","detail":"Cut every 2 to 4 seconds."},{"id":"calm","label":"Calm and sensory-friendly","detail":"Holds of 4 seconds or more, no flashes, soft transitions."}],"voice":[{"id":"liam-cam","label":"Liam to camera","detail":"Liam Fagan speaks to camera."},{"id":"liam-vo","label":"Liam voiceover","detail":"Liam Fagan voiceover with no face on camera."},{"id":"clinician","label":"Team clinician","detail":"An Estus clinician speaks to camera."},{"id":"novoice","label":"No voice","detail":"Text on screen only."}],"music":[{"id":"calm","label":"Calm bed","detail":"Low, calm instrumental under the voice."},{"id":"upbeat","label":"Upbeat","detail":"Light, upbeat instrumental."},{"id":"nomusic","label":"No music","detail":"Voice and natural sound only."},{"id":"trending","label":"Trending audio (added in app)","detail":"Leave room for a trending sound added natively in the app at low volume."}],"output":[{"id":"script","label":"Script + shot list","detail":"1. Three hook options that follow the hook rule, then the one you would use and why.\n2. A timed script as a table: time, on-screen text, spoken line, B-roll (use the clip numbers above).\n3. A post caption under 150 words that opens with a searchable line, plus 3 to 5 relevant hashtags.\n4. Cover text for the thumbnail, under 6 words."},{"id":"editor","label":"Editor brief","detail":"A step-by-step edit plan an editor can follow in CapCut or Descript without having seen the brand:\n1. Clip order with in and out points (use the clip numbers above).\n2. Exactly where the hook and each caption block land, with timing.\n3. Text styling, transitions (keep them simple) and music cues.\n4. Export settings for the platform and a final checklist."},{"id":"aivideo","label":"AI video prompts for gaps","detail":"1. A short script and shot list.\n2. For every gap in the B-roll, one text-to-video prompt for Veo or Kling: subject, action, setting, camera move, lighting, mood, 9:16, 4 to 6 seconds. No real or identifiable people, no children's faces, no logos.\n3. Where each generated clip slots into the edit."},{"id":"hooks","label":"Hook pack only","detail":"Ten hook options. Each must be one complete sentence that works as a single on-screen block. Mark your top three with a one-line reason each."},{"id":"adcopy","label":"Meta ad copy set","detail":"Three Meta ad variations. For each: the on-screen hook, primary text (first line under 125 characters), a headline under 40 characters, a description and the CTA button to use. Keep every claim inside AHPRA advertising rules."}]},"rules":"Australian spelling.\nNever use em dashes.\nNeuroaffirming language: identity-first by default (autistic teen), no \"suffers from\", \"cure\", \"fix\" or deficit framing.\nNo testimonials, reviews or outcome guarantees (AHPRA advertising rules).\nNo identifiable clients: no client faces, names, voices or screens.\nThe founder's name is Liam Fagan.\nPlain, warm and specific. Write like a clinician talking to one parent, not a brand talking to a crowd.","broll":[{"id":"u1","name":"Night drive: dashboard and city streets","brand":"dots","category":"car","shot":"pov","orient":"vertical","topics":["driving","shutdown"],"mood":"calm","audio":"","privacy":"clear","subject":"night-drive-dashboard","filmed":"2026-05-19","duration":"1:22","location":"","tags":["night","dashboard"],"source":"Shorts B-roll Library > Driving > Car and driving > driving_car_pov_night-drive-dashboard_20260519.mp4","notes":"Filmed from the passenger side at night. Check no number plates are readable.","img":"img/broll/driving_car_pov_night-drive-dashboard_20260519.jpg","example":false},{"id":"u2","name":"Evening walk down a suburban street","brand":"estus","category":"calm","shot":"pov","orient":"vertical","topics":["regulation","shutdown"],"mood":"calm","audio":"","privacy":"","subject":"evening-street-walk","filmed":"2025-05-06","duration":"1:02","location":"","tags":["walk","dusk","suburb"],"source":"Shorts B-roll Library > Estus > Calm and nature > estus_calm_pov_evening-street-walk_20250506.mp4","notes":"Shows houses and a for-sale sign. Skip it if this is near home.","img":"img/broll/estus_calm_pov_evening-street-walk_20250506.jpg","example":false},{"id":"u3","name":"Street walk, a person turns to camera","brand":"estus","category":"calm","shot":"pov","orient":"vertical","topics":["regulation"],"mood":"steady","audio":"","privacy":"","subject":"street-walk-person-turns","filmed":"2025-05-14","duration":"0:06","location":"","tags":["walk","sunny"],"source":"Shorts B-roll Library > Estus > Calm and nature > estus_calm_pov_street-walk-person-turns_20250514.mp4","notes":"A person's face is on camera. Confirm they are happy to appear.","img":"img/broll/estus_calm_pov_street-walk-person-turns_20250514.jpg","example":false},{"id":"u4","name":"Perth Zoo entry with a pram","brand":"estus","category":"sport","shot":"pov","orient":"vertical","topics":["parenting"],"mood":"steady","audio":"","privacy":"","subject":"perth-zoo-pram","filmed":"2025-06-29","duration":"0:47","location":"","tags":["zoo","outing","pram"],"source":"Shorts B-roll Library > Estus > Sport and activities > estus_sport_pov_perth-zoo-pram_20250629.mp4","notes":"A baby's face and an adult are in frame. Internal only, or use only the opening seconds at the zoo gate.","img":"img/broll/estus_sport_pov_perth-zoo-pram_20250629.jpg","example":false},{"id":"u5","name":"Helmet on, garage door opens","brand":"estus","category":"home","shot":"hands","orient":"vertical","topics":["morning","transitions"],"mood":"steady","audio":"","privacy":"clear","subject":"helmet-on-garage-door","filmed":"2025-07-02","duration":"0:10","location":"","tags":["helmet","leaving the house"],"source":"Shorts B-roll Library > Estus > Home and routines > estus_home_hands_helmet-on-garage-door_20250702.mp4","notes":"Getting ready to head out. Check the car plate is not readable.","img":"img/broll/estus_home_hands_helmet-on-garage-door_20250702.jpg","example":false},{"id":"u6","name":"Cinema foyer, walking in","brand":"estus","category":"sport","shot":"med","orient":"vertical","topics":["social"],"mood":"calm","audio":"","privacy":"clear","subject":"cinema-foyer","filmed":"2025-07-05","duration":"0:03","location":"","tags":["cinema","outing"],"source":"Shorts B-roll Library > Estus > Sport and activities > estus_sport_med_cinema-foyer_20250705.mp4","notes":"Only 3 seconds. Person seen from behind.","img":"img/broll/estus_sport_med_cinema-foyer_20250705.jpg","example":false},{"id":"u7","name":"Kitchen, then a toddler walking hand in hand","brand":"estus","category":"home","shot":"top","orient":"vertical","topics":["parenting"],"mood":"calm","audio":"","privacy":"","subject":"toddler-walking-hand-held","filmed":"2025-08-30","duration":"1:16","location":"","tags":["toddler","kitchen","cooking"],"source":"Shorts B-roll Library > Estus > Home and routines > estus_home_top_toddler-walking-hand-held_20250830.mp4","notes":"A toddler is in frame and the home interior shows. Internal only, or use only the kitchen part at the start.","img":"img/broll/estus_home_top_toddler-walking-hand-held_20250830.jpg","example":false},{"id":"u8","name":"Edinburgh in the rain, city view","brand":"estus","category":"calm","shot":"wide","orient":"horizontal","topics":["regulation"],"mood":"calm","audio":"","privacy":"clear","subject":"edinburgh-rainy-city","filmed":"2016-07-22","duration":"0:25","location":"","tags":["rain","city","travel","edinburgh"],"source":"Shorts B-roll Library > Estus > Calm and nature > estus_calm_wide_edinburgh-rainy-city_20160722.mov","notes":"Edinburgh, Scotland.","img":"img/broll/estus_calm_wide_edinburgh-rainy-city_20160722.jpg","example":false},{"id":"u9","name":"Edinburgh Castle walls and city view","brand":"estus","category":"calm","shot":"wide","orient":"horizontal","topics":["regulation"],"mood":"calm","audio":"","privacy":"blur","subject":"edinburgh-castle-view","filmed":"2016-07-22","duration":"0:14","location":"","tags":["castle","city","travel","edinburgh"],"source":"Shorts B-roll Library > Estus > Calm and nature > estus_calm_wide_edinburgh-castle-view_20160722.mov","notes":"A school group of children in hi-vis appears at the end. Cut those seconds.","img":"img/broll/estus_calm_wide_edinburgh-castle-view_20160722.jpg","example":false},{"id":"u10","name":"Pink sunset clouds over a sports oval","brand":"estus","category":"calm","shot":"wide","orient":"horizontal","topics":["regulation","shutdown"],"mood":"calm","audio":"","privacy":"clear","subject":"sunset-clouds-over-oval","filmed":"2021-07-08","duration":"0:21","location":"","tags":["sunset","clouds","oval"],"source":"Shorts B-roll Library > Estus > Calm and nature > estus_calm_wide_sunset-clouds-over-oval_20210708.mp4","notes":"","img":"img/broll/estus_calm_wide_sunset-clouds-over-oval_20210708.jpg","example":false},{"id":"e1","name":"Axe throwing: walking the lanes","brand":"estus","category":"team","shot":"pov","orient":"vertical","topics":["team"],"mood":"high","audio":"","privacy":"clear","subject":"axe-throwing-lanes","filmed":"2025-12-11","duration":"0:12","location":"","tags":["axe throwing"],"source":"Shorts B-roll Library > Estus > Team culture > estus_team_pov_axe-throwing-lanes_20251211.mp4","notes":"","img":"img/broll/estus_team_pov_axe-throwing-lanes_20251211.jpg","example":false},{"id":"e2","name":"Mini golf: putting, top-down POV","brand":"estus","category":"sport","shot":"pov","orient":"vertical","topics":["social","parenting"],"mood":"steady","audio":"","privacy":"clear","subject":"mini-golf-putting","filmed":"2026-07-12","duration":"0:45","location":"","tags":["mini golf"],"source":"Shorts B-roll Library > Estus > Sport and activities > estus_sport_pov_mini-golf-putting_20260712.mp4","notes":"A child is in frame from behind for a few seconds. Decide if that is OK, or cut those seconds.","img":"img/broll/estus_sport_pov_mini-golf-putting_20260712.jpg","example":false},{"id":"e3","name":"Gym: deadlift single","brand":"estus","category":"sport","shot":"wide","orient":"horizontal","topics":["energy"],"mood":"high","audio":"","privacy":"clear","subject":"deadlift-340lb","filmed":"2010-11-27","duration":"0:17","location":"","tags":["gym","deadlift"],"source":"Shorts B-roll Library > Estus > Sport and activities > estus_sport_wide_deadlift-340lb_20101127.mp4","notes":"Older 720p footage. Other gym users far in the background.","img":"img/broll/estus_sport_wide_deadlift-340lb_20101127.jpg","example":false},{"id":"e4","name":"Gym: bench press","brand":"estus","category":"sport","shot":"med","orient":"horizontal","topics":["energy"],"mood":"high","audio":"","privacy":"clear","subject":"bench-press","filmed":"2011-09-10","duration":"0:47","location":"","tags":["gym","bench press"],"source":"Shorts B-roll Library > Estus > Sport and activities > estus_sport_med_bench-press_20110910.mp4","notes":"Low resolution (480p, 4:3). Best as a small or quick cutaway.","img":"img/broll/estus_sport_med_bench-press_20110910.jpg","example":false},{"id":"e5","name":"Dark Souls 3: Champion Gundyr, parry only","brand":"estus","category":"gaming","shot":"screen","orient":"horizontal","topics":["gaming"],"mood":"high","audio":"","privacy":"clear","subject":"dark-souls-3-gundyr-parry","filmed":"2025-01-05","duration":"2:41","location":"","tags":["dark souls","boss fight"],"source":"Shorts B-roll Library > Estus > Gaming and screens > estus_gaming_screen_dark-souls-3-gundyr-parry_20250105.mp4","notes":"","img":"img/broll/estus_gaming_screen_dark-souls-3-gundyr-parry_20250105.jpg","example":false},{"id":"e6","name":"Gym: power clean","brand":"estus","category":"sport","shot":"wide","orient":"horizontal","topics":["energy"],"mood":"high","audio":"","privacy":"clear","subject":"power-clean-82kg","filmed":"2011-07-09","duration":"0:09","location":"","tags":["gym","power clean"],"source":"Shorts B-roll Library > Estus > Sport and activities > estus_sport_wide_power-clean-82kg_20110709.mp4","notes":"Low resolution (480p, 4:3). Only 9 seconds.","img":"img/broll/estus_sport_wide_power-clean-82kg_20110709.jpg","example":false},{"id":"e7","name":"Dark Souls: Gwyn, no armour, parry only","brand":"estus","category":"gaming","shot":"screen","orient":"horizontal","topics":["gaming"],"mood":"high","audio":"","privacy":"clear","subject":"dark-souls-gwyn-parry","filmed":"2023-09-01","duration":"4:16","location":"","tags":["dark souls","boss fight"],"source":"Shorts B-roll Library > Estus > Gaming and screens > estus_gaming_screen_dark-souls-gwyn-parry_20230901.mp4","notes":"","img":"img/broll/estus_gaming_screen_dark-souls-gwyn-parry_20230901.jpg","example":false},{"id":"e8","name":"3D printed fidget toy in hand by the printer","brand":"estus","category":"clinic","shot":"hands","orient":"vertical","topics":["regulation","load"],"mood":"calm","audio":"","privacy":"clear","subject":"3d-printed-fidget-toy","filmed":"2026-05-09","duration":"0:13","location":"","tags":["fidget","3d printing","sensory"],"source":"Shorts B-roll Library > Estus > Clinic and telehealth > estus_clinic_hands_3d-printed-fidget-toy_20260509.mp4","notes":"","img":"img/broll/estus_clinic_hands_3d-printed-fidget-toy_20260509.jpg","example":false},{"id":"e9","name":"Perth storm rolling in, hyperlapse","brand":"estus","category":"calm","shot":"wide","orient":"horizontal","topics":["regulation","energy"],"mood":"steady","audio":"","privacy":"clear","subject":"perth-storm-hyperlapse","filmed":"2020-02-25","duration":"0:37","location":"","tags":["storm","weather","perth","hyperlapse"],"source":"Shorts B-roll Library > Estus > Calm and nature > estus_calm_wide_perth-storm-hyperlapse_20200225.mp4","notes":"Hyperlapse, so it moves fast. Good as a metaphor for overwhelm building.","img":"img/broll/estus_calm_wide_perth-storm-hyperlapse_20200225.jpg","example":false},{"id":"e10","name":"Tony Hawk 1+2: School 2 speedrun","brand":"estus","category":"gaming","shot":"screen","orient":"horizontal","topics":["gaming"],"mood":"high","audio":"","privacy":"blur","subject":"thps-school-2-speedrun","filmed":"2023-09-12","duration":"1:14","location":"","tags":["tony hawk","speedrun","skateboarding"],"source":"Shorts B-roll Library > Estus > Gaming and screens > estus_gaming_screen_thps-school-2-speedrun_20230912.mp4","notes":"Gamertag shows on the results screen at the end. Cut or blur it.","img":"img/broll/estus_gaming_screen_thps-school-2-speedrun_20230912.jpg","example":false},{"id":"e11","name":"Tony Hawk 1+2: School speedrun","brand":"estus","category":"gaming","shot":"screen","orient":"horizontal","topics":["gaming"],"mood":"high","audio":"","privacy":"blur","subject":"thps-school-speedrun","filmed":"2023-02-14","duration":"1:42","location":"","tags":["tony hawk","speedrun","skateboarding"],"source":"Shorts B-roll Library > Estus > Gaming and screens > estus_gaming_screen_thps-school-speedrun_20230214.mp4","notes":"Check for a gamertag on any results screen before use.","img":"img/broll/estus_gaming_screen_thps-school-speedrun_20230214.jpg","example":false},{"id":"e12","name":"Tesla test drive: city streets and dash screen","brand":"estus","category":"team","shot":"med","orient":"horizontal","topics":["driving","team"],"mood":"steady","audio":"","privacy":"clear","subject":"tesla-test-drive","filmed":"2025-07-22","duration":"0:19","location":"","tags":["tesla","test drive","environmental design"],"source":"Shorts B-roll Library > Estus > Team culture > estus_team_med_tesla-test-drive_20250722.mp4","notes":"A person's face is on camera at the start. Confirm they are happy to appear, or start after the face.","img":"img/broll/estus_team_med_tesla-test-drive_20250722.jpg","example":false},{"id":"d-axe1","name":"Axe throwing 1","shot":"","location":"","brand":"estus","duration":"","tags":["axe throwing"],"source":"Shorts B-roll Library > Estus > Team culture > Axe throwing 1.mp4","notes":"","example":false,"category":"team","topics":["team"]},{"id":"d-axe2","name":"Axe throwing 2","shot":"","location":"","brand":"estus","duration":"","tags":["axe throwing"],"source":"Shorts B-roll Library > Estus > Team culture > Axe throwing 2.mp4","notes":"","example":false,"category":"team","topics":["team"]},{"id":"d-axe3","name":"Axe throwing 3","shot":"","location":"","brand":"estus","duration":"","tags":["axe throwing"],"source":"Shorts B-roll Library > Estus > Team culture > Axe throwing 3.mp4","notes":"","example":false,"category":"team","topics":["team"]},{"id":"d-pumpkins","name":"Halloween pumpkins","shot":"","location":"","brand":"estus","duration":"","tags":["halloween"],"source":"Shorts B-roll Library > Estus > Seasonal and events > Halloween pumpkins.mp4","notes":"","example":false,"category":"seasonal","topics":["seasonal"]},{"id":"d-smiths","name":"Smiths Lake: water, trees, dappled sunlight","shot":"","location":"Smiths Lake","brand":"estus","duration":"","tags":["water","trees","dappled light"],"source":"Shorts B-roll Library > Estus > Calm and nature > Smiths Lake_water-trees-dappled sunlight-relaxation.mp4","notes":"","example":false,"category":"calm","topics":["regulation"],"mood":"calm"},{"id":"rv0","name":"Gaming as skill building, ergonomics and transitions","shot":"talk","location":"Riverside studio","brand":"estus","duration":"","tags":["skills","ergonomics"],"source":"Clip library > riverside_Gaming as skill building-ergonomics-personal care-transitions-close loops_b's_studio.mp4","notes":"Podcast recording with sound. Use as the main clip for a podcast-clip short.","example":false,"category":"podcast","audio":"speech","privacy":"clear","topics":["gaming"]},{"id":"rv1","name":"Building rapport and shared gaming history","shot":"talk","location":"Riverside studio","brand":"estus","duration":"","tags":["rapport"],"source":"Clip library > riverside_Gaming_building rapport-shared gaming history-point of diff as OTs_b's_studio.mp4","notes":"Podcast recording with sound. Use as the main clip for a podcast-clip short.","example":false,"category":"podcast","audio":"speech","privacy":"clear","topics":["gaming","social"]},{"id":"rv2","name":"My first PC: Duron 900 system","shot":"talk","location":"Riverside studio","brand":"estus","duration":"","tags":["story","pc"],"source":"Clip library > riverside_My first PC_Duron 900 system_b's_studio.mp4","notes":"Podcast recording with sound. Use as the main clip for a podcast-clip short.","example":false,"category":"podcast","audio":"speech","privacy":"clear","topics":[]},{"id":"rv3","name":"Change environment, optimise daily routines","shot":"talk","location":"Riverside studio","brand":"estus","duration":"","tags":["routines","environment","performance"],"source":"Clip library > riverside_change environment and optimise daily routines for peak performance_b's_studio.mp4","notes":"Podcast recording with sound. Use as the main clip for a podcast-clip short.","example":false,"category":"podcast","audio":"speech","privacy":"clear","topics":["morning"]},{"id":"rv4","name":"Estus Health: gamers at heart","shot":"talk","location":"Riverside studio","brand":"estus","duration":"","tags":["estus","value proposition"],"source":"Clip library > riverside_Estus Health_gamers at heart_unique value proposition_b's_studio.mp4","notes":"Podcast recording with sound. Use as the main clip for a podcast-clip short.","example":false,"category":"podcast","audio":"speech","privacy":"clear","topics":["gaming"]},{"id":"rv5","name":"Gaming as a stress indicator","shot":"talk","location":"Riverside studio","brand":"estus","duration":"","tags":["stress"],"source":"Clip library > riverside_gaming_as stress indicator_b's_studio.mp4","notes":"Podcast recording with sound. Use as the main clip for a podcast-clip short.","example":false,"category":"podcast","audio":"speech","privacy":"clear","topics":["gaming"]},{"id":"rv6","name":"Elden Ring: perfect for therapy sessions (v1)","shot":"talk","location":"Riverside studio","brand":"estus","duration":"","tags":["elden ring"],"source":"Clip library > riverside_elden_ring_ perfect for therapy sessions_b's_studio.mp4","notes":"Podcast recording with sound. Use as the main clip for a podcast-clip short.","example":false,"category":"podcast","audio":"speech","privacy":"clear","topics":["gaming"]},{"id":"rv7","name":"Building rapport with PDA clients","shot":"talk","location":"Riverside studio","brand":"estus","duration":"","tags":["pda","rapport"],"source":"Clip library > riverside_building rapport with PDA clients in therapy_b's_studio.mp4","notes":"Podcast recording with sound. Use as the main clip for a podcast-clip short.","example":false,"category":"podcast","audio":"speech","privacy":"clear","topics":["social"]},{"id":"rv8","name":"Building communication skills with Minecraft","shot":"talk","location":"Riverside studio","brand":"estus","duration":"","tags":["minecraft","communication"],"source":"Clip library > riverside_building communication skills with Minecraft_b's_studio.mp4","notes":"Podcast recording with sound. Use as the main clip for a podcast-clip short.","example":false,"category":"podcast","audio":"speech","privacy":"clear","topics":["gaming","communication"]},{"id":"rv9","name":"Nintendo: gold standard for co-op gaming","shot":"talk","location":"Riverside studio","brand":"estus","duration":"","tags":["nintendo","cooperative"],"source":"Clip library > riverside_nintendo_the gold standard for cooperative gaming_b's_studio.mp4","notes":"Podcast recording with sound. Use as the main clip for a podcast-clip short.","example":false,"category":"podcast","audio":"speech","privacy":"clear","topics":["gaming","social"]},{"id":"rv10","name":"Elden Ring: perfect for therapy sessions (v2)","shot":"talk","location":"Riverside studio","brand":"estus","duration":"","tags":["elden ring"],"source":"Clip library > riverside_elden ring_ perfect for therapy sessions_b's_studio.mp4","notes":"Podcast recording with sound. Use as the main clip for a podcast-clip short.","example":false,"category":"podcast","audio":"speech","privacy":"clear","topics":["gaming"]},{"id":"rv11","name":"Gaming-informed therapy: transferable skills","shot":"talk","location":"Riverside studio","brand":"estus","duration":"","tags":["skills"],"source":"Clip library > riverside_gaming informed therapy_building transferrable skills across domains_b's_studio.mp4","notes":"Podcast recording with sound. Use as the main clip for a podcast-clip short.","example":false,"category":"podcast","audio":"speech","privacy":"clear","topics":["gaming"]},{"id":"rv12","name":"Gaming: a pathway for autistic youth","shot":"talk","location":"Riverside studio","brand":"estus","duration":"","tags":["autistic youth"],"source":"Clip library > riverside_gaming_a pathway for autistic youth_b's_studio.mp4","notes":"Podcast recording with sound. Use as the main clip for a podcast-clip short.","example":false,"category":"podcast","audio":"speech","privacy":"clear","topics":["gaming"]},{"id":"rv13","name":"Gaming in therapy: explaining it to parents","shot":"talk","location":"Riverside studio","brand":"estus","duration":"","tags":["parents"],"source":"Clip library > riverside_gaming in therapy_explaining it to parents_b's_studio.mp4","notes":"Podcast recording with sound. Use as the main clip for a podcast-clip short.","example":false,"category":"podcast","audio":"speech","privacy":"clear","topics":["gaming","parenting"]},{"id":"rv14","name":"Gaming as an occupation","shot":"talk","location":"Riverside studio","brand":"estus","duration":"","tags":["occupation"],"source":"Clip library > riverside_gaming as an occupation_b's_studio.mp4","notes":"Podcast recording with sound. Use as the main clip for a podcast-clip short.","example":false,"category":"podcast","audio":"speech","privacy":"clear","topics":["gaming"]},{"id":"rv15","name":"Therapy through games in telehealth paediatrics","shot":"talk","location":"Riverside studio","brand":"estus","duration":"","tags":["telehealth","paediatrics"],"source":"Clip library > riverside_therapy through games in telehealth pediatrics_b's_studio.mp4","notes":"Podcast recording with sound. Use as the main clip for a podcast-clip short.","example":false,"category":"podcast","audio":"speech","privacy":"clear","topics":["gaming"]},{"id":"rv16","name":"Authenticity in gaming therapy","shot":"talk","location":"Riverside studio","brand":"estus","duration":"","tags":["authenticity"],"source":"Clip library > riverside_authenticity in gaming therapy_b's_studio.mp4","notes":"Podcast recording with sound. Use as the main clip for a podcast-clip short.","example":false,"category":"podcast","audio":"speech","privacy":"clear","topics":["gaming"]},{"id":"rv17","name":"Gaming as a bridge to social skills","shot":"talk","location":"Riverside studio","brand":"estus","duration":"","tags":["social skills"],"source":"Clip library > riverside_gaming as a bridge to social skills_b's_studio.mp4","notes":"Podcast recording with sound. Use as the main clip for a podcast-clip short.","example":false,"category":"podcast","audio":"speech","privacy":"clear","topics":["gaming","social"]},{"id":"rv18","name":"Gaming profile shifts with life changes","shot":"talk","location":"Riverside studio","brand":"estus","duration":"","tags":["life changes"],"source":"Clip library > riverside_gaming profile shifts with life changes_b's_studio.mp4","notes":"Podcast recording with sound. Use as the main clip for a podcast-clip short.","example":false,"category":"podcast","audio":"speech","privacy":"clear","topics":["gaming"]},{"id":"rv19","name":"Gaming as a bridge to education","shot":"talk","location":"Riverside studio","brand":"estus","duration":"","tags":["education"],"source":"Clip library > riverside_gaming as a bridge to education_b's_studio.mp4","notes":"Podcast recording with sound. Use as the main clip for a podcast-clip short.","example":false,"category":"podcast","audio":"speech","privacy":"clear","topics":["gaming","study"]},{"id":"rv20","name":"Games as indicators of mental health","shot":"talk","location":"Riverside studio","brand":"estus","duration":"","tags":["mental health"],"source":"Clip library > riverside_games as indicators of mental health_b's_studio.mp4","notes":"Podcast recording with sound. Use as the main clip for a podcast-clip short.","example":false,"category":"podcast","audio":"speech","privacy":"clear","topics":["gaming"]},{"id":"rv21","name":"Reconnecting kids from the gaming world to society","shot":"talk","location":"Riverside studio","brand":"estus","duration":"","tags":["reconnection"],"source":"Clip library > riverside_reconnecting kids from the gaming world to society_b's_studio.mp4","notes":"Podcast recording with sound. Use as the main clip for a podcast-clip short.","example":false,"category":"podcast","audio":"speech","privacy":"clear","topics":["gaming"]},{"id":"rv22","name":"Gaming as a legitimate occupation","shot":"talk","location":"Riverside studio","brand":"estus","duration":"","tags":["occupation"],"source":"Clip library > riverside_gaming as a legitimate occupation_b's_studio.mp4","notes":"Podcast recording with sound. Use as the main clip for a podcast-clip short.","example":false,"category":"podcast","audio":"speech","privacy":"clear","topics":["gaming"]}],"recipes":[{"id":"r1","name":"Must be nice: mornings (lead ad)","sel":{"brand":"estus","format":"mustbenice","purpose":"leads","audience":["p-autism","p-adhd"],"topic":"morning","topicNotes":"Getting out the door for school without a meltdown.","platform":"reel","length":"l30","hook":"mbn","hookDraft":"","captions":"phrase","textstyle":"brand","cta":"form","pacing":"medium","voice":"liam-cam","music":"calm","output":"script","broll":["d-smiths"],"notes":""}},{"id":"r2","name":"Driving: when GPs should refer","sel":{"brand":"dots","format":"talking","purpose":"gp","audience":["gps"],"topic":"driving","topicNotes":"Signs a young autistic patient may need a Potential to Drive assessment before lessons.","platform":"reel","length":"l60","hook":"mistake","hookDraft":"","captions":"full","textstyle":"contrast","cta":"referral","pacing":"medium","voice":"liam-cam","music":"nomusic","output":"editor","broll":[],"notes":""}}],"tax":{"category":[{"id":"clinic","label":"Clinic and telehealth","detail":"Clinic rooms, the desk, the telehealth setup and admin."},{"id":"home","label":"Home and routines","detail":"Kitchens, bedrooms, fridges, schedules, getting ready."},{"id":"gaming","label":"Gaming and screens","detail":"Game footage, consoles, PC setups, the Minecraft server."},{"id":"car","label":"Car and driving","detail":"Dash cam, roads, keys, L plates, inside the car."},{"id":"study","label":"Study and desk","detail":"Study spaces, planners, writing, school bags."},{"id":"team","label":"Team culture","detail":"Team days, the office, Estus people and rituals."},{"id":"calm","label":"Calm and nature","detail":"Water, trees, walks and slow scenes for regulation and pauses."},{"id":"sport","label":"Sport and activities","detail":"Gym, training, sport, mini golf and other outings that are not team days."},{"id":"seasonal","label":"Seasonal and events","detail":"Halloween, Christmas, school holidays, webinars and events."},{"id":"podcast","label":"Podcast clip","detail":"Riverside talking-head recordings. These live in Clip library, not the B-roll folder."}],"shot":[{"id":"wide","label":"Wide","detail":"The whole scene. Sets the place."},{"id":"med","label":"Medium","detail":"A person from the waist up, or one group of objects."},{"id":"cu","label":"Close-up","detail":"One object or detail fills the frame."},{"id":"hands","label":"Hands","detail":"Hands doing a task, no face."},{"id":"pov","label":"POV","detail":"The camera is the viewer's eyes."},{"id":"top","label":"Top-down","detail":"Camera points straight down at a surface."},{"id":"ots","label":"Over the shoulder","detail":"Behind someone, looking at what they see."},{"id":"screen","label":"Screen recording","detail":"Captured from a screen, phone or game."},{"id":"talk","label":"Talking head","detail":"A person speaking to camera."}],"orient":[{"id":"vertical","label":"Vertical 9:16","detail":"Filmed upright. The default for Reels, TikTok and Shorts."},{"id":"horizontal","label":"Horizontal 16:9","detail":"Filmed sideways. Gets cropped for shorts, so keep the subject in the middle third."},{"id":"square","label":"Square or 4:5","detail":"Fine for feed ads."}],"topics":[{"id":"sleep","label":"Sleep","detail":"Bedtime, wind-down, bedrooms."},{"id":"morning","label":"Mornings","detail":"Getting up, dressed and out the door."},{"id":"energy","label":"Energy","detail":"Tired or busy moments, pacing the day."},{"id":"load","label":"Cognitive load","detail":"Clutter, too many steps, too many decisions."},{"id":"transitions","label":"Transitions","detail":"Moving between activities, coming off screens."},{"id":"shutdown","label":"Shutdown","detail":"Ending the day, recovery after school or work."},{"id":"gaming","label":"Gaming","detail":"Games, consoles, Minecraft, the Estus server."},{"id":"driving","label":"Driving","detail":"Cars, roads, learners, licences."},{"id":"study","label":"Study","detail":"Homework, school, study spaces."},{"id":"regulation","label":"Regulation","detail":"Calm, sensory breaks, nature, breathing."},{"id":"social","label":"Social skills","detail":"Playing or talking together, co-op, friendship."},{"id":"communication","label":"Communication","detail":"Talking, listening, explaining."},{"id":"parenting","label":"Parenting","detail":"Family life and supporting kids at home."},{"id":"team","label":"Team culture","detail":"Estus people, team days, how we work."},{"id":"seasonal","label":"Seasonal","detail":"Holidays, events and dates on the calendar."}],"mood":[{"id":"calm","label":"Calm","detail":"Slow, still or quiet. Good under voiceover and for pauses."},{"id":"steady","label":"Steady","detail":"Normal pace. Fits most points."},{"id":"high","label":"High energy","detail":"Fast movement or action. Good for hooks and openers."}],"audio":[{"id":"none","label":"No useful audio","detail":"Wind, noise or silence. Mute it."},{"id":"ambient","label":"Ambient sound","detail":"Natural sound worth keeping low under the voice."},{"id":"speech","label":"Speech","detail":"Someone talking on the clip. Check privacy before use."}],"privacy":[{"id":"clear","label":"Clear to use","detail":"No clients, no identifiable kids, no names, number plates, usernames or screens with personal details."},{"id":"blur","label":"Needs blur","detail":"Usable once something is blurred or cropped. Say what in Notes."},{"id":"internal","label":"Internal only","detail":"Shows clients, private screens or anything that cannot be fixed. Never goes in a short."}]}}</script>
+<script id="appjs">
+(function(){
+'use strict';
+var FONT_HREF='https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap';
+var LS_STATE='spm-state-v1', LS_DRAFT='spm-draft-v1';
+function uid(){return Math.random().toString(36).slice(2,10)}
+function clone(o){return JSON.parse(JSON.stringify(o))}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function it(id,label,detail){return {id:id,label:label,detail:detail||''}}
+function lsGet(k){try{var v=localStorage.getItem(k);return v?JSON.parse(v):null}catch(e){return null}}
+function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false}}
+function trimDot(s){return String(s||'').trim().replace(/\.+$/,'')}
+
+var GROUPS=[
+ {key:'brand',title:'Brand'},
+ {key:'format',title:'Type of short'},
+ {key:'purpose',title:'Purpose'},
+ {key:'audience',title:'Audience',multi:true},
+ {key:'topic',title:'Topic'},
+ {key:'platform',title:'Platform'},
+ {key:'length',title:'Length'},
+ {key:'hook',title:'Hook style'},
+ {key:'captions',title:'Caption style'},
+ {key:'textstyle',title:'Text look'},
+ {key:'cta',title:'Call to action'},
+ {key:'pacing',title:'Pacing'},
+ {key:'voice',title:'Voice'},
+ {key:'music',title:'Sound'},
+ {key:'output',title:'What you want back'}
+];
+var GMAP={};GROUPS.forEach(function(g){GMAP[g.key]=g});
+var TABS=[['build','Build'],['library','B-roll library'],['guide','Tagging guide'],['recipes','Recipes'],['lists','Lists and rules']];
+var TAXG=[
+ {key:'category',title:'Category',req:true,code:true,note:'Required. One per clip. The category name is also the folder name in Drive.'},
+ {key:'shot',title:'Shot type',req:true,code:true,note:'Required. One per clip. Pick what most of the clip is.'},
+ {key:'orient',title:'Orientation',req:true,note:'Required. One per clip.'},
+ {key:'topics',title:'Topics',req:true,multi:true,note:'Required. Pick every topic the clip could show. These match the Topic options on the Build tab, so matching clips show first there.'},
+ {key:'mood',title:'Energy',note:'Optional. How the clip feels.'},
+ {key:'audio',title:'Audio',note:'Optional. Whether the sound is worth keeping.'},
+ {key:'privacy',title:'Privacy check',req:true,note:'Required. Every clip is checked before it can go in a short.'}];
+var TG={};TAXG.forEach(function(g){TG[g.key]=g});
+var BRAND_CODE={estus:'estus',dots:'driving',plp:'plab',sots:'study'};
+var BRAND_FOLDER={estus:'Estus',dots:'Driving',plp:'Performance Lab',sots:'Study'};
+var HOOK_RULE='The on-screen hook is one complete sentence, shown as one block in one style. Never split it into a small lead-in plus a separately styled or coloured tail. Any "Parents often say" style lead-in sits inside that same sentence at full hook size.';
+
+var SEED={version:1,savedAt:0,
+ groups:{
+  brand:[
+   it('estus','Estus Health','a neuroaffirming occupational therapy practice based in Perth, offering telehealth Australia-wide to NDIS (plan-managed and self-managed) and private-paying clients. Instagram: @estushealth. Website: www.estushealth.com.'),
+   it('dots','Driving on the Spectrum','the Estus Health driving OT service in WA for autistic and ADHD young people aged about 17 to 25, offering Potential to Drive and Medical Fitness to Drive assessments.'),
+   it('plp','Performance Lab: Protocols','a clinician-facing brand from Liam Fagan with a podcast, newsletter and community of practice for OTs and allied health clinicians.'),
+   it('sots','Study on the Spectrum','study and school support from Estus Health for stressed parents of neurodivergent kids of all ages: study spaces, routines, handwriting, posture and getting started.')],
+  format:[
+   it('mustbenice','Must be nice series','Inversion format. Open on a "Must be nice" line about something that looks effortless for other families, reveal the hidden skill underneath it, then give one practical Small Hinges step.'),
+   it('talking','Talking head + B-roll','Liam Fagan to camera, cutting to B-roll every few seconds so each point has a picture.'),
+   it('faceless','Faceless B-roll + voiceover','No one on camera. B-roll carries the visuals while a voiceover carries the message.'),
+   it('clip','Podcast or webinar clip','A 60 to 120 second cut from a longer recording, reframed with a new hook, captions and B-roll cutaways.'),
+   it('myth','Myth vs fact','State a common belief, correct it with what OT actually sees, then give one thing to try instead.'),
+   it('steps','Three-step how-to','Teach one small thing completely in three steps a parent could try tonight.'),
+   it('pov','POV / day in the life','A first-person look at one moment in the day, shot as if through the viewer\'s eyes.'),
+   it('textonly','On-screen text story','No voice. Short text blocks over B-roll tell the story and read fine with the sound off.'),
+   it('reply','Reply to a comment','Answers a common question plainly. Paraphrase the question so no one is identifiable.'),
+   it('ad','Direct-response video ad','Built for Meta ads: the problem in the first 2 seconds, the shift, the offer, one clear action.')],
+  purpose:[
+   it('awareness','Awareness and reach','Optimise for shares, sends and saves. Soft or no CTA.'),
+   it('leads','Leads (Meta lead form)','Drive lead form fills. Name one specific pain, show the way through, then one clear action.'),
+   it('referrers','Referral partners','Speak to support coordinators and plan managers: what we do, who it suits and how easy referring is.'),
+   it('webinar','Webinar sign-ups','Sell the one thing they will walk away with, plus the date and how to register.'),
+   it('recruit','Recruitment (Estus Accelerator)','Show what it is like to grow as an OT at Estus: mentoring, pathways and culture. Speak to students and early-career OTs.'),
+   it('community','Community and retention','For current families: the Minecraft server, Discord and Estus culture. Warm, inside-the-tent tone.'),
+   it('gp','GP education','Help GPs know when to refer for a driving assessment. Clinical, brief and respectful of their time.'),
+   it('authority','Authority with clinicians','Share a clinical idea or framework other clinicians will save and discuss.')],
+  audience:[
+   it('p-autism','Parents of autistic kids and teens',''),
+   it('p-adhd','Parents of ADHD kids',''),
+   it('adults','Late-diagnosed adults and professionals',''),
+   it('young','Autistic and ADHD young people 17 to 25',''),
+   it('coords','Support coordinators and plan managers',''),
+   it('gps','GPs',''),
+   it('students','OT students and early-career OTs',''),
+   it('clinicians','Allied health clinicians','')],
+  topic:[
+   it('sleep','Sleep Architecture','Small Hinges: wind-down, the sleep environment and the hour before bed.'),
+   it('morning','Morning Architecture','Small Hinges: getting up and out the door with less friction.'),
+   it('energy','Energy Management','Small Hinges: spotting and pacing energy across the day.'),
+   it('load','Cognitive Load Reduction','Small Hinges: cutting the number of decisions and steps in daily tasks.'),
+   it('transitions','Transition Scaffolding','Small Hinges: moving between activities, especially off screens.'),
+   it('shutdown','Shutdown Ritual','Small Hinges: closing the day and recovering after school or work.'),
+   it('gaming','Gaming-informed therapy','Using Minecraft and games as a real therapy context for social skills, regulation and participation.'),
+   it('driving','Learning to drive','Readiness, anxiety and the path to a licence for neurodivergent young people.'),
+   it('study','Study and homework','Study spaces, routines and getting started on schoolwork.'),
+   it('custom','My own topic','Use the topic specifics below.')],
+  platform:[
+   it('reel','Instagram Reel','9:16 at 1080x1920. Keep text in the centre safe zone, clear of the bottom fifth and the right-hand buttons.'),
+   it('tiktok','TikTok','9:16 at 1080x1920. Keep text clear of the bottom caption area and the right-hand buttons.'),
+   it('shorts','YouTube Shorts','9:16 at 1080x1920. Write a searchable title as well.'),
+   it('feed45','Meta feed ad 4:5','1080x1350. Must work muted, and the first frame does the work.'),
+   it('story','Instagram Story','9:16 in 15-second segments, with a sticker or link step.')],
+  length:[it('l15','15 sec',''),it('l30','30 sec',''),it('l45','45 sec',''),it('l60','60 sec',''),it('l90','90 sec',''),it('l120','2 min','')],
+  hook:[
+   it('mbn','Must be nice','An inversion line such as "Must be nice when your kid just gets dressed and leaves." Written as one complete sentence.'),
+   it('parents','Parents often say','Starts with "Parents often say..." inside the same sentence, at full hook size.'),
+   it('question','Direct question','A question the viewer answers yes to in their head.'),
+   it('contrarian','Contrarian','Flips common advice, e.g. "Most morning routines fail because they start the night before."'),
+   it('number','Specific number','Leads with a concrete number or time, e.g. "Three minutes is all this takes."'),
+   it('mistake','Mistake callout','Names a common mistake kindly, without blaming the parent.'),
+   it('pov','POV','Starts with "POV:" and drops the viewer into a familiar moment.')],
+  captions:[
+   it('karaoke','Word-by-word highlight','Each spoken word highlights as it is said, 1 to 3 words on screen at a time.'),
+   it('phrase','Phrase blocks','2 to 4 word blocks, one at a time, timed to speech.'),
+   it('full','Full-line subtitles','One line of subtitles at a time, about 32 characters max.'),
+   it('keywords','Keywords only','Only the key words pop on screen; the rest is voice.'),
+   it('none','No captions, text cards','No running captions; short text cards between shots.')],
+  textstyle:[
+   it('brand','Estus brand style','Use the current Estus brand colours and type from the brand template.'),
+   it('contrast','High contrast','Bold white text with a soft black outline or shadow, readable on any footage.'),
+   it('boxed','Boxed text','Each text block sits on a solid rounded box.'),
+   it('minimal','Minimal','Small, clean text with lots of space around it.')],
+  cta:[
+   it('comment','Comment a keyword','Ask viewers to comment one word to get a guide or checklist.'),
+   it('form','Tap the lead form','Send them to the Meta lead form.'),
+   it('bio','Link in bio','Point to the link in bio.'),
+   it('save','Save this','Ask them to save it for later.'),
+   it('share','Send to a parent','Ask them to send it to a parent who needs it.'),
+   it('referral','Referral form','Point to the referral form at www.estushealth.com.'),
+   it('register','Register for the webinar','Point to webinar registration.')],
+  pacing:[
+   it('fast','Fast','Cut every 1 to 2 seconds.'),
+   it('medium','Medium','Cut every 2 to 4 seconds.'),
+   it('calm','Calm and sensory-friendly','Holds of 4 seconds or more, no flashes, soft transitions.')],
+  voice:[
+   it('liam-cam','Liam to camera','Liam Fagan speaks to camera.'),
+   it('liam-vo','Liam voiceover','Liam Fagan voiceover with no face on camera.'),
+   it('clinician','Team clinician','An Estus clinician speaks to camera.'),
+   it('novoice','No voice','Text on screen only.')],
+  music:[
+   it('calm','Calm bed','Low, calm instrumental under the voice.'),
+   it('upbeat','Upbeat','Light, upbeat instrumental.'),
+   it('nomusic','No music','Voice and natural sound only.'),
+   it('trending','Trending audio (added in app)','Leave room for a trending sound added natively in the app at low volume.')],
+  output:[
+   it('script','Script + shot list','1. Three hook options that follow the hook rule, then the one you would use and why.\n2. A timed script as a table: time, on-screen text, spoken line, B-roll (use the clip numbers above).\n3. A post caption under 150 words that opens with a searchable line, plus 3 to 5 relevant hashtags.\n4. Cover text for the thumbnail, under 6 words.'),
+   it('editor','Editor brief','A step-by-step edit plan an editor can follow in CapCut or Descript without having seen the brand:\n1. Clip order with in and out points (use the clip numbers above).\n2. Exactly where the hook and each caption block land, with timing.\n3. Text styling, transitions (keep them simple) and music cues.\n4. Export settings for the platform and a final checklist.'),
+   it('aivideo','AI video prompts for gaps','1. A short script and shot list.\n2. For every gap in the B-roll, one text-to-video prompt for Veo or Kling: subject, action, setting, camera move, lighting, mood, 9:16, 4 to 6 seconds. No real or identifiable people, no children\'s faces, no logos.\n3. Where each generated clip slots into the edit.'),
+   it('hooks','Hook pack only','Ten hook options. Each must be one complete sentence that works as a single on-screen block. Mark your top three with a one-line reason each.'),
+   it('adcopy','Meta ad copy set','Three Meta ad variations. For each: the on-screen hook, primary text (first line under 125 characters), a headline under 40 characters, a description and the CTA button to use. Keep every claim inside AHPRA advertising rules.')]
+ },
+ rules:'Australian spelling.\nNever use em dashes.\nNeuroaffirming language: identity-first by default (autistic teen), no "suffers from", "cure", "fix" or deficit framing.\nNo testimonials, reviews or outcome guarantees (AHPRA advertising rules).\nNo identifiable clients: no client faces, names, voices or screens.\nThe founder\'s name is Liam Fagan.\nPlain, warm and specific. Write like a clinician talking to one parent, not a brand talking to a crowd.',
+ tax:{
+  category:[
+   it('clinic','Clinic and telehealth','Clinic rooms, the desk, the telehealth setup and admin.'),
+   it('home','Home and routines','Kitchens, bedrooms, fridges, schedules, getting ready.'),
+   it('gaming','Gaming and screens','Game footage, consoles, PC setups, the Minecraft server.'),
+   it('car','Car and driving','Dash cam, roads, keys, L plates, inside the car.'),
+   it('study','Study and desk','Study spaces, planners, writing, school bags.'),
+   it('team','Team culture','Team days, the office, Estus people and rituals.'),
+   it('calm','Calm and nature','Water, trees, walks and slow scenes for regulation and pauses.'),
+   it('sport','Sport and activities','Gym, training, sport, mini golf and other outings that are not team days.'),
+   it('seasonal','Seasonal and events','Halloween, Christmas, school holidays, webinars and events.'),
+   it('podcast','Podcast clip','Riverside talking-head recordings. These live in Clip library, not the B-roll folder.')],
+  shot:[
+   it('wide','Wide','The whole scene. Sets the place.'),
+   it('med','Medium','A person from the waist up, or one group of objects.'),
+   it('cu','Close-up','One object or detail fills the frame.'),
+   it('hands','Hands','Hands doing a task, no face.'),
+   it('pov','POV','The camera is the viewer\'s eyes.'),
+   it('top','Top-down','Camera points straight down at a surface.'),
+   it('ots','Over the shoulder','Behind someone, looking at what they see.'),
+   it('screen','Screen recording','Captured from a screen, phone or game.'),
+   it('talk','Talking head','A person speaking to camera.')],
+  orient:[
+   it('vertical','Vertical 9:16','Filmed upright. The default for Reels, TikTok and Shorts.'),
+   it('horizontal','Horizontal 16:9','Filmed sideways. Gets cropped for shorts, so keep the subject in the middle third.'),
+   it('square','Square or 4:5','Fine for feed ads.')],
+  topics:[
+   it('sleep','Sleep','Bedtime, wind-down, bedrooms.'),
+   it('morning','Mornings','Getting up, dressed and out the door.'),
+   it('energy','Energy','Tired or busy moments, pacing the day.'),
+   it('load','Cognitive load','Clutter, too many steps, too many decisions.'),
+   it('transitions','Transitions','Moving between activities, coming off screens.'),
+   it('shutdown','Shutdown','Ending the day, recovery after school or work.'),
+   it('gaming','Gaming','Games, consoles, Minecraft, the Estus server.'),
+   it('driving','Driving','Cars, roads, learners, licences.'),
+   it('study','Study','Homework, school, study spaces.'),
+   it('regulation','Regulation','Calm, sensory breaks, nature, breathing.'),
+   it('social','Social skills','Playing or talking together, co-op, friendship.'),
+   it('communication','Communication','Talking, listening, explaining.'),
+   it('parenting','Parenting','Family life and supporting kids at home.'),
+   it('team','Team culture','Estus people, team days, how we work.'),
+   it('seasonal','Seasonal','Holidays, events and dates on the calendar.')],
+  mood:[
+   it('calm','Calm','Slow, still or quiet. Good under voiceover and for pauses.'),
+   it('steady','Steady','Normal pace. Fits most points.'),
+   it('high','High energy','Fast movement or action. Good for hooks and openers.')],
+  audio:[
+   it('none','No useful audio','Wind, noise or silence. Mute it.'),
+   it('ambient','Ambient sound','Natural sound worth keeping low under the voice.'),
+   it('speech','Speech','Someone talking on the clip. Check privacy before use.')],
+  privacy:[
+   it('clear','Clear to use','No clients, no identifiable kids, no names, number plates, usernames or screens with personal details.'),
+   it('blur','Needs blur','Usable once something is blurred or cropped. Say what in Notes.'),
+   it('internal','Internal only','Shows clients, private screens or anything that cannot be fixed. Never goes in a short.')]
+ },
+ broll:[
+  {id:'b1',name:'Desk, laptop and notes at end of day',shot:'Medium',location:'Clinic office',brand:'estus',duration:'0:12',tags:['admin','end of day'],source:'Drive > B-roll > Clinic',notes:'Good for the end-of-day horse emoji moment.',example:true},
+  {id:'b2',name:'Dash cam POV through a roundabout',shot:'POV',location:'Car',brand:'dots',duration:'0:20',tags:['driving','roads'],source:'Drive > B-roll > Car',notes:'Front-facing dash cam, no plates visible.',example:true},
+  {id:'b3',name:'Minecraft Bedrock server spawn',shot:'Screen recording',location:'Online',brand:'estus',duration:'0:30',tags:['gaming','minecraft'],source:'Drive > B-roll > Gaming',notes:'Hide usernames before use.',example:true},
+  {id:'b4',name:'Visual schedule on the fridge',shot:'Close-up',location:'Home kitchen',brand:'estus',duration:'0:08',tags:['mornings','routines'],source:'Drive > B-roll > Home',notes:'',example:true},
+  {id:'b5',name:'Hands writing in a planner',shot:'Hands',location:'Desk',brand:'sots',duration:'0:10',tags:['study','planning'],source:'Drive > B-roll > Study',notes:'',example:true},
+  {id:'b6',name:'Study desk setup from above',shot:'Top-down',location:'Desk',brand:'sots',duration:'0:15',tags:['study','environment'],source:'Drive > B-roll > Study',notes:'',example:true},
+  {id:'b7',name:'Telehealth call over the shoulder, no client on screen',shot:'Over the shoulder',location:'Clinic office',brand:'estus',duration:'0:14',tags:['telehealth'],source:'Drive > B-roll > Clinic',notes:'Screen must be blank or a slide.',example:true},
+  {id:'b8',name:'L plates and car keys on the bench',shot:'Close-up',location:'Home',brand:'dots',duration:'0:06',tags:['driving','learner'],source:'Drive > B-roll > Car',notes:'',example:true},
+  {id:'b9',name:'Walking the Swan River path',shot:'Wide',location:'Outdoors, Perth',brand:'estus',duration:'0:18',tags:['regulation','calm'],source:'Drive > B-roll > Outdoors',notes:'',example:true},
+  {id:'b10',name:'Podcast mic and headphones',shot:'Close-up',location:'Studio',brand:'plp',duration:'0:09',tags:['podcast'],source:'Drive > B-roll > Podcast',notes:'',example:true}
+ ],
+ recipes:[
+  {id:'r1',name:'Must be nice: mornings (lead ad)',sel:{brand:'estus',format:'mustbenice',purpose:'leads',audience:['p-autism','p-adhd'],topic:'morning',topicNotes:'Getting out the door for school without a meltdown.',platform:'reel',length:'l30',hook:'mbn',hookDraft:'',captions:'phrase',textstyle:'brand',cta:'form',pacing:'medium',voice:'liam-cam',music:'calm',output:'script',broll:['b4','b9','b1'],notes:''}},
+  {id:'r2',name:'Driving: when GPs should refer',sel:{brand:'dots',format:'talking',purpose:'gp',audience:['gps'],topic:'driving',topicNotes:'Signs a young autistic patient may need a Potential to Drive assessment before lessons.',platform:'reel',length:'l60',hook:'mistake',hookDraft:'',captions:'full',textstyle:'contrast',cta:'referral',pacing:'medium',voice:'liam-cam',music:'nomusic',output:'editor',broll:['b2','b8'],notes:''}}
+ ]
+};
+
+/* ---------- state ---------- */
+function valid(s){return s&&typeof s==='object'&&s.groups&&Array.isArray(s.broll)&&Array.isArray(s.recipes)}
+function normalise(s){GROUPS.forEach(function(g){if(!Array.isArray(s.groups[g.key]))s.groups[g.key]=clone(SEED.groups[g.key])});if(typeof s.rules!=='string')s.rules=SEED.rules;
+  if(!s.tax||typeof s.tax!=='object')s.tax={};
+  TAXG.forEach(function(g){if(!Array.isArray(s.tax[g.key]))s.tax[g.key]=clone(SEED.tax[g.key])});
+  s.broll.forEach(function(c){
+    if(c.shot&&!s.tax.shot.some(function(x){return x.id===c.shot})){var m=s.tax.shot.filter(function(x){return x.label.toLowerCase()===String(c.shot).toLowerCase()})[0];c.shot=m?m.id:''}
+    if(!Array.isArray(c.topics))c.topics=[];if(!Array.isArray(c.tags))c.tags=[];
+  });
+  return s}
+function readEmbedded(){try{var t=document.getElementById('state').textContent.trim();if(!t||t==='null')return null;var s=JSON.parse(t);return valid(s)?s:null}catch(e){return null}}
+var S=normalise(readEmbedded()||clone(SEED));
+
+function blankDraft(){var d={broll:[],audience:[],topicNotes:'',hookDraft:'',notes:''};GROUPS.forEach(function(g){if(!g.multi)d[g.key]=''});return d}
+function startDraft(){var r=S.recipes[0];return r?Object.assign(blankDraft(),clone(r.sel)):blankDraft()}
+var savedDraft=lsGet(LS_DRAFT);
+var draft=savedDraft?Object.assign(blankDraft(),savedDraft):startDraft();
+function saveDraft(){lsSet(LS_DRAFT,draft)}
+
+var api=null, assetsApi=null, storeMode='connecting', readOnly=false, dirty=false;
+var brollQ='', libQ='', libCat='', libBrand='', libTodo='', openLists={};
+var fb={brand:'estus',category:'',shot:'',subject:'',filmed:''};
+
+function adoptLocal(){var l=lsGet(LS_STATE);if(valid(l)&&(l.savedAt||0)>(S.savedAt||0)){S=normalise(l);render()}}
+function connect(){
+  if(!(window.claude&&typeof window.claude.use==='function')){storeMode='local';adoptLocal();setStatus();return}
+  window.claude.use('artifact').then(function(a){if(a){api=a;storeMode='shared'}else{storeMode='local';adoptLocal()}setStatus()}).catch(function(){storeMode='local';adoptLocal();setStatus()});
+  window.claude.use('assets').then(function(a){assetsApi=a||null}).catch(function(){assetsApi=null});
+}
+function buildDoc(){
+  var css=document.getElementById('appstyle').textContent;
+  var js=document.getElementById('appjs').textContent;
+  var json=JSON.stringify(S).replace(/</g,'\\u003c');
+  return '<!DOCTYPE html>\n<html lang="en-AU">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>Shorts Prompt Maker</title>\n<link rel="preconnect" href="https://fonts.googleapis.com">\n<link href="'+FONT_HREF+'" rel="stylesheet">\n<style id="appstyle">'+css+'</style>\n</head>\n<body>\n<div id="app"></div>\n<script type="application/json" id="state">'+json+'<\/script>\n<script id="appjs">'+js+'<\/script>\n</body>\n</html>\n';
+}
+function save(){
+  S.savedAt=Date.now();saveDraft();
+  if(api&&!readOnly){
+    setStatus('Saving');
+    return api.publish(buildDoc()).then(function(){setStatus('Saved')}).catch(function(e){
+      var code=String((e&&(e.code||e.name||e.message))||e||'');
+      if(/conflict/i.test(code)){toast('Someone else saved first, so this page will reload with their version.')}
+      else if(/not_granted|not_writer/i.test(code)){readOnly=true;lsSet(LS_STATE,S);setStatus();toast('You can view this page but not save to it. Your change is kept in this browser only.')}
+      else{lsSet(LS_STATE,S);setStatus();toast('Saving to the page failed ('+code+'). Your change is kept in this browser for now.')}
+    });
+  }
+  var ok=lsSet(LS_STATE,S);setStatus();
+  if(!ok)toast('This browser would not store the change. Use Export JSON on the Lists tab to keep a copy.');
+  return Promise.resolve();
+}
+function statusText(){if(readOnly)return 'View only';return storeMode==='shared'?'Saves to this page':storeMode==='local'?'Saves in this browser':'Connecting'}
+function statusClass(){return storeMode==='shared'&&!readOnly?'shared':''}
+function setStatus(t){var el=document.getElementById('status');if(el){el.textContent=t||statusText();el.className='status '+statusClass()}}
+var toastTimer=null;
+function toast(msg){var old=document.querySelector('.toast');if(old)old.remove();var d=document.createElement('div');d.className='toast';d.setAttribute('role','status');d.textContent=msg;document.body.appendChild(d);clearTimeout(toastTimer);toastTimer=setTimeout(function(){d.remove()},3800)}
+
+/* ---------- lookups ---------- */
+function L(g,id){return (S.groups[g]||[]).filter(function(x){return x.id===id})[0]||null}
+function labelOf(g,id){var x=L(g,id);return x?x.label:''}
+function clipById(id){return S.broll.filter(function(c){return c.id===id})[0]||null}
+function sentence(x){if(!x)return '';var l=trimDot(x.label);return x.detail?l+'. '+x.detail.trim():l+'.'}
+function hue(s){var h=0;s=String(s||'');for(var i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))%360;return h}
+function T(k,id){return ((S.tax||{})[k]||[]).filter(function(x){return x.id===id})[0]||null}
+function tl(k,id){var x=T(k,id);return x?x.label:''}
+function listRef(k){return k.indexOf('tax:')===0?S.tax[k.slice(4)]:S.groups[k]}
+function canUse(c){return c.privacy!=='internal'}
+function missing(c){var m=[];if(!c.img)m.push('screenshot');if(!c.brand)m.push('brand');if(!c.category)m.push('category');if(!c.shot)m.push('shot type');if(!c.orient)m.push('orientation');if(!(c.topics||[]).length)m.push('topic');if(!c.privacy)m.push('privacy check');return m}
+function todoCount(){return S.broll.filter(function(c){return missing(c).length}).length}
+function slug(v){return String(v||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,40)}
+function fileName(c){var d=String(c.filmed||'').replace(/-/g,'');return [BRAND_CODE[c.brand]||c.brand||'brand',c.category||'category',c.shot||'shot',slug(c.subject||c.name)||'subject',d||'yyyymmdd'].join('_')+'.mp4'}
+function drivePath(c){if(c.category==='podcast')return 'Clip library';var cat=T('category',c.category);return 'Shorts B-roll Library > '+(BRAND_FOLDER[c.brand]||'Brand')+' > '+(cat?cat.label:'Category')}
+function optsel(list,sel,blank){return '<option value="">'+esc(blank||'Choose')+'</option>'+list.map(function(x){return '<option value="'+esc(x.id)+'"'+(x.id===sel?' selected':'')+'>'+esc(x.label)+'</option>'}).join('')}
+function copyText(txt,btn){var fail=function(){toast('Copy was blocked. Select the text and copy it by hand.')};var done=function(){var o=btn.textContent;btn.textContent='Copied';setTimeout(function(){btn.textContent=o},1500)};try{navigator.clipboard.writeText(txt).then(done,fail)}catch(e){fail()}}
+function matches(c,q){if(!q)return true;return [c.name,c.subject,c.location,(c.tags||[]).join(' '),c.notes,labelOf('brand',c.brand),tl('category',c.category),tl('shot',c.shot),(c.topics||[]).map(function(t){return tl('topics',t)}).join(' ')].join(' ').toLowerCase().indexOf(q.toLowerCase())>=0}
+
+/* ---------- prompt ---------- */
+function clipLine(c){var meta=[tl('shot',c.shot),tl('orient',c.orient),tl('mood',c.mood),c.location,c.duration].filter(Boolean).join(', ');return trimDot(c.name)+(meta?' ('+meta+')':'')+'.'+(c.source?' File: '+trimDot(c.source)+'.':'')+(c.audio==='speech'?' Has speech.':'')+(c.privacy==='blur'?' Blur before use.':'')+(c.notes?' Note: '+trimDot(c.notes)+'.':'')}
+function buildPrompt(d){
+  var o=[], b=L('brand',d.brand), f=L('format',d.format);
+  o.push('BRIEF: '+(f?f.label:'Short-form video')+(b?' for '+b.label:''),'');
+  o.push('ROLE');
+  o.push(b?'You are a short-form video strategist and scriptwriter for '+b.label+(b.detail?', '+trimDot(b.detail):'')+'.':'You are a short-form video strategist and scriptwriter.');
+  o.push('');
+  var sh=[];
+  if(f)sh.push('- Type: '+sentence(f));
+  var p=L('purpose',d.purpose);if(p)sh.push('- Purpose: '+sentence(p));
+  var aud=(d.audience||[]).map(function(id){return L('audience',id)}).filter(Boolean);
+  if(aud.length)sh.push('- Audience: '+aud.map(function(a){return a.label}).join('; ')+'.'+aud.filter(function(a){return a.detail}).map(function(a){return ' '+a.detail}).join(''));
+  var t=L('topic',d.topic), tn=(d.topicNotes||'').trim();
+  if(t||tn)sh.push('- Topic: '+(t?sentence(t):'')+(tn?(t?' ':'')+'Specifics: '+tn:''));
+  var pl=L('platform',d.platform);if(pl)sh.push('- Platform: '+sentence(pl));
+  var le=L('length',d.length);if(le)sh.push('- Length: '+sentence(le));
+  if(sh.length){o.push('THE SHORT');o=o.concat(sh);o.push('')}
+  o.push('HOOK');
+  var h=L('hook',d.hook);if(h)o.push('- Style: '+sentence(h));
+  var hd=(d.hookDraft||'').trim();if(hd)o.push('- My starting line: "'+hd+'" Keep the meaning and tighten it if that helps.');
+  o.push('- Rule: '+HOOK_RULE,'');
+  var w=[], cap=L('captions',d.captions), ts=L('textstyle',d.textstyle), cta=L('cta',d.cta);
+  if(cap)w.push('- Captions: '+sentence(cap));
+  if(ts)w.push('- Text look: '+sentence(ts));
+  if(cta)w.push('- Call to action: '+sentence(cta));
+  if(w.length){o.push('CAPTIONS AND TEXT');o=o.concat(w);o.push('')}
+  o.push('PICTURE AND SOUND');
+  var clips=(d.broll||[]).map(clipById).filter(Boolean);
+  if(clips.length){
+    o.push('- B-roll I have, in the order I want it (change the order only if the story clearly needs it):');
+    clips.forEach(function(c,i){o.push('  '+(i+1)+'. '+clipLine(c))});
+    o.push('- If the script needs a shot that is not on this list, flag it as a gap.');
+  }else o.push('- No B-roll picked yet. Suggest 4 to 6 shots I could film on a phone in a clinic, at home or in a car.');
+  var pa=L('pacing',d.pacing), vo=L('voice',d.voice), mu=L('music',d.music);
+  if(pa)o.push('- Pacing: '+sentence(pa));
+  if(vo)o.push('- Voice: '+sentence(vo));
+  if(mu)o.push('- Sound: '+sentence(mu));
+  o.push('');
+  var rules=(S.rules||'').split('\n').map(function(s){return s.trim().replace(/^[-•*]\s*/,'')}).filter(Boolean);
+  if(rules.length){o.push('HOUSE RULES');rules.forEach(function(r){o.push('- '+r)});o.push('')}
+  o.push('WHAT I WANT BACK');
+  var out=L('output',d.output)||L('output','script')||SEED.groups.output[0];
+  o.push(out.detail||out.label);
+  var n=(d.notes||'').trim();if(n)o.push('','ALSO',n);
+  return o.join('\n');
+}
+
+/* ---------- render: shared bits ---------- */
+var app=document.getElementById('app');
+var LOGO='<svg width="26" height="38" viewBox="0 0 26 38" aria-hidden="true"><rect x="1.5" y="1.5" width="23" height="35" rx="5" fill="none" stroke="currentColor" stroke-width="3"/><rect x="5.5" y="25" width="15" height="5" rx="1.5" fill="#ffd94a"/><circle cx="18.5" cy="8.5" r="3" fill="#e0483a"/></svg>';
+function tab(){var h=location.hash.replace('#','');return TABS.some(function(t){return t[0]===h})?h:'build'}
+function headerHTML(t){
+  return '<header class="top"><div class="wrap top-in"><div class="mark">'+LOGO+'<div><h1>Shorts Prompt Maker</h1><p class="tag">Pick the parts. Copy a ready-made prompt.</p></div></div><span class="status '+statusClass()+'" id="status">'+esc(statusText())+'</span><nav class="tabs" aria-label="Sections">'+
+  TABS.map(function(x){return '<a href="#'+x[0]+'"'+(x[0]===t?' aria-current="page"':'')+'>'+x[1]+(x[0]==='guide'?'<span class="cnt" title="Clips that need tagging">'+todoCount()+'</span>':x[0]==='library'?'<span class="cnt">'+S.broll.length+'</span>':x[0]==='recipes'?'<span class="cnt">'+S.recipes.length+'</span>':'')+'</a>'}).join('')+'</nav></div></header>';
+}
+function thumb(c,cls){
+  cls=cls||'';var ex=c.example?'<span class="ex">Example</span>':'';
+  if(c.img)return '<span class="th '+cls+'"><img src="'+esc(c.img)+'" alt="" loading="lazy">'+ex+'</span>';
+  return '<span class="th ph '+cls+'" style="--h:'+hue(c.name)+'"><span class="phl">'+esc(tl('shot',c.shot)||tl('category',c.category)||'Clip')+'</span>'+ex+'</span>';
+}
+function render(){
+  var t=tab();
+  app.innerHTML=headerHTML(t)+'<main class="wrap">'+(t==='build'?buildHTML():t==='library'?libraryHTML():t==='guide'?guideHTML():t==='recipes'?recipesHTML():listsHTML())+'</main>';
+  if(t==='build')updatePrompt();
+  if(t==='guide')updateFb();
+}
+
+/* ---------- build tab ---------- */
+function groupHTML(key){
+  var g=GMAP[key], items=S.groups[key]||[], sel=draft[key];
+  var on=function(id){return g.multi?(sel||[]).indexOf(id)>=0:sel===id};
+  var det=g.multi?'':((L(key,sel)||{}).detail||'');
+  return '<div class="group" id="g-'+key+'"><div class="g-title">'+esc(g.title)+(g.multi?' <span class="hint">pick any</span>':'')+'</div><div class="chips" role="group" aria-label="'+esc(g.title)+'">'+
+    items.map(function(x){return '<button type="button" class="chip" data-act="chip" data-g="'+key+'" data-id="'+esc(x.id)+'" aria-pressed="'+on(x.id)+'">'+esc(x.label)+'</button>'}).join('')+
+    (items.length?'':'<span class="empty">No options. Add some on the Lists tab.</span>')+'</div><p class="g-detail">'+esc(det)+'</p></div>';
+}
+function groups(keys){return keys.map(groupHTML).join('')}
+function field(key,label,kind,ph){
+  return '<label class="f" for="f-'+key+'">'+esc(label)+(kind==='textarea'?'<textarea id="f-'+key+'" data-field="'+key+'" rows="2" placeholder="'+esc(ph)+'">'+esc(draft[key]||'')+'</textarea>':'<input id="f-'+key+'" data-field="'+key+'" placeholder="'+esc(ph)+'" value="'+esc(draft[key]||'')+'">')+'</label>';
+}
+function sec(n,title,inner){return '<section class="sec"><div class="sec-h"><span class="n">'+n+'</span><h2>'+esc(title)+'</h2></div>'+inner+'</section>'}
+function stripHTML(){
+  var bb=draft.brand, tp=draft.topic, list=S.broll.filter(function(c){return matches(c,brollQ)&&canUse(c)});
+  var score=function(c){return (c.brand===bb?2:0)+((c.topics||[]).indexOf(tp)>=0?3:0)};
+  list.sort(function(a,b){return score(b)-score(a)});
+  if(!list.length)return '<p class="empty">No clips match. Add some in the library.</p>';
+  return list.map(function(c){var n=(draft.broll||[]).indexOf(c.id);return '<button type="button" class="sthumb" data-act="pick" data-id="'+esc(c.id)+'" aria-pressed="'+(n>=0)+'" aria-label="'+(n>=0?'Remove ':'Add ')+esc(c.name)+'">'+thumb(c)+(n>=0?'<span class="badge">'+(n+1)+'</span>':'')+'<span class="slabel">'+esc(c.name)+'</span></button>'}).join('');
+}
+function pickedHTML(){
+  var ids=(draft.broll||[]).filter(function(id){return clipById(id)});
+  if(!ids.length)return '<p class="empty">No clips picked. The prompt will ask for a list of shots to film instead.</p>';
+  return '<ol class="picked">'+ids.map(function(id,i){var c=clipById(id),nm=esc(c.name);return '<li><span class="num">'+(i+1)+'</span>'+thumb(c,'mini')+'<span class="pname">'+nm+'</span><span class="pbtns"><button type="button" class="icon" data-act="up" data-id="'+esc(id)+'" aria-label="Move '+nm+' earlier"'+(i===0?' disabled':'')+'>&#8593;</button><button type="button" class="icon" data-act="down" data-id="'+esc(id)+'" aria-label="Move '+nm+' later"'+(i===ids.length-1?' disabled':'')+'>&#8595;</button><button type="button" class="icon" data-act="pick" data-id="'+esc(id)+'" aria-label="Remove '+nm+'">&#215;</button></span></li>'}).join('')+'</ol>';
+}
+function brollHTML(){
+  return '<div class="group" id="g-broll"><div class="g-title">B-roll <span class="hint">tap clips in the order you want them</span><a href="#library">Open library</a></div>'+
+  '<input type="search" id="brollSearch" placeholder="Filter clips by name, tag or place" value="'+esc(brollQ)+'" aria-label="Filter B-roll clips" style="margin-bottom:10px">'+
+  '<div class="strip" id="brollStrip">'+stripHTML()+'</div><div id="brollPicked">'+pickedHTML()+'</div></div>';
+}
+function buildHTML(){
+  return '<div class="build"><div class="controls">'+
+  '<div class="startbar"><label class="f" for="recipeSel">Start from a recipe<select id="recipeSel"><option value="">Choose a saved recipe</option>'+S.recipes.map(function(r){return '<option value="'+esc(r.id)+'">'+esc(r.name)+'</option>'}).join('')+'</select></label></div>'+
+  sec('01','What it is',groups(['brand','format','purpose','audience','topic'])+field('topicNotes','Topic specifics','textarea','e.g. Getting out the door for school without a meltdown'))+
+  sec('02','Where it goes',groups(['platform','length']))+
+  sec('03','Words on screen',groups(['hook'])+field('hookDraft','Hook line, if you already have one','input','One complete sentence')+groups(['captions','textstyle','cta']))+
+  sec('04','Picture and sound',brollHTML()+groups(['pacing','voice','music']))+
+  sec('05','What you want back',groups(['output'])+field('notes','Anything else','textarea','e.g. Mention the November webinar on divided attention'))+
+  '</div><aside class="out" id="out" aria-label="Generated prompt"><div class="out-h"><h2>Your prompt</h2><span class="wc" id="wc"></span></div><pre id="prompt" tabindex="0"></pre><div class="out-a"><button type="button" class="btn primary" data-act="copy">Copy prompt</button><button type="button" class="btn" data-act="save-recipe">Save as recipe</button><button type="button" class="btn ghost" data-act="clear">Clear all</button></div></aside></div>'+
+  '<div class="mobilebar"><button type="button" class="btn" data-act="see-prompt">See prompt</button><button type="button" class="btn primary" data-act="copy">Copy prompt</button></div>';
+}
+function updatePrompt(){var pre=document.getElementById('prompt');if(!pre)return;var p=buildPrompt(draft);pre.textContent=p;var wc=document.getElementById('wc');if(wc)wc.textContent=p.split(/\s+/).filter(Boolean).length+' words'}
+function refreshGroup(key,focusId){
+  var el=document.getElementById('g-'+key);if(!el)return;el.outerHTML=groupHTML(key);
+  if(focusId){var b=document.querySelector('#g-'+key+' [data-id="'+focusId.replace(/"/g,'')+'"]');if(b)b.focus()}
+}
+function refreshBroll(){
+  var s=document.getElementById('brollStrip'), p=document.getElementById('brollPicked');
+  if(s){var x=s.scrollLeft;s.innerHTML=stripHTML();s.scrollLeft=x}
+  if(p)p.innerHTML=pickedHTML();
+  var grid=document.getElementById('libGrid');if(grid)grid.innerHTML=gridHTML();
+}
+
+/* ---------- library tab ---------- */
+function privacyPill(c){return c.privacy==='blur'?'<span class="pill warn">Needs blur</span>':c.privacy==='internal'?'<span class="pill warn">Internal only</span>':''}
+function gridHTML(){
+  var list=S.broll.filter(function(c){return matches(c,libQ)&&(!libCat||c.category===libCat)&&(!libBrand||c.brand===libBrand)&&(!libTodo||missing(c).length)});
+  if(!list.length)return '<p class="empty">'+(S.broll.length?'No clips match those filters.':'No clips yet. Add your first one with a screenshot of the scene.')+'</p>';
+  return list.map(function(c){
+    var n=(draft.broll||[]).indexOf(c.id), ms=missing(c);
+    var meta=[tl('shot',c.shot),tl('orient',c.orient),c.duration].filter(Boolean).map(esc).join(' &middot; ');
+    var where=[labelOf('brand',c.brand),tl('category',c.category)].filter(Boolean).map(esc).join(' &middot; ');
+    var tags=(c.topics||[]).map(function(t){return tl('topics',t)}).filter(Boolean).concat(c.tags||[]);
+    var status=ms.length?'<span class="pill warn">Needs tagging</span>':'<span class="pill ok">Complete</span>';
+    var pickBtn=canUse(c)?'<button type="button" class="btn" data-act="pick" data-id="'+esc(c.id)+'" aria-pressed="'+(n>=0)+'">'+(n>=0?'In short #'+(n+1):'Add to short')+'</button>':'<button type="button" class="btn" disabled>Internal only</button>';
+    return '<article class="card"><button type="button" class="card-media" data-act="edit-clip" data-id="'+esc(c.id)+'" aria-label="Edit '+esc(c.name)+'">'+thumb(c)+'</button><div class="card-b"><div class="pills">'+status+privacyPill(c)+'</div><h3>'+esc(c.name)+'</h3>'+(meta?'<p class="meta">'+meta+'</p>':'')+(where?'<p class="meta">'+where+'</p>':'')+
+    (tags.length?'<div class="tags">'+tags.map(function(x){return '<span>'+esc(x)+'</span>'}).join('')+'</div>':'')+
+    (ms.length?'<p class="missing">Missing: '+esc(ms.join(', '))+'</p>':'')+'</div><div class="card-a">'+pickBtn+'<button type="button" class="btn ghost" data-act="edit-clip" data-id="'+esc(c.id)+'">'+(ms.length?'Tag it':'Edit')+'</button></div></article>';
+  }).join('');
+}
+function libraryHTML(){
+  var t=todoCount();
+  return '<div class="page-h"><h2>B-roll library</h2><button type="button" class="btn primary" data-act="add-clip">Add clip</button><p>Every clip, with a screenshot of the scene. Tag each one by the <a href="#guide">Tagging guide</a> so it shows up in the right builds. '+(t?t+' clip'+(t===1?' needs':'s need')+' tagging.':'Every clip is fully tagged.')+'</p></div>'+
+  '<div class="filters"><input type="search" id="libSearch" placeholder="Search name, topic or tag" aria-label="Search clips" value="'+esc(libQ)+'">'+
+  '<select id="libCat" aria-label="Category">'+optsel(S.tax.category,libCat,'All categories')+'</select>'+
+  '<select id="libBrand" aria-label="Brand">'+optsel(S.groups.brand,libBrand,'All brands')+'</select>'+
+  '<select id="libTodo" aria-label="Tagging status"><option value="">All clips</option><option value="1"'+(libTodo?' selected':'')+'>Needs tagging</option></select></div>'+
+  '<div class="grid" id="libGrid">'+gridHTML()+'</div>';
+}
+
+/* ---------- tagging guide tab ---------- */
+function stdTable(title,note,list,showCode,codeOf){
+  return '<section class="panel"><h3>'+esc(title)+'</h3><p class="sub">'+esc(note)+'</p><div class="tblwrap"><table class="tax"><thead><tr><th scope="col">Option</th>'+(showCode?'<th scope="col">File code</th>':'')+'<th scope="col">Use it when</th></tr></thead><tbody>'+
+  list.map(function(x){return '<tr><td><b>'+esc(x.label)+'</b></td>'+(showCode?'<td><code>'+esc(codeOf?codeOf(x):x.id)+'</code></td>':'')+'<td>'+esc(x.detail)+'</td></tr>'}).join('')+'</tbody></table></div></section>';
+}
+function guideHTML(){
+  var q=S.broll.filter(function(c){return missing(c).length});
+  var brands=S.groups.brand.map(function(b){return {id:b.id,label:b.label,detail:'Drive folder: '+(BRAND_FOLDER[b.id]||b.label)}});
+  return '<div class="page-h"><h2>Tagging guide</h2><p>One standard for filing and tagging every B-roll clip. Anyone on the team files it the same way, and the prompt maker can find the right shot. Do these steps for every clip, every time.</p></div><div class="guide">'+
+  '<section class="panel"><h3>The process</h3><ol class="steps">'+
+  '<li><b>Film it right</b>Vertical 9:16 unless you need wide. Hold each shot for at least 5 seconds. No client faces, names, voices or screens, and no identifiable kids.</li>'+
+  '<li><b>Name the file</b>Use the file name builder below before you upload. The format is <code>brand_category_shot_subject_yyyymmdd.mp4</code>: lower case, with hyphens inside each part.</li>'+
+  '<li><b>Upload to the right folder</b>In Drive: Shorts B-roll Library, then the brand folder, then the category folder. If the category folder is missing, create it with the exact category name from the table below. Podcast and webinar recordings go in Clip library instead.</li>'+
+  '<li><b>Add it to the library</b>On the B-roll library tab, tap Add clip. Paste a screenshot from about 1 second in, then fill every required field: brand, category, shot type, orientation, at least one topic and the privacy check. Clips you add here save in your browser only. To add them for the whole team, tell Liam or ask Claude to sync B-roll.</li>'+
+  '<li><b>Do the privacy check</b>Clear to use means it can be posted as it is. Needs blur means fix it before it goes in a short (number plates, usernames, faces in the background), and say what in Notes. Internal only clips can never go in a short, and the builder will not let you pick them.</li>'+
+  '<li><b>Clear the queue every week</b>Any clip missing something shows in the list below and on its library card. Get the count to zero each week. To bring new Drive files across, ask Claude to sync B-roll.</li></ol></section>'+
+  '<section class="panel"><h3>File name builder</h3><p class="sub">Fill these in, copy the name, then rename the file before you upload it.</p><div class="form-grid">'+
+  '<label class="f" for="fb-brand">Brand<select id="fb-brand" data-fb="brand">'+optsel(S.groups.brand,fb.brand)+'</select></label>'+
+  '<label class="f" for="fb-cat">Category<select id="fb-cat" data-fb="category">'+optsel(S.tax.category,fb.category)+'</select></label>'+
+  '<label class="f" for="fb-shot">Shot type<select id="fb-shot" data-fb="shot">'+optsel(S.tax.shot,fb.shot)+'</select></label>'+
+  '<label class="f" for="fb-date">Filmed on<input type="date" id="fb-date" data-fb="filmed" value="'+esc(fb.filmed)+'"></label>'+
+  '<label class="f wide" for="fb-subject">Subject, 2 to 4 words<input id="fb-subject" data-fb="subject" value="'+esc(fb.subject)+'" placeholder="smiths lake water"></label></div>'+
+  '<div class="fname" style="margin-top:12px"><code id="fb-out"></code><button type="button" class="btn primary" data-act="fb-copy">Copy name</button></div><p class="meta" id="fb-path" style="margin-top:6px"></p></section>'+
+  '<section class="panel"><h3>Needs tagging ('+q.length+')</h3>'+(q.length?'<div class="rows">'+q.map(function(c){return '<div class="qrow">'+thumb(c,'mini')+'<span class="pname"><b>'+esc(c.name)+'</b><span class="missing">Missing: '+esc(missing(c).join(', '))+'</span></span><button type="button" class="btn" data-act="edit-clip" data-id="'+esc(c.id)+'">Tag it</button></div>'}).join('')+'</div>':'<p class="empty">Nothing to tag. Every clip is complete.</p>')+'</section>'+
+  '<h3 style="margin-top:8px">The standard</h3>'+
+  stdTable('Brand','Required. Sets the top folder in Drive.',brands,true,function(x){return BRAND_CODE[x.id]||x.id})+
+  TAXG.map(function(g){return stdTable(g.title,g.note,S.tax[g.key],g.code)}).join('')+
+  '<p class="sub">To change these lists, use the Lists and rules tab. Change them rarely and tell the team when you do.</p></div>';
+}
+function updateFb(){var o=document.getElementById('fb-out');if(!o)return;o.textContent=fileName(fb);document.getElementById('fb-path').textContent='Upload to: '+drivePath(fb)}
+
+/* ---------- recipes tab ---------- */
+function summary(sel){return ['brand','format','purpose','platform','length'].map(function(k){return labelOf(k,sel[k])}).filter(Boolean).map(esc).join(' &middot; ')}
+function recipesHTML(){
+  return '<div class="page-h"><h2>Recipes</h2><button type="button" class="btn primary" data-act="save-recipe">Save current build</button><p>Combinations you reuse. Load one, then tweak it on the Build tab.</p></div><div class="rec-list">'+
+  (S.recipes.length?S.recipes.map(function(r){var nb=(r.sel.broll||[]).length;return '<article class="rec" id="rec-'+esc(r.id)+'"><div><h3>'+esc(r.name)+'</h3><p class="meta">'+summary(r.sel)+'</p><p class="meta">'+nb+' B-roll clip'+(nb===1?'':'s')+'</p></div><div class="rec-btns"><button type="button" class="btn primary" data-act="load-recipe" data-id="'+esc(r.id)+'">Load</button><button type="button" class="btn ghost" data-act="del-recipe" data-id="'+esc(r.id)+'">Delete</button></div></article>'}).join(''):'<p class="empty">No recipes yet. Build a short, then tap Save as recipe.</p>')+'</div>';
+}
+
+/* ---------- lists tab ---------- */
+function listPanel(key,title,items){
+  return '<details class="panel" data-lg="'+key+'"'+(openLists[key]?' open':'')+'><summary>'+esc(title)+' <span>'+items.length+' options</span></summary><div class="rows">'+
+  items.map(function(x,i){var b='l-'+key.replace(':','-')+'-'+i;return '<div class="lrow"><input id="'+b+'-label" aria-label="Option name" data-lg="'+key+'" data-li="'+i+'" data-lf="label" value="'+esc(x.label)+'"><textarea id="'+b+'-detail" aria-label="Description for '+esc(x.label)+'" data-lg="'+key+'" data-li="'+i+'" data-lf="detail" rows="2" placeholder="What this option means">'+esc(x.detail)+'</textarea><button type="button" class="btn ghost" data-act="list-del" data-g="'+key+'" data-i="'+i+'">Remove</button></div>'}).join('')+
+  '</div><button type="button" class="btn" data-act="list-add" data-g="'+key+'">Add option</button></details>';
+}
+function listsHTML(){
+  return '<div class="page-h"><h2>Lists and rules</h2><p>Change the options the builder and the library show. For prompt options, the text under each one is exactly what goes into the prompt.</p></div>'+
+  '<section class="panel"><h3>House rules</h3><p class="sub">One rule per line. Added to every prompt. The one-sentence hook rule is always included as well.</p><textarea id="rules" data-lf="rules" rows="8" aria-label="House rules">'+esc(S.rules)+'</textarea></section>'+
+  '<h3 style="margin:18px 0 8px">Prompt options</h3>'+
+  GROUPS.map(function(g){return listPanel(g.key,g.title,S.groups[g.key])}).join('')+
+  '<h3 style="margin:18px 0 4px">B-roll tagging standard</h3><p class="sub">These lists are the standard in the Tagging guide. Change them rarely and tell the team. Removing an option sends clips that used it back to Needs tagging.</p>'+
+  TAXG.map(function(g){return listPanel('tax:'+g.key,g.title,S.tax[g.key])}).join('')+
+  '<section class="panel"><h3>Backup</h3><p class="sub">Copy everything (lists, rules, clips and recipes) as JSON to keep a backup, or paste one back in.</p><div class="row-btns"><button type="button" class="btn" data-act="export">Export JSON</button><button type="button" class="btn" data-act="import">Import JSON</button></div></section>'+
+  '<div class="savebar'+(dirty?' show':'')+'" id="savebar"><span>Unsaved changes to your lists</span><button type="button" class="btn primary" data-act="lists-save">Save changes</button></div>';
+}
+function fixFresh(){TAXG.forEach(function(g){var arr=S.tax[g.key];arr.forEach(function(x){if(x.fresh){var base=slug(x.label)||'option',id=base,n=2;while(arr.some(function(y){return y!==x&&y.id===id}))id=base+'-'+(n++);x.id=id;delete x.fresh}})})}
+function markDirty(){dirty=true;var b=document.getElementById('savebar');if(b)b.classList.add('show')}
+
+/* ---------- modals ---------- */
+var modalEl=null, modalCleanup=null;
+function openModal(html,mount){
+  closeModal();var ov=document.createElement('div');ov.className='overlay';ov.innerHTML='<div class="modal" role="dialog" aria-modal="true">'+html+'</div>';document.body.appendChild(ov);modalEl=ov;
+  ov.addEventListener('mousedown',function(e){if(e.target===ov)closeModal()});
+  var onKey=function(e){if(e.key==='Escape')closeModal()};document.addEventListener('keydown',onKey);modalCleanup=[function(){document.removeEventListener('keydown',onKey)}];
+  var m=ov.querySelector('.modal');if(mount)mount(m);
+  var f=m.querySelector('[data-focus]')||m.querySelector('input:not([type=file]),textarea,select,button');if(f)f.focus();
+}
+function closeModal(){if(modalCleanup)modalCleanup.forEach(function(f){f()});modalCleanup=null;if(modalEl)modalEl.remove();modalEl=null}
+function inp(id,label,val,ph,cls){return '<label class="f'+(cls?' '+cls:'')+'" for="'+id+'">'+esc(label)+'<input id="'+id+'" value="'+esc(val||'')+'" placeholder="'+esc(ph||'')+'"></label>'}
+function loadImage(file){return new Promise(function(res,rej){var url=URL.createObjectURL(file);var img=new Image();img.onload=function(){res({img:img,url:url})};img.onerror=function(){rej(new Error('That file could not be read as an image. Try a PNG or JPG screenshot.'))};img.src=url})}
+function resizeCanvas(img,max){var w=img.naturalWidth,h=img.naturalHeight,s=Math.min(1,max/Math.max(w,h));var c=document.createElement('canvas');c.width=Math.round(w*s);c.height=Math.round(h*s);c.getContext('2d').drawImage(img,0,0,c.width,c.height);return c}
+function storeImage(img){
+  if(assetsApi){var cv=resizeCanvas(img,900);return new Promise(function(res,rej){cv.toBlob(function(b){b?res(b):rej(new Error('the image could not be prepared'))},'image/jpeg',0.82)}).then(function(blob){return assetsApi.upload(blob)}).then(function(r){return {url:r.url||('/_blob/'+r.id),id:r.id}})}
+  var cv2=resizeCanvas(img,380);return Promise.resolve({url:cv2.toDataURL('image/jpeg',0.72),id:null});
+}
+function chipRow(key,sel,multi){return '<div class="chips sm" role="group" aria-label="'+esc(TG[key].title)+'" data-tk="'+key+'"'+(multi?' data-multi="1"':'')+'>'+(S.tax[key]||[]).map(function(x){var on=multi?(sel||[]).indexOf(x.id)>=0:sel===x.id;return '<button type="button" class="chip" data-tv="'+esc(x.id)+'" aria-pressed="'+on+'">'+esc(x.label)+'</button>'}).join('')+'</div>'}
+function blk(key,sel){var g=TG[key];return '<div class="wide"><div class="g-title">'+esc(g.title)+(g.multi?' <span class="hint">pick all that fit</span>':'')+(g.req?' <span class="req">required</span>':'')+'</div>'+chipRow(key,sel,g.multi)+'<p class="g-detail" data-det="'+key+'"></p></div>'}
+function openClipModal(id){
+  var c=id?clipById(id):null, pending=null, src=c||{}, req=' <span class="req">required</span>';
+  var html='<h2>'+(c?'Tag clip':'Add a B-roll clip')+'</h2><p class="sub">Tag it by the <a href="#guide" id="cf-guide">Tagging guide</a>. A clip counts as complete only when every required field is filled. You can save part way and finish later.</p>'+
+  '<div class="drop" id="drop"><div class="drop-prev" id="dropPrev">'+(c?thumb(c):'<span class="th"></span>')+'</div><div class="drop-text"><strong>Screenshot of the scene'+req+'</strong><span>Take it about 1 second in. Choose an image, drop one here, or paste it.</span><span><label class="btn" for="cf-file">Choose image</label></span><input type="file" id="cf-file" accept="image/*" class="vh"></div></div>'+
+  '<div class="form-grid">'+inp('cf-name','Name',src.name,'e.g. Smiths Lake water through trees','wide')+
+  '<label class="f" for="cf-brand"><span>Brand'+req+'</span><select id="cf-brand">'+optsel(S.groups.brand,src.brand)+'</select></label>'+
+  '<label class="f" for="cf-cat"><span>Category'+req+'</span><select id="cf-cat">'+optsel(S.tax.category,src.category)+'</select></label>'+
+  blk('shot',src.shot)+blk('orient',src.orient)+blk('topics',src.topics)+blk('privacy',src.privacy)+blk('mood',src.mood)+blk('audio',src.audio)+
+  inp('cf-subject','Subject for the file name',src.subject,'smiths lake water')+
+  '<label class="f" for="cf-filmed">Filmed on<input type="date" id="cf-filmed" value="'+esc(src.filmed||'')+'"></label>'+
+  inp('cf-dur','Length',src.duration,'0:12')+inp('cf-loc','Place (optional)',src.location,'Smiths Lake')+
+  inp('cf-tags','Extra tags (comma separated)',(src.tags||[]).join(', '),'axe throwing, halloween','wide')+
+  '<div class="wide"><div class="g-title">Standard file name</div><div class="fname"><code id="cf-fname"></code><button type="button" class="btn" id="cf-fcopy">Copy</button></div><p class="meta" id="cf-fpath" style="margin-top:6px"></p></div>'+
+  inp('cf-src','Where the file lives now',src.source,'Shorts B-roll Library > Estus > Calm and nature > file name','wide')+
+  '<label class="f wide" for="cf-notes">Notes<textarea id="cf-notes" rows="2" placeholder="What this shot is good for, what needs blurring">'+esc(src.notes||'')+'</textarea></label></div>'+
+  '<p class="missing" id="cf-miss" role="status"></p><p class="err" id="cf-err" role="alert"></p><div class="modal-a" id="cf-actions">'+(c?'<button type="button" class="btn danger" id="cf-del">Delete clip</button>':'')+'<span class="grow"></span><button type="button" class="btn ghost" id="cf-cancel">Cancel</button><button type="button" class="btn primary" id="cf-save">Save clip</button></div>';
+  openModal(html,function(m){
+    var err=m.querySelector('#cf-err');
+    var val=function(s){return m.querySelector(s).value.trim()};
+    m.querySelector('#cf-name').setAttribute('data-focus','');
+    function readForm(){
+      var d={name:val('#cf-name'),brand:m.querySelector('#cf-brand').value,category:m.querySelector('#cf-cat').value,subject:slug(val('#cf-subject')),filmed:val('#cf-filmed'),duration:val('#cf-dur'),location:val('#cf-loc'),tags:val('#cf-tags').split(',').map(function(x){return x.trim()}).filter(Boolean),source:val('#cf-src'),notes:val('#cf-notes')};
+      ['shot','orient','mood','audio','privacy'].forEach(function(k){var b=m.querySelector('[data-tk="'+k+'"] [aria-pressed="true"]');d[k]=b?b.dataset.tv:''});
+      d.topics=Array.prototype.map.call(m.querySelectorAll('[data-tk="topics"] [aria-pressed="true"]'),function(b){return b.dataset.tv});
+      return d;
+    }
+    function update(){
+      var d=readForm(), ms=missing(Object.assign({},d,{img:(pending||(c&&c.img))?'y':''}));
+      m.querySelector('#cf-fname').textContent=fileName(d);
+      m.querySelector('#cf-fpath').textContent='Folder: '+drivePath(d);
+      var mi=m.querySelector('#cf-miss');mi.textContent=ms.length?'Still needed: '+ms.join(', ')+'.':'All required fields done.';mi.style.color=ms.length?'':'var(--ok)';
+      ['shot','orient','mood','audio','privacy'].forEach(function(k){var x=T(k,d[k]);m.querySelector('[data-det="'+k+'"]').textContent=x?x.detail:''});
+    }
+    m.addEventListener('click',function(e){
+      var b=e.target.closest('[data-tv]');if(!b)return;var row=b.parentNode,was=b.getAttribute('aria-pressed')==='true';
+      if(!row.dataset.multi)row.querySelectorAll('[data-tv]').forEach(function(x){x.setAttribute('aria-pressed','false')});
+      b.setAttribute('aria-pressed',was?'false':'true');update();
+    });
+    m.addEventListener('input',update);m.addEventListener('change',update);
+    m.querySelector('#cf-guide').addEventListener('click',closeModal);
+    m.querySelector('#cf-fcopy').onclick=function(e){copyText(m.querySelector('#cf-fname').textContent,e.currentTarget)};
+    function setImg(file){
+      if(!file||!/^image\//.test(file.type||'')){err.textContent='That file is not an image. Try a PNG or JPG screenshot.';return}
+      loadImage(file).then(function(r){if(pending)URL.revokeObjectURL(pending.url);pending=r;m.querySelector('#dropPrev').innerHTML='<span class="th"><img src="'+r.url+'" alt="Preview of the screenshot"></span>';err.textContent='';update()}).catch(function(e){err.textContent=e.message});
+    }
+    m.querySelector('#cf-file').addEventListener('change',function(e){setImg(e.target.files[0])});
+    var drop=m.querySelector('#drop');
+    drop.addEventListener('dragover',function(e){e.preventDefault();drop.classList.add('over')});
+    drop.addEventListener('dragleave',function(){drop.classList.remove('over')});
+    drop.addEventListener('drop',function(e){e.preventDefault();drop.classList.remove('over');setImg(e.dataTransfer.files[0])});
+    var onPaste=function(e){var items=(e.clipboardData&&e.clipboardData.items)||[];for(var i=0;i<items.length;i++){if(items[i].kind==='file'&&/^image\//.test(items[i].type)){e.preventDefault();setImg(items[i].getAsFile());return}}};
+    document.addEventListener('paste',onPaste);modalCleanup.push(function(){document.removeEventListener('paste',onPaste)});
+    m.querySelector('#cf-cancel').onclick=closeModal;
+    m.querySelector('#cf-save').onclick=function(ev){
+      var d=readForm();
+      if(!d.name){err.textContent='Give the clip a name so you can find it later.';m.querySelector('#cf-name').focus();return}
+      d.subject=d.subject||slug(d.name);d.example=false;
+      var btn=ev.currentTarget;btn.disabled=true;btn.textContent='Saving';
+      var step=pending?storeImage(pending.img).then(function(st){var old=c&&c.assetId;d.img=st.url;d.assetId=st.id||null;if(old&&assetsApi&&old!==d.assetId)assetsApi.delete(old).catch(function(){})}):Promise.resolve();
+      step.then(function(){
+        var target;if(c){Object.assign(c,d);target=c}else{target=Object.assign({id:'c'+uid()},d);S.broll.unshift(target)}
+        var ms=missing(target);closeModal();render();save();
+        toast(ms.length?'Saved. Still needs: '+ms.join(', ')+'.':'Clip saved and fully tagged.');
+      }).catch(function(e){err.textContent='The screenshot did not upload ('+((e&&e.message)||e)+'). Try a smaller image.';btn.disabled=false;btn.textContent='Save clip'});
+    };
+    var del=m.querySelector('#cf-del');
+    if(del)del.onclick=function(){
+      var a=m.querySelector('#cf-actions');
+      a.innerHTML='<span class="grow">Delete this clip from the library? The file in Drive stays. Recipes that use it will drop it.</span><button type="button" class="btn ghost" id="cf-keep">Keep it</button><button type="button" class="btn danger" id="cf-yes">Delete</button>';
+      a.querySelector('#cf-keep').onclick=function(){openClipModal(id)};
+      a.querySelector('#cf-yes').onclick=function(){
+        S.broll=S.broll.filter(function(x){return x.id!==id});
+        draft.broll=(draft.broll||[]).filter(function(x){return x!==id});
+        S.recipes.forEach(function(r){if(r.sel&&r.sel.broll)r.sel.broll=r.sel.broll.filter(function(x){return x!==id})});
+        if(c.assetId&&assetsApi)assetsApi.delete(c.assetId).catch(function(){});
+        closeModal();render();save();toast('Clip deleted');
+      };
+      a.querySelector('#cf-keep').focus();
+    };
+    update();
+  });
+}
+function openRecipeModal(){
+  var sug=[labelOf('format',draft.format),labelOf('topic',draft.topic)].filter(Boolean).join(': ')||'My recipe';
+  openModal('<h2>Save as recipe</h2><p class="sub">Keeps every choice on the Build tab, including the B-roll picks, so you can load it next time.</p><label class="f" for="rn">Recipe name<input id="rn" data-focus value="'+esc(sug)+'"></label><p class="err" id="rn-err" role="alert"></p><div class="modal-a"><span class="grow"></span><button type="button" class="btn ghost" id="rn-cancel">Cancel</button><button type="button" class="btn primary" id="rn-save">Save recipe</button></div>',function(m){
+    m.querySelector('#rn-cancel').onclick=closeModal;
+    var go=function(){var n=m.querySelector('#rn').value.trim();if(!n){m.querySelector('#rn-err').textContent='Give the recipe a name.';return}S.recipes.unshift({id:'r'+uid(),name:n,sel:clone(draft)});closeModal();render();save();toast('Recipe saved')};
+    m.querySelector('#rn-save').onclick=go;m.querySelector('#rn').addEventListener('keydown',function(e){if(e.key==='Enter')go()});
+  });
+}
+function openExport(){
+  openModal('<h2>Export JSON</h2><p class="sub">Your lists, rules, clips and recipes. Copy it somewhere safe.</p><textarea class="json" id="ex" readonly aria-label="Exported JSON">'+esc(JSON.stringify(S,null,2))+'</textarea><div class="modal-a"><span class="grow"></span><button type="button" class="btn ghost" id="ex-close">Close</button><button type="button" class="btn primary" id="ex-copy">Copy JSON</button></div>',function(m){
+    m.querySelector('#ex-close').onclick=closeModal;
+    m.querySelector('#ex-copy').onclick=function(e){var b=e.currentTarget,ta=m.querySelector('#ex');navigator.clipboard.writeText(ta.value).then(function(){b.textContent='Copied'}).catch(function(){ta.focus();ta.select();toast('Copy was blocked. The text is selected, so copy it by hand.')})};
+  });
+}
+function openImport(){
+  openModal('<h2>Import JSON</h2><p class="sub">Paste a backup from Export JSON. It replaces everything on this page.</p><textarea class="json" id="im" aria-label="JSON to import" placeholder="Paste JSON here"></textarea><p class="err" id="im-err" role="alert"></p><div class="modal-a"><span class="grow"></span><button type="button" class="btn ghost" id="im-cancel">Cancel</button><button type="button" class="btn primary" id="im-go">Replace with this</button></div>',function(m){
+    m.querySelector('#im-cancel').onclick=closeModal;
+    m.querySelector('#im-go').onclick=function(){var s;try{s=JSON.parse(m.querySelector('#im').value)}catch(e){m.querySelector('#im-err').textContent='That is not valid JSON. Paste the whole export, from the first { to the last }.';return}
+      if(!valid(s)){m.querySelector('#im-err').textContent='This JSON is missing groups, broll or recipes, so it is not an export from this page.';return}
+      S=normalise(s);dirty=false;closeModal();render();save();toast('Imported');};
+  });
+}
+
+/* ---------- actions ---------- */
+function copyPrompt(btn){
+  var txt=buildPrompt(draft);
+  var done=function(){var t=btn.textContent;btn.textContent='Copied';setTimeout(function(){btn.textContent=t},1600)};
+  var fail=function(){var pre=document.getElementById('prompt');if(pre){var r=document.createRange();r.selectNodeContents(pre);var s=window.getSelection();s.removeAllRanges();s.addRange(r);pre.scrollIntoView({block:'center'})}toast('Copy was blocked. The prompt is selected, so press and hold to copy it.')};
+  try{navigator.clipboard.writeText(txt).then(done,fail)}catch(e){fail()}
+}
+function loadRecipe(id){
+  var r=S.recipes.filter(function(x){return x.id===id})[0];if(!r)return;
+  draft=Object.assign(blankDraft(),clone(r.sel));saveDraft();
+  if(tab()!=='build')location.hash='build';else render();
+  toast('Loaded "'+r.name+'"');
+}
+app.addEventListener('click',function(e){
+  var t=e.target.closest('[data-act]');if(!t)return;
+  var act=t.dataset.act, id=t.dataset.id;
+  if(act==='chip'){var g=GMAP[t.dataset.g];if(g.multi){var arr=draft[g.key]||[],i=arr.indexOf(id);if(i>=0)arr.splice(i,1);else arr.push(id);draft[g.key]=arr}else draft[g.key]=draft[g.key]===id?'':id;saveDraft();refreshGroup(g.key,id);updatePrompt()}
+  else if(act==='pick'){var pc=clipById(id);if(pc&&!canUse(pc)&&(draft.broll||[]).indexOf(id)<0){toast('This clip is marked internal only, so it cannot go in a short.');return}var a=draft.broll||[],k=a.indexOf(id);if(k>=0)a.splice(k,1);else a.push(id);draft.broll=a;saveDraft();refreshBroll();updatePrompt()}
+  else if(act==='up'||act==='down'){var b=draft.broll,j=b.indexOf(id),n=j+(act==='up'?-1:1);if(j<0||n<0||n>=b.length)return;b.splice(j,1);b.splice(n,0,id);saveDraft();refreshBroll();updatePrompt();var nb=document.querySelector('#brollPicked [data-act="'+act+'"][data-id="'+id+'"]');if(nb&&!nb.disabled)nb.focus()}
+  else if(act==='copy')copyPrompt(t);
+  else if(act==='see-prompt'){var o=document.getElementById('out');if(o)o.scrollIntoView({block:'start'})}
+  else if(act==='save-recipe')openRecipeModal();
+  else if(act==='clear'){draft=blankDraft();saveDraft();render();toast('Cleared. Load a recipe to start again.')}
+  else if(act==='add-clip')openClipModal(null);
+  else if(act==='edit-clip')openClipModal(id);
+  else if(act==='load-recipe')loadRecipe(id);
+  else if(act==='del-recipe'){var box=t.parentNode;box.innerHTML='<span>Delete this recipe?</span><button type="button" class="btn ghost" data-act="keep-recipe">Keep</button><button type="button" class="btn danger" data-act="del-recipe-yes" data-id="'+esc(id)+'">Delete</button>';box.querySelector('[data-act="keep-recipe"]').focus()}
+  else if(act==='keep-recipe')render();
+  else if(act==='del-recipe-yes'){S.recipes=S.recipes.filter(function(r){return r.id!==id});render();save();toast('Recipe deleted')}
+  else if(act==='list-add'){var gk=t.dataset.g;listRef(gk).push(gk.indexOf('tax:')===0?{id:'new'+uid(),label:'New option',detail:'',fresh:true}:it(gk.slice(0,3)+uid(),'New option',''));openLists[gk]=true;markDirty();render()}
+  else if(act==='list-del'){listRef(t.dataset.g).splice(+t.dataset.i,1);openLists[t.dataset.g]=true;markDirty();render()}
+  else if(act==='lists-save'){fixFresh();dirty=false;var sb=document.getElementById('savebar');if(sb)sb.classList.remove('show');save();toast('Lists saved')}
+  else if(act==='fb-copy')copyText(fileName(fb),t);
+  else if(act==='export')openExport();
+  else if(act==='import')openImport();
+});
+app.addEventListener('input',function(e){
+  var el=e.target;
+  if(el.dataset.fb){fb[el.dataset.fb]=el.value;updateFb();return}
+  if(el.dataset.field){draft[el.dataset.field]=el.value;saveDraft();updatePrompt();return}
+  if(el.id==='brollSearch'){brollQ=el.value;document.getElementById('brollStrip').innerHTML=stripHTML();return}
+  if(el.id==='libSearch'){libQ=el.value;document.getElementById('libGrid').innerHTML=gridHTML();return}
+  if(el.dataset.lf){if(el.dataset.lf==='rules')S.rules=el.value;else{var row=listRef(el.dataset.lg)[+el.dataset.li];if(row)row[el.dataset.lf]=el.value}markDirty()}
+});
+app.addEventListener('change',function(e){
+  var el=e.target;
+  if(el.id==='recipeSel'&&el.value)loadRecipe(el.value);
+  else if(el.id==='libCat'){libCat=el.value;document.getElementById('libGrid').innerHTML=gridHTML()}
+  else if(el.id==='libTodo'){libTodo=el.value;document.getElementById('libGrid').innerHTML=gridHTML()}
+  else if(el.id==='libBrand'){libBrand=el.value;document.getElementById('libGrid').innerHTML=gridHTML()}
+});
+app.addEventListener('toggle',function(e){var d=e.target;if(d&&d.tagName==='DETAILS'&&d.dataset.lg)openLists[d.dataset.lg]=d.open},true);
+window.addEventListener('hashchange',function(){render();window.scrollTo(0,0)});
+
+render();
+connect();
+})();
+</script>
+</body>
+</html>

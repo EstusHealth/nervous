@@ -9,7 +9,7 @@ Estus Health's internal staff training intranet. A landing page plus one page pe
 | Team | `check` |
 | Small Hinges | `hinges`, `sleep`, `morning`, `energy`, `load`, `transition`, `shutdown` |
 | Therapy approaches | `neuroaffirming` (Neuroaffirming Practice, the Estus way), `ot-models` (OT Models and Frames), `act` (plus `act-game`), `cbt`, `beliefs` (Core Beliefs), `mi`, `gaming`, `nervous`, `problem-solving`, `sport-psych` (Sport Psychology map), `assessments` (Assessment Atlas), `executive-function` (Executive Function map) |
-| Growth | `reels`, `must-be-nice`, `reels-studio` (Reels Studio, making Reels and Shorts with Claude), `meta` (Meta Ads System, from Brandon Willington's course), `copy`, `gp` |
+| Growth | `reels`, `must-be-nice`, `reels-studio` (Reels Studio, making Reels and Shorts with Claude), `shorts` (Shorts Prompt Maker, B-roll library and tagging standard), `meta` (Meta Ads System, from Brandon Willington's course), `copy`, `gp` |
 | Templates: reports | `fca`, `ptd` (Potential to Drive), `ftd` (Medical Fitness to Drive), `summary` (Therapy Service Summary), `sensory` (Sensory Profile Report for schools and stakeholders), `letter` (Letter of Support) |
 | Templates: handouts | `goals` (Goal Plan, SMART goals), `chaining` (forward or backward chaining plan), `prompts` (Prompt Hierarchy Guide for support workers), `planner` (Student Planner) |
 | Templates: admin | `signature` (Gmail email signature) |
@@ -43,6 +43,10 @@ Progress ticks and tool drafts save in each person's own browser only.
 ## Reels Studio
 
 `reels-studio.html` is the playbook for making Reels and Shorts with Claude from one phone clip. It covers the workflow, what Claude can and won't do, five formats (text walk, deadpan stare, tab chaos, moodboard flip, night clock) with a prompt for each, a transition library with looping demos, the four end screens and the CTA ladder, a reading pace calculator, a prompt builder with fix-it prompts, specs and safe zones, shooting, sound, our rules and a pre-post checklist. Formats sit in `FMTS`, transitions in `TR`, end screens in `ENDS`, builder hooks in `BH` and checklist items in `CK`, all near the top of the script. Example stills live in `img/reels/`. Builder choices and ticks save in each person's browser only.
+
+## Shorts Prompt Maker
+
+`shorts.html` builds a ready-to-paste prompt for a short or ad from chips: brand, type of short, purpose, audience, topic, platform, length, hook, captions, text look, CTA, B-roll, pacing, voice, sound and what to get back. The one-sentence hook rule and the house rules go into every prompt. It also holds the B-roll library and the **Tagging guide**: the standard every clip is filed and tagged by (file name format `brand_category_shot_subject_yyyymmdd.mp4`, Drive folder `Shorts B-roll Library > Brand > Category`, required fields and the privacy check). Library data, lists and recipes sit in the JSON block with `id="state"` near the bottom of the page; clip screenshots live in `img/broll/`. Clips, lists and recipes changed on the page save in that person's browser only, and Export JSON on the Lists tab copies them out.
 
 ## Message templates
 
