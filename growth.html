@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Growth HQ · Estus Training Hub</title>
+<meta name="robots" content="noindex, nofollow">
+<script src="theme.js"></script>
+<script src="growth.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap">
+<style>
+
+:root{
+  --bg:#F3F2EF;--surface:#FBFAF8;--sunk:#ECEAE6;--fg:#0E1014;--muted:#65676E;--rule:#D3D1CC;--ink:#090909;--on-ink:#FBFAF8;
+  --navy:#344982;--blue:#2F6F9E;--teal:#2CA5B8;--plum:#AB5C95;--slate:#6F6D68;--coal:#22252B;
+  --navy-t:#DDE2EF;--blue-t:#DCE8F1;--teal-t:#DAF0F3;--plum-t:#F1E1EC;--slate-t:#E7E5E1;--coal-t:#DADBDE;
+  --good:#2E7D4F;--good-t:#DDEFE3;--warn:#A86A12;--warn-t:#F6E8D2;--bad:#B23A3A;--bad-t:#F5DEDE;
+  --display:"Oswald","Arial Narrow",Impact,sans-serif;--cond:"Barlow Semi Condensed","Arial Narrow",sans-serif;--body:"Barlow","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0F1216;--surface:#161A20;--sunk:#1D222A;--fg:#ECEEF1;--muted:#9BA1AB;--rule:#2C323C;--ink:#05070A;--on-ink:#ECEEF1;
+  --navy:#8299DA;--blue:#6FA8D2;--teal:#4CC3D4;--plum:#D58FC1;--slate:#A3A19B;--coal:#C9CCD2;
+  --navy-t:#1E2740;--blue-t:#18293A;--teal-t:#123238;--plum-t:#33202E;--slate-t:#25262A;--coal-t:#2A2E35;
+  --good:#5FC38A;--good-t:#16301F;--warn:#E0A64A;--warn-t:#33270F;--bad:#EC7B7B;--bad-t:#3A1A1A;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1216;--surface:#161A20;--sunk:#1D222A;--fg:#ECEEF1;--muted:#9BA1AB;--rule:#2C323C;--ink:#05070A;--on-ink:#ECEEF1;
+  --navy:#8299DA;--blue:#6FA8D2;--teal:#4CC3D4;--plum:#D58FC1;--slate:#A3A19B;--coal:#C9CCD2;
+  --navy-t:#1E2740;--blue-t:#18293A;--teal-t:#123238;--plum-t:#33202E;--slate-t:#25262A;--coal-t:#2A2E35;
+  --good:#5FC38A;--good-t:#16301F;--warn:#E0A64A;--warn-t:#33270F;--bad:#EC7B7B;--bad-t:#3A1A1A;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 56px)}
+body{background:var(--bg);color:var(--fg);font:400 16px/1.55 var(--body);margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--ink)}
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{text-wrap:balance}
+p{margin:0}
+a{color:var(--blue)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+[hidden]{display:none!important}
+
+
+.ehub{background:#090909;color:#FBFAF8;border-bottom:1px solid #2C323C;position:relative;z-index:6;padding-top:env(safe-area-inset-top,0px)}
+.ehub-in{max-width:1040px;margin:0 auto;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));display:flex;justify-content:space-between;align-items:center;gap:10px 16px;flex-wrap:wrap}
+.ehub a{color:inherit;text-decoration:none}
+.ehub-home{display:flex;align-items:center;gap:12px;min-height:36px}
+.ehub-bands{display:flex;width:56px;height:5px;flex:none}.ehub-bands i{flex:1}
+.ehub-bands i:nth-child(1){background:#344982}.ehub-bands i:nth-child(2){background:#2F6F9E}.ehub-bands i:nth-child(3){background:#2CA5B8}.ehub-bands i:nth-child(4){background:#AB5C95}
+.ehub-wm{font:500 14px/1 var(--display);letter-spacing:.16em}.ehub-wm b{font-weight:700}
+.ehub-sep{font:600 12px/1 var(--cond);letter-spacing:.16em;text-transform:uppercase;color:#AEB5C2;border-left:1px solid #3A3F48;padding-left:12px}
+.ehub-home:hover .ehub-sep{color:#FBFAF8}
+.ehub-r{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ehub-btn{font:600 12px/1 var(--cond);letter-spacing:.1em;text-transform:uppercase;border:1px solid #3A3F48;background:none;color:#FBFAF8;padding:9px 12px;cursor:pointer;min-height:36px;display:inline-flex;align-items:center;gap:8px}
+.ehub-btn:hover{border-color:#FBFAF8}
+.ehub-btn[aria-pressed="true"]{background:#2E7D4F;border-color:#2E7D4F}
+.ehub-next{background:#FBFAF8!important;color:#090909!important;border-color:#FBFAF8}
+@media (max-width:520px){.ehub-sep{display:none}.ehub-next .ehub-nl{display:none}}
+
+
+.mast{background:var(--ink);color:var(--on-ink)}
+.mast .wrap{padding-block:36px 34px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:36px;align-items:end}
+.eyebrow{font:700 12px var(--cond);letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+.mast .eyebrow{color:#AEB5C2}
+.mast h1{font:600 clamp(42px,8vw,92px)/.92 var(--display);text-transform:uppercase;margin:0 0 16px;letter-spacing:.005em}
+.mast h1 em{font-style:normal;color:#2CA5B8}
+.mast .lead{font-size:18px;color:#D6DAE2;max-width:56ch}
+.mast .src{margin-top:14px;font-size:14px;color:#AEB5C2}
+.cs{border:1px solid #2C323C;background:#111419}
+.cs-h{padding:10px 14px;border-bottom:1px solid #2C323C;font:700 12px var(--cond);letter-spacing:.16em;text-transform:uppercase;color:#AEB5C2;display:flex;justify-content:space-between}
+.cs-row{display:grid;grid-template-columns:40px 1fr;gap:10px;padding:12px 14px;border-bottom:1px solid #22262D;align-items:start}
+.cs-row:last-child{border-bottom:0}
+.cs-row b{font:600 30px/1 var(--display);color:var(--c)}
+.cs-row span{font:600 16px/1.2 var(--cond);text-transform:uppercase;letter-spacing:.05em;color:#FBFAF8}
+.cs .c-call{--c:#C9CCD2}
+.cs-row small{display:block;font:400 14px/1.35 var(--body);color:#AEB5C2;text-transform:none;letter-spacing:0;margin-top:2px}
+
+
+.rail{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--rule)}
+.rail .wrap{display:flex;gap:4px;overflow-x:auto;padding-block:8px;scrollbar-width:none}
+.rail .wrap::-webkit-scrollbar{display:none}
+.rail a{font:600 13px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--fg);text-decoration:none;padding:7px 10px;white-space:nowrap;border-radius:4px}
+.rail a:hover{background:var(--sunk)}
+.rail a.on{background:var(--ink);color:var(--on-ink)}
+
+section.s{padding-block:46px;border-bottom:1px solid var(--rule)}
+.s-head{display:flex;flex-direction:column;gap:6px;margin-bottom:22px;max-width:72ch}
+.s-head .num{font:600 13px var(--cond);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.s-head h2{font:600 clamp(26px,4vw,34px)/1.05 var(--display);text-transform:uppercase;letter-spacing:.02em;margin:0}
+.s-head p{color:var(--muted)}
+h3{font:700 15px var(--cond);text-transform:uppercase;letter-spacing:.1em;margin:30px 0 12px}
+.muted{color:var(--muted)}
+.small{font-size:14px}
+
+
+.c-ad{--c:var(--navy);--ct:var(--navy-t)}.c-page{--c:var(--blue);--ct:var(--blue-t)}.c-book{--c:var(--teal);--ct:var(--teal-t)}
+.c-nur{--c:var(--plum);--ct:var(--plum-t)}.c-call{--c:var(--coal);--ct:var(--coal-t)}.c-profit{--c:var(--good);--ct:var(--good-t)}
+
+
+.btn{border:1px solid var(--rule);background:var(--surface);padding:8px 14px;cursor:pointer;font:600 13px var(--cond);text-transform:uppercase;letter-spacing:.08em;min-height:38px;display:inline-flex;align-items:center;gap:8px}
+.btn:hover{border-color:var(--fg)}
+.btn.dark{background:var(--ink);color:var(--on-ink);border-color:var(--ink)}
+.btn.dark:hover{background:var(--blue);border-color:var(--blue)}
+.btn.sm{min-height:32px;padding:5px 10px;font-size:12px}
+.field{display:flex;flex-direction:column;gap:5px;min-width:0}
+.field label,.lbl{font:700 12px var(--cond);text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+input[type=text],input[type=number],textarea,select{background:var(--surface);border:1px solid var(--rule);padding:9px 11px;width:100%;border-radius:0;min-height:40px}
+textarea{resize:vertical;min-height:84px;line-height:1.45}
+input:focus,textarea:focus,select:focus{border-color:var(--fg);outline:none}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--rule);background:var(--surface);padding:6px 12px;border-radius:999px;cursor:pointer;font:600 13px var(--cond);text-transform:uppercase;letter-spacing:.06em;min-height:34px}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--on-ink);border-color:var(--ink)}
+.copied{font:600 12px var(--cond);text-transform:uppercase;letter-spacing:.08em;color:var(--good)}
+input[type=range]{width:100%;accent-color:var(--c,var(--navy));min-height:28px}
+.checks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.checks li{display:grid;grid-template-columns:62px 1fr;gap:10px;padding:9px 12px;background:var(--surface);border:1px solid var(--rule);font-size:14px;align-items:start}
+.checks .st{font:700 11px var(--cond);text-transform:uppercase;letter-spacing:.1em;padding:3px 6px;text-align:center}
+.st.ok{background:var(--good-t);color:var(--good)}.st.warn{background:var(--warn-t);color:var(--warn)}.st.bad{background:var(--bad-t);color:var(--bad)}.st.info{background:var(--sunk);color:var(--muted)}
+
+footer .wrap{padding-block:24px 56px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:14px}
+
+@media (max-width:900px){
+  .mast .wrap{grid-template-columns:1fr}
+}
+@media print{.ehub,.rail{display:none}}
+
+.rp-b-hook{--c:var(--navy);--ct:var(--navy-t)}.rp-b-cause{--c:var(--blue);--ct:var(--blue-t)}.rp-b-method{--c:var(--teal);--ct:var(--teal-t)}
+.rp-b-detail{--c:var(--plum);--ct:var(--plum-t)}.rp-b-alone{--c:var(--slate);--ct:var(--slate-t)}.rp-b-cta{--c:var(--coal);--ct:var(--coal-t)}
+
+.rp-ads{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.rp-ad{background:var(--surface);border:1px solid var(--rule);padding:18px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.rp-ad .rp-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.rp-ad h4{margin:0;font:600 20px var(--display);text-transform:uppercase}
+.rp-ad .rp-len{font:600 13px var(--cond);color:var(--muted);font-variant-numeric:tabular-nums}
+.rp-ad blockquote{margin:0;font-style:italic;font-size:15px}
+.rp-bar{display:flex;height:22px;border:1px solid var(--rule);background:var(--sunk)}
+.rp-bar button{border:0;padding:0;background:var(--c);cursor:pointer;min-width:0;position:relative}
+.rp-bar button + button{border-left:1px solid var(--surface)}
+.rp-bar button[aria-pressed="true"]{outline:2px solid var(--fg);outline-offset:-2px;z-index:1}
+.rp-bar-note{font-size:14px;min-height:3.1em;color:var(--fg)}
+.rp-bar-note b{font:700 12px var(--cond);text-transform:uppercase;letter-spacing:.1em;color:var(--c)}
+.rp-kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:14px;margin:0}
+.rp-kv dt{font:700 12px var(--cond);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding-top:2px}
+.rp-kv dd{margin:0}
+.rp-missing{font-size:13px;color:var(--muted)}
+.rp-patterns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:24px}
+.rp-patterns div{background:var(--surface);padding:14px 16px}
+.rp-patterns b{display:block;font:600 15px var(--cond);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.rp-patterns span{font-size:14px;color:var(--muted)}
+.rp-gap-note{margin-top:16px;padding:14px 16px;background:var(--plum-t);border-left:4px solid var(--plum);font-size:15px}
+
+.rp-tl{display:flex;height:56px;border:1px solid var(--rule)}
+.rp-tl button{flex:var(--w);border:0;background:var(--ct);color:var(--fg);cursor:pointer;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:0 10px;min-width:0;border-top:5px solid var(--c);text-align:left}
+.rp-tl button+button{border-left:1px solid var(--surface)}
+.rp-tl button span{font:600 14px var(--cond);text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.rp-tl button small{font:500 12px var(--cond);color:var(--muted);font-variant-numeric:tabular-nums}
+.rp-tl button[aria-selected="true"]{background:var(--c);color:var(--surface)}
+.rp-tl button[aria-selected="true"] small{color:var(--surface)}
+.rp-beat-card{margin-top:14px;background:var(--surface);border:1px solid var(--rule);border-top:4px solid var(--c);padding:18px 20px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
+.rp-beat-card .lbl{font:700 12px var(--cond);text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:4px}
+.rp-beat-card p{margin:0}
+.rp-rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:20px;padding:0;list-style:none}
+.rp-rules li{background:var(--sunk);padding:12px 14px;font-size:15px}
+
+.rp-hooks{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.rp-hook{background:var(--surface);border:1px solid var(--rule);border-left:4px solid var(--hc,var(--navy));padding:14px 16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.rp-hook q{font:500 18px/1.3 var(--body);quotes:"\201C" "\201D"}
+.rp-hook .rp-shot{font-size:14px;color:var(--muted)}
+.rp-hook .rp-meta{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-top:auto}
+.rp-pill{font:700 11px var(--cond);text-transform:uppercase;letter-spacing:.1em;padding:2px 8px;background:var(--sunk);border-radius:3px}
+.rp-offer{margin-top:16px;padding:14px 16px;background:var(--teal-t);border-left:4px solid var(--teal)}
+
+.rp-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.rp-tab{border:1px solid var(--rule);background:var(--surface);padding:8px 12px;cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:2px;min-width:0}
+.rp-tab b{font:600 14px var(--cond);text-transform:uppercase;letter-spacing:.04em}
+.rp-tab small{font-size:12px;color:var(--muted)}
+.rp-tab[aria-selected="true"]{background:var(--ink);color:var(--on-ink);border-color:var(--ink)}
+.rp-tab[aria-selected="true"] small{color:#C9CFDA}
+.rp-script{background:var(--surface);border:1px solid var(--rule)}
+.rp-script .rp-row{display:grid;grid-template-columns:88px minmax(0,1.3fr) minmax(0,1fr);gap:16px;padding:12px 16px;border-top:1px solid var(--rule);align-items:start}
+.rp-script .rp-row:first-child{border-top:0}
+.rp-script .rp-row.rp-head{font:700 12px var(--cond);text-transform:uppercase;letter-spacing:.12em;color:var(--muted);background:var(--sunk);padding-block:8px}
+.rp-script .rp-t{font:600 13px var(--cond);font-variant-numeric:tabular-nums;border-left:4px solid var(--c);padding-left:8px}
+.rp-script .rp-t span{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--c)}
+.rp-script .rp-say{font-size:16px}
+.rp-script .rp-show{font-size:14px;color:var(--muted)}
+.rp-script-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 16px;border-top:1px solid var(--rule);background:var(--sunk);font-size:14px}
+
+.rp-builder{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;margin-top:8px}
+.rp-fields{display:flex;flex-direction:column;gap:12px}
+.rp-fld{display:flex;flex-direction:column;gap:4px}
+.rp-fld label{font:700 12px var(--cond);text-transform:uppercase;letter-spacing:.1em;display:flex;align-items:center;gap:8px}
+.rp-fld label i{width:10px;height:10px;background:var(--c);display:inline-block}
+.rp-fld textarea,.rp-fld select,.rp-fld input{width:100%;border:1px solid var(--rule);background:var(--surface);padding:8px 10px;border-radius:3px;font-size:15px}
+.rp-fld textarea{resize:vertical;min-height:44px}
+.rp-out{background:var(--surface);border:1px solid var(--rule);padding:18px;display:flex;flex-direction:column;gap:12px;align-self:start;position:sticky;top:64px}
+.rp-out pre{white-space:pre-wrap;margin:0;font:400 15px/1.55 var(--body)}
+.rp-meter{display:flex;justify-content:space-between;gap:8px;font:600 13px var(--cond);text-transform:uppercase;letter-spacing:.06em;font-variant-numeric:tabular-nums}
+.rp-track{height:8px;background:var(--sunk);position:relative}
+.rp-track .rp-fill{position:absolute;inset:0 auto 0 0;background:var(--teal)}
+.rp-track .rp-zone{position:absolute;top:-3px;bottom:-3px;border-left:1px dashed var(--muted);border-right:1px dashed var(--muted)}
+
+.rp-checker{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px}
+.rp-checker textarea{width:100%;min-height:200px;border:1px solid var(--rule);background:var(--surface);padding:12px;border-radius:3px;font-size:15px;resize:vertical}
+.rp-flags{display:flex;flex-direction:column;gap:8px}
+.rp-flag{padding:10px 12px;border-left:4px solid var(--warn);background:var(--warn-t);font-size:14px}
+.rp-flag.rp-bad{border-color:var(--bad);background:var(--bad-t)}
+.rp-flag.rp-ok{border-color:var(--good);background:var(--good-t)}
+.rp-flag b{display:block;font:700 12px var(--cond);text-transform:uppercase;letter-spacing:.1em}
+.rp-flag mark{background:none;color:inherit;font-weight:600;text-decoration:underline wavy}
+.rp-flag a{color:inherit}
+
+.rp-lists{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.rp-list{background:var(--surface);border:1px solid var(--rule)}
+.rp-list h4{margin:0;padding:10px 14px;font:700 13px var(--cond);text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--rule);display:flex;justify-content:space-between;background:var(--sunk)}
+.rp-list h4 span{font-variant-numeric:tabular-nums;color:var(--muted)}
+.rp-list label{display:flex;gap:10px;padding:9px 14px;border-top:1px solid var(--rule);cursor:pointer;font-size:14px;align-items:flex-start}
+.rp-list label:first-of-type{border-top:0}
+.rp-list input{margin-top:3px;accent-color:var(--teal);width:16px;height:16px;flex:none}
+.rp-list input:checked + span{color:var(--muted);text-decoration:line-through}
+.rp-guard{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:20px}
+
+.rp-steps{counter-reset:s;list-style:none;padding:0;margin:0 0 24px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.rp-steps li{background:var(--surface);border:1px solid var(--rule);padding:14px;font-size:14px}
+.rp-steps li::before{counter-increment:s;content:"Weeks " attr(data-w);display:block;font:700 12px var(--cond);text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.rp-steps b{display:block;font:600 16px var(--cond);text-transform:uppercase;margin:2px 0 4px}
+
+@media (max-width:860px){
+  .rp-ads,.rp-lists,.rp-guard{grid-template-columns:1fr}
+  .rp-patterns{grid-template-columns:1fr 1fr}
+  .rp-builder,.rp-checker{grid-template-columns:1fr}
+  .rp-out{position:static}
+  .rp-beat-card{grid-template-columns:1fr}
+  .rp-steps{grid-template-columns:1fr 1fr}
+}
+@media (max-width:560px){
+  .rp-script .rp-row{grid-template-columns:1fr;gap:4px}
+  .rp-script .rp-row.rp-head{display:none}
+  .rp-tl{height:auto;flex-wrap:wrap}
+  .rp-tl button{flex:1 1 30%;padding:8px}
+  .rp-steps{grid-template-columns:1fr}
+  .rp-patterns{grid-template-columns:1fr}
+}
+
+
+/* ---------- Growth HQ ---------- */
+.mast{background:var(--ink);color:var(--on-ink)}
+.cs a{color:inherit;text-decoration:none;display:contents}
+.cs-row:hover span{text-decoration:underline}
+.hq-flow{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:0;border:1px solid var(--rule);background:var(--surface)}
+.hq-flow>div{padding:14px 14px 16px;border-left:1px solid var(--rule);border-top:5px solid var(--c);position:relative;min-width:0}
+.hq-flow>div:first-child{border-left:0}
+.hq-flow>div:not(:last-child)::after{content:"\2192";position:absolute;right:-9px;top:14px;width:18px;height:18px;line-height:18px;text-align:center;background:var(--bg);border:1px solid var(--rule);border-radius:50%;font-size:12px;color:var(--muted);z-index:1}
+.hq-flow .k{display:block;font:700 12px var(--cond);text-transform:uppercase;letter-spacing:.12em;color:var(--c)}
+.hq-flow b{display:block;font:600 17px/1.15 var(--cond);text-transform:uppercase;letter-spacing:.03em;margin:4px 0}
+.hq-flow small{display:block;font-size:13px;color:var(--muted);line-height:1.4}
+.hq-note{margin-top:14px;padding:12px 16px;background:var(--teal-t);border-left:4px solid var(--teal);font-size:15px}
+.hq-pages{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.hq-page{background:var(--surface);border:1px solid var(--rule);border-left:4px solid var(--c);padding:14px 16px;display:flex;flex-direction:column;gap:6px;text-decoration:none;color:var(--fg)}
+.hq-page:hover{border-color:var(--fg);border-left-color:var(--c)}
+.hq-page .k{font:700 12px var(--cond);text-transform:uppercase;letter-spacing:.12em;color:var(--c)}
+.hq-page b{font:600 19px/1.15 var(--display);text-transform:uppercase;letter-spacing:.02em}
+.hq-page span{font-size:14px;color:var(--muted)}
+.hq-rules3{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;counter-reset:r}
+.hq-rules3 li{background:var(--sunk);padding:14px 16px;font-size:15px;counter-increment:r}
+.hq-rules3 li::before{content:counter(r);display:block;font:600 28px/1 var(--display);color:var(--navy);margin-bottom:6px}
+.hq-rules3 b{display:block;font:600 15px var(--cond);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px}
+.hq-tbl{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--rule);font-size:15px}
+.hq-tbl th{text-align:left;font:700 12px var(--cond);text-transform:uppercase;letter-spacing:.1em;color:var(--muted);background:var(--sunk);padding:9px 12px;border-bottom:1px solid var(--rule)}
+.hq-tbl td{padding:10px 12px;border-top:1px solid var(--rule);vertical-align:top}
+.hq-tbl td:first-child{font-weight:600;white-space:nowrap}
+.hq-tbl .who{font:600 13px var(--cond);text-transform:uppercase;letter-spacing:.06em}
+.hq-tbl .tbc{color:var(--warn)}
+.hq-tbl q{quotes:"\201C" "\201D"}
+.hq-scroll{overflow-x:auto}
+.hq-sheet{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:14px 16px;border:1px dashed var(--rule);background:var(--surface);margin-bottom:16px;font-size:15px}
+.hq-sheet.on{border-style:solid;border-color:var(--good);background:var(--good-t)}
+.hq-two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px}
+.hq-house{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;list-style:none;padding:0;margin:0}
+.hq-house li{background:var(--surface);border:1px solid var(--rule);padding:12px 14px;font-size:15px}
+.hq-house b{display:block;font:600 15px var(--cond);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px}
+.hq-vers{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+footer .wrap{padding-block:24px 56px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:14px}
+@media (max-width:900px){
+  .hq-flow{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hq-flow>div{border-left:0;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+  .hq-flow>div::after{display:none}
+  .hq-pages,.hq-rules3{grid-template-columns:1fr 1fr}
+  .hq-two,.hq-house{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  .hq-flow,.hq-pages,.hq-rules3{grid-template-columns:1fr}
+  .hq-tbl td:first-child{white-space:normal}
+}
+</style>
+</head>
+<body>
+
+<nav class="ehub" aria-label="Estus Training Hub"><div class="ehub-in">
+<a class="ehub-home" href="index.html"><span class="ehub-bands" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="ehub-wm"><b>ESTUS</b> HEALTH</span><span class="ehub-sep">&larr; Training Hub</span></a>
+<div class="ehub-r"><button class="ehub-btn" type="button" id="ehub-done" aria-pressed="false">Mark done</button><a class="ehub-btn ehub-next" href="must-be-nice.html"><span class="ehub-nl">Next:</span> Must Be Nice Series <span aria-hidden="true">&rarr;</span></a></div>
+</div></nav>
+
+<header class="mast">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">Growth &middot; Start here</p>
+      <h1>Growth <em>HQ</em></h1>
+      <p class="lead">How Estus grows, on one page. The plan, the weekly rhythm, the numbers we watch, where every post sends people, and the rules every word follows. The detail lives on the five pages it points to.</p>
+      <p class="src">Hooks, CTAs, brands, benchmarks and the copy rules all come from one file, growth.js. Change them there and every Growth page follows.</p>
+    </div>
+    <div class="cs" aria-label="The Growth pages" id="csPages"></div>
+  </div>
+</header>
+
+<nav class="rail" aria-label="Sections"><div class="wrap" id="rail">
+  <a href="#plan">The plan</a><a href="#rhythm">Weekly rhythm</a><a href="#score">Scoreboard</a><a href="#cta">CTA map</a><a href="#hooks">Hook bank</a><a href="#check">Copy check</a><a href="#rules">House rules</a><a href="#moved">What moved</a>
+</div></nav>
+
+<main>
+
+<section class="s" id="plan"><div class="wrap">
+  <div class="s-head"><span class="num">01 &middot; The plan</span><h2>One offer, one next step, one scoreboard</h2>
+  <p>Posts and ads do one job: get the right family to the referral form. The form comes first, then the welcome call. The offer we name is Small Hinges.</p></div>
+  <div class="hq-flow">
+    <div class="c-ad"><span class="k">Ideas</span><b>Must be nice</b><small>The moments families live with, said out loud.</small></div>
+    <div class="c-page"><span class="k">Make</span><b>Shorts Studio</b><small>One phone clip, one prompt, a finished short.</small></div>
+    <div class="c-book"><span class="k">Post or pay</span><b>Organic, then ads</b><small>Post free. Re-film the winners as ads.</small></div>
+    <div class="c-nur"><span class="k">Next step</span><b>Referral form</b><small>Every CTA lands here first.</small></div>
+    <div class="c-call"><span class="k">Call</span><b>Welcome call</b><small>15 minutes to check fit, run with CLOSER.</small></div>
+    <div class="c-profit"><span class="k">Start</span><b>Service agreement</b><small>The number that counts.</small></div>
+  </div>
+  <p class="hq-note">Referrers skip the first three steps and go straight to the form. The <a href="nurture.html">Nurture Trainer</a> covers the emails and texts between the form and the call, and the <a href="welcome.html">Welcome Call Playbook</a> covers the call. The offer is <a href="hinges.html">Small Hinges</a>: one area, one session at a time.</p>
+
+  <h3>The Growth pages</h3>
+  <div class="hq-pages" id="pages"></div>
+
+  <h3>Three rules for this stage</h3>
+  <ol class="hq-rules3">
+    <li><b>Scoreboard before more tools</b>No new Growth page until we have four weeks of real numbers. Three calculators already exist and they all run on examples.</li>
+    <li><b>Form first, then the call</b>Every CTA lands on the referral form before anyone gets a booking link. That holds for the link in bio too.</li>
+    <li><b>One source</b>Hooks, CTAs, brands, benchmarks and the copy rules live in growth.js. Pages read them. Nobody copies them by hand.</li>
+  </ol>
+  <p class="small muted" style="margin-top:14px">Parked until the scoreboard shows the core funnel is healthy: Study on the Spectrum, recruitment content and Performance Lab. They stay as options in Shorts Studio for now.</p>
+</div></section>
+
+<section class="s" id="rhythm"><div class="wrap">
+  <div class="s-head"><span class="num">02 &middot; Weekly rhythm</span><h2>Who does what, and when</h2>
+  <p>Small and steady beats big and rare. Where an owner says to confirm, nobody has been named yet.</p></div>
+  <div class="hq-scroll"><table class="hq-tbl">
+    <thead><tr><th>When</th><th>What</th><th>Where</th><th>Who</th></tr></thead>
+    <tbody>
+      <tr><td>3 times a week</td><td>Post a Must be nice card: a text walk, talk to camera or carousel. Mix parent, adult and hinge cards.</td><td><a href="must-be-nice.html">Must Be Nice</a></td><td class="who">Marketing</td></tr>
+      <tr><td>Every 3 weeks</td><td>Batch day: star ten cards, film ten walks, build them with Claude.</td><td><a href="must-be-nice.html">Must Be Nice</a>, <a href="shorts.html">Shorts Studio</a></td><td class="who">Marketing</td></tr>
+      <tr><td>Before it goes out</td><td>A clinician reads the copy and caption, and it passes the copy check.</td><td><a href="#check">Copy check</a></td><td class="who">Clinicians</td></tr>
+      <tr><td>After each welcome call</td><td>Note one phrase the family used for the hard moment and send it to Britt. That's next week's card or ad.</td><td><a href="welcome.html">Welcome Call Playbook</a></td><td class="who">Clinicians</td></tr>
+      <tr><td>Daily</td><td>Type calls booked, calls held and starts by hand, so a zero gets noticed the same day.</td><td><a href="#score">Scoreboard</a></td><td class="who tbc">To confirm</td></tr>
+      <tr><td>Weekly</td><td>Ad review on the last 30 days: kill, leave, refresh tired ads, keep 12 or more live.</td><td><a href="meta.html#optimise">Meta Ads System</a></td><td class="who">Britt</td></tr>
+      <tr><td>Weekly</td><td>Sort last week's posts by shares and saves. Re-film the winners as ads.</td><td><a href="meta.html#mbn">Meta Ads System</a></td><td class="who">Britt</td></tr>
+      <tr><td>Weekly</td><td>Type the seven scoreboard numbers.</td><td><a href="#score">Scoreboard</a></td><td class="who tbc">To confirm</td></tr>
+    </tbody>
+  </table></div>
+</div></section>
+
+<section class="s" id="score"><div class="wrap">
+  <div class="s-head"><span class="num">03 &middot; Scoreboard</span><h2>Seven numbers, every week</h2>
+  <p>One shared sheet, typed in by hand. Split it by clinician. The ranges below are industry starting points: swap in our own once there's a month of data.</p></div>
+  <div class="hq-sheet" id="sheet"></div>
+  <div class="hq-two">
+    <div><h3 style="margin-top:0">The seven numbers</h3><div class="hq-scroll"><table class="hq-tbl"><thead><tr><th>Number</th><th>Where it comes from</th></tr></thead><tbody id="nums"></tbody></table></div></div>
+    <div><h3 style="margin-top:0">Healthy ranges</h3><div class="hq-scroll"><table class="hq-tbl"><thead><tr><th>Step</th><th>Measure</th><th>Healthy</th></tr></thead><tbody id="bench"></tbody></table></div>
+    <p class="small muted" style="margin-top:10px">Put last month's rates into the <a href="meta.html#optimise">leak finder</a> on the Meta Ads System. It names the first step to fix.</p></div>
+  </div>
+</div></section>
+
+<section class="s" id="cta"><div class="wrap">
+  <div class="s-head"><span class="num">04 &middot; CTA map</span><h2>Where every post sends people</h2>
+  <p>One action per post. "Book a chat" can stay as the words, as long as the link lands on the referral form first.</p></div>
+  <div class="hq-scroll"><table class="hq-tbl"><thead><tr><th>Where</th><th>Next step</th><th>CTAs to use</th></tr></thead><tbody id="ctaMap"></tbody></table></div>
+  <h3>Every CTA, word for word</h3>
+  <div class="hq-scroll"><table class="hq-tbl"><thead><tr><th>CTA</th><th>The words</th><th>For</th><th></th></tr></thead><tbody id="ctaList"></tbody></table></div>
+</div></section>
+
+<section class="s" id="hooks"><div class="wrap">
+  <div class="s-head"><span class="num">05 &middot; Hook bank</span><h2>Every hook, one sentence</h2>
+  <p>The same bank feeds the Must Be Nice post maker, Shorts Studio and the ad script builder. Organic for posts, ad for paid: the ad version names our OT and never says the viewer has a condition.</p></div>
+  <div class="chips hq-vers" id="hbVer" role="group" aria-label="Version"></div>
+  <div class="chips" id="hbSrc" role="group" aria-label="Which hooks" style="margin-bottom:8px"></div>
+  <div class="chips" id="hbWho" role="group" aria-label="Who it's for" style="margin-bottom:14px"></div>
+  <div class="rp-hooks" id="hbList"></div>
+</div></section>
+
+<section class="s" id="check"><div class="wrap">
+  <div class="s-head"><span class="num">06 &middot; Copy check</span><h2>Check it before it ships</h2>
+  <p>Paste a post, caption, ad, page or email. This is the same checker every Growth page uses. It reads patterns, not meaning, so a clinician still reads it before it goes out.</p></div>
+  <div class="rp-checker">
+    <div class="rp-fld"><label for="ccIn">Copy to check</label><textarea id="ccIn">Must be nice when mornings just work. Our clients say we changed their lives, and NDIS will fund it.</textarea>
+      <label class="small" style="display:flex;gap:8px;align-items:center;margin-top:8px;font-family:var(--body);text-transform:none;letter-spacing:0;font-weight:400"><input type="checkbox" id="ccHook" checked style="width:auto;min-height:0;accent-color:var(--teal)"> Check the first line as a hook (one complete sentence)</label></div>
+    <div class="rp-flags" id="ccFlags" aria-live="polite"></div>
+  </div>
+</div></section>
+
+<section class="s" id="rules"><div class="wrap">
+  <div class="s-head"><span class="num">07 &middot; House rules</span><h2>Kind, honest, ours</h2>
+  <p>Every post, ad, page and email. The copy check catches most of these. The rest is judgement.</p></div>
+  <ul class="hq-house">
+    <li><b>The moment</b>Name a moment everyone recognises. Never a condition, and never "do you have ADHD?".</li>
+    <li><b>The hook</b>One complete sentence, one block, one size, one colour. Any "parents often say" lead-in sits inside that sentence.</li>
+    <li><b>Tone</b>Warm, plain and a bit funny. Laugh with, never at. No "fix", "normal" or "suffers".</li>
+    <li><b>Claims</b>Say what we work on and how. No promised outcomes or timeframes, no testimonials or reviews.</li>
+    <li><b>Funding</b>"NDIS and private clients welcome". Never imply the NDIS will pay.</li>
+    <li><b>Urgency</b>Real availability only. No countdowns or made-up spot counts.</li>
+    <li><b>People</b>Staff who have said yes, or actors. Never clients, their homes or their details.</li>
+    <li><b>Pictures and sound</b>Our footage and pictures Claude draws. Music from the app's own library.</li>
+    <li><b>Data</b>No health details in URLs, forms sent to Meta, or pixel events. No client lists uploaded.</li>
+    <li><b>Writing</b>Plain words, short lines, Australian spelling, one CTA. No em-dashes.</li>
+  </ul>
+</div></section>
+
+<section class="s" id="moved"><div class="wrap">
+  <div class="s-head"><span class="num">08 &middot; What moved</span><h2>Seven pages became six</h2>
+  <p>Old links still open the right place. Ticks and drafts carried over, except Reels Studio's builder choices, because that builder is now part of Shorts Studio.</p></div>
+  <div class="hq-scroll"><table class="hq-tbl"><thead><tr><th>Was</th><th>Now</th></tr></thead><tbody>
+    <tr><td>Reels Playbook</td><td><a href="meta.html#scripts">Meta Ads System</a>: the ad scripts, the copy check, the hook bank and the test order.</td></tr>
+    <tr><td>Reels Studio</td><td><a href="shorts.html#playbook">Shorts Studio, Playbook tab</a>: formats, transitions, end screens, specs, shoot, sound and the checklist.</td></tr>
+    <tr><td>Shorts Prompt Maker</td><td><a href="shorts.html">Shorts Studio, Build tab</a>, which can now ask Claude to edit your clip as well as write the script.</td></tr>
+    <tr><td>Five copy checkers</td><td>One, in growth.js. Must Be Nice, Shorts Studio, Meta Ads System, Geometry Puzzle Copy and this page all use it.</td></tr>
+    <tr><td>Two copies of the 55 cards</td><td>One bank in growth.js, read by Must Be Nice and Meta Ads System.</td></tr>
+    <tr><td>Four CTA lists</td><td>One, in the <a href="#cta">CTA map</a> above.</td></tr>
+  </tbody></table></div>
+</div></section>
+
+</main>
+
+<footer><div class="wrap"><span><b style="font-family:var(--display);letter-spacing:.14em;color:var(--fg)">ESTUS</b> HEALTH &middot; Training Hub &middot; Growth</span><span>Filters save in this browser only.</span></div></footer>
+
+<script>
+(function(){
+"use strict";
+var G=window.GROWTH;
+function $(id){return document.getElementById(id)}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function load(k,d){try{var v=JSON.parse(localStorage.getItem(k));return v==null?d:v}catch(e){return d}}
+function save(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+function copy(text,btn){
+  function show(){if(btn){var t=btn.textContent;btn.textContent="Copied";setTimeout(function(){btn.textContent=t},1400)}}
+  function fallback(){var t=document.createElement("textarea");t.value=text;document.body.appendChild(t);t.select();try{document.execCommand("copy");show()}catch(e){}document.body.removeChild(t)}
+  try{navigator.clipboard.writeText(text).then(show,fallback)}catch(e){fallback()}
+}
+
+/* hub done */
+(function(){var K="hub_done",s="growthhq",b=$("ehub-done");function r(){var on=!!load(K,{})[s];b.setAttribute("aria-pressed",on);b.textContent=on?"✓ Done":"Mark done"}
+b.addEventListener("click",function(){var v=load(K,{});if(v[s])delete v[s];else v[s]=1;save(K,v);r()});r()})();
+
+/* rail highlight */
+(function(){var links=[].slice.call(document.querySelectorAll("#rail a"));var secs=links.map(function(a){return document.querySelector(a.getAttribute("href"))});
+if(!("IntersectionObserver" in window))return;
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var i=secs.indexOf(e.target);links.forEach(function(l,j){l.classList.toggle("on",i===j)});var a=links[i];if(a){$("rail").scrollTo({left:a.offsetLeft-40,behavior:"smooth"})}}})},{rootMargin:"-45% 0px -50% 0px"});
+secs.forEach(function(s){if(s)io.observe(s)})})();
+
+/* the Growth pages */
+var COL=["c-ad","c-page","c-book","c-nur","c-call","c-profit"];
+var rest=G.pages.filter(function(p){return p.slug!=="growthhq"});
+$("csPages").innerHTML='<div class="cs-h"><span>The Growth pages</span><span>In order</span></div>'+rest.map(function(p,i){return '<a href="'+p.href+'"><div class="cs-row '+COL[i]+'"><b>'+(i+1)+'</b><div><span>'+esc(p.title)+'</span><small>'+esc(p.job)+'</small></div></div></a>'}).join("");
+$("pages").innerHTML=rest.map(function(p,i){return '<a class="hq-page '+COL[i]+'" href="'+p.href+'"><span class="k">'+esc(p.job)+'</span><b>'+esc(p.title)+'</b><span>'+esc(p.does)+'</span></a>'}).join("");
+
+/* scoreboard */
+var SB=G.scoreboard;
+$("sheet").className="hq-sheet"+(SB.url?" on":"");
+$("sheet").innerHTML=SB.url?'<b>Scoreboard sheet</b><a class="btn sm dark" href="'+esc(SB.url)+'" target="_blank" rel="noopener">Open the sheet</a>'+(SB.owner?'<span>Typed by '+esc(SB.owner)+'</span>':''):
+  '<b>Scoreboard sheet: not linked yet.</b><span>Once the shared Google Sheet exists, paste its link into <code>SCOREBOARD.url</code> in growth.js and it shows here.</span>';
+$("nums").innerHTML=SB.numbers.map(function(n){return '<tr><td>'+esc(n[0])+'</td><td>'+esc(n[1])+'</td></tr>'}).join("");
+$("bench").innerHTML=Object.keys(G.bench).map(function(k){var b=G.bench[k];return '<tr><td>'+esc(b.name)+'</td><td>'+esc(b.what)+'</td><td>'+esc(G.benchText(k))+'</td></tr>'}).join("");
+
+/* CTA map */
+$("ctaMap").innerHTML=G.ctaMap.map(function(m){return '<tr><td>'+esc(m.where)+'</td><td>'+esc(m.next)+'</td><td>'+m.ctas.map(function(id){return esc(G.cta(id).label)}).join(", ")+'</td></tr>'}).join("");
+var WH={organic:"Organic",paid:"Paid",referrer:"Referrers"};
+$("ctaList").innerHTML=G.ctas.map(function(c){var w=c.id==="hinge"?G.ctaText("hinge","sleep"):c.text;return '<tr><td>'+esc(c.label)+'</td><td><q>'+esc(w)+'</q>'+(c.needs?'<br><span class="small muted">Only when: '+esc(c.needs)+'</span>':'')+(c.id==="hinge"?'<br><span class="small muted">Names the matching Small Hinge. With no match it says Small Hinges.</span>':'')+'</td><td>'+c.where.map(function(x){return WH[x]}).join(", ")+'</td><td><button class="btn sm" type="button" data-copy="'+c.id+'">Copy</button></td></tr>'}).join("");
+$("ctaList").addEventListener("click",function(e){var b=e.target.closest("[data-copy]");if(!b)return;var id=b.getAttribute("data-copy");copy(id==="hinge"?G.cta("hinge").fallback:G.cta(id).text,b)});
+
+/* hook bank */
+var BANK=G.bank(),HC={adults:"var(--navy)",parents:"var(--blue)",teens:"var(--plum)",driving:"var(--coal)",ndis:"var(--slate)",clin:"var(--teal)"};
+var hb=load("growthhq_hb",{ver:"organic",src:"hook",who:"all"});
+function chips(el,items,cur,on){el.innerHTML=items.map(function(i){return '<button class="chip" type="button" data-k="'+i[0]+'" aria-pressed="'+(i[0]===cur)+'">'+esc(i[1])+'</button>'}).join("");
+  [].forEach.call(el.children,function(b){b.addEventListener("click",function(){on(b.getAttribute("data-k"))})})}
+function renderBank(){
+  chips($("hbVer"),[["organic","Organic version"],["ad","Ad version"]],hb.ver,function(k){hb.ver=k;save("growthhq_hb",hb);renderBank()});
+  chips($("hbSrc"),[["hook","Ad hooks "+BANK.filter(function(b){return b.src==="hook"}).length],["mbn","Must be nice "+BANK.filter(function(b){return b.src==="mbn"}).length]],hb.src,function(k){hb.src=k;hb.who="all";save("growthhq_hb",hb);renderBank()});
+  var src=BANK.filter(function(b){return b.src===hb.src});
+  var who=[["all","All "+src.length]].concat(Object.keys(G.audiences).filter(function(a){return src.some(function(b){return b.aud===a})}).map(function(a){return [a,G.audiences[a]+" "+src.filter(function(b){return b.aud===a}).length]}));
+  if(!who.some(function(w){return w[0]===hb.who}))hb.who="all";
+  chips($("hbWho"),who,hb.who,function(k){hb.who=k;save("growthhq_hb",hb);renderBank()});
+  var other=hb.ver==="ad"?"organic":"ad";
+  $("hbList").innerHTML=src.filter(function(b){return hb.who==="all"||b.aud===hb.who}).map(function(b){return '<article class="rp-hook" style="--hc:'+HC[b.aud]+'"><q>'+esc(b[hb.ver])+'</q><div class="rp-shot"><b>'+(other==="ad"?"Ad":"Organic")+':</b> '+esc(b[other])+'</div>'+(b.s?'<div class="rp-shot">On screen: '+esc(b.s)+'</div>':'')+
+    '<div class="rp-meta"><span class="rp-pill">'+esc(G.audiences[b.aud])+(b.k?' &middot; '+esc(G.hinges[b.k]):(b.tag?' &middot; '+esc(b.tag):''))+'</span><button class="btn sm" type="button" data-id="'+b.id+'">Copy</button></div></article>'}).join("");
+}
+$("hbList").addEventListener("click",function(e){var c=e.target.closest("[data-id]");if(!c)return;var b=BANK.filter(function(x){return x.id===c.getAttribute("data-id")})[0];copy(b[hb.ver],c)});
+renderBank();
+
+/* copy check */
+function runCheck(){
+  var t=$("ccIn").value;
+  if(!t.trim()){$("ccFlags").innerHTML='<div class="rp-flag rp-ok"><b>Nothing to check</b>Paste a post, caption, ad or page.</div>';return}
+  var f=G.check(t);if($("ccHook").checked)f=G.hookFlags(t.split("\n")[0]).concat(f);
+  $("ccFlags").innerHTML=f.length?f.map(function(x){return '<div class="rp-flag'+(x.lvl==="bad"?" rp-bad":"")+'"><b>'+(x.lvl==="note"?"Note: ":x.lvl==="warn"?"Check: ":"Fix: ")+esc(x.t)+'</b>Found: '+x.hits.map(function(h){return '<mark>'+esc(h)+'</mark>'}).join(", ")+'. '+esc(x.d)+'</div>'}).join(""):'<div class="rp-flag rp-ok"><b>No flags found</b>A clinician still reads it before it goes out.</div>';
+}
+$("ccIn").addEventListener("input",runCheck);$("ccHook").addEventListener("change",runCheck);runCheck();
+})();
+</script>
+
+</body>
+</html>
