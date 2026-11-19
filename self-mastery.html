@@ -1,0 +1,686 @@
+<!doctype html><html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Self-Mastery Shelf</title><meta name="robots" content="noindex, nofollow"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 fill=%22%23090909%22/%3E%3Crect x=%224%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23344982%22/%3E%3Crect x=%2210%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232F6F9E%22/%3E%3Crect x=%2216%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232CA5B8%22/%3E%3Crect x=%2222%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23AB5C95%22/%3E%3C/svg%3E"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap"><style>
+:root{
+  --g-bg:#F3F2EF;--g-surface:#FBFAF8;--g-sunk:#ECEAE6;--g-fg:#0E1014;--g-muted:#65676E;--g-rule:#D3D1CC;--g-ink:#090909;--g-on-ink:#FBFAF8;
+  --g-navy:#344982;--g-blue:#2F6F9E;--g-teal:#2CA5B8;--g-plum:#AB5C95;--g-coal:#22252B;
+  --g-navy-t:#DDE2EF;--g-blue-t:#DCE8F1;--g-teal-t:#DAF0F3;--g-plum-t:#F1E1EC;--g-coal-t:#DADBDE;
+  --g-good:#2E7D4F;--g-good-t:#DDEFE3;--g-warn:#A86A12;--g-warn-t:#F6E8D2;--g-bad:#B23A3A;--g-bad-t:#F5DEDE;
+  --g-display:"Oswald","Arial Narrow",Impact,sans-serif;--g-cond:"Barlow Semi Condensed","Arial Narrow",sans-serif;--g-body:"Barlow","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --g-bg:#0F1216;--g-surface:#161A20;--g-sunk:#1D222A;--g-fg:#ECEEF1;--g-muted:#9BA1AB;--g-rule:#2C323C;--g-ink:#05070A;--g-on-ink:#ECEEF1;
+  --g-navy:#8299DA;--g-blue:#6FA8D2;--g-teal:#4CC3D4;--g-plum:#D58FC1;--g-coal:#C9CCD2;
+  --g-navy-t:#1E2740;--g-blue-t:#18293A;--g-teal-t:#123238;--g-plum-t:#33202E;--g-coal-t:#2A2E35;
+  --g-good:#5FC38A;--g-good-t:#16301F;--g-warn:#E0A64A;--g-warn-t:#33270F;--g-bad:#EC7B7B;--g-bad-t:#3A1A1A;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --g-bg:#0F1216;--g-surface:#161A20;--g-sunk:#1D222A;--g-fg:#ECEEF1;--g-muted:#9BA1AB;--g-rule:#2C323C;--g-ink:#05070A;--g-on-ink:#ECEEF1;
+  --g-navy:#8299DA;--g-blue:#6FA8D2;--g-teal:#4CC3D4;--g-plum:#D58FC1;--g-coal:#C9CCD2;
+  --g-navy-t:#1E2740;--g-blue-t:#18293A;--g-teal-t:#123238;--g-plum-t:#33202E;--g-coal-t:#2A2E35;
+  --g-good:#5FC38A;--g-good-t:#16301F;--g-warn:#E0A64A;--g-warn-t:#33270F;--g-bad:#EC7B7B;--g-bad-t:#3A1A1A;color-scheme:dark}
+
+:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px)}
+body{margin:0;background:var(--g-bg);color:var(--g-fg);font:400 17px/1.55 var(--g-body)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--g-bg)}
+[hidden]{display:none!important}
+img{max-width:100%}
+
+.g-wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.g-root h1,.g-root h2,.g-root h3,.g-root h4{text-wrap:balance;margin:0}
+.g-root p{margin:0}
+.g-root a{color:var(--g-blue)}
+.g-root button,.g-root input,.g-root textarea,.g-root select{font:inherit;color:inherit}
+.g-root :focus-visible{outline:2px solid var(--g-teal);outline-offset:2px}
+.g-eyebrow{font:700 12px var(--g-cond);letter-spacing:.18em;text-transform:uppercase;color:var(--g-muted)}
+.g-navy{--c:var(--g-navy);--ct:var(--g-navy-t)}.g-blue{--c:var(--g-blue);--ct:var(--g-blue-t)}.g-teal{--c:var(--g-teal);--ct:var(--g-teal-t)}.g-plum{--c:var(--g-plum);--ct:var(--g-plum-t)}.g-coal{--c:var(--g-coal);--ct:var(--g-coal-t)}
+.g-hero{background:var(--g-ink);color:var(--g-on-ink)}
+.g-hero .g-wrap{padding-block:30px 36px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:32px;align-items:end}
+.g-hero .g-eyebrow{color:#AEB5C2}
+.g-hero h1{font:600 clamp(40px,7vw,76px)/.95 var(--g-display);text-transform:uppercase;letter-spacing:.01em;margin:8px 0 14px}
+.g-hero h1 em{font-style:normal;color:var(--hc,#4CC3D4)}
+.g-hero .g-lead{font-size:18px;max-width:56ch;color:#D6DAE2}
+.g-hero .g-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.g-hero .g-meta span{font:600 12px var(--g-cond);letter-spacing:.12em;text-transform:uppercase;border:1px solid #3A3F48;padding:4px 10px;color:#D6DAE2}
+.g-side{list-style:none;margin:0;padding:0;border:1px solid #2C323C;background:#111419}
+.g-side li{display:grid;grid-template-columns:34px minmax(0,1fr);gap:10px;align-items:baseline;padding:10px 14px;border-top:1px solid #2C323C}
+.g-side li:first-child{border-top:0}
+.g-side .n{font:600 20px var(--g-display);color:var(--h,#4CC3D4)}
+.g-side b{font:600 15px var(--g-cond);text-transform:uppercase;letter-spacing:.06em;display:block}
+.g-side span.w{font-size:14px;color:#AEB5C2}
+.g-rail{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--g-bg);border-bottom:1px solid var(--g-rule)}
+.g-rail .g-wrap{display:flex;gap:4px;overflow-x:auto;padding-block:8px;scrollbar-width:none}
+.g-rail a{font:600 13px var(--g-cond);letter-spacing:.08em;text-transform:uppercase;color:var(--g-fg);text-decoration:none;padding:6px 10px;white-space:nowrap;border-radius:3px}
+.g-rail a:hover{background:var(--g-sunk)}
+.g-s{padding-block:44px;border-bottom:1px solid var(--g-rule)}
+.g-head{display:flex;flex-direction:column;gap:6px;margin-bottom:22px;max-width:68ch}
+.g-head h2{font:600 clamp(26px,4vw,34px)/1.05 var(--g-display);text-transform:uppercase;letter-spacing:.02em}
+.g-head p{color:var(--g-muted)}
+.g-blocks{display:flex;flex-direction:column;gap:22px}
+.g-sub{font:700 15px var(--g-cond);text-transform:uppercase;letter-spacing:.1em}
+/* cards */
+.g-cards{display:grid;grid-template-columns:repeat(var(--cols,3),minmax(0,1fr));gap:16px}
+.g-card{background:var(--g-surface);border:1px solid var(--g-rule);border-top:5px solid var(--c,var(--g-rule));padding:18px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.g-card .tag{font:700 11px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;color:var(--c,var(--g-muted))}
+.g-card h3{font:600 21px/1.15 var(--g-display);text-transform:uppercase;letter-spacing:.02em}
+.g-card p{font-size:16px}
+.g-card ul{margin:0;padding-left:18px;font-size:15px;display:flex;flex-direction:column;gap:4px}
+.g-card .foot{font-size:14px;color:var(--g-muted);border-top:1px dashed var(--g-rule);padding-top:8px;margin-top:auto}
+.g-card .foot b{color:var(--g-fg)}
+.g-card a.more{font:600 13px var(--g-cond);text-transform:uppercase;letter-spacing:.1em;text-decoration:none;margin-top:auto}
+/* strip of big terms */
+.g-terms{display:grid;grid-template-columns:repeat(var(--cols,4),minmax(0,1fr));gap:1px;background:var(--g-rule);border:1px solid var(--g-rule)}
+.g-terms div{background:var(--g-surface);padding:16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.g-terms .L{font:600 34px/1 var(--g-display);color:var(--c,var(--g-blue))}
+.g-terms b{font:600 15px var(--g-cond);text-transform:uppercase;letter-spacing:.05em}
+.g-terms span{font-size:15px}
+.g-terms q{font-size:15px;color:var(--g-muted);quotes:"\201C" "\201D"}
+/* table */
+.g-tbl{overflow-x:auto;border:1px solid var(--g-rule);background:var(--g-surface)}
+.g-tbl table{border-collapse:collapse;width:100%;min-width:620px;font-size:15px}
+.g-tbl th,.g-tbl td{text-align:left;vertical-align:top;padding:12px 14px;border-top:1px solid var(--g-rule)}
+.g-tbl th{font:700 12px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;color:var(--g-muted);background:var(--g-sunk);border-top:0}
+.g-tbl td:first-child{font-weight:600}
+/* steps */
+.g-steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border:1px solid var(--g-rule);background:var(--g-surface)}
+.g-step{display:grid;grid-template-columns:170px minmax(0,1fr) minmax(0,1fr);gap:20px;padding:18px;border-top:1px solid var(--g-rule);align-items:start}
+.g-step:first-child{border-top:0}
+.g-step .when{border-left:5px solid var(--c);padding-left:10px;display:flex;flex-direction:column}
+.g-step .when b{font:600 21px/1.1 var(--g-display);text-transform:uppercase}
+.g-step .when small{font:600 13px var(--g-cond);color:var(--g-muted);letter-spacing:.06em;text-transform:uppercase}
+.g-step .lbl{font:700 12px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;color:var(--g-muted);margin-bottom:4px}
+.g-step .say{background:var(--ct);padding:10px 12px;font-weight:600}
+/* flow */
+.g-flow{display:grid;grid-template-columns:repeat(var(--n,5),minmax(0,1fr));gap:12px}
+.g-node{background:var(--g-surface);border:1px solid var(--g-rule);border-top:4px solid var(--c);padding:12px;display:flex;flex-direction:column;gap:4px;position:relative;min-width:0}
+.g-node b{font:600 16px var(--g-cond);text-transform:uppercase;letter-spacing:.05em}
+.g-node span{font-size:14px;color:var(--g-muted)}
+.g-node + .g-node::before{content:"";position:absolute;left:-12px;top:26px;width:12px;border-top:2px solid var(--g-muted)}
+.g-loopnote{font:600 13px var(--g-cond);text-transform:uppercase;letter-spacing:.08em;color:var(--g-muted);display:flex;gap:10px;align-items:center}
+.g-loopnote i{flex:1;border-top:2px dashed var(--g-muted)}
+/* callout */
+.g-call{padding:14px 16px;background:var(--ct,var(--g-teal-t));border-left:4px solid var(--c,var(--g-teal));max-width:78ch}
+.g-call ul{margin:6px 0 0;padding-left:20px}
+.g-call.warn{--c:var(--g-warn);--ct:var(--g-warn-t)}
+.g-call.ink{background:var(--g-ink);color:var(--g-on-ink);border-left-color:#D58FC1}
+/* do dont */
+.g-dd{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.g-dd ul{list-style:none;margin:0;padding:0;background:var(--g-surface);border:1px solid var(--g-rule)}
+.g-dd li{padding:12px 16px;border-top:1px solid var(--g-rule);font-size:16px}
+.g-dd li:first-child{border-top:0}
+.g-dd li b{display:block;font:600 15px var(--g-cond);text-transform:uppercase;letter-spacing:.05em}
+.g-dd h3{font:700 14px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px}
+.g-dd .yes h3{color:var(--g-good)}.g-dd .no h3{color:var(--g-bad)}
+/* pairs */
+.g-pair{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);border:1px solid var(--g-rule);background:var(--g-surface)}
+.g-pair > div{padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.g-pair .weak p{color:var(--g-muted)}
+.g-pair .strong{background:var(--g-good-t)}
+.g-pair .t{font:700 11px var(--g-cond);text-transform:uppercase;letter-spacing:.12em}
+.g-pair .weak .t{color:var(--g-bad)}.g-pair .strong .t{color:var(--g-good)}
+.g-pair .arrow{display:grid;place-items:center;padding:0 10px;font:600 22px var(--g-display);color:var(--g-muted);background:var(--g-sunk)}
+/* checklist */
+.g-check{border:1px solid var(--g-fg);background:var(--g-surface)}
+.g-check h4{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:6px 10px 6px 14px;background:var(--ct,var(--g-sunk));box-shadow:inset 5px 0 0 var(--c,var(--g-fg));border-bottom:1px solid var(--g-fg);font:700 14px var(--g-cond);text-transform:uppercase;letter-spacing:.08em}
+.g-check h4 small{font:500 12px var(--g-cond);color:var(--g-muted);font-variant-numeric:tabular-nums}
+.g-grp{padding:6px 10px 8px;display:flex;flex-direction:column}
+.g-grp + .g-grp{border-top:1px solid var(--g-rule)}
+.g-lbl{font:700 11px var(--g-cond);text-transform:uppercase;letter-spacing:.14em;color:var(--g-muted);margin:2px 0}
+.g-row{display:flex;align-items:baseline;gap:6px;padding:3px 4px;border-radius:2px;cursor:pointer;font:600 14px/1.4 var(--g-cond);text-transform:uppercase;letter-spacing:.02em;position:relative}
+.g-row:hover{background:var(--g-sunk)}
+.g-row input{position:absolute;opacity:0;pointer-events:none}
+.g-row .item{white-space:nowrap}
+.g-row .dots{flex:1;min-width:12px;border-bottom:1.5px dotted var(--g-muted);transform:translateY(-4px)}
+.g-row .resp{text-align:right}
+.g-row .bx{width:14px;height:14px;border:1.5px solid var(--g-muted);flex:none;transform:translateY(2px);display:grid;place-items:center;font-size:11px;line-height:1}
+.g-row:has(input:checked) .item,.g-row:has(input:checked) .resp{color:var(--g-muted)}
+.g-row:has(input:checked) .bx{background:var(--c,var(--g-teal));border-color:var(--c,var(--g-teal));color:var(--g-surface)}
+.g-row:has(input:checked) .bx::after{content:"\2713"}
+.g-row:has(input:focus-visible){outline:2px solid var(--c,var(--g-teal))}
+.g-checkfoot{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 10px 7px 14px;border-top:1px solid var(--g-fg);background:var(--g-sunk);font:700 13px var(--g-cond);text-transform:uppercase;letter-spacing:.04em}
+.g-checks{display:grid;grid-template-columns:repeat(var(--cols,2),minmax(0,1fr));gap:18px;align-items:start}
+/* buttons */
+.g-btn{border:1px solid var(--g-rule);background:var(--g-surface);color:var(--g-fg);padding:9px 14px;cursor:pointer;font:600 13px var(--g-cond);text-transform:uppercase;letter-spacing:.08em;min-height:40px}
+.g-btn:hover{border-color:var(--g-fg)}
+.g-btn.primary{background:var(--g-ink);color:var(--g-on-ink);border-color:var(--g-ink)}
+.g-btn.sm{min-height:30px;padding:4px 10px;font-size:12px}
+.g-chip{border:1px solid var(--g-rule);background:var(--g-surface);padding:7px 12px;border-radius:999px;cursor:pointer;font:600 13px var(--g-cond);text-transform:uppercase;letter-spacing:.06em;min-height:36px}
+.g-chip[aria-pressed="true"]{background:var(--c,var(--g-fg));border-color:var(--c,var(--g-fg));color:var(--g-surface)}
+/* quiz */
+.g-quiz{background:var(--g-surface);border:1px solid var(--g-rule);padding:20px;display:flex;flex-direction:column;gap:14px}
+.g-quiz .qh{display:flex;justify-content:space-between;gap:10px;font:700 12px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;color:var(--g-muted)}
+.g-quiz .said{font:500 20px/1.35 var(--g-body);padding-left:14px;border-left:4px solid var(--c,var(--g-plum))}
+.g-quiz .opts{display:flex;flex-direction:column;gap:8px}
+.g-quiz .opts button{text-align:left;background:var(--g-bg);border:1.5px solid var(--g-rule);padding:12px 14px;cursor:pointer;font-size:16px;line-height:1.4}
+.g-quiz .opts button:hover:not(:disabled){border-color:var(--g-fg)}
+.g-quiz .opts button.right{border-color:var(--g-good);background:var(--g-good-t)}
+.g-quiz .opts button.wrong{border-color:var(--g-bad);background:var(--g-bad-t)}
+.g-quiz .opts button:disabled{cursor:default}
+.g-quiz .fb{font-size:16px;padding:12px 14px;background:var(--g-sunk)}
+.g-quiz .fb b{font:700 13px var(--g-cond);text-transform:uppercase;letter-spacing:.1em;display:block}
+.g-quiz .qn{display:flex;justify-content:flex-end}
+/* tool shell */
+.g-tool{background:var(--g-surface);border:1px solid var(--g-rule);padding:20px;display:flex;flex-direction:column;gap:14px}
+.g-fld{display:flex;flex-direction:column;gap:4px;min-width:0}
+.g-fld label{font:700 12px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;color:var(--g-muted)}
+.g-fld input,.g-fld textarea,.g-fld select{width:100%;border:1px solid var(--g-rule);background:var(--g-bg);padding:9px 10px;border-radius:2px;font-size:16px}
+.g-fld textarea{min-height:70px;resize:vertical}
+.g-out{background:var(--ct,var(--g-teal-t));border-left:4px solid var(--c,var(--g-teal));padding:14px 16px;font-size:17px}
+.g-out b{font:700 12px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;display:block;color:var(--c,var(--g-teal))}
+.g-row2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.g-range label{display:flex;justify-content:space-between;font:600 14px var(--g-cond);text-transform:uppercase;letter-spacing:.04em}
+.g-range input{width:100%;accent-color:var(--c,var(--g-plum))}
+.g-msg{font:600 13px var(--g-cond);text-transform:uppercase;letter-spacing:.08em;color:var(--g-good);min-height:1em}
+/* related */
+.g-rel{display:flex;flex-wrap:wrap;gap:8px}
+.g-rel a{display:inline-flex;flex-direction:column;gap:2px;padding:10px 14px;border:1px solid var(--g-rule);background:var(--g-surface);text-decoration:none;color:var(--g-fg);border-left:4px solid var(--c,var(--g-teal));min-width:180px}
+.g-rel a b{font:600 15px var(--g-cond);text-transform:uppercase;letter-spacing:.05em}
+.g-rel a span{font-size:13px;color:var(--g-muted)}
+.g-rel a:hover{background:var(--g-sunk)}
+.g-foot{padding-block:28px 48px;color:var(--g-muted);font-size:14px}
+.g-foot ul{margin:6px 0 0;padding-left:18px}
+@media (max-width:860px){
+  .g-hero .g-wrap,.g-dd,.g-row2{grid-template-columns:1fr}
+  .g-cards{grid-template-columns:repeat(min(var(--cols,3),2),minmax(0,1fr))}
+  .g-terms{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .g-step{grid-template-columns:1fr;gap:10px}
+  .g-flow{grid-template-columns:1fr}
+  .g-node + .g-node::before{left:24px;top:-12px;width:0;height:12px;border-top:0;border-left:2px solid var(--g-muted)}
+  .g-checks{grid-template-columns:1fr}
+  .g-pair{grid-template-columns:1fr}.g-pair .arrow{place-items:center start;padding:2px 16px;font-size:0}.g-pair .arrow::after{content:"\2193";font-size:20px}
+}
+@media (max-width:520px){
+  .g-cards,.g-terms{grid-template-columns:1fr}
+  .g-row .item{white-space:normal}
+}
+/* Self-Mastery Shelf extras */
+.gr{display:inline-block;font:700 11px/1 var(--g-cond);text-transform:uppercase;letter-spacing:.1em;padding:4px 7px;border-radius:2px;white-space:nowrap;border:1px solid currentColor}
+.gS{color:var(--g-good);background:var(--g-good-t)}
+.gM{color:var(--g-blue);background:var(--g-blue-t)}
+.gW{color:var(--g-warn);background:var(--g-warn-t)}
+.gX{color:var(--g-bad);background:var(--g-bad-t)}
+.vf{display:inline-block;font:700 11px/1 var(--g-cond);text-transform:uppercase;letter-spacing:.1em;padding:4px 7px;border-radius:2px;white-space:nowrap}
+.v1{background:var(--g-good-t);color:var(--g-good)}.v2{background:var(--g-warn-t);color:var(--g-warn)}.v3{background:var(--g-bad-t);color:var(--g-bad)}
+.sm-legend{list-style:none;padding:0!important;gap:8px!important}
+.sm-legend li{display:flex;gap:10px;align-items:baseline}
+.sm-legend .gr,.sm-legend .vf{min-width:86px;text-align:center}
+.sm-tabs{display:flex;flex-wrap:wrap;gap:6px}
+.sm-tabs button{font:600 13px var(--g-cond);letter-spacing:.08em;text-transform:uppercase;padding:10px 14px;background:var(--g-surface);border:1px solid var(--g-rule);border-top:4px solid var(--c);cursor:pointer;min-height:44px;text-align:left;display:flex;flex-direction:column;gap:2px}
+.sm-tabs button small{font:500 12px var(--g-body);text-transform:none;letter-spacing:0;color:var(--g-muted)}
+.sm-tabs button[aria-selected="true"]{background:var(--g-ink);color:var(--g-on-ink);border-color:var(--g-ink);border-top-color:var(--c)}
+.sm-tabs button[aria-selected="true"] small{color:#AEB5C2}
+.sm-bk{display:flex;flex-direction:column;gap:18px}
+.sm-bkhead{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:18px;align-items:start}
+.sm-bkhead h3{font:600 clamp(24px,3.4vw,32px)/1.05 var(--g-display);text-transform:uppercase;letter-spacing:.02em}
+.sm-bkhead .by{font:600 14px var(--g-cond);letter-spacing:.08em;text-transform:uppercase;color:var(--g-muted);margin-top:4px}
+.sm-bkhead .big{margin-top:10px;font-size:18px}
+.sm-bib{background:var(--g-surface);border:1px solid var(--g-rule);border-left:4px solid var(--c);padding:12px 14px;font-size:14px;display:flex;flex-direction:column;gap:6px}
+.sm-bib b{font:700 11px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;color:var(--g-muted)}
+.sm-ch td:first-child{font:600 18px var(--g-display);color:var(--c);width:42px;white-space:nowrap}
+.sm-ch td.t{font-weight:600;min-width:170px}
+.sm-ch td.s{font-size:13px;color:var(--g-muted);min-width:120px}
+.sm-ch tr.part td{background:var(--ct);font:700 12px var(--g-cond);text-transform:uppercase;letter-spacing:.12em;color:var(--g-fg)}
+.sm-ch .flag{display:block;font-size:13px;color:var(--g-warn);margin-top:4px}
+.sm-tbl table{min-width:860px}
+.sm-filter{display:flex;flex-wrap:wrap;gap:6px}
+.sm-pairs{display:flex;flex-direction:column;gap:10px}
+.sm-pairs .g-pair .weak .t{color:var(--g-muted)}
+.sm-ch td .gr{margin-top:2px}
+@media (max-width:860px){.sm-bkhead{grid-template-columns:1fr}}
+</style><script src="theme.js"></script></head><body><style>
+.ehub{background:#090909;color:#FBFAF8;border-bottom:1px solid #2C323C;position:relative;z-index:6}
+.ehub-in{max-width:1120px;margin:0 auto;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));display:flex;justify-content:space-between;align-items:center;gap:10px 16px;flex-wrap:wrap}
+.ehub a{color:inherit;text-decoration:none}
+.ehub-home{display:flex;align-items:center;gap:12px;min-height:36px}
+.ehub-bands{display:flex;width:56px;height:5px;flex:none}.ehub-bands i{flex:1}
+.ehub-bands i:nth-child(1){background:#344982}.ehub-bands i:nth-child(2){background:#2F6F9E}.ehub-bands i:nth-child(3){background:#2CA5B8}.ehub-bands i:nth-child(4){background:#AB5C95}
+.ehub-wm{font:500 14px/1 "Oswald","Arial Narrow",Impact,sans-serif;letter-spacing:.16em}.ehub-wm b{font-weight:700}
+.ehub-sep{font:600 12px/1 "Barlow Semi Condensed","Arial Narrow",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#AEB5C2;border-left:1px solid #3A3F48;padding-left:12px}
+.ehub-home:hover .ehub-sep{color:#FBFAF8}
+.ehub-r{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ehub-btn{font:600 12px/1 "Barlow Semi Condensed","Arial Narrow",sans-serif;letter-spacing:.1em;text-transform:uppercase;border:1px solid #3A3F48;background:none;color:#FBFAF8;padding:9px 12px;cursor:pointer;min-height:36px;display:inline-flex;align-items:center;gap:8px}
+.ehub-btn:hover{border-color:#FBFAF8}
+.ehub-btn[aria-pressed="true"]{background:#2E7D4F;border-color:#2E7D4F}
+.ehub-btn:focus-visible,.ehub a:focus-visible{outline:2px solid #2CA5B8;outline-offset:2px}
+.ehub-next{background:#FBFAF8!important;color:#090909!important;border-color:#FBFAF8}
+@media (max-width:520px){.ehub-sep{display:none}.ehub-next .ehub-nl{display:none}}
+@media print{.ehub{display:none}}
+</style>
+<nav class="ehub" aria-label="Estus Training Hub" style="margin:0"><div class="ehub-in">
+<a class="ehub-home" href="index.html"><span class="ehub-bands" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="ehub-wm"><b>ESTUS</b> HEALTH</span><span class="ehub-sep">&larr; Training Hub</span></a>
+<div class="ehub-r"><button class="ehub-btn" type="button" id="ehub-done" aria-pressed="false">Mark done</button><a class="ehub-btn ehub-next" href="gm.html"><span class="ehub-nl">Next:</span> GM Mode <span aria-hidden="true">&rarr;</span></a></div>
+</div></nav>
+<script>(function(){var K="hub_done",s="selfmastery",b=document.getElementById("ehub-done");function l(){try{return JSON.parse(localStorage.getItem(K))||{}}catch(e){return {}}}function r(){var on=!!l()[s];b.setAttribute("aria-pressed",on);b.textContent=on?"\u2713 Done":"Mark done"}b.addEventListener("click",function(){var v=l();if(v[s])delete v[s];else v[s]=1;try{localStorage.setItem(K,JSON.stringify(v))}catch(e){}r()});r()})();</script>
+<div class="g-root sm-root"><header class="g-hero"><div class="g-wrap"><div><p class="g-eyebrow">Team · Self-mastery shelf</p><h1>Habits, bets and the <em>situation</em></h1><p class="g-lead">Six books on habits, decisions and self-control, chapter by chapter. Every idea is checked against the research, graded, and tied back to our Stoic map. Take what is solid. Leave the hype.</p><div class="g-meta"><span>For our own growth</span><span>Evidence graded</span><span>Stoic linked</span></div></div><ol class="g-side" id="sm-side"></ol></div></header>
+<nav class="g-rail" aria-label="Sections"><div class="g-wrap"><a href="#start">Start</a><a href="#stoic">Stoic core</a><a href="#books">The books</a><a href="#myths">Myth-buster</a><a href="#map">Stoic map</a><a href="#loop">Protocols</a><a href="#selftalk">Self-talk</a><a href="#goggins">Goggins Lite</a><a href="#safe">Safe use</a><a href="#practice">Practice</a><a href="#sources">Sources</a></div></nav>
+
+<section class="g-s" id="start"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Read this first</p><h2>The one big idea</h2><p>Across all six books, the best-supported idea is simple. Change the situation, not your willpower. Set up the room, the calendar and the people around you so the right thing is the easy thing.</p></div><div class="g-blocks">
+<div class="g-terms" style="--cols:4"><div class="g-teal"><span class="L">1</span><b>Environment first</b><span>Make the good thing easy and the bad thing hard before you need willpower.</span></div><div class="g-navy"><span class="L">2</span><b>If-then plans</b><span>"If X happens, I will do Y." One of the strongest tools in behaviour science.</span></div><div class="g-blue"><span class="L">3</span><b>Judge the decision</b><span>A good call can still go badly. Judge the process, not the result.</span></div><div class="g-plum"><span class="L">4</span><b>Kind honesty</b><span>Own the truth. Talk to yourself like a good coach, not a drill sergeant.</span></div></div>
+<div class="g-cards" style="--cols:2"><article class="g-card g-navy"><span class="tag">Evidence grades</span><h3>How strong is the science?</h3><ul class="sm-legend"><li><span class="gr gS">Strong</span> Meta-analyses or big replicated trials.</li><li><span class="gr gM">Moderate</span> Several good studies, some limits.</li><li><span class="gr gW">Weak</span> Little direct testing. Low risk to try.</li><li><span class="gr gX">Myth</span> The evidence says otherwise.</li></ul><p class="foot">Grades are our own judgement for training, not a formal review.</p></article><article class="g-card g-plum"><span class="tag">How sure we are of the facts</span><h3>Verification labels</h3><ul class="sm-legend"><li><span class="vf v1">Verified</span> Checked against the publisher, a sample or a library catalogue.</li><li><span class="vf v2">Secondary</span> From two or more independent summaries, not the book itself.</li><li><span class="vf v3">To check</span> Not yet confirmed. Listed under Sources.</li></ul><p class="foot">Two of the books came out in July and September 2026, so some detail is still secondary.</p></article></div>
+<div class="g-call g-teal"><strong>Scope.</strong> This page is for the Estus team's own growth: how we work, decide and look after ourselves. It is not a client protocol. Anything you adapt for clients goes through supervision and our neuroaffirming lens first.</div>
+</div></div></section>
+
+<section class="g-s" id="stoic"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">From our Stoic map</p><h2>The Stoic core</h2><p>The backbone the books hang off. Virtue is the only true good. Money, health, results and reputation are "preferred indifferents": worth chasing, never worth your character.</p></div><div class="g-blocks">
+<div class="g-cards" style="--cols:4"><article class="g-card g-blue"><span class="tag">sophia</span><h3>Wisdom</h3><p>See clearly. Know what is good, bad and neither. Judge first impressions before acting on them.</p></article><article class="g-card g-plum"><span class="tag">andreia</span><h3>Courage</h3><p>Act rightly despite fear, pain or ridicule. Includes endurance and speaking up.</p></article><article class="g-card g-teal"><span class="tag">sophrosyne</span><h3>Temperance</h3><p>Self-control and moderation. Knowing when to push and when to hold back.</p></article><article class="g-card g-navy"><span class="tag">dikaiosyne</span><h3>Justice</h3><p>Fairness and duty to others. What we owe our team, clients and community.</p></article></div>
+<p class="g-sub">Epictetus' three disciplines</p>
+<div class="g-flow" style="--n:3"><div class="g-node g-navy"><b>Desire</b><span>Want what is up to you. Let go of the rest.</span></div><div class="g-node g-teal"><b>Action</b><span>Act well, for others, with a reserve clause: "if nothing stops me".</span></div><div class="g-node g-plum"><b>Assent</b><span>Check a first impression before you agree with it.</span></div></div>
+<div class="g-tbl"><table><thead><tr><th>Practice</th><th>In plain words</th><th>Where the books echo it</th></tr></thead><tbody>
+<tr><td>Dichotomy of control</td><td>Sort it first: up to me, or not up to me.</td><td>Duke's skill versus luck. Duckworth's honesty that not everyone can change their situation.</td></tr>
+<tr><td>Premeditatio malorum</td><td>Rehearse what could go wrong.</td><td>Duke's premortem. Greenberg's Prepare for the Storm.</td></tr>
+<tr><td>Evening review</td><td>Seneca: what did I do well, where did I fall short, what will I fix? Then rest.</td><td>Clear's habit tracking. Goggins' after-action report.</td></tr>
+<tr><td>Voluntary discomfort</td><td>Small, chosen hardship so real hardship feels less new.</td><td>Holiday's Seek Discomfort. Goggins' callusing (in a much bigger dose).</td></tr>
+<tr><td>Amor fati</td><td>Use what happens, including setbacks.</td><td>Goggins' cookie jar. Greenberg's Choose Your Attitude.</td></tr>
+<tr><td>Memento mori</td><td>Time is the scarce thing. Spend it on what matters.</td><td>Greenberg's values levers. Duke's 10-10-10.</td></tr>
+</tbody></table></div>
+<div class="g-call"><strong>Why the Stoics fit the evidence.</strong> Albert Ellis (REBT) and Aaron Beck (CBT) both drew on Epictetus' idea that we are upset less by events than by our judgements of them. That is the bridge from philosophy to tested therapy. Stoic Week surveys look positive, but they are self-selected and uncontrolled, so treat them as weak evidence.</div>
+</div></div></section>
+
+<section class="g-s" id="books"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Chapter by chapter</p><h2>The books</h2><p>Pick a book. Each row gives the core idea, one drill, the evidence grade and the Stoic link.</p></div><div class="g-blocks">
+<div class="sm-tabs" role="tablist" aria-label="Books" id="sm-tabs"></div>
+<div id="sm-book"></div>
+</div></div></section>
+
+<section class="g-s" id="myths"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Pop psych versus the research</p><h2>Myth-buster</h2><p>The claims you hear most, and what the studies actually say.</p></div><div class="g-blocks"><div class="sm-filter" data-chips id="sm-mf" aria-label="Filter by grade"><button class="g-chip" type="button" aria-pressed="true" data-g="all">All</button><button class="g-chip" type="button" aria-pressed="false" data-g="S">Strong</button><button class="g-chip" type="button" aria-pressed="false" data-g="M">Moderate</button><button class="g-chip" type="button" aria-pressed="false" data-g="X">Myth or overstated</button></div><div class="g-tbl"><table><thead><tr><th>The claim</th><th>What the research says</th><th>Grade</th></tr></thead><tbody id="sm-myths"></tbody></table></div></div></div></section>
+
+<section class="g-s" id="map"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Putting it together</p><h2>The books on the Stoic map</h2><p>The four virtues, the five bridges from our map, and where the books agree or clash.</p></div><div class="g-blocks">
+<div class="g-tbl"><table><thead><tr><th>Virtue</th><th>What the books add</th><th>Where they clash</th></tr></thead><tbody>
+<tr><td>Wisdom</td><td>Duke: calibration and premortems. Greenberg: find the cause, know your values. Duckworth: situational awareness. Clear: the Habits Scorecard.</td><td>Goggins treats almost every limit as weakness.</td></tr>
+<tr><td>Courage</td><td>Greenberg: face fears step by step. Goggins: leave the comfort zone. Duckworth: The Courage to Change. Holiday: Grace under Pressure.</td><td>Duckworth: leaving a bad situation can be courage. Goggins: staying in the pain is courage.</td></tr>
+<tr><td>Temperance</td><td>Holiday's whole book. Clear's environment design. Duckworth's situational strategies. Greenberg's body lever.</td><td><b>The big one.</b> Goggins: be "obsessed" and "imbalanced". Holiday: manage the load, protect sleep, be kind to yourself.</td></tr>
+<tr><td>Justice</td><td>Duke: truthseeking groups. Duckworth Part 3: improve situations for others. Greenberg: skilful talk. Holiday: Make Others Better.</td><td>"Taking souls" treats people as opponents to beat.</td></tr>
+</tbody></table></div>
+<div class="g-cards" style="--cols:3" id="sm-bridges"></div>
+<p class="g-sub">Direct matches</p>
+<div class="sm-pairs" id="sm-pairs"></div>
+</div></div></section>
+
+<section class="g-s" id="loop"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Run it</p><h2>The daily loop and weekly huddle</h2><p>Our Stoic loop (morning premeditation, one rep at a time, evening review), now with the best-supported drill from each book. Ticks save in your browser only.</p></div><div class="g-blocks"><div class="g-checks" id="sm-checks"></div><div style="display:flex;gap:10px;align-items:center"><button class="g-btn sm" type="button" id="sm-clear">Clear all ticks</button><span class="g-msg" id="sm-cmsg"></span></div>
+<div class="g-call warn"><strong>Load rule.</strong> If your energy has sat under 5 out of 10 for two weeks, take load off before adding any new habit. That is temperance, not weakness. Raise it in your 1:1.</div></div></div></section>
+
+<section class="g-s" id="selftalk"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Try it</p><h2>Self-talk re-take</h2><p>Goggins records his self-talk and re-records it like a coach. The research backs the re-take: talking to yourself by name or as "you" calms stress (Kross), self-compassion after a miss lifts effort to improve (Breines and Chen), and a short cue helps the next rep (Hatzigeorgiadis).</p></div><div class="g-blocks"><div class="g-tool g-teal"><div class="g-row2"><div class="g-fld"><label for="st_name">Your first name</label><input id="st_name" value="Sam"></div><div class="g-fld"><label for="st_moment">What happened (say &ldquo;your&rdquo;, not &ldquo;my&rdquo;)</label><input id="st_moment" value="ran over time and missed your notes block"></div></div><div class="g-row2"><div class="g-fld"><label for="st_harsh">What the inner voice said</label><input id="st_harsh" value="You're hopeless at this. Everyone else manages."></div><div class="g-fld"><label for="st_next">The next small action</label><input id="st_next" value="write the first line of the note now"></div></div><div class="g-fld"><label for="st_type">Type of task</label><select id="st_type"><option value="fine">Fine skill (writing, a tricky conversation)</option><option value="effort">Effort or endurance (a long admin block)</option></select></div><div class="g-out" id="st_out" style="white-space:pre-line"></div><div style="display:flex;gap:10px;align-items:center"><button class="g-btn primary" type="button" data-copy="st_out">Copy re-take</button><span class="g-msg"></span></div></div></div></div></section>
+
+<section class="g-s" id="goggins"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Opt in only</p><h2>Goggins Lite</h2><p>Goggins is honest and gets people moving. Some of his ideas hold up. Some are stories, not science. Here is what we keep and what we swap.</p></div><div class="g-blocks">
+<div class="g-cards" style="--cols:4"><article class="g-card g-teal"><span class="tag">Keep</span><h3>The re-take</h3><p>Record your self-talk, listen back, re-record it as a coach would.</p></article><article class="g-card g-teal"><span class="tag">Keep</span><h3>One-second decision</h3><p>Never quit at peak pain. Pause, breathe, decide when calm.</p></article><article class="g-card g-teal"><span class="tag">Keep</span><h3>Cookie jar</h3><p>Write down past wins and hard things you got through. Draw on them.</p></article><article class="g-card g-teal"><span class="tag">Keep</span><h3>After-action report</h3><p>What went right, what went wrong, what to fix. Then try again.</p></article></div>
+<p class="g-sub">Swap these</p>
+<div class="sm-pairs" id="sm-swaps"></div>
+<div class="g-call warn"><strong>Never</strong> do a discomfort drill when you are ill, injured, short on sleep or highly stressed. Overtraining and burnout are real (Meeusen and colleagues, 2013 consensus). Goggins-style practices are for staff who opt in. We do not use them with clients.</div>
+</div></div></section>
+
+<section class="g-s" id="safe"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">The Estus way</p><h2>Safe and neuroaffirming use</h2><p>Much of our team is neurodivergent. Direct research on habit formation in autistic and ADHD adults is thin, so some of this is reasoned from what we do know.</p></div><div class="g-blocks"><div class="g-dd"><div class="yes"><h3>Do</h3><ul>
+<li><b>Lead with structure</b>Put cues where the work happens (Barkley's "point of performance"). It matches Clear and Duckworth, and suits ADHD brains well.</li>
+<li><b>Use "never miss twice"</b>A single miss did not derail habits in Lally's study. Flexible ranges beat perfect streaks.</li>
+<li><b>Follow interest</b>Temptation bundling and glad-you-did-it activities work with interest-based motivation.</li>
+<li><b>Respect sensory needs</b>Adjust the environment (PEO) rather than mask. A cold shower may be overload, not growth.</li>
+<li><b>Write norms down</b>Explicit rules make truthseeking groups safer for everyone.</li>
+</ul></div><div class="no"><h3>Don't</h3><ul>
+<li><b>Say "try harder"</b>It shames, and it is weak advice even for neurotypical people.</li>
+<li><b>Use harsh self-talk</b>Many neurodivergent people already carry years of criticism. Distanced, kind, instructional talk works better.</li>
+<li><b>Make streaks the goal</b>All-or-nothing streaks can trigger all-or-nothing thinking.</li>
+<li><b>Make the grind a norm</b>"Imbalanced" and "obsessed" are not team values. Temperance limits the grind.</li>
+<li><b>Hand this to clients</b>These drills are for us. Client work goes through supervision.</li>
+</ul></div></div></div></div></section>
+
+<section class="g-s" id="practice"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Active recall</p><h2>Practice</h2></div><div class="g-blocks"><div class="g-quiz g-teal" id="sm-quiz"><div class="qh"><span class="pos"></span><span class="sc"></span></div><p class="said"></p><div class="opts"></div><div class="fb" hidden></div><div class="qn"><button class="g-btn primary nx" type="button" disabled>Next</button></div></div></div></div></section>
+
+<section class="g-s" id="sources"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Check our working</p><h2>Sources and what is still to check</h2></div><div class="g-blocks">
+<div class="g-call warn"><strong>Still to check against a print copy.</strong><ul>
+<li>The 12 Levers: final lever names and order. The 2024 sampler used different names.</li>
+<li>Situated: chapter content (titles are verified).</li>
+<li>Discipline Is Destiny: the full Part II and early Part III chapter list.</li>
+<li>Never Finished: which chapter each Evolution sits in, and its chapter content.</li>
+<li>Can't Hurt Me: chapter content is from summaries, not the text.</li>
+<li>"The Dirty Bomb" could not be found in either Goggins book, so it is left out.</li>
+</ul></div>
+<div class="g-cards" style="--cols:2"><article class="g-card g-navy"><span class="tag">The books</span><h3>Bibliography</h3><ul id="sm-bib"></ul></article><article class="g-card g-blue"><span class="tag">The research</span><h3>Key studies</h3><ul id="sm-refs"></ul></article></div>
+</div></div></section>
+
+<section class="g-s" id="more"><div class="g-wrap"><div class="g-head"><p class="g-eyebrow">Keep going</p><h2>Related</h2></div><div class="g-blocks"><div class="g-rel"><a class="g-navy" href="gm.html"><b>GM Mode</b><span>Values into booked reps</span></a><a class="g-teal" href="calendar.html"><b>Calendar Management</b><span>Structure creates options</span></a><a class="g-blue" href="act.html"><b>ACT</b><span>The Stoic cousin</span></a><a class="g-plum" href="cbt.html"><b>CBT</b><span>Epictetus, tested</span></a><a class="g-navy" href="executive-function.html"><b>Executive Function</b><span>Environment before skill</span></a><a class="g-teal" href="sport-psych.html"><b>Sport Psychology</b><span>Self-talk and effort</span></a></div></div></div></section>
+
+<footer class="g-foot"><div class="g-wrap"><p>Estus Health · Team · Self-Mastery Shelf. Built November 2026 from a research review of six books and the studies behind them. Summaries are in our own words; read the books for the full picture.</p></div></footer></div>
+<script>
+(function(){
+var G={S:["Strong","gS"],MS:["Mod to strong","gS"],M:["Moderate","gM"],WM:["Weak to mod","gW"],W:["Weak","gW"],X:["Myth","gX"],OV:["Overstated","gX"],H:["Harmful if literal","gX"],N:["Not tested","gW"],NA:["n/a","gM"]};
+var VF={1:["Verified","v1"],2:["Secondary","v2"],3:["To check","v3"]};
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+function gr(c){var g=G[c]||G.NA;return '<span class="gr '+g[1]+'">'+g[0]+'</span>'}
+function vf(n){var v=VF[n];return '<span class="vf '+v[1]+'">'+v[0]+'</span>'}
+
+var BOOKS=[
+{id:"ah",short:"Atomic Habits",sub:"James Clear",c:"g-teal",title:"Atomic Habits",author:"James Clear",
+ bib:[["Full title","Atomic Habits: An Easy and Proven Way to Build Good Habits and Break Bad Ones"],["Published","Avery (Penguin Random House), 2018. AU and UK: Random House Business"],["Shape","20 chapters in six parts, plus an introduction, conclusion and appendix"]],v:1,
+ big:"Habits are a system. Make the cue obvious, the craving attractive, the response easy and the reward satisfying. Flip all four to break a bad habit.",
+ extra:'<div class="g-tbl"><table><thead><tr><th>Law</th><th>Build a good habit</th><th>Break a bad habit</th><th>Loop stage</th></tr></thead><tbody><tr><td>1st</td><td>Make it obvious</td><td>Make it invisible</td><td>Cue</td></tr><tr><td>2nd</td><td>Make it attractive</td><td>Make it unattractive</td><td>Craving</td></tr><tr><td>3rd</td><td>Make it easy</td><td>Make it difficult</td><td>Response</td></tr><tr><td>4th</td><td>Make it satisfying</td><td>Make it unsatisfying</td><td>Reward</td></tr></tbody></table></div>',
+ rows:[
+ ["part","The Fundamentals"],
+ [1,"The Surprising Power of Atomic Habits","Small changes compound. Build systems, not just goals.","Pick one tiny daily improvement for this week.","W","Inputs not outcomes","The 1% a day maths is an illustration, not data."],
+ [2,"How Your Habits Shape Your Identity (and Vice Versa)","Each action is a vote for the person you want to be.","Write “I am a clinician who ___” and cast two small votes for it today.","W","Assent"],
+ [3,"How to Build Better Habits in 4 Simple Steps","Habits run on cue, craving, response, reward.","Map one of your habits onto the four steps.","M","Wisdom","Fits Wood and Neal's research on cue and response."],
+ ["part","1st Law: Make It Obvious"],
+ [4,"The Man Who Didn't Look Right","You can't change what you don't notice.","Habits Scorecard: list your day and mark each habit +, - or =.","M","Evening review"],
+ [5,"The Best Way to Start a New Habit","Name when and where. Stack the new habit on one you already do.","“After I close a session, I will write the first line of the note.”","MS","Structure creates options","If-then plans are strong. Stacking itself is less tested."],
+ [6,"Motivation Is Overrated; Environment Often Matters More","Make the cue for the good habit visible.","Have the notes template open before the session starts.","S","Environment beats willpower"],
+ [7,"The Secret to Self-Control","Disciplined people meet fewer temptations. They don't resist more.","Phone in another room for admin blocks.","S","Environment beats willpower"],
+ ["part","2nd Law: Make It Attractive"],
+ [8,"How to Make a Habit Irresistible","Pair a need-to with a want-to (temptation bundling).","Favourite podcast only while doing admin.","M","Desire","Milkman 2014. Later replication found a smaller effect."],
+ [9,"The Role of Family and Friends in Shaping Your Habits","We copy the people close to us.","Do the habit alongside someone who already does it.","M","Justice"],
+ [10,"How to Find and Fix the Causes of Your Bad Habits","Reframe “have to” as “get to”.","Rewrite one “have to” from today.","W","Assent"],
+ ["part","3rd Law: Make It Easy"],
+ [11,"Walk Slowly, but Never Backward","Reps build habits, not time or planning.","Count reps, not hours spent planning.","S","Inputs not outcomes"],
+ [12,"The Law of Least Effort","Cut the friction for good habits.","Pre-fill templates. Save your common phrases.","S","Environment beats willpower"],
+ [13,"How to Stop Procrastinating by Using the Two-Minute Rule","Start with a version that takes under two minutes.","“Open the report and write one line.”","W","One rep at a time","Little direct testing, but low risk."],
+ [14,"How to Make Good Habits Inevitable and Bad Habits Impossible","Use commitment devices and automation.","Recurring calendar blocks. App time limits.","M","Structure creates options"],
+ ["part","4th Law: Make It Satisfying"],
+ [15,"The Cardinal Rule of Behavior Change","What is rewarded straight away gets repeated.","Add a small, instant reward after the hard task.","M","Desire"],
+ [16,"How to Stick with Good Habits Every Day","Track it. Never miss twice.","A simple tick sheet. Two misses in a row is the signal.","S","Evening review","Progress monitoring: Harkin 2016."],
+ [17,"How an Accountability Partner Can Change Everything","Make skipping visible and costly.","A habit contract with a colleague.","M","Justice"],
+ ["part","Advanced Tactics"],
+ [18,"The Truth About Talent (When Genes Matter and When They Don't)","Choose habits that suit your nature.","Match habits to your energy and sensory profile.","M","Wisdom"],
+ [19,"The Goldilocks Rule: How to Stay Motivated in Life and Work","Work just past your current edge.","Pick the “just manageable” version of the task.","WM","Temperance"],
+ [20,"The Downside of Creating Good Habits","Autopilot can stop you improving.","Monthly: what is on autopilot that needs a fresh look?","M","Evening review"]
+ ]},
+{id:"tib",short:"Thinking in Bets",sub:"Annie Duke",c:"g-navy",title:"Thinking in Bets",author:"Annie Duke",
+ bib:[["Full title","Thinking in Bets: Making Smarter Decisions When You Don't Have All the Facts"],["Published","Portfolio, 2018"],["Shape","Introduction plus six chapters"]],v:1,
+ big:"Every decision is a bet. Outcomes mix decision quality and luck, so judge the process, state how sure you are, and use a group to catch your blind spots.",
+ rows:[
+ [1,"Life Is Poker, Not Chess","Outcome = decision quality + luck. Judging a call only by how it turned out is “resulting”.","Ask: bad decision, bad luck, or both?","S","The Stoic archer","Outcome bias: Baron and Hershey 1988."],
+ [2,"Wanna Bet?","Beliefs are bets. Say how sure you are.","Put a % on clinical predictions, then check them later.","S","Assent","Tetlock's forecasting research."],
+ [3,"Bet to Learn: Fielding the Unfolding Future","We blame luck for losses and credit skill for wins.","Sort each outcome: skill, luck, or both.","S","Wisdom","Self-serving bias is well replicated."],
+ [4,"The Buddy System","A truthseeking group spots what you can't.","Agree a group charter: accuracy, accountability, open to other views.","M","Justice"],
+ [5,"Dissent to Win","Use the CUDOS norms for honest group thinking.","Present a case without its outcome. Give someone the devil's advocate job.","M","Justice","CUDOS is from sociologist Robert Merton: share data, judge the idea not the person, no stake in being right, organised scepticism."],
+ [6,"Adventures in Mental Time Travel","Use your future and past selves: 10-10-10, Ulysses contracts, backcasting, premortems.","Premortem: “It's six months on and this failed. Why?”","MS","Premeditatio malorum","Prospective hindsight: Mitchell, Russo and Pennington 1989; Klein 2007."]
+ ]},
+{id:"tl",short:"The 12 Levers",sub:"Greenberg and Stevenson",c:"g-blue",title:"The 12 Levers",author:"Spencer Greenberg and Jeremy Stevenson",
+ bib:[["Full title","The 12 Levers: The Complete Psychological Toolkit for Improving Your Life"],["Authors","Spencer Greenberg (ClearerThinking.org) with clinical psychologist Jeremy Stevenson. Not Greenberg alone."],["Published","Balance (Hachette), 28 July 2026. UK and Commonwealth: DK, 30 July 2026"],["Method","Analysed 106 self-help books and 23 therapies, about 500 techniques, sorted into 12 levers"]],v:1,
+ big:"Nearly every self-help technique pulls one of 12 levers. Find the lever that fits the problem. The evidence mostly comes from the therapies the levers borrow from.",
+ note:"Lever names and order follow the 2026 edition as reported in a detailed summary and author interviews. A 2024 sampler used different names. Check against a print copy.",
+ rows:[
+ [1,"Unravel the Causes","Understand a problem before you try to fix it.","ABC: the event, the belief, the consequence. Look for times it was milder.","S","Assent","From CBT and REBT."],
+ [2,"Uncover Your Guiding Foundations","Know your values, principles and priorities.","ClearerThinking's Intrinsic Values Test.","M","Desire"],
+ [3,"Actualise Your Guiding Foundations","Turn values into goals and habits.","Habit reflection: recall a past habit win, what helped, and reuse it.","M","Action","Won ClearerThinking's habit trials. Not peer reviewed."],
+ [4,"Prepare for the Storm","Plan ahead for problems that keep coming back.","Write your risk factors, early warning signs and first coping steps.","MS","Premeditatio malorum"],
+ [5,"Approach the Monster","Face fears in small steps.","Build a fear ladder (see our CBT page).","S","Courage","Exposure is one of the best-tested tools in psychology."],
+ [6,"Shift Your Body to Shift Your Mind","Sleep, breath and movement change mood.","Slow breathing. 150 minutes of movement a week plus two strength sessions.","S","Temperance","Cold exposure evidence is mixed."],
+ [7,"Steward Your Thoughts","Work skilfully with unhelpful thoughts.","Reframe a thought. Try scheduled worry time.","MS","Assent"],
+ [8,"Tune the Productivity Equation","Productivity = time x efficiency x importance.","Track your time for one week.","WM","Inputs not outcomes"],
+ [9,"Do More Glad-You-Did-It Activities","Action often comes before motivation.","Track mood against activities for a week.","S","Action","Behavioural activation."],
+ [10,"Communicate Skilfully","Deeper conversations and clear asks.","Use “I” statements.","M","Justice"],
+ [11,"Choose Your Attitude","Optimism, acceptance, Stoic resilience, appreciation, kindness.","Best Possible Self writing.","M","Amor fati"],
+ [12,"Pay Attention","Attention can be moved and trained.","Attention Training Technique, or a short mindfulness practice.","MS","Assent"]
+ ]},
+{id:"sit",short:"Situated",sub:"Angela Duckworth",c:"g-plum",title:"Situated",author:"Angela Duckworth",
+ bib:[["Full title","Situated: Find the People and Places That Bring Out Your Best"],["Published","Scribner, 1 September 2026. AU and UK: Vermilion (Penguin Random House), same date"],["Shape","Prologue, 13 chapters in four parts, epilogue and tools: Situated Scorecard, Three Boxes Blueprint, Situation Change Playbook"]],v:1,
+ big:"Grit is necessary but not always enough. Your space, peers, mentors and culture amplify or shrink your effort. Change works best from the outside in.",
+ note:"Chapter titles are verified from the publisher's sample. Chapter content is secondary, from early reviews and summaries.",
+ extra:'<div class="g-call"><strong>Her research underneath.</strong> The book is the popular version of the process model of self-control (Duckworth, Gendler and Gross 2016). Strategies run along the life of a temptation: choose the situation, change it, shift attention, rethink it, and last of all resist it with willpower. The earlier the strategy, the easier it usually is.</div>',
+ rows:[
+ [0,"Prologue","A strong current can't be out-swum. Change the situation and get help.","Ask: am I fighting a current I could step out of?","NA","Up to me, not up to me"],
+ ["part","Part 1: Situational Awareness"],
+ [1,"Beyond Grit","Effort needs a good situation to pay off.","List where your set-up wastes your effort.","S","Environment beats willpower"],
+ [2,"How Do We Change?","Change works best from the outside in.","Make one outside change before an inside one.","S","Environment beats willpower","Duckworth, Gendler and Gross 2016."],
+ [3,"The Sweet Spot","Behaviour shifts across situations.","Note where, and with whom, you work at your best.","M","Wisdom"],
+ [4,"The Courage to Change","Changing your situation takes courage.","Name one situation you will change this month.","WM","Courage"],
+ [5,"Saving a Marriage from the Outside In","Change the situation, not the person.","Change one shared routine.","W","Justice","A single case story."],
+ ["part","Part 2: Situational Agency"],
+ [6,"Set Up Your Space","What is within reach shapes what you do.","Phone out of the bedroom. Work tools within arm's reach.","S","Environment beats willpower"],
+ [7,"Pick Your Peers","You absorb the habits of those around you.","Spend time with people who already do your goal.","M","Justice"],
+ [8,"Attract Mentors","Be prepared, curious, coachable and grateful.","Ask a senior clinician for a monthly review.","M","Wisdom"],
+ [9,"Choose Your Culture","Group norms shape you.","Audit what our team actually rewards.","M","Justice"],
+ ["part","Part 3: Situational Responsibility"],
+ [10,"Situational Parenting","Change the child's environment rather than demand more willpower.","Spot where this already lives in our parent coaching.","M","Justice","Fits the PEO model."],
+ [11,"Situational Leadership","Leaders design the situations staff work in.","Remove one friction point a month.","M","Extreme Ownership"],
+ [12,"Situational Citizenship","Improve situations for people with less power.","Lower one barrier for clients this quarter.","WM","Justice"],
+ ["part","Part 4: Conclusion"],
+ [13,"From Grit to Great","Grit plus a good situation.","Pair one effort goal with one situation change.","M","Inputs not outcomes"]
+ ]},
+{id:"did",short:"Discipline Is Destiny",sub:"Ryan Holiday",c:"g-teal",title:"Discipline Is Destiny",author:"Ryan Holiday",
+ bib:[["Full title","Discipline Is Destiny: The Power of Self-Control"],["Published","Portfolio, 2022. UK: Profile Books"],["Shape","Book two of the Stoic Virtues series (temperance). Three parts: Body, Temperament, Soul"],["Exemplars","Lou Gehrig, Floyd Patterson, Antoninus Pius, Queen Elizabeth II, Toni Morrison, Eisenhower, Marcus Aurelius"]],v:1,
+ big:"Self-control makes the other virtues possible. And it includes controlling discipline itself: sleep, rest and being kind to yourself. This is our main counterweight to Goggins.",
+ note:"Part I titles are verified. Part II and III show selected verified chapters; the full list is still to check against a print copy.",
+ rows:[
+ ["part","Part I: The Exterior (The Body)"],
+ ["I","Ruling Over the Body . . .","Lou Gehrig: discipline starts with the body.","One daily body habit you keep on busy days.","NA","Temperance"],
+ ["I","Attack the Dawn","Own the start of your day.","Protect your first 30 minutes.","W","Morning premeditation","Body clocks vary. Pick your own first hour, not 5am."],
+ ["I","The Strenuous Life Is the Best Life","Hard physical effort builds you.","One hard session a week.","S","Voluntary discomfort"],
+ ["I","Quit Being a Slave","Notice what controls you.","Cut back one dependency.","M","Desire"],
+ ["I","Avoid the Superfluous","Need less.","Seven days of no new purchases.","M","Preferred indifferents"],
+ ["I","Clean Up Your Desk","Order outside helps order inside.","Five-minute desk reset at day's end.","W","Environment beats willpower"],
+ ["I","Just Show Up","Turning up is most of it.","Show up, even in a small form.","S","Inputs not outcomes"],
+ ["I","Sweat the Small Stuff","Details are where care shows.","One quality check per note.","W","Action"],
+ ["I","Hustle, Hustle, Hustle","Get moving.","Start the hard task now.","W","Courage"],
+ ["I","Slow Down . . . to Go Faster","Rushing costs more.","Slow down on high-risk tasks.","M","Temperance"],
+ ["I","Practice . . . Then Practice More","Skill comes from deliberate reps.","A weekly skills rehearsal.","S","Action"],
+ ["I","Just Work","Work beats waiting for the mood.","Start on a timer.","M","Action"],
+ ["I","Dress for Success","Small rituals set the tone.","Lay out clothes the night before.","W","Environment beats willpower"],
+ ["I","Seek Discomfort","Choose a little hardship.","One small voluntary discomfort.","WM","Voluntary discomfort"],
+ ["I","Manage the Load","Pace is a skill.","Plan your rest weeks.","S","Temperance limits the grind"],
+ ["I","Sleep Is an Act of Character","Sleep is discipline, not laziness.","Set a fixed wind-down time.","S","Temperance limits the grind"],
+ ["I","What Can You Endure?","You have survived hard things before.","List three hard things you got through.","WM","Courage"],
+ ["part","Part II: The Inner Domain (The Temperament), selected"],
+ ["II","Ruling Over Yourself . . .","Floyd Patterson: mastering your temperament.","Name the moment you most often lose it.","NA","Assent"],
+ ["II","Look at Everything Like This","Pause and see the event plainly.","Describe it in plain facts before you react.","S","Assent","Reappraisal is well supported."],
+ ["II","Keep the Main Thing the Main Thing","Protect your priorities.","Name today's one main thing.","M","Desire"],
+ ["II","Perfectionism Is a Vice","Perfectionism blocks good work.","Ship the “good enough” version.","S","Temperance"],
+ ["II","Do the Hard Thing First","Don't let the hard task hang over the day.","First block of the day goes to the hardest task.","W","Courage"],
+ ["II","Hold, Hold Your Fire","Delay anger before acting on it.","Draft the angry email. Send it tomorrow, or never.","M","Assertiveness: delay anger"],
+ ["part","Part III: The Magisterial (The Soul), selected"],
+ ["III","Strict with Yourself . . .","Antoninus Pius: high standards for yourself, tolerance for others.","Hold yourself to the standard, not others.","NA","Justice"],
+ ["III","Make Others Better","Discipline is for others too.","Teach one thing you know to a colleague.","M","Justice"],
+ ["III","Grace under Pressure","Calm is contagious.","Before a hard meeting, three slow breaths.","M","Courage"],
+ ["III","Be Kind to Yourself","Self-control without self-kindness breaks.","Speak to yourself as you would to a new grad.","S","Temperance limits the grind","Self-compassion research."],
+ ["III","The Power of Giving Power Away","Hand over what others can own.","Delegate one decision this week.","M","Extreme Ownership"],
+ ["III","Flexibility Is Strength","Rigid isn't strong.","Have a minimum version of every routine.","M","Temperance"],
+ ["III","Self-Discipline Is Virtue. Virtue Is Self-Discipline.","The book's closing argument.","Re-read your evening reviews from the month.","NA","All four virtues"]
+ ]},
+{id:"dg",short:"David Goggins",sub:"Two books",c:"g-coal",title:"Can't Hurt Me and Never Finished",author:"David Goggins",
+ bib:[["Book one","Can't Hurt Me: Master Your Mind and Defy the Odds. Lioncrest, 2018. 11 chapters, each ending in a numbered Challenge"],["Book two","Never Finished: Unshackle Your Mind and Win the War Within. Lioncrest, 2022. Chapters end in numbered “Evolutions”"],["Self-talk","His core tools: the Accountability Mirror, the mixtape re-take and the one-second decision"]],v:2,
+ big:"Radical honesty plus voluntary hardship. The honesty and the after-action habits hold up. The extreme dose, the 40% number and the harsh self-talk do not. See Goggins Lite.",
+ note:"Chapter titles are verified. Chapter content is secondary, from several consistent summaries. Evolution placement in Never Finished is inferred and still to check.",
+ rows:[
+ ["part","Can't Hurt Me"],
+ [1,"I Should Have Been a Statistic","Challenge 1: list what holds you back, and own it.","Write the list. Mark what is up to you.","M","Up to me, not up to me"],
+ [2,"Truth Hurts","Challenge 2: the Accountability Mirror. Truths and goals on sticky notes.","Mirror holds facts and goals only. No insults.","M","Evening review (but harsher)","Goals and honesty: fine. Insulting self-talk: not supported."],
+ [3,"The Impossible Task","Challenge 3: do uncomfortable things on purpose.","One small chosen discomfort a week.","M","Voluntary discomfort"],
+ [4,"Taking Souls","Challenge 4: outlast doubters until they give up on beating you.","Swap for “beat my last week”.","W","Clashes with Justice","Mastery goals (beat your own past) support persistence better."],
+ [5,"Armored Mind","Challenge 5: callus the mind; visualise success and the obstacles.","Picture the hard moment and your plan for it.","M","Voluntary discomfort","Imagery with obstacles has support. “Callusing” as a mechanism is weak."],
+ [6,"It's Not About a Trophy","Challenge 6: the Cookie Jar. Draw on past wins.","Keep a cookie jar list. Read it on hard days.","M","Amor fati","Fits self-efficacy (Bandura)."],
+ [7,"The Most Powerful Weapon","Challenge 7: the 40% rule. Push 5 to 10% past where you want to stop.","Swap for an effort scale: at 7/10, add 5% only if safe.","X","Clashes with Temperance","No data for a fixed 40% reserve."],
+ [8,"Talent Not Required","Challenge 8: audit your week, then plan it in blocks, rest included.","One-week time audit.","M","Structure creates options"],
+ [9,"Uncommon Amongst Uncommon","Challenge 9: never get complacent.","Raise one bar, and drop one to make room.","W","Clashes with Temperance limits the grind"],
+ [10,"The Empowerment of Failure","Challenge 10: after-action report, then try again.","What went right, what went wrong, what will I fix?","S","Evening review"],
+ [11,"What If?","Imagine what you could become.","Write your best possible self (see 12 Levers, lever 11).","W","Desire"],
+ ["part","Never Finished (secondary)"],
+ [1,"Maximize Minimal Potential","Old wounds pull you off task. Act with urgency.","Notice which old story is driving today.","WM","Assent"],
+ [2,"Merry F***ing Christmas","Tape-record your self-talk, listen back, re-record it like a coach.","Use the re-take tool below.","M","Assent","Close to distanced self-talk (Kross 2014)."],
+ [3,"The Mental Lab","The one-second decision: never quit at peak pain. Decide when calm.","Pause, three breaths, then decide.","M","Assent"],
+ [4,"A Savage Reborn","“The struggle is the journey”. Argues for being imbalanced for a time.","Leave the imbalance. Keep the patience.","W","Clashes with Temperance","Conflicts with burnout evidence."],
+ [5,"Disciple of Discipline","Stay humble and serve others.","One act of service a week.","M","Justice"],
+ [6,"The Art of Getting Hit in the Mouth","Foxhole mentality: audit your inner circle.","Who would you want beside you on a hard day?","M","Justice"],
+ [7,"The Reckoning","Write an oath to yourself.","Write three lines you commit to.","WM","Desire"],
+ [8,"Play until the Whistle","Greatness is open to anyone.","Finish the thing you started.","W","Inputs not outcomes"],
+ [9,"Wringing Out the Soul","Closing chapter.","","NA",""]
+ ]}
+];
+
+/* side list in hero */
+var side=document.getElementById("sm-side"),hc=["#4CC3D4","#8299DA","#6FA8D2","#D58FC1","#4CC3D4","#C9CCD2"];
+side.innerHTML=BOOKS.map(function(b,i){return '<li style="--h:'+hc[i]+'"><span class="n">'+(i+1)+'</span><p><b>'+esc(b.short)+'</b><span class="w">'+esc(b.sub)+'</span></p></li>'}).join("");
+
+/* tabs */
+var tabs=document.getElementById("sm-tabs"),pane=document.getElementById("sm-book");
+tabs.innerHTML=BOOKS.map(function(b,i){return '<button type="button" role="tab" class="'+b.c+'" id="tab-'+b.id+'" aria-controls="sm-book" aria-selected="'+(i===0)+'" data-i="'+i+'">'+esc(b.short)+'<small>'+esc(b.sub)+'</small></button>'}).join("");
+function render(i){
+  var b=BOOKS[i];
+  var h='<div class="sm-bk '+b.c+'" role="tabpanel" aria-labelledby="tab-'+b.id+'"><div class="sm-bkhead"><div><h3>'+esc(b.title)+'</h3><p class="by">'+esc(b.author)+'</p><p class="big">'+esc(b.big)+'</p></div><div class="sm-bib">';
+  h+='<div>'+vf(b.v)+'</div>';
+  b.bib.forEach(function(r){h+='<p><b>'+esc(r[0])+'</b><br>'+esc(r[1])+'</p>'});
+  h+='</div></div>';
+  if(b.note)h+='<div class="g-call warn"><strong>Accuracy note.</strong> '+esc(b.note)+'</div>';
+  if(b.extra)h+=b.extra;
+  h+='<div class="g-tbl sm-tbl"><table class="sm-ch"><thead><tr><th>#</th><th>Chapter</th><th>Core idea</th><th>Drill</th><th>Evidence</th><th>Stoic link</th></tr></thead><tbody>';
+  b.rows.forEach(function(r){
+    if(r[0]==="part"){h+='<tr class="part"><td colspan="6">'+esc(r[1])+'</td></tr>';return}
+    h+='<tr><td>'+(r[0]===0?"P":esc(r[0]))+'</td><td class="t">'+esc(r[1])+'</td><td>'+esc(r[2])+(r[6]?'<span class="flag">'+esc(r[6])+'</span>':'')+'</td><td>'+esc(r[3])+'</td><td>'+gr(r[4])+'</td><td class="s">'+esc(r[5])+'</td></tr>';
+  });
+  h+='</tbody></table></div></div>';
+  pane.innerHTML=h;
+  [].forEach.call(tabs.children,function(t,j){t.setAttribute("aria-selected",j===i)});
+  try{localStorage.setItem("selfmastery_book",i)}catch(e){}
+}
+tabs.addEventListener("click",function(e){var t=e.target.closest("button");if(t)render(+t.dataset.i)});
+tabs.addEventListener("keydown",function(e){if(e.key!=="ArrowRight"&&e.key!=="ArrowLeft")return;var cur=[].indexOf.call(tabs.children,document.activeElement);if(cur<0)return;var n=(cur+(e.key==="ArrowRight"?1:-1)+BOOKS.length)%BOOKS.length;render(n);tabs.children[n].focus()});
+var start=0;try{var s=+localStorage.getItem("selfmastery_book");if(s>=0&&s<BOOKS.length)start=s}catch(e){}
+render(start);
+
+/* myths */
+var MYTHS=[
+["21 days to form a habit","Median about 66 days, range 18 to 254 (Lally 2010, 96 people). A 2024 review of 20 studies found medians of 59 to 66 days and a range of 4 to 335. One missed day did not derail habit formation.","X"],
+["Willpower is a tank that runs out","A 23-lab replication with 2,141 people found almost no ego depletion effect, d = 0.04 (Hagger 2016). Tiredness is real. The fuel tank model is not.","X"],
+["If-then plans work","94 tests, average effect d = 0.65 (Gollwitzer and Sheeran 2006). One of the most reliable tools in behaviour change.","S"],
+["Tracking progress helps","Average effect d = 0.40 across 138 studies. Stronger when progress is written down physically or shared (Harkin 2016).","S"],
+["Self-controlled people resist temptation better","They meet fewer temptations in the first place (Hofmann 2012). Meeting temptations predicted failure; effortful resisting did not predict success (Milyavskaya and Inzlicht 2017).","X"],
+["Change the situation before you need willpower","Situational strategies stop temptation before it grows (Duckworth, Gendler and Gross 2016). One later study found they did not beat in-the-moment strategies, so treat it as a strong default, not a law.","S"],
+["Habit stacking","Not tested by that name. It is a type of if-then plan. Flossing after brushing built the habit well (Judah, Gardner and Aunger 2013).","M"],
+["Mental contrasting (WOOP)","Small to moderate effects in meta-analyses. It flopped in ClearerThinking's habit trial, which Greenberg says may be a fluke.","M"],
+["Identity-based habits","An appealing idea with little direct testing.","W"],
+["Grit is a distinct, powerful trait","Grit correlates .84 with conscientiousness and about .18 with performance (Credé 2017). Duckworth now calls it part of the conscientiousness family.","OV"],
+["Judge decisions by their results","That is outcome bias (Baron and Hershey 1988). Duke is right: judge the process.","X"],
+["Premortems help","Imagining a failure has already happened helps people find more reasons it could fail (Mitchell, Russo and Pennington 1989; Klein 2007). Few direct outcome trials.","M"],
+["Thinking in probabilities improves predictions","Tetlock's forecasting research: calibrated, probabilistic thinkers forecast better, and it can be trained.","S"],
+["The 40% rule","No data for the number. Exercise science argues about how the brain limits effort (Noakes' central governor, Marcora's perceived effort model). Neither gives a fixed 40% reserve.","X"],
+["Harsh self-talk drives success","Self-talk helps performance, d = 0.48 (Hatzigeorgiadis 2011): instructional cues for fine skills, motivational cues for effort. Self-compassion after failure raised effort to improve (Breines and Chen 2012). Harshness is not the active ingredient.","OV"],
+["Pushing through pain always toughens you","Overtraining syndrome and burnout are real (Meeusen 2013 consensus).","H"],
+["“Taking souls” is the best fuel","Achievement goal research: mastery goals (beat your own past) support persistence. Fear-of-losing goals harm it.","W"],
+["Stoicism works","Its core idea lives on in CBT and REBT, which are well tested. Stoic Week surveys are self-selected and uncontrolled.","M"],
+["Imagining loss builds gratitude","Mentally subtracting a good thing from your life raised positive feelings (Koo 2008).","M"]
+];
+var mt=document.getElementById("sm-myths"),mf=document.getElementById("sm-mf");
+function drawMyths(f){mt.innerHTML=MYTHS.filter(function(m){if(f==="all")return true;if(f==="X")return /^(X|OV|H)$/.test(m[2]);if(f==="S")return m[2]==="S"||m[2]==="MS";return m[2]===f}).map(function(m){return '<tr><td>'+esc(m[0])+'</td><td>'+esc(m[1])+'</td><td>'+gr(m[2])+'</td></tr>'}).join("")}
+mf.addEventListener("click",function(e){var b=e.target.closest(".g-chip");if(!b)return;[].forEach.call(mf.children,function(x){x.setAttribute("aria-pressed",x===b)});drawMyths(b.dataset.g)});
+drawMyths("all");
+
+/* bridges */
+var BR=[
+["g-navy","Bridge 1","Structure creates options","If-then plans, Ulysses contracts, recurring calendar blocks, Goggins' time audit, Duckworth's Situation Change Playbook.","S"],
+["g-teal","Bridge 2","Inputs, not outcomes","The Stoic archer. Duke's resulting, Clear's never miss twice, Holiday's Just Show Up, Hormozi's judge the inputs.","S"],
+["g-blue","Bridge 3","Up to me, not up to me","Duke's skill versus luck, Greenberg's ABC, Duckworth's honesty that not everyone can change their situation.","S"],
+["g-plum","Bridge 4","Environment beats willpower","Clear chapters 6, 7 and 12. Duckworth Part 2. Goggins' foxhole audit. Our OT core move.","S"],
+["g-coal","Bridge 5","Temperance limits the grind","Holiday's Manage the Load, Sleep and Be Kind to Yourself. Greenberg's body lever. Clear's Goldilocks Rule. This bridge pushes back on Goggins.","S"]
+];
+document.getElementById("sm-bridges").innerHTML=BR.map(function(b){return '<article class="g-card '+b[0]+'"><span class="tag">'+b[1]+'</span><h3>'+esc(b[2])+'</h3><p>'+esc(b[3])+'</p><p class="foot">Evidence '+gr(b[4])+'</p></article>'}).join("");
+
+function pairs(el,P,a,z){document.getElementById(el).innerHTML=P.map(function(p){return '<div class="g-pair"><div class="weak"><span class="t">'+a+'</span><p><b>'+esc(p[0])+'</b></p><p>'+esc(p[1])+'</p></div><div class="arrow" aria-hidden="true">&rarr;</div><div class="strong"><span class="t">'+z+'</span><p><b>'+esc(p[2])+'</b></p><p>'+esc(p[3])+'</p></div></div>'}).join("")}
+pairs("sm-pairs",[
+["Goggins' Accountability Mirror","Truths and goals, said hard.","Seneca's evening review","Same honesty, kinder tone. Seneca examined his day without anger and pardoned his lapses."],
+["Goggins' callusing","Maximal hardship to toughen the mind.","Stoic voluntary discomfort","A mild, chosen dose."],
+["Goggins' cookie jar","Past wins as fuel.","Amor fati","Use everything that happened, the hard parts too."],
+["Duke's premortem, Greenberg's Prepare for the Storm","Imagine the failure, plan for it.","Premeditatio malorum","Rehearse what could go wrong."],
+["Duckworth's Situational Leadership","Leaders design the situation.","Extreme Ownership","No bad teams, only leaders who own the set-up."]
+],"From the books","Stoic match");
+pairs("sm-swaps",[
+["The 40% rule","A fixed reserve to push into. No data for the number.","Effort scale","“Is this 7 out of 10? Can I safely add 5%?”"],
+["Taking souls","Beat the people around you.","Beat my last week","Mastery goals keep you going without making colleagues opponents."],
+["Insulting mirror talk","Harsh truths, harsh tone.","Facts and goals only","Honest and kind. Self-compassion lifts effort to improve."],
+["Stay imbalanced","Obsession for a season.","Manage the load","Rest weeks, fixed wind-down, minimum versions of routines."],
+["Callus with maximal pain","More pain, more growth.","Small chosen discomfort","Build up gradually. Never when ill, injured, short on sleep or stressed."]
+],"Goggins says","Estus version");
+
+/* checklists */
+var CK=[
+["g-navy","Morning","5 to 10 minutes",[["Premortem","Stoics, Duke"],["One if-then plan","Clear, Greenberg"],["Set up the space","Clear, Duckworth"]]],
+["g-teal","During the day","One rep at a time",[["Two-minute start","Clear"],["One-second decision","Goggins, Holiday"],["Self-talk by name","Kross"],["Decision or luck?","Duke"]]],
+["g-plum","Evening","10 minutes",[["Kind Seneca review","Seneca"],["Tick the tracker","Clear"],["Cookie jar entry","Goggins"],["Self-compassion line","Neff"],["Wind-down time","Holiday"]]],
+["g-blue","Weekly","30 to 45 minutes",[["Truthseeking huddle","Duke"],["Habit reflection","Greenberg"],["Situation audit","Duckworth"],["After-action report","Goggins"],["Load check","Holiday"]]]
+];
+var KEY="selfmastery_ticks",ticks={};try{ticks=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){}
+var ckEl=document.getElementById("sm-checks");
+ckEl.innerHTML=CK.map(function(c,ci){return '<div class="g-check '+c[0]+'"><h4>'+esc(c[1])+'<small>'+esc(c[2])+'</small></h4><div class="g-grp">'+c[3].map(function(it,ii){var id="ck"+ci+"_"+ii;return '<label class="g-row"><input type="checkbox" data-k="'+id+'"'+(ticks[id]?" checked":"")+'><span class="bx" aria-hidden="true"></span><span class="item">'+esc(it[0])+'</span><span class="dots"></span><span class="resp">'+esc(it[1])+'</span></label>'}).join("")+'</div><div class="g-checkfoot"><span data-count></span></div></div>'}).join("");
+function counts(){[].forEach.call(ckEl.querySelectorAll(".g-check"),function(box){var ins=box.querySelectorAll("input"),n=0;[].forEach.call(ins,function(i){if(i.checked)n++});box.querySelector("[data-count]").textContent=n+" of "+ins.length})}
+ckEl.addEventListener("change",function(e){var i=e.target;if(!i.dataset.k)return;if(i.checked)ticks[i.dataset.k]=1;else delete ticks[i.dataset.k];try{localStorage.setItem(KEY,JSON.stringify(ticks))}catch(x){}counts()});
+document.getElementById("sm-clear").addEventListener("click",function(){ticks={};try{localStorage.removeItem(KEY)}catch(x){}[].forEach.call(ckEl.querySelectorAll("input"),function(i){i.checked=false});counts();var m=document.getElementById("sm-cmsg");m.textContent="Cleared";setTimeout(function(){m.textContent=""},2000)});
+counts();
+
+/* self-talk re-take */
+var $=function(i){return document.getElementById(i)};
+function st(){
+  var n=$("st_name").value.trim()||"Hey",mo=$("st_moment").value.trim()||"that was hard",nx=$("st_next").value.trim()||"take the next small step",fine=$("st_type").value==="fine";
+  var cue=fine?"Cue: slow and clear. "+nx.charAt(0).toUpperCase()+nx.slice(1)+".":"Cue: one more rep. "+nx.charAt(0).toUpperCase()+nx.slice(1)+", then reassess.";
+  $("st_out").textContent="Instead of: “"+($("st_harsh").value.trim()||"...")+"”\n\n"+
+  "1. Step back: "+n+", you "+mo+". You've handled harder days than this.\n"+
+  "2. Be kind: This is hard. Other clinicians find it hard too. What do you need right now?\n"+
+  "3. Next rep: "+cue;
+}
+["st_name","st_moment","st_harsh","st_next","st_type"].forEach(function(i){$(i).addEventListener("input",st);$(i).addEventListener("change",st)});st();
+
+/* sources */
+var BIB=[
+"Clear, J. (2018). Atomic Habits. Avery.",
+"Duke, A. (2018). Thinking in Bets. Portfolio.",
+"Greenberg, S. and Stevenson, J. (2026). The 12 Levers. Balance (Hachette).",
+"Duckworth, A. (2026). Situated. Scribner; Vermilion in Australia.",
+"Holiday, R. (2022). Discipline Is Destiny. Portfolio.",
+"Goggins, D. (2018). Can't Hurt Me. Lioncrest.",
+"Goggins, D. (2022). Never Finished. Lioncrest.",
+"Epictetus, Enchiridion. Seneca, On Anger 3.36 (the evening review)."
+];
+var REF=[
+"Lally, P. et al. (2010). How are habits formed. European Journal of Social Psychology.",
+"Singh, B. et al. (2024). Time to form a habit: a systematic review. Healthcare.",
+"Wood, W. and Neal, D. (2007). A new look at habits and the habit-goal interface. Psychological Review.",
+"Gollwitzer, P. and Sheeran, P. (2006). Implementation intentions and goal achievement. Advances in Experimental Social Psychology.",
+"Harkin, B. et al. (2016). Does monitoring goal progress promote goal attainment? Psychological Bulletin.",
+"Judah, G., Gardner, B. and Aunger, R. (2013). Forming a flossing habit. British Journal of Health Psychology.",
+"Milkman, K. et al. (2014). Holding the Hunger Games hostage at the gym. Management Science.",
+"Hagger, M. et al. (2016). A multilab preregistered replication of the ego-depletion effect. Perspectives on Psychological Science.",
+"Duckworth, A., Gendler, T. and Gross, J. (2016). Situational strategies for self-control. Perspectives on Psychological Science.",
+"Hofmann, W. et al. (2012). Everyday temptations. Journal of Personality and Social Psychology.",
+"Milyavskaya, M. and Inzlicht, M. (2017). What's so great about self-control? Social Psychological and Personality Science.",
+"Credé, M., Tynan, M. and Harms, P. (2017). Much ado about grit. Journal of Personality and Social Psychology.",
+"Baron, J. and Hershey, J. (1988). Outcome bias in decision evaluation. Journal of Personality and Social Psychology.",
+"Mitchell, D., Russo, J. and Pennington, N. (1989). Back to the future: prospective hindsight. Journal of Behavioral Decision Making.",
+"Klein, G. (2007). Performing a project premortem. Harvard Business Review.",
+"Tetlock, P. and Gardner, D. (2015). Superforecasting. Crown.",
+"Hatzigeorgiadis, A. et al. (2011). Self-talk and sports performance: a meta-analysis. Perspectives on Psychological Science.",
+"Kross, E. et al. (2014). Self-talk as a regulatory mechanism. Journal of Personality and Social Psychology.",
+"Breines, J. and Chen, S. (2012). Self-compassion increases self-improvement motivation. Personality and Social Psychology Bulletin.",
+"Meeusen, R. et al. (2013). Prevention, diagnosis and treatment of the overtraining syndrome. Medicine and Science in Sports and Exercise.",
+"Koo, M. et al. (2008). It's a wonderful life: mentally subtracting positive events. Journal of Personality and Social Psychology.",
+"Marcora, S. (2009) and Noakes, T. (2012) on how the brain limits effort.",
+"ClearerThinking.org habit trials (2019 and later). Not peer reviewed."
+];
+$("sm-bib").innerHTML=BIB.map(function(x){return "<li>"+esc(x)+"</li>"}).join("");
+$("sm-refs").innerHTML=REF.map(function(x){return "<li>"+esc(x)+"</li>"}).join("");
+
+/* quiz */
+var Q=[
+{s:"How long does a new habit take to become automatic, on the best data?",o:[["21 days.",0,"That is the myth."],["A median of about two months, with a huge range between people.",1,"Lally found a median of 66 days, from 18 to 254."],["Exactly 90 days for everyone.",0,"People vary hugely."]]},
+{s:"You made a careful, well-reasoned call with a family and it went badly. Thinking in Bets says...",o:[["It was a bad decision.",0,"That is resulting: judging only by the outcome."],["Separate decision quality from luck, then review the process.",1,"Good decisions can still lose. Judge the process."],["Never make that call again.",0,"One outcome is a tiny sample."]]},
+{s:"Which self-control strategy has the strongest support?",o:[["Resist harder in the moment.",0,"In-the-moment willpower is the last and hardest option."],["Change the situation before temptation shows up.",1,"Clear, Duckworth and the process model agree."],["Build up your willpower tank.",0,"The tank model failed a 23-lab replication."]]},
+{s:"What does the research say about Goggins' 40% rule?",o:[["It is proven by exercise science.",0,"No study supports a fixed 40% reserve."],["It is a motivating story. The number has no data behind it.",1,"Keep the idea of a little more, safely. Drop the number."],["It applies to admin but not sport.",0,"It has no evidence in either."]]},
+{s:"You missed your habit yesterday. What now?",o:[["Start the streak again from zero next month.",0,"All or nothing thinking."],["Do it today. Never miss twice.",1,"A single miss did not derail habits in Lally's study."],["Give up, it clearly doesn't suit you.",0,"One miss tells you very little."]]},
+{s:"After a rough session, which self-talk has the best evidence?",o:[["“You're hopeless. Harden up.”",0,"Harshness is not what makes self-talk work."],["“Sam, that was hard. Others find it hard too. Next: write one line.”",1,"Distanced, kind, plus a clear cue."],["Say nothing and push on.",0,"A short cue helps the next rep."]]},
+{s:"What did Credé's 2017 meta-analysis find about grit?",o:[["It is the best predictor of success.",0,"It predicted performance only modestly."],["It overlaps heavily with conscientiousness.",1,"A correlation of .84. Duckworth now agrees it belongs in that family."],["It doesn't exist.",0,"It exists. It's just not as distinct as first claimed."]]},
+{s:"How do you run a premortem?",o:[["List everything that could go right.",0,"That is a pep talk."],["Imagine it's months later and the plan failed. Ask why.",1,"Prospective hindsight surfaces more risks."],["Wait and review after it fails.",0,"That is a postmortem."]]},
+{s:"Can we use Goggins Lite drills with clients?",o:[["Yes, they toughen kids up.",0,"Not our approach, and not neuroaffirming."],["No. They are opt-in tools for staff. Client work goes through supervision.",1,"This page is for our own growth."],["Only with teens.",0,"Still no."]]},
+{s:"Which Stoic practice is the kind version of Goggins' Accountability Mirror?",o:[["Memento mori.",0,"That is about time being scarce."],["Seneca's evening review.",1,"Same honesty, no self-attack."],["Amor fati.",0,"That one matches the cookie jar."]]}
+];
+(function(el){
+  var qi=0,score=0,pos=el.querySelector(".pos"),sc=el.querySelector(".sc"),said=el.querySelector(".said"),opts=el.querySelector(".opts"),fb=el.querySelector(".fb"),nx=el.querySelector(".nx");
+  function show(){var q=Q[qi];pos.textContent=(qi+1)+" of "+Q.length;sc.textContent="Score "+score;said.textContent=q.s;fb.hidden=true;nx.disabled=true;nx.textContent=qi===Q.length-1?"See score":"Next";opts.innerHTML="";
+    var oo=q.o.slice();for(var k=oo.length-1;k>0;k--){var j=Math.floor(Math.random()*(k+1)),t0=oo[k];oo[k]=oo[j];oo[j]=t0}
+    oo.forEach(function(o){var b=document.createElement("button");b.type="button";b.textContent=o[0];b.addEventListener("click",function(){
+      opts.querySelectorAll("button").forEach(function(x,i){x.disabled=true;if(oo[i][1])x.classList.add("right")});
+      if(o[1])score++;else b.classList.add("wrong");sc.textContent="Score "+score;
+      fb.innerHTML="";var t=document.createElement("b");t.textContent=o[1]?"Nice.":"Not quite.";fb.appendChild(t);fb.appendChild(document.createTextNode(o[2]));fb.hidden=false;nx.disabled=false;nx.focus();});opts.appendChild(b)});}
+  nx.addEventListener("click",function(){if(nx.dataset.done){delete nx.dataset.done;qi=0;score=0;show();return}if(qi<Q.length-1){qi++;show();return}
+    said.textContent="You scored "+score+" of "+Q.length+".";opts.innerHTML="";fb.innerHTML="<b>Lock it in.</b>Pick one drill from the daily loop and run it for two weeks. Never miss twice.";fb.hidden=false;pos.textContent="Done";nx.textContent="Start again";nx.dataset.done=1});
+  show();
+})(document.getElementById("sm-quiz"));
+
+/* copy */
+document.querySelectorAll("[data-copy]").forEach(function(b){b.addEventListener("click",function(){
+  var src=document.getElementById(b.getAttribute("data-copy")),t=src.innerText,m=b.parentNode.querySelector(".g-msg");
+  function ok(){if(m){m.textContent="Copied";setTimeout(function(){m.textContent=""},2500)}}
+  function fail(){var r=document.createRange();r.selectNodeContents(src);var s=getSelection();s.removeAllRanges();s.addRange(r);if(m)m.textContent="Selected. Copy with your keyboard."}
+  try{navigator.clipboard.writeText(t).then(ok,fail)}catch(e){fail()}
+})});
+})();
+</script></body></html>

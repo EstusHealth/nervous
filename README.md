@@ -6,7 +6,7 @@ Estus Health's internal staff training intranet. A landing page plus one page pe
 | --- | --- |
 | Start here | `culture`, `playbook`, `accelerator`, `calendar`, `gm` (GM Mode: ACT, values and habits on the master calendar) |
 | Client pathway | `journey`, `welcome`, `nurture` |
-| Team | `check` |
+| Team | `check`, `self-mastery` (Self-Mastery Shelf: six books on habits, decisions and self-control, chapter by chapter, graded against the research and mapped to Stoicism) |
 | Small Hinges | `hinges`, `sleep`, `morning`, `energy`, `load`, `transition`, `shutdown` |
 | Therapy approaches | `neuroaffirming` (Neuroaffirming Practice, the Estus way), `ot-models` (OT Models and Frames), `act` (plus `act-game`), `cbt`, `beliefs` (Core Beliefs), `mi`, `gaming`, `nervous`, `problem-solving`, `sport-psych` (Sport Psychology map), `assessments` (Assessment Atlas), `executive-function` (Executive Function map) |
 | Growth | `growth` (Growth HQ, start here), `must-be-nice`, `shorts` (Shorts Studio: builder, playbook, B-roll library and tagging standard), `clips` (Podcast Clip Library), `meta` (Meta Ads System, from Brandon Willington's course, plus the ad scripts and copy check), `copy`, `gp`. Shared data and rules: `growth.js` |
@@ -72,6 +72,10 @@ Progress ticks and tool drafts save in each person's own browser only.
 ## Retired pages
 
 `reels.html` (Reels Playbook) and `reels-studio.html` (Reels Studio) are now small forwarding pages. They send old links, section anchors included, to Meta Ads System and to Shorts Studio's Playbook tab. They are not on the hub.
+
+## Self-Mastery Shelf
+
+`self-mastery.html` breaks down Atomic Habits, Thinking in Bets, The 12 Levers, Situated, Discipline Is Destiny and David Goggins' two books chapter by chapter. Each row has the core idea, a drill, an evidence grade and a Stoic link. Book data sits in the `BOOKS` array (rows are `[number, title, idea, drill, grade, Stoic link, optional flag]`; grades are `S`, `MS`, `M`, `WM`, `W`, `X`, `OV`, `H`, `N`, `NA`). The myth-buster sits in `MYTHS`, the daily loop in `CK`, and the quiz in `Q`. The "Still to check" list under Sources names what has not yet been confirmed against a print copy; update it when you check one. Ticks and the last book opened save in each person's browser only.
 
 ## Message templates
 
