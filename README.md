@@ -2,22 +2,29 @@
 
 Estus Health's internal staff training intranet. A landing page plus one page per training.
 
-The landing page is a file explorer: a nested tree on the left (folder, group, training) and the selected item on the right. On phones the detail opens under the row you tap. All entries live in two objects at the top of the script in `index.html`: `M` (one per page) and `HUB` (folders and groups). Deep links: `index.html#slug`, `#f-folder`, `#g-group`.
+The landing page is a file explorer: a nested tree on the left (folder, group, training) and the selected item on the right. On phones the detail opens under the row you tap. Entries live at the top of the script in `index.html`: `M` (one per page) and `HUB` (folders and groups). Deep links: `index.html#slug`, `#suite`, `#f-folder`, `#g-group`. A page that belongs to a suite opens its suite.
 
-| Folder | Group | Pages |
+Some trainings are **suites**: several pages that act as one training with tabs. They are listed once on the hub, and each page shows a tab bar under the black hub bar. The pages stay separate files on purpose, so every draft, tick, saved setting and `#section` link keeps working.
+
+| Folder | Group | Entries (suites in bold, with their pages) |
 | --- | --- | --- |
-| Start here | (numbered path) | `culture`, `playbook`, `journey`, `welcome`, `check`, `hinges` (these also live in their home folder) |
-| Team and culture | How we work | `culture`, `playbook`, `calendar`, `gm` (GM Mode: ACT, values and habits on the master calendar) |
-| Team and culture | Growing here | `accelerator`, `check`, `self-mastery` (Self-Mastery Shelf: six books on habits, decisions and self-control, chapter by chapter, graded against the research and mapped to Stoicism) |
-| Client pathway | | `nurture`, `welcome`, `journey` |
-| Therapy | The Estus way | `neuroaffirming` (Neuroaffirming Practice), `ot-models` (OT Models and Frames), `assessments` (Assessment Atlas), `executive-function` (Executive Function map), `nervous` |
-| Therapy | Approaches | `act` (plus `act-game`), `cbt`, `beliefs` (Core Beliefs), `mi`, `gaming`, `problem-solving`, `sport-psych` (Sport Psychology map) |
-| Therapy | Small Hinges | `hinges`, `sleep`, `morning`, `energy`, `load`, `transition`, `shutdown` |
-| Growth | Plan and referrers | `growth` (Growth HQ, start here), `meta` (Meta Ads System, from Brandon Willington's course, plus the ad scripts and copy check), `copy`, `gp`. Shared data and rules: `growth.js` |
-| Growth | Content | `must-be-nice`, `shorts` (Shorts Studio: builder, playbook, B-roll library and tagging standard), `clips` (Podcast Clip Library) |
+| Start here | (numbered path) | `culture`, `playbook`, `journey`, **Lead to First Session**, `check`, **Small Hinges** (these also live in their home folder) |
+| How Estus runs | How we work | `culture`, `playbook`, **Your Week** (`calendar`, `gm`), `signature` (Gmail email signature) |
+| How Estus runs | Clients | **Lead to First Session** (`nurture`, `welcome`), `journey` |
+| How Estus runs | Growing here | `accelerator`, `check`, `self-mastery` (Self-Mastery Shelf: six books on habits, decisions and self-control, chapter by chapter, graded against the research and mapped to Stoicism) |
+| Therapy | The Estus way | `neuroaffirming` (Neuroaffirming Practice), `ot-models` (OT Models and Frames), `assessments` (Assessment Atlas), **Executive Function and Problem Solving** (`executive-function`, `problem-solving`), `nervous` |
+| Therapy | Programs and approaches | **Small Hinges** (`hinges`, `sleep`, `morning`, `energy`, `load`, `transition`, `shutdown`), `act` (plus `act-game`), **CBT and Core Beliefs** (`cbt`, `beliefs`), `mi`, `gaming`, `sport-psych` (Sport Psychology map) |
+| Growth | | `growth` (Growth HQ, start here), **Ads and Copy** (`meta`, `copy`), **Content Studio** (`shorts`, `clips`, `must-be-nice`), `gp`. Shared data and rules: `growth.js` |
 | Templates | Reports | `fca`, `ptd` (Potential to Drive), `ftd` (Medical Fitness to Drive), `summary` (Therapy Service Summary), `sensory` (Sensory Profile Report), `letter` (Letter of Support) |
 | Templates | Handouts | `goals` (Goal Plan, SMART goals), `chaining` (forward or backward chaining plan), `prompts` (Prompt Hierarchy Guide for support workers), `planner` (Student Planner) |
-| Templates | Admin | `signature` (Gmail email signature) |
+
+## Suites: suite.js
+
+`suite.js` is the one source for suites. `HUB_SUITES` lists each suite: its title, pill, description, what's inside, who it's for, and `parts`, each `[file, tab label, progress slug]`. The slug must match the `s` in that page's Mark done script.
+
+- The hub loads it in `<head>` and shows each suite as one entry. A suite counts as done when all its pages are done; progress still counts pages (36).
+- Each member page loads `<script src="suite.js"></script>` right after `theme.js`, not deferred. It puts the tab bar in the moment the hub bar is parsed, before the rest of the page, so `#section` links and page scripts see the final layout. The bar copies the hub bar's side margins and width, and moves any space below the hub bar to below the tabs, so content sits exactly one bar lower than before.
+- To add a page to a suite: add it to `parts`, add the script tag to the page, and take its slug out of `HUB` in `index.html` (it is listed through the suite). To make a new suite, add it to `HUB_SUITES` and put its `id` in a folder or group in `HUB`.
 
 Progress ticks and tool drafts save in each person's own browser only.
 

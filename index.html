@@ -125,6 +125,13 @@ button{font:inherit;color:inherit}
 .sib{margin-top:24px}
 .sib .rows .row{padding:7px 0}
 .sib .row .pick b{font-size:15px}
+.row .pick small.cnt{font:600 12px var(--cond);letter-spacing:.06em;text-transform:none;margin-left:6px}
+.prow{grid-template-columns:auto minmax(0,1fr) auto}
+.prow .pick{cursor:default}
+.pacts{display:flex;gap:8px;align-items:center}
+.pacts .done{min-height:34px;padding:5px 10px;font-size:12px}
+.pacts .done i{width:15px;height:15px;font-size:10px}
+@media (max-width:520px){.prow{grid-template-columns:auto minmax(0,1fr)}.pacts{grid-column:2}}
 
 footer{border-top:1px solid var(--rule)}
 footer .wrap{padding-block:24px 48px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:14px}
@@ -145,7 +152,7 @@ footer .wordmark{color:var(--fg)}
 @media (prefers-reduced-motion:reduce){.chev,.bar i{transition:none}}
 </style>
 
-<script src="theme.js"></script></head><body><header class="mast">
+<script src="theme.js"></script><script src="suite.js"></script></head><body><header class="mast">
   <div class="wrap">
     <div class="top">
       <div class="brand"><span class="bands" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="wordmark"><b>ESTUS</b> <span>HEALTH</span></span></div>
@@ -248,25 +255,29 @@ var M={
   signature:{x:1,t:'Email Signature',h:'signature.html',p:'Builder',k:'Gmail',d:'Your Estus signature for Gmail. Pick your clinical days, add your work days or a leave notice if you need them, then copy and paste. Ready in two minutes.',i:['Brand look','Email hours','Booking button','Copy for Gmail'],w:['Everyone'],r:EV}
 };
 
+/* Suites (several pages that work as one training with tabs) come from suite.js.
+   Each suite becomes one entry in M with its pages in "parts". The pages keep their own entries above. */
+var PARENT={};
+HUB_SUITES.forEach(function(s){
+  var roles={};s.parts.forEach(function(p){PARENT[p[2]]=s.id;M[p[2]].r.split(' ').forEach(function(r){roles[r]=1})});
+  M[s.id]={su:1,t:s.t,h:s.parts[0][0],p:s.p,d:s.d,i:s.i,w:s.w,r:Object.keys(roles).join(' '),parts:s.parts};
+});
+
 /* Folders. A folder has items (a flat list) or groups (each with items). "ordered" folders show step numbers.
-   Start here points at trainings that also live in their home folder. */
+   Items are page slugs or suite ids. Start here points at entries that also live in their home folder. */
 var HUB=[
-  {id:'start',n:'Start here',c:'teal',b:'Your first two weeks. Work through these in order: learn the method, then follow a client from referral to review.',ordered:1,items:['culture','playbook','journey','welcome','check','hinges']},
-  {id:'team',n:'Team and culture',c:'teal',b:'How we work, how we look after ourselves, and how you grow here.',groups:[
-    {id:'ways',n:'How we work',b:'Culture, the training method and your week',items:['culture','playbook','calendar','gm']},
+  {id:'start',n:'Start here',c:'teal',b:'Your first two weeks. Work through these in order: learn the method, then follow a client from first enquiry to review.',ordered:1,items:['culture','playbook','journey','leadflow','check','smallhinges']},
+  {id:'runs',n:'How Estus runs',c:'teal',b:'How we work, how a client comes through Estus, and how you grow here.',groups:[
+    {id:'ways',n:'How we work',b:'Culture, the training method, your week and your signature',items:['culture','playbook','week','signature']},
+    {id:'clients',n:'Clients',b:'From first enquiry to the 12-month review',items:['leadflow','journey']},
     {id:'grow',n:'Growing here',b:'Your pathway, your 1:1 and your reading',items:['accelerator','check','selfmastery']}]},
-  {id:'client',n:'Client pathway',c:'blue',b:'From first enquiry to the 12-month review, in the order a client meets us.',items:['nurture','welcome','journey']},
   {id:'therapy',n:'Therapy',c:'navy',b:'The Estus way, the approaches we use, and the Small Hinges programs.',groups:[
-    {id:'way',n:'The Estus way',b:'Foundations every clinician needs',items:['neuroaffirming','otmodels','assessments','ef','nervous']},
-    {id:'approaches',n:'Approaches',b:'Frameworks and tools for sessions',items:['act','cbt','beliefs','mi','gaming','problemsolving','sportpsych']},
-    {id:'smallhinges',n:'Small Hinges',b:'One session, one area that unlocks the rest',items:['hinges','sleep','morning','energy','load','transition','shutdown']}]},
-  {id:'growth',n:'Growth',c:'plum',b:'How Estus grows: the plan, referrers, ads and content.',groups:[
-    {id:'plan',n:'Plan and referrers',b:'Start with Growth HQ',items:['growthhq','metaads','copy','gp']},
-    {id:'content',n:'Content',b:'Make posts, shorts and clips',items:['mustbenice','shortsmaker','clips']}]},
-  {id:'templates',n:'Templates',c:'slate',b:'Builders for the reports we write, the handouts we give, and your email signature. Drafts save in your browser.',groups:[
+    {id:'way',n:'The Estus way',b:'Foundations every clinician needs',items:['neuroaffirming','otmodels','assessments','efps','nervous']},
+    {id:'approaches',n:'Programs and approaches',b:'What we run in sessions',items:['smallhinges','act','cbtbeliefs','mi','gaming','sportpsych']}]},
+  {id:'growth',n:'Growth',c:'plum',b:'How Estus grows. Start with Growth HQ, then ads, content and referrers.',items:['growthhq','ads','content','gp']},
+  {id:'templates',n:'Templates',c:'slate',b:'Builders for the reports we write and the handouts we give. Drafts save in your browser.',groups:[
     {id:'reports',n:'Reports',b:'For funders, schools and referrers',items:['fca','ptd','ftd','summary','sensory','letter']},
-    {id:'handouts',n:'Handouts',b:'For clients, families and support teams',items:['goals','chaining','prompts','planner']},
-    {id:'admin',n:'Admin',b:'For you',items:['signature']}]}
+    {id:'handouts',n:'Handouts',b:'For clients, families and support teams',items:['goals','chaining','prompts','planner']}]}
 ];
 
 (function(){
@@ -276,7 +287,7 @@ var HUB=[
   var done=ls(KEY,{}),open=ls(OPEN,{start:1}),sel='f-start',role='all',q='';
   try{role=localStorage.getItem('hub_role')||'all'}catch(e){}
   var tree=document.getElementById('tree'),pane=document.getElementById('pane'),narrow=window.matchMedia('(max-width:860px)');
-  var TRACK=Object.keys(M).filter(function(s){return !M[s].x});
+  var TRACK=Object.keys(M).filter(function(s){return !M[s].x&&!M[s].su});
 
   /* lookups */
   var NODES={},HOME={};
@@ -285,19 +296,23 @@ var HUB=[
     if(f.items&&f.id!=='start')f.items.forEach(function(s){HOME[s]={f:f}});
   });
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function pages(s){return M[s].su?M[s].parts.map(function(p){return p[2]}):[s]}       // a suite counts as its pages
+  function hay(s){var m=M[s];return (m.t+' '+m.d+' '+m.i.join(' ')+' '+m.p).toLowerCase()}
   function shows(s){var m=M[s];if(role!=='all'&&m.r.split(' ').indexOf(role)<0)return false;
-    if(q){var hay=(m.t+' '+m.d+' '+m.i.join(' ')+' '+m.p).toLowerCase();return q.split(/\s+/).every(function(w){return hay.indexOf(w)>-1})}return true}
+    if(q){var all=[s].concat(m.su?pages(s):[]).map(hay).join(' ');return q.split(/\s+/).every(function(w){return all.indexOf(w)>-1})}return true}
   function vis(list){return list.filter(shows)}
   function allItems(f){return f.items?f.items:[].concat.apply([],f.groups.map(function(g){return g.items}))}
-  function count(list){var t=list.filter(function(s){return !M[s].x});if(!t.length)return '<span class="cnt">'+list.length+'</span>';
+  function tracked(list){var out=[];list.forEach(function(s){pages(s).forEach(function(p){if(!M[p].x&&out.indexOf(p)<0)out.push(p)})});return out}
+  function count(list){var t=tracked(list);if(!t.length)return '<span class="cnt">'+list.length+'</span>';
     var d=t.filter(function(s){return done[s]}).length;return '<span class="cnt'+(d===t.length?' all':'')+'">'+d+'/'+t.length+'</span>'}
+  function isDone(s){var t=tracked([s]);return t.length&&t.every(function(p){return done[p]})}
   var CHEV='<svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg>';
-  function tick(s){return M[s].x?'<span class="tick na" aria-hidden="true"></span>':'<span class="tick'+(done[s]?' on':'')+'" aria-hidden="true">'+(done[s]?'✓':'')+'</span>'}
+  function tick(s){if(M[s].x)return '<span class="tick na" aria-hidden="true"></span>';var on=isDone(s);return '<span class="tick'+(on?' on':'')+'" aria-hidden="true">'+(on?'✓':'')+'</span>'}
   function isOpen(id){return q?true:!!open[id]}
 
   /* tree */
   function modRow(s,f,n){return '<li><button class="node n-m c-'+f.c+'" data-sel="'+s+'"'+(sel===s?' aria-current="true"':'')+'>'+
-    (n?'<span class="num">'+n+'</span>':tick(s))+'<span class="lbl">'+esc(M[s].t)+'</span>'+(n?tick(s):'')+'</button>'+(sel===s?'<div data-slot></div>':'')+'</li>'}
+    (n?'<span class="num">'+n+'</span>':tick(s))+'<span class="lbl">'+esc(M[s].t)+'</span>'+(M[s].su?count([s]):'')+(n&&!M[s].su?tick(s):'')+'</button>'+(sel===s?'<div data-slot></div>':'')+'</li>'}
   function drawTree(){
     var h='<ul>',any=false;
     HUB.forEach(function(f){
@@ -323,16 +338,23 @@ var HUB=[
   function doneBtn(s){if(M[s].x)return '<span class="hint">Drafts save in this browser</span>';
     var on=!!done[s];return '<button class="done" type="button" data-done="'+s+'" aria-pressed="'+on+'"><i aria-hidden="true">'+(on?'✓':'')+'</i>'+(on?'Done':'Mark done')+'</button>'}
   function row(s,n){var m=M[s];return '<li class="row">'+(n?'<span class="num">'+n+'</span>':tick(s))+
-    '<button class="pick" data-sel="'+s+'"><b>'+esc(m.t)+'</b><span>'+esc(m.d)+'</span></button><a class="go" href="'+m.h+'">Open</a></li>'}
+    '<button class="pick" data-sel="'+s+'"><b>'+esc(m.t)+(m.su?' <small class="cnt">'+m.parts.length+' pages</small>':'')+'</b><span>'+esc(m.d)+'</span></button><a class="go" href="'+m.h+'">Open</a></li>'}
+  function partRow(p){var m=M[p[2]];return '<li class="row prow">'+tick(p[2])+
+    '<div class="pick"><b>'+esc(p[1])+'</b><span>'+esc(m.d)+'</span></div><span class="pacts">'+doneBtn(p[2])+'<a class="go" href="'+p[0]+'">Open</a></span></li>'}
   function crumb(parts){return '<p class="crumb">'+parts.map(function(p){return p[1]?'<button data-sel="'+p[1]+'">'+esc(p[0])+'</button>':'<span>'+esc(p[0])+'</span>'}).join('<span aria-hidden="true">›</span>')+'</p>'}
   function drawPane(){
-    var h='',c;
-    if(M[sel]){var m=M[sel],home=HOME[sel],f=home.f,g=home.g;c=f.c;
-      var parts=[[f.n,'f-'+f.id]];if(g)parts.push([g.n,'g-'+g.id]);
-      h+=crumb(parts)+'<h2>'+esc(m.t)+'</h2><p style="margin-bottom:12px"><span class="pill">'+esc(m.p)+'</span>'+(m.k?'<span class="code">'+esc(m.k)+'</span>':'')+'</p>'+
+    var h='',c,f,g;
+    if(M[sel]){var m=M[sel],home=HOME[sel];f=home.f;g=home.g;c=f.c;
+      var cr=[[f.n,'f-'+f.id]];if(g)cr.push([g.n,'g-'+g.id]);
+      h+=crumb(cr)+'<h2>'+esc(m.t)+'</h2><p style="margin-bottom:12px"><span class="pill">'+esc(m.p)+'</span>'+(m.k?'<span class="code">'+esc(m.k)+'</span>':'')+'</p>'+
         '<p class="d">'+esc(m.d)+'</p><p class="h-lbl">Inside</p><ul class="inside">'+m.i.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul>'+
-        '<p class="h-lbl">For</p><div class="who">'+m.w.map(function(x){return '<span>'+esc(x)+'</span>'}).join('')+'</div>'+
-        '<div class="acts"><a class="open" href="'+m.h+'">Open '+(m.x?'builder':'training')+' <span aria-hidden="true">&rarr;</span></a>'+doneBtn(sel)+'</div>';
+        '<p class="h-lbl">For</p><div class="who">'+m.w.map(function(x){return '<span>'+esc(x)+'</span>'}).join('')+'</div>';
+      if(m.su){
+        h+='<div class="acts"><a class="open" href="'+m.h+'">Open training <span aria-hidden="true">&rarr;</span></a><span class="hint">'+m.parts.length+' pages, with tabs to move between them</span></div>'+
+           '<p class="h-lbl">Pages in this training</p><ul class="rows">'+m.parts.map(partRow).join('')+'</ul>';
+      }else{
+        h+='<div class="acts"><a class="open" href="'+m.h+'">Open '+(m.x?'builder':'training')+' <span aria-hidden="true">&rarr;</span></a>'+doneBtn(sel)+'</div>';
+      }
       var sibs=(g?g.items:f.items).filter(function(s){return s!==sel&&shows(s)});
       if(sibs.length&&!narrow.matches)h+='<div class="sib"><p class="h-lbl">Also in '+esc(g?g.n:f.n)+'</p><ul class="rows">'+sibs.map(function(s){return row(s)}).join('')+'</ul></div>';
     }else if(NODES[sel]){var nd=NODES[sel];f=nd.f;c=f.c;
@@ -342,11 +364,11 @@ var HUB=[
         else f.groups.forEach(function(gg){var gl=vis(gg.items);if(!gl.length)return;
           h+='<div class="grp"><div class="grp-h"><h3><button data-sel="g-'+gg.id+'">'+esc(gg.n)+'</button></h3><span>'+esc(gg.b)+'</span></div><ul class="rows">'+gl.map(function(s){return row(s)}).join('')+'</ul></div>'});
       }
+      if(!vis(nd.g?nd.g.items:allItems(f)).length)h+='<p class="none" style="padding:14px 0 0">Nothing in here matches your search or role.</p>';
     }
-    if(NODES[sel]&&!vis(NODES[sel].g?NODES[sel].g.items:allItems(NODES[sel].f)).length)h+='<p class="none" style="padding:14px 0 0">Nothing in here matches your search or role.</p>';
     pane.className='pane c-'+(c||'teal');
     pane.innerHTML='<div class="pane-in">'+h+'</div>';
-    /* phones: show module detail under the tapped row; folders and groups just open and close */
+    /* phones: show the detail under the tapped row; folders and groups just open and close */
     var slot=tree.querySelector('[data-slot]');
     if(narrow.matches&&slot&&M[sel])slot.appendChild(pane);
     else if(pane.parentNode!==document.querySelector('.ex'))document.querySelector('.ex').appendChild(pane);
@@ -356,12 +378,13 @@ var HUB=[
     document.getElementById('barFill').style.width=(TRACK.length?n/TRACK.length*100:0)+'%'}
   function render(){drawTree();drawPane();progress()}
 
-  function revealPath(id){var home=HOME[id]||(NODES[id]&&NODES[id]);if(!home)return;open[home.f.id]=1;if(home.g)open[home.g.id]=1}
+  function canon(id){return PARENT[id]||id}                                   // a suite page opens its suite
+  function revealPath(id){var home=HOME[id]||NODES[id];if(!home)return;open[home.f.id]=1;if(home.g)open[home.g.id]=1}
   function select(id,fromTree){
-    var node=NODES[id];
+    id=canon(id);var node=NODES[id];
     if(node&&fromTree){var key=node.g?node.g.id:node.f.id;
       if(!open[key]){open[key]=1}else if(sel===id||narrow.matches){delete open[key]}}
-    if(M[id]&&fromTree&&narrow.matches&&sel===id){sel='';}else{sel=id}
+    if(M[id]&&fromTree&&narrow.matches&&sel===id){sel=''}else{sel=id}
     if(M[id]&&!fromTree)revealPath(id);
     put(OPEN,open);
     try{history.replaceState(null,'',sel?'#'+sel:location.pathname)}catch(e){}
@@ -387,9 +410,9 @@ var HUB=[
   window.addEventListener('storage',function(e){if(e.key===KEY){done=ls(KEY,{});render()}});
   (narrow.addEventListener?narrow.addEventListener('change',render):narrow.addListener(render));
 
-  /* deep links: #slug, #f-folder, #g-group, plus the old #path, #shelf and #templates */
-  var LEG={path:'f-start',shelf:'f-team',templates:'f-templates'};
-  function fromHash(){var h=decodeURIComponent(location.hash.slice(1));h=LEG[h]||h;
+  /* deep links: #slug (a suite page opens its suite), #suite, #f-folder, #g-group, plus the old #path, #shelf and #templates */
+  var LEG={path:'f-start',shelf:'f-runs',templates:'f-templates','f-team':'f-runs','f-client':'g-clients','g-smallhinges':'smallhinges','g-plan':'f-growth','g-content':'content','g-admin':'signature'};
+  function fromHash(){var h=decodeURIComponent(location.hash.slice(1));h=canon(LEG[h]||h);
     if(M[h]||NODES[h]){sel=h;if(M[h])revealPath(h);else{var nd=NODES[h];open[nd.f.id]=1;if(nd.g)open[nd.g.id]=1}}}
   fromHash();window.addEventListener('hashchange',function(){fromHash();render()});
   render();
