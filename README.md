@@ -2,17 +2,22 @@
 
 Estus Health's internal staff training intranet. A landing page plus one page per training.
 
-| Area | Pages |
-| --- | --- |
-| Start here | `culture`, `playbook`, `accelerator`, `calendar`, `gm` (GM Mode: ACT, values and habits on the master calendar) |
-| Client pathway | `journey`, `welcome`, `nurture` |
-| Team | `check`, `self-mastery` (Self-Mastery Shelf: six books on habits, decisions and self-control, chapter by chapter, graded against the research and mapped to Stoicism) |
-| Small Hinges | `hinges`, `sleep`, `morning`, `energy`, `load`, `transition`, `shutdown` |
-| Therapy approaches | `neuroaffirming` (Neuroaffirming Practice, the Estus way), `ot-models` (OT Models and Frames), `act` (plus `act-game`), `cbt`, `beliefs` (Core Beliefs), `mi`, `gaming`, `nervous`, `problem-solving`, `sport-psych` (Sport Psychology map), `assessments` (Assessment Atlas), `executive-function` (Executive Function map) |
-| Growth | `growth` (Growth HQ, start here), `must-be-nice`, `shorts` (Shorts Studio: builder, playbook, B-roll library and tagging standard), `clips` (Podcast Clip Library), `meta` (Meta Ads System, from Brandon Willington's course, plus the ad scripts and copy check), `copy`, `gp`. Shared data and rules: `growth.js` |
-| Templates: reports | `fca`, `ptd` (Potential to Drive), `ftd` (Medical Fitness to Drive), `summary` (Therapy Service Summary), `sensory` (Sensory Profile Report for schools and stakeholders), `letter` (Letter of Support) |
-| Templates: handouts | `goals` (Goal Plan, SMART goals), `chaining` (forward or backward chaining plan), `prompts` (Prompt Hierarchy Guide for support workers), `planner` (Student Planner) |
-| Templates: admin | `signature` (Gmail email signature) |
+The landing page is a file explorer: a nested tree on the left (folder, group, training) and the selected item on the right. On phones the detail opens under the row you tap. All entries live in two objects at the top of the script in `index.html`: `M` (one per page) and `HUB` (folders and groups). Deep links: `index.html#slug`, `#f-folder`, `#g-group`.
+
+| Folder | Group | Pages |
+| --- | --- | --- |
+| Start here | (numbered path) | `culture`, `playbook`, `journey`, `welcome`, `check`, `hinges` (these also live in their home folder) |
+| Team and culture | How we work | `culture`, `playbook`, `calendar`, `gm` (GM Mode: ACT, values and habits on the master calendar) |
+| Team and culture | Growing here | `accelerator`, `check`, `self-mastery` (Self-Mastery Shelf: six books on habits, decisions and self-control, chapter by chapter, graded against the research and mapped to Stoicism) |
+| Client pathway | | `nurture`, `welcome`, `journey` |
+| Therapy | The Estus way | `neuroaffirming` (Neuroaffirming Practice), `ot-models` (OT Models and Frames), `assessments` (Assessment Atlas), `executive-function` (Executive Function map), `nervous` |
+| Therapy | Approaches | `act` (plus `act-game`), `cbt`, `beliefs` (Core Beliefs), `mi`, `gaming`, `problem-solving`, `sport-psych` (Sport Psychology map) |
+| Therapy | Small Hinges | `hinges`, `sleep`, `morning`, `energy`, `load`, `transition`, `shutdown` |
+| Growth | Plan and referrers | `growth` (Growth HQ, start here), `meta` (Meta Ads System, from Brandon Willington's course, plus the ad scripts and copy check), `copy`, `gp`. Shared data and rules: `growth.js` |
+| Growth | Content | `must-be-nice`, `shorts` (Shorts Studio: builder, playbook, B-roll library and tagging standard), `clips` (Podcast Clip Library) |
+| Templates | Reports | `fca`, `ptd` (Potential to Drive), `ftd` (Medical Fitness to Drive), `summary` (Therapy Service Summary), `sensory` (Sensory Profile Report), `letter` (Letter of Support) |
+| Templates | Handouts | `goals` (Goal Plan, SMART goals), `chaining` (forward or backward chaining plan), `prompts` (Prompt Hierarchy Guide for support workers), `planner` (Student Planner) |
+| Templates | Admin | `signature` (Gmail email signature) |
 
 Progress ticks and tool drafts save in each person's own browser only.
 

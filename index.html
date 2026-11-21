@@ -4,730 +4,182 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap">
 <style>
-/* Layout: an ink departures-board masthead, a numbered new-starter path, then a filterable shelf of training grouped by area; each area owns one Estus band colour */
+/* Layout: a slim ink masthead, then a file-explorer. Left: nested tree (folder > group > training). Right: whatever is selected.
+   Every training lives in the HUB data in the script below. Each folder owns one Estus band colour. */
 :root{
   --bg:#F3F2EF;--surface:#FBFAF8;--sunk:#ECEAE6;--fg:#0E1014;--muted:#65676E;--rule:#D3D1CC;--ink:#090909;--on-ink:#FBFAF8;--ink-muted:#AEB5C2;
-  --navy:#344982;--blue:#2F6F9E;--teal:#2CA5B8;--plum:#AB5C95;
-  --navy-t:#DDE2EF;--blue-t:#DCE8F1;--teal-t:#DAF0F3;--plum-t:#F1E1EC;
+  --navy:#344982;--blue:#2F6F9E;--teal:#2CA5B8;--plum:#AB5C95;--slate:#5B6170;
+  --navy-t:#DDE2EF;--blue-t:#DCE8F1;--teal-t:#DAF0F3;--plum-t:#F1E1EC;--slate-t:#E4E5E8;
   --good:#2E7D4F;--good-t:#DDEFE3;
   --display:"Oswald","Arial Narrow",Impact,sans-serif;--cond:"Barlow Semi Condensed","Arial Narrow",sans-serif;--body:"Barlow","Segoe UI",system-ui,sans-serif;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#0F1216;--surface:#161A20;--sunk:#1D222A;--fg:#ECEEF1;--muted:#9BA1AB;--rule:#2C323C;--ink:#05070A;--on-ink:#ECEEF1;--ink-muted:#9BA1AB;
-  --navy:#8299DA;--blue:#6FA8D2;--teal:#4CC3D4;--plum:#D58FC1;
-  --navy-t:#1E2740;--blue-t:#18293A;--teal-t:#123238;--plum-t:#33202E;
+  --navy:#8299DA;--blue:#6FA8D2;--teal:#4CC3D4;--plum:#D58FC1;--slate:#A3A9B6;
+  --navy-t:#1E2740;--blue-t:#18293A;--teal-t:#123238;--plum-t:#33202E;--slate-t:#262A32;
   --good:#5FC38A;--good-t:#16301F;color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0F1216;--surface:#161A20;--sunk:#1D222A;--fg:#ECEEF1;--muted:#9BA1AB;--rule:#2C323C;--ink:#05070A;--on-ink:#ECEEF1;--ink-muted:#9BA1AB;
-  --navy:#8299DA;--blue:#6FA8D2;--teal:#4CC3D4;--plum:#D58FC1;
-  --navy-t:#1E2740;--blue-t:#18293A;--teal-t:#123238;--plum-t:#33202E;
+  --navy:#8299DA;--blue:#6FA8D2;--teal:#4CC3D4;--plum:#D58FC1;--slate:#A3A9B6;
+  --navy-t:#1E2740;--blue-t:#18293A;--teal-t:#123238;--plum-t:#33202E;--slate-t:#262A32;
   --good:#5FC38A;--good-t:#16301F;color-scheme:dark}
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--fg);font:400 17px/1.55 var(--body)}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--ink)}
-.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 h1,h2,h3{text-wrap:balance;margin:0}
 p{margin:0}
+button{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.c-teal{--c:var(--teal);--ct:var(--teal-t)}.c-blue{--c:var(--blue);--ct:var(--blue-t)}.c-navy{--c:var(--navy);--ct:var(--navy-t)}.c-plum{--c:var(--plum);--ct:var(--plum-t)}.c-slate{--c:var(--slate);--ct:var(--slate-t)}
 
 /* masthead */
 .mast{background:var(--ink);color:var(--on-ink)}
-.top{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-block:16px;border-bottom:1px solid #22252B;flex-wrap:wrap}
+.top{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-block:14px;border-bottom:1px solid #22252B;flex-wrap:wrap}
 .brand{display:flex;flex-direction:column;gap:6px}
 .wordmark{font-family:var(--display);font-size:15px;letter-spacing:.16em;line-height:1}
 .wordmark b{font-weight:700}.wordmark span{font-weight:500}
 .bands{display:flex;width:132px;height:6px}.bands i{flex:1}
 .bands i:nth-child(1){background:#344982}.bands i:nth-child(2){background:#2F6F9E}.bands i:nth-child(3){background:#2CA5B8}.bands i:nth-child(4){background:#AB5C95}
-.tabs{display:flex;align-items:center;gap:4px 18px;flex-wrap:wrap}
-.tabs a{font:600 13px var(--cond);letter-spacing:.14em;text-transform:uppercase;color:var(--on-ink);text-decoration:none;padding:6px 0;border-bottom:2px solid transparent}
-.tabs a:hover{border-bottom-color:#2CA5B8}
-.tabs .tag{padding-left:18px;border-left:1px solid #2C323C}
-.a-tpl{--c:var(--plum);--ct:var(--plum-t)}
-#templates{scroll-margin-top:16px}
-.tplg{display:flex;flex-direction:column;gap:36px}
-.tpl{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
-.tpl .soon{border-style:dashed;background:transparent}
-.tpl .soon .body{color:var(--muted)}
-@media (max-width:520px){.tabs .tag{display:none}}
+.tabs{display:flex;align-items:center;gap:8px 18px;flex-wrap:wrap}
 .tag{font:600 12px var(--cond);letter-spacing:.2em;text-transform:uppercase;color:var(--ink-muted)}
-.hero{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:40px;align-items:end;padding-block:40px 40px}
-.eyebrow{font:700 12px var(--cond);letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
-.mast .eyebrow{color:var(--ink-muted)}
-.hero h1{font:600 clamp(48px,9vw,104px)/.9 var(--display);text-transform:uppercase;letter-spacing:.005em;margin:10px 0 18px}
+.hero{display:flex;justify-content:space-between;align-items:end;gap:24px 40px;flex-wrap:wrap;padding-block:24px 22px}
+.hero h1{font:600 clamp(36px,6vw,56px)/.95 var(--display);text-transform:uppercase;letter-spacing:.01em}
 .hero h1 em{font-style:normal;color:#2CA5B8}
-.hero .lead{font-size:19px;max-width:52ch;color:#D6DAE2}
-.board{border:1px solid #2C323C;background:#111419}
-.board-h{display:flex;justify-content:space-between;padding:10px 14px;border-bottom:1px solid #2C323C;font:700 12px var(--cond);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-muted)}
-.board-big{padding:16px 14px 6px;display:flex;align-items:baseline;gap:10px}
-.board-big b{font:600 64px/1 var(--display);font-variant-numeric:tabular-nums;color:#FBFAF8}
-.board-big span{font:600 16px var(--cond);text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted)}
-.cells{display:grid;grid-template-columns:repeat(22,1fr);gap:4px;padding:8px 14px 14px}
-.cells i{height:10px;background:#2C323C}
-.cells i.on{background:#2CA5B8}
-.board-f{padding:0 14px 14px;font-size:14px;color:var(--ink-muted)}
+.hero .lead{font-size:16px;color:#D6DAE2;margin-top:8px;max-width:56ch}
+.prog{min-width:240px;flex:0 1 320px}
+.prog-t{display:flex;justify-content:space-between;font:700 12px var(--cond);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:8px}
+.prog-t b{color:#FBFAF8;font:600 20px/1 var(--display);letter-spacing:.02em}
+.bar{height:8px;background:#2C323C}.bar i{display:block;height:100%;background:#2CA5B8;width:0;transition:width .3s}
 
-/* path */
-section.s{padding-block:44px}
-.s-head{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:20px}
-.s-head h2{font:600 clamp(26px,4vw,36px)/1.05 var(--display);text-transform:uppercase;letter-spacing:.02em;margin-top:4px}
-.s-head p.sub{color:var(--muted);max-width:56ch}
-.path{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));border:1px solid var(--rule);background:var(--surface)}
-.path li{border-left:1px solid var(--rule);min-width:0}
-.path li:first-child{border-left:0}
-.path a{display:flex;flex-direction:column;gap:6px;padding:16px;color:var(--fg);text-decoration:none;height:100%;border-top:5px solid var(--c)}
-.path a:hover{background:var(--sunk)}
-.path .n{font:600 34px/1 var(--display);color:var(--c);font-variant-numeric:tabular-nums;display:flex;justify-content:space-between;align-items:center}
-.path .n .ok{font:700 11px var(--cond);letter-spacing:.12em;text-transform:uppercase;color:var(--good);background:var(--good-t);padding:2px 8px}
-.path b{font:600 17px/1.2 var(--cond);text-transform:uppercase;letter-spacing:.03em}
-.path span.why{font-size:14px;color:var(--muted)}
+/* explorer */
+.ex{display:grid;grid-template-columns:340px minmax(0,1fr);gap:24px;padding-block:24px 48px;align-items:start}
+.side{position:sticky;top:12px;max-height:calc(100vh - 24px);display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--rule)}
+.tools{display:flex;gap:8px;padding:10px;border-bottom:1px solid var(--rule);flex-wrap:wrap}
+.tools input,.tools select{font:500 15px var(--body);color:var(--fg);background:var(--bg);border:1px solid var(--rule);padding:8px 10px;min-height:40px;border-radius:0}
+.tools input{flex:1 1 140px;min-width:0}
+.tools select{flex:0 0 auto}
+.tree{overflow:auto;padding:6px 0 10px;flex:1}
+.tree ul{list-style:none;margin:0;padding:0}
+.node{display:flex;align-items:center;gap:8px;width:100%;text-align:left;background:none;border:0;cursor:pointer;padding:7px 12px;min-height:38px;border-left:4px solid transparent}
+.node:hover{background:var(--sunk)}
+.node[aria-current="true"]{background:var(--ct);border-left-color:var(--c)}
+.chev{flex:none;width:14px;height:14px;transition:transform .15s;color:var(--muted)}
+[aria-expanded="true"]>.chev{transform:rotate(90deg)}
+.n-f{font:600 15px var(--cond);text-transform:uppercase;letter-spacing:.07em;margin-top:2px}
+.n-f .sw{flex:none;width:10px;height:10px;background:var(--c)}
+.n-g{font:600 13px var(--cond);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding-left:30px}
+.n-m{font:500 15px/1.25 var(--body);padding-left:36px}
+.n-g+ul .n-m,.lvl3 .n-m{padding-left:52px}
+.lbl{flex:1;min-width:0}
+.cnt{flex:none;font:600 12px var(--cond);letter-spacing:.06em;color:var(--muted);font-variant-numeric:tabular-nums}
+.cnt.all{color:var(--good)}
+.tick{flex:none;width:14px;height:14px;border:1.5px solid var(--rule);border-radius:50%;display:inline-grid;place-items:center;font-size:9px;line-height:1}
+.tick.on{background:var(--good);border-color:var(--good);color:var(--surface)}
+.tick.na{border-style:dashed}
+.num{flex:none;width:18px;font:600 15px var(--display);color:var(--c);font-variant-numeric:tabular-nums}
+.none{padding:12px 16px;color:var(--muted);font-size:15px}
 
-/* shelf */
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{border:1px solid var(--rule);background:var(--surface);color:var(--fg);padding:8px 14px;border-radius:999px;cursor:pointer;font:600 13px var(--cond);text-transform:uppercase;letter-spacing:.07em;min-height:40px}
-.chip:hover{border-color:var(--fg)}
-.chip[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
-.areas{display:flex;flex-direction:column;gap:36px;margin-top:28px}
-.area-h{display:flex;align-items:baseline;gap:14px;border-top:3px solid var(--c);padding-top:10px;margin-bottom:14px}
-.area-h h3{font:600 22px var(--display);text-transform:uppercase;letter-spacing:.03em;color:var(--c)}
-.area-h p{color:var(--muted);font-size:15px}
-.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:36px 16px}
-.pair .cards{grid-template-columns:1fr}.pair{grid-template-columns:1fr}.pair .area.a-method .cards{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}.pair .area.a-team .cards{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
-.card{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
-.card .meta{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px 16px 0}
-.pill{font:700 11px var(--cond);text-transform:uppercase;letter-spacing:.12em;padding:3px 8px;background:var(--ct);color:var(--c)}
-.code{font:600 13px var(--display);letter-spacing:.1em;color:var(--muted)}
-.card .body{padding:10px 16px 14px;display:flex;flex-direction:column;gap:8px;flex:1}
-.card h4{margin:0;font:600 24px/1.1 var(--display);text-transform:uppercase;letter-spacing:.01em}
-.card h4 a{color:inherit;text-decoration:none}
-.card h4 a:hover{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
-.card .d{font-size:15px}
-.inside{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:4px 12px;font:600 13px var(--cond);text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
-.inside li::before{content:"";display:inline-block;width:6px;height:6px;background:var(--c);margin-right:6px;transform:translateY(-2px)}
-.who{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:6px}
+/* pane */
+.pane{background:var(--surface);border:1px solid var(--rule);border-top:5px solid var(--c);min-width:0}
+.pane-in{padding:24px 28px 28px}
+.crumb{font:600 12px var(--cond);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);display:flex;gap:6px;flex-wrap:wrap}
+.crumb button{background:none;border:0;padding:0;cursor:pointer;font:inherit;letter-spacing:inherit;text-transform:inherit;color:var(--muted)}
+.crumb button:hover{color:var(--fg);text-decoration:underline}
+.pane h2{font:600 clamp(28px,4vw,40px)/1.05 var(--display);text-transform:uppercase;letter-spacing:.01em;margin:8px 0 10px}
+.pane .blurb{color:var(--muted);max-width:60ch}
+.pill{display:inline-block;font:700 11px var(--cond);text-transform:uppercase;letter-spacing:.12em;padding:3px 8px;background:var(--ct);color:var(--c)}
+.code{font:600 13px var(--display);letter-spacing:.1em;color:var(--muted);margin-left:8px}
+.d{font-size:17px;max-width:62ch}
+.h-lbl{font:700 12px var(--cond);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:20px 0 8px}
+.inside{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px 16px;font:600 14px var(--cond);text-transform:uppercase;letter-spacing:.05em}
+.inside li::before{content:"";display:inline-block;width:7px;height:7px;background:var(--c);margin-right:7px;transform:translateY(-2px)}
+.who{display:flex;flex-wrap:wrap;gap:6px}
 .who span{font:600 12px var(--cond);text-transform:uppercase;letter-spacing:.06em;border:1px solid var(--rule);padding:2px 8px}
-.card .foot{display:flex;justify-content:space-between;align-items:center;gap:8px;border-top:1px solid var(--rule);padding:10px 16px}
-.done{display:inline-flex;align-items:center;gap:8px;background:none;border:0;color:var(--muted);font:600 13px var(--cond);text-transform:uppercase;letter-spacing:.08em;cursor:pointer;padding:6px 0;min-height:36px}
-.done i{width:18px;height:18px;border:1.5px solid var(--muted);display:inline-grid;place-items:center;font-style:normal;font-size:12px}
-.done[aria-pressed="true"]{color:var(--good)}
-.done[aria-pressed="true"] i{background:var(--good);border-color:var(--good);color:var(--surface)}
-.open{font:600 14px var(--cond);text-transform:uppercase;letter-spacing:.1em;color:var(--on-ink);background:var(--ink);text-decoration:none;padding:8px 14px;display:inline-flex;align-items:center;gap:8px;min-height:36px}
+.acts{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:24px;padding-top:18px;border-top:1px solid var(--rule)}
+.open{font:600 15px var(--cond);text-transform:uppercase;letter-spacing:.1em;color:var(--on-ink);background:var(--ink);text-decoration:none;padding:10px 18px;display:inline-flex;align-items:center;gap:8px;min-height:44px}
 .open:hover{background:var(--c)}
-.empty{color:var(--muted);padding:12px 0}
+.done{display:inline-flex;align-items:center;gap:8px;background:none;border:1px solid var(--rule);color:var(--muted);font:600 13px var(--cond);text-transform:uppercase;letter-spacing:.08em;cursor:pointer;padding:8px 14px;min-height:44px}
+.done i{width:18px;height:18px;border:1.5px solid var(--muted);display:inline-grid;place-items:center;font-style:normal;font-size:12px}
+.done[aria-pressed="true"]{color:var(--good);border-color:var(--good)}
+.done[aria-pressed="true"] i{background:var(--good);border-color:var(--good);color:var(--surface)}
+.hint{font:600 12px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 
-.a-method{--c:var(--navy);--ct:var(--navy-t)}.a-hinge{--c:var(--teal);--ct:var(--teal-t)}.a-approach{--c:var(--navy);--ct:var(--navy-t)}.a-client{--c:var(--blue);--ct:var(--blue-t)}.a-team{--c:var(--teal);--ct:var(--teal-t)}.a-growth{--c:var(--plum);--ct:var(--plum-t)}
+/* list inside a folder or group overview */
+.grp{margin-top:22px}
+.grp-h{display:flex;align-items:baseline;gap:10px;border-top:2px solid var(--c);padding-top:8px;margin-bottom:4px}
+.grp-h h3{font:600 17px var(--display);text-transform:uppercase;letter-spacing:.04em;color:var(--c)}
+.grp-h button{background:none;border:0;padding:0;cursor:pointer;font:inherit;color:inherit;text-transform:inherit;letter-spacing:inherit}
+.grp-h button:hover{text-decoration:underline}
+.grp-h span{font-size:14px;color:var(--muted)}
+.rows{list-style:none;margin:0;padding:0}
+.row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--rule)}
+.row:last-child{border-bottom:0}
+.row .pick{background:none;border:0;padding:0;text-align:left;cursor:pointer;min-width:0}
+.row .pick b{display:block;font:600 17px/1.2 var(--cond);text-transform:uppercase;letter-spacing:.03em}
+.row .pick span{display:block;font-size:14px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row .pick:hover b{text-decoration:underline;text-underline-offset:3px}
+.row .go{font:600 13px var(--cond);letter-spacing:.1em;text-transform:uppercase;color:var(--fg);text-decoration:none;border:1px solid var(--rule);padding:6px 10px}
+.row .go:hover{border-color:var(--c);color:var(--c)}
+.row .num{font-size:22px;width:22px}
+.sib{margin-top:24px}
+.sib .rows .row{padding:7px 0}
+.sib .row .pick b{font-size:15px}
 
 footer{border-top:1px solid var(--rule)}
 footer .wrap{padding-block:24px 48px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:14px}
 footer .wordmark{color:var(--fg)}
 .reset{background:none;border:1px solid var(--rule);color:var(--fg);font:600 12px var(--cond);text-transform:uppercase;letter-spacing:.08em;padding:6px 10px;cursor:pointer}
 
+/* phones and narrow tablets: one column, the detail opens inside the tree under the row you tapped */
 @media (max-width:860px){
-  .pair{grid-template-columns:1fr}
-  .hero{grid-template-columns:1fr;gap:28px}
-  .path{grid-template-columns:1fr}
-  .path li{border-left:0;border-top:1px solid var(--rule)}
-  .path li:first-child{border-top:0}
-  .path a{border-top:0;border-left:5px solid var(--c);display:grid;grid-template-columns:44px minmax(0,1fr);column-gap:12px;row-gap:2px}
-  .path .n{grid-row:span 2;font-size:28px;flex-direction:column;align-items:flex-start;gap:4px}
-  .area-h{flex-direction:column;gap:2px}
+  .ex{grid-template-columns:1fr;padding-top:16px}
+  .side{position:static;max-height:none}
+  .tree{overflow:visible}
+  .ex>.pane{display:none}
+  .tree .pane{margin:2px 10px 10px;border-left:1px solid var(--rule)}
+  .tree .pane-in{padding:16px}
+  .tree .pane h2{font-size:26px}
+  .prog{flex-basis:100%}
 }
-@media (max-width:420px){.cards{grid-template-columns:1fr}}
-@media (prefers-reduced-motion:no-preference){.card{transition:border-color .15s}.card:hover{border-color:var(--c)}}
+@media (prefers-reduced-motion:reduce){.chev,.bar i{transition:none}}
 </style>
 
 <script src="theme.js"></script></head><body><header class="mast">
   <div class="wrap">
     <div class="top">
       <div class="brand"><span class="bands" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="wordmark"><b>ESTUS</b> <span>HEALTH</span></span></div>
-      <nav class="tabs" aria-label="Hub sections"><a href="#path">New starter</a><a href="#shelf">Training</a><a href="#templates">Templates</a><span class="tag">Internal only</span></nav>
+      <nav class="tabs" aria-label="Hub"><span class="tag">Internal only</span></nav>
     </div>
     <div class="hero">
       <div>
-        <p class="eyebrow">Everything we teach, in one place</p>
         <h1>Training <em>hub</em></h1>
-        <p class="lead">How we train, how a client moves through Estus, the scripts we use, and how we grow. Start with the path if you're new. Come back to the shelf when you need a refresher.</p>
+        <p class="lead">New? Open <b>Start here</b> and work down the list. Everything else is filed in folders, one click deep.</p>
       </div>
-      <div class="board" aria-live="polite">
-        <div class="board-h"><span>Your progress</span><span>This browser</span></div>
-        <div class="board-big"><b id="doneN">0</b><span>of <span id="totalN">24</span> done</span></div>
-        <div class="cells" id="cells" aria-hidden="true"></div>
-        <p class="board-f">Tick a module done here or on its page.</p>
+      <div class="prog" aria-live="polite">
+        <div class="prog-t"><span>Your progress</span><span><b id="doneN">0</b> of <span id="totalN">0</span></span></div>
+        <div class="bar"><i id="barFill"></i></div>
       </div>
     </div>
   </div>
 </header>
 
-<main>
-  <section class="s" id="path">
-    <div class="wrap">
-      <div class="s-head">
-        <div><p class="eyebrow">New starter</p><h2>Your first two weeks</h2></div>
-        <p class="sub">Work through these in order. Learn the method, then follow a client from referral to review.</p>
-      </div>
-      <ol class="path">
-        <li class="a-team"><a href="culture.html"><span class="n">1<span class="ok" data-ok="culture" hidden>Done</span></span><b>Estus Culture</b><span class="why">How we work, and why</span></a></li>
-        <li class="a-method"><a href="playbook.html"><span class="n">2<span class="ok" data-ok="playbook" hidden>Done</span></span><b>Training Playbook</b><span class="why">How we learn everything else</span></a></li>
-        <li class="a-client"><a href="journey.html"><span class="n">3<span class="ok" data-ok="journey" hidden>Done</span></span><b>Client Journey</b><span class="why">Referral to 12-month review</span></a></li>
-        <li class="a-client"><a href="welcome.html"><span class="n">4<span class="ok" data-ok="welcome" hidden>Done</span></span><b>Welcome Call</b><span class="why">The free 15 minute call</span></a></li>
-        <li class="a-team"><a href="check.html"><span class="n">5<span class="ok" data-ok="check" hidden>Done</span></span><b>Clinician Check</b><span class="why">What your 1:1 covers</span></a></li>
-        <li class="a-hinge"><a href="hinges.html"><span class="n">6<span class="ok" data-ok="hinges" hidden>Done</span></span><b>Small Hinges</b><span class="why">Your first programs to run</span></a></li>
-      </ol>
+<main class="wrap ex">
+  <aside class="side" aria-label="All training">
+    <div class="tools">
+      <input id="q" type="search" placeholder="Search training" aria-label="Search training" autocomplete="off">
+      <select id="role" aria-label="Show training for">
+        <option value="all">Everyone</option>
+        <option value="clinician">Clinicians</option>
+        <option value="lead">Team leaders</option>
+        <option value="ops">Ops</option>
+        <option value="marketing">Marketing</option>
+        <option value="driving">Driving OT</option>
+      </select>
     </div>
-  </section>
-
-  <section class="s" id="shelf" style="padding-top:8px">
-    <div class="wrap">
-      <div class="s-head">
-        <div><p class="eyebrow">All training</p><h2>The shelf</h2></div>
-        <div class="chips" role="group" aria-label="Filter by role">
-          <button class="chip" type="button" data-role="all" aria-pressed="true">Everyone</button>
-          <button class="chip" type="button" data-role="clinician" aria-pressed="false">Clinicians</button>
-          <button class="chip" type="button" data-role="lead" aria-pressed="false">Team leaders</button>
-          <button class="chip" type="button" data-role="ops" aria-pressed="false">Ops</button>
-          <button class="chip" type="button" data-role="marketing" aria-pressed="false">Marketing</button>
-          <button class="chip" type="button" data-role="driving" aria-pressed="false">Driving OT</button>
-        </div>
-      </div>
-
-      <div class="areas">
-        <div class="pair">
-        <div class="area a-method" data-area>
-          <div class="area-h"><h3>Method</h3><p>How we teach and learn at Estus</p></div>
-          <div class="cards">
-            <article class="card a-method" data-slug="playbook" data-roles="clinician lead ops marketing driving">
-              <div class="meta"><span class="pill">Interactive playbook</span></div>
-              <div class="body">
-                <h4><a href="playbook.html">Training Playbook</a></h4>
-                <p class="d">The Estus Session, the correction and lock-in loop, and how we adjust the method for a neurodivergent team.</p>
-                <ul class="inside"><li>5-phase session</li><li>Kind vs wicked</li><li>Trainer run-sheet</li></ul>
-                <div class="who"><span>Everyone</span><span>Trainers</span></div>
-              </div>
-              <div class="foot"><button class="done" type="button" data-done="playbook" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="playbook.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-            </article>
-          </div>
-        </div>
-
-        <div class="area a-team" data-area>
-          <div class="area-h"><h3>Team</h3><p>Culture, growth and how we check in</p></div>
-          <div class="cards">
-            <article class="card a-team" data-slug="culture" data-roles="clinician lead ops marketing driving">
-              <div class="meta"><span class="pill">Start here</span></div>
-              <div class="body">
-                <h4><a href="culture.html">Estus Culture</a></h4>
-                <p class="d">What we believe, how we work, our rituals, supervision, who we see and how we lead.</p>
-                <ul class="inside"><li>Beliefs</li><li>Rituals</li><li>Design your week</li></ul>
-                <div class="who"><span>Everyone</span></div>
-              </div>
-              <div class="foot"><button class="done" type="button" data-done="culture" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="culture.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-            </article>
-            <article class="card a-team" data-slug="accelerator" data-roles="clinician lead">
-              <div class="meta"><span class="pill">Program</span></div>
-              <div class="body">
-                <h4><a href="accelerator.html">Estus Accelerator</a></h4>
-                <p class="d">The 2 to 3 year program: three phases, four leadership pathways, six specialisations and a board of advisors.</p>
-                <ul class="inside"><li>Phases</li><li>Pathways</li><li>Progress tracker</li></ul>
-                <div class="who"><span>Clinicians</span><span>Team leaders</span></div>
-              </div>
-              <div class="foot"><button class="done" type="button" data-done="accelerator" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="accelerator.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-            </article>
-            <article class="card a-team" data-slug="calendar" data-roles="clinician lead ops marketing driving">
-              <div class="meta"><span class="pill">Interactive tool</span></div>
-              <div class="body">
-                <h4><a href="calendar.html">Calendar Management</a></h4>
-                <p class="d">Lifestyle first. The three Estus calendars, build order, transition prompts, and a weekly planner with a Today view.</p>
-                <ul class="inside"><li>Three calendars</li><li>Transition prompts</li><li>Planner</li></ul>
-                <div class="who"><span>Everyone</span></div>
-              </div>
-              <div class="foot"><button class="done" type="button" data-done="calendar" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="calendar.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-            </article>
-            <article class="card a-team" data-slug="gm" data-roles="clinician lead ops marketing driving">
-              <div class="meta"><span class="pill">Interactive tool</span></div>
-              <div class="body">
-                <h4><a href="gm.html">GM Mode</a></h4>
-                <p class="d">ACT for clinicians, run like a GM's front office. A 60-second reset, values turned into protected calendar blocks, and habits built as booked reps.</p>
-                <ul class="inside"><li>60-second reset</li><li>Protected blocks</li><li>Rep tracker</li></ul>
-                <div class="who"><span>Everyone</span></div>
-              </div>
-              <div class="foot"><button class="done" type="button" data-done="gm" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="gm.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-            </article>
-            <article class="card a-team" data-slug="selfmastery" data-roles="clinician lead ops marketing driving">
-              <div class="meta"><span class="pill">Book shelf</span></div>
-              <div class="body">
-                <h4><a href="self-mastery.html">Self-Mastery Shelf</a></h4>
-                <p class="d">Atomic Habits, Thinking in Bets, The 12 Levers, Situated, Discipline Is Destiny and Goggins, chapter by chapter. Every idea graded against the research and tied to our Stoic map.</p>
-                <ul class="inside"><li>Chapter by chapter</li><li>Myth-buster</li><li>Daily loop</li><li>Goggins Lite</li></ul>
-                <div class="who"><span>Everyone</span></div>
-              </div>
-              <div class="foot"><button class="done" type="button" data-done="selfmastery" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="self-mastery.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-            </article>
-            <article class="card a-team" data-slug="check" data-roles="lead clinician">
-              <div class="meta"><span class="pill">Interactive tool</span><span class="code">EH-C2</span></div>
-              <div class="body">
-                <h4><a href="check.html">Clinician Check Card</a></h4>
-                <p class="d">Run the fortnightly 1:1 live. Numbers check themselves against the thresholds, and a summary is ready to send.</p>
-                <ul class="inside"><li>Live check</li><li>Thresholds</li><li>Why each check</li><li>Copy summary</li></ul>
-                <div class="who"><span>Team leaders</span><span>Clinicians</span></div>
-              </div>
-              <div class="foot"><button class="done" type="button" data-done="check" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="check.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-            </article>
-          </div>
-        </div>
-
-        </div>
-        <div class="area a-client" data-area>
-          <div class="area-h"><h3>Client pathway</h3><p>From first enquiry to the 12-month review</p></div>
-          <div class="cards">
-            <article class="card a-client" data-slug="journey" data-roles="clinician ops lead">
-              <div class="meta"><span class="pill">Interactive tool</span><span class="code">EH-C1</span></div>
-              <div class="body">
-                <h4><a href="journey.html">Client Journey Checklist</a></h4>
-                <p class="d">Track a client from referral to 12-month review, and learn why the route, goals and motivational interviewing are part of the therapy.</p>
-                <ul class="inside"><li>Client tracker</li><li>Goals</li><li>MI practice</li><li>Continuity</li></ul>
-                <div class="who"><span>Clinicians</span><span>Ops</span></div>
-              </div>
-              <div class="foot"><button class="done" type="button" data-done="journey" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="journey.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-            </article>
-            <article class="card a-client" data-slug="welcome" data-roles="clinician">
-              <div class="meta"><span class="pill">Interactive playbook</span></div>
-              <div class="body">
-                <h4><a href="welcome.html">Welcome Call Playbook</a></h4>
-                <p class="d">Run the free 15 minute call with CLOSER, the Estus way. Fill once, then copy the right message for a client, a parent or a coordinator.</p>
-                <ul class="inside"><li>CLOSER frame</li><li>Objection finder</li><li>Fill-once templates</li><li>Peer review scorecard</li></ul>
-                <div class="who"><span>Clinicians</span></div>
-              </div>
-              <div class="foot"><button class="done" type="button" data-done="welcome" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="welcome.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-            </article>
-            <article class="card a-client" data-slug="nurture" data-roles="clinician ops driving">
-              <div class="meta"><span class="pill">Interactive trainer</span></div>
-              <div class="body">
-                <h4><a href="nurture.html">Nurture Trainer</a></h4>
-                <p class="d">Form first, then the call. The emails and texts that get a new lead to the referral form and the booking, for online OT and driving.</p>
-                <ul class="inside"><li>Lead and form sequences</li><li>Fill-once messages</li><li>Getting them to show</li><li>Practice</li></ul>
-                <div class="who"><span>Clinicians</span><span>Ops</span><span>Driving OT</span></div>
-              </div>
-              <div class="foot"><button class="done" type="button" data-done="nurture" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="nurture.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-            </article>
-          </div>
-        </div>
-
-        <div class="area a-hinge" data-area>
-          <div class="area-h"><h3>Small Hinges</h3><p>One session, one area that unlocks the rest</p></div>
-          <div class="cards">
-            <article class="card a-hinge" data-slug="hinges" data-roles="clinician marketing">
-              <div class="meta"><span class="pill">Series overview</span></div>
-              <div class="body">
-                <h4><a href="hinges.html">Small Hinges</a></h4>
-                <p class="d">One focused session per area. The model, Find Your Hinge, the session shape, and where it fits.</p>
-                <ul class="inside"><li>Find your hinge</li><li>Session shape</li><li>Where it fits</li></ul>
-                <div class="who"><span>Clinicians</span><span>Marketing</span></div>
-              </div>
-              <div class="foot"><button class="done" type="button" data-done="hinges" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="hinges.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-            </article>
-            <article class="card a-hinge" data-slug="sleep" data-roles="clinician">
-              <div class="meta"><span class="pill">Hinge</span></div>
-              <div class="body">
-                <h4><a href="sleep.html">Sleep Architecture</a></h4>
-                <p class="d">A wind-down that works for your brain, and a sleep window you can actually keep.</p>
-                <ul class="inside"><li>Session plan</li><li>Tool</li><li>Practice</li></ul>
-                <div class="who"><span>Clinicians</span></div>
-              </div>
-              <div class="foot"><button class="done" type="button" data-done="sleep" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="sleep.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-            </article>
-            <article class="card a-hinge" data-slug="morning" data-roles="clinician">
-              <div class="meta"><span class="pill">Hinge</span></div>
-              <div class="body">
-                <h4><a href="morning.html">Morning Architecture</a></h4>
-                <p class="d">Getting up and out the door without burning your energy before the day starts.</p>
-                <ul class="inside"><li>Session plan</li><li>Tool</li><li>Practice</li></ul>
-                <div class="who"><span>Clinicians</span></div>
-              </div>
-              <div class="foot"><button class="done" type="button" data-done="morning" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="morning.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-            </article>
-            <article class="card a-hinge" data-slug="energy" data-roles="clinician">
-              <div class="meta"><span class="pill">Hinge</span></div>
-              <div class="body">
-                <h4><a href="energy.html">Energy Management</a></h4>
-                <p class="d">Spend energy on purpose, with rest built in rather than earned.</p>
-                <ul class="inside"><li>Session plan</li><li>Tool</li><li>Practice</li></ul>
-                <div class="who"><span>Clinicians</span></div>
-              </div>
-              <div class="foot"><button class="done" type="button" data-done="energy" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="energy.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-            </article>
-            <article class="card a-hinge" data-slug="load" data-roles="clinician">
-              <div class="meta"><span class="pill">Hinge</span></div>
-              <div class="body">
-                <h4><a href="load.html">Cognitive Load Reduction</a></h4>
-                <p class="d">Fewer things to hold in your head, so the important ones get done.</p>
-                <ul class="inside"><li>Session plan</li><li>Tool</li><li>Practice</li></ul>
-                <div class="who"><span>Clinicians</span></div>
-              </div>
-              <div class="foot"><button class="done" type="button" data-done="load" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="load.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-            </article>
-            <article class="card a-hinge" data-slug="transition" data-roles="clinician">
-              <div class="meta"><span class="pill">Hinge</span></div>
-              <div class="body">
-                <h4><a href="transition.html">Transition Scaffolding</a></h4>
-                <p class="d">Easier switches between tasks, places and parts of the day.</p>
-                <ul class="inside"><li>Session plan</li><li>Tool</li><li>Practice</li></ul>
-                <div class="who"><span>Clinicians</span></div>
-              </div>
-              <div class="foot"><button class="done" type="button" data-done="transition" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="transition.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-            </article>
-            <article class="card a-hinge" data-slug="shutdown" data-roles="clinician">
-              <div class="meta"><span class="pill">Hinge</span></div>
-              <div class="body">
-                <h4><a href="shutdown.html">Shutdown Ritual</a></h4>
-                <p class="d">A clear end to the work day, so your brain can actually clock off.</p>
-                <ul class="inside"><li>Session plan</li><li>Tool</li><li>Practice</li></ul>
-                <div class="who"><span>Clinicians</span></div>
-              </div>
-              <div class="foot"><button class="done" type="button" data-done="shutdown" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="shutdown.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-            </article>
-          </div>
-        </div>
-
-        <div class="area a-approach" data-area>
-          <div class="area-h"><h3>Therapy approaches</h3><p>The frameworks behind how we work</p></div>
-          <div class="cards">
-            <article class="card a-approach" data-slug="neuroaffirming" data-roles="clinician lead ops marketing driving">
-              <div class="meta"><span class="pill">The Estus way</span></div>
-              <div class="body">
-                <h4><a href="neuroaffirming.html">Neuroaffirming Practice</a></h4>
-                <p class="d">Autism, ADHD, PDA, dyspraxia and dyslexia, the ideas that reshaped how we see them, and how the Estus way shows up in every session, goal and report.</p>
-                <ul class="inside"><li>Eight commitments</li><li>Do and don't</li><li>Frameworks in context</li><li>Language guide</li></ul>
-                <div class="who"><span>Everyone</span></div>
-              </div>
-              <div class="foot"><button class="done" type="button" data-done="neuroaffirming" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="neuroaffirming.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-            </article>
-            <article class="card a-approach" data-slug="otmodels" data-roles="clinician driving">
-              <div class="meta"><span class="pill">Interactive map</span></div>
-              <div class="body">
-                <h4><a href="ot-models.html">OT Models and Frames</a></h4>
-                <p class="d">MOHO, CMOP-E, PEO and Kawa, six frames of reference and three process frameworks: when to reach for each, the evidence, and where the ideas came from.</p>
-                <ul class="inside"><li>Model map</li><li>Source theories</li><li>Start from a question</li><li>Pairing guide</li></ul>
-                <div class="who"><span>Clinicians</span><span>Driving OT</span></div>
-              </div>
-              <div class="foot"><button class="done" type="button" data-done="otmodels" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="ot-models.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-            </article>
-            <article class="card a-approach" data-slug="act" data-roles="clinician">
-              <div class="meta"><span class="pill">Approach</span></div>
-              <div class="body">
-                <h4><a href="act.html">ACT</a></h4>
-                <p class="d">Psychological flexibility for doing what matters. Defusion and values tools, done the neuroaffirming way.</p>
-                <ul class="inside"><li>Six processes</li><li>Choice point</li><li>Tools</li><li>Game and quiz</li></ul>
-                <div class="who"><span>Clinicians</span></div>
-              </div>
-              <div class="foot"><button class="done" type="button" data-done="act" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="act.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-            </article>
-            <article class="card a-approach" data-slug="cbt" data-roles="clinician driving">
-              <div class="meta"><span class="pill">Approach</span></div>
-              <div class="body">
-                <h4><a href="cbt.html">CBT</a></h4>
-                <p class="d">The thought, feeling, body, action cycle. Thought record and exposure ladder tools, with neuroaffirming checks.</p>
-                <ul class="inside"><li>Cycle</li><li>Thought record</li><li>Ladder</li></ul>
-                <div class="who"><span>Clinicians</span><span>Driving OT</span></div>
-              </div>
-              <div class="foot"><button class="done" type="button" data-done="cbt" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="cbt.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-            </article>
-            <article class="card a-approach" data-slug="beliefs" data-roles="clinician">
-              <div class="meta"><span class="pill">Approach</span></div>
-              <div class="body">
-                <h4><a href="beliefs.html">Core Beliefs</a></h4>
-                <p class="d">The deep stories under everyday thoughts, and the beliefs neurodivergent clients are often taught. Downward arrow, continuum and evidence log.</p>
-                <ul class="inside"><li>Three layers</li><li>Taught beliefs</li><li>Tools</li><li>Practice</li></ul>
-                <div class="who"><span>Clinicians</span></div>
-              </div>
-              <div class="foot"><button class="done" type="button" data-done="beliefs" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="beliefs.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-            </article>
-            <article class="card a-approach" data-slug="mi" data-roles="clinician ops">
-              <div class="meta"><span class="pill">Approach</span></div>
-              <div class="body">
-                <h4><a href="mi.html">Motivational Interviewing</a></h4>
-                <p class="d">Spirit, OARS, change talk and the righting reflex. Readiness ruler and a 6-question practice.</p>
-                <ul class="inside"><li>OARS</li><li>Readiness ruler</li><li>Practice</li></ul>
-                <div class="who"><span>Clinicians</span><span>Ops</span></div>
-              </div>
-              <div class="foot"><button class="done" type="button" data-done="mi" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="mi.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-            </article>
-            <article class="card a-approach" data-slug="gaming" data-roles="clinician">
-              <div class="meta"><span class="pill">Approach</span></div>
-              <div class="body">
-                <h4><a href="gaming.html">Gaming-Informed Therapy</a></h4>
-                <p class="d">How we use games and our Minecraft server for OT goals. Goal-to-game mapper, safety and teen moderators.</p>
-                <ul class="inside"><li>Our server</li><li>Goal to game</li><li>Safety</li></ul>
-                <div class="who"><span>Clinicians</span></div>
-              </div>
-              <div class="foot"><button class="done" type="button" data-done="gaming" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="gaming.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-            </article>
-            <article class="card a-approach" data-slug="nervous" data-roles="clinician lead ops marketing driving">
-              <div class="meta"><span class="pill">Interactive lab</span></div>
-              <div class="body">
-                <h4><a href="nervous.html">Nervous System</a></h4>
-                <p class="d">Accelerator and brake, the live body lab, the window of tolerance, interoception and co-regulation.</p>
-                <ul class="inside"><li>Live lab</li><li>Body check-in</li><li>Regulation menu</li></ul>
-                <div class="who"><span>Everyone</span><span>Parents</span></div>
-              </div>
-              <div class="foot"><button class="done" type="button" data-done="nervous" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="nervous.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-            </article>
-            <article class="card a-approach" data-slug="problemsolving" data-roles="clinician lead ops marketing driving">
-              <div class="meta"><span class="pill">Interactive lab</span></div>
-              <div class="body">
-                <h4><a href="problem-solving.html">Problem Solving</a></h4>
-                <p class="d">18 plain-language thinking tools, from top down and bottom up to bottleneck, the region-beta paradox, Rule of 100 and task analysis.</p>
-                <ul class="inside"><li>Bottleneck simulator</li><li>Task analysis and chaining</li><li>Rule of 100 tracker</li><li>Run your own problem</li></ul>
-                <div class="who"><span>Everyone</span></div>
-              </div>
-              <div class="foot"><button class="done" type="button" data-done="problemsolving" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="problem-solving.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-            </article>
-            <article class="card a-approach" data-slug="sportpsych" data-roles="clinician">
-              <div class="meta"><span class="pill">Interactive map</span></div>
-              <div class="body">
-                <h4><a href="sport-psych.html">Sport Psychology</a></h4>
-                <p class="d">The ten main areas of sport and exercise psychology on one map, with a deep dive into each and where it sits in wider psychology.</p>
-                <ul class="inside"><li>Mind map</li><li>Theories and measures</li><li>Context view</li><li>Our scope</li></ul>
-                <div class="who"><span>Clinicians</span></div>
-              </div>
-              <div class="foot"><button class="done" type="button" data-done="sportpsych" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="sport-psych.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-            </article>
-            <article class="card a-approach" data-slug="assessments" data-roles="clinician driving">
-              <div class="meta"><span class="pill">Interactive map</span></div>
-              <div class="body">
-                <h4><a href="assessments.html">Assessment Atlas</a></h4>
-                <p class="d">40 assessments across 10 domains: what each measures, who fills it in, telehealth fit, and which of our report templates it feeds.</p>
-                <ul class="inside"><li>Domain map</li><li>Report links</li><li>Finder by age</li><li>How we pick</li></ul>
-                <div class="who"><span>Clinicians</span><span>Driving OT</span></div>
-              </div>
-              <div class="foot"><button class="done" type="button" data-done="assessments" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="assessments.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-            </article>
-            <article class="card a-approach" data-slug="ef" data-roles="clinician lead ops marketing driving">
-              <div class="meta"><span class="pill">Interactive map</span></div>
-              <div class="body">
-                <h4><a href="executive-function.html">Executive Function</a></h4>
-                <p class="d">Ten EF skills, the models behind them, and 34 supports in our order: environment, routine, tool, then skill.</p>
-                <ul class="inside"><li>Skill map</li><li>Models in context</li><li>Supports finder</li><li>Neuroaffirming lens</li></ul>
-                <div class="who"><span>Everyone</span></div>
-              </div>
-              <div class="foot"><button class="done" type="button" data-done="ef" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="executive-function.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-            </article>
-          </div>
-        </div>
-
-        <div class="area a-growth" data-area>
-          <div class="area-h"><h3>Growth</h3><p>Content, referrers and new service lines</p></div>
-          <div class="cards">
-            <article class="card a-growth" data-slug="growthhq" data-roles="marketing clinician lead">
-              <div class="meta"><span class="pill">Start here</span></div>
-              <div class="body">
-                <h4><a href="growth.html">Growth HQ</a></h4>
-                <p class="d">How Estus grows, on one page. The plan, the weekly rhythm, the scoreboard, where every post sends people, the hook bank and the copy check.</p>
-                <ul class="inside"><li>The plan</li><li>Weekly rhythm</li><li>Scoreboard</li><li>CTA map</li></ul>
-                <div class="who"><span>Marketing</span><span>Clinicians</span><span>Team leaders</span></div>
-              </div>
-              <div class="foot"><button class="done" type="button" data-done="growthhq" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="growth.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-            </article>
-            <article class="card a-growth" data-slug="mustbenice" data-roles="marketing clinician">
-              <div class="meta"><span class="pill">Content series</span></div>
-              <div class="body">
-                <h4><a href="must-be-nice.html">Must Be Nice Series</a></h4>
-                <p class="d">One line, one turn, one flip, one small hinge. 55 ready cards, a post maker with overlays and carousel slides, and a batch day plan.</p>
-                <ul class="inside"><li>Card bank</li><li>Post maker</li><li>Inversion</li><li>Batch day</li></ul>
-                <div class="who"><span>Marketing</span><span>Clinicians</span></div>
-              </div>
-              <div class="foot"><button class="done" type="button" data-done="mustbenice" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="must-be-nice.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-            </article>
-            <article class="card a-growth" data-slug="shortsmaker" data-roles="marketing clinician lead">
-              <div class="meta"><span class="pill">Interactive tool</span></div>
-              <div class="body">
-                <h4><a href="shorts.html">Shorts Studio</a></h4>
-                <p class="d">One builder for a script or a finished edit from one phone clip, the playbook of formats, transitions and end screens, the B-roll library and the tagging standard.</p>
-                <ul class="inside"><li>Prompt builder</li><li>Playbook</li><li>B-roll library</li><li>Tagging guide</li></ul>
-                <div class="who"><span>Marketing</span><span>Clinicians</span><span>Team leaders</span></div>
-              </div>
-              <div class="foot"><button class="done" type="button" data-done="shortsmaker" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="shorts.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-            </article>
-            <article class="card a-growth" data-slug="clips" data-roles="marketing clinician lead">
-              <div class="meta"><span class="pill">Library</span></div>
-              <div class="body">
-                <h4><a href="clips.html">Podcast Clip Library</a></h4>
-                <p class="d">Every talking-head clip Britt has cut from our podcasts and webinars: 35 clips, 15 edited shorts ready to post, each with a one-sentence hook, the key line, the transcript and where it lives in Drive.</p>
-                <ul class="inside"><li>Clip library</li><li>Hooks</li><li>Edit prompts</li><li>To fix</li></ul>
-                <div class="who"><span>Marketing</span><span>Clinicians</span><span>Team leaders</span></div>
-              </div>
-              <div class="foot"><button class="done" type="button" data-done="clips" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="clips.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-            </article>
-            <article class="card a-growth" data-slug="metaads" data-roles="marketing clinician lead">
-              <div class="meta"><span class="pill">Interactive course</span></div>
-              <div class="body">
-                <h4><a href="meta.html">Meta Ads System</a></h4>
-                <p class="d">Brandon Willington's Meta ads course, rebuilt for Estus. Funnel maths, the hook bank, ad scripts, the copy check, Must be nice to ads, landing page, show rate and the weekly review.</p>
-                <ul class="inside"><li>Forecast</li><li>Hook bank</li><li>Ad scripts</li><li>Copy check</li></ul>
-                <div class="who"><span>Marketing</span><span>Clinicians</span><span>Team leaders</span></div>
-              </div>
-              <div class="foot"><button class="done" type="button" data-done="metaads" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="meta.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-            </article>
-            <article class="card a-growth" data-slug="copy" data-roles="marketing clinician lead driving">
-              <div class="meta"><span class="pill">Interactive tool</span></div>
-              <div class="body">
-                <h4><a href="copy.html">Geometry Puzzle Copy</a></h4>
-                <p class="d">Find the one fact that makes yes feel obvious, then say it in plain words. A live pitch checker, word swaps and Estus examples.</p>
-                <ul class="inside"><li>Fact finder</li><li>Pitch lab</li><li>Word swaps</li><li>Prompt</li></ul>
-                <div class="who"><span>Marketing</span><span>Clinicians</span></div>
-              </div>
-              <div class="foot"><button class="done" type="button" data-done="copy" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="copy.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-            </article>
-            <article class="card a-growth" data-slug="gp" data-roles="driving lead">
-              <div class="meta"><span class="pill">Interactive trainer</span></div>
-              <div class="body">
-                <h4><a href="gp.html">GP Referral Pathways</a></h4>
-                <p class="d">Become the easy answer to a form GPs dread. The pathway, what to say, the lunch and learn, and a GP teaching module.</p>
-                <ul class="inside"><li>Nurture sequence</li><li>Scripts</li><li>Lunch and learn</li><li>GP module</li></ul>
-                <div class="who"><span>Driving OT</span><span>Team leaders</span></div>
-              </div>
-              <div class="foot"><button class="done" type="button" data-done="gp" aria-pressed="false"><i aria-hidden="true"></i>Mark done</button><a class="open" href="gp.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-            </article>
-          </div>
-        </div>
-      </div>
-      <p class="empty" id="empty" hidden>Nothing for this role yet.</p>
-    </div>
-  </section>
-
-  <section class="s" id="templates" style="padding-top:8px">
-    <div class="wrap">
-      <div class="s-head">
-        <div><p class="eyebrow">Reports, handouts and admin</p><h2>Templates</h2></div>
-        <p class="sub">Builders for the reports we write, the handouts we give, and your email signature. Each one follows the Estus look and saves in your browser.</p>
-      </div>
-      <div class="tplg">
-        <div class="area a-tpl">
-          <div class="area-h"><h3>Reports</h3><p>What we write for funders, schools and referrers</p></div>
-          <div class="tpl">
-          <article class="card a-tpl" data-slug="fca">
-            <div class="meta"><span class="pill">Report builder</span><span class="code">NDIS</span></div>
-            <div class="body">
-              <h4><a href="fca.html">Functional Capacity Assessment</a></h4>
-              <p class="d">Write an FCA one section at a time. Score bands fill in, support costs calculate, and checks flag gaps and wording before you send.</p>
-              <ul class="inside"><li>22 sections</li><li>Score tables</li><li>Support calculator</li><li>Word export</li></ul>
-              <div class="who"><span>Clinicians</span></div>
-            </div>
-            <div class="foot"><span class="hint" style="font:600 12px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Drafts save in this browser</span><a class="open" href="fca.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-          </article>
-          <article class="card a-tpl" data-slug="ptd">
-            <div class="meta"><span class="pill">Report builder</span><span class="code">NDIS</span></div>
-            <div class="body">
-              <h4><a href="ptd.html">Potential to Drive</a></h4>
-              <p class="d">For learner drivers. Everyday skills, passenger commentary drive, Michon levels, outcome and lesson goals the instructor can track.</p>
-              <ul class="inside"><li>17 sections</li><li>Hazard search scoring</li><li>Lesson goals</li><li>GP letter</li></ul>
-              <div class="who"><span>Driving OTs</span></div>
-            </div>
-            <div class="foot"><span class="hint" style="font:600 12px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Drafts save in this browser</span><a class="open" href="ptd.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-          </article>
-          <article class="card a-tpl" data-slug="ftd">
-            <div class="meta"><span class="pill">Report builder</span><span class="code">Austroads</span></div>
-            <div class="body">
-              <h4><a href="ftd.html">Medical Fitness to Drive</a></h4>
-              <p class="d">For licensed drivers after a medical change. Vision against the Austroads standard, cognition, on-road findings, licence conditions and recommendations.</p>
-              <ul class="inside"><li>13 sections</li><li>Austroads vision check</li><li>On-road flags</li><li>GP and lesson letters</li></ul>
-              <div class="who"><span>Driving OTs</span></div>
-            </div>
-            <div class="foot"><span class="hint" style="font:600 12px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Drafts save in this browser</span><a class="open" href="ftd.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-          </article>
-          <article class="card a-tpl" data-slug="summary">
-            <div class="meta"><span class="pill">Report builder</span><span class="code">NDIS</span></div>
-            <div class="body">
-              <h4><a href="summary.html">Therapy Service Summary</a></h4>
-              <p class="d">A short report for a plan reassessment, a progress update or a handover. Sessions and hours, progress on each goal, and recommendations that each carry a reason.</p>
-              <ul class="inside"><li>9 sections</li><li>Hours used</li><li>Goal ratings</li><li>Cost totals</li></ul>
-              <div class="who"><span>Clinicians</span></div>
-            </div>
-            <div class="foot"><span class="hint" style="font:600 12px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Drafts save in this browser</span><a class="open" href="summary.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-          </article>
-          <article class="card a-tpl" data-slug="letter">
-            <div class="meta"><span class="pill">Letter</span><span class="code">Any reader</span></div>
-            <div class="body">
-              <h4><a href="letter.html">Letter of Support</a></h4>
-              <p class="d">A clean letter on Estus letterhead. Fill in who it is about and who it goes to, write the letter, download.</p>
-              <ul class="inside"><li>Letterhead</li><li>Your signature</li><li>Word export</li></ul>
-              <div class="who"><span>Clinicians</span></div>
-            </div>
-            <div class="foot"><span class="hint" style="font:600 12px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Drafts save in this browser</span><a class="open" href="letter.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-          </article>
-          <article class="card a-tpl" data-slug="sensory">
-            <div class="meta"><span class="pill">Report builder</span><span class="code">Schools</span></div>
-            <div class="body">
-              <h4><a href="sensory.html">Sensory Profile Report</a></h4>
-              <p class="d">Turn Sensory Profile results into a plain-language summary for schools and other stakeholders. Home and school side by side, what it means, and strategies matched to the results.</p>
-              <ul class="inside"><li>Home and school</li><li>Meaning builds itself</li><li>Strategy bank</li><li>Who does what</li></ul>
-              <div class="who"><span>Clinicians</span></div>
-            </div>
-            <div class="foot"><span class="hint" style="font:600 12px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Drafts save in this browser</span><a class="open" href="sensory.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-          </article>
-          </div>
-        </div>
-        <div class="area a-tpl">
-          <div class="area-h"><h3>Handouts</h3><p>What we give clients, families and support teams</p></div>
-          <div class="tpl">
-          <article class="card a-tpl" data-slug="goals">
-            <div class="meta"><span class="pill">Client handout</span><span class="code">SMART</span></div>
-            <div class="body">
-              <h4><a href="goals.html">Goal Plan</a></h4>
-              <p class="d">Set SMART goals in the client's own words. Fill the five parts and the sentence writes itself. Baseline, steps, NDIS link, and COPM or GAS ratings if you use them.</p>
-              <ul class="inside"><li>Goal sentence</li><li>SMART check</li><li>Neuroaffirming checks</li><li>COPM and GAS</li></ul>
-              <div class="who"><span>Clinicians</span></div>
-            </div>
-            <div class="foot"><span class="hint" style="font:600 12px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Drafts save in this browser</span><a class="open" href="goals.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-          </article>
-          <article class="card a-tpl" data-slug="chaining">
-            <div class="meta"><span class="pill">Client handout</span><span class="code">Home program</span></div>
-            <div class="body">
-              <h4><a href="chaining.html">Chaining Plan</a></h4>
-              <p class="d">Forward or backward chaining for one routine. Break it into steps, set who does what this week, and send home a plan that explains both ways.</p>
-              <ul class="inside"><li>Starter routines</li><li>Who does which step</li><li>When to add a step</li><li>Practice log</li></ul>
-              <div class="who"><span>Clinicians</span></div>
-            </div>
-            <div class="foot"><span class="hint" style="font:600 12px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Drafts save in this browser</span><a class="open" href="chaining.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-          </article>
-          <article class="card a-tpl" data-slug="prompts">
-            <div class="meta"><span class="pill">Handout</span><span class="code">Support workers</span></div>
-            <div class="body">
-              <h4><a href="prompts.html">Prompt Hierarchy Guide</a></h4>
-              <p class="d">The prompt ladder for support workers, from waiting to doing it together. General education only: it teaches the idea and never sets prompt levels for one person.</p>
-              <ul class="inside"><li>8-level ladder</li><li>Everyday examples</li><li>Fading</li><li>Consent for touch</li></ul>
-              <div class="who"><span>Clinicians</span><span>Support teams</span></div>
-            </div>
-            <div class="foot"><span class="hint" style="font:600 12px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Drafts save in this browser</span><a class="open" href="prompts.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-          </article>
-          <article class="card a-tpl" data-slug="planner">
-            <div class="meta"><span class="pill">Client handout</span><span class="code">Students</span></div>
-            <div class="body">
-              <h4><a href="planner.html">Student Planner</a></h4>
-              <p class="d">A one-week planner for a student. The week at a glance, assessments planned backwards from the due date, a study recipe and a pack list. Empty parts print blank.</p>
-              <ul class="inside"><li>Week grid</li><li>Plan backwards</li><li>Study recipe</li><li>Pack list</li></ul>
-              <div class="who"><span>Clinicians</span></div>
-            </div>
-            <div class="foot"><span class="hint" style="font:600 12px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Drafts save in this browser</span><a class="open" href="planner.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-          </article>
-          </div>
-        </div>
-        <div class="area a-tpl">
-          <div class="area-h"><h3>Admin</h3><p>For you</p></div>
-          <div class="tpl">
-          <article class="card a-tpl" data-slug="signature">
-            <div class="meta"><span class="pill">Builder</span><span class="code">Gmail</span></div>
-            <div class="body">
-              <h4><a href="signature.html">Email Signature</a></h4>
-              <p class="d">Your Estus signature for Gmail. Pick your clinical days, add your work days or a leave notice if you need them, then copy and paste. Ready in two minutes.</p>
-              <ul class="inside"><li>Brand look</li><li>Email hours</li><li>Booking button</li><li>Copy for Gmail</li></ul>
-              <div class="who"><span>Everyone</span></div>
-            </div>
-            <div class="foot"><span class="hint" style="font:600 12px var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Saves in this browser</span><a class="open" href="signature.html">Open <span aria-hidden="true">&rarr;</span></a></div>
-          </article>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+    <nav class="tree" id="tree"></nav>
+  </aside>
+  <section class="pane" id="pane"></section>
 </main>
 
 <footer>
@@ -738,52 +190,209 @@ footer .wordmark{color:var(--fg)}
 </footer>
 
 <script>
-(function(){
-  var KEY='hub_done', slugs=['playbook','journey','welcome','nurture','check','growthhq','mustbenice','shortsmaker','clips','metaads','copy','gp','hinges','sleep','morning','energy','load','transition','shutdown','neuroaffirming','otmodels','act','cbt','beliefs','mi','gaming','nervous','problemsolving','sportpsych','assessments','ef','culture','accelerator','calendar','gm'];
-  function load(){try{return JSON.parse(localStorage.getItem(KEY))||{}}catch(e){return {}}}
-  function save(v){try{localStorage.setItem(KEY,JSON.stringify(v))}catch(e){}}
-  var state=load();
-  var cells=document.getElementById('cells');
-  slugs.forEach(function(){cells.appendChild(document.createElement('i'))});
-  document.getElementById('totalN').textContent=slugs.length;
-  function render(){
-    var n=0;
-    slugs.forEach(function(s,i){
-      var on=!!state[s]; if(on)n++;
-      cells.children[i].className=on?'on':'';
-      var b=document.querySelector('[data-done="'+s+'"]');
-      if(b){b.setAttribute('aria-pressed',on);b.lastChild.textContent=on?'Done':'Mark done';b.firstChild.textContent=on?'✓':''}
-      var ok=document.querySelector('[data-ok="'+s+'"]'); if(ok) ok.hidden=!on;
-    });
-    document.getElementById('doneN').textContent=n;
-  }
-  document.querySelectorAll('[data-done]').forEach(function(b){
-    b.addEventListener('click',function(){var s=b.getAttribute('data-done');if(state[s])delete state[s];else state[s]=1;save(state);render();});
-  });
-  document.getElementById('resetDone').addEventListener('click',function(){state={};save(state);render();});
-  window.addEventListener('pageshow',function(){state=load();render();});
-  render();
+/* ---------- The hub. Add a page: add it to M, then put its slug in a folder or group in HUB. ----------
+   M[slug]: t title, h page, p pill, d description, i what's inside, w who it's for, r roles for the filter,
+            k code (optional), x true for templates (no progress tick, drafts save locally). */
+var EV='clinician lead ops marketing driving';
+var M={
+  culture:{t:'Estus Culture',h:'culture.html',p:'Start here',d:'What we believe, how we work, our rituals, supervision, who we see and how we lead.',i:['Beliefs','Rituals','Design your week'],w:['Everyone'],r:EV},
+  playbook:{t:'Training Playbook',h:'playbook.html',p:'Interactive playbook',d:'The Estus Session, the correction and lock-in loop, and how we adjust the method for a neurodivergent team.',i:['5-phase session','Kind vs wicked','Trainer run-sheet'],w:['Everyone','Trainers'],r:EV},
+  calendar:{t:'Calendar Management',h:'calendar.html',p:'Interactive tool',d:'Lifestyle first. The three Estus calendars, build order, transition prompts, and a weekly planner with a Today view.',i:['Three calendars','Transition prompts','Planner'],w:['Everyone'],r:EV},
+  gm:{t:'GM Mode',h:'gm.html',p:'Interactive tool',d:'ACT for clinicians, run like a GM\'s front office. A 60-second reset, values turned into protected calendar blocks, and habits built as booked reps.',i:['60-second reset','Protected blocks','Rep tracker'],w:['Everyone'],r:EV},
+  accelerator:{t:'Estus Accelerator',h:'accelerator.html',p:'Program',d:'The 2 to 3 year program: three phases, four leadership pathways, six specialisations and a board of advisors.',i:['Phases','Pathways','Progress tracker'],w:['Clinicians','Team leaders'],r:'clinician lead'},
+  check:{t:'Clinician Check Card',h:'check.html',p:'Interactive tool',k:'EH-C2',d:'Run the fortnightly 1:1 live. Numbers check themselves against the thresholds, and a summary is ready to send.',i:['Live check','Thresholds','Why each check','Copy summary'],w:['Team leaders','Clinicians'],r:'lead clinician'},
+  selfmastery:{t:'Self-Mastery Shelf',h:'self-mastery.html',p:'Book shelf',d:'Atomic Habits, Thinking in Bets, The 12 Levers, Situated, Discipline Is Destiny and Goggins, chapter by chapter. Every idea graded against the research and tied to our Stoic map.',i:['Chapter by chapter','Myth-buster','Daily loop','Goggins Lite'],w:['Everyone'],r:EV},
 
-  var chips=document.querySelectorAll('.chip');
-  function filter(role){
-    var any=false;
-    document.querySelectorAll('[data-area]').forEach(function(a){
-      var vis=0;
-      a.querySelectorAll('.card').forEach(function(c){
-        var show=role==='all'||c.getAttribute('data-roles').split(' ').indexOf(role)>-1;
-        c.hidden=!show; if(show)vis++;
-      });
-      a.hidden=!vis; if(vis)any=true;
+  journey:{t:'Client Journey Checklist',h:'journey.html',p:'Interactive tool',k:'EH-C1',d:'Track a client from referral to 12-month review, and learn why the route, goals and motivational interviewing are part of the therapy.',i:['Client tracker','Goals','MI practice','Continuity'],w:['Clinicians','Ops'],r:'clinician ops lead'},
+  nurture:{t:'Nurture Trainer',h:'nurture.html',p:'Interactive trainer',d:'Form first, then the call. The emails and texts that get a new lead to the referral form and the booking, for online OT and driving.',i:['Lead and form sequences','Fill-once messages','Getting them to show','Practice'],w:['Clinicians','Ops','Driving OT'],r:'clinician ops driving'},
+  welcome:{t:'Welcome Call Playbook',h:'welcome.html',p:'Interactive playbook',d:'Run the free 15 minute call with CLOSER, the Estus way. Fill once, then copy the right message for a client, a parent or a coordinator.',i:['CLOSER frame','Objection finder','Fill-once templates','Peer review scorecard'],w:['Clinicians'],r:'clinician'},
+
+  neuroaffirming:{t:'Neuroaffirming Practice',h:'neuroaffirming.html',p:'The Estus way',d:'Autism, ADHD, PDA, dyspraxia and dyslexia, the ideas that reshaped how we see them, and how the Estus way shows up in every session, goal and report.',i:['Eight commitments','Do and don\'t','Frameworks in context','Language guide'],w:['Everyone'],r:EV},
+  otmodels:{t:'OT Models and Frames',h:'ot-models.html',p:'Interactive map',d:'MOHO, CMOP-E, PEO and Kawa, six frames of reference and three process frameworks: when to reach for each, the evidence, and where the ideas came from.',i:['Model map','Source theories','Start from a question','Pairing guide'],w:['Clinicians','Driving OT'],r:'clinician driving'},
+  assessments:{t:'Assessment Atlas',h:'assessments.html',p:'Interactive map',d:'40 assessments across 10 domains: what each measures, who fills it in, telehealth fit, and which of our report templates it feeds.',i:['Domain map','Report links','Finder by age','How we pick'],w:['Clinicians','Driving OT'],r:'clinician driving'},
+  ef:{t:'Executive Function',h:'executive-function.html',p:'Interactive map',d:'Ten EF skills, the models behind them, and 34 supports in our order: environment, routine, tool, then skill.',i:['Skill map','Models in context','Supports finder','Neuroaffirming lens'],w:['Everyone'],r:EV},
+  nervous:{t:'Nervous System',h:'nervous.html',p:'Interactive lab',d:'Accelerator and brake, the live body lab, the window of tolerance, interoception and co-regulation.',i:['Live lab','Body check-in','Regulation menu'],w:['Everyone','Parents'],r:EV},
+  act:{t:'ACT',h:'act.html',p:'Approach',d:'Psychological flexibility for doing what matters. Defusion and values tools, done the neuroaffirming way.',i:['Six processes','Choice point','Tools','Game and quiz'],w:['Clinicians'],r:'clinician'},
+  cbt:{t:'CBT',h:'cbt.html',p:'Approach',d:'The thought, feeling, body, action cycle. Thought record and exposure ladder tools, with neuroaffirming checks.',i:['Cycle','Thought record','Ladder'],w:['Clinicians','Driving OT'],r:'clinician driving'},
+  beliefs:{t:'Core Beliefs',h:'beliefs.html',p:'Approach',d:'The deep stories under everyday thoughts, and the beliefs neurodivergent clients are often taught. Downward arrow, continuum and evidence log.',i:['Three layers','Taught beliefs','Tools','Practice'],w:['Clinicians'],r:'clinician'},
+  mi:{t:'Motivational Interviewing',h:'mi.html',p:'Approach',d:'Spirit, OARS, change talk and the righting reflex. Readiness ruler and a 6-question practice.',i:['OARS','Readiness ruler','Practice'],w:['Clinicians','Ops'],r:'clinician ops'},
+  gaming:{t:'Gaming-Informed Therapy',h:'gaming.html',p:'Approach',d:'How we use games and our Minecraft server for OT goals. Goal-to-game mapper, safety and teen moderators.',i:['Our server','Goal to game','Safety'],w:['Clinicians'],r:'clinician'},
+  problemsolving:{t:'Problem Solving',h:'problem-solving.html',p:'Interactive lab',d:'18 plain-language thinking tools, from top down and bottom up to bottleneck, the region-beta paradox, Rule of 100 and task analysis.',i:['Bottleneck simulator','Task analysis and chaining','Rule of 100 tracker','Run your own problem'],w:['Everyone'],r:EV},
+  sportpsych:{t:'Sport Psychology',h:'sport-psych.html',p:'Interactive map',d:'The ten main areas of sport and exercise psychology on one map, with a deep dive into each and where it sits in wider psychology.',i:['Mind map','Theories and measures','Context view','Our scope'],w:['Clinicians'],r:'clinician'},
+  hinges:{t:'Small Hinges',h:'hinges.html',p:'Series overview',d:'One focused session per area. The model, Find Your Hinge, the session shape, and where it fits.',i:['Find your hinge','Session shape','Where it fits'],w:['Clinicians','Marketing'],r:'clinician marketing'},
+  sleep:{t:'Sleep Architecture',h:'sleep.html',p:'Hinge',d:'A wind-down that works for your brain, and a sleep window you can actually keep.',i:['Session plan','Tool','Practice'],w:['Clinicians'],r:'clinician'},
+  morning:{t:'Morning Architecture',h:'morning.html',p:'Hinge',d:'Getting up and out the door without burning your energy before the day starts.',i:['Session plan','Tool','Practice'],w:['Clinicians'],r:'clinician'},
+  energy:{t:'Energy Management',h:'energy.html',p:'Hinge',d:'Spend energy on purpose, with rest built in rather than earned.',i:['Session plan','Tool','Practice'],w:['Clinicians'],r:'clinician'},
+  load:{t:'Cognitive Load Reduction',h:'load.html',p:'Hinge',d:'Fewer things to hold in your head, so the important ones get done.',i:['Session plan','Tool','Practice'],w:['Clinicians'],r:'clinician'},
+  transition:{t:'Transition Scaffolding',h:'transition.html',p:'Hinge',d:'Easier switches between tasks, places and parts of the day.',i:['Session plan','Tool','Practice'],w:['Clinicians'],r:'clinician'},
+  shutdown:{t:'Shutdown Ritual',h:'shutdown.html',p:'Hinge',d:'A clear end to the work day, so your brain can actually clock off.',i:['Session plan','Tool','Practice'],w:['Clinicians'],r:'clinician'},
+
+  growthhq:{t:'Growth HQ',h:'growth.html',p:'Start here',d:'How Estus grows, on one page. The plan, the weekly rhythm, the scoreboard, where every post sends people, the hook bank and the copy check.',i:['The plan','Weekly rhythm','Scoreboard','CTA map'],w:['Marketing','Clinicians','Team leaders'],r:'marketing clinician lead'},
+  metaads:{t:'Meta Ads System',h:'meta.html',p:'Interactive course',d:'Brandon Willington\'s Meta ads course, rebuilt for Estus. Funnel maths, the hook bank, ad scripts, the copy check, Must be nice to ads, landing page, show rate and the weekly review.',i:['Forecast','Hook bank','Ad scripts','Copy check'],w:['Marketing','Clinicians','Team leaders'],r:'marketing clinician lead'},
+  copy:{t:'Geometry Puzzle Copy',h:'copy.html',p:'Interactive tool',d:'Find the one fact that makes yes feel obvious, then say it in plain words. A live pitch checker, word swaps and Estus examples.',i:['Fact finder','Pitch lab','Word swaps','Prompt'],w:['Marketing','Clinicians'],r:'marketing clinician lead driving'},
+  gp:{t:'GP Referral Pathways',h:'gp.html',p:'Interactive trainer',d:'Become the easy answer to a form GPs dread. The pathway, what to say, the lunch and learn, and a GP teaching module.',i:['Nurture sequence','Scripts','Lunch and learn','GP module'],w:['Driving OT','Team leaders'],r:'driving lead'},
+  mustbenice:{t:'Must Be Nice Series',h:'must-be-nice.html',p:'Content series',d:'One line, one turn, one flip, one small hinge. 55 ready cards, a post maker with overlays and carousel slides, and a batch day plan.',i:['Card bank','Post maker','Inversion','Batch day'],w:['Marketing','Clinicians'],r:'marketing clinician'},
+  shortsmaker:{t:'Shorts Studio',h:'shorts.html',p:'Interactive tool',d:'One builder for a script or a finished edit from one phone clip, the playbook of formats, transitions and end screens, the B-roll library and the tagging standard.',i:['Prompt builder','Playbook','B-roll library','Tagging guide'],w:['Marketing','Clinicians','Team leaders'],r:'marketing clinician lead'},
+  clips:{t:'Podcast Clip Library',h:'clips.html',p:'Library',d:'Every talking-head clip Britt has cut from our podcasts and webinars: 35 clips, 15 edited shorts ready to post, each with a one-sentence hook, the key line, the transcript and where it lives in Drive.',i:['Clip library','Hooks','Edit prompts','To fix'],w:['Marketing','Clinicians','Team leaders'],r:'marketing clinician lead'},
+
+  fca:{x:1,t:'Functional Capacity Assessment',h:'fca.html',p:'Report builder',k:'NDIS',d:'Write an FCA one section at a time. Score bands fill in, support costs calculate, and checks flag gaps and wording before you send.',i:['22 sections','Score tables','Support calculator','Word export'],w:['Clinicians'],r:'clinician'},
+  ptd:{x:1,t:'Potential to Drive',h:'ptd.html',p:'Report builder',k:'NDIS',d:'For learner drivers. Everyday skills, passenger commentary drive, Michon levels, outcome and lesson goals the instructor can track.',i:['17 sections','Hazard search scoring','Lesson goals','GP letter'],w:['Driving OTs'],r:'driving'},
+  ftd:{x:1,t:'Medical Fitness to Drive',h:'ftd.html',p:'Report builder',k:'Austroads',d:'For licensed drivers after a medical change. Vision against the Austroads standard, cognition, on-road findings, licence conditions and recommendations.',i:['13 sections','Austroads vision check','On-road flags','GP and lesson letters'],w:['Driving OTs'],r:'driving'},
+  summary:{x:1,t:'Therapy Service Summary',h:'summary.html',p:'Report builder',k:'NDIS',d:'A short report for a plan reassessment, a progress update or a handover. Sessions and hours, progress on each goal, and recommendations that each carry a reason.',i:['9 sections','Hours used','Goal ratings','Cost totals'],w:['Clinicians'],r:'clinician'},
+  sensory:{x:1,t:'Sensory Profile Report',h:'sensory.html',p:'Report builder',k:'Schools',d:'Turn Sensory Profile results into a plain-language summary for schools and other stakeholders. Home and school side by side, what it means, and strategies matched to the results.',i:['Home and school','Meaning builds itself','Strategy bank','Who does what'],w:['Clinicians'],r:'clinician'},
+  letter:{x:1,t:'Letter of Support',h:'letter.html',p:'Letter',k:'Any reader',d:'A clean letter on Estus letterhead. Fill in who it is about and who it goes to, write the letter, download.',i:['Letterhead','Your signature','Word export'],w:['Clinicians'],r:'clinician driving'},
+  goals:{x:1,t:'Goal Plan',h:'goals.html',p:'Client handout',k:'SMART',d:'Set SMART goals in the client\'s own words. Fill the five parts and the sentence writes itself. Baseline, steps, NDIS link, and COPM or GAS ratings if you use them.',i:['Goal sentence','SMART check','Neuroaffirming checks','COPM and GAS'],w:['Clinicians'],r:'clinician'},
+  chaining:{x:1,t:'Chaining Plan',h:'chaining.html',p:'Client handout',k:'Home program',d:'Forward or backward chaining for one routine. Break it into steps, set who does what this week, and send home a plan that explains both ways.',i:['Starter routines','Who does which step','When to add a step','Practice log'],w:['Clinicians'],r:'clinician'},
+  prompts:{x:1,t:'Prompt Hierarchy Guide',h:'prompts.html',p:'Handout',k:'Support workers',d:'The prompt ladder for support workers, from waiting to doing it together. General education only: it teaches the idea and never sets prompt levels for one person.',i:['8-level ladder','Everyday examples','Fading','Consent for touch'],w:['Clinicians','Support teams'],r:'clinician'},
+  planner:{x:1,t:'Student Planner',h:'planner.html',p:'Client handout',k:'Students',d:'A one-week planner for a student. The week at a glance, assessments planned backwards from the due date, a study recipe and a pack list. Empty parts print blank.',i:['Week grid','Plan backwards','Study recipe','Pack list'],w:['Clinicians'],r:'clinician'},
+  signature:{x:1,t:'Email Signature',h:'signature.html',p:'Builder',k:'Gmail',d:'Your Estus signature for Gmail. Pick your clinical days, add your work days or a leave notice if you need them, then copy and paste. Ready in two minutes.',i:['Brand look','Email hours','Booking button','Copy for Gmail'],w:['Everyone'],r:EV}
+};
+
+/* Folders. A folder has items (a flat list) or groups (each with items). "ordered" folders show step numbers.
+   Start here points at trainings that also live in their home folder. */
+var HUB=[
+  {id:'start',n:'Start here',c:'teal',b:'Your first two weeks. Work through these in order: learn the method, then follow a client from referral to review.',ordered:1,items:['culture','playbook','journey','welcome','check','hinges']},
+  {id:'team',n:'Team and culture',c:'teal',b:'How we work, how we look after ourselves, and how you grow here.',groups:[
+    {id:'ways',n:'How we work',b:'Culture, the training method and your week',items:['culture','playbook','calendar','gm']},
+    {id:'grow',n:'Growing here',b:'Your pathway, your 1:1 and your reading',items:['accelerator','check','selfmastery']}]},
+  {id:'client',n:'Client pathway',c:'blue',b:'From first enquiry to the 12-month review, in the order a client meets us.',items:['nurture','welcome','journey']},
+  {id:'therapy',n:'Therapy',c:'navy',b:'The Estus way, the approaches we use, and the Small Hinges programs.',groups:[
+    {id:'way',n:'The Estus way',b:'Foundations every clinician needs',items:['neuroaffirming','otmodels','assessments','ef','nervous']},
+    {id:'approaches',n:'Approaches',b:'Frameworks and tools for sessions',items:['act','cbt','beliefs','mi','gaming','problemsolving','sportpsych']},
+    {id:'smallhinges',n:'Small Hinges',b:'One session, one area that unlocks the rest',items:['hinges','sleep','morning','energy','load','transition','shutdown']}]},
+  {id:'growth',n:'Growth',c:'plum',b:'How Estus grows: the plan, referrers, ads and content.',groups:[
+    {id:'plan',n:'Plan and referrers',b:'Start with Growth HQ',items:['growthhq','metaads','copy','gp']},
+    {id:'content',n:'Content',b:'Make posts, shorts and clips',items:['mustbenice','shortsmaker','clips']}]},
+  {id:'templates',n:'Templates',c:'slate',b:'Builders for the reports we write, the handouts we give, and your email signature. Drafts save in your browser.',groups:[
+    {id:'reports',n:'Reports',b:'For funders, schools and referrers',items:['fca','ptd','ftd','summary','sensory','letter']},
+    {id:'handouts',n:'Handouts',b:'For clients, families and support teams',items:['goals','chaining','prompts','planner']},
+    {id:'admin',n:'Admin',b:'For you',items:['signature']}]}
+];
+
+(function(){
+  var KEY='hub_done',OPEN='hub_open';
+  function ls(k,d){try{var v=JSON.parse(localStorage.getItem(k));return v==null?d:v}catch(e){return d}}
+  function put(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+  var done=ls(KEY,{}),open=ls(OPEN,{start:1}),sel='f-start',role='all',q='';
+  try{role=localStorage.getItem('hub_role')||'all'}catch(e){}
+  var tree=document.getElementById('tree'),pane=document.getElementById('pane'),narrow=window.matchMedia('(max-width:860px)');
+  var TRACK=Object.keys(M).filter(function(s){return !M[s].x});
+
+  /* lookups */
+  var NODES={},HOME={};
+  HUB.forEach(function(f){NODES['f-'+f.id]={f:f};
+    (f.groups||[]).forEach(function(g){NODES['g-'+g.id]={f:f,g:g};g.items.forEach(function(s){HOME[s]={f:f,g:g}})});
+    if(f.items&&f.id!=='start')f.items.forEach(function(s){HOME[s]={f:f}});
+  });
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function shows(s){var m=M[s];if(role!=='all'&&m.r.split(' ').indexOf(role)<0)return false;
+    if(q){var hay=(m.t+' '+m.d+' '+m.i.join(' ')+' '+m.p).toLowerCase();return q.split(/\s+/).every(function(w){return hay.indexOf(w)>-1})}return true}
+  function vis(list){return list.filter(shows)}
+  function allItems(f){return f.items?f.items:[].concat.apply([],f.groups.map(function(g){return g.items}))}
+  function count(list){var t=list.filter(function(s){return !M[s].x});if(!t.length)return '<span class="cnt">'+list.length+'</span>';
+    var d=t.filter(function(s){return done[s]}).length;return '<span class="cnt'+(d===t.length?' all':'')+'">'+d+'/'+t.length+'</span>'}
+  var CHEV='<svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg>';
+  function tick(s){return M[s].x?'<span class="tick na" aria-hidden="true"></span>':'<span class="tick'+(done[s]?' on':'')+'" aria-hidden="true">'+(done[s]?'✓':'')+'</span>'}
+  function isOpen(id){return q?true:!!open[id]}
+
+  /* tree */
+  function modRow(s,f,n){return '<li><button class="node n-m c-'+f.c+'" data-sel="'+s+'"'+(sel===s?' aria-current="true"':'')+'>'+
+    (n?'<span class="num">'+n+'</span>':tick(s))+'<span class="lbl">'+esc(M[s].t)+'</span>'+(n?tick(s):'')+'</button>'+(sel===s?'<div data-slot></div>':'')+'</li>'}
+  function drawTree(){
+    var h='<ul>',any=false;
+    HUB.forEach(function(f){
+      var list=vis(allItems(f));if(!list.length)return;any=true;
+      var fid='f-'+f.id,o=isOpen(f.id);
+      h+='<li class="c-'+f.c+'"><button class="node n-f c-'+f.c+'" data-sel="'+fid+'" aria-expanded="'+o+'"'+(sel===fid?' aria-current="true"':'')+'>'+CHEV+'<span class="sw" aria-hidden="true"></span><span class="lbl">'+esc(f.n)+'</span>'+count(list)+'</button>';
+      if(sel===fid)h+='<div data-slot></div>';
+      if(o){h+='<ul>';
+        if(f.items)vis(f.items).forEach(function(s){h+=modRow(s,f,f.ordered?f.items.indexOf(s)+1:0)});
+        else f.groups.forEach(function(g){var gl=vis(g.items);if(!gl.length)return;var gid='g-'+g.id,go=isOpen(g.id);
+          h+='<li><button class="node n-g c-'+f.c+'" data-sel="'+gid+'" aria-expanded="'+go+'"'+(sel===gid?' aria-current="true"':'')+'>'+CHEV+'<span class="lbl">'+esc(g.n)+'</span>'+count(gl)+'</button>';
+          if(sel===gid)h+='<div data-slot></div>';
+          if(go){h+='<ul class="lvl3">';gl.forEach(function(s){h+=modRow(s,f,0)});h+='</ul>'}
+          h+='</li>'});
+        h+='</ul>'}
+      h+='</li>';
     });
-    document.getElementById('empty').hidden=any;
-    try{localStorage.setItem('hub_role',role)}catch(e){}
+    h+='</ul>';
+    tree.innerHTML=any?h:'<p class="none">Nothing matches. Try another word or role.</p>';
   }
-  chips.forEach(function(ch){ch.addEventListener('click',function(){
-    chips.forEach(function(c){c.setAttribute('aria-pressed',c===ch)});
-    filter(ch.getAttribute('data-role'));
-  })});
-  var saved='all'; try{saved=localStorage.getItem('hub_role')||'all'}catch(e){}
-  chips.forEach(function(c){if(c.getAttribute('data-role')===saved){c.click()}});
+
+  /* pane */
+  function doneBtn(s){if(M[s].x)return '<span class="hint">Drafts save in this browser</span>';
+    var on=!!done[s];return '<button class="done" type="button" data-done="'+s+'" aria-pressed="'+on+'"><i aria-hidden="true">'+(on?'✓':'')+'</i>'+(on?'Done':'Mark done')+'</button>'}
+  function row(s,n){var m=M[s];return '<li class="row">'+(n?'<span class="num">'+n+'</span>':tick(s))+
+    '<button class="pick" data-sel="'+s+'"><b>'+esc(m.t)+'</b><span>'+esc(m.d)+'</span></button><a class="go" href="'+m.h+'">Open</a></li>'}
+  function crumb(parts){return '<p class="crumb">'+parts.map(function(p){return p[1]?'<button data-sel="'+p[1]+'">'+esc(p[0])+'</button>':'<span>'+esc(p[0])+'</span>'}).join('<span aria-hidden="true">›</span>')+'</p>'}
+  function drawPane(){
+    var h='',c;
+    if(M[sel]){var m=M[sel],home=HOME[sel],f=home.f,g=home.g;c=f.c;
+      var parts=[[f.n,'f-'+f.id]];if(g)parts.push([g.n,'g-'+g.id]);
+      h+=crumb(parts)+'<h2>'+esc(m.t)+'</h2><p style="margin-bottom:12px"><span class="pill">'+esc(m.p)+'</span>'+(m.k?'<span class="code">'+esc(m.k)+'</span>':'')+'</p>'+
+        '<p class="d">'+esc(m.d)+'</p><p class="h-lbl">Inside</p><ul class="inside">'+m.i.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul>'+
+        '<p class="h-lbl">For</p><div class="who">'+m.w.map(function(x){return '<span>'+esc(x)+'</span>'}).join('')+'</div>'+
+        '<div class="acts"><a class="open" href="'+m.h+'">Open '+(m.x?'builder':'training')+' <span aria-hidden="true">&rarr;</span></a>'+doneBtn(sel)+'</div>';
+      var sibs=(g?g.items:f.items).filter(function(s){return s!==sel&&shows(s)});
+      if(sibs.length&&!narrow.matches)h+='<div class="sib"><p class="h-lbl">Also in '+esc(g?g.n:f.n)+'</p><ul class="rows">'+sibs.map(function(s){return row(s)}).join('')+'</ul></div>';
+    }else if(NODES[sel]){var nd=NODES[sel];f=nd.f;c=f.c;
+      if(nd.g){g=nd.g;h+=crumb([[f.n,'f-'+f.id]])+'<h2>'+esc(g.n)+'</h2><p class="blurb">'+esc(g.b)+'</p><ul class="rows" style="margin-top:14px">'+vis(g.items).map(function(s){return row(s)}).join('')+'</ul>'}
+      else{h+='<h2>'+esc(f.n)+'</h2><p class="blurb">'+esc(f.b)+'</p>';
+        if(f.items)h+='<ul class="rows" style="margin-top:14px">'+vis(f.items).map(function(s){return row(s,f.ordered?f.items.indexOf(s)+1:0)}).join('')+'</ul>';
+        else f.groups.forEach(function(gg){var gl=vis(gg.items);if(!gl.length)return;
+          h+='<div class="grp"><div class="grp-h"><h3><button data-sel="g-'+gg.id+'">'+esc(gg.n)+'</button></h3><span>'+esc(gg.b)+'</span></div><ul class="rows">'+gl.map(function(s){return row(s)}).join('')+'</ul></div>'});
+      }
+    }
+    if(NODES[sel]&&!vis(NODES[sel].g?NODES[sel].g.items:allItems(NODES[sel].f)).length)h+='<p class="none" style="padding:14px 0 0">Nothing in here matches your search or role.</p>';
+    pane.className='pane c-'+(c||'teal');
+    pane.innerHTML='<div class="pane-in">'+h+'</div>';
+    /* phones: show module detail under the tapped row; folders and groups just open and close */
+    var slot=tree.querySelector('[data-slot]');
+    if(narrow.matches&&slot&&M[sel])slot.appendChild(pane);
+    else if(pane.parentNode!==document.querySelector('.ex'))document.querySelector('.ex').appendChild(pane);
+  }
+  function progress(){var n=TRACK.filter(function(s){return done[s]}).length;
+    document.getElementById('doneN').textContent=n;document.getElementById('totalN').textContent=TRACK.length;
+    document.getElementById('barFill').style.width=(TRACK.length?n/TRACK.length*100:0)+'%'}
+  function render(){drawTree();drawPane();progress()}
+
+  function revealPath(id){var home=HOME[id]||(NODES[id]&&NODES[id]);if(!home)return;open[home.f.id]=1;if(home.g)open[home.g.id]=1}
+  function select(id,fromTree){
+    var node=NODES[id];
+    if(node&&fromTree){var key=node.g?node.g.id:node.f.id;
+      if(!open[key]){open[key]=1}else if(sel===id||narrow.matches){delete open[key]}}
+    if(M[id]&&fromTree&&narrow.matches&&sel===id){sel='';}else{sel=id}
+    if(M[id]&&!fromTree)revealPath(id);
+    put(OPEN,open);
+    try{history.replaceState(null,'',sel?'#'+sel:location.pathname)}catch(e){}
+    render();
+    var b=tree.querySelector('[data-sel="'+(sel||id)+'"]');
+    if(b&&fromTree)b.focus({preventScroll:true});
+    if(b&&!fromTree){b.focus({preventScroll:true});if(narrow.matches)b.scrollIntoView({block:'start',behavior:'smooth'})}
+    if(!fromTree&&!narrow.matches)pane.scrollIntoView({block:'nearest'});
+  }
+
+  document.addEventListener('click',function(e){
+    var d=e.target.closest('[data-done]');
+    if(d){var s=d.getAttribute('data-done');if(done[s])delete done[s];else done[s]=1;put(KEY,done);render();return}
+    var t=e.target.closest('[data-sel]');
+    if(t){select(t.getAttribute('data-sel'),!!t.closest('#tree')&&!t.closest('.pane'))}
+  });
+  document.getElementById('q').addEventListener('input',function(e){q=e.target.value.trim().toLowerCase();render()});
+  q=document.getElementById('q').value.trim().toLowerCase();
+  var rs=document.getElementById('role');rs.value=role;
+  rs.addEventListener('change',function(){role=rs.value;try{localStorage.setItem('hub_role',role)}catch(e){}render()});
+  document.getElementById('resetDone').addEventListener('click',function(){done={};put(KEY,done);render()});
+  window.addEventListener('pageshow',function(){done=ls(KEY,{});render()});
+  window.addEventListener('storage',function(e){if(e.key===KEY){done=ls(KEY,{});render()}});
+  (narrow.addEventListener?narrow.addEventListener('change',render):narrow.addListener(render));
+
+  /* deep links: #slug, #f-folder, #g-group, plus the old #path, #shelf and #templates */
+  var LEG={path:'f-start',shelf:'f-team',templates:'f-templates'};
+  function fromHash(){var h=decodeURIComponent(location.hash.slice(1));h=LEG[h]||h;
+    if(M[h]||NODES[h]){sel=h;if(M[h])revealPath(h);else{var nd=NODES[h];open[nd.f.id]=1;if(nd.g)open[nd.g.id]=1}}}
+  fromHash();window.addEventListener('hashchange',function(){fromHash();render()});
+  render();
 })();
 </script>
 </body></html>
