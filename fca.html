@@ -376,7 +376,7 @@ function defaultSupports(){return[
  L("Capital","Specialist Disability Accommodation","nil")
 ]}
 function blank(){return{
- meta:{example:false,schema:1},
+ meta:{example:false,schema:1,title:"",foot:"",wp:true},
  client:{fullName:"",preferred:"",pronouns:"they",dob:"",address:"",ndis:"",planReview:""},
  assessor:{name:"",role:"Occupational Therapist",ahpra:"",email:""},
  dates:{from:"",to:"",report:""},
@@ -451,6 +451,13 @@ function setP(p,v){const ks=p.split(".");let o=S;for(let i=0;i<ks.length-1;i++){
 /* ---------- names and pronouns ---------- */
 const PRON={they:{label:"they/them",poss:"their"},she:{label:"she/her",poss:"her"},he:{label:"he/him",poss:"his"}};
 const pron=()=>PRON[S.client.pronouns]||PRON.they;
+/* Letterhead title, the line under it, and the footer. Set on the Sign-off page and saved with the draft:
+   meta.title (empty uses the standard title), meta.wp (adds "Without prejudice", on unless unticked), meta.foot. */
+const DOC_TITLE="Functional Capacity Assessment",DOC_SUB="Confidential. Not to be released in part or in full without participant permission.",WP="Without prejudice";
+const docTitle=()=>str(S.meta.title)||DOC_TITLE;
+const docSub=()=>S.meta.wp===false?DOC_SUB:DOC_SUB+" "+WP+".";
+const stdFoot=()=>(str(S.client.fullName)||"Client")+" | "+DOC_TITLE;
+const footLeft=()=>str(S.meta.foot)||stdFoot();
 function legalName(){return str(S.client.fullName).replace(/\s*\([^)]*\)\s*/g," ").replace(/\s+/g," ").trim()}
 function firstName(){return legalName().replace(/^(Mr|Mrs|Ms|Miss|Mx|Dr)\.?\s+/i,"").split(" ")[0]||""}
 function callName(){return str(S.client.preferred)||firstName()||"the participant"}
@@ -602,6 +609,9 @@ function rSignoff(){const n=CHECKS.length;return `<div class="form">
  ${F("signoff.closing","Closing statement",{type:"area",rows:3})}
  <div class="say">Signs off as <b>${esc(str(S.assessor.name)||"[assessor name]")}</b>, ${esc(str(S.assessor.role)||"Occupational Therapist")} | Estus Health${str(S.assessor.email)?", "+esc(S.assessor.email):""}. Change these under Client.</div>
  ${CB("signoff.read","I have read this report end to end")}
+ <div class="sub">Letterhead and footer</div>
+ <div class="grid2">${F("meta.title","Letterhead title",{ph:DOC_TITLE,hint:"The big title at the top of the report. Empty uses the standard one."})}${F("meta.foot","Footer",{ph:stdFoot(),hint:"Bottom left of every page. Empty uses the standard one."})}</div>
+ ${CB("meta.wp","Add \u201CWithout prejudice\u201D under the title")}
  <div class="done"><span class="hint" id="done-h">${n?`${n} check${n===1?"":"s"} still open. You can download now and finish in Word, or clear them here first.`:"All checks clear."}</span>
  <div style="display:flex;gap:10px;flex-wrap:wrap"><button type="button" class="big" data-act="docx">Download Word document</button>${n?`<button type="button" class="add" data-act="checks">Open checks</button>`:""}</div></div>
  </div>`}
@@ -827,7 +837,7 @@ function sheetHTML(B,interactive){const c=S.client;let h="";
    h+="<tbody>"+b.rows.map(r=>r.kind==="group"?`<tr class="grp"><td colspan="${b.w.length}">${esc(r.text)}</td></tr>`:`<tr>${r.cells.map((x,j)=>`<td${x.span?` colspan="${x.span}"`:""}${r.label&&j===0?' class="lab"':""}>${cellH(x.c)}</td>`).join("")}</tr>`).join("")+"</tbody></table></div>"}
   else if(b.t==="sign"){const a=S.assessor;h+=`<div class="sign">${paras(S.signoff.closing).map(x=>`<p>${esc(x)}</p>`).join("")}<p style="margin-top:10px">Kind regards,</p><div class="sp"></div><p style="margin:0"><b>${str(a.name)?esc(a.name):'<span class="gap">Assessor name</span>'}</b></p><p style="margin:0">${esc(str(a.role)||"Occupational Therapist")} | Estus Health</p>${str(a.email)?`<p style="margin:0">E: ${esc(a.email)}</p>`:""}<p style="margin:0">W: www.estushealth.com</p></div>`}
  });
- return `<article class="sheet"><header class="mast"><div><h2>Functional Capacity Assessment</h2><div class="ms">Confidential. Not to be released in part or in full without participant permission. Without prejudice.</div></div><div class="mk"><div class="bands" aria-hidden="true"><i></i><i></i><i></i><i></i></div><div class="wm"><b>ESTUS</b> <span>HEALTH</span></div></div></header><div class="doc">${h}</div><footer class="sfoot"><small>${esc(str(c.fullName)||"Client")} | Functional Capacity Assessment</small><small>hello@estushealth.com \u00B7 www.estushealth.com</small></footer></article>`}
+ return `<article class="sheet"><header class="mast"><div><h2>${esc(docTitle())}</h2><div class="ms">${esc(docSub())}</div></div><div class="mk"><div class="bands" aria-hidden="true"><i></i><i></i><i></i><i></i></div><div class="wm"><b>ESTUS</b> <span>HEALTH</span></div></div></header><div class="doc">${h}</div><footer class="sfoot"><small>${esc(footLeft())}</small><small>hello@estushealth.com \u00B7 www.estushealth.com</small></footer></article>`}
 function renderPreview(){main.innerHTML=`<div class="paper">${sheetHTML(build(),true)}</div>`;window.scrollTo({top:0})}
 main.addEventListener("click",e=>{const b=e.target.closest("[data-edit]");if(b)go(b.dataset.edit)});
 
@@ -893,7 +903,7 @@ function fontTableXML(){const fams={};FONTS.forEach((f,i)=>{(fams[f.name]=fams[f
  return `${XH}<w:fonts ${NS}>${Object.keys(fams).map(n=>`<w:font w:name="${n}"><w:charset w:val="00"/><w:family w:val="swiss"/><w:pitch w:val="variable"/>${fams[n].join("")}</w:font>`).join("")}</w:fonts>`}
 const settingsXML=()=>`${XH}<w:settings ${NS}><w:embedTrueTypeFonts/><w:saveSubsetFonts/><w:defaultTabStop w:val="720"/><w:characterSpacingControl w:val="doNotCompress"/><w:compat><w:compatSetting w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/office/word" w:val="15"/><w:compatSetting w:name="overrideTableStyleFontSizeAndJustification" w:uri="http://schemas.microsoft.com/office/word" w:val="1"/><w:compatSetting w:name="enableOpenTypeFeatures" w:uri="http://schemas.microsoft.com/office/word" w:val="1"/><w:compatSetting w:name="doNotFlipMirrorIndents" w:uri="http://schemas.microsoft.com/office/word" w:val="1"/></w:compat><w:themeFontLang w:val="en-AU"/></w:settings>`;
 function makeDocx(){const B=build();
- let body=P(R("Functional Capacity Assessment"),"Title")+P(R("Confidential. Not to be released in part or in full without participant permission. Without prejudice."),"Subtitle");
+ let body=P(R(docTitle()),"Title")+P(R(docSub()),"Subtitle");
  B.forEach((b,bi)=>{const kn=B[bi+1]&&B[bi+1].t==="tbl"?"<w:keepNext/>":"";
   if(b.t==="h")body+=P(R(b.text),"Heading1");
   else if(b.t==="p")body+=P(R(b.text),null,kn);
@@ -915,8 +925,8 @@ function makeDocx(){const B=build();
  const hs='<w:rFonts w:ascii="Barlow Semi Condensed" w:hAnsi="Barlow Semi Condensed" w:cs="Barlow Semi Condensed"/><w:b/><w:caps/><w:color w:val="65676E"/><w:spacing w:val="12"/><w:sz w:val="15"/><w:szCs w:val="15"/>';
  const hdr=`${XH}<w:hdr ${NS}>${P(hR("ESTUS ",wm+"<w:b/>")+hR("HEALTH",wm)+"<w:r><w:tab/></w:r>"+hR("hello@estushealth.com · www.estushealth.com",hs),"Header")}${bandX()}${P("",null,'<w:spacing w:after="0" w:line="20" w:lineRule="exact"/>')}</w:hdr>`;
  const fld=i=>`<w:fldSimple w:instr=" ${i} \\* MERGEFORMAT "><w:r><w:t>1</w:t></w:r></w:fldSimple>`;
- const ftr=`${XH}<w:ftr ${NS}>${P(R((str(S.client.fullName)||"Client")+" | Functional Capacity Assessment")+"<w:r><w:tab/></w:r>"+R("Page ")+fld("PAGE")+R(" of ")+fld("NUMPAGES"),"Footer")}</w:ftr>`;
- const ttl="Functional Capacity Assessment"+(legalName()?": "+legalName():"");
+ const ftr=`${XH}<w:ftr ${NS}>${P(R(footLeft())+"<w:r><w:tab/></w:r>"+R("Page ")+fld("PAGE")+R(" of ")+fld("NUMPAGES"),"Footer")}</w:ftr>`;
+ const ttl=docTitle()+(legalName()?": "+legalName():"");
  const now=new Date().toISOString().replace(/\.\d+Z$/,"Z");
  const core=`${XH}<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dcmitype="http://purl.org/dc/dcmitype/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title>${X(ttl)}</dc:title><dc:creator>${X(str(S.assessor.name)||"Estus Health")}</dc:creator><cp:lastModifiedBy>Estus Health</cp:lastModifiedBy><dcterms:created xsi:type="dcterms:W3CDTF">${now}</dcterms:created><dcterms:modified xsi:type="dcterms:W3CDTF">${now}</dcterms:modified></cp:coreProperties>`;
  const app=`${XH}<Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties"><Application>Estus FCA Builder</Application><Company>Estus Health</Company></Properties>`;

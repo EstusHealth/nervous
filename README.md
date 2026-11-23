@@ -95,6 +95,16 @@ Progress ticks and tool drafts save in each person's own browser only.
 
 Change a fact once: the hourly fee and the booking, referral form and what-to-expect links sit at the top of `msg.js`. Client details typed into the bar stay in that browser tab only. A clinician's own name and links save in their browser.
 
+## Letterhead and footer (every template)
+
+Every template under Templates has the same three settings, on its last page (Finish or Sign-off), saved with the draft:
+
+- **Letterhead title.** The big title at the top. Empty uses the template's own title.
+- **Without prejudice.** A tick box, on by default. It adds "Without prejudice" to the small line under the title. Untick it for a document that should not carry it.
+- **Footer.** The text at the bottom left of every page. Empty uses "Name | Template".
+
+All three reach the preview, the Word file and print. They live in `meta.title`, `meta.wp` and `meta.foot`. The code sits in three places, one per engine: `kit.js`, `drive.js` and `fca.html`. Change all three together.
+
 ## Driving report builders
 
 `ptd.html` and `ftd.html` share one engine, `drive.js`, and the brand fonts for Word export, `drive-fonts.js`. Drafts use the same JSON schema as the earlier driving builder, so old drafts and Gem output open unchanged. Opening a draft of the other type switches to the right builder.
@@ -113,7 +123,7 @@ Change a fact once: the hourly fee and the booking, referral form and what-to-ex
 - `chaining.html` covers forward chaining, backward chaining and the whole task. The **+** on the Forward or backward page moves the learner on one step.
 - `planner.html` takes any day in the week and runs from that Monday.
 - `prompts.html` is general education on purpose. It never sets prompt levels for one person. That belongs in the person's support plan.
-- `letter.html` is a plain letter on Estus letterhead: details, your text, your signature.
+- `letter.html` is a plain letter on Estus letterhead: details, your text, your signature. Change the letterhead title on the Letter page to turn it into any other letter.
 - The default hourly rate for new recommendation rows is `RATE` at the top of the script in `summary.html`.
 
 To add a template: copy the smallest page (`prompts.html`), change the definition, add the page to `PAGES` at the top of `kit.js`, then add a card in `index.html` and a line here.

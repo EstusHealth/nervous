@@ -2,7 +2,10 @@
 "use strict";
 /* Estus Driving OT report builders. One engine, two templates:
    ptd = Potential to Drive (NDIS, learner drivers), ftd = Medical Fitness to Drive (licensed drivers, Austroads).
-   Drafts use the same JSON schema as the earlier builder, so old drafts and Gem output open unchanged. */
+   Drafts use the same JSON schema as the earlier builder, so old drafts and Gem output open unchanged.
+   Letterhead and footer are set on the Sign-off page and saved with the draft: meta.title (empty uses the
+   standard title), meta.wp (adds "Without prejudice" under the title, on unless unticked) and meta.foot
+   (footer text, empty uses "Name | Report type"). */
 const TPL=window.DRIVE_TEMPLATE==="ptd"?"ptd":"ftd";
 const PTD=TPL==="ptd";
 const OTHER=PTD?"ftd":"ptd";
@@ -11,6 +14,7 @@ const LONG={ftd:"Medical Fitness to Drive",ptd:"Potential to Drive"};
 const DOC_TITLE={ftd:"Occupational Therapy Driver Assessment",ptd:"Potential to Drive Assessment"};
 const DOC_SUB={ftd:"Medical fitness to drive. Confidential health information. Not to be released in part or in full without consent.",
   ptd:"Occupational therapy assessment of readiness to learn to drive. Confidential. Not to be released in part or in full without consent."};
+const WP="Without prejudice";
 const FONTS=window.ESTUS_FONTS||[];
 
 const $=s=>document.querySelector(s);
@@ -106,7 +110,7 @@ const SEEDS={
 const ME_KEY="estus-drive-assessor-v1";
 function me(){try{return JSON.parse(localStorage.getItem(ME_KEY)||"{}")||{}}catch(e){return{}}}
 function blank(){const m=me();const cog={};Object.keys(COG).forEach(k=>cog[k]={include:false,values:{},link:COG[k].link||""});
- return{template:TPL,meta:{ref:newRef(),version:"1.0",date:""},
+ return{template:TPL,meta:{ref:newRef(),version:"1.0",date:"",title:"",foot:"",wp:true},
  practice:Object.assign({},ESTUS,{otName:m.ot||"",certNo:m.certNo||"",ahpra:m.ahpra||"",phone:m.phone||"",email:m.email||ESTUS.email}),
  client:{title:"",firstName:"",preferred:"",surname:"",pronouns:"",dob:"",file:"",address:"",phone:"",licNumber:"",licClass:"",licConditions:"",licExpiry:""},
  referrer:{name:"",contact:"",reason:{}},
@@ -174,6 +178,11 @@ function pron(){const p=str(S.client.pronouns).toLowerCase();
 const first=()=>str(S.client.preferred)||str(S.client.firstName);
 const legal=()=>[S.client.firstName,S.client.surname].map(str).filter(Boolean).join(" ");
 const formal=()=>[S.client.title,legal()].map(str).filter(Boolean).join(" ");
+/* Letterhead title, the line under it, and the footer. */
+const docTitle=()=>str(S.meta.title)||DOC_TITLE[TPL];
+const docSub=()=>S.meta.wp===false?DOC_SUB[TPL]:DOC_SUB[TPL]+" "+WP+".";
+const stdFoot=()=>(formal()||"Client")+" | "+LONG[TPL];
+const footLeft=()=>str(S.meta.foot)||stdFoot();
 function nm(){if(PTD)return first()||"the learner";const t=str(S.client.title),s=str(S.client.surname);return t&&s?t+" "+s:(first()||"the client")}
 function fill(t){const p=pron(),m={name:nm(),first:first()||nm(),he:p.he,him:p.him,his:p.his};
  return String(t==null?"":t).replace(/\{(name|first|he|him|his)\}/gi,(x,k,off,all)=>{const v=m[k.toLowerCase()];
@@ -362,6 +371,9 @@ function rLetters(){const g=S.letters.gp,l=S.letters.lesson;return `<div class="
 function rSignoff(){return `<div class="form">
  ${CB("signoff.consent",PTD?"The learner (and parent or carer where needed) gave informed consent for the assessment and this report":"The client gave informed consent for the assessment and this report")}
  ${F("meta.date","Report date",{type:"date"})}
+ <div class="sub">Letterhead and footer</div>
+ <div class="grid2">${F("meta.title","Letterhead title",{ph:DOC_TITLE[TPL],hint:"The big title at the top of the report. Empty uses the standard one."})}${F("meta.foot","Footer",{ph:stdFoot(),hint:"Bottom left of every page. Empty uses the standard one."})}</div>
+ ${CB("meta.wp","Add \u201CWithout prejudice\u201D under the title")}
  <div class="done"><p id="done-h" class="hint"></p><div style="display:flex;gap:10px;flex-wrap:wrap"><button type="button" class="big" data-act="docx">Download Word document</button><button type="button" class="add" data-act="checks">Open checks</button></div></div></div>`}
 
 /* ---------- PTD section bodies ---------- */
@@ -877,8 +889,7 @@ function sheetHTML(B,interactive){let h="";
    if(b.head)h+=`<thead><tr>${b.head.map(x=>`<th scope="col">${esc(x)}</th>`).join("")}</tr></thead>`;
    h+="<tbody>"+b.rows.map(r=>r.kind==="group"?`<tr class="grp"><td colspan="${b.w.length}">${esc(r.text)}</td></tr>`:`<tr>${r.cells.map((x,j)=>`<td${x.span?` colspan="${x.span}"`:""}${r.label&&j===0?' class="lab"':""}>${cellH(x.c)}</td>`).join("")}</tr>`).join("")+"</tbody></table></div>"}
   else if(b.t==="sign")h+=signH()});
- const who=formal()||"Client";
- return `<article class="sheet"><header class="mast"><div><h2>${esc(DOC_TITLE[TPL])}</h2><div class="ms">${esc(DOC_SUB[TPL])}</div></div><div class="mk"><div class="bands" aria-hidden="true"><i></i><i></i><i></i><i></i></div><div class="wm"><b>ESTUS</b> <span>HEALTH</span></div></div></header><div class="doc">${h}</div><footer class="sfoot"><small>${esc(who)} | ${esc(LONG[TPL])}</small><small>hello@estushealth.com \u00B7 www.estushealth.com</small></footer></article>`}
+ return `<article class="sheet"><header class="mast"><div><h2>${esc(docTitle())}</h2><div class="ms">${esc(docSub())}</div></div><div class="mk"><div class="bands" aria-hidden="true"><i></i><i></i><i></i><i></i></div><div class="wm"><b>ESTUS</b> <span>HEALTH</span></div></div></header><div class="doc">${h}</div><footer class="sfoot"><small>${esc(footLeft())}</small><small>hello@estushealth.com \u00B7 www.estushealth.com</small></footer></article>`}
 function renderPreview(){main.innerHTML=`<div class="paper">${sheetHTML(build(),true)}</div>`;window.scrollTo({top:0})}
 
 /* ---------- Word export ---------- */
@@ -933,7 +944,7 @@ function fontTableXML(){const fams={};FONTS.forEach((f,i)=>{(fams[f.name]=fams[f
  return `${XH}<w:fonts ${NS}>${Object.keys(fams).map(n=>`<w:font w:name="${n}"><w:charset w:val="00"/><w:family w:val="swiss"/><w:pitch w:val="variable"/>${fams[n].join("")}</w:font>`).join("")}</w:fonts>`}
 const settingsXML=()=>`${XH}<w:settings ${NS}>${FONTS.length?"<w:embedTrueTypeFonts/><w:saveSubsetFonts/>":""}<w:defaultTabStop w:val="720"/><w:characterSpacingControl w:val="doNotCompress"/><w:compat><w:compatSetting w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/office/word" w:val="15"/><w:compatSetting w:name="overrideTableStyleFontSizeAndJustification" w:uri="http://schemas.microsoft.com/office/word" w:val="1"/><w:compatSetting w:name="enableOpenTypeFeatures" w:uri="http://schemas.microsoft.com/office/word" w:val="1"/><w:compatSetting w:name="doNotFlipMirrorIndents" w:uri="http://schemas.microsoft.com/office/word" w:val="1"/></w:compat><w:themeFontLang w:val="en-AU"/></w:settings>`;
 function makeDocx(){const B=build();
- let body=P(R(DOC_TITLE[TPL]),"Title")+P(R(DOC_SUB[TPL]),"Subtitle");
+ let body=P(R(docTitle()),"Title")+P(R(docSub()),"Subtitle");
  B.forEach((b,bi)=>{const kn=B[bi+1]&&B[bi+1].t==="tbl"?"<w:keepNext/>":"";
   if(b.t==="h")body+=P(R(b.text),"Heading1",B[bi-1]&&B[bi-1].t==="pb"?'<w:spacing w:before="0"/>':"");
   else if(b.t==="p")body+=P(R(b.text),null,kn);
@@ -952,8 +963,8 @@ function makeDocx(){const B=build();
  const hs='<w:rFonts w:ascii="Barlow Semi Condensed" w:hAnsi="Barlow Semi Condensed" w:cs="Barlow Semi Condensed"/><w:b/><w:caps/><w:color w:val="65676E"/><w:spacing w:val="12"/><w:sz w:val="15"/><w:szCs w:val="15"/>';
  const hdr=`${XH}<w:hdr ${NS}>${P(hR("ESTUS ",wm+"<w:b/>")+hR("HEALTH",wm)+"<w:r><w:tab/></w:r>"+hR("hello@estushealth.com \u00B7 www.estushealth.com",hs),"Header")}${bandX()}${P("",null,'<w:spacing w:after="0" w:line="20" w:lineRule="exact"/>')}</w:hdr>`;
  const fld=i=>`<w:fldSimple w:instr=" ${i} \\* MERGEFORMAT "><w:r><w:t>1</w:t></w:r></w:fldSimple>`;
- const ftr=`${XH}<w:ftr ${NS}>${P(R((formal()||"Client")+" | "+LONG[TPL])+"<w:r><w:tab/></w:r>"+R("Page ")+fld("PAGE")+R(" of ")+fld("NUMPAGES"),"Footer")}</w:ftr>`;
- const ttl=DOC_TITLE[TPL]+(formal()?": "+formal():"");
+ const ftr=`${XH}<w:ftr ${NS}>${P(R(footLeft())+"<w:r><w:tab/></w:r>"+R("Page ")+fld("PAGE")+R(" of ")+fld("NUMPAGES"),"Footer")}</w:ftr>`;
+ const ttl=docTitle()+(formal()?": "+formal():"");
  const now=new Date().toISOString().replace(/\.\d+Z$/,"Z");
  const core=`${XH}<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dcmitype="http://purl.org/dc/dcmitype/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title>${X(ttl)}</dc:title><dc:creator>${X(otName()||"Estus Health")}</dc:creator><cp:lastModifiedBy>Estus Health</cp:lastModifiedBy><dcterms:created xsi:type="dcterms:W3CDTF">${now}</dcterms:created><dcterms:modified xsi:type="dcterms:W3CDTF">${now}</dcterms:modified></cp:coreProperties>`;
  const app=`${XH}<Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties"><Application>Estus Driving Report Builder</Application><Company>Estus Health</Company></Properties>`;
