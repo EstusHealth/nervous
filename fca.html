@@ -200,6 +200,10 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:.75}
 .doc>p,.doc>ul{max-width:76ch}
 .doc p{margin:0 0 9px}
 .doc h4{font:700 12.5px var(--cond);letter-spacing:.1em;text-transform:uppercase;color:var(--paper-navy);margin:16px 0 6px}
+.hdtip{max-width:840px;margin:0 auto 12px;font-size:13px;line-height:1.4;color:var(--muted)}
+.doc .hd{cursor:text;outline:0;border-radius:2px;min-width:3ch}
+.doc .hd:hover{box-shadow:0 0 0 3px var(--paper),0 0 0 4px var(--paper-muted)}
+.doc .hd:focus{box-shadow:0 0 0 3px var(--paper),0 0 0 5px #2CA5B8}
 .doc ul{margin:0 0 10px;padding-left:20px}
 .doc li{margin-bottom:4px}
 .tw{overflow-x:auto;margin:6px 0 16px}
@@ -376,7 +380,7 @@ function defaultSupports(){return[
  L("Capital","Specialist Disability Accommodation","nil")
 ]}
 function blank(){return{
- meta:{example:false,schema:1,title:"",foot:"",wp:true},
+ meta:{example:false,schema:1,title:"",foot:"",wp:true,heads:{}},
  client:{fullName:"",preferred:"",pronouns:"they",dob:"",address:"",ndis:"",planReview:""},
  assessor:{name:"",role:"Occupational Therapist",ahpra:"",email:""},
  dates:{from:"",to:"",report:""},
@@ -452,7 +456,8 @@ function setP(p,v){const ks=p.split(".");let o=S;for(let i=0;i<ks.length-1;i++){
 const PRON={they:{label:"they/them",poss:"their"},she:{label:"she/her",poss:"her"},he:{label:"he/him",poss:"his"}};
 const pron=()=>PRON[S.client.pronouns]||PRON.they;
 /* Letterhead title, the line under it, and the footer. Set on the Sign-off page and saved with the draft:
-   meta.title (empty uses the standard title), meta.wp (adds "Without prejudice", on unless unticked), meta.foot. */
+   meta.title (empty uses the standard title), meta.wp (adds "Without prejudice", on unless unticked), meta.foot.
+   meta.heads holds renamed headings (tap one in the preview). */
 const DOC_TITLE="Functional Capacity Assessment",DOC_SUB="Confidential. Not to be released in part or in full without participant permission.",WP="Without prejudice";
 const docTitle=()=>str(S.meta.title)||DOC_TITLE;
 const docSub=()=>S.meta.wp===false?DOC_SUB:DOC_SUB+" "+WP+".";
@@ -612,6 +617,7 @@ function rSignoff(){const n=CHECKS.length;return `<div class="form">
  <div class="sub">Letterhead and footer</div>
  <div class="grid2">${F("meta.title","Letterhead title",{ph:DOC_TITLE,hint:"The big title at the top of the report. Empty uses the standard one."})}${F("meta.foot","Footer",{ph:stdFoot(),hint:"Bottom left of every page. Empty uses the standard one."})}</div>
  ${CB("meta.wp","Add \u201CWithout prejudice\u201D under the title")}
+ <p class="hint">To rename a heading, open Preview and tap the heading.</p>
  <div class="done"><span class="hint" id="done-h">${n?`${n} check${n===1?"":"s"} still open. You can download now and finish in Word, or clear them here first.`:"All checks clear."}</span>
  <div style="display:flex;gap:10px;flex-wrap:wrap"><button type="button" class="big" data-act="docx">Download Word document</button>${n?`<button type="button" class="add" data-act="checks">Open checks</button>`:""}</div></div>
  </div>`}
@@ -757,7 +763,8 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape"){if(!$("#drawer").hi
 /* ---------- report model ---------- */
 const gapOr=(v,l)=>str(v)?[{p:str(v)}]:[{gap:l}];
 const parasOr=(v,l)=>{const p=paras(v);return p.length?p.map(x=>({p:x})):[{gap:l}]};
-function build(){const B=[],c=S.client,pr=pron();
+function build(){return withHeads(buildStd())}
+function buildStd(){const B=[],c=S.client,pr=pron();
  const dates=[fmtD(S.dates.from),fmtD(S.dates.to)].filter(Boolean).join(" to ");
  const info=[["Client name",gapOr(c.fullName,"Client name")],["Preferred name and pronouns",[{p:(str(c.preferred)?str(c.preferred)+", ":"")+pr.label}]],["Date of birth",gapOr(fmtD(c.dob),"Date of birth")],["Address",gapOr(c.address,"Address")],["NDIS number",gapOr(c.ndis,"NDIS number")],
   ["Assessor and AHPRA number",str(S.assessor.name)?[{p:str(S.assessor.name)+(str(S.assessor.ahpra)?", "+str(S.assessor.ahpra):"")}]:[{gap:"Assessor"}]],["Assessment date",gapOr(dates,"Assessment date")],["Report date",gapOr(fmtD(S.dates.report),"Report date")]];
@@ -824,13 +831,27 @@ function build(){const B=[],c=S.client,pr=pron();
 /* ---------- preview ---------- */
 function cellH(c){let h="",ul=false;c.forEach(x=>{if(x.li!=null){if(!ul){h+="<ul>";ul=true}h+=`<li>${esc(x.li)}</li>`;return}if(ul){h+="</ul>";ul=false}
   if(x.b!=null)h+=`<p>${esc(x.b)}</p>`;else if(x.gap!=null)h+=`<p><span class="gap">${esc(x.gap)}</span></p>`;else h+=`<p>${esc(x.p)}</p>`});return h+(ul?"</ul>":"")}
+/* ---------- headings ---------- */
+/* Any heading or sub-heading can be renamed per draft. meta.heads maps the standard heading to the new one.
+   In the preview, tap a heading and type. Clear it to get the standard one back. */
+const headOf=k=>{const H=S.meta.heads;return H&&typeof H==="object"&&Object.prototype.hasOwnProperty.call(H,k)?str(H[k]):""};
+const withHeads=B=>B.map(b=>(b.t==="h"||b.t==="sub")&&str(b.text)?Object.assign({},b,{std:b.text,text:headOf(b.text)||b.text}):b);
+const hAttr=(b,on)=>on&&b.std?` class="hd" contenteditable="true" spellcheck="true" role="textbox" aria-label="${esc("Heading: "+b.std+". Type to rename it.")}" title="Tap to rename" data-std="${esc(b.std)}"`:"";
+const hdEl=e=>e.target&&e.target.closest?e.target.closest("[data-std]"):null;
+const HDTIP=B=>B.some(b=>b.std)?`<p class="hdtip">Tap any heading to rename it. Clear it to get the standard one back.</p>`:"";
+function setHead(std,val){val=str(val).replace(/\s+/g," ");if(!S.meta.heads||typeof S.meta.heads!=="object"||Array.isArray(S.meta.heads))S.meta.heads={};
+  if(!val||val===std)delete S.meta.heads[std];else S.meta.heads[std]=val;persist();
+  main.querySelectorAll("[data-std]").forEach(el=>{if(el.dataset.std===std)el.textContent=val||std})}
+main.addEventListener("keydown",e=>{const t=hdEl(e);if(!t||(e.key!=="Enter"&&e.key!=="Escape"))return;e.preventDefault();if(e.key==="Escape")t.textContent=headOf(t.dataset.std)||t.dataset.std;t.blur()});
+main.addEventListener("paste",e=>{const t=hdEl(e);if(!t)return;e.preventDefault();document.execCommand("insertText",false,((e.clipboardData||window.clipboardData).getData("text")||"").replace(/\s+/g," "))});
+main.addEventListener("focusout",e=>{const t=hdEl(e);if(t)setHead(t.dataset.std,t.textContent)});
 function sheetHTML(B,interactive){const c=S.client;let h="";
  B.forEach(b=>{
-  if(b.t==="h")h+=`<h3 class="rh"><span>${esc(b.text)}</span>${interactive?`<button type="button" data-edit="${b.sec}">Edit</button>`:""}</h3>`;
+  if(b.t==="h")h+=`<h3 class="rh"><span${hAttr(b,interactive)}>${esc(b.text)}</span>${interactive?`<button type="button" data-edit="${b.sec}">Edit</button>`:""}</h3>`;
   else if(b.t==="p")h+=`<p>${esc(b.text)}</p>`;
   else if(b.t==="gap")h+=`<p><span class="gap">${esc(b.text)}</span></p>`;
   else if(b.t==="lead")h+=b.text?`<p><b>${esc(b.label)}:</b> ${esc(b.text)}</p>`:`<p><b>${esc(b.label)}:</b></p>`;
-  else if(b.t==="sub")h+=`<h4>${esc(b.text)}</h4>`;
+  else if(b.t==="sub")h+=`<h4${hAttr(b,interactive)}>${esc(b.text)}</h4>`;
   else if(b.t==="ul")h+=`<ul>${b.items.map(i=>`<li>${esc(i)}</li>`).join("")}</ul>`;
   else if(b.t==="tbl"){h+=`<div class="tw"><table class="rt${b.num?" num":""}">`;
    if(b.head)h+=`<thead><tr>${b.head.map(x=>`<th scope="col">${esc(x)}</th>`).join("")}</tr></thead>`;
@@ -838,7 +859,7 @@ function sheetHTML(B,interactive){const c=S.client;let h="";
   else if(b.t==="sign"){const a=S.assessor;h+=`<div class="sign">${paras(S.signoff.closing).map(x=>`<p>${esc(x)}</p>`).join("")}<p style="margin-top:10px">Kind regards,</p><div class="sp"></div><p style="margin:0"><b>${str(a.name)?esc(a.name):'<span class="gap">Assessor name</span>'}</b></p><p style="margin:0">${esc(str(a.role)||"Occupational Therapist")} | Estus Health</p>${str(a.email)?`<p style="margin:0">E: ${esc(a.email)}</p>`:""}<p style="margin:0">W: www.estushealth.com</p></div>`}
  });
  return `<article class="sheet"><header class="mast"><div><h2>${esc(docTitle())}</h2><div class="ms">${esc(docSub())}</div></div><div class="mk"><div class="bands" aria-hidden="true"><i></i><i></i><i></i><i></i></div><div class="wm"><b>ESTUS</b> <span>HEALTH</span></div></div></header><div class="doc">${h}</div><footer class="sfoot"><small>${esc(footLeft())}</small><small>hello@estushealth.com \u00B7 www.estushealth.com</small></footer></article>`}
-function renderPreview(){main.innerHTML=`<div class="paper">${sheetHTML(build(),true)}</div>`;window.scrollTo({top:0})}
+function renderPreview(){const B=build();main.innerHTML=`<div class="paper">${HDTIP(B)}${sheetHTML(B,true)}</div>`;window.scrollTo({top:0})}
 main.addEventListener("click",e=>{const b=e.target.closest("[data-edit]");if(b)go(b.dataset.edit)});
 
 /* ---------- Word export ---------- */

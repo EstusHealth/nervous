@@ -97,13 +97,15 @@ Change a fact once: the hourly fee and the booking, referral form and what-to-ex
 
 ## Letterhead and footer (every template)
 
-Every template under Templates has the same three settings, on its last page (Finish or Sign-off), saved with the draft:
+Every template under Templates has the same settings, saved with the draft. The first three sit on its last page (Finish or Sign-off):
 
 - **Letterhead title.** The big title at the top. Empty uses the template's own title.
 - **Without prejudice.** A tick box, on by default. It adds "Without prejudice" to the small line under the title. Untick it for a document that should not carry it.
 - **Footer.** The text at the bottom left of every page. Empty uses "Name | Template".
 
-All three reach the preview, the Word file and print. They live in `meta.title`, `meta.wp` and `meta.foot`. The code sits in three places, one per engine: `kit.js`, `drive.js` and `fca.html`. Change all three together.
+- **Headings.** In Preview, tap any heading or sub-heading and type to rename it. Enter saves, Escape cancels, and clearing it brings the standard one back. A rename is tied to the standard heading, so a heading that carries a name (like "About Mia") goes back to standard if that name changes.
+
+All of these reach the preview, the Word file and print. They live in `meta.title`, `meta.wp`, `meta.foot` and `meta.heads`. The code sits in three places, one per engine: `kit.js`, `drive.js` and `fca.html`. Change all three together.
 
 ## Driving report builders
 

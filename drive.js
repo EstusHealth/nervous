@@ -5,7 +5,7 @@
    Drafts use the same JSON schema as the earlier builder, so old drafts and Gem output open unchanged.
    Letterhead and footer are set on the Sign-off page and saved with the draft: meta.title (empty uses the
    standard title), meta.wp (adds "Without prejudice" under the title, on unless unticked) and meta.foot
-   (footer text, empty uses "Name | Report type"). */
+   (footer text, empty uses "Name | Report type"). meta.heads holds renamed headings (tap one in the preview). */
 const TPL=window.DRIVE_TEMPLATE==="ptd"?"ptd":"ftd";
 const PTD=TPL==="ptd";
 const OTHER=PTD?"ftd":"ptd";
@@ -110,7 +110,7 @@ const SEEDS={
 const ME_KEY="estus-drive-assessor-v1";
 function me(){try{return JSON.parse(localStorage.getItem(ME_KEY)||"{}")||{}}catch(e){return{}}}
 function blank(){const m=me();const cog={};Object.keys(COG).forEach(k=>cog[k]={include:false,values:{},link:COG[k].link||""});
- return{template:TPL,meta:{ref:newRef(),version:"1.0",date:"",title:"",foot:"",wp:true},
+ return{template:TPL,meta:{ref:newRef(),version:"1.0",date:"",title:"",foot:"",wp:true,heads:{}},
  practice:Object.assign({},ESTUS,{otName:m.ot||"",certNo:m.certNo||"",ahpra:m.ahpra||"",phone:m.phone||"",email:m.email||ESTUS.email}),
  client:{title:"",firstName:"",preferred:"",surname:"",pronouns:"",dob:"",file:"",address:"",phone:"",licNumber:"",licClass:"",licConditions:"",licExpiry:""},
  referrer:{name:"",contact:"",reason:{}},
@@ -374,6 +374,7 @@ function rSignoff(){return `<div class="form">
  <div class="sub">Letterhead and footer</div>
  <div class="grid2">${F("meta.title","Letterhead title",{ph:DOC_TITLE[TPL],hint:"The big title at the top of the report. Empty uses the standard one."})}${F("meta.foot","Footer",{ph:stdFoot(),hint:"Bottom left of every page. Empty uses the standard one."})}</div>
  ${CB("meta.wp","Add \u201CWithout prejudice\u201D under the title")}
+ <p class="hint">To rename a heading, open Preview and tap the heading.</p>
  <div class="done"><p id="done-h" class="hint"></p><div style="display:flex;gap:10px;flex-wrap:wrap"><button type="button" class="big" data-act="docx">Download Word document</button><button type="button" class="add" data-act="checks">Open checks</button></div></div></div>`}
 
 /* ---------- PTD section bodies ---------- */
@@ -869,7 +870,22 @@ function buildPTD(){const B=[],P=S.ptd,N=Name(),pr=pron(),F1=cap(first()||nm());
  consentBlocks(B);
  if(S.letters.gp.include)gpLetter(B);
  return B}
-const build=()=>PTD?buildPTD():buildFTD();
+const build=()=>withHeads(PTD?buildPTD():buildFTD());
+
+/* ---------- headings ---------- */
+/* Any heading or sub-heading can be renamed per draft. meta.heads maps the standard heading to the new one.
+   In the preview, tap a heading and type. Clear it to get the standard one back. */
+const headOf=k=>{const H=S.meta.heads;return H&&typeof H==="object"&&Object.prototype.hasOwnProperty.call(H,k)?str(H[k]):""};
+const withHeads=B=>B.map(b=>(b.t==="h"||b.t==="sub")&&str(b.text)?Object.assign({},b,{std:b.text,text:headOf(b.text)||b.text}):b);
+const hAttr=(b,on)=>on&&b.std?` class="hd" contenteditable="true" spellcheck="true" role="textbox" aria-label="${esc("Heading: "+b.std+". Type to rename it.")}" title="Tap to rename" data-std="${esc(b.std)}"`:"";
+const hdEl=e=>e.target&&e.target.closest?e.target.closest("[data-std]"):null;
+const HDTIP=B=>B.some(b=>b.std)?`<p class="hdtip">Tap any heading to rename it. Clear it to get the standard one back.</p>`:"";
+function setHead(std,val){val=str(val).replace(/\s+/g," ");if(!S.meta.heads||typeof S.meta.heads!=="object"||Array.isArray(S.meta.heads))S.meta.heads={};
+  if(!val||val===std)delete S.meta.heads[std];else S.meta.heads[std]=val;persist();
+  main.querySelectorAll("[data-std]").forEach(el=>{if(el.dataset.std===std)el.textContent=val||std})}
+main.addEventListener("keydown",e=>{const t=hdEl(e);if(!t||(e.key!=="Enter"&&e.key!=="Escape"))return;e.preventDefault();if(e.key==="Escape")t.textContent=headOf(t.dataset.std)||t.dataset.std;t.blur()});
+main.addEventListener("paste",e=>{const t=hdEl(e);if(!t)return;e.preventDefault();document.execCommand("insertText",false,((e.clipboardData||window.clipboardData).getData("text")||"").replace(/\s+/g," "))});
+main.addEventListener("focusout",e=>{const t=hdEl(e);if(t)setHead(t.dataset.std,t.textContent)});
 
 /* ---------- preview ---------- */
 function cellH(c){let h="",ul=false;c.forEach(x=>{if(x.li!=null){if(!ul){h+="<ul>";ul=true}h+=`<li>${esc(x.li)}</li>`;return}if(ul){h+="</ul>";ul=false}
@@ -877,11 +893,11 @@ function cellH(c){let h="",ul=false;c.forEach(x=>{if(x.li!=null){if(!ul){h+="<ul
 function signH(){const s=signInfo();return `<div class="sign"><p style="margin-top:10px">Kind regards,</p><div class="sp"></div><p style="margin:0"><b>${s.name?esc(s.name):'<span class="gap">Occupational therapist</span>'}</b></p>${s.lines.map(l=>`<p style="margin:0">${esc(l)}</p>`).join("")}</div>`}
 function sheetHTML(B,interactive){let h="";
  B.forEach(b=>{
-  if(b.t==="h")h+=`<h3 class="rh"><span>${esc(b.text)}</span>${interactive?`<button type="button" data-edit="${b.sec}">Edit</button>`:""}</h3>`;
+  if(b.t==="h")h+=`<h3 class="rh"><span${hAttr(b,interactive)}>${esc(b.text)}</span>${interactive?`<button type="button" data-edit="${b.sec}">Edit</button>`:""}</h3>`;
   else if(b.t==="p")h+=`<p>${esc(b.text)}</p>`;
   else if(b.t==="gap")h+=`<p><span class="gap">${esc(b.text)}</span></p>`;
   else if(b.t==="lead")h+=b.text?`<p><b>${esc(b.label)}:</b> ${esc(b.text)}</p>`:`<p><b>${esc(b.label)}:</b></p>`;
-  else if(b.t==="sub")h+=`<h4>${esc(b.text)}</h4>`;
+  else if(b.t==="sub")h+=`<h4${hAttr(b,interactive)}>${esc(b.text)}</h4>`;
   else if(b.t==="ul")h+=`<ul>${b.items.map(i=>`<li>${esc(i)}</li>`).join("")}</ul>`;
   else if(b.t==="lines")h+=`<div class="lines">${b.items.map(i=>`<p>${esc(i)||"&nbsp;"}</p>`).join("")}</div>`;
   else if(b.t==="pb")h+=`<div class="pb" aria-hidden="true"><span>New page</span></div>`;
@@ -890,7 +906,7 @@ function sheetHTML(B,interactive){let h="";
    h+="<tbody>"+b.rows.map(r=>r.kind==="group"?`<tr class="grp"><td colspan="${b.w.length}">${esc(r.text)}</td></tr>`:`<tr>${r.cells.map((x,j)=>`<td${x.span?` colspan="${x.span}"`:""}${r.label&&j===0?' class="lab"':""}>${cellH(x.c)}</td>`).join("")}</tr>`).join("")+"</tbody></table></div>"}
   else if(b.t==="sign")h+=signH()});
  return `<article class="sheet"><header class="mast"><div><h2>${esc(docTitle())}</h2><div class="ms">${esc(docSub())}</div></div><div class="mk"><div class="bands" aria-hidden="true"><i></i><i></i><i></i><i></i></div><div class="wm"><b>ESTUS</b> <span>HEALTH</span></div></div></header><div class="doc">${h}</div><footer class="sfoot"><small>${esc(footLeft())}</small><small>hello@estushealth.com \u00B7 www.estushealth.com</small></footer></article>`}
-function renderPreview(){main.innerHTML=`<div class="paper">${sheetHTML(build(),true)}</div>`;window.scrollTo({top:0})}
+function renderPreview(){const B=build();main.innerHTML=`<div class="paper">${HDTIP(B)}${sheetHTML(B,true)}</div>`;window.scrollTo({top:0})}
 
 /* ---------- Word export ---------- */
 const X=s=>String(s).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g,"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");

@@ -14,7 +14,8 @@
    Letterhead and footer (saved with each draft, set on the last section of every template):
    - meta.title: the letterhead title. Empty uses the template's own title.
    - meta.wp: adds "Without prejudice" under the title. On unless unticked.
-   - meta.foot: the footer text, bottom left of every page. Empty uses "Name | Template". */
+   - meta.foot: the footer text, bottom left of every page. Empty uses "Name | Template".
+   - meta.heads: renamed headings and sub-headings, standard heading to new one. Set by tapping a heading in the preview. */
 (function(){
 "use strict";
 const JSZIP_URL="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js";
@@ -107,7 +108,7 @@ function start(make){
   /* Only the field just edited is saved, so example values never leak into your saved details. */
   function saveMe(field,val){try{const k=JSON.parse(localStorage.getItem(ME_KEY)||"{}")||{};k[field]=str(val);localStorage.setItem(ME_KEY,JSON.stringify(k))}catch(e){}}
   function blank(){const m=readMe(),b=D.blank();b.template=D.id;
-    b.meta=Object.assign({date:"",example:false,title:"",foot:"",wp:true},b.meta||{});
+    b.meta=Object.assign({date:"",example:false,title:"",foot:"",wp:true,heads:{}},b.meta||{});
     b.ot=Object.assign({name:m.name||"",role:m.role||"Occupational Therapist",ahpra:m.ahpra||"",phone:m.phone||"",email:m.email||ESTUS.email},b.ot||{});
     return b}
   function normalise(x){const o=deepMerge(blank(),x||{});o.template=D.id;if(D.normalise)D.normalise(o);return o}
@@ -159,6 +160,7 @@ function start(make){
   function FINISH(o){o=o||{};return `<div class="sub">Letterhead and footer</div>
     <div class="grid2">${F("meta.title","Letterhead title",{ph:stdTitle(),hint:"The big title at the top of the page. Empty uses the standard one."})}${F("meta.foot","Footer",{ph:stdFoot(),hint:"Bottom left of every page. Empty uses the standard one."})}</div>
     ${CB("meta.wp","Add \u201CWithout prejudice\u201D under the title")}
+    ${D.build().some(b=>b.t==="h"||b.t==="sub")?`<p class="hint">To rename a heading, open Preview and tap the heading.</p>`:""}
     <div class="done"><p id="done-h" class="hint"></p><div class="btns"><button type="button" class="big" data-act="docx">Download Word document</button><button type="button" class="add" data-act="print">Print or save as PDF</button><button type="button" class="add" data-act="preview">Preview</button><button type="button" class="add" data-act="checks">Open checks</button></div>${o.hint?`<p class="hint">${esc(o.hint)}</p>`:""}</div>`}
 
   /* ---------- report model helpers ---------- */
@@ -324,8 +326,23 @@ function start(make){
   $("#dr-list").addEventListener("click",e=>{const b=e.target.closest(".ci");if(!b)return;closeChecks();go(b.dataset.sec,b.dataset.path)});
   document.addEventListener("keydown",e=>{if(e.key==="Escape"){if(!$("#drawer").hidden)closeChecks();if(!$("#pop").hidden)closeMenu()}});
 
+  /* ---------- headings ---------- */
+  /* Any heading or sub-heading can be renamed per draft. meta.heads maps the standard heading to the new one.
+     In the preview, tap a heading and type. Clear it to get the standard one back. */
+  const headOf=k=>{const H=S.meta.heads;return H&&typeof H==="object"&&Object.prototype.hasOwnProperty.call(H,k)?str(H[k]):""};
+  const withHeads=B=>B.map(b=>(b.t==="h"||b.t==="sub")&&str(b.text)?Object.assign({},b,{std:b.text,text:headOf(b.text)||b.text}):b);
+  const hAttr=(b,on)=>on&&b.std?` class="hd" contenteditable="true" spellcheck="true" role="textbox" aria-label="${esc("Heading: "+b.std+". Type to rename it.")}" title="Tap to rename" data-std="${esc(b.std)}"`:"";
+  const hdEl=e=>e.target&&e.target.closest?e.target.closest("[data-std]"):null;
+  const HDTIP=B=>B.some(b=>b.std)?`<p class="hdtip">Tap any heading to rename it. Clear it to get the standard one back.</p>`:"";
+  function setHead(std,val){val=str(val).replace(/\s+/g," ");if(!S.meta.heads||typeof S.meta.heads!=="object"||Array.isArray(S.meta.heads))S.meta.heads={};
+    if(!val||val===std)delete S.meta.heads[std];else S.meta.heads[std]=val;persist();
+    main.querySelectorAll("[data-std]").forEach(el=>{if(el.dataset.std===std)el.textContent=val||std})}
+  main.addEventListener("keydown",e=>{const t=hdEl(e);if(!t||(e.key!=="Enter"&&e.key!=="Escape"))return;e.preventDefault();if(e.key==="Escape")t.textContent=headOf(t.dataset.std)||t.dataset.std;t.blur()});
+  main.addEventListener("paste",e=>{const t=hdEl(e);if(!t)return;e.preventDefault();document.execCommand("insertText",false,((e.clipboardData||window.clipboardData).getData("text")||"").replace(/\s+/g," "))});
+  main.addEventListener("focusout",e=>{const t=hdEl(e);if(t)setHead(t.dataset.std,t.textContent)});
+
   /* ---------- preview ---------- */
-  const build=()=>D.build();
+  const build=()=>withHeads(D.build());
   /* Letterhead title and footer can be set per draft (meta.title, meta.foot). "Without prejudice" joins the line under the title unless unticked. */
   const stdTitle=()=>str(txt(D.docTitle))||D.name;
   const docTitle=()=>str(S.meta.title)||stdTitle();
@@ -345,12 +362,12 @@ function start(make){
   const tailAt=B=>{let i=-1;B.forEach((b,j)=>{if(b.t==="h")i=j});return i>0&&B.slice(i).every(b=>b.t!=="pb"&&(b.t!=="tbl"||keepT(b)))?i:-1};
   function sheetHTML(B,interactive){let h="";const tail=tailAt(B);
     B.forEach((b,bi)=>{if(bi===tail)h+='<section class="tail">';
-      if(b.t==="h")h+=`<h3 class="rh"><span>${esc(b.text)}</span>${interactive&&b.sec?`<button type="button" data-edit="${b.sec}">Edit</button>`:""}</h3>`;
+      if(b.t==="h")h+=`<h3 class="rh"><span${hAttr(b,interactive)}>${esc(b.text)}</span>${interactive&&b.sec?`<button type="button" data-edit="${b.sec}">Edit</button>`:""}</h3>`;
       else if(b.t==="p")h+=`<p>${rH(b.text)}</p>`;
       else if(b.t==="fine")h+=`<p class="fine">${rH(b.text)}</p>`;
       else if(b.t==="gap")h+=`<p><span class="gap">${esc(b.text)}</span></p>`;
       else if(b.t==="lead")h+=b.text?`<p><b>${esc(b.label)}:</b> ${rH(b.text)}</p>`:`<p><b>${esc(b.label)}:</b> <span class="gap">${esc(b.label)}</span></p>`;
-      else if(b.t==="sub")h+=`<h4>${esc(b.text)}</h4>`;
+      else if(b.t==="sub")h+=`<h4${hAttr(b,interactive)}>${esc(b.text)}</h4>`;
       else if(b.t==="ul")h+=`<ul>${b.items.map(i=>`<li>${rH(i)}</li>`).join("")}</ul>`;
       else if(b.t==="ol")h+=`<ol>${b.items.map(i=>`<li>${rH(i)}</li>`).join("")}</ol>`;
       else if(b.t==="check")h+=`<ul class="ck">${b.items.map(i=>`<li><span>${rH(i)}</span></li>`).join("")}</ul>`;
@@ -363,7 +380,7 @@ function start(make){
       else if(b.t==="sign")h+=signH(b)});
     if(tail>=0)h+="</section>";
     return `<article class="sheet"><header class="mast"><div><h2>${esc(docTitle())}</h2>${docSub()?`<div class="ms">${esc(docSub())}</div>`:""}</div><div class="mk"><div class="bands" aria-hidden="true"><i></i><i></i><i></i><i></i></div><div class="wm"><b>ESTUS</b> <span>HEALTH</span></div></div></header><div class="doc">${h}</div><footer class="sfoot"><small>${esc(footLeft())}</small><small>${esc(ESTUS.email)} \u00B7 ${esc(ESTUS.web)}</small></footer></article>`}
-  function renderPreview(){main.innerHTML=`<div class="paper">${sheetHTML(build(),true)}</div>`;window.scrollTo({top:0})}
+  function renderPreview(){const B=build();main.innerHTML=`<div class="paper">${HDTIP(B)}${sheetHTML(B,true)}</div>`;window.scrollTo({top:0})}
 
   /* ---------- print ---------- */
   let oldTitle=null;

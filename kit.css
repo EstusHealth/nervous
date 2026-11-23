@@ -300,6 +300,10 @@ details.more>div{display:flex;flex-direction:column;gap:16px}
 .doc>p,.doc>ul,.doc .tail>p,.doc .tail>ul{max-width:76ch}
 .doc p{margin:0 0 9px}
 .doc h4{font:700 12.5px var(--cond);letter-spacing:.1em;text-transform:uppercase;color:var(--paper-navy);margin:16px 0 6px}
+.hdtip{max-width:840px;margin:0 auto 12px;font-size:13px;line-height:1.4;color:var(--muted)}
+.doc .hd{cursor:text;outline:0;border-radius:2px;min-width:3ch}
+.doc .hd:hover{box-shadow:0 0 0 3px var(--paper),0 0 0 4px var(--paper-muted)}
+.doc .hd:focus{box-shadow:0 0 0 3px var(--paper),0 0 0 5px #2CA5B8}
 .doc ul{margin:0 0 10px;padding-left:20px}
 .doc li{margin-bottom:4px}
 .tw{overflow-x:auto;margin:6px 0 16px}
