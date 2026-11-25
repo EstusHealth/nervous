@@ -1,0 +1,253 @@
+<!doctype html><html lang="en-AU"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script src="theme.js"></script><script src="suite.js"></script><script src="growth.js"></script></head><body><style>
+.ehub{background:#090909;color:#FBFAF8;border-bottom:1px solid #2C323C;position:relative;z-index:6}
+.ehub-in{max-width:1120px;margin:0 auto;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));display:flex;justify-content:space-between;align-items:center;gap:10px 16px;flex-wrap:wrap}
+.ehub a{color:inherit;text-decoration:none}
+.ehub-home{display:flex;align-items:center;gap:12px;min-height:36px}
+.ehub-bands{display:flex;width:56px;height:5px;flex:none}.ehub-bands i{flex:1}
+.ehub-bands i:nth-child(1){background:#344982}.ehub-bands i:nth-child(2){background:#2F6F9E}.ehub-bands i:nth-child(3){background:#2CA5B8}.ehub-bands i:nth-child(4){background:#AB5C95}
+.ehub-wm{font:500 14px/1 "Oswald","Arial Narrow",Impact,sans-serif;letter-spacing:.16em}.ehub-wm b{font-weight:700}
+.ehub-sep{font:600 12px/1 "Barlow Semi Condensed","Arial Narrow",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#AEB5C2;border-left:1px solid #3A3F48;padding-left:12px}
+.ehub-home:hover .ehub-sep{color:#FBFAF8}
+.ehub-r{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ehub-btn{font:600 12px/1 "Barlow Semi Condensed","Arial Narrow",sans-serif;letter-spacing:.1em;text-transform:uppercase;border:1px solid #3A3F48;background:none;color:#FBFAF8;padding:9px 12px;cursor:pointer;min-height:36px;display:inline-flex;align-items:center;gap:8px}
+.ehub-btn:hover{border-color:#FBFAF8}
+.ehub-btn[aria-pressed="true"]{background:#2E7D4F;border-color:#2E7D4F}
+.ehub-btn:focus-visible,.ehub a:focus-visible{outline:2px solid #2CA5B8;outline-offset:2px}
+.ehub-next{background:#FBFAF8!important;color:#090909!important;border-color:#FBFAF8}
+@media (max-width:520px){.ehub-sep{display:none}.ehub-next .ehub-nl{display:none}}
+@media print{.ehub{display:none}}
+</style>
+<nav class="ehub" aria-label="Estus Training Hub" style="margin:-24px calc(-1 * max(16px, env(safe-area-inset-right, 0px))) 24px calc(-1 * max(16px, env(safe-area-inset-left, 0px)))"><div class="ehub-in">
+<a class="ehub-home" href="index.html"><span class="ehub-bands" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="ehub-wm"><b>ESTUS</b> HEALTH</span><span class="ehub-sep">&larr; Training Hub</span></a>
+<div class="ehub-r"><button class="ehub-btn" type="button" id="ehub-done" aria-pressed="false">Mark done</button><a class="ehub-btn ehub-next" href="shorts.html"><span class="ehub-nl">Next:</span> Shorts Studio <span aria-hidden="true">&rarr;</span></a></div>
+</div></nav>
+<script>(function(){var K="hub_done",s="footage",b=document.getElementById("ehub-done");function l(){try{return JSON.parse(localStorage.getItem(K))||{}}catch(e){return {}}}function r(){var on=!!l()[s];b.setAttribute("aria-pressed",on);b.textContent=on?"\u2713 Done":"Mark done"}b.addEventListener("click",function(){var v=l();if(v[s])delete v[s];else v[s]=1;try{localStorage.setItem(K,JSON.stringify(v))}catch(e){}r()});r()})();</script>
+
+<title>All Clips</title><meta name="robots" content="noindex, nofollow"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 fill=%22%23090909%22/%3E%3Crect x=%224%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23344982%22/%3E%3Crect x=%2210%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232F6F9E%22/%3E%3Crect x=%2216%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%232CA5B8%22/%3E%3Crect x=%2222%22 y=%2213%22 width=%226%22 height=%226%22 fill=%22%23AB5C95%22/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap">
+<style>
+/* Layout: sibling of the Nurture Trainer. Sticky tabs, clock rail timeline, a teaching-aid grid for the GP module. */
+:root{
+  --paper:#EEF2EF; --surface:#FFFFFF; --ink:#16201C; --muted:#56645E; --line:#D3DCD7;
+  --accent:#1E56B8; --accent-soft:#E2EAF8; --on-accent:#FFFFFF;
+  --call:#B9440F; --text:#1E56B8; --email:#6A2BC9; --vm:#0E7468; --warn:#9A5B00; --warn-soft:#FFF1D6; --good:#17784A; --bad:#B42318;
+  --f-display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --f-body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0E1412; --surface:#161F1C; --ink:#E6EEEA; --muted:#94A39C; --line:#2A3632;
+  --accent:#86ADF2; --accent-soft:#1B2A44; --on-accent:#0E1412;
+  --call:#F2A066; --text:#86ADF2; --email:#BFA2F7; --vm:#55CBB8; --warn:#F2C064; --warn-soft:#2E2512; --good:#5BD49A; --bad:#F38B80;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E1412; --surface:#161F1C; --ink:#E6EEEA; --muted:#94A39C; --line:#2A3632;
+  --accent:#86ADF2; --accent-soft:#1B2A44; --on-accent:#0E1412;
+  --call:#F2A066; --text:#86ADF2; --email:#BFA2F7; --vm:#55CBB8; --warn:#F2C064; --warn-soft:#2E2512; --good:#5BD49A; --bad:#F38B80;
+  color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:400 16px/1.55 var(--f-body);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 64px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+.wrap{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.1}
+h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:800;letter-spacing:-.02em}
+h2{font-size:clamp(1.4rem,3vw,1.9rem);font-weight:700;letter-spacing:-.01em}
+h3{font-size:1.1rem;font-weight:700}
+p{margin:0;max-width:65ch}
+ul{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px}
+.eyebrow{font:700 .72rem/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.muted{color:var(--muted)}
+.lede{font-size:1.08rem;color:var(--muted)} .lede b{color:var(--ink)}
+header.top{display:flex;flex-direction:column;gap:12px}
+nav.tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);background:var(--paper);z-index:5;padding-top:6px}
+nav.tabs button{font:600 .95rem var(--f-body);color:var(--muted);background:none;border:0;padding:10px 12px;border-bottom:3px solid transparent;cursor:pointer;margin-bottom:-1px}
+nav.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+section.view{display:flex;flex-direction:column;gap:22px}
+.sh{display:flex;flex-direction:column;gap:6px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:8px;min-width:0}
+/* All Clips: one search over B-roll (shorts.html) and podcast clips (clips.html), every card opens the file in Drive. */
+.muted{color:var(--muted)}
+.lede{font-size:1.08rem;color:var(--muted)} .lede b{color:var(--ink)}
+header.top{display:flex;flex-direction:column;gap:12px}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.folders{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.folders a{display:flex;flex-direction:column;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;color:var(--ink);text-decoration:none}
+.folders a:hover{border-color:var(--accent)}
+.folders a b{font-weight:700}
+.folders a span{font-size:.85rem;color:var(--muted)}
+.folders a.drop{border-style:dashed}
+.bar{display:flex;flex-direction:column;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;position:sticky;top:env(safe-area-inset-top,0px);z-index:4;box-shadow:0 6px 16px -14px rgba(0,0,0,.5)}
+.row{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.row .lab{font:700 .7rem/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);min-width:56px}
+.chip{font:600 .85rem var(--f-body);border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:6px 12px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+input[type=search]{font:500 1.05rem var(--f-body);padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);width:100%}
+.tog{display:inline-flex;align-items:center;gap:6px;font-size:.88rem;color:var(--muted);cursor:pointer}
+.count{font-size:.9rem;color:var(--muted)}
+.lib{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.item{background:var(--surface);border:1px solid var(--line);border-radius:12px;display:flex;flex-direction:column;min-width:0;overflow:hidden}
+.item .th{display:block;position:relative;aspect-ratio:9/12;background:var(--line);overflow:hidden}
+.item .th img{width:100%;height:100%;object-fit:cover;display:block}
+.item .th .kind{position:absolute;left:8px;top:8px;font:700 .68rem/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;background:rgba(9,9,9,.78);color:#FBFAF8;padding:5px 7px;border-radius:6px}
+.item .th .dur{position:absolute;right:8px;bottom:8px;font:700 .72rem/1 var(--f-mono);background:rgba(9,9,9,.78);color:#FBFAF8;padding:4px 6px;border-radius:6px}
+.item .b{display:flex;flex-direction:column;gap:8px;padding:12px;flex:1}
+.item h3{font-size:.98rem;line-height:1.25}
+.pills{display:flex;flex-wrap:wrap;gap:5px}
+.pill{font:600 .7rem/1 var(--f-body);padding:5px 8px;border-radius:999px;background:var(--accent-soft);color:var(--ink)}
+.pill.ok{background:#D9F2E4;color:#0F5132}.pill.warn{background:var(--warn-soft);color:var(--warn)}.pill.no{background:#FBE1DE;color:var(--bad)}
+:root[data-theme="dark"] .pill.ok{background:#163A28;color:#8FE3B5}:root[data-theme="dark"] .pill.no{background:#3A1B18;color:#F38B80}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .pill.ok{background:#163A28;color:#8FE3B5}:root:not([data-theme="light"]) .pill.no{background:#3A1B18;color:#F38B80}}
+.hook{font-size:.88rem;font-weight:600;border-left:3px solid var(--accent);padding-left:8px}
+.acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto}
+.btn{font:600 .82rem var(--f-body);border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:8px;padding:8px 10px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+.btn:hover{border-color:var(--accent)}
+.btn.go{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.empty{background:var(--surface);border:1px dashed var(--line);border-radius:12px;padding:20px;color:var(--muted)}
+.new{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:10px}
+.new ul{list-style:none;padding:0;gap:0}
+.new li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--line);font:500 .84rem/1.4 var(--f-mono);word-break:break-word}
+.new li span small{display:block;font-family:var(--f-body);color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:8px;font-weight:600;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.on{opacity:1}
+@media (max-width:700px){.bar{position:static}}
+@media (max-width:460px){.lib{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.item .b{padding:10px}.btn{padding:7px 8px}}
+</style>
+<div class="wrap">
+<header class="top">
+  <span class="eyebrow">Growth &middot; Find</span>
+  <h1>All Clips</h1>
+  <p class="lede">Every B-roll clip and podcast clip we have, in one place. <b>Search, tap Open, and it opens in Drive.</b></p>
+</header>
+
+<nav class="folders" aria-label="Drive folders">
+  <a href="https://drive.google.com/drive/folders/17yHxXW0zcfdG9H_JVQMfXLo6WRj3kcBG" target="_blank" rel="noopener"><b>B-roll Library</b><span>Media &gt; Shorts B-roll Library</span></a>
+  <a href="https://drive.google.com/drive/folders/1AOM83nYzsCqUCpHXwnaB9i8UBTyd4ZD4" target="_blank" rel="noopener"><b>Podcast clips (raw)</b><span>Media &gt; Clip library</span></a>
+  <a href="https://drive.google.com/drive/folders/1E6Cyl4L_sryYtYDXElMrhYNu9ObichRA" target="_blank" rel="noopener"><b>Edited shorts</b><span>Media &gt; Shorts (edited)</span></a>
+  <a href="https://drive.google.com/drive/folders/1ZNPGGPhOLoWNwe-MzMgofIvwRBZG7Qc9" target="_blank" rel="noopener"><b>Ready to publish</b><span>Shorts (edited) &gt; Ready to publish</span></a>
+  <a class="drop" href="https://drive.google.com/drive/folders/1hHD8iiqQNVNNNgZOlgWvllF18_htTM2n" target="_blank" rel="noopener"><b>Drop new B-roll here</b><span>B-roll Library &gt; Inbox</span></a>
+</nav>
+
+<div class="bar" role="search">
+  <input type="search" id="q" placeholder="Search anything: kettle, stairs, Minecraft, PDA, sleep" aria-label="Search all clips">
+  <div class="row" id="f-kind"><span class="lab">Show</span></div>
+  <div class="row" id="f-theme"><span class="lab">Theme</span></div>
+  <div class="row"><label class="tog"><input type="checkbox" id="hideInt" checked> Hide Internal only clips</label><span class="count" id="count" style="margin-left:auto"></span></div>
+</div>
+
+<div class="lib" id="lib"><div class="empty">Loading clips&hellip;</div></div>
+
+<section class="new" id="newbox">
+  <h2>In Drive, not catalogued yet</h2>
+  <p class="muted">These files are in the folders but not tagged on Shorts Studio or Podcast Clips yet. <b>Check for kids, clients and screens before you use one.</b> Ask Claude to sync B-roll or update the Podcast Clip Library to add them.</p>
+  <ul id="newlist"></ul>
+</section>
+
+<p class="muted">Full tags, the tagging guide and edit prompts live on <a href="shorts.html#library">Shorts Studio</a> (B-roll) and <a href="clips.html">Podcast Clips</a>. This page reads from both, so it is always up to date with them. Links open in Drive, so you need access to the Media shared drive.</p>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script type="application/json" id="extra">[{"kind": "broll", "file": "estus_clinic_med_sitting-at-desk-sipping-coffee.mp4", "folder": "Clinic and telehealth", "drive": "1wZWIJ4rWQTwOB_DMHiL_ic88JBmizQJc"}, {"kind": "broll", "file": "estus_gaming_med_sim-racing-arms-crossed-stare_20261112.mp4", "folder": "Gaming and screens", "drive": "1eb4WuVDxzxfHb6yNH7gUbeOsByJcO8Mo"}, {"kind": "broll", "file": "Halloween pumpkins.mp4", "folder": "Seasonal and events", "drive": "1dv8lPvo9Z0ob-n0LKzWbPkY-M56Nkxpv"}, {"kind": "broll", "file": "estus_activity_hands_lego-car-build_20261117.mp4", "folder": "Sport and activities", "drive": "11AUrZenxByD2kMktkAG8x2Ne2Ks3X4kx"}, {"kind": "broll", "file": "estus_activity_hands_sewing-hobby_20260510.mp4", "folder": "Sport and activities", "drive": "1VQ6HM4At6haBrtZL8AWiS23TTii_pxtX"}, {"kind": "broll", "file": "estus_activity_hands_toddler-throwing-balls-out-of-ball-pit_20260930.mp4", "folder": "Sport and activities", "drive": "1nvY3PoduVqCXrc-pdcL2hA2hYQEIrMdz"}, {"kind": "broll", "file": "estus_activity_med_cinema-foyer_20250705.mp4", "folder": "Sport and activities", "drive": "1KHCT1eowVzFxpNrc9eILt6YX7tyorP-c"}, {"kind": "broll", "file": "estus_activity_pov_family-visit-to-underwater-aquarium_20250616.mp4", "folder": "Sport and activities", "drive": "1P6bMf1hzTs-ayXfjoWy-Qkf3heIcX_zy"}, {"kind": "broll", "file": "estus_activity_pov_parent-resting-on-floor-while-toddler-runs-through-playroom_20250929.mp4", "folder": "Sport and activities", "drive": "18qeH-K7tB4NlxtQUdRo2hKNgIFujdlWW"}, {"kind": "broll", "file": "estus_activity_pov_perth-zoo-pram_20250629.mp4", "folder": "Sport and activities", "drive": "18xtzcFUIvz4AUMCq6sN9NCIHcv9K6it1"}, {"kind": "broll", "file": "estus_activity_pov_taking-toddler-for-a-walk-outdoors-on-pushbike_20250920.mp4", "folder": "Sport and activities", "drive": "1ovRVa2fDGraYmzYO-H7CTSvoof-LT-12"}, {"kind": "broll", "file": "estus_activity_pov_walking-through-tunnel-indoor-play-centre_20261120.mp4", "folder": "Sport and activities", "drive": "1gVXM7FyYmZQZt7mX2mkZQZsdOmnncANr"}, {"kind": "broll", "file": "Axe throwing 1.mp4", "folder": "Team culture", "drive": "1FwHZAM0AZSl1g13zPL0BECCCHSTTucEh"}, {"kind": "broll", "file": "Axe throwing 2.mp4", "folder": "Team culture", "drive": "12ZBcR0cRSZe7_cTxf8w-ISNtS-QZQCCS"}, {"kind": "broll", "file": "Axe throwing 3.mp4", "folder": "Team culture", "drive": "1C6bBec3gMxJl2_ImRycnwlG4pa15CrWY"}, {"kind": "podcast", "file": "riverside_Brady_vs_Morales_UFC title eliminator_b's_studio.mp4", "folder": "Clip library", "drive": "18F-Pvmd0xZd-rH0fehnr40Cj_zAWBIr5"}, {"kind": "podcast", "file": "riverside_elden_ring_ perfect for therapy sessions_b's_studio.mp4", "folder": "Clip library", "drive": "19AbIRWgCgGTutlzgQ3x62R-7wRrCQgsf"}, {"kind": "podcast", "file": "riverside_GSP's perfect preparation for UFC Fight Camp_b's_studio.mp4", "folder": "Clip library", "drive": "1Egy8-o6zIYN7t_lyQAhEQdFAjyBNzpI1"}, {"kind": "podcast", "file": "riverside_Implementing minimum effective dose inspired by UFC Fight Camps_b's_studio.mp4", "folder": "Clip library", "drive": "19_iJRmTCZVrN_cEU7dMpaTfIN3pHdsGD"}, {"kind": "podcast", "file": "riverside_Jack Della Maddalena's resilience in UFC 299_b's_studio.mp4", "folder": "Clip library", "drive": "1TadOcsPmsgQv9ardtmS7TRdnG0FLeet1"}, {"kind": "podcast", "file": "riverside_meal prep for long-term goals_b's_studio.mp4", "folder": "Clip library", "drive": "1OTs0FFloM0gnZzPcug6yFP8yhrELl2yB"}, {"kind": "podcast", "file": "riverside_Nam Nik and Liam discuss mental resilience_b's_studio.mp4", "folder": "Clip library", "drive": "1pIvtvFtu2tbIKDLDZSOmiUYk_UJqzFhp"}, {"kind": "podcast", "file": "riverside_Nik and Liam discuss creating systems and boundaries_b's_studio.mp4", "folder": "Clip library", "drive": "1hu_pXFPHmoQXKfgoYOVCsfgTV8-P2ucG"}, {"kind": "podcast", "file": "riverside_OTs helping ND parents to find balance_the four burners analogy_b's_studio.mp4", "folder": "Clip library", "drive": "1lnRqOrWqLF0CusSyJVuu5T12JYgsncnA"}, {"kind": "podcast", "file": "riverside_proactive planning for future success_b's_studio.mp4", "folder": "Clip library", "drive": "1q2ws4efgeKCZffWPPTqOBef1f21guF2q"}, {"kind": "podcast", "file": "riverside_small hinges that swing big doors_online grocery shopping_b's_studio.mp4", "folder": "Clip library", "drive": "1X5oSGQ1HSiFLP2eOa-Jtyuo3670P_l5o"}, {"kind": "podcast", "file": "riverside_starting Estus and new dads running their own businesses_b's_studio.mp4", "folder": "Clip library", "drive": "1N55hAE77nM6_0MkoNjrdK4XBA0P0AAX3"}, {"kind": "podcast", "file": "riverside_the importance of having ongoing employment for autistic people_b's_studio.mp4", "folder": "Clip library", "drive": "1Bh1vPgwMCa3GNxOVhhNXD6r9TYyznhD7"}, {"kind": "podcast", "file": "riverside_therapists can help with unmasking and people pleasing behaviour_b's_studio.mp4", "folder": "Clip library", "drive": "1KJi4yu9vtrUEnA5BYLku7VdScSx1Tj9k"}, {"kind": "podcast", "file": "riverside_understanding burnout through digital twins_b's_studio.mp4", "folder": "Clip library", "drive": "1rh5gS6O28hMqbw59nF7d0NhkPvag-oG3"}, {"kind": "podcast", "file": "riverside_What life is like for new parents_b's_studio.mp4", "folder": "Clip library", "drive": "1INWC2j9D8vCwXMeq5bIdNxFIrWr-u29g"}]</script>
+<script>
+(function(){
+var $=function(id){return document.getElementById(id)};
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]})}
+var FILE=function(id){return "https://drive.google.com/file/d/"+encodeURIComponent(id)+"/view"};
+var EXTRA=JSON.parse($("extra").textContent);
+var ALL=[],F={kind:"all",theme:"all",q:""};
+var toastT;function toast(t){var el=$("toast");el.textContent=t;el.classList.add("on");clearTimeout(toastT);toastT=setTimeout(function(){el.classList.remove("on")},1600)}
+function copy(t,msg){(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){toast(msg)},function(){var a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();try{document.execCommand("copy");toast(msg)}catch(e){}a.remove()})}
+
+/* Read the JSON data block straight out of another hub page, so this page never holds its own copy. */
+function grab(page,id){
+  return fetch(page,{cache:"no-cache"}).then(function(r){if(!r.ok)throw new Error(page);return r.text()}).then(function(t){
+    var doc=new DOMParser().parseFromString(t,"text/html"),el=doc.getElementById(id);
+    if(!el)throw new Error(id);return JSON.parse(el.textContent);
+  });
+}
+function lab(list,id){for(var i=0;i<(list||[]).length;i++)if(list[i].id===id)return list[i].label;return id||""}
+
+Promise.all([grab("shorts.html","state"),grab("clips.html","clips")]).then(function(r){
+  var S=r[0],P=r[1],T=S.tax||{};
+  var brands={};(S.groups.brand||[]).forEach(function(b){brands[b.id]=b.label});
+  (S.broll||[]).forEach(function(c){
+    if(c.example)return;
+    var file=(c.source||"").split(" > ").pop();
+    ALL.push({kind:"broll",theme:"b-"+c.category,themeLabel:lab(T.category,c.category),title:c.name,img:c.img,dur:c.duration,
+      pills:[lab(T.shot,c.shot),lab(T.orient,c.orient).replace(/ .*/,""),brands[c.brand]&&c.brand!=="estus"?brands[c.brand]:""].filter(Boolean),
+      privacy:c.privacy,file:file,link:c.drive?FILE(c.drive):"",
+      hay:[c.name,c.subject,file,(c.tags||[]).join(" "),(c.topics||[]).map(function(t){return lab(T.topics,t)}).join(" "),lab(T.category,c.category),c.location,c.notes,c.mood].join(" ").toLowerCase()});
+  });
+  var ST={ready:["Short ready","ok"],nocover:["Short, needs cover","warn"],raw:["Raw clip only",""]};
+  (P.clips||[]).forEach(function(c){
+    var links=[];
+    if(c.shortId)links.push(["Edited short",FILE(c.shortId)]);
+    if(c.rawId)links.push(["Raw clip",FILE(c.rawId)]);
+    if(c.coverId)links.push(["Cover",FILE(c.coverId)]);
+    ALL.push({kind:"podcast",theme:"p-"+c.theme,themeLabel:P.themes[c.theme]||c.theme,title:c.title,img:c.img,dur:c.shortLength||c.length,
+      pills:[ST[c.status]?ST[c.status][0]:"",c.speakers].filter(Boolean),status:ST[c.status]?ST[c.status][1]:"",
+      privacy:c.privacy||"clear",hook:c.hook,id:c.id,file:(c.short||c.raw||"").split(" > ").pop(),links:links,
+      hay:[c.id,c.title,c.hook,c.line,c.transcript,c.speakers,c.source,P.themes[c.theme],(c.topics||[]).join(" "),c.raw,c.short].join(" ").toLowerCase()});
+  });
+  build(S,P);draw();
+}).catch(function(e){
+  $("lib").innerHTML='<div class="empty">Could not load the clip lists ('+esc(e.message)+'). Open <a href="shorts.html#library">Shorts Studio</a> or <a href="clips.html">Podcast Clips</a>, or use the Drive folders above.</div>';
+});
+
+function chips(id,key,opts){
+  var el=$(id);[].slice.call(el.querySelectorAll(".chip")).forEach(function(x){x.remove()});
+  [["all","All"]].concat(opts).forEach(function(o){
+    var b=document.createElement("button");b.type="button";b.className="chip";b.textContent=o[1];b.dataset.v=o[0];b.setAttribute("aria-pressed",o[0]===F[key]);
+    b.addEventListener("click",function(){F[key]=o[0];[].forEach.call(el.querySelectorAll(".chip"),function(x){x.setAttribute("aria-pressed",x===b)});if(key==="kind"){F.theme="all";themes()}draw()});
+    el.appendChild(b);
+  });
+}
+function themes(){
+  var seen={},opts=[];
+  ALL.forEach(function(c){if((F.kind==="all"||c.kind===F.kind)&&!seen[c.theme]){seen[c.theme]=1;opts.push([c.theme,c.themeLabel+(F.kind==="all"&&c.kind==="podcast"?" (podcast)":"")])}});
+  chips("f-theme","theme",opts);
+}
+function build(){
+  var nb=ALL.filter(function(c){return c.kind==="broll"}).length,np=ALL.length-nb;
+  chips("f-kind","kind",[["broll","B-roll ("+nb+")"],["podcast","Podcast clips ("+np+")"]]);
+  themes();
+  $("q").addEventListener("input",function(){F.q=this.value.trim().toLowerCase();draw()});
+  $("hideInt").addEventListener("change",draw);
+  var h=location.hash.replace("#","");if(h==="broll"||h==="podcast"){[].forEach.call($("f-kind").querySelectorAll(".chip"),function(x){if(x.dataset.v===h)x.click()})}
+}
+var PRIV={clear:["Clear to use","ok"],blur:["Needs blur","warn"],internal:["Internal only","no"]};
+function card(c){
+  var p=PRIV[c.privacy]||["Check privacy","warn"];
+  var main=c.kind==="broll"?c.link:(c.links[0]||[])[1];
+  var th='<span class="kind">'+(c.kind==="broll"?"B-roll":"Podcast "+esc(c.id))+'</span>'+(c.img?'<img src="'+esc(c.img)+'" alt="" loading="lazy" decoding="async">':'')+(c.dur?'<span class="dur">'+esc(c.dur)+'</span>':'');
+  var acts=c.kind==="broll"?(c.link?'<a class="btn go" href="'+esc(c.link)+'" target="_blank" rel="noopener">Open in Drive</a>':'')
+    :c.links.map(function(l,i){return '<a class="btn'+(i===0?' go':'')+'" href="'+esc(l[1])+'" target="_blank" rel="noopener">'+(i===0?'Open ':'')+esc(l[0])+'</a>'}).join("");
+  acts+='<button class="btn" type="button" data-copy="'+esc(c.file)+'">Copy name</button>';
+  return '<article class="item">'+(main?'<a class="th" href="'+esc(main)+'" target="_blank" rel="noopener" aria-label="Open '+esc(c.title)+' in Drive">'+th+'</a>':'<span class="th">'+th+'</span>')+
+    '<div class="b"><h3>'+esc(c.title)+'</h3>'+
+    '<div class="pills"><span class="pill">'+esc(c.themeLabel)+'</span>'+c.pills.map(function(x,i){return '<span class="pill'+(c.kind==="podcast"&&i===0&&c.status?' '+c.status:'')+'">'+esc(x)+'</span>'}).join("")+'<span class="pill '+p[1]+'">'+p[0]+'</span></div>'+
+    (c.hook?'<p class="hook">'+esc(c.hook)+'</p>':'')+
+    '<div class="acts">'+acts+'</div></div></article>';
+}
+function draw(){
+  var hide=$("hideInt").checked,words=F.q.split(/\s+/).filter(Boolean);
+  var list=ALL.filter(function(c){
+    if(F.kind!=="all"&&c.kind!==F.kind)return false;
+    if(F.theme!=="all"&&c.theme!==F.theme)return false;
+    if(hide&&c.privacy==="internal")return false;
+    return words.every(function(w){return c.hay.indexOf(w)>-1});
+  });
+  list.sort(function(a,b){return a.kind===b.kind?(a.themeLabel===b.themeLabel?a.title.localeCompare(b.title):a.themeLabel.localeCompare(b.themeLabel)):(a.kind==="broll"?-1:1)});
+  $("count").textContent=list.length+" of "+ALL.length+" clips";
+  $("lib").innerHTML=list.length?list.map(card).join(""):'<div class="empty">Nothing matches. Try one word, or clear the filters.</div>';
+  var nl=EXTRA.filter(function(x){return (F.kind==="all"||x.kind===F.kind)&&words.every(function(w){return x.file.toLowerCase().indexOf(w)>-1})});
+  $("newbox").hidden=!nl.length;
+  $("newlist").innerHTML=nl.map(function(x){return '<li><span>'+esc(x.file)+'<small>'+(x.kind==="broll"?"B-roll":"Podcast clip")+(x.folder?", "+esc(x.folder):"")+'</small></span><a class="btn" href="'+esc(FILE(x.drive))+'" target="_blank" rel="noopener">Open</a></li>'}).join("");
+}
+document.addEventListener("click",function(e){var b=e.target.closest("[data-copy]");if(b)copy(b.dataset.copy,"File name copied")});
+})();
+</script>

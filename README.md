@@ -14,7 +14,7 @@ Some trainings are **suites**: several pages that act as one training with tabs.
 | How Estus runs | Growing here | `accelerator`, `check`, `self-mastery` (Self-Mastery Shelf: six books on habits, decisions and self-control, chapter by chapter, graded against the research and mapped to Stoicism) |
 | Therapy | The Estus way | `neuroaffirming` (Neuroaffirming Practice), `ot-models` (OT Models and Frames), `assessments` (Assessment Atlas), **Executive Function and Problem Solving** (`executive-function`, `problem-solving`), `nervous` |
 | Therapy | Programs and approaches | **Small Hinges** (`hinges`, `sleep`, `morning`, `energy`, `load`, `transition`, `shutdown`), `act` (plus `act-game`), **CBT and Core Beliefs** (`cbt`, `beliefs`), `mi`, `gaming`, `sport-psych` (Sport Psychology map) |
-| Growth | | `growth` (Growth HQ, start here), **Ads and Copy** (`meta`, `copy`), **Content Studio** (`shorts`, `clips`, `must-be-nice`), `gp`. Shared data and rules: `growth.js` |
+| Growth | | `growth` (Growth HQ, start here), **Ads and Copy** (`meta`, `copy`), **Content Studio** (`footage` (All Clips), `shorts`, `clips`, `must-be-nice`), `gp`. Shared data and rules: `growth.js` |
 | Templates | Reports | `fca`, `ptd` (Potential to Drive), `ftd` (Medical Fitness to Drive), `summary` (Therapy Service Summary), `sensory` (Sensory Profile Report), `letter` (Letter of Support) |
 | Templates | Handouts | `goals` (Goal Plan, SMART goals), `chaining` (forward or backward chaining plan), `prompts` (Prompt Hierarchy Guide for support workers), `planner` (Student Planner) |
 
@@ -22,7 +22,7 @@ Some trainings are **suites**: several pages that act as one training with tabs.
 
 `suite.js` is the one source for suites. `HUB_SUITES` lists each suite: its title, pill, description, what's inside, who it's for, and `parts`, each `[file, tab label, progress slug]`. The slug must match the `s` in that page's Mark done script.
 
-- The hub loads it in `<head>` and shows each suite as one entry. A suite counts as done when all its pages are done; progress still counts pages (36).
+- The hub loads it in `<head>` and shows each suite as one entry. A suite counts as done when all its pages are done; progress still counts pages (37).
 - Each member page loads `<script src="suite.js"></script>` right after `theme.js`, not deferred. It puts the tab bar in the moment the hub bar is parsed, before the rest of the page, so `#section` links and page scripts see the final layout. The bar copies the hub bar's side margins and width, and moves any space below the hub bar to below the tabs, so content sits exactly one bar lower than before.
 - To add a page to a suite: add it to `parts`, add the script tag to the page, and take its slug out of `HUB` in `index.html` (it is listed through the suite). To make a new suite, add it to `HUB_SUITES` and put its `id` in a folder or group in `HUB`.
 
@@ -64,6 +64,10 @@ Progress ticks and tool drafts save in each person's own browser only.
 ## Must Be Nice series
 
 `must-be-nice.html` is the home of the "Must be nice" content series. Every card in its bank is a full post: the line, the kind cause, what keeps it hard (the inversion), the small hinge and a shot idea. The post maker turns a card into a text walk, a talk to camera script, an anti-recipe or a five slide carousel, and saves the text overlay (1080 x 1920, clear background) or the slides (1080 x 1350) as PNG files. The cards live in `CARDS` in `growth.js`; add new ones there and Meta Ads System picks them up too. The CTAs and the copy check also come from `growth.js`. Stars, posted ticks and cards written in the worksheet save in each person's browser only.
+
+## All Clips
+
+`footage.html` is the one place to find any clip: every B-roll clip and every podcast clip in one search, and each card opens the file in Drive. It holds no clip data of its own. It reads the `state` block in `shorts.html` and the `clips` block in `clips.html` when it loads, so a clip added to either page shows up here too. The Drive link is the `drive` field (file ID) on each B-roll clip, and `rawId`, `shortId` and `coverId` on each podcast clip. When you sync B-roll or add podcast clips, add the file ID too, or the card has no Open button. Internal only clips are hidden by default. The only data on the page is the `extra` block: files found in Drive that are not tagged yet, each with its file ID. Clear an entry once that file is tagged on Shorts Studio or Podcast Clips.
 
 ## Shorts Studio
 
