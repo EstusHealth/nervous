@@ -23,7 +23,7 @@ const FONTS_URL="drive-fonts.js";
 const PAGES={summary:"summary.html",sensory:"sensory.html",letter:"letter.html",goals:"goals.html",chaining:"chaining.html",prompts:"prompts.html",planner:"planner.html"};
 const ME_KEY="estus-kit-me-v1",DRIVE_ME="estus-drive-assessor-v1";
 const ESTUS={email:"hello@estushealth.com",web:"www.estushealth.com"};
-const WP="Without prejudice";
+const WP=EstusLetterhead.WP;
 
 /* ---------- small helpers ---------- */
 const $=s=>document.querySelector(s);
@@ -108,7 +108,7 @@ function start(make){
   /* Only the field just edited is saved, so example values never leak into your saved details. */
   function saveMe(field,val){try{const k=JSON.parse(localStorage.getItem(ME_KEY)||"{}")||{};k[field]=str(val);localStorage.setItem(ME_KEY,JSON.stringify(k))}catch(e){}}
   function blank(){const m=readMe(),b=D.blank();b.template=D.id;
-    b.meta=Object.assign({date:"",example:false,title:"",foot:"",wp:true,heads:{}},b.meta||{});
+    b.meta=Object.assign({date:"",example:false},EstusLetterhead.defaults(),b.meta||{});
     b.ot=Object.assign({name:m.name||"",role:m.role||"Occupational Therapist",ahpra:m.ahpra||"",phone:m.phone||"",email:m.email||ESTUS.email},b.ot||{});
     return b}
   function normalise(x){const o=deepMerge(blank(),x||{});o.template=D.id;if(D.normalise)D.normalise(o);return o}
@@ -158,8 +158,7 @@ function start(make){
   function HEAD(path,i,arr,title){return `<div class="item-h"><span class="item-n">${i+1}</span><h3 class="item-t" id="it_${fid(path+"."+i)}">${esc(title)}</h3>${MOVE(path,i,arr.length)}<button type="button" class="x" data-act="del" data-path="${esc(path)}" data-i="${i}">Remove</button></div>`}
   /* The last section on every template. */
   function FINISH(o){o=o||{};return `<div class="sub">Letterhead and footer</div>
-    <div class="grid2">${F("meta.title","Letterhead title",{ph:stdTitle(),hint:"The big title at the top of the page. Empty uses the standard one."})}${F("meta.foot","Footer",{ph:stdFoot(),hint:"Bottom left of every page. Empty uses the standard one."})}</div>
-    ${CB("meta.wp","Add \u201CWithout prejudice\u201D under the title")}
+    ${LH.fields(F,CB,"page")}
     ${D.build().some(b=>b.t==="h"||b.t==="sub")?`<p class="hint">To rename a heading, open Preview and tap the heading.</p>`:""}
     <div class="done"><p id="done-h" class="hint"></p><div class="btns"><button type="button" class="big" data-act="docx">Download Word document</button><button type="button" class="add" data-act="print">Print or save as PDF</button><button type="button" class="add" data-act="preview">Preview</button><button type="button" class="add" data-act="checks">Open checks</button></div>${o.hint?`<p class="hint">${esc(o.hint)}</p>`:""}</div>`}
 
@@ -225,6 +224,8 @@ function start(make){
 <div class="toast" id="toast" role="status" aria-live="polite" hidden><span id="toast-m"></span><button type="button" id="toast-u" hidden>Undo</button></div>
 <div id="printhost" aria-hidden="true"></div>`);
   const main=$("#main"),nav=$("#nav");
+  /* Letterhead title, the line under it, the footer and heading renames: letterhead.js, shared with every builder. */
+  const LH=EstusLetterhead.make({state:()=>S,persist:()=>persist(),title:()=>stdTitle(),sub:()=>txt(D.docSub),foot:()=>[who(),D.name].filter(Boolean).join(" | ")});
 
   /* ---------- load ---------- */
   try{const raw=JSON.parse(localStorage.getItem(KEY())||"null");if(raw&&raw.cur){S=normalise(raw.cur);S.meta.example=!!(raw.cur.meta&&raw.cur.meta.example);CUR=raw.sec||""}}catch(e){S=null}
@@ -329,26 +330,14 @@ function start(make){
   /* ---------- headings ---------- */
   /* Any heading or sub-heading can be renamed per draft. meta.heads maps the standard heading to the new one.
      In the preview, tap a heading and type. Clear it to get the standard one back. */
-  const headOf=k=>{const H=S.meta.heads;return H&&typeof H==="object"&&Object.prototype.hasOwnProperty.call(H,k)?str(H[k]):""};
-  const withHeads=B=>B.map(b=>(b.t==="h"||b.t==="sub")&&str(b.text)?Object.assign({},b,{std:b.text,text:headOf(b.text)||b.text}):b);
-  const hAttr=(b,on)=>on&&b.std?` class="hd" contenteditable="true" spellcheck="true" role="textbox" aria-label="${esc("Heading: "+b.std+". Type to rename it.")}" title="Tap to rename" data-std="${esc(b.std)}"`:"";
-  const hdEl=e=>e.target&&e.target.closest?e.target.closest("[data-std]"):null;
-  const HDTIP=B=>B.some(b=>b.std)?`<p class="hdtip">Tap any heading to rename it. Clear it to get the standard one back.</p>`:"";
-  function setHead(std,val){val=str(val).replace(/\s+/g," ");if(!S.meta.heads||typeof S.meta.heads!=="object"||Array.isArray(S.meta.heads))S.meta.heads={};
-    if(!val||val===std)delete S.meta.heads[std];else S.meta.heads[std]=val;persist();
-    main.querySelectorAll("[data-std]").forEach(el=>{if(el.dataset.std===std)el.textContent=val||std})}
-  main.addEventListener("keydown",e=>{const t=hdEl(e);if(!t||(e.key!=="Enter"&&e.key!=="Escape"))return;e.preventDefault();if(e.key==="Escape")t.textContent=headOf(t.dataset.std)||t.dataset.std;t.blur()});
-  main.addEventListener("paste",e=>{const t=hdEl(e);if(!t)return;e.preventDefault();document.execCommand("insertText",false,((e.clipboardData||window.clipboardData).getData("text")||"").replace(/\s+/g," "))});
-  main.addEventListener("focusout",e=>{const t=hdEl(e);if(t)setHead(t.dataset.std,t.textContent)});
+  const {headOf,withHeads,hAttr,HDTIP}=LH;      // shared with every builder: letterhead.js
+  LH.wire(main);
 
   /* ---------- preview ---------- */
   const build=()=>withHeads(D.build());
   /* Letterhead title and footer can be set per draft (meta.title, meta.foot). "Without prejudice" joins the line under the title unless unticked. */
   const stdTitle=()=>str(txt(D.docTitle))||D.name;
-  const docTitle=()=>str(S.meta.title)||stdTitle();
-  const docSub=()=>{const s=str(txt(D.docSub));if(S.meta.wp===false)return s;return !s?WP+".":/[.!?]$/.test(s)?s+" "+WP+".":s+" \u00B7 "+WP};
-  const stdFoot=()=>[who(),D.name].filter(Boolean).join(" | ");
-  const footLeft=()=>str(S.meta.foot)||stdFoot();
+  const {docTitle,docSub,stdFoot,footLeft}=LH;
   function cellH(c){let h="",ul=false;c.forEach(x=>{if(x.li!=null){if(!ul){h+="<ul>";ul=true}h+=`<li>${rH(x.li)}</li>`;return}if(ul){h+="</ul>";ul=false}
     if(x.b!=null)h+=`<p>${esc(x.b)}</p>`;else if(x.gap!=null)h+=`<p><span class="gap">${esc(x.gap)}</span></p>`;else if(x.sm!=null)h+=`<p class="sm">${rH(x.sm)}</p>`;
     else if(x.box)h+=`<p><span class="bx" aria-label="Tick box"></span></p>`;else h+=`<p>${rH(x.p)}</p>`});return h+(ul?"</ul>":"")}

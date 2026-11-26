@@ -14,7 +14,7 @@ const LONG={ftd:"Medical Fitness to Drive",ptd:"Potential to Drive"};
 const DOC_TITLE={ftd:"Occupational Therapy Driver Assessment",ptd:"Potential to Drive Assessment"};
 const DOC_SUB={ftd:"Medical fitness to drive. Confidential health information. Not to be released in part or in full without consent.",
   ptd:"Occupational therapy assessment of readiness to learn to drive. Confidential. Not to be released in part or in full without consent."};
-const WP="Without prejudice";
+const WP=EstusLetterhead.WP;
 const FONTS=window.ESTUS_FONTS||[];
 
 const $=s=>document.querySelector(s);
@@ -179,10 +179,9 @@ const first=()=>str(S.client.preferred)||str(S.client.firstName);
 const legal=()=>[S.client.firstName,S.client.surname].map(str).filter(Boolean).join(" ");
 const formal=()=>[S.client.title,legal()].map(str).filter(Boolean).join(" ");
 /* Letterhead title, the line under it, and the footer. */
-const docTitle=()=>str(S.meta.title)||DOC_TITLE[TPL];
-const docSub=()=>S.meta.wp===false?DOC_SUB[TPL]:DOC_SUB[TPL]+" "+WP+".";
-const stdFoot=()=>(formal()||"Client")+" | "+LONG[TPL];
-const footLeft=()=>str(S.meta.foot)||stdFoot();
+/* The shared rules live in letterhead.js. */
+const LH=EstusLetterhead.make({state:()=>S,persist:()=>persist(),title:()=>DOC_TITLE[TPL],sub:()=>DOC_SUB[TPL],foot:()=>(formal()||"Client")+" | "+LONG[TPL]});
+const {docTitle,docSub,stdFoot,footLeft}=LH;
 function nm(){if(PTD)return first()||"the learner";const t=str(S.client.title),s=str(S.client.surname);return t&&s?t+" "+s:(first()||"the client")}
 function fill(t){const p=pron(),m={name:nm(),first:first()||nm(),he:p.he,him:p.him,his:p.his};
  return String(t==null?"":t).replace(/\{(name|first|he|him|his)\}/gi,(x,k,off,all)=>{const v=m[k.toLowerCase()];
@@ -372,8 +371,7 @@ function rSignoff(){return `<div class="form">
  ${CB("signoff.consent",PTD?"The learner (and parent or carer where needed) gave informed consent for the assessment and this report":"The client gave informed consent for the assessment and this report")}
  ${F("meta.date","Report date",{type:"date"})}
  <div class="sub">Letterhead and footer</div>
- <div class="grid2">${F("meta.title","Letterhead title",{ph:DOC_TITLE[TPL],hint:"The big title at the top of the report. Empty uses the standard one."})}${F("meta.foot","Footer",{ph:stdFoot(),hint:"Bottom left of every page. Empty uses the standard one."})}</div>
- ${CB("meta.wp","Add \u201CWithout prejudice\u201D under the title")}
+ ${LH.fields(F,CB,"report")}
  <p class="hint">To rename a heading, open Preview and tap the heading.</p>
  <div class="done"><p id="done-h" class="hint"></p><div style="display:flex;gap:10px;flex-wrap:wrap"><button type="button" class="big" data-act="docx">Download Word document</button><button type="button" class="add" data-act="checks">Open checks</button></div></div></div>`}
 
@@ -875,17 +873,8 @@ const build=()=>withHeads(PTD?buildPTD():buildFTD());
 /* ---------- headings ---------- */
 /* Any heading or sub-heading can be renamed per draft. meta.heads maps the standard heading to the new one.
    In the preview, tap a heading and type. Clear it to get the standard one back. */
-const headOf=k=>{const H=S.meta.heads;return H&&typeof H==="object"&&Object.prototype.hasOwnProperty.call(H,k)?str(H[k]):""};
-const withHeads=B=>B.map(b=>(b.t==="h"||b.t==="sub")&&str(b.text)?Object.assign({},b,{std:b.text,text:headOf(b.text)||b.text}):b);
-const hAttr=(b,on)=>on&&b.std?` class="hd" contenteditable="true" spellcheck="true" role="textbox" aria-label="${esc("Heading: "+b.std+". Type to rename it.")}" title="Tap to rename" data-std="${esc(b.std)}"`:"";
-const hdEl=e=>e.target&&e.target.closest?e.target.closest("[data-std]"):null;
-const HDTIP=B=>B.some(b=>b.std)?`<p class="hdtip">Tap any heading to rename it. Clear it to get the standard one back.</p>`:"";
-function setHead(std,val){val=str(val).replace(/\s+/g," ");if(!S.meta.heads||typeof S.meta.heads!=="object"||Array.isArray(S.meta.heads))S.meta.heads={};
-  if(!val||val===std)delete S.meta.heads[std];else S.meta.heads[std]=val;persist();
-  main.querySelectorAll("[data-std]").forEach(el=>{if(el.dataset.std===std)el.textContent=val||std})}
-main.addEventListener("keydown",e=>{const t=hdEl(e);if(!t||(e.key!=="Enter"&&e.key!=="Escape"))return;e.preventDefault();if(e.key==="Escape")t.textContent=headOf(t.dataset.std)||t.dataset.std;t.blur()});
-main.addEventListener("paste",e=>{const t=hdEl(e);if(!t)return;e.preventDefault();document.execCommand("insertText",false,((e.clipboardData||window.clipboardData).getData("text")||"").replace(/\s+/g," "))});
-main.addEventListener("focusout",e=>{const t=hdEl(e);if(t)setHead(t.dataset.std,t.textContent)});
+const {headOf,withHeads,hAttr,HDTIP}=LH;      // shared with every builder: letterhead.js
+LH.wire(main);
 
 /* ---------- preview ---------- */
 function cellH(c){let h="",ul=false;c.forEach(x=>{if(x.li!=null){if(!ul){h+="<ul>";ul=true}h+=`<li>${esc(x.li)}</li>`;return}if(ul){h+="</ul>";ul=false}

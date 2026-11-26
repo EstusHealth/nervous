@@ -34,8 +34,8 @@ var HUB_SUITES = [
    parts:[['meta.html','Meta Ads System','metaads'],['copy.html','Geometry Puzzle Copy','copy']]},
   {id:'content', t:'Content Studio', p:'Interactive tools',
    d:'Everything for organic content in one place: find any B-roll or podcast clip and open it in Drive, build a short or a clip edit prompt, or turn a Must be nice card into a post.',
-   i:['All clips','Prompt builder','B-roll library','Clip library','Post maker'], w:['Marketing','Clinicians','Team leaders'],
-   parts:[['footage.html','All Clips','footage'],['shorts.html','Shorts Studio','shortsmaker'],['clips.html','Podcast Clips','clips'],['must-be-nice.html','Must Be Nice','mustbenice']]}
+   i:['Clip library','Prompt builder','B-roll tagging','Post maker'], w:['Marketing','Clinicians','Team leaders'],
+   parts:[['footage.html','Clip Library','footage'],['shorts.html','Shorts Studio','shortsmaker'],['must-be-nice.html','Must Be Nice','mustbenice']]}
 ];
 
 (function () {

@@ -830,7 +830,7 @@ var GROUPS=[
  {key:'extras',title:'Extras',multi:true}
 ];
 var GMAP={};GROUPS.forEach(function(g){GMAP[g.key]=g});
-var TABS=[['build','Build'],['playbook','Playbook'],['library','B-roll library'],['guide','Tagging guide'],['recipes','Recipes'],['lists','Lists and rules']];
+var TABS=[['build','Build'],['playbook','Playbook'],['library','Tag B-roll'],['guide','Tagging guide'],['recipes','Recipes'],['lists','Lists and rules']];
 /* Playbook sections (from Reels Studio) live outside #app, in #pb */
 var PB_IDS=['how','can','formats','transitions','ends','pace','fixes','specs','shoot','sound','rules','check'];
 var TAXG=[
@@ -1176,7 +1176,7 @@ var LOGO='<svg width="26" height="38" viewBox="0 0 26 38" aria-hidden="true"><re
 function tab(){var h=location.hash.replace('#','');if(PB_IDS.indexOf(h)>-1)return 'playbook';return TABS.some(function(t){return t[0]===h})?h:'build'}
 function pbScroll(){var h=location.hash.replace('#',''),el=PB_IDS.indexOf(h)>-1?document.getElementById(h):null;if(el){el.scrollIntoView();return true}return false}
 function headerHTML(t){
-  return '<header class="top"><div class="wrap top-in"><div class="mark">'+LOGO+'<div><h1>Shorts Studio</h1><p class="tag">Pick the parts, copy the prompt. Scripts or a finished edit, plus the playbook and the B-roll library.</p></div></div><span class="status '+statusClass()+'" id="status">'+esc(statusText())+'</span><nav class="tabs" aria-label="Sections">'+
+  return '<header class="top"><div class="wrap top-in"><div class="mark">'+LOGO+'<div><h1>Shorts Studio</h1><p class="tag">Pick the parts, copy the prompt. Scripts or a finished edit, plus the playbook and B-roll tagging. Find any clip on the <a href="footage.html">Clip Library</a>.</p></div></div><span class="status '+statusClass()+'" id="status">'+esc(statusText())+'</span><nav class="tabs" aria-label="Sections">'+
   TABS.map(function(x){return '<a href="#'+x[0]+'"'+(x[0]===t?' aria-current="page"':'')+'>'+x[1]+(x[0]==='guide'?'<span class="cnt" title="Clips that need tagging">'+todoCount()+'</span>':x[0]==='library'?'<span class="cnt">'+S.broll.length+'</span>':x[0]==='recipes'?'<span class="cnt">'+S.recipes.length+'</span>':'')+'</a>'}).join('')+'</nav></div></header>';
 }
 function thumb(c,cls){
@@ -1275,7 +1275,7 @@ function gridHTML(){
 }
 function libraryHTML(){
   var t=todoCount();
-  return '<div class="page-h"><h2>B-roll library</h2><button type="button" class="btn primary" data-act="add-clip">Add clip</button><p>Every clip, with a screenshot of the scene. Tag each one by the <a href="#guide">Tagging guide</a> so it shows up in the right builds. '+(t?t+' clip'+(t===1?' needs':'s need')+' tagging.':'Every clip is fully tagged.')+'</p></div>'+
+  return '<div class="page-h"><h2>Tag B-roll</h2><button type="button" class="btn primary" data-act="add-clip">Add clip</button><p>Add, tag and pick B-roll for a short. Tag each clip by the <a href="#guide">Tagging guide</a> so it shows up in the right builds. To search every clip, B-roll and podcast, and open it in Drive, use the <a href="footage.html">Clip Library</a>. '+(t?t+' clip'+(t===1?' needs':'s need')+' tagging.':'Every clip is fully tagged.')+'</p></div>'+
   '<div class="filters"><input type="search" id="libSearch" placeholder="Search name, topic or tag" aria-label="Search clips" value="'+esc(libQ)+'">'+
   '<select id="libCat" aria-label="Category">'+optsel(S.tax.category,libCat,'All categories')+'</select>'+
   '<select id="libBrand" aria-label="Brand">'+optsel(S.groups.brand,libBrand,'All brands')+'</select>'+
@@ -1296,7 +1296,7 @@ function guideHTML(){
   '<li><b>Film it right</b>Vertical 9:16 unless you need wide. Hold each shot for at least 5 seconds. No client faces, names, voices or screens, and no identifiable kids.</li>'+
   '<li><b>Name the file</b>Use the file name builder below before you upload. The format is <code>brand_category_shot_subject_yyyymmdd.mp4</code>: lower case, with hyphens inside each part.</li>'+
   '<li><b>Upload to the right folder</b>In the Media drive: drop new clips in 00 Inbox and Claude files them, or file them yourself in 01 B-roll, then the brand folder, then the category folder. If the category folder is missing, create it with the exact category name from the table below. Podcast and webinar clips go in 02 Podcast clips instead.</li>'+
-  '<li><b>Add it to the library</b>On the B-roll library tab, tap Add clip. Paste a screenshot from about 1 second in, then fill every required field: brand, category, shot type, orientation, at least one topic and the privacy check. Clips you add here save in your browser only. To add them for the whole team, tell Liam or ask Claude to sync B-roll.</li>'+
+  '<li><b>Add it to the library</b>On the Tag B-roll tab, tap Add clip. Paste a screenshot from about 1 second in, then fill every required field: brand, category, shot type, orientation, at least one topic and the privacy check. Clips you add here save in your browser only. To add them for the whole team, tell Liam or ask Claude to sync B-roll.</li>'+
   '<li><b>Do the privacy check</b>Clear to use means it can be posted as it is. Needs blur means fix it before it goes in a short (number plates, usernames, faces in the background), and say what in Notes. Internal only clips can never go in a short, and the builder will not let you pick them.</li>'+
   '<li><b>Clear the queue every week</b>Any clip missing something shows in the list below and on its library card. Get the count to zero each week. To bring new Drive files across, ask Claude to sync B-roll.</li></ol></section>'+
   '<section class="panel"><h3>File name builder</h3><p class="sub">Fill these in, copy the name, then rename the file before you upload it.</p><div class="form-grid">'+

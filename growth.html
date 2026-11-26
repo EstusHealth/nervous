@@ -384,7 +384,7 @@ footer .wrap{padding-block:24px 56px;display:flex;justify-content:space-between;
 
 <section class="s" id="hooks"><div class="wrap">
   <div class="s-head"><span class="num">05 &middot; Hook bank</span><h2>Every hook, one sentence</h2>
-  <p>The same bank feeds the Must Be Nice post maker, Shorts Studio and the ad script builder. Organic for posts, ad for paid: the ad version names our OT and never says the viewer has a condition.</p></div>
+  <p>This is the one hook bank. The Must Be Nice post maker, Shorts Studio and the ad script builder all pick from it; <b>Use in ad script</b> sends a hook straight to Meta Ads. Organic for posts, ad for paid: the ad version names our OT and never says the viewer has a condition.</p></div>
   <div class="chips hq-vers" id="hbVer" role="group" aria-label="Version"></div>
   <div class="chips" id="hbSrc" role="group" aria-label="Which hooks" style="margin-bottom:8px"></div>
   <div class="chips" id="hbWho" role="group" aria-label="Who it's for" style="margin-bottom:14px"></div>
@@ -393,7 +393,7 @@ footer .wrap{padding-block:24px 56px;display:flex;justify-content:space-between;
 
 <section class="s" id="check"><div class="wrap">
   <div class="s-head"><span class="num">06 &middot; Copy check</span><h2>Check it before it ships</h2>
-  <p>Paste a post, caption, ad, page or email. This is the same checker every Growth page uses. It reads patterns, not meaning, so a clinician still reads it before it goes out.</p></div>
+  <p>Paste a post, caption, ad, page or email. This is the one copy check for every Growth page: Meta Ads sends its scripts here, and Shorts Studio and Must Be Nice run the same rules as you type. It reads patterns, not meaning, so a clinician still reads it before it goes out.</p></div>
   <div class="rp-checker">
     <div class="rp-fld"><label for="ccIn">Copy to check</label><textarea id="ccIn">Must be nice when mornings just work. Our clients say we changed their lives, and NDIS will fund it.</textarea>
       <label class="small" style="display:flex;gap:8px;align-items:center;margin-top:8px;font-family:var(--body);text-transform:none;letter-spacing:0;font-weight:400"><input type="checkbox" id="ccHook" checked style="width:auto;min-height:0;accent-color:var(--teal)"> Check the first line as a hook (one complete sentence)</label></div>
@@ -419,15 +419,17 @@ footer .wrap{padding-block:24px 56px;display:flex;justify-content:space-between;
 </div></section>
 
 <section class="s" id="moved"><div class="wrap">
-  <div class="s-head"><span class="num">08 &middot; What moved</span><h2>Seven pages became six</h2>
+  <div class="s-head"><span class="num">08 &middot; What moved</span><h2>What moved, and where it lives now</h2>
   <p>Old links still open the right place. Ticks and drafts carried over, except Reels Studio's builder choices, because that builder is now part of Shorts Studio.</p></div>
   <div class="hq-scroll"><table class="hq-tbl"><thead><tr><th>Was</th><th>Now</th></tr></thead><tbody>
-    <tr><td>Reels Playbook</td><td><a href="meta.html#scripts">Meta Ads System</a>: the ad scripts, the copy check, the hook bank and the test order.</td></tr>
+    <tr><td>Reels Playbook</td><td><a href="meta.html#scripts">Meta Ads System</a>: the ad scripts and the test order. Its hook bank and copy check are on this page.</td></tr>
     <tr><td>Reels Studio</td><td><a href="shorts.html#playbook">Shorts Studio, Playbook tab</a>: formats, transitions, end screens, specs, shoot, sound and the checklist.</td></tr>
     <tr><td>Shorts Prompt Maker</td><td><a href="shorts.html">Shorts Studio, Build tab</a>, which can now ask Claude to edit your clip as well as write the script.</td></tr>
     <tr><td>Five copy checkers</td><td>One, in growth.js. Must Be Nice, Shorts Studio, Meta Ads System, Geometry Puzzle Copy and this page all use it.</td></tr>
     <tr><td>Two copies of the 55 cards</td><td>One bank in growth.js, read by Must Be Nice and Meta Ads System.</td></tr>
     <tr><td>Four CTA lists</td><td>One, in the <a href="#cta">CTA map</a> above.</td></tr>
+    <tr><td>Two hook banks, two copy checks (here and Meta Ads)</td><td>One of each, on this page: the <a href="#hooks">hook bank</a> and the <a href="#check">copy check</a>. Meta Ads sends scripts here to check, and hooks go back with Use in ad script.</td></tr>
+    <tr><td>All Clips, Podcast Clip Library and the Shorts B-roll library</td><td>One <a href="footage.html">Clip Library</a> for finding any clip. Shorts Studio keeps the Tag B-roll tab for adding and tagging.</td></tr>
   </tbody></table></div>
 </div></section>
 
@@ -482,6 +484,7 @@ $("ctaList").addEventListener("click",function(e){var b=e.target.closest("[data-
 /* hook bank */
 var BANK=G.bank(),HC={adults:"var(--navy)",parents:"var(--blue)",teens:"var(--plum)",driving:"var(--coal)",ndis:"var(--slate)",clin:"var(--teal)"};
 var hb=load("growthhq_hb",{ver:"organic",src:"hook",who:"all"});
+try{var askVer=sessionStorage.getItem("hub_hb_ver");sessionStorage.removeItem("hub_hb_ver");if(askVer==="ad"||askVer==="organic")hb.ver=askVer}catch(e){}   // Meta Ads asks for the ad version
 function chips(el,items,cur,on){el.innerHTML=items.map(function(i){return '<button class="chip" type="button" data-k="'+i[0]+'" aria-pressed="'+(i[0]===cur)+'">'+esc(i[1])+'</button>'}).join("");
   [].forEach.call(el.children,function(b){b.addEventListener("click",function(){on(b.getAttribute("data-k"))})})}
 function renderBank(){
@@ -493,9 +496,11 @@ function renderBank(){
   chips($("hbWho"),who,hb.who,function(k){hb.who=k;save("growthhq_hb",hb);renderBank()});
   var other=hb.ver==="ad"?"organic":"ad";
   $("hbList").innerHTML=src.filter(function(b){return hb.who==="all"||b.aud===hb.who}).map(function(b){return '<article class="rp-hook" style="--hc:'+HC[b.aud]+'"><q>'+esc(b[hb.ver])+'</q><div class="rp-shot"><b>'+(other==="ad"?"Ad":"Organic")+':</b> '+esc(b[other])+'</div>'+(b.s?'<div class="rp-shot">On screen: '+esc(b.s)+'</div>':'')+
-    '<div class="rp-meta"><span class="rp-pill">'+esc(G.audiences[b.aud])+(b.k?' &middot; '+esc(G.hinges[b.k]):(b.tag?' &middot; '+esc(b.tag):''))+'</span><button class="btn sm" type="button" data-id="'+b.id+'">Copy</button></div></article>'}).join("");
+    '<div class="rp-meta"><span class="rp-pill">'+esc(G.audiences[b.aud])+(b.k?' &middot; '+esc(G.hinges[b.k]):(b.tag?' &middot; '+esc(b.tag):''))+'</span><span style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn sm" type="button" data-id="'+b.id+'">Copy</button><button class="btn sm" type="button" data-use="'+b.id+'">Use in ad script</button></span></div></article>'}).join("");
 }
-$("hbList").addEventListener("click",function(e){var c=e.target.closest("[data-id]");if(!c)return;var b=BANK.filter(function(x){return x.id===c.getAttribute("data-id")})[0];copy(b[hb.ver],c)});
+$("hbList").addEventListener("click",function(e){var u=e.target.closest("[data-use]");
+  if(u){try{sessionStorage.setItem("hub_hook_use",u.getAttribute("data-use"))}catch(x){}location.href="meta.html#scriptH";return}   // lands in Meta Ads' script builder
+  var c=e.target.closest("[data-id]");if(!c)return;var b=BANK.filter(function(x){return x.id===c.getAttribute("data-id")})[0];copy(b[hb.ver],c)});
 renderBank();
 
 /* copy check */
@@ -505,7 +510,10 @@ function runCheck(){
   var f=G.check(t);if($("ccHook").checked)f=G.hookFlags(t.split("\n")[0]).concat(f);
   $("ccFlags").innerHTML=f.length?f.map(function(x){return '<div class="rp-flag'+(x.lvl==="bad"?" rp-bad":"")+'"><b>'+(x.lvl==="note"?"Note: ":x.lvl==="warn"?"Check: ":"Fix: ")+esc(x.t)+'</b>Found: '+x.hits.map(function(h){return '<mark>'+esc(h)+'</mark>'}).join(", ")+'. '+esc(x.d)+'</div>'}).join(""):'<div class="rp-flag rp-ok"><b>No flags found</b>A clinician still reads it before it goes out.</div>';
 }
-$("ccIn").addEventListener("input",runCheck);$("ccHook").addEventListener("change",runCheck);runCheck();
+$("ccIn").addEventListener("input",runCheck);$("ccHook").addEventListener("change",runCheck);
+/* The one copy check: other pages (Meta Ads' script builder) send their text here. */
+try{var sent=sessionStorage.getItem("hub_cc_text");if(sent){sessionStorage.removeItem("hub_cc_text");$("ccIn").value=sent;$("ccHook").checked=true;setTimeout(function(){var el=$("check");if(el&&el.scrollIntoView)el.scrollIntoView({block:"start"})},80)}}catch(e){}
+runCheck();
 })();
 </script>
 

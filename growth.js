@@ -283,7 +283,8 @@ function worst(flags){return flags.some(function(f){return f.lvl==="bad"})?"bad"
 var PAGES=[
  {slug:"growthhq",href:"growth.html",title:"Growth HQ",job:"Start here",does:"The plan on a page, the weekly rhythm, the scoreboard, the CTA map and the house rules."},
  {slug:"mustbenice",href:"must-be-nice.html",title:"Must Be Nice Series",job:"Ideas",does:"The organic series: 55 cards, the post maker and batch day."},
- {slug:"shortsmaker",href:"shorts.html",title:"Shorts Studio",job:"Make",does:"One builder for scripts and finished edits, the playbook, the B-roll library and the tagging standard."},
+ {slug:"shortsmaker",href:"shorts.html",title:"Shorts Studio",job:"Make",does:"One builder for scripts and finished edits, the playbook, B-roll tagging and the tagging standard."},
+ {slug:"footage",href:"footage.html",title:"Clip Library",job:"Find",does:"Every B-roll and podcast clip in one search, with hooks, transcripts and edit prompts. Opens in Drive."},
  {slug:"metaads",href:"meta.html",title:"Meta Ads System",job:"Pay",does:"The paid funnel: ad scripts, the hook bank, the funnel maths, the landing page and the weekly review."},
  {slug:"copy",href:"copy.html",title:"Geometry Puzzle Copy",job:"Words",does:"Find the one fact that makes yes feel obvious, then say it plainly."},
  {slug:"gp",href:"gp.html",title:"GP Referral Pathways",job:"Refer",does:"Become the easy answer for GPs on driving. Scripts, the lunch and learn and the GP module."}

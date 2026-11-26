@@ -20,7 +20,7 @@ Each page lives in one place. **Start** is a numbered path that points at pages 
 | Therapy | Programs | **Small Hinges** (`hinges`, `sleep`, `morning`, `energy`, `load`, `transition`, `shutdown`), `gaming` |
 | Therapy | Approaches | `act` (plus `act-game`), **CBT and Core Beliefs** (`cbt`, `beliefs`), `mi`, `sport-psych` (Sport Psychology map) |
 | Therapy | Client handouts | `chaining` (forward or backward chaining plan), `prompts` (Prompt Hierarchy Guide for support workers), `planner` (Student Planner). See also `goals` |
-| Growth | | `growth` (Growth HQ, start here), **Content Studio** (`footage` (All Clips), `shorts`, `clips`, `must-be-nice`), **Ads and Copy** (`meta`, `copy`), `gp`. Shared data and rules: `growth.js` |
+| Growth | | `growth` (Growth HQ, start here), **Content Studio** (`footage` (Clip Library), `shorts`, `must-be-nice`), **Ads and Copy** (`meta`, `copy`), `gp`. Shared data and rules: `growth.js` |
 | Me at Estus | Who we are | `culture`, `playbook` |
 | Me at Estus | Your week | **Your Week** (`calendar`, `gm`), `signature` (Gmail email signature) |
 | Me at Estus | Your growth | `check`, `accelerator`, `self-mastery` (Self-Mastery Shelf: six books on habits, decisions and self-control, chapter by chapter, graded against the research and mapped to Stoicism) |
@@ -65,7 +65,7 @@ Progress ticks and tool drafts save in each person's own browser only.
 
 ## growth.js: one source for Growth
 
-`growth.js` holds everything the Growth pages share, so it is changed in one place: the brands, the Small Hinges, the CTA list and CTA map, the funnel benchmarks, the weekly scoreboard, the 55 Must be nice cards (`CARDS`), the 24 ad hooks (`HOOKS`, each with an organic and an ad version), and the copy checker. Growth HQ, Must Be Nice, Shorts Studio, Meta Ads System and Geometry Puzzle Copy load it with `<script src="growth.js"></script>` in `<head>`, after `theme.js`.
+`growth.js` holds everything the Growth pages share, so it is changed in one place: the brands, the Small Hinges, the CTA list and CTA map, the funnel benchmarks, the weekly scoreboard, the 55 Must be nice cards (`CARDS`), the 24 ad hooks (`HOOKS`, each with an organic and an ad version), and the copy checker. Growth HQ, Must Be Nice, Shorts Studio, Clip Library, Meta Ads System and Geometry Puzzle Copy load it with `<script src="growth.js"></script>` in `<head>`, after `theme.js`.
 
 - **Copy checker.** `GROWTH.check(text)` returns flags worst first: `bad` (fix before it ships), `warn` (check it) and `note` (fine if true). `GROWTH.hookFlags(text)` is the one-sentence hook rule. The rules sit in `RULES`. It merged the five checkers the Growth pages used to have, and it lets "how to guarantee" through because that is the Must be nice anti-recipe joke. If you add a rule, run every card through it: the series number "#1" in a caption and "plan review" in a card are the kind of thing that trips a careless rule.
 - **Hooks.** Every hook is one complete sentence. `GROWTH.bank()` returns the ad hooks and the Must be nice lines together, each with `organic` and `ad` text. The ad version of a card comes from `SAY` and never says the viewer has a condition.
@@ -74,7 +74,9 @@ Progress ticks and tool drafts save in each person's own browser only.
 
 ## Growth HQ
 
-`growth.html` is the front door for Growth: the plan on a page, the weekly rhythm and owners, the scoreboard, the CTA map, the hook bank, the copy check, the house rules and what moved in the November 2026 merge. Almost everything on it is drawn from `growth.js`. Hook bank filters save in each person's browser only.
+`growth.html` is the front door for Growth: the plan on a page, the weekly rhythm and owners, the scoreboard, the CTA map, the hook bank, the copy check, the house rules and what moved in the November 2026 merges. Almost everything on it is drawn from `growth.js`. Hook bank filters save in each person's browser only.
+
+It is the **one home of the hook bank and the copy check**. Other pages hand off to it in the browser tab (`sessionStorage`): Meta Ads System's **Open in copy check** sends the script (`hub_cc_text`) and the hook check is turned on; **Use in ad script** on a hook sends it back to Meta Ads' script builder (`hub_hook_use`); **Open the hook bank** on Meta Ads asks for the ad version (`hub_hb_ver`). Shorts Studio and Must Be Nice keep a small hook picker and run `GROWTH.check` as you type, because the check belongs inside those tools.
 
 ## Must Be Nice series
 
@@ -96,29 +98,30 @@ The shared drive `Media` is laid out in workflow order (reworked November 2026).
 | `99 Admin` | Production log, Claude outputs, reorg reports. |
 | `_To delete` | Duplicates waiting for a person to delete. Nothing in it is the only copy. |
 
-## All Clips
+## Clip Library
 
-`footage.html` is the one place to find any clip: every B-roll clip and every podcast clip in one search, and each card opens the file in Drive. It holds no clip data of its own. It reads the `state` block in `shorts.html` and the `clips` block in `clips.html` when it loads, so a clip added to either page shows up here too. The Drive link is the `drive` field (file ID) on each B-roll clip, and `rawId`, `shortId` and `coverId` on each podcast clip. When you sync B-roll or add podcast clips, add the file ID too, or the card has no Open button. Internal only clips are hidden by default. The only data on the page is the `extra` block: files found in Drive that are not tagged yet, each with its file ID (empty when everything is tagged). Clear an entry once that file is tagged on Shorts Studio or Podcast Clips.
+`footage.html` is the one place to find any clip: every B-roll clip and every podcast clip in one search, and each card opens the file in Drive. It merged All Clips, the Podcast Clip Library (`clips.html`, now a redirect) and the browsing half of Shorts Studio's old B-roll library. Tabs: Library, To fix (podcast clips with something to fix in Drive) and How it works. Old `clips.html#slug` links open here with that clip searched.
+
+- **B-roll** is read from the `state` block in `shorts.html` when the page loads, because Shorts Studio is where B-roll is added and tagged (the Tag B-roll tab). The Drive link is the `drive` field (file ID).
+- **Podcast clips** live on this page, in the JSON block with `id="clips"`: the talking-head clips Britt cuts in Riverside from our podcasts and webinars (Drive: `Media > 02 Podcast clips` for raw cuts, `Media > 04 Shorts > Ready to post` for finished shorts and covers, one folder per short). Each clip has an id (`PC-01` on), theme, speakers, source, status (`ready`, `nocover` or `raw`), brand, audience, use, a one-sentence hook, the key line, the auto transcript, Drive paths (`rawId`, `shortId`, `coverId` are file IDs) and anything to fix (`flags`). Thumbnails live in `img/clips/`. Hooks run through `GROWTH.check` with the hook rule and show a flag if one breaks it. **Copy edit prompt** gives a ready prompt for Claude to edit the clip. Posted ticks save in each person's browser only (`hub_clips_posted`). The same catalogue is saved as `Podcast clip catalogue.csv` in `Media > 02 Podcast clips`. Transcripts are automatic, so check names before quoting.
+- When you sync B-roll or add podcast clips, add the file ID too, or the card has no Open button. Internal only clips are hidden by default.
+- The `extra` block lists files found in Drive that are not tagged yet, each with its file ID (empty when everything is tagged). Clear an entry once that file is tagged.
 
 ## Shorts Studio
 
 `shorts.html` builds a ready-to-paste prompt for a short or ad from chips: brand, type of short, purpose, audience, topic, platform, length, hook, captions, text look, CTA, B-roll, pacing, voice, sound and what to get back. The one-sentence hook rule and the house rules go into every prompt. Pick a hook from the hook bank (ads get the ad version) and the hook is checked as you type. Under What you want back, **Claude edits my clip** turns it into an edit prompt: Claude cuts the attached clip, with an edit format, an end screen and extras.
 
 - **Playbook tab.** What was Reels Studio: the workflow, what Claude can and won't do, five formats with a prompt for each, the transition library, end screens and the CTA ladder, reading pace, fix-it prompts, specs, shooting, sound, our rules and the pre-post checklist. It sits in `<div id="pb">` outside the app, its styles are scoped under `#pb`, and the app's own styles are fenced off from it with `:where(:not(#pb *))`, so neither side restyles the other. Its section ids (`#how`, `#formats`, `#check` and so on) open the Playbook tab. Formats sit in `FMTS`, transitions in `TR`, end screens in `ENDS`, fix-it prompts in `FIX` and checklist items in `CK`, in the `pbjs` script. Example stills live in `img/reels/`.
-- **B-roll library and Tagging guide.** The standard every clip is filed and tagged by (file name format `brand_category_shot_subject_yyyymmdd.mp4`, Drive folder `01 B-roll > Brand > Category`, required fields and the privacy check). Clip screenshots live in `img/broll/`. The library tab groups clips by category (theme), A to Z within each, so name clips `Scene: what happens` (for example `Stairs: walking up, from the bottom`) to keep a scene together. Podcast clips are not B-roll: they live on Podcast Clips (`clips.html`).
+- **Tag B-roll and Tagging guide.** The standard every clip is filed and tagged by (file name format `brand_category_shot_subject_yyyymmdd.mp4`, Drive folder `01 B-roll > Brand > Category`, required fields and the privacy check). Clip screenshots live in `img/broll/`. The Tag B-roll tab is where clips are added, tagged and picked for a short (finding a clip is on the Clip Library). It groups clips by category (theme), A to Z within each, so name clips `Scene: what happens` (for example `Stairs: walking up, from the bottom`) to keep a scene together. Podcast clips are not B-roll: they live on the Clip Library (`footage.html`).
 - Library data, lists and recipes sit in the JSON block with `id="state"` near the bottom of the page. Brands and CTAs are not in the Lists tab: they come from `growth.js`. Clips, lists and recipes changed on the page save in that person's browser only, and Export JSON on the Lists tab copies them out. Saved lists from before the merge pick up the new edit options once (`mig: ["edit-v1"]`), and stay deleted if someone removes them.
-
-## Podcast Clip Library
-
-`clips.html` catalogues the talking-head clips Britt cuts in Riverside from our podcasts and webinars (Drive: `Media > 02 Podcast clips` for raw cuts, `Media > 04 Shorts > Ready to post` for finished shorts and covers, one folder per short). Each clip has an id (`PC-01` on), theme, speakers, source, status (`ready`, `nocover` or `raw`), brand, audience, use, a one-sentence hook, the key line, the auto transcript, Drive paths and anything to fix. Data sits in the JSON block with `id="clips"`; thumbnails live in `img/clips/` (the cover image where there is one, otherwise a frame from the clip). Hooks run through `GROWTH.check` with the hook rule and show a flag if one breaks it. **Copy edit prompt** gives a ready prompt for Shorts Studio's Claude edits my clip flow. Posted ticks save in each person's browser only. The same catalogue is saved as `Podcast clip catalogue.csv` in `Media > 02 Podcast clips`. Transcripts are automatic, so check names before quoting.
 
 ## Meta Ads System
 
-`meta.html` is Brandon Willington's Meta ads course rebuilt for Estus. It now also holds what was the Reels Playbook: the hook bank (ad versions, from `growth.js`), the 6-beat ad scripts and script builder, the shoot day lists, the copy check, and the test order in Optimise. The leak finder starts at hook rate and hold rate, and every healthy range comes from `GROWTH.bench`. Ticks and drafts from the old Reels Playbook carry over (same storage keys).
+`meta.html` is Brandon Willington's Meta ads course rebuilt for Estus. It now also holds what was the Reels Playbook: the 6-beat ad scripts and script builder, the shoot day lists, the ad rules to tick, and the test order in Optimise. Its hook bank and copy check moved to Growth HQ; the script builder still picks hooks from `GROWTH.bank()` and sends scripts to Growth HQ to check. The leak finder starts at hook rate and hold rate, and every healthy range comes from `GROWTH.bench`. Ticks and drafts from the old Reels Playbook carry over (same storage keys).
 
 ## Retired pages
 
-`reels.html` (Reels Playbook) and `reels-studio.html` (Reels Studio) are now small forwarding pages. They send old links, section anchors included, to Meta Ads System and to Shorts Studio's Playbook tab. They are not on the hub.
+`reels.html` (Reels Playbook), `reels-studio.html` (Reels Studio) and `clips.html` (Podcast Clip Library) are gone. `vercel.json` redirects old links: `/reels` to Meta Ads System, `/reels-studio` to Shorts Studio, `/clips` to the Clip Library. Section anchors carry through the redirect.
 
 ## Self-Mastery Shelf
 
@@ -140,7 +143,7 @@ Every template under Templates has the same settings, saved with the draft. The 
 
 - **Headings.** In Preview, tap any heading or sub-heading and type to rename it. Enter saves, Escape cancels, and clearing it brings the standard one back. A rename is tied to the standard heading, so a heading that carries a name (like "About Mia") goes back to standard if that name changes.
 
-All of these reach the preview, the Word file and print. They live in `meta.title`, `meta.wp`, `meta.foot` and `meta.heads`. The code sits in three places, one per engine: `kit.js`, `drive.js` and `fca.html`. Change all three together.
+All of these reach the preview, the Word file and print. They live in `meta.title`, `meta.wp`, `meta.foot` and `meta.heads`. The code sits in one place, `letterhead.js`, which every builder loads in `<head>` before its engine. `kit.js`, `drive.js` and `fca.html` each call `EstusLetterhead.make()` with their own standard title, line under the title and footer, and get back `docTitle`, `docSub`, `footLeft`, `withHeads`, `hAttr`, `HDTIP` and the three settings fields (`fields`). `wire(main)` turns on heading renames in the preview. Each engine still draws its own page, print and Word file.
 
 ## Driving report builders
 

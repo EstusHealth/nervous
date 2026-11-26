@@ -629,10 +629,8 @@ footer .wrap{padding-block:24px 56px;display:flex;justify-content:space-between;
   </div>
 
   <h3 id="bankH">Hook bank</h3>
-  <p class="small muted" style="max-width:72ch">Every hook here is one complete sentence and passes the copy check. The big line is the ad version, in committed language. A talking ad can open on the organic line as long as beat 3 says it's our OT. Growth HQ, Must Be Nice and Shorts Studio read the same bank.</p>
-  <div class="chips" id="hbSrc" role="group" aria-label="Which hooks" style="margin:14px 0 8px"></div>
-  <div class="chips" id="hbWho" role="group" aria-label="Who it's for" style="margin-bottom:14px"></div>
-  <div class="rp-hooks" id="hbList"></div>
+  <div class="note blue" style="max-width:72ch"><b>The hook bank lives on Growth HQ.</b> All the ad hooks and the Must be nice lines, each with its organic and ad version, filtered by who it's for. Tap <b>Use in ad script</b> on any hook there and it lands in the script builder below.
+    <p style="margin-top:10px"><a class="btn sm dark" href="growth.html#hooks" data-hbver="ad">Open the hook bank</a></p></div>
 </div></section>
 
 <!-- 5 IDEAS -->
@@ -724,12 +722,10 @@ footer .wrap{padding-block:24px 56px;display:flex;justify-content:space-between;
 <!-- 7 COPY CHECK (the shared checker in growth.js) -->
 <section class="s" id="check"><div class="wrap">
   <div class="s-head"><span class="num">07 &middot; Copy check</span><h2>Check it before it ships</h2>
-  <p>OT is Ahpra-regulated and exercise physiology is not, so we can't copy EHA's "300+ five-star reviews" sign. Paste an ad, caption, page or email. Every Growth page uses this same checker. It reads patterns, not meaning, so still tick the lists below.</p></div>
-  <div class="rp-checker">
-    <div class="rp-fld"><label for="ccIn">Ad, caption or page copy</label><textarea id="ccIn">Do you have ADHD? Our clients say we changed their lives. Book now and we guarantee you'll finally get organised. NDIS will fund it.</textarea>
-      <label class="small" style="display:flex;gap:8px;align-items:center;margin-top:8px;font-family:var(--body);text-transform:none;letter-spacing:0;font-weight:400"><input type="checkbox" id="ccHook" style="width:auto;min-height:0;accent-color:var(--teal)"> Check the first line as a hook (one complete sentence)</label></div>
-    <div class="rp-flags" id="ccFlags" aria-live="polite"></div>
-  </div>
+  <p>OT is Ahpra-regulated and exercise physiology is not, so we can't copy EHA's "300+ five-star reviews" sign. Run every ad through the copy check, then tick the lists below. The checker reads patterns, not meaning.</p></div>
+  <div class="note blue" style="max-width:72ch"><b>The copy check lives on Growth HQ.</b> One checker for every ad, caption, page and email. In the script builder, <b>Open in copy check</b> takes your script straight there with the hook check on.
+    <p style="margin-top:10px"><a class="btn sm dark" href="growth.html#check">Open the copy check</a></p></div>
+  <h3 style="margin-top:18px">Then tick the ad rules</h3>
   <div class="rp-guard" id="ccGuard"></div>
   <p class="small muted" style="margin-top:14px">Sources: <a href="https://www.ahpra.gov.au/resources/advertising-hub/resources-for-advertisers/testimonial-tool.aspx" target="_blank" rel="noopener">Ahpra testimonial tool</a> &middot; <a href="https://www.jonloomer.com/qvt/personal-attributes-and-ad-rejections/" target="_blank" rel="noopener">Jon Loomer on Meta personal attributes</a></p>
 </div></section>
@@ -1438,7 +1434,7 @@ function build(){
 }
 FIELDS.forEach(function(f){$(f[0]).addEventListener("input",build)});
 $("rpCopy").addEventListener("click",function(){copy(assembled(),$("rpCopied"))});
-$("rpToCheck").addEventListener("click",function(){$("ccIn").value=assembled();$("ccHook").checked=true;runCheck();goTo("check")});
+$("rpToCheck").addEventListener("click",function(){try{sessionStorage.setItem("hub_cc_text",assembled())}catch(e){}location.href="growth.html#check"});   // one copy check: Growth HQ
 $("rpClear").addEventListener("click",function(){FIELDS.forEach(function(f){$(f[0]).value=""});$("rpPick").value="";build()});
 build();
 
@@ -1459,35 +1455,13 @@ list($("rpShoot"),"Shoot","ss",["Act the hook out in the first 2 seconds","New a
 list($("rpShoot"),"Edit","se",["Captions burned in, centred, 2 to 4 words","25 to 40 seconds long","Cut every pause and “um”","Key text out of the top 15% and bottom 20%","End on a line that loops into the hook","Run the copy check before upload"]);
 $("rpReset").addEventListener("click",function(){[].forEach.call($("rpShoot").querySelectorAll("input"),function(i){if(i.checked){i.checked=false;i.dispatchEvent(new Event("change",{bubbles:true}))}})});
 
-/* ---------- copy check ---------- */
-function runCheck(){
-  var t=$("ccIn").value;
-  if(!t.trim()){$("ccFlags").innerHTML='<div class="rp-flag rp-ok"><b>Nothing to check</b>Paste an ad, caption or page.</div>';return}
-  var f=G.check(t);if($("ccHook").checked)f=G.hookFlags(t.split("\n")[0]).concat(f);
-  $("ccFlags").innerHTML=flagsHTML(f);
-}
-$("ccIn").addEventListener("input",runCheck);$("ccHook").addEventListener("change",runCheck);runCheck();
 
-/* ---------- hook bank ---------- */
-var HC={adults:"var(--navy)",parents:"var(--blue)",teens:"var(--plum)",driving:"var(--coal)",ndis:"var(--slate)",clin:"var(--teal)"};
-var hb=load("metaads_hb",{src:"hook",who:"all"});
-function chips(el,items,cur,on){el.innerHTML=items.map(function(i){return '<button class="chip" type="button" data-k="'+i[0]+'" aria-pressed="'+(i[0]===cur)+'">'+esc(i[1])+'</button>'}).join("");
-  [].forEach.call(el.children,function(b){b.addEventListener("click",function(){on(b.getAttribute("data-k"))})})}
-function renderBank(){
-  var src=BANK.filter(function(b){return b.src===hb.src});
-  chips($("hbSrc"),[["hook","Ad hooks "+BANK.filter(function(b){return b.src==="hook"}).length],["mbn","Must be nice "+BANK.filter(function(b){return b.src==="mbn"}).length]],hb.src,function(k){hb.src=k;hb.who="all";save("metaads_hb",hb);renderBank()});
-  var who=[["all","All "+src.length]].concat(Object.keys(G.audiences).filter(function(a){return src.some(function(b){return b.aud===a})}).map(function(a){return [a,G.audiences[a]+" "+src.filter(function(b){return b.aud===a}).length]}));
-  if(!who.some(function(w){return w[0]===hb.who}))hb.who="all";
-  chips($("hbWho"),who,hb.who,function(k){hb.who=k;save("metaads_hb",hb);renderBank()});
-  var L=src.filter(function(b){return hb.who==="all"||b.aud===hb.who});
-  $("hbList").innerHTML=L.map(function(b){return '<article class="rp-hook" style="--hc:'+HC[b.aud]+'"><q>'+esc(b.ad)+'</q><div class="rp-shot"><b>Organic:</b> '+esc(b.organic)+'</div>'+(b.s?'<div class="rp-shot">On screen: '+esc(b.s)+'</div>':'')+
-    '<div class="rp-meta"><span class="rp-pill">'+esc(G.audiences[b.aud])+(b.k?' &middot; '+esc(G.hinges[b.k]):(b.tag?' &middot; '+esc(b.tag):''))+'</span><span style="display:flex;gap:6px"><button class="btn sm" type="button" data-copy="'+b.id+'">Copy</button><button class="btn sm" type="button" data-use="'+b.id+'">Use in script</button></span></div></article>'}).join("");
-}
-$("hbList").addEventListener("click",function(e){var c=e.target.closest("[data-copy]"),u=e.target.closest("[data-use]");
-  var id=c?c.getAttribute("data-copy"):u?u.getAttribute("data-use"):null;if(!id)return;var b=BANK.filter(function(x){return x.id===id})[0];
-  if(c){copy(b.ad);c.textContent="Copied";setTimeout(function(){c.textContent="Copy"},1400)}
-  if(u){$("rpBh").value=b.ad;$("rpPick").value=b.id;build();goTo("scriptH")}});
-renderBank();
+/* ---------- from the hook bank on Growth HQ ---------- */
+/* "Use in ad script" there saves the hook id for this tab; pick it up here. "Open the hook bank" asks for the ad version. */
+(function(){var id=null;try{id=sessionStorage.getItem("hub_hook_use");sessionStorage.removeItem("hub_hook_use")}catch(e){}
+  var b=id&&BANK.filter(function(x){return x.id===id})[0];
+  if(b){$("rpBh").value=b.ad;$("rpPick").value=b.id;build();setTimeout(function(){goTo("scriptH")},60)}})();
+document.addEventListener("click",function(e){var a=e.target.closest("[data-hbver]");if(a){try{sessionStorage.setItem("hub_hb_ver",a.getAttribute("data-hbver"))}catch(x){}}});
 })();
 </script>
 

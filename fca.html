@@ -226,7 +226,7 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:.75}
 @media (max-width:640px){.paper{padding:10px}.mast,.doc,.sfoot{padding-left:18px;padding-right:18px}.mast .mk{align-items:flex-start}}
 </style>
 
-<script src="theme.js"></script><script src="suite.js"></script><script src="hub-data.js" defer></script><script src="nav.js" defer></script></head><body>
+<script src="theme.js"></script><script src="suite.js"></script><script src="letterhead.js"></script><script src="hub-data.js" defer></script><script src="nav.js" defer></script></head><body>
 <div class="app">
   <header class="top">
     <div class="brand">
@@ -458,11 +458,10 @@ const pron=()=>PRON[S.client.pronouns]||PRON.they;
 /* Letterhead title, the line under it, and the footer. Set on the Sign-off page and saved with the draft:
    meta.title (empty uses the standard title), meta.wp (adds "Without prejudice", on unless unticked), meta.foot.
    meta.heads holds renamed headings (tap one in the preview). */
-const DOC_TITLE="Functional Capacity Assessment",DOC_SUB="Confidential. Not to be released in part or in full without participant permission.",WP="Without prejudice";
-const docTitle=()=>str(S.meta.title)||DOC_TITLE;
-const docSub=()=>S.meta.wp===false?DOC_SUB:DOC_SUB+" "+WP+".";
-const stdFoot=()=>(str(S.client.fullName)||"Client")+" | "+DOC_TITLE;
-const footLeft=()=>str(S.meta.foot)||stdFoot();
+const DOC_TITLE="Functional Capacity Assessment",DOC_SUB="Confidential. Not to be released in part or in full without participant permission.",WP=EstusLetterhead.WP;
+/* The shared rules live in letterhead.js. */
+const LH=EstusLetterhead.make({state:()=>S,persist:()=>persist(),title:()=>DOC_TITLE,sub:()=>DOC_SUB,foot:()=>(str(S.client.fullName)||"Client")+" | "+DOC_TITLE});
+const {docTitle,docSub,stdFoot,footLeft}=LH;
 function legalName(){return str(S.client.fullName).replace(/\s*\([^)]*\)\s*/g," ").replace(/\s+/g," ").trim()}
 function firstName(){return legalName().replace(/^(Mr|Mrs|Ms|Miss|Mx|Dr)\.?\s+/i,"").split(" ")[0]||""}
 function callName(){return str(S.client.preferred)||firstName()||"the participant"}
@@ -615,8 +614,7 @@ function rSignoff(){const n=CHECKS.length;return `<div class="form">
  <div class="say">Signs off as <b>${esc(str(S.assessor.name)||"[assessor name]")}</b>, ${esc(str(S.assessor.role)||"Occupational Therapist")} | Estus Health${str(S.assessor.email)?", "+esc(S.assessor.email):""}. Change these under Client.</div>
  ${CB("signoff.read","I have read this report end to end")}
  <div class="sub">Letterhead and footer</div>
- <div class="grid2">${F("meta.title","Letterhead title",{ph:DOC_TITLE,hint:"The big title at the top of the report. Empty uses the standard one."})}${F("meta.foot","Footer",{ph:stdFoot(),hint:"Bottom left of every page. Empty uses the standard one."})}</div>
- ${CB("meta.wp","Add \u201CWithout prejudice\u201D under the title")}
+ ${LH.fields(F,CB,"report")}
  <p class="hint">To rename a heading, open Preview and tap the heading.</p>
  <div class="done"><span class="hint" id="done-h">${n?`${n} check${n===1?"":"s"} still open. You can download now and finish in Word, or clear them here first.`:"All checks clear."}</span>
  <div style="display:flex;gap:10px;flex-wrap:wrap"><button type="button" class="big" data-act="docx">Download Word document</button>${n?`<button type="button" class="add" data-act="checks">Open checks</button>`:""}</div></div>
@@ -834,17 +832,8 @@ function cellH(c){let h="",ul=false;c.forEach(x=>{if(x.li!=null){if(!ul){h+="<ul
 /* ---------- headings ---------- */
 /* Any heading or sub-heading can be renamed per draft. meta.heads maps the standard heading to the new one.
    In the preview, tap a heading and type. Clear it to get the standard one back. */
-const headOf=k=>{const H=S.meta.heads;return H&&typeof H==="object"&&Object.prototype.hasOwnProperty.call(H,k)?str(H[k]):""};
-const withHeads=B=>B.map(b=>(b.t==="h"||b.t==="sub")&&str(b.text)?Object.assign({},b,{std:b.text,text:headOf(b.text)||b.text}):b);
-const hAttr=(b,on)=>on&&b.std?` class="hd" contenteditable="true" spellcheck="true" role="textbox" aria-label="${esc("Heading: "+b.std+". Type to rename it.")}" title="Tap to rename" data-std="${esc(b.std)}"`:"";
-const hdEl=e=>e.target&&e.target.closest?e.target.closest("[data-std]"):null;
-const HDTIP=B=>B.some(b=>b.std)?`<p class="hdtip">Tap any heading to rename it. Clear it to get the standard one back.</p>`:"";
-function setHead(std,val){val=str(val).replace(/\s+/g," ");if(!S.meta.heads||typeof S.meta.heads!=="object"||Array.isArray(S.meta.heads))S.meta.heads={};
-  if(!val||val===std)delete S.meta.heads[std];else S.meta.heads[std]=val;persist();
-  main.querySelectorAll("[data-std]").forEach(el=>{if(el.dataset.std===std)el.textContent=val||std})}
-main.addEventListener("keydown",e=>{const t=hdEl(e);if(!t||(e.key!=="Enter"&&e.key!=="Escape"))return;e.preventDefault();if(e.key==="Escape")t.textContent=headOf(t.dataset.std)||t.dataset.std;t.blur()});
-main.addEventListener("paste",e=>{const t=hdEl(e);if(!t)return;e.preventDefault();document.execCommand("insertText",false,((e.clipboardData||window.clipboardData).getData("text")||"").replace(/\s+/g," "))});
-main.addEventListener("focusout",e=>{const t=hdEl(e);if(t)setHead(t.dataset.std,t.textContent)});
+const {headOf,withHeads,hAttr,HDTIP}=LH;      // shared with every builder: letterhead.js
+LH.wire(main);
 function sheetHTML(B,interactive){const c=S.client;let h="";
  B.forEach(b=>{
   if(b.t==="h")h+=`<h3 class="rh"><span${hAttr(b,interactive)}>${esc(b.text)}</span>${interactive?`<button type="button" data-edit="${b.sec}">Edit</button>`:""}</h3>`;
