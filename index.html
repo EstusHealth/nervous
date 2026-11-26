@@ -52,6 +52,23 @@ button{font:inherit;color:inherit}
 .prog-t b{color:#FBFAF8;font:600 20px/1 var(--display);letter-spacing:.02em}
 .bar{height:8px;background:#2C323C}.bar i{display:block;height:100%;background:#2CA5B8;width:0;transition:width .3s}
 
+/* quick links */
+.quick{padding-top:20px}
+.qk{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.qk>li{background:var(--surface);border:1px solid var(--rule);border-top:5px solid var(--c);display:flex;flex-direction:column}
+.qk-main{display:block;padding:12px 14px 8px;text-decoration:none;color:var(--fg)}
+.qk-main b{display:block;font:600 20px/1.1 var(--display);text-transform:uppercase;letter-spacing:.02em;color:var(--c)}
+.qk-main span{display:block;font-size:14px;color:var(--muted);margin-top:2px}
+.qk-main:hover b{text-decoration:underline;text-underline-offset:3px}
+.qk ul{list-style:none;margin:0;padding:0 14px 12px;display:flex;flex-wrap:wrap;gap:6px}
+.qk ul a{display:inline-block;font:600 13px/1 var(--cond);letter-spacing:.06em;text-transform:uppercase;color:var(--fg);text-decoration:none;border:1px solid var(--rule);padding:7px 8px}
+.qk ul a:hover{border-color:var(--c);color:var(--c)}
+kbd{font:600 13px var(--cond);border:1px solid #3A3F48;padding:1px 6px;color:#FBFAF8}
+.see .row .pick span{white-space:normal}
+@media (max-width:1100px){.qk{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:700px){.qk{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:420px){.qk{grid-template-columns:1fr}}
+
 /* explorer */
 .ex{display:grid;grid-template-columns:340px minmax(0,1fr);gap:24px;padding-block:24px 48px;align-items:start}
 .side{position:sticky;top:12px;max-height:calc(100vh - 24px);display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--rule)}
@@ -152,7 +169,7 @@ footer .wordmark{color:var(--fg)}
 @media (prefers-reduced-motion:reduce){.chev,.bar i{transition:none}}
 </style>
 
-<script src="theme.js"></script><script src="suite.js"></script></head><body><header class="mast">
+<script src="theme.js"></script><script src="suite.js"></script><script src="hub-data.js"></script><script src="nav.js" defer></script></head><body><header class="mast">
   <div class="wrap">
     <div class="top">
       <div class="brand"><span class="bands" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="wordmark"><b>ESTUS</b> <span>HEALTH</span></span></div>
@@ -161,7 +178,7 @@ footer .wordmark{color:var(--fg)}
     <div class="hero">
       <div>
         <h1>Training <em>hub</em></h1>
-        <p class="lead">New? Open <b>Start here</b> and work down the list. Everything else is filed in folders, one click deep.</p>
+        <p class="lead">New? Open <b>Start</b> and work down the list. Everything else sits in Clients, Therapy, Growth and Me at Estus. Press <kbd>/</kbd> on any page to find anything.</p>
       </div>
       <div class="prog" aria-live="polite">
         <div class="prog-t"><span>Your progress</span><span><b id="doneN">0</b> of <span id="totalN">0</span></span></div>
@@ -170,6 +187,8 @@ footer .wordmark{color:var(--fg)}
     </div>
   </div>
 </header>
+
+<section class="wrap quick" id="quick" aria-label="Quick links"></section>
 
 <main class="wrap ex">
   <aside class="side" aria-label="All training">
@@ -197,89 +216,8 @@ footer .wordmark{color:var(--fg)}
 </footer>
 
 <script>
-/* ---------- The hub. Add a page: add it to M, then put its slug in a folder or group in HUB. ----------
-   M[slug]: t title, h page, p pill, d description, i what's inside, w who it's for, r roles for the filter,
-            k code (optional), x true for templates (no progress tick, drafts save locally). */
-var EV='clinician lead ops marketing driving';
-var M={
-  culture:{t:'Estus Culture',h:'culture.html',p:'Start here',d:'What we believe, how we work, our rituals, supervision, who we see and how we lead.',i:['Beliefs','Rituals','Design your week'],w:['Everyone'],r:EV},
-  playbook:{t:'Training Playbook',h:'playbook.html',p:'Interactive playbook',d:'The Estus Session, the correction and lock-in loop, and how we adjust the method for a neurodivergent team.',i:['5-phase session','Kind vs wicked','Trainer run-sheet'],w:['Everyone','Trainers'],r:EV},
-  calendar:{t:'Calendar Management',h:'calendar.html',p:'Interactive tool',d:'Lifestyle first. The three Estus calendars, build order, transition prompts, and a weekly planner with a Today view.',i:['Three calendars','Transition prompts','Planner'],w:['Everyone'],r:EV},
-  gm:{t:'GM Mode',h:'gm.html',p:'Interactive tool',d:'ACT for clinicians, run like a GM\'s front office. A 60-second reset, values turned into protected calendar blocks, and habits built as booked reps.',i:['60-second reset','Protected blocks','Rep tracker'],w:['Everyone'],r:EV},
-  accelerator:{t:'Estus Accelerator',h:'accelerator.html',p:'Program',d:'The 2 to 3 year program: three phases, four leadership pathways, six specialisations and a board of advisors.',i:['Phases','Pathways','Progress tracker'],w:['Clinicians','Team leaders'],r:'clinician lead'},
-  check:{t:'Clinician Check Card',h:'check.html',p:'Interactive tool',k:'EH-C2',d:'Run the fortnightly 1:1 live. Numbers check themselves against the thresholds, and a summary is ready to send.',i:['Live check','Thresholds','Why each check','Copy summary'],w:['Team leaders','Clinicians'],r:'lead clinician'},
-  selfmastery:{t:'Self-Mastery Shelf',h:'self-mastery.html',p:'Book shelf',d:'Atomic Habits, Thinking in Bets, The 12 Levers, Situated, Discipline Is Destiny and Goggins, chapter by chapter. Every idea graded against the research and tied to our Stoic map.',i:['Chapter by chapter','Myth-buster','Daily loop','Goggins Lite'],w:['Everyone'],r:EV},
-
-  journey:{t:'Client Journey Checklist',h:'journey.html',p:'Interactive tool',k:'EH-C1',d:'Track a client from referral to 12-month review, and learn why the route, goals and motivational interviewing are part of the therapy.',i:['Client tracker','Goals','MI practice','Continuity'],w:['Clinicians','Ops'],r:'clinician ops lead'},
-  nurture:{t:'Nurture Trainer',h:'nurture.html',p:'Interactive trainer',d:'Form first, then the call. The emails and texts that get a new lead to the referral form and the booking, for online OT and driving.',i:['Lead and form sequences','Fill-once messages','Getting them to show','Practice'],w:['Clinicians','Ops','Driving OT'],r:'clinician ops driving'},
-  welcome:{t:'Welcome Call Playbook',h:'welcome.html',p:'Interactive playbook',d:'Run the free 15 minute call with CLOSER, the Estus way. Fill once, then copy the right message for a client, a parent or a coordinator.',i:['CLOSER frame','Objection finder','Fill-once templates','Peer review scorecard'],w:['Clinicians'],r:'clinician'},
-
-  neuroaffirming:{t:'Neuroaffirming Practice',h:'neuroaffirming.html',p:'The Estus way',d:'Autism, ADHD, PDA, dyspraxia and dyslexia, the ideas that reshaped how we see them, and how the Estus way shows up in every session, goal and report.',i:['Eight commitments','Do and don\'t','Frameworks in context','Language guide'],w:['Everyone'],r:EV},
-  otmodels:{t:'OT Models and Frames',h:'ot-models.html',p:'Interactive map',d:'MOHO, CMOP-E, PEO and Kawa, six frames of reference and three process frameworks: when to reach for each, the evidence, and where the ideas came from.',i:['Model map','Source theories','Start from a question','Pairing guide'],w:['Clinicians','Driving OT'],r:'clinician driving'},
-  assessments:{t:'Assessment Atlas',h:'assessments.html',p:'Interactive map',d:'40 assessments across 10 domains: what each measures, who fills it in, telehealth fit, and which of our report templates it feeds.',i:['Domain map','Report links','Finder by age','How we pick'],w:['Clinicians','Driving OT'],r:'clinician driving'},
-  ef:{t:'Executive Function',h:'executive-function.html',p:'Interactive map',d:'Ten EF skills, the models behind them, and 34 supports in our order: environment, routine, tool, then skill.',i:['Skill map','Models in context','Supports finder','Neuroaffirming lens'],w:['Everyone'],r:EV},
-  nervous:{t:'Nervous System',h:'nervous.html',p:'Interactive lab',d:'Accelerator and brake, the live body lab, the window of tolerance, interoception and co-regulation.',i:['Live lab','Body check-in','Regulation menu'],w:['Everyone','Parents'],r:EV},
-  act:{t:'ACT',h:'act.html',p:'Approach',d:'Psychological flexibility for doing what matters. Defusion and values tools, done the neuroaffirming way.',i:['Six processes','Choice point','Tools','Game and quiz'],w:['Clinicians'],r:'clinician'},
-  cbt:{t:'CBT',h:'cbt.html',p:'Approach',d:'The thought, feeling, body, action cycle. Thought record and exposure ladder tools, with neuroaffirming checks.',i:['Cycle','Thought record','Ladder'],w:['Clinicians','Driving OT'],r:'clinician driving'},
-  beliefs:{t:'Core Beliefs',h:'beliefs.html',p:'Approach',d:'The deep stories under everyday thoughts, and the beliefs neurodivergent clients are often taught. Downward arrow, continuum and evidence log.',i:['Three layers','Taught beliefs','Tools','Practice'],w:['Clinicians'],r:'clinician'},
-  mi:{t:'Motivational Interviewing',h:'mi.html',p:'Approach',d:'Spirit, OARS, change talk and the righting reflex. Readiness ruler and a 6-question practice.',i:['OARS','Readiness ruler','Practice'],w:['Clinicians','Ops'],r:'clinician ops'},
-  gaming:{t:'Gaming-Informed Therapy',h:'gaming.html',p:'Approach',d:'How we use games and our Minecraft server for OT goals. Goal-to-game mapper, safety and teen moderators.',i:['Our server','Goal to game','Safety'],w:['Clinicians'],r:'clinician'},
-  problemsolving:{t:'Problem Solving',h:'problem-solving.html',p:'Interactive lab',d:'18 plain-language thinking tools, from top down and bottom up to bottleneck, the region-beta paradox, Rule of 100 and task analysis.',i:['Bottleneck simulator','Task analysis and chaining','Rule of 100 tracker','Run your own problem'],w:['Everyone'],r:EV},
-  sportpsych:{t:'Sport Psychology',h:'sport-psych.html',p:'Interactive map',d:'The ten main areas of sport and exercise psychology on one map, with a deep dive into each and where it sits in wider psychology.',i:['Mind map','Theories and measures','Context view','Our scope'],w:['Clinicians'],r:'clinician'},
-  hinges:{t:'Small Hinges',h:'hinges.html',p:'Series overview',d:'One focused session per area. The model, Find Your Hinge, the session shape, and where it fits.',i:['Find your hinge','Session shape','Where it fits'],w:['Clinicians','Marketing'],r:'clinician marketing'},
-  sleep:{t:'Sleep Architecture',h:'sleep.html',p:'Hinge',d:'A wind-down that works for your brain, and a sleep window you can actually keep.',i:['Session plan','Tool','Practice'],w:['Clinicians'],r:'clinician'},
-  morning:{t:'Morning Architecture',h:'morning.html',p:'Hinge',d:'Getting up and out the door without burning your energy before the day starts.',i:['Session plan','Tool','Practice'],w:['Clinicians'],r:'clinician'},
-  energy:{t:'Energy Management',h:'energy.html',p:'Hinge',d:'Spend energy on purpose, with rest built in rather than earned.',i:['Session plan','Tool','Practice'],w:['Clinicians'],r:'clinician'},
-  load:{t:'Cognitive Load Reduction',h:'load.html',p:'Hinge',d:'Fewer things to hold in your head, so the important ones get done.',i:['Session plan','Tool','Practice'],w:['Clinicians'],r:'clinician'},
-  transition:{t:'Transition Scaffolding',h:'transition.html',p:'Hinge',d:'Easier switches between tasks, places and parts of the day.',i:['Session plan','Tool','Practice'],w:['Clinicians'],r:'clinician'},
-  shutdown:{t:'Shutdown Ritual',h:'shutdown.html',p:'Hinge',d:'A clear end to the work day, so your brain can actually clock off.',i:['Session plan','Tool','Practice'],w:['Clinicians'],r:'clinician'},
-
-  growthhq:{t:'Growth HQ',h:'growth.html',p:'Start here',d:'How Estus grows, on one page. The plan, the weekly rhythm, the scoreboard, where every post sends people, the hook bank and the copy check.',i:['The plan','Weekly rhythm','Scoreboard','CTA map'],w:['Marketing','Clinicians','Team leaders'],r:'marketing clinician lead'},
-  metaads:{t:'Meta Ads System',h:'meta.html',p:'Interactive course',d:'Brandon Willington\'s Meta ads course, rebuilt for Estus. Funnel maths, the hook bank, ad scripts, the copy check, Must be nice to ads, landing page, show rate and the weekly review.',i:['Forecast','Hook bank','Ad scripts','Copy check'],w:['Marketing','Clinicians','Team leaders'],r:'marketing clinician lead'},
-  copy:{t:'Geometry Puzzle Copy',h:'copy.html',p:'Interactive tool',d:'Find the one fact that makes yes feel obvious, then say it in plain words. A live pitch checker, word swaps and Estus examples.',i:['Fact finder','Pitch lab','Word swaps','Prompt'],w:['Marketing','Clinicians'],r:'marketing clinician lead driving'},
-  gp:{t:'GP Referral Pathways',h:'gp.html',p:'Interactive trainer',d:'Become the easy answer to a form GPs dread. The pathway, what to say, the lunch and learn, and a GP teaching module.',i:['Nurture sequence','Scripts','Lunch and learn','GP module'],w:['Driving OT','Team leaders'],r:'driving lead'},
-  mustbenice:{t:'Must Be Nice Series',h:'must-be-nice.html',p:'Content series',d:'One line, one turn, one flip, one small hinge. 55 ready cards, a post maker with overlays and carousel slides, and a batch day plan.',i:['Card bank','Post maker','Inversion','Batch day'],w:['Marketing','Clinicians'],r:'marketing clinician'},
-  shortsmaker:{t:'Shorts Studio',h:'shorts.html',p:'Interactive tool',d:'One builder for a script or a finished edit from one phone clip, the playbook of formats, transitions and end screens, the B-roll library and the tagging standard.',i:['Prompt builder','Playbook','B-roll library','Tagging guide'],w:['Marketing','Clinicians','Team leaders'],r:'marketing clinician lead'},
-  footage:{t:'All Clips',h:'footage.html',p:'Library',d:'Every B-roll clip and podcast clip in one search. Tap a clip and it opens in Drive. Also lists new files in Drive that are not tagged yet.',i:['One search','Open in Drive','Drive folders','Not tagged yet'],w:['Marketing','Clinicians','Team leaders'],r:'marketing clinician lead'},
-  clips:{t:'Podcast Clip Library',h:'clips.html',p:'Library',d:'Every talking-head clip Britt has cut from our podcasts and webinars: 50 clips, 15 edited shorts ready to post, each with a one-sentence hook, the key line, the transcript and where it lives in Drive.',i:['Clip library','Hooks','Edit prompts','To fix'],w:['Marketing','Clinicians','Team leaders'],r:'marketing clinician lead'},
-
-  fca:{x:1,t:'Functional Capacity Assessment',h:'fca.html',p:'Report builder',k:'NDIS',d:'Write an FCA one section at a time. Score bands fill in, support costs calculate, and checks flag gaps and wording before you send.',i:['22 sections','Score tables','Support calculator','Word export'],w:['Clinicians'],r:'clinician'},
-  ptd:{x:1,t:'Potential to Drive',h:'ptd.html',p:'Report builder',k:'NDIS',d:'For learner drivers. Everyday skills, passenger commentary drive, Michon levels, outcome and lesson goals the instructor can track.',i:['17 sections','Hazard search scoring','Lesson goals','GP letter'],w:['Driving OTs'],r:'driving'},
-  ftd:{x:1,t:'Medical Fitness to Drive',h:'ftd.html',p:'Report builder',k:'Austroads',d:'For licensed drivers after a medical change. Vision against the Austroads standard, cognition, on-road findings, licence conditions and recommendations.',i:['13 sections','Austroads vision check','On-road flags','GP and lesson letters'],w:['Driving OTs'],r:'driving'},
-  summary:{x:1,t:'Therapy Service Summary',h:'summary.html',p:'Report builder',k:'NDIS',d:'A short report for a plan reassessment, a progress update or a handover. Sessions and hours, progress on each goal, and recommendations that each carry a reason.',i:['9 sections','Hours used','Goal ratings','Cost totals'],w:['Clinicians'],r:'clinician'},
-  sensory:{x:1,t:'Sensory Profile Report',h:'sensory.html',p:'Report builder',k:'Schools',d:'Turn Sensory Profile results into a plain-language summary for schools and other stakeholders. Home and school side by side, what it means, and strategies matched to the results.',i:['Home and school','Meaning builds itself','Strategy bank','Who does what'],w:['Clinicians'],r:'clinician'},
-  letter:{x:1,t:'Letter of Support',h:'letter.html',p:'Letter',k:'Any reader',d:'A clean letter on Estus letterhead. Fill in who it is about and who it goes to, write the letter, download.',i:['Letterhead','Your signature','Word export'],w:['Clinicians'],r:'clinician driving'},
-  goals:{x:1,t:'Goal Plan',h:'goals.html',p:'Client handout',k:'SMART',d:'Set SMART goals in the client\'s own words. Fill the five parts and the sentence writes itself. Baseline, steps, NDIS link, and COPM or GAS ratings if you use them.',i:['Goal sentence','SMART check','Neuroaffirming checks','COPM and GAS'],w:['Clinicians'],r:'clinician'},
-  chaining:{x:1,t:'Chaining Plan',h:'chaining.html',p:'Client handout',k:'Home program',d:'Forward or backward chaining for one routine. Break it into steps, set who does what this week, and send home a plan that explains both ways.',i:['Starter routines','Who does which step','When to add a step','Practice log'],w:['Clinicians'],r:'clinician'},
-  prompts:{x:1,t:'Prompt Hierarchy Guide',h:'prompts.html',p:'Handout',k:'Support workers',d:'The prompt ladder for support workers, from waiting to doing it together. General education only: it teaches the idea and never sets prompt levels for one person.',i:['8-level ladder','Everyday examples','Fading','Consent for touch'],w:['Clinicians','Support teams'],r:'clinician'},
-  planner:{x:1,t:'Student Planner',h:'planner.html',p:'Client handout',k:'Students',d:'A one-week planner for a student. The week at a glance, assessments planned backwards from the due date, a study recipe and a pack list. Empty parts print blank.',i:['Week grid','Plan backwards','Study recipe','Pack list'],w:['Clinicians'],r:'clinician'},
-  signature:{x:1,t:'Email Signature',h:'signature.html',p:'Builder',k:'Gmail',d:'Your Estus signature for Gmail. Pick your clinical days, add your work days or a leave notice if you need them, then copy and paste. Ready in two minutes.',i:['Brand look','Email hours','Booking button','Copy for Gmail'],w:['Everyone'],r:EV}
-};
-
-/* Suites (several pages that work as one training with tabs) come from suite.js.
-   Each suite becomes one entry in M with its pages in "parts". The pages keep their own entries above. */
-var PARENT={};
-HUB_SUITES.forEach(function(s){
-  var roles={};s.parts.forEach(function(p){PARENT[p[2]]=s.id;M[p[2]].r.split(' ').forEach(function(r){roles[r]=1})});
-  M[s.id]={su:1,t:s.t,h:s.parts[0][0],p:s.p,d:s.d,i:s.i,w:s.w,r:Object.keys(roles).join(' '),parts:s.parts};
-});
-
-/* Folders. A folder has items (a flat list) or groups (each with items). "ordered" folders show step numbers.
-   Items are page slugs or suite ids. Start here points at entries that also live in their home folder. */
-var HUB=[
-  {id:'start',n:'Start here',c:'teal',b:'Your first two weeks. Work through these in order: learn the method, then follow a client from first enquiry to review.',ordered:1,items:['culture','playbook','journey','leadflow','check','smallhinges']},
-  {id:'runs',n:'How Estus runs',c:'teal',b:'How we work, how a client comes through Estus, and how you grow here.',groups:[
-    {id:'ways',n:'How we work',b:'Culture, the training method, your week and your signature',items:['culture','playbook','week','signature']},
-    {id:'clients',n:'Clients',b:'From first enquiry to the 12-month review',items:['leadflow','journey']},
-    {id:'grow',n:'Growing here',b:'Your pathway, your 1:1 and your reading',items:['accelerator','check','selfmastery']}]},
-  {id:'therapy',n:'Therapy',c:'navy',b:'The Estus way, the approaches we use, and the Small Hinges programs.',groups:[
-    {id:'way',n:'The Estus way',b:'Foundations every clinician needs',items:['neuroaffirming','otmodels','assessments','efps','nervous']},
-    {id:'approaches',n:'Programs and approaches',b:'What we run in sessions',items:['smallhinges','act','cbtbeliefs','mi','gaming','sportpsych']}]},
-  {id:'growth',n:'Growth',c:'plum',b:'How Estus grows. Start with Growth HQ, then ads, content and referrers.',items:['growthhq','ads','content','gp']},
-  {id:'templates',n:'Templates',c:'slate',b:'Builders for the reports we write and the handouts we give. Drafts save in your browser.',groups:[
-    {id:'reports',n:'Reports',b:'For funders, schools and referrers',items:['fca','ptd','ftd','summary','sensory','letter']},
-    {id:'handouts',n:'Handouts',b:'For clients, families and support teams',items:['goals','chaining','prompts','planner']}]}
-];
+/* The pages, folders and quick links come from hub-data.js. */
+var M=ESTUS_HUB.M,HUB=ESTUS_HUB.HUB,PARENT=ESTUS_HUB.PARENT,HUB_HOME=ESTUS_HUB.HOME,HUB_QUICK=ESTUS_HUB.QUICK;
 
 (function(){
   var KEY='hub_done',OPEN='hub_open';
@@ -291,10 +229,9 @@ var HUB=[
   var TRACK=Object.keys(M).filter(function(s){return !M[s].x&&!M[s].su});
 
   /* lookups */
-  var NODES={},HOME={};
+  var NODES={},HOME=HUB_HOME;
   HUB.forEach(function(f){NODES['f-'+f.id]={f:f};
-    (f.groups||[]).forEach(function(g){NODES['g-'+g.id]={f:f,g:g};g.items.forEach(function(s){HOME[s]={f:f,g:g}})});
-    if(f.items&&f.id!=='start')f.items.forEach(function(s){HOME[s]={f:f}});
+    (f.groups||[]).forEach(function(g){NODES['g-'+g.id]={f:f,g:g}});
   });
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
   function pages(s){return M[s].su?M[s].parts.map(function(p){return p[2]}):[s]}       // a suite counts as its pages
@@ -342,6 +279,8 @@ var HUB=[
     '<button class="pick" data-sel="'+s+'"><b>'+esc(m.t)+(m.su?' <small class="cnt">'+m.parts.length+' pages</small>':'')+'</b><span>'+esc(m.d)+'</span></button><a class="go" href="'+m.h+'">Open</a></li>'}
   function partRow(p){var m=M[p[2]];return '<li class="row prow">'+tick(p[2])+
     '<div class="pick"><b>'+esc(p[1])+'</b><span>'+esc(m.d)+'</span></div><span class="pacts">'+doneBtn(p[2])+'<a class="go" href="'+p[0]+'">Open</a></span></li>'}
+  function also(g){var a=(g.also||[]).filter(function(s){return M[s]&&shows(s)});if(!a.length)return '';
+    return '<p class="h-lbl see">See also</p><ul class="rows see">'+a.map(function(s){var hm=HOME[s];return '<li class="row">'+tick(s)+'<button class="pick" data-sel="'+s+'"><b>'+esc(M[s].t)+'</b><span>Lives in '+esc(hm.f.n+(hm.g?' › '+hm.g.n:''))+'</span></button><a class="go" href="'+M[s].h+'">Open</a></li>'}).join('')+'</ul>'}
   function crumb(parts){return '<p class="crumb">'+parts.map(function(p){return p[1]?'<button data-sel="'+p[1]+'">'+esc(p[0])+'</button>':'<span>'+esc(p[0])+'</span>'}).join('<span aria-hidden="true">›</span>')+'</p>'}
   function drawPane(){
     var h='',c,f,g;
@@ -359,11 +298,11 @@ var HUB=[
       var sibs=(g?g.items:f.items).filter(function(s){return s!==sel&&shows(s)});
       if(sibs.length&&!narrow.matches)h+='<div class="sib"><p class="h-lbl">Also in '+esc(g?g.n:f.n)+'</p><ul class="rows">'+sibs.map(function(s){return row(s)}).join('')+'</ul></div>';
     }else if(NODES[sel]){var nd=NODES[sel];f=nd.f;c=f.c;
-      if(nd.g){g=nd.g;h+=crumb([[f.n,'f-'+f.id]])+'<h2>'+esc(g.n)+'</h2><p class="blurb">'+esc(g.b)+'</p><ul class="rows" style="margin-top:14px">'+vis(g.items).map(function(s){return row(s)}).join('')+'</ul>'}
+      if(nd.g){g=nd.g;h+=crumb([[f.n,'f-'+f.id]])+'<h2>'+esc(g.n)+'</h2><p class="blurb">'+esc(g.b)+'</p><ul class="rows" style="margin-top:14px">'+vis(g.items).map(function(s){return row(s)}).join('')+'</ul>'+also(g)}
       else{h+='<h2>'+esc(f.n)+'</h2><p class="blurb">'+esc(f.b)+'</p>';
         if(f.items)h+='<ul class="rows" style="margin-top:14px">'+vis(f.items).map(function(s){return row(s,f.ordered?f.items.indexOf(s)+1:0)}).join('')+'</ul>';
         else f.groups.forEach(function(gg){var gl=vis(gg.items);if(!gl.length)return;
-          h+='<div class="grp"><div class="grp-h"><h3><button data-sel="g-'+gg.id+'">'+esc(gg.n)+'</button></h3><span>'+esc(gg.b)+'</span></div><ul class="rows">'+gl.map(function(s){return row(s)}).join('')+'</ul></div>'});
+          h+='<div class="grp"><div class="grp-h"><h3><button data-sel="g-'+gg.id+'">'+esc(gg.n)+'</button></h3><span>'+esc(gg.b)+'</span></div><ul class="rows">'+gl.map(function(s){return row(s)}).join('')+'</ul>'+also(gg)+'</div>'});
       }
       if(!vis(nd.g?nd.g.items:allItems(f)).length)h+='<p class="none" style="padding:14px 0 0">Nothing in here matches your search or role.</p>';
     }
@@ -379,6 +318,11 @@ var HUB=[
     document.getElementById('barFill').style.width=(TRACK.length?n/TRACK.length*100:0)+'%'}
   function render(){drawTree();drawPane();progress()}
 
+  /* quick links: the things people open most (HUB_QUICK in hub-data.js) */
+  document.getElementById('quick').innerHTML='<ul class="qk">'+HUB_QUICK.map(function(k){
+    return '<li class="c-'+k.c+'"><a class="qk-main" href="'+k.h+'"><b>'+esc(k.t)+'</b><span>'+esc(k.d)+'</span></a><ul>'+
+      k.sub.map(function(x){return '<li><a href="'+x[1]+'">'+esc(x[0])+'</a></li>'}).join('')+'</ul></li>'}).join('')+'</ul>';
+
   function canon(id){return PARENT[id]||id}                                   // a suite page opens its suite
   function revealPath(id){var home=HOME[id]||NODES[id];if(!home)return;open[home.f.id]=1;if(home.g)open[home.g.id]=1}
   function select(id,fromTree){
@@ -389,6 +333,7 @@ var HUB=[
     if(M[id]&&!fromTree)revealPath(id);
     put(OPEN,open);
     try{history.replaceState(null,'',sel?'#'+sel:location.pathname)}catch(e){}
+    try{window.dispatchEvent(new Event('hub:select'))}catch(e){}                 // nav.js keeps the folder tab in step
     render();
     var b=tree.querySelector('[data-sel="'+(sel||id)+'"]');
     if(b&&fromTree)b.focus({preventScroll:true});
@@ -412,7 +357,8 @@ var HUB=[
   (narrow.addEventListener?narrow.addEventListener('change',render):narrow.addListener(render));
 
   /* deep links: #slug (a suite page opens its suite), #suite, #f-folder, #g-group, plus the old #path, #shelf and #templates */
-  var LEG={path:'f-start',shelf:'f-runs',templates:'f-templates','f-team':'f-runs','f-client':'g-clients','g-smallhinges':'smallhinges','g-plan':'f-growth','g-content':'content','g-admin':'signature'};
+  var LEG={path:'f-start',shelf:'f-me',templates:'f-clients','f-team':'f-me','f-client':'f-clients','g-smallhinges':'smallhinges','g-plan':'f-growth','g-content':'content','g-admin':'signature',
+    'f-runs':'f-me','f-templates':'g-assess','g-ways':'g-who','g-clients':'f-clients','g-grow':'g-yourgrowth','g-way':'g-found','g-reports':'g-assess'};
   function fromHash(){var h=decodeURIComponent(location.hash.slice(1));h=canon(LEG[h]||h);
     if(M[h]||NODES[h]){sel=h;if(M[h])revealPath(h);else{var nd=NODES[h];open[nd.f.id]=1;if(nd.g)open[nd.g.id]=1}}}
   fromHash();window.addEventListener('hashchange',function(){fromHash();render()});

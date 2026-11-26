@@ -2,21 +2,36 @@
 
 Estus Health's internal staff training intranet. A landing page plus one page per training.
 
-The landing page is a file explorer: a nested tree on the left (folder, group, training) and the selected item on the right. On phones the detail opens under the row you tap. Entries live at the top of the script in `index.html`: `M` (one per page) and `HUB` (folders and groups). Deep links: `index.html#slug`, `#suite`, `#f-folder`, `#g-group`. A page that belongs to a suite opens its suite.
+The landing page is a file explorer: quick links across the top, a nested tree on the left (folder, group, training) and the selected item on the right. On phones the detail opens under the row you tap. Every entry lives in `hub-data.js`: `M` (one per page), `HUB` (folders and groups) and `QUICK` (quick links). Deep links: `index.html#slug`, `#suite`, `#f-folder`, `#g-group`. A page that belongs to a suite opens its suite. Old links (`#templates`, `#f-runs`, `#g-way` and so on) still land in the right place.
 
 Some trainings are **suites**: several pages that act as one training with tabs. They are listed once on the hub, and each page shows a tab bar under the black hub bar. The pages stay separate files on purpose, so every draft, tick, saved setting and `#section` link keeps working.
 
+Each page lives in one place. **Start** is a numbered path that points at pages in their home folders. A group can add `also` entries that live elsewhere; they show as See also.
+
 | Folder | Group | Entries (suites in bold, with their pages) |
 | --- | --- | --- |
-| Start here | (numbered path) | `culture`, `playbook`, `journey`, **Lead to First Session**, `check`, **Small Hinges** (these also live in their home folder) |
-| How Estus runs | How we work | `culture`, `playbook`, **Your Week** (`calendar`, `gm`), `signature` (Gmail email signature) |
-| How Estus runs | Clients | **Lead to First Session** (`nurture`, `welcome`), `journey` |
-| How Estus runs | Growing here | `accelerator`, `check`, `self-mastery` (Self-Mastery Shelf: six books on habits, decisions and self-control, chapter by chapter, graded against the research and mapped to Stoicism) |
-| Therapy | The Estus way | `neuroaffirming` (Neuroaffirming Practice), `ot-models` (OT Models and Frames), `assessments` (Assessment Atlas), **Executive Function and Problem Solving** (`executive-function`, `problem-solving`), `nervous` |
-| Therapy | Programs and approaches | **Small Hinges** (`hinges`, `sleep`, `morning`, `energy`, `load`, `transition`, `shutdown`), `act` (plus `act-game`), **CBT and Core Beliefs** (`cbt`, `beliefs`), `mi`, `gaming`, `sport-psych` (Sport Psychology map) |
-| Growth | | `growth` (Growth HQ, start here), **Ads and Copy** (`meta`, `copy`), **Content Studio** (`footage` (All Clips), `shorts`, `clips`, `must-be-nice`), `gp`. Shared data and rules: `growth.js` |
-| Templates | Reports | `fca`, `ptd` (Potential to Drive), `ftd` (Medical Fitness to Drive), `summary` (Therapy Service Summary), `sensory` (Sensory Profile Report), `letter` (Letter of Support) |
-| Templates | Handouts | `goals` (Goal Plan, SMART goals), `chaining` (forward or backward chaining plan), `prompts` (Prompt Hierarchy Guide for support workers), `planner` (Student Planner) |
+| Start | (numbered path) | `culture`, `playbook`, `neuroaffirming`, `journey`, **Lead to First Session**, **Small Hinges**, `check` |
+| Clients | The tracker | `journey` |
+| Clients | 1. Lead and welcome call | **Lead to First Session** (`nurture`, `welcome`). See also `gp` |
+| Clients | 2. Assess | `assessments` (Assessment Atlas), `fca`, `ptd` (Potential to Drive), `ftd` (Medical Fitness to Drive), `sensory` (Sensory Profile Report) |
+| Clients | 3. Plan goals | `goals` (Goal Plan, SMART goals). See also `otmodels`, **Small Hinges** |
+| Clients | 4. Report and review | `summary` (Therapy Service Summary), `letter` (Letter of Support) |
+| Therapy | Foundations | `neuroaffirming` (Neuroaffirming Practice), `nervous`, **Executive Function and Problem Solving** (`executive-function`, `problem-solving`), `ot-models` (OT Models and Frames) |
+| Therapy | Programs | **Small Hinges** (`hinges`, `sleep`, `morning`, `energy`, `load`, `transition`, `shutdown`), `gaming` |
+| Therapy | Approaches | `act` (plus `act-game`), **CBT and Core Beliefs** (`cbt`, `beliefs`), `mi`, `sport-psych` (Sport Psychology map) |
+| Therapy | Client handouts | `chaining` (forward or backward chaining plan), `prompts` (Prompt Hierarchy Guide for support workers), `planner` (Student Planner). See also `goals` |
+| Growth | | `growth` (Growth HQ, start here), **Content Studio** (`footage` (All Clips), `shorts`, `clips`, `must-be-nice`), **Ads and Copy** (`meta`, `copy`), `gp`. Shared data and rules: `growth.js` |
+| Me at Estus | Who we are | `culture`, `playbook` |
+| Me at Estus | Your week | **Your Week** (`calendar`, `gm`), `signature` (Gmail email signature) |
+| Me at Estus | Your growth | `check`, `accelerator`, `self-mastery` (Self-Mastery Shelf: six books on habits, decisions and self-control, chapter by chapter, graded against the research and mapped to Stoicism) |
+
+## The top bar: hub-data.js and nav.js
+
+Every page loads, in `<head>`: `theme.js`, `suite.js`, then `<script src="hub-data.js" defer></script><script src="nav.js" defer></script>`. The hub loads `hub-data.js` without `defer`, because its own script reads it.
+
+- `hub-data.js` is the one list of pages, folders and quick links. Everything sits in one global, `ESTUS_HUB` (`M`, `HUB`, `PARENT`, `HOME`, `QUICK`), so it never clashes with a page's own names (several pages have their own `HUB`). It needs `suite.js` first.
+- `nav.js` adds, on every page: the five folder tabs (Start, Clients, Therapy, Growth, Me at Estus) as a row in the black hub bar, with the page's own folder lit; a **Menu** button (also `/` or Ctrl+K, Cmd+K on a Mac) that opens search across every page and suite tab, the quick links and the full map; and a **More in** strip at the end of each training page with the rest of its group. Builders get the Menu button in their own top bar, and their back link opens their own entry on the hub.
+- Change a folder, a group or a quick link in `hub-data.js` and the hub, the tabs, the Menu and the strips all follow.
 
 ## Suites: suite.js
 
@@ -24,7 +39,7 @@ Some trainings are **suites**: several pages that act as one training with tabs.
 
 - The hub loads it in `<head>` and shows each suite as one entry. A suite counts as done when all its pages are done; progress still counts pages (37).
 - Each member page loads `<script src="suite.js"></script>` right after `theme.js`, not deferred. It puts the tab bar in the moment the hub bar is parsed, before the rest of the page, so `#section` links and page scripts see the final layout. The bar copies the hub bar's side margins and width, and moves any space below the hub bar to below the tabs, so content sits exactly one bar lower than before.
-- To add a page to a suite: add it to `parts`, add the script tag to the page, and take its slug out of `HUB` in `index.html` (it is listed through the suite). To make a new suite, add it to `HUB_SUITES` and put its `id` in a folder or group in `HUB`.
+- To add a page to a suite: add it to `parts`, and take its slug out of `HUB` in `hub-data.js` (it is listed through the suite). Every page already loads `suite.js`. To make a new suite, add it to `HUB_SUITES` and put its `id` in a folder or group in `HUB`.
 
 Progress ticks and tool drafts save in each person's own browser only.
 
@@ -148,7 +163,7 @@ All of these reach the preview, the Word file and print. They live in `meta.titl
 - `letter.html` is a plain letter on Estus letterhead: details, your text, your signature. Change the letterhead title on the Letter page to turn it into any other letter.
 - The default hourly rate for new recommendation rows is `RATE` at the top of the script in `summary.html`.
 
-To add a template: copy the smallest page (`prompts.html`), change the definition, add the page to `PAGES` at the top of `kit.js`, then add a card in `index.html` and a line here.
+To add a template: copy the smallest page (`prompts.html`), change the definition, add the page to `PAGES` at the top of `kit.js`, then add an entry in `hub-data.js` and a line here.
 
 ## Deploy
 
